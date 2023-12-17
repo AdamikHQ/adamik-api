@@ -1,0 +1,26 @@
+{
+  "name": "kraftor",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "algo-msgpack-with-bigint": "^2.1.1",
+    "algosdk": "^2.7.0",
+    "hi-base32": "^0.5.1",
+    "js-sha512": "^0.8.0",
+    "next": "14.0.3",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "18.2.42",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.3",
+    "typescript": "^5"
+  }
+}
