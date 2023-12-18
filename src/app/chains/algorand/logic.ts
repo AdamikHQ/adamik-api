@@ -114,7 +114,6 @@ async function getEstimatedFees(
 async function buildRawTransaction(
   transaction: PlainTransaction
 ): Promise<AlgoEncodedTransaction> {
-  console.log("XXX - buildRawTransaction - transaction:", transaction);
   // TODO Validation of these fields
   const { amount, senders, recipients, mode, memo } = transaction;
 
