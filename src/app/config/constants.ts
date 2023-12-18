@@ -8,4 +8,6 @@ const EXPLORERS = new Map<ChainId, string>([
   [ChainId.ALGORAND, "https://algorand.coin.ledger.com/idx2/v2"],
 ]);
 
-export { NODES, EXPLORERS };
+const MAX_RECURSION = 10;
+
+export { NODES, EXPLORERS, MAX_RECURSION };
