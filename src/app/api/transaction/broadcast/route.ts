@@ -7,6 +7,7 @@ export async function POST(request: Request): Promise<Response> {
   // TODO validation/sanitization (zod)
   const { transaction: payload } = await request.json();
 
+  // FIXME Replace with JSON.parse
   const transaction: Transaction = stringToBigint(payload);
 
   const broadcastStatus = await (async (): Promise<BroadcastStatus> => {
@@ -33,5 +34,5 @@ export async function POST(request: Request): Promise<Response> {
     "XXX - /api/transaction/broadcast - broadcastStatus:",
     broadcastStatus
   );
-  return Response.json(broadcastStatus);
+  return new Response(JSON.stringify(broadcastStatus));
 }
