@@ -1,9 +1,10 @@
+import { NextRequest, NextResponse } from "next/server";
 import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { completeTransaction } from "~/app/chains/algorand/service/completeTransaction";
 import { encodeTransactionToSign } from "~/app/chains/algorand/service/encodeTransactionToSign";
 import { stringToBigint } from "~/app/model/serialization";
 
-export async function POST(request: Request): Promise<Response> {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   // TODO validation/sanitization (zod)
   const { transaction: payload } = await request.json();
 
@@ -23,5 +24,6 @@ export async function POST(request: Request): Promise<Response> {
     }
   })();
 
-  return new Response(JSON.stringify(encodedTransaction));
+  return NextResponse.json(encodedTransaction);
+  //return new Response(JSON.stringify(encodedTransaction));
 }
