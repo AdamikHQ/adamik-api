@@ -1,10 +1,10 @@
 "use client";
 import { useState, useCallback } from "react";
+import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
+import NanoApp from "@ledgerhq/hw-app-algorand";
 
 export default function Page() {
-  // FIXME DEBUG TBR
-  // const [feedback, setFeedback] = useState("");
-  const [backendError, setBackendError] = useState("");
+  const [error, setError] = useState("");
 
   const [chainId, setChainId] = useState("algorand");
   const [transactionMode, setTransactionMode] = useState("transfer");
@@ -15,16 +15,26 @@ export default function Page() {
     "5QS7ANKWSK5XI2ZNWN34BA5KQLSZ3FEI2DTSJQIW5IZZZISD3VEHM5ZT2M"
   );
   const [amount, setAmount] = useState("1000");
+
+  const [plainTransaction, setPlainTransaction] = useState({});
   const [encodedTransaction, setEncodedTransaction] = useState("");
+  const [signature, setSignature] = useState("");
+  const [transactionHash, setTransactionHash] = useState("");
 
   const encode = useCallback(async () => {
-    const plainTransaction = {
+    setError("");
+    setEncodedTransaction("");
+    setSignature("");
+    setTransactionHash("");
+
+    setPlainTransaction({
       chain: chainId,
       mode: transactionMode,
       senders: [sender],
       recipients: [recipient],
       amount,
-    };
+    });
+
     const response = await fetch(
       `http://localhost:3000/api/transaction/encode`,
       {
@@ -34,32 +44,81 @@ export default function Page() {
     )
       .then((response) => response.json())
       .catch((e) => {
-        console.log("XXX - encode - backend error:", e);
-        setBackendError("Error!");
+        console.error("encode - backend error:", e);
+        setError(`Error! ${e}`);
       });
 
     if (typeof response?.encoded === "string") {
       setEncodedTransaction(response.encoded);
     }
-  }, [chainId, transactionMode, sender, recipient, amount]);
+  }, [chainId, transactionMode, sender, recipient, amount, plainTransaction]);
 
   const sign = useCallback(async () => {
-    // TODO
-  }, []);
+    setError("");
+    setSignature("");
+    setTransactionHash("");
+
+    try {
+      const transport = await TransportWebUSB.create();
+      const ledgerNanoApp = new NanoApp(transport);
+
+      const { signature: signatureBuffer } = await ledgerNanoApp.sign(
+        sender,
+        encodedTransaction
+      );
+      signatureBuffer && setSignature(signatureBuffer.toString("hex"));
+    } catch (e) {
+      console.error("sign - signature error:", e);
+      return;
+    }
+  }, [sender, encodedTransaction]);
+
+  const broadcast = useCallback(async () => {
+    setError("");
+    setTransactionHash("");
+
+    const response = await fetch(
+      `http://localhost:3000/api/transaction/broadcast`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          transaction: {
+            plain: plainTransaction,
+            encoded: encodedTransaction,
+            signature,
+          },
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .catch((e) => {
+        console.error("broadcast - backend error:", e);
+        setError(`Error! ${e}`);
+      });
+
+    if (response.error) {
+      setError(`Error! ${response.error}`);
+    } else if (typeof response?.hash === "string") {
+      setTransactionHash(response.hash);
+    }
+  }, [plainTransaction, encodedTransaction]);
 
   return (
     <div id="app">
       <h1>ADAMIK Test App</h1>
-      <div id="tx-plain">
-        <label htmlFor="chain-id">Chain ID</label>
-        <br />
-        <select defaultValue={chainId} disabled name="chain-id" id="chain-id">
-          <option value="algorand">Algorand</option>
-          <option value="cosmos">Cosmos</option>
-        </select>
-        <br />
-        <br />
 
+      <label style={{ color: "red" }}>{error}</label>
+
+      <label htmlFor="chain-id">Chain ID</label>
+      <br />
+      <select defaultValue={chainId} disabled name="chain-id" id="chain-id">
+        <option value="algorand">Algorand</option>
+        <option value="cosmos">Cosmos</option>
+      </select>
+      <br />
+      <br />
+
+      <div id="tx-plain" style={styles.div}>
         <label htmlFor="tx-mode">Transaction Mode</label>
         <br />
         <select
@@ -110,15 +169,14 @@ export default function Page() {
         <button type="submit" onClick={encode}>
           ENCODE
         </button>
-        <br />
-        <br />
-
-        <label style={{ color: "red" }}>{backendError}</label>
       </div>
+
       <br />
       <br />
 
-      <div id="tx-encoded">
+      <div id="tx-encoded" style={styles.div}>
+        <label>Encoded transaction</label>
+        <br />
         <label>{encodedTransaction}</label>
         <br />
         <br />
@@ -131,6 +189,37 @@ export default function Page() {
           SIGN
         </button>
       </div>
+
+      <br />
+      <br />
+
+      <div id="tx-signed" style={styles.div}>
+        <label>Signature</label>
+        <br />
+        <label>{signature}</label>
+        <br />
+        <br />
+
+        <button disabled={!signature.length} type="submit" onClick={broadcast}>
+          BROADCAST
+        </button>
+      </div>
+
+      <br />
+      <br />
+      <div id="tx-hash" style={styles.div}>
+        <label>Transaction hash</label>
+        <br />
+        <label>{transactionHash}</label>
+      </div>
     </div>
   );
 }
+
+const styles = {
+  div: {
+    borderStyle: "solid",
+    borderRadius: "12px",
+    padding: "5px",
+  },
+};

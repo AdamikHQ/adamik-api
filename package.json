@@ -10,6 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@ledgerhq/hw-app-algorand": "^6.28.1",
+    "@ledgerhq/hw-transport-webusb": "^6.28.1",
     "algo-msgpack-with-bigint": "^2.1.1",
     "algosdk": "^2.7.0",
     "hi-base32": "^0.5.1",
