@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 import NanoApp from "@ledgerhq/hw-app-algorand";
 
@@ -21,12 +21,7 @@ export default function Page() {
   const [signature, setSignature] = useState("");
   const [transactionHash, setTransactionHash] = useState("");
 
-  const encode = useCallback(async () => {
-    setError("");
-    setEncodedTransaction("");
-    setSignature("");
-    setTransactionHash("");
-
+  useEffect(() => {
     setPlainTransaction({
       chain: chainId,
       mode: transactionMode,
@@ -34,6 +29,13 @@ export default function Page() {
       recipients: [recipient],
       amount,
     });
+  }, [chainId, transactionMode, sender, recipient, amount]);
+
+  const encode = useCallback(async () => {
+    setError("");
+    setEncodedTransaction("");
+    setSignature("");
+    setTransactionHash("");
 
     const response = await fetch(
       `http://localhost:3000/api/transaction/encode`,
@@ -51,7 +53,7 @@ export default function Page() {
     if (typeof response?.encoded === "string") {
       setEncodedTransaction(response.encoded);
     }
-  }, [chainId, transactionMode, sender, recipient, amount, plainTransaction]);
+  }, [plainTransaction]);
 
   const sign = useCallback(async () => {
     setError("");
@@ -101,7 +103,7 @@ export default function Page() {
     } else if (typeof response?.hash === "string") {
       setTransactionHash(response.hash);
     }
-  }, [plainTransaction, encodedTransaction]);
+  }, [plainTransaction, encodedTransaction, signature]);
 
   return (
     <div id="app">
