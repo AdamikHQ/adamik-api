@@ -7,6 +7,7 @@ export async function POST(request: Request): Promise<Response> {
   // TODO validation/sanitization (zod)
   const { transaction: payload } = await request.json();
 
+  // FIXME Replace with JSON.parse
   const transaction: PlainTransaction = stringToBigint(payload);
 
   const encodedTransaction = await (async (): Promise<Transaction> => {
@@ -22,5 +23,5 @@ export async function POST(request: Request): Promise<Response> {
     }
   })();
 
-  return Response.json(encodedTransaction);
+  return new Response(JSON.stringify(encodedTransaction));
 }

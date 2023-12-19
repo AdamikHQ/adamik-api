@@ -30,5 +30,5 @@ export async function POST(request: Request): Promise<Response> {
       });
   }
 
-  return Response.json(isValid);
+  return new Response(JSON.stringify(isValid));
 }
