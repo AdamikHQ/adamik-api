@@ -1,12 +1,15 @@
 import { BroadcastStatus, Transaction } from "~/app/model/types_WIP";
 import { encodeTransactionToBroadcast } from "~/app/chains/algorand/service/encodeTransactionToBroadcast";
 import { broadcastTransaction } from "~/app/chains/algorand/service/broadcastTransaction";
+import { stringToBigint } from "~/app/model/serialization";
 
 export async function POST(request: Request): Promise<Response> {
   // TODO validation/sanitization (zod)
-  const { transaction }: { transaction: Transaction } = await request.json();
+  const { transaction: payload } = await request.json();
 
-  const encodedTransaction = await (async (): Promise<BroadcastStatus> => {
+  const transaction: Transaction = stringToBigint(payload);
+
+  const broadcastStatus = await (async (): Promise<BroadcastStatus> => {
     switch (transaction.plain.chain) {
       case "algorand":
         const signedTransaction = await encodeTransactionToBroadcast(
@@ -26,5 +29,9 @@ export async function POST(request: Request): Promise<Response> {
     }
   })();
 
-  return Response.json(encodedTransaction);
+  console.log(
+    "XXX - /api/transaction/broadcast - broadcastStatus:",
+    broadcastStatus
+  );
+  return Response.json(broadcastStatus);
 }

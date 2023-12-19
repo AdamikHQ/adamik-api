@@ -5,8 +5,7 @@ import { stringToBigint } from "~/app/model/serialization";
 
 export async function POST(request: Request): Promise<Response> {
   // TODO validation/sanitization (zod)
-  const { transaction: payload }: { transaction: PlainTransaction } =
-    await request.json();
+  const { transaction: payload } = await request.json();
 
   const transaction: PlainTransaction = stringToBigint(payload);
 
