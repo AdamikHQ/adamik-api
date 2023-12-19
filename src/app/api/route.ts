@@ -1,5 +1,7 @@
-export async function GET(request: Request) {
-  // TODO Return API doc?
+import "~/app/patch";
+import { NextRequest, NextResponse } from "next/server";
 
-  return new Response("TODO");
+export async function GET(request: NextRequest) {
+  // TODO Return API doc?
+  return new NextResponse("TODO");
 }

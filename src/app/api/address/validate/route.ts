@@ -1,3 +1,4 @@
+import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { validateAddress } from "~/app/chains/algorand/service/validateAddress";
 
