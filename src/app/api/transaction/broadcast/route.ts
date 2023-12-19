@@ -1,9 +1,10 @@
+import { NextRequest, NextResponse } from "next/server";
 import { BroadcastStatus, Transaction } from "~/app/model/types_WIP";
 import { encodeTransactionToBroadcast } from "~/app/chains/algorand/service/encodeTransactionToBroadcast";
 import { broadcastTransaction } from "~/app/chains/algorand/service/broadcastTransaction";
 import { stringToBigint } from "~/app/model/serialization";
 
-export async function POST(request: Request): Promise<Response> {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   // TODO validation/sanitization (zod)
   const { transaction: payload } = await request.json();
 
@@ -30,9 +31,6 @@ export async function POST(request: Request): Promise<Response> {
     }
   })();
 
-  console.log(
-    "XXX - /api/transaction/broadcast - broadcastStatus:",
-    broadcastStatus
-  );
-  return new Response(JSON.stringify(broadcastStatus));
+  return NextResponse.json(broadcastStatus);
+  //return new Response(JSON.stringify(broadcastStatus));
 }

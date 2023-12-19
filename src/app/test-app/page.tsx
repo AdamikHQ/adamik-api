@@ -44,7 +44,7 @@ export default function Page() {
       method: "POST",
       body: JSON.stringify({ transaction: plainTransaction }),
     })
-      .then((response) => response.json())
+      .then(async (response) => await response.json())
       .catch((e) => {
         console.error("encode - backend error:", e);
         setError(`Error! ${e}`);
@@ -89,7 +89,7 @@ export default function Page() {
         },
       }),
     })
-      .then((response) => response.json())
+      .then(async (response) => await response.json())
       .catch((e) => {
         console.error("broadcast - backend error:", e);
         setError(`Error! ${e}`);
@@ -107,6 +107,7 @@ export default function Page() {
       <h1>ADAMIK Test App</h1>
 
       <label style={{ color: "red" }}>{error}</label>
+      <br />
 
       <label htmlFor="chain-id">Chain ID</label>
       <br />
