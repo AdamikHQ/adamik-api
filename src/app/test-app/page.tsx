@@ -3,6 +3,9 @@ import { useState, useEffect, useCallback } from "react";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 import NanoApp from "@ledgerhq/hw-app-algorand";
 
+const API: string =
+  process.env.NEXT_PUBLIC_ADAMIK_API || "http://localhost:3000/api";
+
 export default function Page() {
   const [error, setError] = useState("");
 
@@ -37,13 +40,10 @@ export default function Page() {
     setSignature("");
     setTransactionHash("");
 
-    const response = await fetch(
-      `http://localhost:3000/api/transaction/encode`,
-      {
-        method: "POST",
-        body: JSON.stringify({ transaction: plainTransaction }),
-      }
-    )
+    const response = await fetch(`${API}/transaction/encode`, {
+      method: "POST",
+      body: JSON.stringify({ transaction: plainTransaction }),
+    })
       .then((response) => response.json())
       .catch((e) => {
         console.error("encode - backend error:", e);
@@ -79,19 +79,16 @@ export default function Page() {
     setError("");
     setTransactionHash("");
 
-    const response = await fetch(
-      `http://localhost:3000/api/transaction/broadcast`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          transaction: {
-            plain: plainTransaction,
-            encoded: encodedTransaction,
-            signature,
-          },
-        }),
-      }
-    )
+    const response = await fetch(`${API}/transaction/broadcast`, {
+      method: "POST",
+      body: JSON.stringify({
+        transaction: {
+          plain: plainTransaction,
+          encoded: encodedTransaction,
+          signature,
+        },
+      }),
+    })
       .then((response) => response.json())
       .catch((e) => {
         console.error("broadcast - backend error:", e);
