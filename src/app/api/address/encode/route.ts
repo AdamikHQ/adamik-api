@@ -1,3 +1,4 @@
+import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { pubkeyToAddress } from "~/app/chains/algorand/service/pubkeyToAddress";
 

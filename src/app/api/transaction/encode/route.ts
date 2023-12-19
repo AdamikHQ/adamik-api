@@ -1,3 +1,4 @@
+import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { completeTransaction } from "~/app/chains/algorand/service/completeTransaction";

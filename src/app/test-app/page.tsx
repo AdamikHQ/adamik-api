@@ -40,19 +40,20 @@ export default function Page() {
     setSignature("");
     setTransactionHash("");
 
-    const response = await fetch(`${API}/transaction/encode`, {
+    fetch(`${API}/transaction/encode`, {
       method: "POST",
       body: JSON.stringify({ transaction: plainTransaction }),
     })
-      .then(async (response) => await response.json())
+      .then(async (response) => {
+        const data = await response.json();
+        if (typeof data?.encoded === "string") {
+          setEncodedTransaction(data.encoded);
+        }
+      })
       .catch((e) => {
         console.error("encode - backend error:", e);
         setError(`Error! ${e}`);
       });
-
-    if (typeof response?.encoded === "string") {
-      setEncodedTransaction(response.encoded);
-    }
   }, [plainTransaction]);
 
   const sign = useCallback(async () => {
