@@ -18,6 +18,7 @@ export default function Page() {
     "5QS7ANKWSK5XI2ZNWN34BA5KQLSZ3FEI2DTSJQIW5IZZZISD3VEHM5ZT2M"
   );
   const [amount, setAmount] = useState("1000");
+  const [fees, setFees] = useState("");
 
   const [plainTransaction, setPlainTransaction] = useState({});
   const [encodedTransaction, setEncodedTransaction] = useState("");
@@ -48,6 +49,9 @@ export default function Page() {
         const data = await response.json();
         if (typeof data?.encoded === "string") {
           setEncodedTransaction(data.encoded);
+        }
+        if (typeof data?.plain?.fees === "string") {
+          setFees(data.plain.fees);
         }
       })
       .catch((e) => {
@@ -176,6 +180,12 @@ export default function Page() {
       <br />
 
       <div id="tx-encoded" style={styles.div}>
+        <label htmlFor="amount">Fees (in satsoshis)</label>
+        <br />
+        <label>{fees}</label>
+        <br />
+        <br />
+
         <label>Encoded transaction</label>
         <br />
         <label>{encodedTransaction}</label>
