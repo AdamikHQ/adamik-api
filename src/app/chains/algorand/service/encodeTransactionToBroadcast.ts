@@ -18,8 +18,6 @@ async function encodeTransactionToBroadcast(
     );
   }
 
-  // FIXME Does this work ? Is it safe ?
-  // (alternative: build again from transaction.plain)
   const transactionPayload = msgpackDecode(
     Buffer.from(signedTransaction.encoded, "hex")
   ) as AlgoEncodedTransaction;
