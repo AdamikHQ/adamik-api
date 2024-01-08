@@ -1,7 +1,10 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
-import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
-import NanoApp from "@ledgerhq/hw-app-algorand";
+
+import Data from "./components/data";
+import Encode from "./components/encode";
+import Sign from "./components/sign";
+import Broadcast from "./components/broadcast";
 
 const API: string =
   process.env.NEXT_PUBLIC_ADAMIK_API || "http://localhost:3000/api";
@@ -42,103 +45,6 @@ export default function Page() {
     });
   }, [chainId, transactionMode, sender, recipient, amount, useMaxAmount]);
 
-  const getData = useCallback(async () => {
-    setError("");
-
-    fetch(`${API}/data/state`, {
-      method: "POST",
-      body: JSON.stringify({ chain: chainId, address: sender }),
-    }).then(async (response) => {
-      if (response.status === 200) {
-        const data = await response.json();
-        if (typeof data?.balances?.available === "string") {
-          setBalance(data.balances.available);
-        }
-      } else {
-        console.error("state - backend error:", response.statusText);
-        setError(`Error! ${response.statusText}`);
-      }
-    });
-  }, [chainId, sender]);
-
-  const encode = useCallback(async () => {
-    setError("");
-    setEncodedTransaction("");
-    setSignature("");
-    setTransactionHash("");
-
-    fetch(`${API}/transaction/encode`, {
-      method: "POST",
-      body: JSON.stringify({ transaction: plainTransaction }),
-    }).then(async (response) => {
-      if (response.status === 200) {
-        const data = await response.json();
-        if (typeof data?.encoded === "string") {
-          setEncodedTransaction(data.encoded);
-        }
-        if (typeof data?.plain?.fees === "string") {
-          setFees(data.plain.fees);
-        }
-        if (typeof data?.plain?.amount === "string") {
-          setComputedAmount(data.plain.amount);
-        }
-      } else {
-        console.error("encode - backend error:", response.statusText);
-        setError(`Error! ${response.statusText}`);
-      }
-    });
-  }, [plainTransaction]);
-
-  const sign = useCallback(async () => {
-    setError("");
-    setSignature("");
-    setTransactionHash("");
-
-    try {
-      const transport = await TransportWebUSB.create();
-      const ledgerNanoApp = new NanoApp(transport);
-
-      const { signature: signatureBuffer } = await ledgerNanoApp.sign(
-        sender,
-        encodedTransaction
-      );
-      signatureBuffer && setSignature(signatureBuffer.toString("hex"));
-    } catch (e) {
-      console.error("sign - signature error:", e);
-      return;
-    }
-  }, [sender, encodedTransaction]);
-
-  const broadcast = useCallback(async () => {
-    setError("");
-    setTransactionHash("");
-
-    const response = await fetch(`${API}/transaction/broadcast`, {
-      method: "POST",
-      body: JSON.stringify({
-        transaction: {
-          plain: plainTransaction,
-          encoded: encodedTransaction,
-          signature,
-        },
-      }),
-    }).then(async (response) => {
-      if (response.status === 200) {
-        return await response.json();
-      } else {
-        console.error("broadcast - backend error:", response.statusText);
-        setError(`Error! ${response.statusText}`);
-      }
-    });
-
-    if (response.error) {
-      console.error("broadcast - backend error:", response.error);
-      setError(`Error! ${response.error}`);
-    } else if (typeof response?.hash === "string") {
-      setTransactionHash(response.hash);
-    }
-  }, [plainTransaction, encodedTransaction, signature]);
-
   return (
     <div>
       <h1 className="title">ADAMIK Test App</h1>
@@ -159,116 +65,56 @@ export default function Page() {
       <br />
       <br />
 
-      <div className="section">
-        <label>Address</label>
-        <br />
-        <input
-          id="address"
-          className="input-text"
-          value={sender}
-          onChange={(e) => setSender(e.target.value)}
-        />
-        <br />
-        <br />
+      <Data
+        props={{
+          chainId,
+          sender,
+          setSender,
+          balance,
+          setBalance,
+          setError,
+        }}
+      />
 
-        <label>Balance (in satoshis)</label>
-        <br />
-        <div>{balance}</div>
-        <br />
+      <Encode
+        props={{
+          transactionMode,
+          sender,
+          setSender,
+          recipient,
+          setRecipient,
+          amount,
+          setAmount,
+          useMaxAmount,
+          setUseMaxAmount,
+          plainTransaction,
+          setComputedAmount,
+          setFees,
+          setEncodedTransaction,
+          setError,
+        }}
+      />
 
-        <button type="submit" onClick={getData}>
-          GET DATA
-        </button>
-      </div>
+      <Sign
+        props={{
+          sender,
+          computedAmount,
+          fees,
+          encodedTransaction,
+          setSignature,
+          setError,
+        }}
+      />
 
-      <div className="section">
-        <label>Transaction Mode</label>
-        <br />
-        <select defaultValue={transactionMode} disabled id="tx-mode">
-          <option value="transfer">transfer</option>
-          <option value="stake">stake</option>
-        </select>
-        <br />
-        <br />
-
-        <label>Sender</label>
-        <br />
-        <input id="sender" className="input-text" value={sender} disabled />
-        <br />
-        <br />
-
-        <label>Recipient</label>
-        <br />
-        <input
-          id="recipient"
-          className="input-text"
-          value={recipient}
-          onChange={(e) => setRecipient(e.target.value)}
-        />
-        <br />
-        <br />
-
-        <label>Amount (in satoshis)</label>
-        <br />
-        <input
-          id="amount"
-          className="input-text"
-          value={useMaxAmount ? "" : amount}
-          onChange={(e) => setAmount(e.target.value)}
-          disabled={useMaxAmount}
-        />
-        <input
-          type="checkbox"
-          onChange={(e) => setUseMaxAmount(e.target.checked)}
-        />
-        <label>Max</label>
-        <br />
-        <br />
-
-        <button type="submit" onClick={encode}>
-          ENCODE
-        </button>
-      </div>
-
-      <div className="section">
-        <label>Amount (in satoshis)</label>
-        <br />
-        <div>{computedAmount}</div>
-        <br />
-        <br />
-
-        <label>Fees (in satoshis)</label>
-        <br />
-        <div>{fees}</div>
-        <br />
-        <br />
-
-        <label>Encoded transaction</label>
-        <br />
-        <div className="text">{encodedTransaction}</div>
-        <br />
-        <br />
-
-        <button
-          disabled={!encodedTransaction.length}
-          type="submit"
-          onClick={sign}
-        >
-          SIGN
-        </button>
-      </div>
-
-      <div className="section">
-        <label>Signature</label>
-        <br />
-        <div className="text">{signature}</div>
-        <br />
-        <br />
-
-        <button disabled={!signature.length} type="submit" onClick={broadcast}>
-          BROADCAST
-        </button>
-      </div>
+      <Broadcast
+        props={{
+          plainTransaction,
+          encodedTransaction,
+          signature,
+          setTransactionHash,
+          setError,
+        }}
+      />
 
       <div className="section">
         <label>Transaction hash</label>
