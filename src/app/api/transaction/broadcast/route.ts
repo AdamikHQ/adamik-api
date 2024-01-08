@@ -25,7 +25,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           // FIXME This is broken!
           // How to manage success & error responses ??
           error: {
-            code: "KO",
+            //code: "KO",
             message: `Unknown chain: ${transaction.plain.chain}`,
           },
         };
