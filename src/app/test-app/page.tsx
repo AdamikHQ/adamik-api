@@ -10,6 +10,9 @@ export default function Page() {
   const [error, setError] = useState("");
 
   const [chainId, setChainId] = useState("algorand");
+
+  const [balance, setBalance] = useState("");
+
   const [transactionMode, setTransactionMode] = useState("transfer");
   const [sender, setSender] = useState(
     "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM"
@@ -18,7 +21,10 @@ export default function Page() {
     "5QS7ANKWSK5XI2ZNWN34BA5KQLSZ3FEI2DTSJQIW5IZZZISD3VEHM5ZT2M"
   );
   const [amount, setAmount] = useState("1000");
+  const [useMaxAmount, setUseMaxAmount] = useState(false);
+
   const [fees, setFees] = useState("");
+  const [computedAmount, setComputedAmount] = useState("");
 
   const [plainTransaction, setPlainTransaction] = useState({});
   const [encodedTransaction, setEncodedTransaction] = useState("");
@@ -32,8 +38,28 @@ export default function Page() {
       senders: [sender],
       recipients: [recipient],
       amount,
+      useMaxAmount,
     });
-  }, [chainId, transactionMode, sender, recipient, amount]);
+  }, [chainId, transactionMode, sender, recipient, amount, useMaxAmount]);
+
+  const getData = useCallback(async () => {
+    setError("");
+
+    fetch(`${API}/data/state`, {
+      method: "POST",
+      body: JSON.stringify({ chain: chainId, address: sender }),
+    }).then(async (response) => {
+      if (response.status === 200) {
+        const data = await response.json();
+        if (typeof data?.balances?.available === "string") {
+          setBalance(data.balances.available);
+        }
+      } else {
+        console.error("state - backend error:", response.statusText);
+        setError(`Error! ${response.statusText}`);
+      }
+    });
+  }, [chainId, sender]);
 
   const encode = useCallback(async () => {
     setError("");
@@ -44,8 +70,8 @@ export default function Page() {
     fetch(`${API}/transaction/encode`, {
       method: "POST",
       body: JSON.stringify({ transaction: plainTransaction }),
-    })
-      .then(async (response) => {
+    }).then(async (response) => {
+      if (response.status === 200) {
         const data = await response.json();
         if (typeof data?.encoded === "string") {
           setEncodedTransaction(data.encoded);
@@ -53,11 +79,14 @@ export default function Page() {
         if (typeof data?.plain?.fees === "string") {
           setFees(data.plain.fees);
         }
-      })
-      .catch((e) => {
-        console.error("encode - backend error:", e);
-        setError(`Error! ${e}`);
-      });
+        if (typeof data?.plain?.amount === "string") {
+          setComputedAmount(data.plain.amount);
+        }
+      } else {
+        console.error("encode - backend error:", response.statusText);
+        setError(`Error! ${response.statusText}`);
+      }
+    });
   }, [plainTransaction]);
 
   const sign = useCallback(async () => {
@@ -93,14 +122,17 @@ export default function Page() {
           signature,
         },
       }),
-    })
-      .then(async (response) => await response.json())
-      .catch((e) => {
-        console.error("broadcast - backend error:", e);
-        setError(`Error! ${e}`);
-      });
+    }).then(async (response) => {
+      if (response.status === 200) {
+        return await response.json();
+      } else {
+        console.error("broadcast - backend error:", response.statusText);
+        setError(`Error! ${response.statusText}`);
+      }
+    });
 
     if (response.error) {
+      console.error("broadcast - backend error:", response.error);
       setError(`Error! ${response.error}`);
     } else if (typeof response?.hash === "string") {
       setTransactionHash(response.hash);
@@ -108,66 +140,88 @@ export default function Page() {
   }, [plainTransaction, encodedTransaction, signature]);
 
   return (
-    <div id="app">
-      <h1>ADAMIK Test App</h1>
+    <div>
+      <h1 className="title">ADAMIK Test App</h1>
 
-      <label style={{ color: "red" }}>{error}</label>
-      <br />
+      {error && (
+        <div>
+          <label className="error">{error}</label>
+          <br />
+        </div>
+      )}
 
-      <label htmlFor="chain-id">Chain ID</label>
+      <label>Chain ID</label>
       <br />
-      <select defaultValue={chainId} disabled name="chain-id" id="chain-id">
+      <select defaultValue={chainId} disabled id="chain-id">
         <option value="algorand">Algorand</option>
         <option value="cosmos">Cosmos</option>
       </select>
       <br />
       <br />
 
-      <div id="tx-plain" style={styles.div}>
-        <label htmlFor="tx-mode">Transaction Mode</label>
-        <br />
-        <select
-          defaultValue={transactionMode}
-          disabled
-          name="tx-mode"
-          id="tx-mode"
-        >
-          <option value="transfer">transfer</option>
-          <option value="stake">stake</option>
-        </select>
-        <br />
-        <br />
-
-        <label htmlFor="sender">Sender</label>
+      <div className="section">
+        <label>Address</label>
         <br />
         <input
-          name="sender"
-          id="sender"
+          id="address"
+          className="input-text"
           value={sender}
           onChange={(e) => setSender(e.target.value)}
         />
         <br />
         <br />
 
-        <label htmlFor="recipient">Recipient</label>
+        <label>Balance (in satoshis)</label>
+        <br />
+        <div>{balance}</div>
+        <br />
+
+        <button type="submit" onClick={getData}>
+          GET DATA
+        </button>
+      </div>
+
+      <div className="section">
+        <label>Transaction Mode</label>
+        <br />
+        <select defaultValue={transactionMode} disabled id="tx-mode">
+          <option value="transfer">transfer</option>
+          <option value="stake">stake</option>
+        </select>
+        <br />
+        <br />
+
+        <label>Sender</label>
+        <br />
+        <input id="sender" className="input-text" value={sender} disabled />
+        <br />
+        <br />
+
+        <label>Recipient</label>
         <br />
         <input
-          name="recipient"
           id="recipient"
+          className="input-text"
           value={recipient}
           onChange={(e) => setRecipient(e.target.value)}
         />
         <br />
         <br />
 
-        <label htmlFor="amount">Amount (in satsoshis)</label>
+        <label>Amount (in satoshis)</label>
         <br />
         <input
-          name="amount"
           id="amount"
-          value={amount}
+          className="input-text"
+          value={useMaxAmount ? "" : amount}
           onChange={(e) => setAmount(e.target.value)}
+          disabled={useMaxAmount}
         />
+        <input
+          type="checkbox"
+          onChange={(e) => setUseMaxAmount(e.target.checked)}
+        />
+        <label>Max</label>
         <br />
         <br />
 
@@ -176,19 +230,22 @@ export default function Page() {
         </button>
       </div>
 
-      <br />
-      <br />
-
-      <div id="tx-encoded" style={styles.div}>
-        <label htmlFor="amount">Fees (in satsoshis)</label>
+      <div className="section">
+        <label>Amount (in satoshis)</label>
         <br />
-        <label>{fees}</label>
+        <div>{computedAmount}</div>
+        <br />
+        <br />
+
+        <label>Fees (in satoshis)</label>
+        <br />
+        <div>{fees}</div>
         <br />
         <br />
 
         <label>Encoded transaction</label>
         <br />
-        <label>{encodedTransaction}</label>
+        <div className="text">{encodedTransaction}</div>
         <br />
         <br />
 
@@ -201,13 +258,10 @@ export default function Page() {
         </button>
       </div>
 
-      <br />
-      <br />
-
-      <div id="tx-signed" style={styles.div}>
+      <div className="section">
         <label>Signature</label>
         <br />
-        <label>{signature}</label>
+        <div className="text">{signature}</div>
         <br />
         <br />
 
@@ -216,21 +270,11 @@ export default function Page() {
         </button>
       </div>
 
-      <br />
-      <br />
-      <div id="tx-hash" style={styles.div}>
+      <div className="section">
         <label>Transaction hash</label>
         <br />
-        <label>{transactionHash}</label>
+        <div className="text">{transactionHash}</div>
       </div>
     </div>
   );
 }
-
-const styles = {
-  div: {
-    borderStyle: "solid",
-    borderRadius: "12px",
-    padding: "5px",
-  },
-};
