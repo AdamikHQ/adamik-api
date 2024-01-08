@@ -1,0 +1,35 @@
+.title {
+  color: gold;
+}
+
+body {
+  background-color: darkblue;
+  color: white;
+}
+
+label {
+  font-weight: bold;
+}
+
+.error {
+  color: red;
+}
+
+.section {
+  background-color: #0000ff;
+  border: medium solid goldenrod;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.text {
+  font-weight: normal;
+  width: auto;
+  display: block;
+  word-break: break-all;
+}
+
+.input-text {
+  width: 300px;
+}
