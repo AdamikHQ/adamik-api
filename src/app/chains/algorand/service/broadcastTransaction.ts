@@ -9,7 +9,7 @@ async function broadcastTransaction(
     status.hash = await broadcast(Buffer.from(signedTransaction, "hex"));
   } catch {
     status.error = {
-      code: "KO",
+      //code: "KO",
       message: "Transaction broadcast failed",
     };
   }
