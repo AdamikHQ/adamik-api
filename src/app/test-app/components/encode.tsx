@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 import { API } from "../shared";
 
 type Props = {
@@ -35,13 +35,15 @@ function Encode({ props }: { props: Props }) {
     setError,
   } = props;
 
+  useEffect(() => {
+    useMaxAmount ? setAmount("") : setAmount("1000");
+  }, [useMaxAmount]);
+
   const encode = useCallback(async () => {
-    /*
     setError("");
+    setComputedAmount("");
+    setFees("");
     setEncodedTransaction("");
-    setSignature("");
-    setTransactionHash("");
-    */
 
     fetch(`${API}/transaction/encode`, {
       method: "POST",
@@ -49,27 +51,27 @@ function Encode({ props }: { props: Props }) {
     }).then(async (response) => {
       if (response.status === 200) {
         const data = await response.json();
-        if (typeof data?.plain?.amount === "string") {
-          setComputedAmount(data.plain.amount);
-        }
-        if (typeof data?.plain?.fees === "string") {
-          setFees(data.plain.fees);
-        }
-        if (typeof data?.encoded === "string") {
-          setEncodedTransaction(data.encoded);
+        if (data?.status?.errors?.length) {
+          // TODO Display all errors
+          // TODO Display warnings
+          setError(`Error! ${data.status.errors[0].message}`);
+        } else {
+          if (typeof data?.plain?.amount === "string") {
+            setComputedAmount(data.plain.amount);
+          }
+          if (typeof data?.plain?.fees === "string") {
+            setFees(data.plain.fees);
+          }
+          if (typeof data?.encoded === "string") {
+            setEncodedTransaction(data.encoded);
+          }
         }
       } else {
         console.error("encode - backend error:", response.statusText);
         setError(`Error! ${response.statusText}`);
       }
     });
-  }, [
-    plainTransaction,
-    setComputedAmount,
-    setFees,
-    setEncodedTransaction,
-    setError,
-  ]);
+  }, [plainTransaction, setComputedAmount, setFees, setEncodedTransaction, setError]);
 
   return (
     <div className="section">
@@ -90,12 +92,7 @@ function Encode({ props }: { props: Props }) {
 
       <label>Recipient</label>
       <br />
-      <input
-        id="recipient"
-        className="input-text"
-        value={recipient}
-        onChange={(e) => setRecipient(e.target.value)}
-      />
+      <input id="recipient" className="input-text" value={recipient} onChange={(e) => setRecipient(e.target.value)} />
       <br />
       <br />
 
@@ -108,10 +105,7 @@ function Encode({ props }: { props: Props }) {
         onChange={(e) => setAmount(e.target.value)}
         disabled={useMaxAmount}
       />
-      <input
-        type="checkbox"
-        onChange={(e) => setUseMaxAmount(e.target.checked)}
-      />
+      <input type="checkbox" onChange={(e) => setUseMaxAmount(e.target.checked)} />
       <label>Max</label>
       <br />
       <br />
