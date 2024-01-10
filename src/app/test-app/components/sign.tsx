@@ -22,11 +22,8 @@ function Sign({ props }: { props: Props }) {
   } = props;
 
   const sign = useCallback(async () => {
-    /*
-        setError("");
-        setSignature("");
-        setTransactionHash("");
-        */
+    setError("");
+    setSignature("");
 
     try {
       const transport = await TransportWebUSB.create();

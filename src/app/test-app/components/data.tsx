@@ -14,7 +14,7 @@ function Data({ props }: { props: Props }) {
   const { chainId, sender, setSender, balance, setBalance, setError } = props;
 
   const getData = useCallback(async () => {
-    //setError("");
+    setError("");
 
     fetch(`${API}/data/state`, {
       method: "POST",

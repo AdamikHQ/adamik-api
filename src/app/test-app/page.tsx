@@ -1,13 +1,12 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 import Data from "./components/data";
 import Encode from "./components/encode";
 import Sign from "./components/sign";
 import Broadcast from "./components/broadcast";
 
-const API: string =
-  process.env.NEXT_PUBLIC_ADAMIK_API || "http://localhost:3000/api";
+const API: string = process.env.NEXT_PUBLIC_ADAMIK_API || "http://localhost:3000/api";
 
 export default function Page() {
   const [error, setError] = useState("");
@@ -17,12 +16,8 @@ export default function Page() {
   const [balance, setBalance] = useState("");
 
   const [transactionMode, setTransactionMode] = useState("transfer");
-  const [sender, setSender] = useState(
-    "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM"
-  );
-  const [recipient, setRecipient] = useState(
-    "5QS7ANKWSK5XI2ZNWN34BA5KQLSZ3FEI2DTSJQIW5IZZZISD3VEHM5ZT2M"
-  );
+  const [sender, setSender] = useState("RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM");
+  const [recipient, setRecipient] = useState("5QS7ANKWSK5XI2ZNWN34BA5KQLSZ3FEI2DTSJQIW5IZZZISD3VEHM5ZT2M");
   const [amount, setAmount] = useState("1000");
   const [useMaxAmount, setUseMaxAmount] = useState(false);
 

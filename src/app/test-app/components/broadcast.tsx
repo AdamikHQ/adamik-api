@@ -19,10 +19,8 @@ function Broadcast({ props }: { props: Props }) {
   } = props;
 
   const broadcast = useCallback(async () => {
-    /*
     setError("");
     setTransactionHash("");
-    */
 
     const response = await fetch(`${API}/transaction/broadcast`, {
       method: "POST",
