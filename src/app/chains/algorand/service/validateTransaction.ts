@@ -1,9 +1,5 @@
 import { isValidAddress } from "algosdk";
-import {
-  PlainTransaction,
-  TransactionStatus,
-  ErrorMsg,
-} from "~/app/model/types_WIP";
+import { PlainTransaction, TransactionStatus, ErrorMsg } from "~/app/model/types_WIP";
 import {
   ALGORAND_MAX_MEMO_SIZE,
   isAmountValidForRecipient,
@@ -12,9 +8,7 @@ import {
 
 // TODO Bonus additional validateTransactionIntent()
 // (optimization to avoid calling completeTransaction)
-function validateTransactionIntent(
-  transaction: PlainTransaction
-): TransactionStatus {
+function validateTransactionIntent(transaction: PlainTransaction): TransactionStatus {
   const errors: ErrorMsg[] = [];
   const warnings: ErrorMsg[] = [];
 
@@ -56,9 +50,7 @@ function validateTransactionIntent(
 }
 
 // FIXME Should useMaxAmount be considered in this function?... or just the amount, whatever it is?
-async function validateTransaction(
-  transaction: PlainTransaction
-): Promise<TransactionStatus> {
+async function validateTransaction(transaction: PlainTransaction): Promise<TransactionStatus> {
   // TODO Settle this (should validateTransaction call validateTransactionIntent first?)
   //*
   const errors: ErrorMsg[] = [];
@@ -86,15 +78,9 @@ async function validateTransaction(
 
   switch (transaction.mode) {
     case "transfer": {
-      if (
-        !(await isAmountValidForRecipient(
-          transaction.recipients[0],
-          transaction.amount
-        ))
-      ) {
+      if (!(await isAmountValidForRecipient(transaction.recipients[0], transaction.amount))) {
         errors.push({
-          message:
-            "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
+          message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
         });
       }
 
