@@ -9,15 +9,9 @@ async function completeTransaction(
 ): Promise<PlainTransaction> {
   const fees = await getEstimatedFees(transaction);
 
-  const amount = await (async () => {
-    if (transaction.useMaxAmount) {
-      const maxSpendable = await estimateMaxSpendable(transaction);
-      const amount = maxSpendable - fees;
-      return amount >= 0n ? amount : 0n;
-    } else {
-      return transaction.amount;
-    }
-  })();
+  const amount = transaction.useMaxAmount
+    ? await estimateMaxSpendable(transaction)
+    : transaction.amount;
 
   return { ...transaction, amount, fees };
 }

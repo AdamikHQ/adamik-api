@@ -7,6 +7,8 @@ import {
   AlgoTransactionBroadcastResponse,
 } from "./types";
 
+// TODO Caching !
+
 const ROOT_URL = NODES.get(ChainId.ALGORAND);
 
 async function fetchAccount(address: string): Promise<AlgoAccount> {
