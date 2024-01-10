@@ -31,9 +31,9 @@ function validateTransactionIntent(transaction: PlainTransaction): TransactionSt
 
   switch (transaction.mode) {
     case "transfer": {
-      if (!transaction.amount && !transaction.useMaxAmount) {
+      if (transaction.amount === undefined && !transaction.useMaxAmount) {
         errors.push({ message: "Missing amount or useMaxAmount" });
-      } else if (transaction.amount > 0n && transaction.useMaxAmount) {
+      } else if (transaction.amount !== undefined && transaction.useMaxAmount) {
         errors.push({
           message: "Amount and useMaxAmount cannot be used together",
         });
@@ -67,14 +67,6 @@ async function validateTransaction(transaction: PlainTransaction): Promise<Trans
 
   // FIXME Shouldn't recompute this in this function
   const maxSpendable = await estimateMaxSpendable(transaction);
-  /*
-  const { balance, assets } = await fetchAccount(transaction.senders[0]);
-  const algoSpendableBalance = computeAlgoMaxSpendable({
-    accountBalance: balance,
-    nbAccountAssets: assets.length,
-    mode: transaction.mode,
-  });
-  */
 
   switch (transaction.mode) {
     case "transfer": {
