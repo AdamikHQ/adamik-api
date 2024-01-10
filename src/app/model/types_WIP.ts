@@ -35,6 +35,7 @@ type Transaction = {
   plain: PlainTransaction;
   encoded?: string;
   signature?: string;
+  status?: TransactionStatus;
 };
 
 /*
@@ -60,6 +61,10 @@ type ErrorCode = "OK" | "KO";
 type ErrorMsg = {
   //code: ErrorCode;
   message: string;
+};
+
+type Chain = {
+  // TODO define service functions (~ bridges)
 };
 
 export { ChainId };

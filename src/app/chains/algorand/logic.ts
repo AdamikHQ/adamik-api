@@ -14,10 +14,14 @@ import {
   fetchTransactionParams,
 } from "~/app/chains/algorand/backend/node";
 
+// TODO Keep this file as a fourre-tout or split it?
+
 // FIXME Do we really need nacl just for this?
 const PUBLIC_KEY_LENGTH = nacl.sign.publicKeyLength;
 const ALGORAND_ADDRESS_LENGTH = 58;
 const ALGORAND_CHECKSUM_BYTE_LENGTH = 4;
+const ALGORAND_MIN_ACCOUNT_BALANCE = 100000;
+const ALGORAND_MAX_MEMO_SIZE = 32;
 
 // This is only true for a single signature. If we ever support different type of signatures
 // (e.g multi signatures), we will have to add the correct corresponding number of bytes.
@@ -72,6 +76,17 @@ function computeMinimumAlgoBalance(
   return base * (1 + currentAssets + newAsset);
 }
 
+async function isAmountValidForRecipient(
+  recipientAddress: string,
+  amount: bigint
+): Promise<boolean> {
+  const recipientAccount = await fetchAccount(recipientAddress);
+  return recipientAccount.balance === 0n
+    ? amount >= ALGORAND_MIN_ACCOUNT_BALANCE
+    : true;
+}
+
+// NOTE Voluntarily ignoring fees
 // TODO rename
 async function estimateMaxSpendable(
   transaction: PlainTransaction
@@ -162,7 +177,9 @@ function encodeToBroadcast(
 }
 
 export {
+  ALGORAND_MAX_MEMO_SIZE,
   encodeAddress,
+  isAmountValidForRecipient,
   estimateMaxSpendable,
   getEstimatedFees,
   buildRawTransaction,
