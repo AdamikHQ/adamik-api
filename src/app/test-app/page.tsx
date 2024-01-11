@@ -43,23 +43,22 @@ export default function Page() {
   return (
     <div>
       <h1 className="title">ADAMIK Test App</h1>
-
       {error && (
         <div>
           <label className="error">{error}</label>
           <br />
         </div>
       )}
-
       <label>Chain ID</label>
       <br />
-      <select defaultValue={chainId} disabled id="chain-id">
-        <option value="algorand">Algorand</option>
-        <option value="cosmos">Cosmos</option>
-      </select>
+      <div className="vertically-centered">
+        <select defaultValue={chainId} id="chain-id" onChange={(e) => setChainId(e.target.value)}>
+          <option value="algorand">Algorand</option>
+          <option value="cosmos">Cosmos</option>
+        </select>
+        <label className="eyes">👀</label>
+      </div>
       <br />
-      <br />
-
       <Data
         props={{
           chainId,
@@ -70,7 +69,6 @@ export default function Page() {
           setError,
         }}
       />
-
       <Encode
         props={{
           transactionMode,
@@ -89,7 +87,6 @@ export default function Page() {
           setError,
         }}
       />
-
       <Sign
         props={{
           sender,
@@ -100,7 +97,6 @@ export default function Page() {
           setError,
         }}
       />
-
       <Broadcast
         props={{
           plainTransaction,
@@ -110,7 +106,6 @@ export default function Page() {
           setError,
         }}
       />
-
       <div className="section">
         <label>Transaction hash</label>
         <br />

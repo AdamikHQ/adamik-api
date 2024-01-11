@@ -33,3 +33,13 @@ label {
 .input-text {
   width: 300px;
 }
+
+.eyes {
+  font-size: 50px;
+  padding-left: 10px;
+}
+
+.vertically-centered {
+  display: flex;
+  align-items: center;
+}
