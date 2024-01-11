@@ -15,6 +15,7 @@ function Data({ props }: { props: Props }) {
 
   const getData = useCallback(async () => {
     setError("");
+    setBalance("");
 
     fetch(`${API}/data/state`, {
       method: "POST",
@@ -36,12 +37,7 @@ function Data({ props }: { props: Props }) {
     <div className="section">
       <label>Address</label>
       <br />
-      <input
-        id="address"
-        className="input-text"
-        value={sender}
-        onChange={(e) => setSender(e.target.value)}
-      />
+      <input id="address" className="input-text" value={sender} onChange={(e) => setSender(e.target.value)} />
       <br />
       <br />
 
