@@ -2,6 +2,7 @@
 //type ChainId = "algorand";
 enum ChainId {
   ALGORAND = "algorand",
+  COSMOS = "cosmos",
 }
 
 type AddressState = {
@@ -63,9 +64,24 @@ type ErrorMsg = {
   message: string;
 };
 
-type Chain = {
-  // TODO define service functions (~ bridges)
-};
+// TODO Doc for each function
+interface ChainService {
+  // Address
+  pubkeyToAddress(pubkey: string): Promise<string>;
+  validateAddress(address: string): Promise<boolean>;
+
+  // Data
+  getAddressState(address: string): Promise<AddressState>;
+  //getAddressHistory(address: string): Promise<AddressHistory>;
+
+  // Crafting
+  validateTransactionIntent(transaction: PlainTransaction): Promise<TransactionStatus>;
+  completeTransaction(transaction: PlainTransaction): Promise<PlainTransaction>;
+  validateTransaction(transaction: PlainTransaction): Promise<TransactionStatus>;
+  encodeTransactionToSign(transaction: PlainTransaction): Promise<string>;
+  encodeTransactionToBroadcast(signedTransaction: Transaction): Promise<string>;
+  broadcastTransaction(signedTransaction: string): Promise<BroadcastStatus>;
+}
 
 export { ChainId };
 export type {
@@ -76,4 +92,5 @@ export type {
   TransactionStatus,
   BroadcastStatus,
   ErrorMsg,
+  ChainService,
 };

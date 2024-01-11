@@ -1,6 +1,6 @@
 import { encodeAddress } from "../logic";
 
-function pubkeyToAddress(pubkey: string): string {
+async function pubkeyToAddress(pubkey: string): Promise<string> {
   return encodeAddress(Buffer.from(pubkey, "hex"));
 }
 

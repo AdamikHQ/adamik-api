@@ -1,6 +1,6 @@
 import { isValidAddress } from "algosdk";
 
-function validateAddress(address: string): boolean {
+async function validateAddress(address: string): Promise<boolean> {
   return isValidAddress(address);
 }
 

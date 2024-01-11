@@ -16,7 +16,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const status = await (async (): Promise<TransactionStatus> => {
     switch (transaction.chain) {
       case "algorand":
-        return validateTransactionIntent(transaction);
+        return await validateTransactionIntent(transaction);
       default:
         return {} as TransactionStatus;
     }
