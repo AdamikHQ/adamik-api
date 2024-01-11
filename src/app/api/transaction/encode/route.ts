@@ -2,9 +2,12 @@ import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { completeTransaction } from "~/app/chains/algorand/service/completeTransaction";
-import { encodeTransactionToSign } from "~/app/chains/algorand/service/encodeTransactionToSign";
+import { encodeTransactionToSign } from "~/app/chains/algorand/service/encodeTransaction";
 import { stringToBigint } from "~/app/model/serialization";
-import { validateTransactionIntent, validateTransaction } from "~/app/chains/algorand/service/validateTransaction";
+import {
+  validateTransactionIntent,
+  validateTransaction,
+} from "~/app/chains/algorand/service/validateTransaction";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   // TODO validation/sanitization (zod)

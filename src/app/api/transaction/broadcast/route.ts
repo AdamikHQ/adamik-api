@@ -1,7 +1,7 @@
 import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { BroadcastStatus, Transaction } from "~/app/model/types_WIP";
-import { encodeTransactionToBroadcast } from "~/app/chains/algorand/service/encodeTransactionToBroadcast";
+import { encodeTransactionToBroadcast } from "~/app/chains/algorand/service/encodeTransaction";
 import { broadcastTransaction } from "~/app/chains/algorand/service/broadcastTransaction";
 import { stringToBigint } from "~/app/model/serialization";
 
@@ -15,9 +15,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const broadcastStatus = await (async (): Promise<BroadcastStatus> => {
     switch (transaction.plain.chain) {
       case "algorand":
-        const signedTransaction = await encodeTransactionToBroadcast(
-          transaction
-        );
+        const signedTransaction = await encodeTransactionToBroadcast(transaction);
         const status = await broadcastTransaction(signedTransaction);
         return status;
       default:

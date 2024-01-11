@@ -6,9 +6,7 @@ import {
   estimateMaxSpendable,
 } from "~/app/chains/algorand/logic";
 
-// TODO Bonus additional validateTransactionIntent()
-// (optimization to avoid calling completeTransaction)
-function validateTransactionIntent(transaction: PlainTransaction): TransactionStatus {
+async function validateTransactionIntent(transaction: PlainTransaction): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];
   const warnings: ErrorMsg[] = [];
 
@@ -56,7 +54,7 @@ async function validateTransaction(transaction: PlainTransaction): Promise<Trans
   const errors: ErrorMsg[] = [];
   const warnings: ErrorMsg[] = [];
   /*/
-  const { errors, warnings } = validateTransactionIntent(transaction);
+  const { errors, warnings } = await validateTransactionIntent(transaction);
   if (errors.length) {
     return {
       errors,

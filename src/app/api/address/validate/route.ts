@@ -23,7 +23,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   let isValid = false;
   switch (chain) {
     case "algorand":
-      isValid = validateAddress(address);
+      isValid = await validateAddress(address);
       break;
     default:
       return new NextResponse(null, {

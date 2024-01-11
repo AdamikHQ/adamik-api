@@ -23,7 +23,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   let address;
   switch (chain) {
     case "algorand":
-      address = pubkeyToAddress(pubkey);
+      address = await pubkeyToAddress(pubkey);
       break;
     default:
       return new NextResponse(null, {
