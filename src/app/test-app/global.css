@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: darkblue;
+  background-color: darkslateblue;
   color: white;
 }
 
@@ -16,7 +16,7 @@ label {
 }
 
 .section {
-  background-color: #0000ff;
+  background-color: blueviolet;
   border: medium solid goldenrod;
   border-radius: 12px;
   padding: 10px;
