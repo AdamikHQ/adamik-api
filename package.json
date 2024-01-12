@@ -10,10 +10,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "@cosmjs/amino": "^0.32.2",
     "@ledgerhq/hw-app-algorand": "^6.28.1",
+    "@ledgerhq/hw-app-cosmos": "^6.29.1",
     "@ledgerhq/hw-transport-webusb": "^6.28.1",
+    "@zondax/ledger-cosmos-js": "^3.0.3",
     "algo-msgpack-with-bigint": "^2.1.1",
     "algosdk": "^2.7.0",
+    "bech32": "^2.0.0",
     "hi-base32": "^0.5.1",
     "js-sha512": "^0.8.0",
     "next": "14.0.3",
