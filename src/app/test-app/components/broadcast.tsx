@@ -10,13 +10,7 @@ type Props = {
 };
 
 function Broadcast({ props }: { props: Props }) {
-  const {
-    plainTransaction,
-    encodedTransaction,
-    signature,
-    setTransactionHash,
-    setError,
-  } = props;
+  const { plainTransaction, encodedTransaction, signature, setTransactionHash, setError } = props;
 
   const broadcast = useCallback(async () => {
     setError("");
@@ -46,20 +40,13 @@ function Broadcast({ props }: { props: Props }) {
     } else if (typeof response?.hash === "string") {
       setTransactionHash(response.hash);
     }
-  }, [
-    plainTransaction,
-    encodedTransaction,
-    signature,
-    setTransactionHash,
-    setError,
-  ]);
+  }, [plainTransaction, encodedTransaction, signature, setTransactionHash, setError]);
 
   return (
     <div className="section">
       <label>Signature</label>
       <br />
       <div className="text">{signature}</div>
-      <br />
       <br />
 
       <button disabled={!signature.length} type="submit" onClick={broadcast}>

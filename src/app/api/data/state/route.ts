@@ -1,11 +1,9 @@
 import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { services } from "~/app/chains/services";
-import { getAddressState } from "~/app/chains/algorand/service/getAddressState";
-import { AddressState, ChainId } from "~/app/model/types_WIP";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  // TODO validation/sanitization
+  // TODO validation/sanitization (validateAddress)
   const { chain, address } = await request.json();
 
   if (!chain) {
