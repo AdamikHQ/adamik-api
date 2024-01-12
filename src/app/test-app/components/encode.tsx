@@ -22,6 +22,7 @@ function Encode({ props }: { props: Props }) {
   const {
     transactionMode,
     sender,
+    setSender,
     recipient,
     setRecipient,
     amount,
@@ -37,7 +38,7 @@ function Encode({ props }: { props: Props }) {
 
   useEffect(() => {
     useMaxAmount ? setAmount("") : setAmount("1000");
-  }, [useMaxAmount]);
+  }, [useMaxAmount, setAmount]);
 
   const encode = useCallback(async () => {
     setError("");
@@ -86,13 +87,18 @@ function Encode({ props }: { props: Props }) {
 
       <label>Sender</label>
       <br />
-      <input id="sender" className="input-text" value={sender} disabled />
+      <input id="sender" className="input-text" value={sender} onChange={(e) => setSender(e.target.value)} />
       <br />
       <br />
 
       <label>Recipient</label>
       <br />
-      <input id="recipient" className="input-text" value={recipient} onChange={(e) => setRecipient(e.target.value)} />
+      <input
+        id="recipient"
+        className="input-text"
+        value={recipient}
+        onChange={(e) => setRecipient(e.target.value)}
+      />
       <br />
       <br />
 
