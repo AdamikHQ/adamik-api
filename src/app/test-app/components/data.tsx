@@ -31,7 +31,7 @@ function Data({ props }: { props: Props }) {
         setError(`Error! ${response.statusText}`);
       }
     });
-  }, [chainId, sender]);
+  }, [chainId, sender, setBalance, setError]);
 
   return (
     <div className="section">
