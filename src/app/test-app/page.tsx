@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
+import Scan from "./components/scan";
 import Data from "./components/data";
 import Encode from "./components/encode";
 import Sign from "./components/sign";
@@ -59,6 +60,14 @@ export default function Page() {
         <label className="eyes">👀</label>
       </div>
       <br />
+      <Scan
+        props={{
+          chainId,
+          setSender,
+          setRecipient,
+          setError,
+        }}
+      />
       <Data
         props={{
           chainId,
@@ -89,6 +98,7 @@ export default function Page() {
       />
       <Sign
         props={{
+          chainId,
           sender,
           computedAmount,
           fees,

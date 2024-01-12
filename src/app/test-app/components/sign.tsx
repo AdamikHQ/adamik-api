@@ -1,8 +1,8 @@
 import { memo, useCallback } from "react";
-import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
-import NanoApp from "@ledgerhq/hw-app-algorand";
+import { KEYRINGS } from "../shared";
 
 type Props = {
+  chainId: string;
   sender: string;
   computedAmount: string;
   fees: string;
@@ -12,34 +12,31 @@ type Props = {
 };
 
 function Sign({ props }: { props: Props }) {
-  const {
-    sender,
-    computedAmount,
-    fees,
-    encodedTransaction,
-    setSignature,
-    setError,
-  } = props;
+  const { chainId, sender, computedAmount, fees, encodedTransaction, setSignature, setError } = props;
 
   const sign = useCallback(async () => {
     setError("");
     setSignature("");
 
     try {
-      const transport = await TransportWebUSB.create();
-      const ledgerNanoApp = new NanoApp(transport);
+      const keyring = KEYRINGS.get(chainId);
+      if (!keyring) {
+        throw new Error(`No keyring for chain: ${chainId}`);
+      }
 
-      const { signature: signatureBuffer } = await ledgerNanoApp.sign(
-        sender,
-        encodedTransaction
-      );
+      // FIXME Is path: sender really ok? Or should we use actual path?
+      const { signature: signatureBuffer } = await keyring.sign({
+        path: sender,
+        message: encodedTransaction,
+      });
+
       signatureBuffer && setSignature(signatureBuffer.toString("hex"));
     } catch (e) {
       console.error("sign - signature error:", e);
       setError(`Error! ${e}`);
       return;
     }
-  }, [sender, encodedTransaction, setSignature, setError]);
+  }, [chainId, sender, encodedTransaction, setSignature, setError]);
 
   return (
     <div className="section">
@@ -47,25 +44,18 @@ function Sign({ props }: { props: Props }) {
       <br />
       <div>{computedAmount}</div>
       <br />
-      <br />
 
       <label>Fees (in satoshis)</label>
       <br />
       <div>{fees}</div>
-      <br />
       <br />
 
       <label>Encoded transaction</label>
       <br />
       <div className="text">{encodedTransaction}</div>
       <br />
-      <br />
 
-      <button
-        disabled={!encodedTransaction.length}
-        type="submit"
-        onClick={sign}
-      >
+      <button disabled={!encodedTransaction.length} type="submit" onClick={sign}>
         SIGN
       </button>
     </div>
