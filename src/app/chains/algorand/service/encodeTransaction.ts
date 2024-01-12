@@ -16,7 +16,7 @@ async function encodeTransactionToBroadcast(signedTransaction: Transaction): Pro
     throw new Error("encodeTransactionToBroadcast - Expected signedTransaction.encoded");
   }
   if (!signedTransaction.signature) {
-    throw new Error("encodeTransactionToBroadcast - Expected signedTransaction.encoded");
+    throw new Error("encodeTransactionToBroadcast - Expected signedTransaction.signature");
   }
 
   const transactionPayload = msgpackDecode(

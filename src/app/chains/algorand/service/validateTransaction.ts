@@ -1,10 +1,6 @@
 import { isValidAddress } from "algosdk";
 import { PlainTransaction, TransactionStatus, ErrorMsg } from "~/app/model/types_WIP";
-import {
-  ALGORAND_MAX_MEMO_SIZE,
-  isAmountValidForRecipient,
-  estimateMaxSpendable,
-} from "~/app/chains/algorand/logic";
+import { ALGORAND_MAX_MEMO_SIZE, isAmountValidForRecipient, estimateMaxSpendable } from "../logic";
 
 async function validateTransactionIntent(transaction: PlainTransaction): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];
