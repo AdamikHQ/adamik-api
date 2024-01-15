@@ -1,17 +1,28 @@
 import { Keyring } from "./types";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
-import LedgerNanoApp from "@ledgerhq/hw-app-cosmos";
-import { CosmosApp as ZondaxNanoApp } from "@zondax/ledger-cosmos-js";
-import { serializeSignDoc } from "@cosmjs/amino";
+import { CosmosApp as LedgerApp } from "@zondax/ledger-cosmos-js";
 
 const DEFAULT_PATH = "44'/118'/0'/0/0";
 
-const CosmosKeyring: Keyring = {
-  async getAddress({ path = DEFAULT_PATH, chainPrefix }: { path: string; chainPrefix: string }) {
-    const transport = await TransportWebUSB.create();
-    const ledgerNanoApp = new LedgerNanoApp(transport);
+const getPathNodes = (path: string): number[] => path.split("/").map((p) => parseInt(p.replace("'", "")));
 
-    const { publicKey, address } = await ledgerNanoApp.getAddress(path, chainPrefix);
+const CosmosKeyring: Keyring = {
+  async getAddress({
+    derivationPath = DEFAULT_PATH,
+    chainPrefix,
+  }: {
+    derivationPath: string;
+    chainPrefix: string;
+  }) {
+    const transport = await TransportWebUSB.create();
+    const ledgerApp = new LedgerApp(transport);
+
+    const pathNodes = getPathNodes(derivationPath);
+    const { compressed_pk: publicKey, bech32_address: address } = await ledgerApp.getAddressAndPubKey(
+      pathNodes,
+      chainPrefix,
+      false
+    );
 
     return {
       publicKey,
@@ -19,13 +30,13 @@ const CosmosKeyring: Keyring = {
     };
   },
 
-  async sign({ path = DEFAULT_PATH, message }) {
+  async signTransaction({ derivationPath = DEFAULT_PATH, transaction }) {
     const transport = await TransportWebUSB.create();
-    const ledgerNanoApp = new ZondaxNanoApp(transport);
+    const ledgerApp = new LedgerApp(transport);
 
-    const pathNodes = path.split("/").map((p) => parseInt(p.replace("'", "")));
-    const messageBuffer = Buffer.from(serializeSignDoc(JSON.parse(message)));
-    const { signature } = await ledgerNanoApp.sign(pathNodes, messageBuffer);
+    const pathNodes = getPathNodes(derivationPath);
+    const messageBuffer = Buffer.from(transaction, "hex");
+    const { signature } = await ledgerApp.sign(pathNodes, messageBuffer);
 
     return {
       signature,
