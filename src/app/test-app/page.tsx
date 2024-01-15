@@ -23,6 +23,7 @@ export default function Page() {
   const [useMaxAmount, setUseMaxAmount] = useState(false);
 
   const [fees, setFees] = useState("");
+  const [gas, setGas] = useState("");
   const [computedAmount, setComputedAmount] = useState("");
 
   const [plainTransaction, setPlainTransaction] = useState({});
@@ -31,15 +32,30 @@ export default function Page() {
   const [transactionHash, setTransactionHash] = useState("");
 
   useEffect(() => {
-    setPlainTransaction({
+    const transaction: any = {
       chain: chainId,
       mode: transactionMode,
-      senders: [sender],
-      recipients: [recipient],
-      amount,
       useMaxAmount,
-    });
-  }, [chainId, transactionMode, sender, recipient, amount, useMaxAmount]);
+    };
+
+    if (sender.length) {
+      transaction.senders = [sender];
+    }
+    if (recipient.length) {
+      transaction.recipients = [recipient];
+    }
+    if (amount.length) {
+      transaction.amount = amount;
+    }
+    if (fees.length) {
+      transaction.fees = fees;
+    }
+    if (gas) {
+      transaction.gas = gas;
+    }
+
+    setPlainTransaction(transaction);
+  }, [chainId, transactionMode, sender, recipient, amount, fees, gas, useMaxAmount]);
 
   return (
     <div>
@@ -92,6 +108,7 @@ export default function Page() {
           plainTransaction,
           setComputedAmount,
           setFees,
+          setGas,
           setEncodedTransaction,
           setError,
         }}
@@ -102,6 +119,7 @@ export default function Page() {
           sender,
           computedAmount,
           fees,
+          gas,
           encodedTransaction,
           setSignature,
           setError,

@@ -21,9 +21,19 @@ function Scan({ props }: { props: Props }) {
       throw new Error(`No keyring for chain: ${chainId}`);
     }
 
-    const { address } = await keyring.getAddress({ chainPrefix: chainId });
-    setSender(address);
-    setRecipient(address);
+    try {
+      const { address } = await keyring.getAddress({ chainPrefix: chainId });
+      if (address) {
+        setSender(address);
+        setRecipient(address);
+      } else {
+        console.error("scan - no address returned");
+        setError(`Error! No address returned. Wrong app?`);
+      }
+    } catch (e) {
+      console.error("scan - getAddress error:", e);
+      setError(`Error! App returned an error. Wrong app?`);
+    }
   }, [chainId, setSender, setRecipient, setError]);
 
   return (
