@@ -1,6 +1,6 @@
 import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
-import { validateAddress } from "~/app/chains/algorand/service/validateAddress";
+import { services } from "~/app/chains/services";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   // TODO validation/sanitization
@@ -20,17 +20,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  let isValid = false;
-  switch (chain) {
-    case "algorand":
-      isValid = await validateAddress(address);
-      break;
-    default:
-      return new NextResponse(null, {
-        status: 400,
-        statusText: `Unsupported chain: ${chain}`,
-      });
+  const service = services.get(chain);
+  if (!service) {
+    return new NextResponse(null, {
+      status: 501,
+      statusText: `Unsupported chain: ${chain}`,
+    });
   }
+
+  const isValid = await service.validateAddress(address);
 
   return NextResponse.json(isValid);
   //return new Response(JSON.stringify(isValid));

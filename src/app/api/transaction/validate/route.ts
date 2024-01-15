@@ -1,8 +1,8 @@
 import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { PlainTransaction, TransactionStatus } from "~/app/model/types_WIP";
-import { validateTransactionIntent } from "~/app/chains/algorand/service/validateTransaction";
 import { stringToBigint } from "~/app/model/serialization";
+import { services } from "~/app/chains/services";
 
 // TODO WIP
 
@@ -13,14 +13,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   // FIXME Replace with JSON.parse
   const transaction: PlainTransaction = stringToBigint(payload);
 
-  const status = await (async (): Promise<TransactionStatus> => {
-    switch (transaction.chain) {
-      case "algorand":
-        return await validateTransactionIntent(transaction);
-      default:
-        return {} as TransactionStatus;
-    }
-  })();
+  const service = services.get(transaction.chain);
+  if (!service) {
+    return new NextResponse(null, {
+      status: 501,
+      statusText: `Unsupported chain: ${transaction.chain}`,
+    });
+  }
+
+  const status = await service.validateTransactionIntent(transaction);
 
   return NextResponse.json(status);
   //return new Response(JSON.stringify(encodedTransaction));
