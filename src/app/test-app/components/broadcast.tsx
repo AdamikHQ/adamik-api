@@ -34,7 +34,7 @@ function Broadcast({ props }: { props: Props }) {
       }
     });
 
-    if (response.error) {
+    if (response?.error) {
       console.error("broadcast - backend error:", response.error);
       setError(`Error! ${response.error}`);
     } else if (typeof response?.hash === "string") {

@@ -6,13 +6,14 @@ type Props = {
   sender: string;
   computedAmount: string;
   fees: string;
+  gas: string;
   encodedTransaction: string;
   setSignature: (value: any) => void;
   setError: (value: any) => void;
 };
 
 function Sign({ props }: { props: Props }) {
-  const { chainId, sender, computedAmount, fees, encodedTransaction, setSignature, setError } = props;
+  const { chainId, computedAmount, fees, gas, encodedTransaction, setSignature, setError } = props;
 
   const sign = useCallback(async () => {
     setError("");
@@ -24,19 +25,16 @@ function Sign({ props }: { props: Props }) {
         throw new Error(`No keyring for chain: ${chainId}`);
       }
 
-      // FIXME Is path: sender really ok? Or should we use actual path?
-      const { signature: signatureBuffer } = await keyring.sign({
-        path: sender,
-        message: encodedTransaction,
+      const { signature: signatureBuffer } = await keyring.signTransaction({
+        transaction: encodedTransaction,
       });
 
       signatureBuffer && setSignature(signatureBuffer.toString("hex"));
     } catch (e) {
-      console.error("sign - signature error:", e);
+      console.error("sign - signTransaction error:", e);
       setError(`Error! ${e}`);
-      return;
     }
-  }, [chainId, sender, encodedTransaction, setSignature, setError]);
+  }, [chainId, encodedTransaction, setSignature, setError]);
 
   return (
     <div className="section">
@@ -48,6 +46,11 @@ function Sign({ props }: { props: Props }) {
       <label>Fees (in satoshis)</label>
       <br />
       <div>{fees}</div>
+      <br />
+
+      <label>Gas (in satoshis)</label>
+      <br />
+      <div>{gas}</div>
       <br />
 
       <label>Encoded transaction</label>

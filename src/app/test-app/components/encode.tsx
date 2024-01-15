@@ -14,6 +14,7 @@ type Props = {
   plainTransaction: unknown;
   setComputedAmount: (value: any) => void;
   setFees: (value: any) => void;
+  setGas: (value: any) => void;
   setEncodedTransaction: (value: any) => void;
   setError: (value: any) => void;
 };
@@ -32,6 +33,7 @@ function Encode({ props }: { props: Props }) {
     plainTransaction,
     setComputedAmount,
     setFees,
+    setGas,
     setEncodedTransaction,
     setError,
   } = props;
@@ -44,6 +46,7 @@ function Encode({ props }: { props: Props }) {
     setError("");
     setComputedAmount("");
     setFees("");
+    setGas("");
     setEncodedTransaction("");
 
     fetch(`${API}/transaction/encode`, {
@@ -63,6 +66,9 @@ function Encode({ props }: { props: Props }) {
           if (typeof data?.plain?.fees === "string") {
             setFees(data.plain.fees);
           }
+          if (typeof data?.plain?.gas === "string") {
+            setGas(data.plain.gas);
+          }
           if (typeof data?.encoded === "string") {
             setEncodedTransaction(data.encoded);
           }
@@ -72,7 +78,7 @@ function Encode({ props }: { props: Props }) {
         setError(`Error! ${response.statusText}`);
       }
     });
-  }, [plainTransaction, setComputedAmount, setFees, setEncodedTransaction, setError]);
+  }, [plainTransaction, setComputedAmount, setFees, setGas, setEncodedTransaction, setError]);
 
   return (
     <div className="section">
