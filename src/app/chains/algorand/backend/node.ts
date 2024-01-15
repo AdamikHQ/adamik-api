@@ -1,27 +1,16 @@
 import { ChainId } from "~/app/model/types_WIP";
 import { NODES } from "~/app/config/constants";
-import {
-  AlgoAccount,
-  AlgoAsset,
-  AlgoTransactionParams,
-  AlgoTransactionBroadcastResponse,
-} from "./types";
+import { AlgoAccount, AlgoAsset, AlgoTransactionParams, AlgoTransactionBroadcastResponse } from "./types";
 
 // TODO Caching !
+// TODO Sanitize data from backend
 
 const ROOT_URL = NODES.get(ChainId.ALGORAND);
 
 async function fetchAccount(address: string): Promise<AlgoAccount> {
   const url = `${ROOT_URL}/accounts/${address}`;
-  const options = {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json;charset=UTF-8",
-    },
-  };
 
-  const data = await fetch(url, options).then((response) => response.json());
+  const data = await fetch(url).then((response) => response.json());
 
   const assets: AlgoAsset[] = data.assets
     ? // FIXME: what is the type of `a`?
@@ -44,15 +33,8 @@ async function fetchAccount(address: string): Promise<AlgoAccount> {
 
 async function fetchTransactionParams(): Promise<AlgoTransactionParams> {
   const url = `${ROOT_URL}/transactions/params`;
-  const options = {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json;charset=UTF-8",
-    },
-  };
 
-  const data = await fetch(url, options).then((response) => response.json());
+  const data = await fetch(url).then((response) => response.json());
 
   return {
     fee: data["fee"],
@@ -71,8 +53,8 @@ async function broadcast(payload: Buffer): Promise<string> {
     body: payload,
   };
 
-  const data: AlgoTransactionBroadcastResponse = await fetch(url, options).then(
-    (response) => response.json()
+  const data: AlgoTransactionBroadcastResponse = await fetch(url, options).then((response) =>
+    response.json()
   );
 
   return data.txId;

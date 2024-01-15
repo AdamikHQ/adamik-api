@@ -19,6 +19,8 @@ type TransactionMode = "transfer" | "optIn" | "claimReward";
 // TODO WIP
 // FIXME de/serialization types <> string
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
+// FIXME one 'PlainTransaction' type with everything in it, or composition of specific types
+// (TransactionWithMemo TransactionWithGas, etc...) ?
 type PlainTransaction = {
   chain: ChainId; // chainId ?
   mode: TransactionMode;
@@ -27,6 +29,7 @@ type PlainTransaction = {
   amount: bigint;
   useMaxAmount?: boolean;
   fees: bigint;
+  gas?: bigint;
   nonce?: bigint;
   memo?: string;
 };
