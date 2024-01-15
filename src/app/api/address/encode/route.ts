@@ -1,6 +1,6 @@
 import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
-import { pubkeyToAddress } from "~/app/chains/algorand/service/pubkeyToAddress";
+import { services } from "~/app/chains/services";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   // TODO validation/sanitization
@@ -20,17 +20,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  let address;
-  switch (chain) {
-    case "algorand":
-      address = await pubkeyToAddress(pubkey);
-      break;
-    default:
-      return new NextResponse(null, {
-        status: 400,
-        statusText: `Unsupported chain: ${chain}`,
-      });
+  const service = services.get(chain);
+  if (!service) {
+    return new NextResponse(null, {
+      status: 501,
+      statusText: `Unsupported chain: ${chain}`,
+    });
   }
+
+  const address = await service.pubkeyToAddress(pubkey);
 
   return NextResponse.json(address);
   //return new Response(JSON.stringify(address));

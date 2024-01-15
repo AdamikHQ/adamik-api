@@ -1,9 +1,8 @@
 import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
-import { BroadcastStatus, Transaction } from "~/app/model/types_WIP";
-import { encodeTransactionToBroadcast } from "~/app/chains/algorand/service/encodeTransaction";
-import { broadcastTransaction } from "~/app/chains/algorand/service/broadcastTransaction";
+import { Transaction } from "~/app/model/types_WIP";
 import { stringToBigint } from "~/app/model/serialization";
+import { services } from "~/app/chains/services";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   // TODO validation/sanitization (zod)
@@ -12,23 +11,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   // FIXME Replace with JSON.parse
   const transaction: Transaction = stringToBigint(payload);
 
-  const broadcastStatus = await (async (): Promise<BroadcastStatus> => {
-    switch (transaction.plain.chain) {
-      case "algorand":
-        const signedTransaction = await encodeTransactionToBroadcast(transaction);
-        const status = await broadcastTransaction(signedTransaction);
-        return status;
-      default:
-        return {
-          // FIXME This is broken!
-          // How to manage success & error responses ??
-          error: {
-            //code: "KO",
-            message: `Unknown chain: ${transaction.plain.chain}`,
-          },
-        };
-    }
-  })();
+  const service = services.get(transaction.plain.chain);
+  if (!service) {
+    return new NextResponse(null, {
+      status: 501,
+      statusText: `Unsupported chain: ${transaction.plain.chain}`,
+    });
+  }
+
+  const signedTransaction = await service.encodeTransactionToBroadcast(transaction);
+
+  const broadcastStatus = await service.broadcastTransaction(signedTransaction);
 
   return NextResponse.json(broadcastStatus);
   //return new Response(JSON.stringify(broadcastStatus));
