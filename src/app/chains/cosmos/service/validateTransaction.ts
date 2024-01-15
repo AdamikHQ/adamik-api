@@ -1,0 +1,69 @@
+import { PlainTransaction, TransactionStatus, ErrorMsg } from "~/app/model/types_WIP";
+import { isValidAddress } from "../logic";
+
+// NOTE: same implem as algorand! Something to make generic?...
+async function validateTransactionIntent(transaction: PlainTransaction): Promise<TransactionStatus> {
+  const errors: ErrorMsg[] = [];
+  const warnings: ErrorMsg[] = [];
+
+  const validSender = isValidAddress(transaction.senders[0]);
+  if (!validSender) {
+    errors.push({ message: "Sender address is invalid" });
+  }
+
+  const validRecipient = isValidAddress(transaction.recipients[0]);
+  if (!validRecipient) {
+    errors.push({ message: "Recipient address is invalid" });
+  }
+
+  if (
+    /*transaction.mode === "send" &&*/ validSender &&
+    transaction.senders[0] === transaction.recipients[0]
+  ) {
+    warnings.push({ message: "Same sender and recipient address" });
+  }
+
+  switch (transaction.mode) {
+    case "transfer": {
+      if (transaction.amount === undefined && !transaction.useMaxAmount) {
+        errors.push({ message: "Missing amount or useMaxAmount" });
+      } else if (transaction.amount !== undefined && transaction.useMaxAmount) {
+        errors.push({
+          message: "Amount and useMaxAmount cannot be used together",
+        });
+      } else if (transaction.amount && transaction.amount < 0) {
+        errors.push({ message: "Amount cannot be negative" });
+      }
+    }
+  }
+
+  return {
+    errors,
+    warnings,
+  };
+}
+
+async function validateTransaction(transaction: PlainTransaction): Promise<TransactionStatus> {
+  // TODO Settle this (should validateTransaction call validateTransactionIntent first?)
+  //*
+  const errors: ErrorMsg[] = [];
+  const warnings: ErrorMsg[] = [];
+  /*/
+  const { errors, warnings } = await validateTransactionIntent(transaction);
+  if (errors.length) {
+    return {
+      errors,
+      warnings,
+    };
+  }
+  //*/
+
+  // TODO
+
+  return {
+    errors,
+    warnings,
+  };
+}
+
+export { validateTransactionIntent, validateTransaction };
