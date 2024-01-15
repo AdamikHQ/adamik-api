@@ -1,15 +1,15 @@
 import { Keyring } from "./types";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
-import NanoApp from "@ledgerhq/hw-app-algorand";
+import LedgerApp from "@ledgerhq/hw-app-algorand";
 
 const DEFAULT_PATH = "44'/283'/0'/0/0";
 
 const AlgorandKeyring: Keyring = {
-  async getAddress({ path = DEFAULT_PATH }) {
+  async getAddress({ derivationPath = DEFAULT_PATH }) {
     const transport = await TransportWebUSB.create();
-    const ledgerNanoApp = new NanoApp(transport);
+    const ledgerApp = new LedgerApp(transport);
 
-    const { publicKey, address } = await ledgerNanoApp.getAddress(path, false);
+    const { publicKey, address } = await ledgerApp.getAddress(derivationPath, false);
 
     return {
       publicKey,
@@ -17,11 +17,11 @@ const AlgorandKeyring: Keyring = {
     };
   },
 
-  async sign({ path = DEFAULT_PATH, message }) {
+  async signTransaction({ derivationPath = DEFAULT_PATH, transaction }) {
     const transport = await TransportWebUSB.create();
-    const ledgerNanoApp = new NanoApp(transport);
+    const ledgerApp = new LedgerApp(transport);
 
-    const { signature } = await ledgerNanoApp.sign(path, message);
+    const { signature } = await ledgerApp.sign(derivationPath, transaction);
 
     return {
       signature,
