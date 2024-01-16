@@ -9,4 +9,9 @@ const KEYRINGS: Map<string, Keyring> = new Map([
   ["cosmos", CosmosKeyring],
 ]);
 
-export { API, KEYRINGS };
+const FAUCETS: Map<string, string> = new Map([
+  ["algorand", "https://bank.testnet.algorand.network"],
+  ["cosmos", "https://www.allthatnode.com/faucet/cosmos.dsrv"],
+]);
+
+export { API, KEYRINGS, FAUCETS };
