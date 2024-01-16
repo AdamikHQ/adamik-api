@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect } from "react";
+import { memo, useState, useCallback, useEffect } from "react";
 import { API } from "../shared";
 
 type Props = {
@@ -38,11 +38,14 @@ function Encode({ props }: { props: Props }) {
     setError,
   } = props;
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     useMaxAmount ? setAmount("") : setAmount("1000");
   }, [useMaxAmount, setAmount]);
 
   const encode = useCallback(async () => {
+    setLoading(true);
     setError("");
     setComputedAmount("");
     setFees("");
@@ -77,6 +80,7 @@ function Encode({ props }: { props: Props }) {
         console.error("encode - backend error:", response.statusText);
         setError(`Error! ${response.statusText}`);
       }
+      setLoading(false);
     });
   }, [plainTransaction, setComputedAmount, setFees, setGas, setEncodedTransaction, setError]);
 
@@ -122,9 +126,19 @@ function Encode({ props }: { props: Props }) {
       <br />
       <br />
 
-      <button type="submit" onClick={encode}>
-        ENCODE
-      </button>
+      <div className="vertically-centered">
+        <button disabled={loading} type="submit" onClick={encode}>
+          ENCODE
+        </button>
+        {loading && (
+          <div className={"lds-ellipsis"}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
