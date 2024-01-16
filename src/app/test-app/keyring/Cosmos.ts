@@ -42,6 +42,10 @@ const CosmosKeyring: Keyring = {
       signature,
     };
   },
+
+  getDefaultPath() {
+    return DEFAULT_PATH;
+  },
 };
 
 export { CosmosKeyring };
