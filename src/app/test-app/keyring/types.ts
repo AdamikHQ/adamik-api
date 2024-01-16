@@ -18,6 +18,6 @@ type Writer = {
   }>;
 };
 
-type Keyring = Reader & Writer;
+type Keyring = Reader & Writer & { getDefaultPath(): string };
 
 export type { Keyring };

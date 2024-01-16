@@ -27,6 +27,10 @@ const AlgorandKeyring: Keyring = {
       signature,
     };
   },
+
+  getDefaultPath() {
+    return DEFAULT_PATH;
+  },
 };
 
 export { AlgorandKeyring };
