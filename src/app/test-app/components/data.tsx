@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo, useState, useCallback } from "react";
 import { API } from "../shared";
 
 type Props = {
@@ -13,7 +13,10 @@ type Props = {
 function Data({ props }: { props: Props }) {
   const { chainId, sender, setSender, balance, setBalance, setError } = props;
 
+  const [loading, setLoading] = useState(false);
+
   const getData = useCallback(async () => {
+    setLoading(true);
     setError("");
     setBalance("");
 
@@ -30,6 +33,7 @@ function Data({ props }: { props: Props }) {
         console.error("state - backend error:", response.statusText);
         setError(`Error! ${response.statusText}`);
       }
+      setLoading(false);
     });
   }, [chainId, sender, setBalance, setError]);
 
@@ -46,9 +50,19 @@ function Data({ props }: { props: Props }) {
       <div>{balance}</div>
       <br />
 
-      <button type="submit" onClick={getData}>
-        GET DATA
-      </button>
+      <div className="vertically-centered">
+        <button disabled={loading} type="submit" onClick={getData}>
+          GET DATA
+        </button>
+        {loading && (
+          <div className={"lds-ellipsis"}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -11,6 +11,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   // FIXME Replace with JSON.parse
   const transaction: Transaction = stringToBigint(payload);
 
+  if (!transaction.signature) {
+    return new NextResponse(null, {
+      status: 400,
+      statusText: "Field `signature` is required",
+    });
+  }
+
   const service = services.get(transaction.plain.chain);
   if (!service) {
     return new NextResponse(null, {

@@ -6,18 +6,19 @@ async function validateTransactionIntent(transaction: PlainTransaction): Promise
   const errors: ErrorMsg[] = [];
   const warnings: ErrorMsg[] = [];
 
-  const validSender = isValidAddress(transaction.senders[0]);
+  const validSender = transaction.senders?.length && isValidAddress(transaction.senders[0]);
   if (!validSender) {
     errors.push({ message: "Sender address is invalid" });
   }
 
-  const validRecipient = isValidAddress(transaction.recipients[0]);
+  const validRecipient = transaction.recipients?.length && isValidAddress(transaction.recipients[0]);
   if (!validRecipient) {
     errors.push({ message: "Recipient address is invalid" });
   }
 
   if (
     /*transaction.mode === "send" &&*/ validSender &&
+    validRecipient &&
     transaction.senders[0] === transaction.recipients[0]
   ) {
     warnings.push({ message: "Same sender and recipient address" });

@@ -17,8 +17,8 @@ export default function Page() {
   const [balance, setBalance] = useState("");
 
   const [transactionMode, setTransactionMode] = useState("transfer");
-  const [sender, setSender] = useState("RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM");
-  const [recipient, setRecipient] = useState("5QS7ANKWSK5XI2ZNWN34BA5KQLSZ3FEI2DTSJQIW5IZZZISD3VEHM5ZT2M");
+  const [sender, setSender] = useState("");
+  const [recipient, setRecipient] = useState("");
   const [amount, setAmount] = useState("1000");
   const [useMaxAmount, setUseMaxAmount] = useState(false);
 
@@ -68,13 +68,11 @@ export default function Page() {
       )}
       <label>Chain ID</label>
       <br />
-      <div className="vertically-centered">
-        <select defaultValue={chainId} id="chain-id" onChange={(e) => setChainId(e.target.value)}>
-          <option value="algorand">Algorand</option>
-          <option value="cosmos">Cosmos</option>
-        </select>
-        <label className="eyes">👀</label>
-      </div>
+      <select defaultValue={chainId} id="chain-id" onChange={(e) => setChainId(e.target.value)}>
+        <option value="algorand">Algorand</option>
+        <option value="cosmos">Cosmos</option>
+      </select>
+      <br />
       <br />
       <Scan
         props={{

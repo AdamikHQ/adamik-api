@@ -73,7 +73,7 @@ async function getEstimatedFees(transaction: PlainTransaction): Promise<{
       });
       return await simulateTransaction(payload);
     } catch (e) {
-      console.log("Failed to estimate gas usage during tx simulation. Error:", e);
+      console.error("Failed to estimate gas usage during tx simulation. Error:", e);
     }
 
     // TODO Proper CAL, to support more than ATOM

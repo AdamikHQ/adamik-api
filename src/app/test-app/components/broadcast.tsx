@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo, useState, useCallback } from "react";
 import { API } from "../shared";
 
 type Props = {
@@ -12,7 +12,10 @@ type Props = {
 function Broadcast({ props }: { props: Props }) {
   const { plainTransaction, encodedTransaction, signature, setTransactionHash, setError } = props;
 
+  const [loading, setLoading] = useState(false);
+
   const broadcast = useCallback(async () => {
+    setLoading(true);
     setError("");
     setTransactionHash("");
 
@@ -40,6 +43,7 @@ function Broadcast({ props }: { props: Props }) {
     } else if (typeof response?.hash === "string") {
       setTransactionHash(response.hash);
     }
+    setLoading(false);
   }, [plainTransaction, encodedTransaction, signature, setTransactionHash, setError]);
 
   return (
@@ -49,9 +53,19 @@ function Broadcast({ props }: { props: Props }) {
       <div className="text">{signature}</div>
       <br />
 
-      <button disabled={!signature.length} type="submit" onClick={broadcast}>
-        BROADCAST
-      </button>
+      <div className="vertically-centered">
+        <button disabled={loading} type="submit" onClick={broadcast}>
+          BROADCAST
+        </button>
+        {loading && (
+          <div className={"lds-ellipsis"}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -2,7 +2,9 @@ import { ChainId } from "../model/types_WIP";
 
 const NODES: Map<ChainId, string> = new Map<ChainId, string>([
   [ChainId.ALGORAND, "https://algorand.coin.ledger.com/ps2/v2"],
+  //[ChainId.ALGORAND, "https://testnet-api.algonode.cloud/v2"],
   [ChainId.COSMOS, "https://cosmoshub4.coin.ledger.com"],
+  //[ChainId.COSMOS, "https://cosmoshub-testnet.api.kjnodes.com"],
 ]);
 
 const EXPLORERS: Map<ChainId, string> = new Map<ChainId, string>([

@@ -28,6 +28,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
+  const isAddressValid = await service.validateAddress(address);
+  if (!isAddressValid) {
+    return new NextResponse(null, {
+      status: 400,
+      statusText: "Address is invalid",
+    });
+  }
+
   const state = await service.getAddressState(address);
 
   return NextResponse.json(state);
