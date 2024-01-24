@@ -1,9 +1,17 @@
 // FIXME Can't be validated at runtime!
-//type ChainId = "algorand";
+//type ChainId = "algorand" | "cosmos";
 enum ChainId {
   ALGORAND = "algorand",
   COSMOS = "cosmos",
 }
+
+type Chain = {
+  id: ChainId;
+  name: string;
+  family: string;
+  ticker: string; // TODO Or more evolutive 'units' array?
+  magnitude: number;
+};
 
 type AddressState = {
   balances: {
@@ -22,7 +30,7 @@ type TransactionMode = "transfer" | "optIn" | "claimReward";
 // FIXME one 'PlainTransaction' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
 type PlainTransaction = {
-  chain: ChainId; // chainId ?
+  chainId: ChainId;
   mode: TransactionMode;
   senders: string[];
   recipients: string[];
@@ -88,6 +96,7 @@ interface ChainService {
 
 export { ChainId };
 export type {
+  Chain,
   AddressState,
   TransactionMode,
   PlainTransaction,

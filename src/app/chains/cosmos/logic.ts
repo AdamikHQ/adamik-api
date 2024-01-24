@@ -46,9 +46,9 @@ async function getEstimatedFees(transaction: PlainTransaction): Promise<{
   gasWanted: bigint;
   gasWantedFees: bigint;
 }> {
-  const chainParams = COSMOS_PARAMS.get(transaction.chain);
+  const chainParams = COSMOS_PARAMS.get(transaction.chainId);
   if (!chainParams) {
-    throw new Error(`Unsupported chain: ${transaction.chain}`);
+    throw new Error(`Unsupported chain: ${transaction.chainId}`);
   }
 
   const { protoMsgs } = getMessages(transaction);

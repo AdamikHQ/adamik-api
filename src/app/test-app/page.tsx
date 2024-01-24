@@ -9,10 +9,21 @@ import Broadcast from "./components/broadcast";
 
 const API: string = process.env.NEXT_PUBLIC_ADAMIK_API || "http://localhost:3000/api";
 
+// Must match server type
+type Chain = {
+  id: string;
+  name: string;
+  family: string;
+  ticker: string;
+  magnitude: number;
+};
+
 export default function Page() {
   const [error, setError] = useState("");
 
-  const [chainId, setChainId] = useState("algorand");
+  const [supportedChainIds, setSupportedChainIds] = useState<Set<string>>(new Set([]));
+  const [supportedChainDetails, setSupportedChainDetails] = useState<Record<string, Chain>>({});
+  const [chainId, setChainId] = useState<string>("");
 
   const [balance, setBalance] = useState("");
 
@@ -31,9 +42,60 @@ export default function Page() {
   const [signature, setSignature] = useState("");
   const [transactionHash, setTransactionHash] = useState("");
 
+  // Retrieve all supported chain IDs from server
+  useEffect(() => {
+    const fetchSupportedChainIds = async () => {
+      const response = await fetch(`${API}/chains`, {
+        method: "GET",
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setSupportedChainIds(new Set(data));
+          if (data.length) {
+            setChainId(data[0]);
+          }
+        }
+      } else {
+        console.error("supported chains - backend error:", response.statusText);
+        setError(`Error! ${response.statusText}`);
+      }
+    };
+
+    fetchSupportedChainIds();
+  }, [setSupportedChainIds, setChainId, setError]);
+
+  // Retreive details of each supported chain ID from server
+  useEffect(() => {
+    const fetchSupportedChainDetails = async () => {
+      setSupportedChainDetails({});
+      const chains: Record<string, Chain> = {};
+      await Promise.all(
+        Array.from(supportedChainIds).map(async (chainId) => {
+          const response = await fetch(`${API}/chains/${chainId}`, {
+            method: "GET",
+          });
+
+          if (response.status === 200) {
+            const data = await response.json();
+            chains[data.id] = data;
+          } else {
+            console.error("chain details - backend error:", response.statusText);
+            setError(`Error! ${response.statusText}`);
+          }
+        })
+      );
+
+      setSupportedChainDetails(chains);
+    };
+
+    fetchSupportedChainDetails();
+  }, [supportedChainIds, setSupportedChainDetails, setError]);
+
   useEffect(() => {
     const transaction: any = {
-      chain: chainId,
+      chainId,
       mode: transactionMode,
       useMaxAmount,
     };
@@ -69,8 +131,13 @@ export default function Page() {
       <label>Chain ID</label>
       <br />
       <select defaultValue={chainId} id="chain-id" onChange={(e) => setChainId(e.target.value)}>
-        <option value="algorand">Algorand</option>
-        <option value="cosmos">Cosmos</option>
+        {Object.entries(supportedChainDetails).map(([, chain]) => {
+          return (
+            <option key={chain.id} value={chain.id}>
+              {chain.name}
+            </option>
+          );
+        })}
       </select>
       <br />
       <br />

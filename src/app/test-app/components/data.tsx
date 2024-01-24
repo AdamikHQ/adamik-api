@@ -22,7 +22,7 @@ function Data({ props }: { props: Props }) {
 
     fetch(`${API}/data/state`, {
       method: "POST",
-      body: JSON.stringify({ chain: chainId, address: sender }),
+      body: JSON.stringify({ chainId: chainId, address: sender }),
     }).then(async (response) => {
       if (response.status === 200) {
         const data = await response.json();
