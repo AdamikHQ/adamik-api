@@ -13,11 +13,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   // FIXME Replace with JSON.parse
   const transaction: PlainTransaction = stringToBigint(payload);
 
-  const service = services.get(transaction.chain);
+  const service = services.get(transaction.chainId);
   if (!service) {
     return new NextResponse(null, {
       status: 501,
-      statusText: `Unsupported chain: ${transaction.chain}`,
+      statusText: `Unsupported chain: ${transaction.chainId}`,
     });
   }
 

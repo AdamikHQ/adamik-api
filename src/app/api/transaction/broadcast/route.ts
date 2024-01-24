@@ -18,11 +18,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const service = services.get(transaction.plain.chain);
+  const service = services.get(transaction.plain.chainId);
   if (!service) {
     return new NextResponse(null, {
       status: 501,
-      statusText: `Unsupported chain: ${transaction.plain.chain}`,
+      statusText: `Unsupported chain: ${transaction.plain.chainId}`,
     });
   }
 
