@@ -11,7 +11,9 @@ OK - send max
 OK - get account state
 OK - validate transaction
 - Concept of family
+- Properly support large numbers with BigNumber.js
 - Units (needs CAL)
+- Need other data providers than Ledger explorers
 # ADVANCED
 - chain-specific wrappers, on top of ADAMIK API
 - Rosetta wrapper ?
@@ -24,7 +26,7 @@ OK - validate transaction
 - proper config (JSON)
 - logging / instrumentation / tracking + review all console.xxx
 - test framework
-- proper error management : server errors, validation errors... + review all 'throw'
+- proper error management : server errors, validation errors... + review all 'throw' + use zod
 - Dev / Staging / Prod envs
 - Documentation strategy
   - API swagger
@@ -56,7 +58,6 @@ KO - validateTransaction always calls validateTransactionIntent ?
 - version in url !
 - ChainId as path param --> enables running separate services for each chain, if needed
 - merge path '/data/' into '/address/' ?
-
 # ADVANCED
 - pubkeyToAddress: endpoint should take more param to set the key type to return (algorithm?, multisig?...)
 
