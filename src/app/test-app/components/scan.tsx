@@ -1,23 +1,23 @@
 import { memo, useState, useCallback, useEffect } from "react";
 import { Keyring } from "../keyring/types";
-import { KEYRINGS } from "../shared";
+import { KEYRINGS, Chain } from "../shared";
 
 type Props = {
-  chainId: string;
+  chain: Chain;
   setSender: (value: any) => void;
   setRecipient: (value: any) => void;
   setError: (value: any) => void;
 };
 
 function Scan({ props }: { props: Props }) {
-  const { chainId, setSender, setRecipient, setError } = props;
+  const { chain, setSender, setRecipient, setError } = props;
 
   const [loading, setLoading] = useState(false);
   const [keyring, setKeyring] = useState<Keyring | undefined>(undefined);
 
   useEffect(() => {
-    setKeyring(KEYRINGS.get(chainId));
-  }, [chainId]);
+    setKeyring(KEYRINGS.get(chain.id));
+  }, [chain]);
 
   const scan = useCallback(async () => {
     setLoading(true);
@@ -26,11 +26,11 @@ function Scan({ props }: { props: Props }) {
     setRecipient("");
 
     if (!keyring) {
-      throw new Error(`No keyring for chain: ${chainId}`);
+      throw new Error(`No keyring for chain: ${chain.id}`);
     }
 
     try {
-      const { address } = await keyring.getAddress({ chainPrefix: chainId });
+      const { address } = await keyring.getAddress({ chainPrefix: chain.id });
       if (address) {
         setSender(address);
         setRecipient(address);
@@ -43,7 +43,7 @@ function Scan({ props }: { props: Props }) {
       setError(`Error! App returned an error. Wrong app?`);
     }
     setLoading(false);
-  }, [chainId, keyring, setSender, setRecipient, setError]);
+  }, [chain, keyring, setSender, setRecipient, setError]);
 
   return (
     <div className="section">
