@@ -2,6 +2,7 @@ import { isValidAddress } from "algosdk";
 import { PlainTransaction, TransactionStatus, ErrorMsg } from "~/app/model/types_WIP";
 import { ALGORAND_MAX_MEMO_SIZE, isAmountValidForRecipient, estimateMaxSpendable } from "../logic";
 
+// FIXME Same implem as cosmos... something to make generic?
 async function validateTransactionIntent(transaction: PlainTransaction): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];
   const warnings: ErrorMsg[] = [];
@@ -26,13 +27,13 @@ async function validateTransactionIntent(transaction: PlainTransaction): Promise
 
   switch (transaction.mode) {
     case "transfer": {
-      if (transaction.amount === undefined && !transaction.useMaxAmount) {
+      if (!transaction.amount && !transaction.useMaxAmount) {
         errors.push({ message: "Missing amount or useMaxAmount" });
-      } else if (transaction.amount !== undefined && transaction.useMaxAmount) {
+      } else if (!!transaction.amount && transaction.useMaxAmount) {
         errors.push({
           message: "Amount and useMaxAmount cannot be used together",
         });
-      } else if (transaction.amount && transaction.amount < 0) {
+      } else if (transaction.amount && transaction.amount < 0n) {
         errors.push({ message: "Amount cannot be negative" });
       }
     }

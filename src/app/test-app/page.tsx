@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
-import { Chain } from "./shared";
+import { Chain, amountToSmallestUnit } from "./shared";
 import Scan from "./components/scan";
 import Data from "./components/data";
 import Encode from "./components/encode";
@@ -28,7 +28,7 @@ export default function Page() {
   const [transactionMode, setTransactionMode] = useState("transfer");
   const [sender, setSender] = useState("");
   const [recipient, setRecipient] = useState("");
-  const [amount, setAmount] = useState("1000");
+  const [amount, setAmount] = useState("");
   const [useMaxAmount, setUseMaxAmount] = useState(false);
 
   const [fees, setFees] = useState("");
@@ -107,7 +107,7 @@ export default function Page() {
       transaction.recipients = [recipient];
     }
     if (amount.length) {
-      transaction.amount = amount;
+      transaction.amount = amountToSmallestUnit(amount, selectedChain.magnitude);
     }
     if (fees.length) {
       transaction.fees = fees;
@@ -118,6 +118,19 @@ export default function Page() {
 
     setPlainTransaction(transaction);
   }, [selectedChain, transactionMode, sender, recipient, amount, fees, gas, useMaxAmount]);
+
+  useEffect(() => {
+    setBalance("");
+    setSender("");
+    setRecipient("");
+    setAmount("");
+    setFees("");
+    setGas("");
+    setComputedAmount("");
+    setEncodedTransaction("");
+    setSignature("");
+    setTransactionHash("");
+  }, [selectedChain]);
 
   return (
     <div>

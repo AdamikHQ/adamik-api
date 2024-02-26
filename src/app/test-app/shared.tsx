@@ -23,5 +23,17 @@ type Chain = {
   magnitude: number;
 };
 
+// Helpers to convert from/to user-convenient format in main unit, and smallest unit of the chain
+// FIXME Magnitude could be a server-side concern
+function amountToSmallestUnit(amount: string, magnitude: number): string | null {
+  const computedAmount = parseFloat(amount) * Math.pow(10, magnitude);
+  return computedAmount.toString();
+}
+
+function amountToMainUnit(amount: string, magnitude: number): string | null {
+  const parsedAmount = parseInt(amount);
+  return Number.isNaN(parsedAmount) ? null : (parsedAmount / Math.pow(10, magnitude)).toString();
+}
+
 export type { Chain };
-export { API, KEYRINGS, FAUCETS };
+export { API, KEYRINGS, FAUCETS, amountToSmallestUnit, amountToMainUnit };
