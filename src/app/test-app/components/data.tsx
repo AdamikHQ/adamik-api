@@ -1,8 +1,8 @@
 import { memo, useState, useCallback } from "react";
-import { API } from "../shared";
+import { API, Chain } from "../shared";
 
 type Props = {
-  chainId: string;
+  chain: Chain;
   sender: string;
   setSender: (value: any) => void;
   balance: string;
@@ -11,7 +11,7 @@ type Props = {
 };
 
 function Data({ props }: { props: Props }) {
-  const { chainId, sender, setSender, balance, setBalance, setError } = props;
+  const { chain, sender, setSender, balance, setBalance, setError } = props;
 
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +22,7 @@ function Data({ props }: { props: Props }) {
 
     fetch(`${API}/data/state`, {
       method: "POST",
-      body: JSON.stringify({ chainId: chainId, address: sender }),
+      body: JSON.stringify({ chainId: chain.id, address: sender }),
     }).then(async (response) => {
       if (response.status === 200) {
         const data = await response.json();
@@ -35,7 +35,7 @@ function Data({ props }: { props: Props }) {
       }
       setLoading(false);
     });
-  }, [chainId, sender, setBalance, setError]);
+  }, [chain, sender, setBalance, setError]);
 
   return (
     <div className="section">

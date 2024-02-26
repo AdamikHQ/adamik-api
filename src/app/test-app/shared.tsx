@@ -14,4 +14,14 @@ const FAUCETS: Map<string, string> = new Map([
   ["cosmos", "https://www.allthatnode.com/faucet/cosmos.dsrv"],
 ]);
 
+// Must match server type
+type Chain = {
+  id: string;
+  name: string;
+  family: string;
+  ticker: string;
+  magnitude: number;
+};
+
+export type { Chain };
 export { API, KEYRINGS, FAUCETS };

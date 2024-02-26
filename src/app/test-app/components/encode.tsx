@@ -1,7 +1,8 @@
 import { memo, useState, useCallback, useEffect } from "react";
-import { API } from "../shared";
+import { API, Chain } from "../shared";
 
 type Props = {
+  chain: Chain;
   transactionMode: string;
   sender: string;
   setSender: (value: any) => void;
@@ -21,6 +22,7 @@ type Props = {
 
 function Encode({ props }: { props: Props }) {
   const {
+    chain,
     transactionMode,
     sender,
     setSender,

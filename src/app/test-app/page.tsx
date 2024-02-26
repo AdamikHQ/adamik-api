@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 
+import { Chain } from "./shared";
 import Scan from "./components/scan";
 import Data from "./components/data";
 import Encode from "./components/encode";
@@ -9,21 +10,18 @@ import Broadcast from "./components/broadcast";
 
 const API: string = process.env.NEXT_PUBLIC_ADAMIK_API || "http://localhost:3000/api";
 
-// Must match server type
-type Chain = {
-  id: string;
-  name: string;
-  family: string;
-  ticker: string;
-  magnitude: number;
-};
-
 export default function Page() {
   const [error, setError] = useState("");
 
-  const [supportedChainIds, setSupportedChainIds] = useState<Set<string>>(new Set([]));
-  const [supportedChainDetails, setSupportedChainDetails] = useState<Record<string, Chain>>({});
-  const [chainId, setChainId] = useState<string>("");
+  const [supportedChainsIds, setSupportedChainsIds] = useState<Set<string>>(new Set([]));
+  const [supportedChainsDetails, setSupportedChainsDetails] = useState<Record<string, Chain>>({});
+  const [selectedChain, setSelectedChain] = useState<Chain>({
+    id: "",
+    name: "",
+    family: "",
+    ticker: "",
+    magnitude: 0,
+  });
 
   const [balance, setBalance] = useState("");
 
@@ -44,7 +42,9 @@ export default function Page() {
 
   // Retrieve all supported chain IDs from server
   useEffect(() => {
-    const fetchSupportedChainIds = async () => {
+    const fetchSupportedChainsIds = async () => {
+      setSupportedChainsIds(new Set());
+
       const response = await fetch(`${API}/chains`, {
         method: "GET",
       });
@@ -52,10 +52,7 @@ export default function Page() {
       if (response.status === 200) {
         const data = await response.json();
         if (Array.isArray(data)) {
-          setSupportedChainIds(new Set(data));
-          if (data.length) {
-            setChainId(data[0]);
-          }
+          setSupportedChainsIds(new Set(data));
         }
       } else {
         console.error("supported chains - backend error:", response.statusText);
@@ -63,16 +60,16 @@ export default function Page() {
       }
     };
 
-    fetchSupportedChainIds();
-  }, [setSupportedChainIds, setChainId, setError]);
+    fetchSupportedChainsIds();
+  }, []);
 
   // Retreive details of each supported chain ID from server
   useEffect(() => {
-    const fetchSupportedChainDetails = async () => {
-      setSupportedChainDetails({});
+    const fetchSupportedChainsDetails = async () => {
+      setSupportedChainsDetails({});
       const chains: Record<string, Chain> = {};
       await Promise.all(
-        Array.from(supportedChainIds).map(async (chainId) => {
+        Array.from(supportedChainsIds).map(async (chainId) => {
           const response = await fetch(`${API}/chains/${chainId}`, {
             method: "GET",
           });
@@ -87,15 +84,18 @@ export default function Page() {
         })
       );
 
-      setSupportedChainDetails(chains);
+      setSupportedChainsDetails(chains);
+      setSelectedChain(Object.values(chains)[0]);
     };
 
-    fetchSupportedChainDetails();
-  }, [supportedChainIds, setSupportedChainDetails, setError]);
+    if (supportedChainsIds.size) {
+      fetchSupportedChainsDetails();
+    }
+  }, [supportedChainsIds]);
 
   useEffect(() => {
     const transaction: any = {
-      chainId,
+      chainId: selectedChain.id,
       mode: transactionMode,
       useMaxAmount,
     };
@@ -117,7 +117,7 @@ export default function Page() {
     }
 
     setPlainTransaction(transaction);
-  }, [chainId, transactionMode, sender, recipient, amount, fees, gas, useMaxAmount]);
+  }, [selectedChain, transactionMode, sender, recipient, amount, fees, gas, useMaxAmount]);
 
   return (
     <div>
@@ -130,8 +130,14 @@ export default function Page() {
       )}
       <label>Chain ID</label>
       <br />
-      <select defaultValue={chainId} id="chain-id" onChange={(e) => setChainId(e.target.value)}>
-        {Object.entries(supportedChainDetails).map(([, chain]) => {
+      <select
+        defaultValue={selectedChain.id}
+        id="chain-id"
+        onChange={(e) => {
+          setSelectedChain(supportedChainsDetails[e.target.value]);
+        }}
+      >
+        {Object.entries(supportedChainsDetails).map(([, chain]) => {
           return (
             <option key={chain.id} value={chain.id}>
               {chain.name}
@@ -143,7 +149,7 @@ export default function Page() {
       <br />
       <Scan
         props={{
-          chainId,
+          chain: selectedChain,
           setSender,
           setRecipient,
           setError,
@@ -151,7 +157,7 @@ export default function Page() {
       />
       <Data
         props={{
-          chainId,
+          chain: selectedChain,
           sender,
           setSender,
           balance,
@@ -161,6 +167,7 @@ export default function Page() {
       />
       <Encode
         props={{
+          chain: selectedChain,
           transactionMode,
           sender,
           setSender,
@@ -180,7 +187,7 @@ export default function Page() {
       />
       <Sign
         props={{
-          chainId,
+          chain: selectedChain,
           sender,
           computedAmount,
           fees,

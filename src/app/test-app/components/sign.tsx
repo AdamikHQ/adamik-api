@@ -1,9 +1,9 @@
 import { memo, useState, useCallback, useEffect } from "react";
 import { Keyring } from "../keyring/types";
-import { KEYRINGS } from "../shared";
+import { Chain, KEYRINGS } from "../shared";
 
 type Props = {
-  chainId: string;
+  chain: Chain;
   sender: string;
   computedAmount: string;
   fees: string;
@@ -14,14 +14,14 @@ type Props = {
 };
 
 function Sign({ props }: { props: Props }) {
-  const { chainId, computedAmount, fees, gas, encodedTransaction, setSignature, setError } = props;
+  const { chain, computedAmount, fees, gas, encodedTransaction, setSignature, setError } = props;
 
   const [loading, setLoading] = useState(false);
   const [keyring, setKeyring] = useState<Keyring | undefined>(undefined);
 
   useEffect(() => {
-    setKeyring(KEYRINGS.get(chainId));
-  }, [chainId]);
+    setKeyring(KEYRINGS.get(chain.id));
+  }, [chain.id]);
 
   const sign = useCallback(async () => {
     setLoading(true);
@@ -30,7 +30,7 @@ function Sign({ props }: { props: Props }) {
 
     try {
       if (!keyring) {
-        throw new Error(`No keyring for chain: ${chainId}`);
+        throw new Error(`No keyring for chain: ${chain.id}`);
       }
 
       const { signature: signatureBuffer } = await keyring.signTransaction({
@@ -48,7 +48,7 @@ function Sign({ props }: { props: Props }) {
       setError(`Error! App returned an error. Wrong app?`);
     }
     setLoading(false);
-  }, [chainId, keyring, encodedTransaction, setSignature, setError]);
+  }, [chain.id, keyring, encodedTransaction, setSignature, setError]);
 
   return (
     <div className="section">
