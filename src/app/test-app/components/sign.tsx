@@ -1,6 +1,6 @@
 import { memo, useState, useCallback, useEffect } from "react";
 import { Keyring } from "../keyring/types";
-import { Chain, KEYRINGS } from "../shared";
+import { Chain, KEYRINGS, amountToMainUnit } from "../shared";
 
 type Props = {
   chain: Chain;
@@ -52,19 +52,19 @@ function Sign({ props }: { props: Props }) {
 
   return (
     <div className="section">
-      <label>Amount (in satoshis)</label>
+      <label>Amount (in {chain.ticker})</label>
       <br />
-      <div>{computedAmount}</div>
-      <br />
-
-      <label>Fees (in satoshis)</label>
-      <br />
-      <div>{fees}</div>
+      <div>{amountToMainUnit(computedAmount, chain.magnitude)}</div>
       <br />
 
-      <label>Gas (in satoshis)</label>
+      <label>Fees (in {chain.ticker})</label>
       <br />
-      <div>{gas}</div>
+      <div>{amountToMainUnit(fees, chain.magnitude)}</div>
+      <br />
+
+      <label>Gas (in {chain.ticker})</label>
+      <br />
+      <div>{amountToMainUnit(gas, chain.magnitude)}</div>
       <br />
 
       <label>Encoded transaction</label>

@@ -43,7 +43,7 @@ function Encode({ props }: { props: Props }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    useMaxAmount ? setAmount("") : setAmount("1000");
+    setAmount("");
   }, [useMaxAmount, setAmount]);
 
   const encode = useCallback(async () => {
@@ -114,13 +114,17 @@ function Encode({ props }: { props: Props }) {
       <br />
       <br />
 
-      <label>Amount (in satoshis)</label>
+      <label>Amount (in {chain.ticker})</label>
       <br />
       <input
         id="amount"
         className="input-text"
         value={useMaxAmount ? "" : amount}
-        onChange={(e) => setAmount(e.target.value)}
+        onChange={(e) => {
+          if (!isNaN(+e.target.value)) {
+            setAmount(e.target.value);
+          }
+        }}
         disabled={useMaxAmount}
       />
       <input type="checkbox" onChange={(e) => setUseMaxAmount(e.target.checked)} />

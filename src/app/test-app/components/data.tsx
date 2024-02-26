@@ -1,5 +1,5 @@
 import { memo, useState, useCallback } from "react";
-import { API, Chain } from "../shared";
+import { API, Chain, amountToMainUnit } from "../shared";
 
 type Props = {
   chain: Chain;
@@ -45,9 +45,9 @@ function Data({ props }: { props: Props }) {
       <br />
       <br />
 
-      <label>Balance (in satoshis)</label>
+      <label>Balance (in {chain.ticker})</label>
       <br />
-      <div>{balance}</div>
+      <div>{amountToMainUnit(balance, chain.magnitude)}</div>
       <br />
 
       <div className="vertically-centered">
