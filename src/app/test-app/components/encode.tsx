@@ -1,5 +1,5 @@
 import { memo, useState, useCallback, useEffect } from "react";
-import { API, Chain } from "../shared";
+import { API_URL, AUTH_HEADER, Chain } from "../shared";
 
 type Props = {
   chain: Chain;
@@ -54,7 +54,8 @@ function Encode({ props }: { props: Props }) {
     setGas("");
     setEncodedTransaction("");
 
-    fetch(`${API}/transaction/encode`, {
+    fetch(`${API_URL}/transaction/encode`, {
+      headers: AUTH_HEADER,
       method: "POST",
       body: JSON.stringify({ transaction: plainTransaction }),
     }).then(async (response) => {
@@ -133,7 +134,7 @@ function Encode({ props }: { props: Props }) {
       <br />
 
       <div className="vertically-centered">
-        <button disabled={loading} type="submit" onClick={encode}>
+        <button disabled={loading || !chain.id} type="submit" onClick={encode}>
           ENCODE
         </button>
         {loading && (
