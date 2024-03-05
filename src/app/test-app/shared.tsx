@@ -1,6 +1,8 @@
 import { Keyring } from "./keyring/types";
 import { AlgorandKeyring } from "./keyring/Algorand";
 import { CosmosKeyring } from "./keyring/Cosmos";
+import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
+import TransportWebBLE from "@ledgerhq/hw-transport-web-ble";
 
 const API: string = process.env.NEXT_PUBLIC_ADAMIK_API || "http://localhost:3000/api";
 
@@ -23,6 +25,11 @@ type Chain = {
   magnitude: number;
 };
 
+async function getTransport() {
+  const bluetoothAvailable = await TransportWebBLE.isSupported();
+  return bluetoothAvailable ? TransportWebBLE.create() : TransportWebUSB.create();
+}
+
 // Helpers to convert from/to user-convenient format in main unit, and smallest unit of the chain
 // FIXME Magnitude could be a server-side concern
 function amountToSmallestUnit(amount: string, magnitude: number): string | null {
@@ -36,4 +43,4 @@ function amountToMainUnit(amount: string, magnitude: number): string | null {
 }
 
 export type { Chain };
-export { API, KEYRINGS, FAUCETS, amountToSmallestUnit, amountToMainUnit };
+export { API, KEYRINGS, FAUCETS, getTransport, amountToSmallestUnit, amountToMainUnit };

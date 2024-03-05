@@ -1,6 +1,6 @@
 import { Keyring } from "./types";
-import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 import { CosmosApp as LedgerApp } from "@zondax/ledger-cosmos-js";
+import { getTransport } from "../shared";
 
 const DEFAULT_PATH = "44'/118'/0'/0/0";
 
@@ -14,7 +14,7 @@ const CosmosKeyring: Keyring = {
     derivationPath: string;
     chainPrefix: string;
   }) {
-    const transport = await TransportWebUSB.create();
+    const transport = await getTransport();
     const ledgerApp = new LedgerApp(transport);
 
     const pathNodes = getPathNodes(derivationPath);
@@ -31,7 +31,7 @@ const CosmosKeyring: Keyring = {
   },
 
   async signTransaction({ derivationPath = DEFAULT_PATH, transaction }) {
-    const transport = await TransportWebUSB.create();
+    const transport = await getTransport();
     const ledgerApp = new LedgerApp(transport);
 
     const pathNodes = getPathNodes(derivationPath);
