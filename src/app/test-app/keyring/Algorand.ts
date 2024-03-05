@@ -1,12 +1,12 @@
 import { Keyring } from "./types";
-import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 import LedgerApp from "@ledgerhq/hw-app-algorand";
+import { getTransport } from "../shared";
 
 const DEFAULT_PATH = "44'/283'/0'/0/0";
 
 const AlgorandKeyring: Keyring = {
   async getAddress({ derivationPath = DEFAULT_PATH }) {
-    const transport = await TransportWebUSB.create();
+    const transport = await getTransport();
     const ledgerApp = new LedgerApp(transport);
 
     const { publicKey, address } = await ledgerApp.getAddress(derivationPath, false);
@@ -18,7 +18,7 @@ const AlgorandKeyring: Keyring = {
   },
 
   async signTransaction({ derivationPath = DEFAULT_PATH, transaction }) {
-    const transport = await TransportWebUSB.create();
+    const transport = await getTransport();
     const ledgerApp = new LedgerApp(transport);
 
     const { signature } = await ledgerApp.sign(derivationPath, transaction);
