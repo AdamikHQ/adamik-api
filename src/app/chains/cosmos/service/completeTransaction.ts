@@ -2,7 +2,7 @@ import { PlainTransaction } from "~/app/model/types_WIP";
 import { getEstimatedFees } from "../logic";
 import { fetchBalance } from "../backend/node";
 
-// FIXME Make sure heavy functions aren't called multiple times / unnecessarily
+// TODO Make sure heavy functions aren't called multiple times / unnecessarily
 // (buildTransaction, network calls, etc...)
 
 async function completeTransaction(transaction: PlainTransaction): Promise<PlainTransaction> {
@@ -10,7 +10,6 @@ async function completeTransaction(transaction: PlainTransaction): Promise<Plain
   const { gasWanted, gasWantedFees } = await getEstimatedFees({
     ...transaction,
     amount: transaction.useMaxAmount ? balance - 2500n : transaction.amount, // FIXME Magic number !
-    memo: transaction.memo,
   });
 
   const amount = transaction.useMaxAmount
