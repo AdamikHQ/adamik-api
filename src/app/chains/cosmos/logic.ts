@@ -94,44 +94,42 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
   const protoMsgs: Array<ProtoMsg> = [];
   switch (transaction.mode) {
     case "transfer":
-      if (transaction.recipients[0] && transaction.amount > 0n) {
-        const aminoMsg: AminoMsgSend = {
-          type: "cosmos-sdk/MsgSend",
-          value: {
-            from_address: transaction.senders[0],
-            to_address: transaction.recipients[0],
-            amount: [
-              {
-                denom: "uatom", // FIXME Need CAL
-                amount: transaction.amount.toString(),
-              },
-            ],
-          },
-        };
-        aminoMsgs.push(aminoMsg);
+      const aminoMsg: AminoMsgSend = {
+        type: "cosmos-sdk/MsgSend",
+        value: {
+          from_address: transaction.senders[0],
+          to_address: transaction.recipients[0],
+          amount: [
+            {
+              denom: "uatom", // FIXME Need CAL
+              amount: transaction.amount.toString(),
+            },
+          ],
+        },
+      };
+      aminoMsgs.push(aminoMsg);
 
-        // PROTO MESSAGE
-        const protoMsg = {
-          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
-          value: ProtoMsgSend.encode({
-            fromAddress: transaction.senders[0],
-            toAddress: transaction.recipients[0],
-            amount: [
-              {
-                denom: "uatom", // FIXME Need CAL
-                amount: transaction.amount.toString(),
-              },
-            ],
-          }).finish(),
-        };
-        protoMsgs.push(protoMsg);
-      }
+      // PROTO MESSAGE
+      const protoMsg = {
+        typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+        value: ProtoMsgSend.encode({
+          fromAddress: transaction.senders[0],
+          toAddress: transaction.recipients[0],
+          amount: [
+            {
+              denom: "uatom", // FIXME Need CAL
+              amount: transaction.amount.toString(),
+            },
+          ],
+        }).finish(),
+      };
+      protoMsgs.push(protoMsg);
       break;
     /*
     case "delegate":
-      if (transaction.validators && transaction.validators.length > 0) {
+      //if (transaction.validators && transaction.validators.length > 0) {
         const validator = transaction.validators[0];
-        if (validator && validator.address && transaction.amount.gt(0)) {
+        //if (validator && validator.address && transaction.amount.gt(0)) {
           const aminoMsg: AminoMsgDelegate = {
             type: "cosmos-sdk/MsgDelegate",
             value: {
@@ -157,18 +155,12 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
               },
             }).finish(),
           });
-        }
-      }
+        //}
+      //}
       break;
 
     case "redelegate":
-      if (
-        transaction.sourceValidator &&
-        transaction.validators &&
-        transaction.validators.length > 0 &&
-        transaction.validators[0].address &&
-        transaction.validators[0].amount.gt(0)
-      ) {
+      //if (transaction.sourceValidator && transaction.validators && transaction.validators.length > 0 && transaction.validators[0].address && transaction.validators[0].amount.gt(0)) {
         const validator = transaction.validators[0];
         const aminoMsg: AminoMsgBeginRedelegate = {
           type: "cosmos-sdk/MsgBeginRedelegate",
@@ -197,13 +189,13 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
             },
           }).finish(),
         });
-      }
+      //}
       break;
 
     case "undelegate":
-      if (transaction.validators && transaction.validators.length > 0) {
+      //if (transaction.validators && transaction.validators.length > 0) {
         const validator = transaction.validators[0];
-        if (validator && validator.address && validator.amount.gt(0)) {
+        //if (validator && validator.address && validator.amount.gt(0)) {
           const aminoMsg: AminoMsgUndelegate = {
             type: "cosmos-sdk/MsgUndelegate",
             value: {
@@ -229,11 +221,11 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
               },
             }).finish(),
           });
-        }
-      }
+        //}
+      //}
       break;
     case "claimReward":
-      if (transaction.validators && transaction.validators.length > 0 && transaction.validators[0].address) {
+      //if (transaction.validators && transaction.validators.length > 0 && transaction.validators[0].address) {
         const validator = transaction.validators[0];
         const aminoMsg: AminoMsgWithdrawDelegatorReward = {
           type: "cosmos-sdk/MsgWithdrawDelegationReward",
@@ -252,15 +244,10 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
             validatorAddress: validator.address,
           }).finish(),
         });
-      }
+      //}
       break;
     case "claimRewardCompound":
-      if (
-        transaction.validators &&
-        transaction.validators.length > 0 &&
-        transaction.validators[0].address &&
-        transaction.validators[0].amount.gt(0)
-      ) {
+      //if (transaction.validators && transaction.validators.length > 0 && transaction.validators[0].address && transaction.validators[0].amount.gt(0)) {
         const validator = transaction.validators[0];
         // AMINO MESSAGES
         const aminoWithdrawRewardMsg: AminoMsgWithdrawDelegatorReward = {
@@ -302,7 +289,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
             },
           }).finish(),
         });
-      }
+      //}
       break;
       */
   }

@@ -27,7 +27,7 @@ async function validateTransactionIntent(transaction: PlainTransaction): Promise
 
   switch (transaction.mode) {
     case "transfer": {
-      if (!transaction.amount && !transaction.useMaxAmount) {
+      if (transaction.amount === undefined && !transaction.useMaxAmount) {
         errors.push({ message: "Missing amount or useMaxAmount" });
       } else if (!!transaction.amount && transaction.useMaxAmount) {
         errors.push({
