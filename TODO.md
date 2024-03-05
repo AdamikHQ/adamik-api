@@ -1,8 +1,7 @@
-
 ##### TEST APP #####
 OK - CSS
 OK - React components
-- split into a separate project & package.json
+- split into a separate project & package.json --> need API versioning first?
 # Integrations
 - POC intégration ADAMIK dans Ledger Live
 
@@ -54,10 +53,13 @@ KO - validateTransaction always calls validateTransactionIntent ?
 - review all tx types of all chains in Live
 
 ##### API #####
-- API key
+OK - API key /!\ will be leaked through network tab --> need authentication too ? or allowed origins ?
+- Rate limiting (https://stackoverflow.com/a/76968268/1160527)
 - version in url !
-- ChainId as path param --> enables running separate services for each chain, if needed
+OK - ChainId as path param --> enables running separate services for each chain, if needed
 - merge path '/data/' into '/address/' ?
 # ADVANCED
 - pubkeyToAddress: endpoint should take more param to set the key type to return (algorithm?, multisig?...)
 
+##### MAINTENANCE #####
+- Update dependencies versions

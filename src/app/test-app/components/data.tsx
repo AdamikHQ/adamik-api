@@ -1,5 +1,5 @@
 import { memo, useState, useCallback } from "react";
-import { API, Chain, amountToMainUnit } from "../shared";
+import { API_URL, AUTH_HEADER, Chain, amountToMainUnit } from "../shared";
 
 type Props = {
   chain: Chain;
@@ -20,7 +20,8 @@ function Data({ props }: { props: Props }) {
     setError("");
     setBalance("");
 
-    fetch(`${API}/data/state`, {
+    fetch(`${API_URL}/data/state`, {
+      headers: AUTH_HEADER,
       method: "POST",
       body: JSON.stringify({ chainId: chain.id, address: sender }),
     }).then(async (response) => {
@@ -51,7 +52,7 @@ function Data({ props }: { props: Props }) {
       <br />
 
       <div className="vertically-centered">
-        <button disabled={loading} type="submit" onClick={getData}>
+        <button disabled={loading || !chain.id} type="submit" onClick={getData}>
           GET DATA
         </button>
         {loading && (

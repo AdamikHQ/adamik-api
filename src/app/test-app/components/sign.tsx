@@ -73,7 +73,7 @@ function Sign({ props }: { props: Props }) {
       <br />
 
       <div className="vertically-centered">
-        <button disabled={loading || !encodedTransaction.length} type="submit" onClick={sign}>
+        <button disabled={loading || !chain.id || !encodedTransaction.length} type="submit" onClick={sign}>
           SIGN
         </button>
         {loading && (

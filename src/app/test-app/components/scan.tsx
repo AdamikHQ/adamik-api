@@ -53,7 +53,7 @@ function Scan({ props }: { props: Props }) {
       <br />
 
       <div className="vertically-centered">
-        <button disabled={loading} type="submit" onClick={scan}>
+        <button disabled={loading || !chain.id} type="submit" onClick={scan}>
           GET ADDRESS
         </button>
         {loading && (

@@ -1,14 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 
-import { Chain, amountToSmallestUnit } from "./shared";
+import { API_URL, AUTH_HEADER, Chain, amountToSmallestUnit } from "./shared";
 import Scan from "./components/scan";
 import Data from "./components/data";
 import Encode from "./components/encode";
 import Sign from "./components/sign";
 import Broadcast from "./components/broadcast";
-
-const API: string = process.env.NEXT_PUBLIC_ADAMIK_API || "http://localhost:3000/api";
 
 export default function Page() {
   const [error, setError] = useState("");
@@ -45,7 +43,8 @@ export default function Page() {
     const fetchSupportedChainsIds = async () => {
       setSupportedChainsIds(new Set());
 
-      const response = await fetch(`${API}/chains`, {
+      const response = await fetch(`${API_URL}/chains`, {
+        headers: AUTH_HEADER,
         method: "GET",
       });
 
@@ -70,7 +69,8 @@ export default function Page() {
       const chains: Record<string, Chain> = {};
       await Promise.all(
         Array.from(supportedChainsIds).map(async (chainId) => {
-          const response = await fetch(`${API}/chains/${chainId}`, {
+          const response = await fetch(`${API_URL}/chains/${chainId}`, {
+            headers: AUTH_HEADER,
             method: "GET",
           });
 
@@ -84,8 +84,10 @@ export default function Page() {
         })
       );
 
-      setSupportedChainsDetails(chains);
-      setSelectedChain(Object.values(chains)[0]);
+      if (Object.keys(chains).length) {
+        setSupportedChainsDetails(chains);
+        setSelectedChain(Object.values(chains)[0]);
+      }
     };
 
     if (supportedChainsIds.size) {
@@ -94,6 +96,10 @@ export default function Page() {
   }, [supportedChainsIds]);
 
   useEffect(() => {
+    if (!selectedChain) {
+      return;
+    }
+
     const transaction: any = {
       chainId: selectedChain.id,
       mode: transactionMode,
@@ -144,10 +150,10 @@ export default function Page() {
       <label>Chain ID</label>
       <br />
       <select
-        defaultValue={selectedChain.id}
+        defaultValue={selectedChain?.id}
         id="chain-id"
         onChange={(e) => {
-          setSelectedChain(supportedChainsDetails[e.target.value]);
+          supportedChainsDetails && setSelectedChain(supportedChainsDetails[e.target.value]);
         }}
       >
         {Object.entries(supportedChainsDetails).map(([, chain]) => {
@@ -212,6 +218,7 @@ export default function Page() {
       />
       <Broadcast
         props={{
+          chain: selectedChain,
           plainTransaction,
           encodedTransaction,
           signature,

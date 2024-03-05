@@ -1,7 +1,8 @@
 import { memo, useState, useCallback } from "react";
-import { API } from "../shared";
+import { API_URL, AUTH_HEADER, Chain } from "../shared";
 
 type Props = {
+  chain: Chain;
   plainTransaction: unknown;
   encodedTransaction: string;
   signature: string;
@@ -10,7 +11,7 @@ type Props = {
 };
 
 function Broadcast({ props }: { props: Props }) {
-  const { plainTransaction, encodedTransaction, signature, setTransactionHash, setError } = props;
+  const { chain, plainTransaction, encodedTransaction, signature, setTransactionHash, setError } = props;
 
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +20,8 @@ function Broadcast({ props }: { props: Props }) {
     setError("");
     setTransactionHash("");
 
-    const response = await fetch(`${API}/transaction/broadcast`, {
+    const response = await fetch(`${API_URL}/transaction/broadcast`, {
+      headers: AUTH_HEADER,
       method: "POST",
       body: JSON.stringify({
         transaction: {
@@ -39,7 +41,7 @@ function Broadcast({ props }: { props: Props }) {
 
     if (response?.error) {
       console.error("broadcast - backend error:", response.error);
-      setError(`Error! ${response.error}`);
+      setError(`Error! ${JSON.stringify(response.error)}`);
     } else if (typeof response?.hash === "string") {
       setTransactionHash(response.hash);
     }
@@ -54,7 +56,7 @@ function Broadcast({ props }: { props: Props }) {
       <br />
 
       <div className="vertically-centered">
-        <button disabled={loading} type="submit" onClick={broadcast}>
+        <button disabled={loading || !chain.id} type="submit" onClick={broadcast}>
           BROADCAST
         </button>
         {loading && (

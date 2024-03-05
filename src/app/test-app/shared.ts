@@ -4,7 +4,20 @@ import { CosmosKeyring } from "./keyring/Cosmos";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 import TransportWebBLE from "@ledgerhq/hw-transport-web-ble";
 
-const API: string = process.env.NEXT_PUBLIC_ADAMIK_API || "http://localhost:3000/api";
+const API_URL: string =
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+    ? "https://adamik-poc.vercel.app/api"
+    : process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}/api`
+    : "http://localhost:3000/api";
+
+// For debugging - FIXME Use env files instead?
+//const API: string = "https://192.168.1.150:3000/api";
+//const API: string = "https://localhost:3000/api";
+
+const AUTH_HEADER: HeadersInit = {
+  "X-API-KEY": process.env.NEXT_PUBLIC_DEFAULT_API_KEY || "",
+};
 
 const KEYRINGS: Map<string, Keyring> = new Map([
   ["algorand", AlgorandKeyring],
@@ -43,4 +56,4 @@ function amountToMainUnit(amount: string, magnitude: number): string | null {
 }
 
 export type { Chain };
-export { API, KEYRINGS, FAUCETS, getTransport, amountToSmallestUnit, amountToMainUnit };
+export { API_URL, AUTH_HEADER, KEYRINGS, FAUCETS, getTransport, amountToSmallestUnit, amountToMainUnit };
