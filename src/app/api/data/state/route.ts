@@ -1,6 +1,6 @@
 import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
-import { services } from "~/app/chains/services";
+import { services } from "~/app/families/services";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   // TODO validation/sanitization (validateAddress)

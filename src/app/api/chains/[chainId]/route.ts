@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ChainId } from "~/app/model/types_WIP";
-import { chains } from "~/app/chains/definitions";
+import { chains } from "~/app/families/definitions";
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const urlNodes = request.url.split("/");
