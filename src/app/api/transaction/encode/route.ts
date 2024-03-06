@@ -1,7 +1,7 @@
 import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
-import { services } from "~/app/chains/services";
+import { services } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {

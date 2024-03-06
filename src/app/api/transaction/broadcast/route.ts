@@ -2,7 +2,7 @@ import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { Transaction } from "~/app/model/types_WIP";
 import { stringToBigint } from "~/app/model/serialization";
-import { services } from "~/app/chains/services";
+import { services } from "~/app/families/services";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   // TODO validation/sanitization (zod)

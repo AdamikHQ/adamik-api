@@ -9,10 +9,7 @@ import {
   makePaymentTxnWithSuggestedParams,
 } from "algosdk";
 import { PlainTransaction, TransactionMode } from "~/app/model/types_WIP";
-import {
-  fetchAccount,
-  fetchTransactionParams,
-} from "~/app/chains/algorand/backend/node";
+import { fetchAccount, fetchTransactionParams } from "~/app/families/algorand/backend/node";
 
 // TODO Keep this file as a fourre-tout or split it?
 
@@ -30,10 +27,7 @@ const SINGLE_SIGNATURE_SIZE = 71;
 function encodeAddress(address: Uint8Array): string {
   const checksum = sha512.sha512_256
     .array(address)
-    .slice(
-      PUBLIC_KEY_LENGTH - ALGORAND_CHECKSUM_BYTE_LENGTH,
-      PUBLIC_KEY_LENGTH
-    );
+    .slice(PUBLIC_KEY_LENGTH - ALGORAND_CHECKSUM_BYTE_LENGTH, PUBLIC_KEY_LENGTH);
   const addr = base32.encode(concatArrays(address, checksum));
 
   return addr.toString().slice(0, ALGORAND_ADDRESS_LENGTH);
@@ -66,31 +60,21 @@ function computeAlgoMaxSpendable({
   return maxSpendable >= 0 ? maxSpendable : 0n;
 }
 
-function computeMinimumAlgoBalance(
-  mode: TransactionMode,
-  nbAccountAssets: number
-): number {
+function computeMinimumAlgoBalance(mode: TransactionMode, nbAccountAssets: number): number {
   const base = 100000; // 0.1 ALGO = 100000 mALGO
   const currentAssets = nbAccountAssets;
   const newAsset = mode === "optIn" ? 1 : 0;
   return base * (1 + currentAssets + newAsset);
 }
 
-async function isAmountValidForRecipient(
-  recipientAddress: string,
-  amount: bigint
-): Promise<boolean> {
+async function isAmountValidForRecipient(recipientAddress: string, amount: bigint): Promise<boolean> {
   const recipientAccount = await fetchAccount(recipientAddress);
-  return recipientAccount.balance === 0n
-    ? amount >= ALGORAND_MIN_ACCOUNT_BALANCE
-    : true;
+  return recipientAccount.balance === 0n ? amount >= ALGORAND_MIN_ACCOUNT_BALANCE : true;
 }
 
 // NOTE Voluntarily ignoring fees
 // TODO rename
-async function estimateMaxSpendable(
-  transaction: PlainTransaction
-): Promise<bigint> {
+async function estimateMaxSpendable(transaction: PlainTransaction): Promise<bigint> {
   const tx: PlainTransaction = {
     //...createTransaction(transaction.mode),
     ...transaction,
@@ -111,24 +95,19 @@ async function estimateMaxSpendable(
 }
 
 // TODO rename
-async function getEstimatedFees(
-  transaction: PlainTransaction
-): Promise<bigint> {
+async function getEstimatedFees(transaction: PlainTransaction): Promise<bigint> {
   const params = await fetchTransactionParams();
 
   let suggestedFees = 0;
   if (params.fee) {
     const payload = await buildRawTransaction(transaction);
     const encoded = encodeToSign(payload);
-    suggestedFees =
-      params.fee * (Buffer.from(encoded, "hex").length + SINGLE_SIGNATURE_SIZE);
+    suggestedFees = params.fee * (Buffer.from(encoded, "hex").length + SINGLE_SIGNATURE_SIZE);
   }
   return BigInt(Math.max(suggestedFees, params.minFee));
 }
 
-async function buildRawTransaction(
-  transaction: PlainTransaction
-): Promise<AlgoEncodedTransaction> {
+async function buildRawTransaction(transaction: PlainTransaction): Promise<AlgoEncodedTransaction> {
   // TODO Validation of these fields
   const { amount, senders, recipients, mode, memo } = transaction;
 
@@ -163,10 +142,7 @@ function encodeToSign(payload: AlgoEncodedTransaction): string {
   return Buffer.from(msgPackEncoded).toString("hex");
 }
 
-function encodeToBroadcast(
-  payload: AlgoEncodedTransaction,
-  signature: Buffer
-): Buffer {
+function encodeToBroadcast(payload: AlgoEncodedTransaction, signature: Buffer): Buffer {
   const signedPayload: AlgoEncodedSignedTransaction = {
     sig: signature,
     txn: payload,
