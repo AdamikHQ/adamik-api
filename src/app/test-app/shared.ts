@@ -6,7 +6,7 @@ import TransportWebBLE from "@ledgerhq/hw-transport-web-ble";
 
 const API_URL: string =
   process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-    ? "https://adamik-poc.vercel.app/api"
+    ? "https://adamik.vercel.app/api"
     : process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
     ? `https://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}/api`
     : "http://localhost:3000/api";
