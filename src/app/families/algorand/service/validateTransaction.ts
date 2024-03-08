@@ -1,9 +1,12 @@
 import { isValidAddress } from "algosdk";
-import { PlainTransaction, TransactionStatus, ErrorMsg } from "~/app/model/types_WIP";
+import { PlainTransaction, TransactionStatus, ErrorMsg, ChainId } from "~/app/model/types_WIP";
 import { ALGORAND_MAX_MEMO_SIZE, isAmountValidForRecipient, estimateMaxSpendable } from "../logic";
 
 // FIXME Same implem as cosmos... something to make generic?
-async function validateTransactionIntent(transaction: PlainTransaction): Promise<TransactionStatus> {
+async function validateTransactionIntent(
+  chainId: ChainId,
+  transaction: PlainTransaction
+): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];
   const warnings: ErrorMsg[] = [];
 
@@ -46,7 +49,10 @@ async function validateTransactionIntent(transaction: PlainTransaction): Promise
 }
 
 // FIXME Should useMaxAmount be considered in this function?... or just the amount, whatever it is?
-async function validateTransaction(transaction: PlainTransaction): Promise<TransactionStatus> {
+async function validateTransaction(
+  chainId: ChainId,
+  transaction: PlainTransaction
+): Promise<TransactionStatus> {
   // TODO Settle this (should validateTransaction call validateTransactionIntent first?)
   //*
   const errors: ErrorMsg[] = [];

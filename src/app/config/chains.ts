@@ -1,0 +1,74 @@
+import { ChainId, Chain } from "../model/types_WIP";
+
+const CHAINS: Record<ChainId, Chain> = {
+  algorand: {
+    id: ChainId.ALGORAND,
+    family: "algorand",
+    name: "Algorand",
+    units: [
+      {
+        name: "ALGO",
+        code: "algo",
+        decimals: 6,
+      },
+    ],
+    backends: {
+      nodeURL: "https://algorand.coin.ledger.com/ps2/v2",
+      explorerURL: "https://algorand.coin.ledger.com/idx2/v2",
+    },
+  },
+  cosmoshub: {
+    id: ChainId.COSMOSHUB,
+    family: "cosmos",
+    name: "CosmosHub",
+    units: [
+      {
+        name: "ATOM",
+        code: "atom",
+        decimals: 6,
+      },
+      {
+        name: "Micro-ATOM",
+        code: "uatom",
+        decimals: 0,
+      },
+    ],
+    backends: {
+      nodeURL: "https://cosmos-rest.publicnode.com",
+    },
+    params: {
+      prefix: "cosmos",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+  },
+  osmosis: {
+    id: ChainId.OSMOSIS,
+    family: "cosmos",
+    name: "Osmosis",
+    units: [
+      {
+        name: "OSMO",
+        code: "osmo",
+        decimals: 6,
+      },
+      {
+        name: "Micro-OSMO",
+        code: "uosmo",
+        decimals: 0,
+      },
+    ],
+    backends: {
+      nodeURL: "https://lcd.osmosis.zone",
+    },
+    params: {
+      prefix: "osmo",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+  },
+};
+
+export { CHAINS };

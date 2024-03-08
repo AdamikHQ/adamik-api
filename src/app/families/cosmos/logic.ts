@@ -19,22 +19,20 @@ import { MsgSend as ProtoMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 //import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
 import { ChainId, PlainTransaction, Transaction } from "~/app/model/types_WIP";
-import { fetchAccount, fetchChainId, simulateTransaction } from "./backend/node";
-import { COSMOS_PARAMS, COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY } from "./constants";
+import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
+import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY } from "./constants";
+import { CHAINS } from "~/app/config/chains";
 
 // TODO Keep this file as a fourre-tout or split it?
 
-function isValidAddress(address: string) {
-  // FIXME Take this as function param instead
-  const chainId = ChainId.COSMOS;
-
+function isValidAddress(chainId: ChainId, address: string) {
   try {
     bech32.decode(address);
   } catch (e) {
     return false;
   }
 
-  const prefix = COSMOS_PARAMS.get(chainId)?.prefix;
+  const prefix = CHAINS[chainId].params?.prefix;
   if (!prefix || !address.startsWith(prefix)) {
     return false;
   }
@@ -42,17 +40,20 @@ function isValidAddress(address: string) {
   return true;
 }
 
-async function getEstimatedFees(transaction: PlainTransaction): Promise<{
+async function getEstimatedFees(
+  chainId: ChainId,
+  transaction: PlainTransaction
+): Promise<{
   gasWanted: bigint;
   gasWantedFees: bigint;
 }> {
-  const chainParams = COSMOS_PARAMS.get(transaction.chainId);
+  const chainParams = CHAINS[transaction.chainId].params;
   if (!chainParams) {
     throw new Error(`Unsupported chain: ${transaction.chainId}`);
   }
 
   const { protoMsgs } = getMessages(transaction);
-  const { sequence, pubKeyType, pubKey } = await fetchAccount(transaction.senders[0]);
+  const { sequence, pubKeyType, pubKey } = await fetchAccount(chainId, transaction.senders[0]);
   const dummySignature = new Uint8Array(Buffer.from(COSMOS_MOCK_PUBKEY, "hex"));
 
   const txBytes = buildBroadcastPayload({
@@ -71,12 +72,11 @@ async function getEstimatedFees(transaction: PlainTransaction): Promise<{
       const payload = JSON.stringify({
         tx_bytes: Array.from(txBytes),
       });
-      return await simulateTransaction(payload);
+      return await simulateTransaction(chainId, payload);
     } catch (e) {
       console.error("Failed to estimate gas usage during tx simulation. Error:", e);
     }
 
-    // TODO Proper CAL, to support more than ATOM
     return BigInt(chainParams.defaultGas);
   })();
 
@@ -90,6 +90,8 @@ async function getEstimatedFees(transaction: PlainTransaction): Promise<{
 }
 
 function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; protoMsgs: ProtoMsg[] } {
+  const chain = CHAINS[transaction.chainId];
+
   const aminoMsgs: Array<AminoMsg> = [];
   const protoMsgs: Array<ProtoMsg> = [];
   switch (transaction.mode) {
@@ -101,7 +103,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           to_address: transaction.recipients[0],
           amount: [
             {
-              denom: "uatom", // FIXME Need CAL
+              denom: chain.units[chain.units.length - 1].code,
               amount: transaction.amount.toString(),
             },
           ],
@@ -117,7 +119,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           toAddress: transaction.recipients[0],
           amount: [
             {
-              denom: "uatom", // FIXME Need CAL
+              denom: chain.units[chain.units.length - 1].code,
               amount: transaction.amount.toString(),
             },
           ],
@@ -296,17 +298,19 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
   return { aminoMsgs, protoMsgs };
 }
 
-async function buildSignPayload(transaction: PlainTransaction): Promise<StdSignDoc> {
+async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction): Promise<StdSignDoc> {
   if (!transaction.fees) {
     throw new Error("Transaction lacks fees information");
   } else if (!transaction.gas) {
     throw new Error("Transaction lacks gas information");
   }
 
+  const chain = CHAINS[transaction.chainId];
+
   const feeToEncode = {
     amount: [
       {
-        denom: "uatom", // TODO CAL + family
+        denom: chain.units[chain.units.length - 1].code,
         amount: transaction.fees.toString(),
       },
     ],
@@ -314,13 +318,13 @@ async function buildSignPayload(transaction: PlainTransaction): Promise<StdSignD
   };
 
   const { aminoMsgs } = getMessages(transaction);
-  const chainId = await fetchChainId();
-  const { accountNumber, sequence } = await fetchAccount(transaction.senders[0]);
+  const networkId = await fetchNetworkId(chainId);
+  const { accountNumber, sequence } = await fetchAccount(chainId, transaction.senders[0]);
 
   return makeSignDoc(
     aminoMsgs,
     feeToEncode,
-    chainId,
+    networkId,
     transaction.memo || "",
     accountNumber.toString(),
     sequence.toString()
@@ -385,15 +389,15 @@ function buildBroadcastPayload({
   return signedTx;
 }
 
-async function encodeToSign(transaction: PlainTransaction): Promise<string> {
+async function encodeToSign(chainId: ChainId, transaction: PlainTransaction): Promise<string> {
   // NOTE Providing payload for an Amino signer (like Ledger)
   // Need to provide payload for Protobuf signer as well?...
-  const signDoc = await buildSignPayload(transaction);
+  const signDoc = await buildSignPayload(chainId, transaction);
 
   return Buffer.from(serializeSignDoc(signDoc)).toString("hex");
 }
 
-async function encodeToBroadcast(signedTransaction: Transaction): Promise<string> {
+async function encodeToBroadcast(chainId: ChainId, signedTransaction: Transaction): Promise<string> {
   if (!signedTransaction.signature) {
     throw new Error("Transaction lacks signature");
   }
@@ -405,8 +409,8 @@ async function encodeToBroadcast(signedTransaction: Transaction): Promise<string
   const plainTransation = signedTransaction.plain;
 
   const { protoMsgs } = getMessages(plainTransation);
-  const { pubKeyType, pubKey } = await fetchAccount(plainTransation.senders[0]);
-  const signDoc = await buildSignPayload(plainTransation);
+  const { pubKeyType, pubKey } = await fetchAccount(chainId, plainTransation.senders[0]);
+  const signDoc = await buildSignPayload(chainId, plainTransation);
 
   const txBytes = buildBroadcastPayload({
     protoMsgs,

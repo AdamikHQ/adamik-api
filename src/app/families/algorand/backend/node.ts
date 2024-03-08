@@ -1,11 +1,10 @@
-import { ChainId } from "~/app/model/types_WIP";
-import { NODES } from "~/app/config/constants";
+import { CHAINS } from "~/app/config/chains";
 import { AlgoAccount, AlgoAsset, AlgoTransactionParams, AlgoTransactionBroadcastResponse } from "./types";
 
 // TODO Caching !
 // TODO Sanitize data from backend
 
-const ROOT_URL = NODES.get(ChainId.ALGORAND);
+const ROOT_URL = CHAINS.algorand.backends.nodeURL;
 
 async function fetchAccount(address: string): Promise<AlgoAccount> {
   const url = `${ROOT_URL}/accounts/${address}`;

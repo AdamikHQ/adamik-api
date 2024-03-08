@@ -15,6 +15,7 @@ type Props = {
 
 function Sign({ props }: { props: Props }) {
   const { chain, computedAmount, fees, gas, encodedTransaction, setSignature, setError } = props;
+  const unit = chain.units[0];
 
   const [loading, setLoading] = useState(false);
   const [keyring, setKeyring] = useState<Keyring | undefined>(undefined);
@@ -52,19 +53,19 @@ function Sign({ props }: { props: Props }) {
 
   return (
     <div className="section">
-      <label>Amount (in {chain.ticker})</label>
+      <label>Amount (in {unit.name})</label>
       <br />
-      <div>{amountToMainUnit(computedAmount, chain.magnitude)}</div>
-      <br />
-
-      <label>Fees (in {chain.ticker})</label>
-      <br />
-      <div>{amountToMainUnit(fees, chain.magnitude)}</div>
+      <div>{amountToMainUnit(computedAmount, unit.decimals)}</div>
       <br />
 
-      <label>Gas (in {chain.ticker})</label>
+      <label>Fees (in {unit.name})</label>
       <br />
-      <div>{amountToMainUnit(gas, chain.magnitude)}</div>
+      <div>{amountToMainUnit(fees, unit.decimals)}</div>
+      <br />
+
+      <label>Gas (in {unit.name})</label>
+      <br />
+      <div>{amountToMainUnit(gas, unit.decimals)}</div>
       <br />
 
       <label>Encoded transaction</label>

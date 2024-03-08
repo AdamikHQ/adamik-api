@@ -1,11 +1,14 @@
-import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
+import { ChainId, PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { encodeToSign, encodeToBroadcast } from "../logic";
 
-async function encodeTransactionToSign(transaction: PlainTransaction): Promise<string> {
-  return encodeToSign(transaction);
+async function encodeTransactionToSign(chainId: ChainId, transaction: PlainTransaction): Promise<string> {
+  return encodeToSign(chainId, transaction);
 }
 
-async function encodeTransactionToBroadcast(signedTransaction: Transaction): Promise<string> {
+async function encodeTransactionToBroadcast(
+  chainId: ChainId,
+  signedTransaction: Transaction
+): Promise<string> {
   // FIXME keep string or include into Transaction's fields?...
   if (!signedTransaction.encoded) {
     throw new Error("encodeTransactionToBroadcast - Expected signedTransaction.encoded");
@@ -14,7 +17,7 @@ async function encodeTransactionToBroadcast(signedTransaction: Transaction): Pro
     throw new Error("encodeTransactionToBroadcast - Expected signedTransaction.signature");
   }
 
-  return encodeToBroadcast(signedTransaction);
+  return encodeToBroadcast(chainId, signedTransaction);
 }
 
 export { encodeTransactionToSign, encodeTransactionToBroadcast };

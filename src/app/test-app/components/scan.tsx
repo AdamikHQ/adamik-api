@@ -30,7 +30,7 @@ function Scan({ props }: { props: Props }) {
     }
 
     try {
-      const { address } = await keyring.getAddress({ chainPrefix: chain.id });
+      const { address } = await keyring.getAddress({ chainPrefix: chain.params?.prefix });
       if (address) {
         setSender(address);
         setRecipient(address);

@@ -1,31 +1,35 @@
-import { COSMOS_NODE_URL } from "../constants";
+import { CHAINS } from "~/app/config/chains";
 import { CosmosAccount } from "./types";
+import { ChainId } from "~/app/model/types_WIP";
 
 // TODO Caching !
 // TODO Sanitize data from backend
 
-async function fetchBalance(address: string): Promise<bigint> {
-  const url = `${COSMOS_NODE_URL}/cosmos/bank/v1beta1/balances/${address}`;
+const getRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
+
+async function fetchBalance(chainId: ChainId, address: string): Promise<bigint> {
+  const url = `${getRootUrl(chainId)}/cosmos/bank/v1beta1/balances/${address}`;
+  const units = CHAINS[chainId].units;
+  const denom = units[units.length - 1].code; // Last unit is the smallest, by convention
 
   const data = await fetch(url).then((response) => response.json());
 
   return data.balances.reduce(
     (sum: bigint, item: { denom: string; amount: string }) =>
-      // TODO Proper CAL, to support more than ATOM
-      item.denom === "uatom" ? sum + BigInt(item.amount) : sum,
+      item.denom === denom ? sum + BigInt(item.amount) : sum,
     0n
   );
 }
 
-async function fetchAccount(address: string): Promise<CosmosAccount> {
+async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAccount> {
   const accountData = {
     accountNumber: 0n,
     sequence: 0n,
-    pubKeyType: "/cosmos.crypto.secp256k1.PubKey", // TODO CAL + proper family (different value for Injective)
+    pubKeyType: CHAINS[chainId].params?.defaultPubKeyType || "",
     pubKey: "",
   };
 
-  const url = `${COSMOS_NODE_URL}/cosmos/auth/v1beta1/accounts/${address}`;
+  const url = `${getRootUrl(chainId)}/cosmos/auth/v1beta1/accounts/${address}`;
 
   try {
     const data = await fetch(url).then((response) => response.json());
@@ -54,15 +58,15 @@ async function fetchAccount(address: string): Promise<CosmosAccount> {
   return accountData;
 }
 
-async function fetchChainId(): Promise<string> {
-  const url = `${COSMOS_NODE_URL}/cosmos/base/tendermint/v1beta1/node_info`;
+async function fetchNetworkId(chainId: ChainId): Promise<string> {
+  const url = `${getRootUrl(chainId)}/cosmos/base/tendermint/v1beta1/node_info`;
   const data = await fetch(url).then((response) => response.json());
 
   return data.default_node_info.network;
 }
 
-async function simulateTransaction(payload: string): Promise<bigint> {
-  const url = `${COSMOS_NODE_URL}/cosmos/tx/v1beta1/simulate`;
+async function simulateTransaction(chainId: ChainId, payload: string): Promise<bigint> {
+  const url = `${getRootUrl(chainId)}/cosmos/tx/v1beta1/simulate`;
   const options: RequestInit = {
     method: "POST",
     body: payload,
@@ -77,8 +81,8 @@ async function simulateTransaction(payload: string): Promise<bigint> {
   }
 }
 
-async function broadcastTransaction(payload: string): Promise<string> {
-  const url = `${COSMOS_NODE_URL}/cosmos/tx/v1beta1/txs`;
+async function broadcastTransaction(chainId: ChainId, payload: string): Promise<string> {
+  const url = `${getRootUrl(chainId)}/cosmos/tx/v1beta1/txs`;
   const options: RequestInit = {
     method: "POST",
     body: payload,
@@ -100,4 +104,4 @@ async function broadcastTransaction(payload: string): Promise<string> {
   return data.tx_response.txhash;
 }
 
-export { fetchBalance, fetchAccount, fetchChainId, simulateTransaction, broadcastTransaction };
+export { fetchBalance, fetchAccount, fetchNetworkId, simulateTransaction, broadcastTransaction };

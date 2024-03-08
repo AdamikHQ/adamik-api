@@ -1,4 +1,4 @@
-import { MAX_RECURSION } from "../config/constants";
+const MAX_RECURSION = 10;
 
 /**
  *
@@ -11,10 +11,7 @@ function stringToBigint(input: unknown, level: number = 0) {
     throw new Error("Max recursion nb reached");
   }
 
-  if (
-    !input ||
-    ["boolean", "function", "symbol", "bigint", "number"].includes(typeof input)
-  ) {
+  if (!input || ["boolean", "function", "symbol", "bigint", "number"].includes(typeof input)) {
     return input;
   }
 
@@ -53,10 +50,7 @@ function bigintToString(input: unknown, level: number = 0): unknown {
     throw new Error("Max recursion nb reached");
   }
 
-  if (
-    !input ||
-    ["boolean", "function", "symbol", "string", "number"].includes(typeof input)
-  ) {
+  if (!input || ["boolean", "function", "symbol", "string", "number"].includes(typeof input)) {
     return input;
   }
 

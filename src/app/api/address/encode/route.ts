@@ -28,8 +28,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const address = await service.pubkeyToAddress(pubkey);
+  const address = await service.pubkeyToAddress(chain.id, pubkey);
 
   return NextResponse.json(address);
-  //return new Response(JSON.stringify(address));
 }

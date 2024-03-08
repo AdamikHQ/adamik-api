@@ -11,25 +11,29 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   // FIXME Replace with JSON.parse
   const transaction: Transaction = stringToBigint(payload);
 
-  if (!transaction.signature) {
+  const {
+    signature,
+    plain: { chainId },
+  } = transaction;
+
+  if (!signature) {
     return new NextResponse(null, {
       status: 400,
       statusText: "Field `signature` is required",
     });
   }
 
-  const service = services.get(transaction.plain.chainId);
+  const service = services.get(chainId);
   if (!service) {
     return new NextResponse(null, {
       status: 501,
-      statusText: `Unsupported chain: ${transaction.plain.chainId}`,
+      statusText: `Unsupported chain: ${chainId}`,
     });
   }
 
-  const signedTransaction = await service.encodeTransactionToBroadcast(transaction);
+  const signedTransaction = await service.encodeTransactionToBroadcast(chainId, transaction);
 
-  const broadcastStatus = await service.broadcastTransaction(signedTransaction);
+  const broadcastStatus = await service.broadcastTransaction(chainId, signedTransaction);
 
   return NextResponse.json(broadcastStatus);
-  //return new Response(JSON.stringify(broadcastStatus));
 }

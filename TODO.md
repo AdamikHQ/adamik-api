@@ -2,6 +2,9 @@
 - [x] CSS
 - [x] Split React components
 - [ ] Split into a separate project & package.json --> need API versioning first?
+- [x] Bluetooth transport, to use on mobile
+- [ ] Keplr integration
+- [ ] Metamask integration
 #### Integrations
 - [ ] POC integration of ADAMIK in Ledger Live
 
@@ -58,6 +61,8 @@
 - [x] API key /!\ will be leaked through network tab --> need authentication too ? or allowed origins ?
 - [ ] Rate limiting (https://stackoverflow.com/a/76968268/1160527)
 - [ ] version in url !
+- [ ] config control over available chains
+- [ ] specific API response types, separated from model + extract them in a 'types' lib?
 - [x] ChainId as path param
 - [ ] merge path '/data/' into '/address/' ?
 #### ADVANCED
