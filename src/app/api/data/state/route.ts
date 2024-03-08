@@ -28,7 +28,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const isAddressValid = await service.validateAddress(address);
+  const isAddressValid = await service.validateAddress(chainId, address);
   if (!isAddressValid) {
     return new NextResponse(null, {
       status: 400,
@@ -36,8 +36,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const state = await service.getAddressState(address);
+  const state = await service.getAddressState(chainId, address);
 
   return NextResponse.json(state);
-  //return new Response(JSON.stringify(isValid));
 }

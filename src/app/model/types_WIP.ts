@@ -1,16 +1,34 @@
+import { CosmosParams } from "../families/cosmos/constants";
+
 // FIXME Can't be validated at runtime!
-//type ChainId = "algorand" | "cosmos";
+//type ChainId = "algorand" | "cosmoshub";
+
 enum ChainId {
   ALGORAND = "algorand",
-  COSMOS = "cosmos",
+  COSMOSHUB = "cosmoshub",
+  OSMOSIS = "osmosis",
 }
+
+type Unit = {
+  name: string;
+  code: string;
+  decimals: number;
+};
+
+type ChainParams = CosmosParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
 
 type Chain = {
   id: ChainId;
   name: string;
   family: string;
-  ticker: string; // TODO Or more evolutive 'units' array?
-  magnitude: number;
+  units: Unit[];
+  backends: Backends;
+  params?: ChainParams;
+};
+
+type Backends = {
+  nodeURL: string;
+  explorerURL?: string;
 };
 
 type AddressState = {
@@ -77,26 +95,30 @@ type ErrorMsg = {
 
 // TODO Doc for each function
 interface ChainService {
+  // Chain
+  //getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
+
   // Address
-  pubkeyToAddress(pubkey: string): Promise<string>;
-  validateAddress(address: string): Promise<boolean>;
+  pubkeyToAddress(chainId: ChainId, pubkey: string): Promise<string>;
+  validateAddress(chainId: ChainId, address: string): Promise<boolean>;
 
   // Data
-  getAddressState(address: string): Promise<AddressState>;
-  //getAddressHistory(address: string): Promise<AddressHistory>;
+  getAddressState(chainId: ChainId, address: string): Promise<AddressState>;
+  //getAddressHistory(chainId: ChainId, address: string): Promise<AddressHistory>;
 
   // Crafting
-  validateTransactionIntent(transaction: PlainTransaction): Promise<TransactionStatus>;
-  completeTransaction(transaction: PlainTransaction): Promise<PlainTransaction>;
-  validateTransaction(transaction: PlainTransaction): Promise<TransactionStatus>;
-  encodeTransactionToSign(transaction: PlainTransaction): Promise<string>;
-  encodeTransactionToBroadcast(signedTransaction: Transaction): Promise<string>;
-  broadcastTransaction(signedTransaction: string): Promise<BroadcastStatus>;
+  validateTransactionIntent(chainId: ChainId, transaction: PlainTransaction): Promise<TransactionStatus>;
+  completeTransaction(chainId: ChainId, transaction: PlainTransaction): Promise<PlainTransaction>;
+  validateTransaction(chainId: ChainId, transaction: PlainTransaction): Promise<TransactionStatus>;
+  encodeTransactionToSign(chainId: ChainId, transaction: PlainTransaction): Promise<string>;
+  encodeTransactionToBroadcast(chainId: ChainId, signedTransaction: Transaction): Promise<string>;
+  broadcastTransaction(chainId: ChainId, signedTransaction: string): Promise<BroadcastStatus>;
 }
 
 export { ChainId };
 export type {
   Chain,
+  ChainParams,
   AddressState,
   TransactionMode,
   PlainTransaction,

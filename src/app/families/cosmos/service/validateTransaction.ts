@@ -1,17 +1,20 @@
-import { PlainTransaction, TransactionStatus, ErrorMsg } from "~/app/model/types_WIP";
+import { PlainTransaction, TransactionStatus, ErrorMsg, ChainId } from "~/app/model/types_WIP";
 import { isValidAddress } from "../logic";
 
 // FIXME Same implem as algorand... something to make generic?
-async function validateTransactionIntent(transaction: PlainTransaction): Promise<TransactionStatus> {
+async function validateTransactionIntent(
+  chainId: ChainId,
+  transaction: PlainTransaction
+): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];
   const warnings: ErrorMsg[] = [];
 
-  const validSender = transaction.senders?.length && isValidAddress(transaction.senders[0]);
+  const validSender = transaction.senders?.length && isValidAddress(chainId, transaction.senders[0]);
   if (!validSender) {
     errors.push({ message: "Sender address is invalid" });
   }
 
-  const validRecipient = transaction.recipients?.length && isValidAddress(transaction.recipients[0]);
+  const validRecipient = transaction.recipients?.length && isValidAddress(chainId, transaction.recipients[0]);
   if (!validRecipient) {
     errors.push({ message: "Recipient address is invalid" });
   }
@@ -44,7 +47,10 @@ async function validateTransactionIntent(transaction: PlainTransaction): Promise
   };
 }
 
-async function validateTransaction(transaction: PlainTransaction): Promise<TransactionStatus> {
+async function validateTransaction(
+  chainId: ChainId,
+  transaction: PlainTransaction
+): Promise<TransactionStatus> {
   // TODO Settle this (should validateTransaction call validateTransactionIntent first?)
   //*
   const errors: ErrorMsg[] = [];

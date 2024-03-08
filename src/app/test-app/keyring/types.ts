@@ -1,18 +1,12 @@
 type Reader = {
-  getAddress({ derivationPath, chainPrefix }: { derivationPath?: string; chainPrefix?: string }): Promise<{
+  getAddress({ accountNb, chainPrefix }: { accountNb?: number; chainPrefix?: string }): Promise<{
     publicKey: string;
     address: string;
   }>;
 };
 
 type Writer = {
-  signTransaction({
-    derivationPath,
-    transaction,
-  }: {
-    derivationPath?: string;
-    transaction: string;
-  }): Promise<{
+  signTransaction({ accountNb, transaction }: { accountNb?: number; transaction: string }): Promise<{
     signature: null | Buffer;
     returnCode?: number | string;
   }>;

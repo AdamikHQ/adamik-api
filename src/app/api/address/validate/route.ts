@@ -28,8 +28,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const isValid = await service.validateAddress(address);
+  const isValid = await service.validateAddress(chain.id, address);
 
   return NextResponse.json(isValid);
-  //return new Response(JSON.stringify(isValid));
 }

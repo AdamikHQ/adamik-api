@@ -17,8 +17,13 @@ export default function Page() {
     id: "",
     name: "",
     family: "",
-    ticker: "",
-    magnitude: 0,
+    units: [
+      {
+        name: "",
+        code: "",
+        decimals: 0,
+      },
+    ],
   });
 
   const [balance, setBalance] = useState("");
@@ -113,7 +118,7 @@ export default function Page() {
       transaction.recipients = [recipient];
     }
     if (amount.length) {
-      transaction.amount = amountToSmallestUnit(amount, selectedChain.magnitude);
+      transaction.amount = amountToSmallestUnit(amount, selectedChain.units[0].decimals);
     }
     if (fees.length) {
       transaction.fees = fees;

@@ -11,16 +11,18 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   // FIXME Replace with JSON.parse
   const transaction: PlainTransaction = stringToBigint(payload);
 
-  const service = services.get(transaction.chainId);
+  const { chainId } = transaction;
+
+  const service = services.get(chainId);
   if (!service) {
     return new NextResponse(null, {
       status: 501,
-      statusText: `Unsupported chain: ${transaction.chainId}`,
+      statusText: `Unsupported chain: ${chainId}`,
     });
   }
 
   const processedTransaction = await (async (): Promise<Transaction> => {
-    const transactionIntentStatus = await service.validateTransactionIntent(transaction);
+    const transactionIntentStatus = await service.validateTransactionIntent(chainId, transaction);
     // FIXME Better use a throw/catch system for all kinds of errors?
     if (transactionIntentStatus.errors.length) {
       return {
@@ -29,9 +31,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       };
     }
 
-    const completedTransaction = await service.completeTransaction(transaction);
+    const completedTransaction = await service.completeTransaction(chainId, transaction);
 
-    const transactionStatus = await service.validateTransaction(completedTransaction);
+    const transactionStatus = await service.validateTransaction(chainId, completedTransaction);
 
     const fullTransactionStatus = {
       errors: transactionIntentStatus.errors.concat(transactionStatus.errors),
@@ -45,7 +47,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       };
     }
 
-    const encodedTransaction = await service.encodeTransactionToSign(completedTransaction);
+    const encodedTransaction = await service.encodeTransactionToSign(chainId, completedTransaction);
 
     return {
       plain: completedTransaction,
@@ -55,5 +57,4 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   })();
 
   return NextResponse.json(processedTransaction);
-  //return new Response(JSON.stringify(encodedTransaction));
 }

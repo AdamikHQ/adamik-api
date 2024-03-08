@@ -2,12 +2,13 @@ import { Keyring } from "./types";
 import LedgerApp from "@ledgerhq/hw-app-algorand";
 import { getTransport } from "../shared";
 
-const DEFAULT_PATH = "44'/283'/0'/0/0";
+const DERIVATION_PATH = (accountNb: number) => `44'/283'/${accountNb}'/0/0`;
 
 const AlgorandKeyring: Keyring = {
-  async getAddress({ derivationPath = DEFAULT_PATH }) {
+  async getAddress({ accountNb = 0 }: { accountNb: number }) {
     const transport = await getTransport();
     const ledgerApp = new LedgerApp(transport);
+    const derivationPath = DERIVATION_PATH(accountNb);
 
     const { publicKey, address } = await ledgerApp.getAddress(derivationPath, false);
 
@@ -17,9 +18,10 @@ const AlgorandKeyring: Keyring = {
     };
   },
 
-  async signTransaction({ derivationPath = DEFAULT_PATH, transaction }) {
+  async signTransaction({ accountNb = 0, transaction }: { accountNb: number; transaction: string }) {
     const transport = await getTransport();
     const ledgerApp = new LedgerApp(transport);
+    const derivationPath = DERIVATION_PATH(accountNb);
 
     const { signature } = await ledgerApp.sign(derivationPath, transaction);
 
@@ -29,7 +31,7 @@ const AlgorandKeyring: Keyring = {
   },
 
   getDefaultPath() {
-    return DEFAULT_PATH;
+    return DERIVATION_PATH(0);
   },
 };
 
