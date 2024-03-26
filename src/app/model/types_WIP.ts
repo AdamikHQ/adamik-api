@@ -58,6 +58,7 @@ type PlainTransaction = {
   gas?: bigint;
   nonce?: bigint;
   memo?: string;
+  format?: Format;
 };
 
 type Transaction = {
@@ -93,6 +94,8 @@ type ErrorMsg = {
   message: string;
 };
 
+export type Format = "json" | "hex";
+
 // TODO Doc for each function
 interface ChainService {
   // Chain
@@ -110,7 +113,7 @@ interface ChainService {
   validateTransactionIntent(chainId: ChainId, transaction: PlainTransaction): Promise<TransactionStatus>;
   completeTransaction(chainId: ChainId, transaction: PlainTransaction): Promise<PlainTransaction>;
   validateTransaction(chainId: ChainId, transaction: PlainTransaction): Promise<TransactionStatus>;
-  encodeTransactionToSign(chainId: ChainId, transaction: PlainTransaction): Promise<string>;
+  encodeTransactionToSign(chainId: ChainId, transaction: PlainTransaction, format?: Format): Promise<string>;
   encodeTransactionToBroadcast(chainId: ChainId, signedTransaction: Transaction): Promise<string>;
   broadcastTransaction(chainId: ChainId, signedTransaction: string): Promise<BroadcastStatus>;
 }
