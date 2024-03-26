@@ -1,8 +1,12 @@
-import { ChainId, PlainTransaction, Transaction } from "~/app/model/types_WIP";
+import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { encodeToSign, encodeToBroadcast } from "../logic";
 
-async function encodeTransactionToSign(chainId: ChainId, transaction: PlainTransaction): Promise<string> {
-  return encodeToSign(chainId, transaction);
+async function encodeTransactionToSign(
+  chainId: ChainId,
+  transaction: PlainTransaction,
+  format?: Format
+): Promise<string> {
+  return encodeToSign(chainId, transaction, format ?? "hex");
 }
 
 async function encodeTransactionToBroadcast(

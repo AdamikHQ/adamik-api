@@ -18,7 +18,7 @@ import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
 import { MsgSend as ProtoMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 //import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
-import { ChainId, PlainTransaction, Transaction } from "~/app/model/types_WIP";
+import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY } from "./constants";
 import { CHAINS } from "~/app/config/chains";
@@ -389,11 +389,18 @@ function buildBroadcastPayload({
   return signedTx;
 }
 
-async function encodeToSign(chainId: ChainId, transaction: PlainTransaction): Promise<string> {
+async function encodeToSign(
+  chainId: ChainId,
+  transaction: PlainTransaction,
+  format?: Format
+): Promise<string> {
   // NOTE Providing payload for an Amino signer (like Ledger)
   // Need to provide payload for Protobuf signer as well?...
   const signDoc = await buildSignPayload(chainId, transaction);
 
+  if (format === "json") {
+    return JSON.stringify(signDoc);
+  }
   return Buffer.from(serializeSignDoc(signDoc)).toString("hex");
 }
 

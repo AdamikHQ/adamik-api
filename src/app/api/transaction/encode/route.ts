@@ -47,7 +47,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       };
     }
 
-    const encodedTransaction = await service.encodeTransactionToSign(chainId, completedTransaction);
+    const encodedTransaction = await service.encodeTransactionToSign(
+      chainId,
+      completedTransaction,
+      transaction.format
+    );
 
     return {
       plain: completedTransaction,
