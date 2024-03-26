@@ -399,7 +399,8 @@ async function encodeToSign(
   const signDoc = await buildSignPayload(chainId, transaction);
 
   if (format === "json") {
-    return JSON.stringify(signDoc);
+    // FIXME we will need to redefine type here.
+    return signDoc as unknown as string;
   }
   return Buffer.from(serializeSignDoc(signDoc)).toString("hex");
 }
