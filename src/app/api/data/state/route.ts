@@ -1,16 +1,42 @@
-import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
-import { services } from "~/app/families/services";
 import { z, ZodError } from "zod";
+import { ZodOpenApiPathsObject } from "zod-openapi";
+import { services } from "~/app/families/services";
+import "~/app/patch";
+
+const postDataStateSchema = z.object({
+  chainId: z.string().min(1),
+  address: z.string().min(1),
+});
+
+const postDataStateSchemaResponse = z.object({
+  balances: z.object({ available: z.string() }),
+});
+
+export const dataStateSchemaConfig: ZodOpenApiPathsObject = {
+  "/api/data/state": {
+    post: {
+      requestBody: {
+        content: {
+          "application/json": { schema: postDataStateSchema },
+        },
+      },
+      responses: {
+        "200": {
+          description: "200 OK",
+          content: {
+            "application/json": { schema: postDataStateSchemaResponse },
+          },
+        },
+      },
+    },
+  },
+};
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const schema = z.object({
-    chainId: z.string().min(1),
-    address: z.string().min(1),
-  });
   const body = await request.json();
   try {
-    schema.parse(body);
+    postDataStateSchema.parse(body);
   } catch (e) {
     if (e instanceof ZodError) {
       return NextResponse.json(
