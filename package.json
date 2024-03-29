@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "openapi:gen": "tsx ./src/script/createSchema.ts"
+    "openapi:gen": "tsx ./src/script/createSchema.ts",
+    "postinstall": "pnpm run openapi:gen"
   },
   "dependencies": {
     "@cosmjs/amino": "^0.32.2",
