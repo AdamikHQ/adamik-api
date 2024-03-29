@@ -15,10 +15,7 @@ export const createSwaggerFile = () => {
     info: {
       title: "Adamik",
       version: "1.0.0",
-      description: "A simple demo for zod-openapi",
-      license: {
-        name: "MIT",
-      },
+      description: "A simple demo for adamik API (still WIP)",
     },
     components: {
       securitySchemes: {},
