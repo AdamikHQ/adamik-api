@@ -1,8 +1,8 @@
 import { stringify } from "yaml";
 import { createDocument } from "zod-openapi";
 import fs from "fs";
-import { dataStateSchemaConfig } from "~/app/api/data/state/route";
 import path from "path";
+import { dataStateSchemaConfig } from "~/app/api/data/state/schema";
 
 const document = createDocument({
   openapi: "3.1.0",
