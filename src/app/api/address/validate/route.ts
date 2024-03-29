@@ -4,12 +4,12 @@ import { services } from "~/app/families/services";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   // TODO validation/sanitization
-  const { chain, address } = await request.json();
+  const { chainId, address } = await request.json();
 
-  if (!chain) {
+  if (!chainId) {
     return new NextResponse(null, {
       status: 400,
-      statusText: "Field `chain` is required",
+      statusText: "Field `chainId` is required",
     });
   }
 
@@ -20,15 +20,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const service = services.get(chain);
+  const service = services.get(chainId);
   if (!service) {
     return new NextResponse(null, {
       status: 501,
-      statusText: `Unsupported chain: ${chain}`,
+      statusText: `Unsupported chain: ${chainId}`,
     });
   }
 
-  const isValid = await service.validateAddress(chain.id, address);
+  const isValid = await service.validateAddress(chainId, address);
 
   return NextResponse.json(isValid);
 }
