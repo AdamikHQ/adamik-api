@@ -60,7 +60,7 @@ const CHAINS: Record<ChainId, Chain> = {
       },
     ],
     backends: {
-      nodeURL: "https://lcd.osmosis.zone",
+      nodeURL: "https://g.w.lavanet.xyz:443/gateway/cos3/rest/b18879ccf0bbb32d82c6c6ee02074f8a",
     },
     params: {
       prefix: "osmo",

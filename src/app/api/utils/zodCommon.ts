@@ -20,7 +20,8 @@ export const plainTransactionSchema = z.object({
   gas: z.string().optional(),
   nonce: z.string().optional(),
   memo: z.string().optional(),
-  format: z.string().optional(),
+  format: z.string().optional(), // FIXME should not be here
+  pubKey: z.string().optional(), // FIXME should not be here
 });
 
 export const transactionStatusSchema = z.object({
