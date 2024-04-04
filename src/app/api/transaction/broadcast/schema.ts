@@ -1,7 +1,13 @@
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import { plainTransactionSchema, transactionSchema } from "../../utils/zodCommon";
+import z from "zod";
 
-export const postTransactionBroadcast = plainTransactionSchema;
+export const postTransactionBroadcast = z.object({
+  signature: z.string(),
+  plain: plainTransactionSchema,
+  format: z.string().optional(),
+  pubKey: z.string().optional()
+});
 
 export const postTransactionBroadcastResponse = transactionSchema;
 

@@ -58,7 +58,8 @@ type PlainTransaction = {
   gas?: bigint;
   nonce?: bigint;
   memo?: string;
-  format?: Format;
+  format?: Format; // FIXME should not be here
+  pubKey?: string;  // FIXME should not be here
 };
 
 type Transaction = {

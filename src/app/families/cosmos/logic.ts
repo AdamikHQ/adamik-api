@@ -4,6 +4,7 @@ import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
 import { AuthInfo, TxRaw, TxBody, Fee } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { Secp256k1Signature } from "@cosmjs/crypto";
+import { fromBase64 } from "@cosmjs/encoding";
 import { AminoMsg, StdSignDoc, makeSignDoc, serializeSignDoc } from "@cosmjs/amino";
 import {
   AminoMsgSend,
@@ -22,6 +23,7 @@ import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/type
 import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY } from "./constants";
 import { CHAINS } from "~/app/config/chains";
+import { isBase64 } from "~/app/api/utils/base64";
 
 // TODO Keep this file as a fourre-tout or split it?
 
@@ -60,7 +62,7 @@ async function getEstimatedFees(
     protoMsgs,
     memo: transaction.memo || "",
     pubKeyType,
-    pubKey,
+    pubKey: transaction.pubKey ?? pubKey,
     feeAmount: undefined,
     gasLimit: undefined,
     sequence,
@@ -366,7 +368,7 @@ function buildBroadcastPayload({
           publicKey: {
             typeUrl: pubKeyType,
             value: PubKey.encode({
-              key: Buffer.from(pubKey, "base64"),
+              key: fromBase64(pubKey),
             }).finish(),
           },
           modeInfo: {
@@ -410,9 +412,11 @@ async function encodeToBroadcast(chainId: ChainId, signedTransaction: Transactio
     throw new Error("Transaction lacks signature");
   }
 
-  const signature = Buffer.from(
-    Secp256k1Signature.fromDer(Buffer.from(signedTransaction.signature, "hex")).toFixedLength()
-  );
+  const signature = isBase64(signedTransaction.signature)
+    ? fromBase64(signedTransaction.signature)
+    : Buffer.from(
+        Secp256k1Signature.fromDer(Buffer.from(signedTransaction.signature, "hex")).toFixedLength()
+      );
 
   const plainTransation = signedTransaction.plain;
 
@@ -424,7 +428,7 @@ async function encodeToBroadcast(chainId: ChainId, signedTransaction: Transactio
     protoMsgs,
     memo: plainTransation.memo || "",
     pubKeyType,
-    pubKey,
+    pubKey: signedTransaction.plain.pubKey ?? pubKey,
     feeAmount: signDoc.fee.amount as any,
     gasLimit: BigInt(signDoc.fee.gas),
     sequence: BigInt(signDoc.sequence),
