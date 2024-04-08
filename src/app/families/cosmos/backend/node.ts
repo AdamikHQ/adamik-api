@@ -1,5 +1,5 @@
 import { CHAINS } from "~/app/config/chains";
-import { CosmosAccount } from "./types";
+import { CosmosAccount, CosmosValidator, CosmosValidatorResponse } from "./types";
 import { ChainId } from "~/app/model/types_WIP";
 
 // TODO Caching !
@@ -19,6 +19,20 @@ async function fetchBalance(chainId: ChainId, address: string): Promise<bigint> 
       item.denom === denom ? sum + BigInt(item.amount) : sum,
     0n
   );
+}
+
+async function fetchValidators(
+  chainId: ChainId,
+  offset: number,
+  limit: number
+): Promise<CosmosValidatorResponse> {
+  const url = new URL(`${getRootUrl(chainId)}/cosmos/staking/v1beta1/validators`);
+  url.searchParams.set("pagination.offset", offset.toString());
+  url.searchParams.set("pagination.limit", limit.toString());
+
+  const data: CosmosValidatorResponse = await fetch(url.toString()).then((response) => response.json());
+
+  return data;
 }
 
 async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAccount> {
@@ -104,4 +118,11 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
   return data.tx_response.txhash;
 }
 
-export { fetchBalance, fetchAccount, fetchNetworkId, simulateTransaction, broadcastTransaction };
+export {
+  fetchBalance,
+  fetchAccount,
+  fetchNetworkId,
+  simulateTransaction,
+  broadcastTransaction,
+  fetchValidators,
+};

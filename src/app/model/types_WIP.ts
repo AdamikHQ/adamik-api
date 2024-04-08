@@ -1,4 +1,5 @@
 import { CosmosParams } from "../families/cosmos/constants";
+import { ValidatorResponse } from "./validator";
 
 // FIXME Can't be validated at runtime!
 //type ChainId = "algorand" | "cosmoshub";
@@ -6,6 +7,7 @@ import { CosmosParams } from "../families/cosmos/constants";
 enum ChainId {
   ALGORAND = "algorand",
   COSMOSHUB = "cosmoshub",
+  COSMOSHUB_TESTNET = "cosmoshub-testnet",
   OSMOSIS = "osmosis",
 }
 
@@ -59,7 +61,7 @@ type PlainTransaction = {
   nonce?: bigint;
   memo?: string;
   format?: Format; // FIXME should not be here
-  pubKey?: string;  // FIXME should not be here
+  pubKey?: string; // FIXME should not be here
 };
 
 type Transaction = {
@@ -98,7 +100,7 @@ type ErrorMsg = {
 export type Format = "json" | "hex";
 
 // TODO Doc for each function
-interface ChainService {
+interface ChainService<V = any> {
   // Chain
   //getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
 
@@ -109,6 +111,7 @@ interface ChainService {
   // Data
   getAddressState(chainId: ChainId, address: string): Promise<AddressState>;
   //getAddressHistory(chainId: ChainId, address: string): Promise<AddressHistory>;
+  getValidators?(chainId: ChainId, offset: number, limit: number): Promise<ValidatorResponse<V>>;
 
   // Crafting
   validateTransactionIntent(chainId: ChainId, transaction: PlainTransaction): Promise<TransactionStatus>;
