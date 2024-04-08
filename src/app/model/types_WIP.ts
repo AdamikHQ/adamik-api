@@ -7,7 +7,6 @@ import { ValidatorResponse } from "./validator";
 enum ChainId {
   ALGORAND = "algorand",
   COSMOSHUB = "cosmoshub",
-  COSMOSHUB_TESTNET = "cosmoshub-testnet",
   OSMOSIS = "osmosis",
 }
 
