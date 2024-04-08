@@ -7,12 +7,15 @@ import { validateTransactionIntent, validateTransaction } from "./validateTransa
 import { completeTransaction } from "./completeTransaction";
 import { encodeTransactionToSign, encodeTransactionToBroadcast } from "./encodeTransaction";
 import { broadcastTransaction } from "./broadcastTransaction";
+import { getValidators } from "./getValidators";
+import { CosmosValidator } from "../backend/types";
 
-const CosmosService: ChainService = {
+const CosmosService: ChainService<CosmosValidator> = {
   pubkeyToAddress,
   validateAddress,
   getAddressState,
   //getAddressHistory,
+  getValidators,
   validateTransactionIntent,
   validateTransaction,
   completeTransaction,
