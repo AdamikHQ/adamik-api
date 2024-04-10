@@ -38,6 +38,7 @@ const CHAINS: Record<ChainId, Chain> = {
     },
     params: {
       prefix: "cosmos",
+      validatorPrefix: "cosmosvaloper",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
       minGasPrice: 0.025,
@@ -64,6 +65,34 @@ const CHAINS: Record<ChainId, Chain> = {
     },
     params: {
       prefix: "osmo",
+      validatorPrefix: "osmovaloper",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+  },
+  "cosmoshub-testnet": {
+    id: ChainId.COSMOSHUB_TESTNET,
+    family: "cosmos",
+    name: "CosmosHub Testnet",
+    units: [
+      {
+        name: "ATOM",
+        code: "atom",
+        decimals: 6,
+      },
+      {
+        name: "Micro-ATOM",
+        code: "uatom",
+        decimals: 0,
+      },
+    ],
+    backends: {
+      nodeURL: "https://api-t.cosmos.nodestake.top",
+    },
+    params: {
+      prefix: "cosmos",
+      validatorPrefix: "cosmosvaloper",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
       minGasPrice: 0.025,

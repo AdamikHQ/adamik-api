@@ -1,5 +1,6 @@
 type CosmosParams = {
   prefix: string;
+  validatorPrefix?: string;
   defaultPubKeyType: string;
   defaultGas: number;
   minGasPrice: number;

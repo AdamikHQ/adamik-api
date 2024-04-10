@@ -7,6 +7,8 @@ import { Secp256k1Signature } from "@cosmjs/crypto";
 import { fromBase64 } from "@cosmjs/encoding";
 import { AminoMsg, StdSignDoc, makeSignDoc, serializeSignDoc } from "@cosmjs/amino";
 import {
+  AminoMsgBeginRedelegate,
+  AminoMsgDelegate,
   AminoMsgSend,
   /*
   AminoMsgDelegate,
@@ -24,6 +26,7 @@ import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/nod
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY } from "./constants";
 import { CHAINS } from "~/app/config/chains";
 import { isBase64 } from "~/app/api/utils/base64";
+import { MsgBeginRedelegate, MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
 // TODO Keep this file as a fourre-tout or split it?
 
@@ -35,7 +38,11 @@ function isValidAddress(chainId: ChainId, address: string) {
   }
 
   const prefix = CHAINS[chainId].params?.prefix;
-  if (!prefix || !address.startsWith(prefix)) {
+  const validatorPrefix = CHAINS[chainId].params?.validatorPrefix;
+  if (
+    (!prefix || !address.startsWith(prefix)) &&
+    (!validatorPrefix || !address.startsWith(validatorPrefix))
+  ) {
     return false;
   }
 
@@ -129,72 +136,63 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
       };
       protoMsgs.push(protoMsg);
       break;
-    /*
     case "delegate":
-      //if (transaction.validators && transaction.validators.length > 0) {
-        const validator = transaction.validators[0];
-        //if (validator && validator.address && transaction.amount.gt(0)) {
-          const aminoMsg: AminoMsgDelegate = {
-            type: "cosmos-sdk/MsgDelegate",
-            value: {
-              delegator_address: account.freshAddress,
-              validator_address: validator.address,
-              amount: {
-                denom: account.currency.units[1].code,
-                amount: transaction.amount.toFixed(),
-              },
-            },
-          };
-          aminoMsgs.push(aminoMsg);
+      const aminoDelegateMsg: AminoMsgDelegate = {
+        type: "cosmos-sdk/MsgDelegate",
+        value: {
+          delegator_address: transaction.senders[0],
+          validator_address: transaction.validator,
+          amount: {
+            denom: chain.units[chain.units.length - 1].code,
+            amount: transaction.amount.toString(),
+          },
+        },
+      };
+      aminoMsgs.push(aminoDelegateMsg);
 
-          // PROTO MESSAGE
-          protoMsgs.push({
-            typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
-            value: MsgDelegate.encode({
-              delegatorAddress: account.freshAddress,
-              validatorAddress: validator.address,
-              amount: {
-                denom: account.currency.units[1].code,
-                amount: transaction.amount.toFixed(),
-              },
-            }).finish(),
-          });
-        //}
-      //}
+      // PROTO MESSAGE
+      protoMsgs.push({
+        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+        value: MsgDelegate.encode({
+          delegatorAddress: transaction.senders[0],
+          validatorAddress: transaction.validator,
+          amount: {
+            denom: chain.units[chain.units.length - 1].code,
+            amount: transaction.amount.toString(),
+          },
+        }).finish(),
+      });
       break;
 
     case "redelegate":
-      //if (transaction.sourceValidator && transaction.validators && transaction.validators.length > 0 && transaction.validators[0].address && transaction.validators[0].amount.gt(0)) {
-        const validator = transaction.validators[0];
-        const aminoMsg: AminoMsgBeginRedelegate = {
-          type: "cosmos-sdk/MsgBeginRedelegate",
-          value: {
-            delegator_address: account.freshAddress,
-            validator_src_address: transaction.sourceValidator,
-            validator_dst_address: validator.address,
-            amount: {
-              denom: account.currency.units[1].code,
-              amount: validator.amount.toFixed(),
-            },
+      aminoMsgs.push({
+        type: "cosmos-sdk/MsgBeginRedelegate",
+        value: {
+          delegator_address: transaction.senders[0],
+          validator_src_address: transaction.sourceValidator,
+          validator_dst_address: transaction.targetValidator,
+          amount: {
+            denom: chain.units[chain.units.length - 1].code,
+            amount: transaction.amount.toString(),
           },
-        };
-        aminoMsgs.push(aminoMsg);
+        },
+      });
 
-        // PROTO MESSAGE
-        protoMsgs.push({
-          typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
-          value: MsgBeginRedelegate.encode({
-            delegatorAddress: account.freshAddress,
-            validatorSrcAddress: transaction.sourceValidator,
-            validatorDstAddress: validator.address,
-            amount: {
-              denom: account.currency.units[1].code,
-              amount: validator.amount.toFixed(),
-            },
-          }).finish(),
-        });
-      //}
+      // PROTO MESSAGE
+      protoMsgs.push({
+        typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+        value: MsgBeginRedelegate.encode({
+          delegatorAddress: transaction.senders[0],
+          validatorSrcAddress: transaction.sourceValidator,
+          validatorDstAddress: transaction.targetValidator,
+          amount: {
+            denom: chain.units[chain.units.length - 1].code,
+            amount: transaction.amount.toString(),
+          },
+        }).finish(),
+      });
       break;
+    /*
 
     case "undelegate":
       //if (transaction.validators && transaction.validators.length > 0) {

@@ -14,17 +14,25 @@ async function validateTransactionIntent(
     errors.push({ message: "Sender address is invalid" });
   }
 
-  const validRecipient = transaction.recipients?.length && isValidAddress(chainId, transaction.recipients[0]);
-  if (!validRecipient) {
-    errors.push({ message: "Recipient address is invalid" });
-  }
+  if (transaction.mode === "transfer") {
+    const validRecipient =
+      transaction.recipients?.length && isValidAddress(chainId, transaction.recipients[0]);
+    if (!validRecipient) {
+      errors.push({ message: "Recipient address is invalid" });
+    }
 
-  if (
-    /*transaction.mode === "send" &&*/ validSender &&
-    validRecipient &&
-    transaction.senders[0] === transaction.recipients[0]
-  ) {
-    warnings.push({ message: "Same sender and recipient address" });
+    if (
+      /*transaction.mode === "send" &&*/ validSender &&
+      validRecipient &&
+      transaction.senders[0] === transaction.recipients[0]
+    ) {
+      warnings.push({ message: "Same sender and recipient address" });
+    }
+  } else if (transaction.mode === "delegate") {
+    const validValidator = transaction.validator.length && isValidAddress(chainId, transaction.validator);
+    if (!validValidator) {
+      errors.push({ message: "Validator address is invalid" });
+    }
   }
 
   switch (transaction.mode) {
