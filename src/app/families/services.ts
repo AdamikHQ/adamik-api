@@ -11,6 +11,7 @@ const services: Map<ChainId, ChainService> = new Map([
   [ChainId.ALGORAND, AlgorandService],
   [ChainId.COSMOSHUB, CosmosService],
   [ChainId.OSMOSIS, CosmosService],
+  [ChainId.COSMOSHUB_TESTNET, CosmosService],
 ]);
 
 export { services };

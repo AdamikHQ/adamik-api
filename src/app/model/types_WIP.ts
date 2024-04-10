@@ -8,6 +8,7 @@ enum ChainId {
   ALGORAND = "algorand",
   COSMOSHUB = "cosmoshub",
   OSMOSIS = "osmosis",
+  COSMOSHUB_TESTNET = "cosmoshub-testnet",
 }
 
 type Unit = {
@@ -41,16 +42,15 @@ type AddressState = {
   };
 };
 // FIXME Can't be validated at runtime!
-type TransactionMode = "transfer" | "optIn" | "claimReward";
+type TransactionMode = "transfer" | "optIn" | "claimReward" | "delegate" | "undelegate" | "redelegate";
 
 // TODO WIP
 // FIXME de/serialization types <> string
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
 // FIXME one 'PlainTransaction' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
-type PlainTransaction = {
+type CommonTransaction = {
   chainId: ChainId;
-  mode: TransactionMode;
   senders: string[];
   recipients: string[];
   amount: bigint;
@@ -62,6 +62,38 @@ type PlainTransaction = {
   format?: Format; // FIXME should not be here
   pubKey?: string; // FIXME should not be here
 };
+
+type TransferTransaction = CommonTransaction & {
+  mode: "transfer";
+};
+
+type DelegateTransaction = CommonTransaction & {
+  mode: "delegate";
+  validator: string;
+};
+
+type UndelegateTransaction = CommonTransaction & {
+  mode: "undelegate";
+  validator: string;
+};
+
+type RedelegateTransaction = CommonTransaction & {
+  mode: "redelegate";
+  sourceValidator: string;
+  targetValidator: string;
+};
+
+type ClaimRewardTransaction = CommonTransaction & {
+  mode: "claimReward";
+  validator: string;
+};
+
+type PlainTransaction =
+  | TransferTransaction
+  | DelegateTransaction
+  | UndelegateTransaction
+  | RedelegateTransaction
+  | ClaimRewardTransaction;
 
 type Transaction = {
   //metadata: TransactionMetadata // good idea or not ?

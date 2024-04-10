@@ -1,5 +1,5 @@
 import { CHAINS } from "~/app/config/chains";
-import { CosmosAccount, CosmosValidator, CosmosValidatorResponse } from "./types";
+import { CosmosAccount, CosmosValidatorResponse } from "./types";
 import { ChainId } from "~/app/model/types_WIP";
 
 // TODO Caching !
