@@ -1,6 +1,7 @@
 import { ChainId, ChainService } from "~/app/model/types_WIP";
 import { AlgorandService } from "./algorand/service";
 import { CosmosService } from "./cosmos/service";
+import { EthereumService } from "./ethereum/service";
 
 // TODO I don't like the current loose coupling Service <> Chain:
 // - it requires to move around a chain.id in almost every function
@@ -12,6 +13,9 @@ const services: Map<ChainId, ChainService> = new Map([
   [ChainId.COSMOSHUB, CosmosService],
   [ChainId.OSMOSIS, CosmosService],
   [ChainId.COSMOSHUB_TESTNET, CosmosService],
+  [ChainId.ETHEREUM, EthereumService],
+  [ChainId.SEPOLIA, EthereumService],
+  [ChainId.HOLESKY, EthereumService],
 ]);
 
 export { services };

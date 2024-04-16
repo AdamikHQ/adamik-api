@@ -9,7 +9,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const { transaction: payload } = await request.json();
 
   // FIXME Replace with JSON.parse
-  const transaction: PlainTransaction = stringToBigint(payload);
+  const transaction: PlainTransaction = {
+    ...stringToBigint(payload),
+    senders: [...payload.senders],
+    recipients: [...payload.recipients],
+    validator: payload.validator ? payload.validator : undefined,
+  };
 
   const { chainId } = transaction;
 
