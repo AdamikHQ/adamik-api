@@ -157,6 +157,26 @@ const CHAINS: Record<ChainId, Chain> = {
     },
     params: undefined,
   },
+  zksync: {
+    id: ChainId.ZKSYNC,
+    family: "ethereum",
+    name: "Ethereum",
+    units: ethereumUnits("ETH", "ether"),
+    backends: {
+      nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+    },
+    params: undefined,
+  },
+  "zksync-testnet": {
+    id: ChainId.ZKSYNC_TESTNET,
+    family: "ethereum",
+    name: "Ethereum",
+    units: ethereumUnits("ETH", "ether"),
+    backends: {
+      nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+    },
+    params: undefined,
+  }
 };
 
 export { CHAINS };
