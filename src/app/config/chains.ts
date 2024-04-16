@@ -1,5 +1,34 @@
 import { ChainId, Chain } from "../model/types_WIP";
 
+const ethereumUnits = (name: string, code: string) => [
+  {
+    name,
+    code,
+    decimals: 18,
+  },
+  {
+    name: "Gwei",
+    code: "Gwei",
+    decimals: 9,
+  },
+  {
+    name: "Mwei",
+    code: "Mwei",
+    decimals: 6,
+  },
+  {
+    name: "Kwei",
+    code: "Kwei",
+    decimals: 3,
+  },
+  {
+    name: "wei",
+    code: "wei",
+    decimals: 0,
+  },
+];
+
+
 const CHAINS: Record<ChainId, Chain> = {
   algorand: {
     id: ChainId.ALGORAND,
@@ -97,6 +126,36 @@ const CHAINS: Record<ChainId, Chain> = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
+  },
+  ethereum: {
+    id: ChainId.ETHEREUM,
+    family: "ethereum",
+    name: "Ethereum",
+    units: ethereumUnits("ETH", "ether"),
+    backends: {
+      nodeURL: "https://ethereum-rpc.publicnode.com",
+    },
+    params: undefined,
+  },
+  sepolia: {
+    id: ChainId.SEPOLIA,
+    family: "ethereum",
+    name: "Ethereum",
+    units: ethereumUnits("ETH", "ether"),
+    backends: {
+      nodeURL: "https://ethereum-sepolia-rpc.publicnode.com",
+    },
+    params: undefined,
+  },
+  holesky: {
+    id: ChainId.HOLESKY,
+    family: "ethereum",
+    name: "Ethereum",
+    units: ethereumUnits("ETH", "ether"),
+    backends: {
+      nodeURL: "https://ethereum-holesky-rpc.publicnode.com",
+    },
+    params: undefined,
   },
 };
 

@@ -9,6 +9,9 @@ enum ChainId {
   COSMOSHUB = "cosmoshub",
   OSMOSIS = "osmosis",
   COSMOSHUB_TESTNET = "cosmoshub-testnet",
+  ETHEREUM = 'ethereum',
+  SEPOLIA = 'sepolia',
+  HOLESKY = 'holesky',
 }
 
 type Unit = {
