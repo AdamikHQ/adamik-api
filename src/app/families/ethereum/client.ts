@@ -2,6 +2,7 @@ import { createPublicClient, http } from "viem";
 import { sepolia, mainnet, holesky, zkSync, zkSyncSepoliaTestnet } from "viem/chains";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
+import { injectiveTestnet } from "./chains/injective-testnet";
 
 const getChainConfig = (chainId: ChainId) => {
   switch (chainId) {
@@ -18,6 +19,8 @@ const getChainConfig = (chainId: ChainId) => {
       return { chain: zkSync, transport: http(CHAINS[chainId].backends.nodeURL) };
     case ChainId.ZKSYNC_TESTNET:
       return { chain: zkSyncSepoliaTestnet, transport: http(CHAINS[chainId].backends.nodeURL) };
+    case ChainId.INJECTIVE_TESTNET:
+      return { chain: injectiveTestnet, transport: http() };
     default:
       throw new Error("Unsupported chainId");
   }

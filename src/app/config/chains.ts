@@ -140,7 +140,7 @@ const CHAINS: Record<ChainId, Chain> = {
   sepolia: {
     id: ChainId.SEPOLIA,
     family: "ethereum",
-    name: "Ethereum",
+    name: "Sepolia",
     units: ethereumUnits("ETH", "ether"),
     backends: {
       nodeURL: "https://ethereum-sepolia-rpc.publicnode.com",
@@ -150,7 +150,7 @@ const CHAINS: Record<ChainId, Chain> = {
   holesky: {
     id: ChainId.HOLESKY,
     family: "ethereum",
-    name: "Ethereum",
+    name: "Holesky",
     units: ethereumUnits("ETH", "ether"),
     backends: {
       nodeURL: "https://ethereum-holesky-rpc.publicnode.com",
@@ -160,7 +160,7 @@ const CHAINS: Record<ChainId, Chain> = {
   zksync: {
     id: ChainId.ZKSYNC,
     family: "ethereum",
-    name: "Ethereum",
+    name: "ZkSync",
     units: ethereumUnits("ETH", "ether"),
     backends: {
       nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
@@ -170,8 +170,18 @@ const CHAINS: Record<ChainId, Chain> = {
   "zksync-testnet": {
     id: ChainId.ZKSYNC_TESTNET,
     family: "ethereum",
-    name: "Ethereum",
+    name: "ZkSync Testnet",
     units: ethereumUnits("ETH", "ether"),
+    backends: {
+      nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+    },
+    params: undefined,
+  },
+  "injective-testnet": {
+    id: ChainId.INJECTIVE_TESTNET,
+    family: "ethereum",
+    name: "Injective",
+    units: ethereumUnits("INJ", "INJ"),
     backends: {
       nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
     },
