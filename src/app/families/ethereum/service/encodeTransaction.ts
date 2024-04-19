@@ -1,28 +1,25 @@
 import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { client } from "../client";
-import { toHex } from "viem";
+import { formatEther, toHex } from "viem";
 
 async function encodeTransactionToSign(
   chainId: ChainId,
   transaction: PlainTransaction,
   format?: Format
 ): Promise<string> {
-  const signature = await client(chainId).prepareTransactionRequest({
-    account: transaction.senders[0] as `0x${string}`,
-    to: transaction.recipients[0] as `0x${string}`,
-    value: transaction.amount,
-  });
+  // FIXME: Need to get maxFeePerGas and maxPriorityFeePerGas from the client.
+  const { maxFeePerGas, maxPriorityFeePerGas } = await client(chainId).estimateFeesPerGas();
 
+  // FIXME: Parameters needed in metamask.
   const returnValue = {
-    ...signature,
-    maxPriorityFeePerGas: toHex(signature.maxPriorityFeePerGas),
-    maxFeePerGas: toHex(signature.maxFeePerGas),
-    gas: toHex(signature.gas),
+    maxPriorityFeePerGas: toHex(maxPriorityFeePerGas as bigint),
+    maxFeePerGas: toHex(maxFeePerGas as bigint),
+    value: toHex(transaction.amount),
+    account: transaction.senders[0],
+    from: transaction.senders[0],
+    to: transaction.recipients[0],
   } as any;
 
-  // these fields are not blockers in metamask, should test with other wallet
-  delete returnValue.type;
-  delete returnValue.nonce;
   // FIXME: need probably to change prototype, string seems is not always the right type
   return returnValue;
 }
