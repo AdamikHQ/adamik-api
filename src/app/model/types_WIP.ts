@@ -15,6 +15,7 @@ enum ChainId {
   HOLESKY = 'holesky',
   ZKSYNC = 'zksync',
   ZKSYNC_TESTNET = 'zksync-testnet',
+  INJECTIVE_TESTNET = 'injective-testnet',
 }
 
 type Unit = {
