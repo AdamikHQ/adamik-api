@@ -56,6 +56,10 @@ async function broadcast(payload: Buffer): Promise<string> {
     response.json()
   );
 
+  if (Object(data).hasOwnProperty("message")) {
+    throw new Error(data.message);
+  }
+  
   return data.txId;
 }
 
