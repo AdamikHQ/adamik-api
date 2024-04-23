@@ -22,6 +22,7 @@ type AlgoTransactionParams = {
 
 type AlgoTransactionBroadcastResponse = {
   txId: string;
+  message?: string;
 };
 
 export type {

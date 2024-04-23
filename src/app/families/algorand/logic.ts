@@ -7,6 +7,7 @@ import {
   Transaction as AlgoTransaction,
   EncodedTransaction as AlgoEncodedTransaction,
   makePaymentTxnWithSuggestedParams,
+  decodeSignedTransaction,
 } from "algosdk";
 import { PlainTransaction, TransactionMode } from "~/app/model/types_WIP";
 import { fetchAccount, fetchTransactionParams } from "~/app/families/algorand/backend/node";
@@ -143,13 +144,18 @@ function encodeToSign(payload: AlgoEncodedTransaction): string {
 }
 
 function encodeToBroadcast(payload: AlgoEncodedTransaction, signature: Buffer): Buffer {
-  const signedPayload: AlgoEncodedSignedTransaction = {
-    sig: signature,
-    txn: payload,
-  };
-  const msgPackEncoded = msgpackEncode(signedPayload);
+  const isSignatureEncoded = decodeSignedTransaction(signature);
+  if (isSignatureEncoded.sig) {
+    return Buffer.from(signature);
+  } else {
+    const signedPayload: AlgoEncodedSignedTransaction = {
+      sig: signature,
+      txn: payload,
+    };
+    const msgPackEncoded = msgpackEncode(signedPayload);
 
-  return Buffer.from(msgPackEncoded);
+    return Buffer.from(msgPackEncoded);
+  }
 }
 
 export {
