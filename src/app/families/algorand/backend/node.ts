@@ -56,7 +56,7 @@ async function broadcast(payload: Buffer): Promise<string> {
     response.json()
   );
 
-  if (Object(data).hasOwnProperty("message")) {
+  if (data.message) {
     throw new Error(data.message);
   }
   

@@ -145,7 +145,9 @@ function encodeToSign(payload: AlgoEncodedTransaction): string {
 
 function encodeToBroadcast(payload: AlgoEncodedTransaction, signature: Buffer): Buffer {
   const isSignatureEncoded = decodeSignedTransaction(signature);
-  if (!isSignatureEncoded.sig) {
+  if (isSignatureEncoded.sig) {
+    return Buffer.from(signature);
+  } else {
     const signedPayload: AlgoEncodedSignedTransaction = {
       sig: signature,
       txn: payload,
@@ -154,8 +156,6 @@ function encodeToBroadcast(payload: AlgoEncodedTransaction, signature: Buffer): 
 
     return Buffer.from(msgPackEncoded);
   }
-
-  return Buffer.from(signature);
 }
 
 export {
