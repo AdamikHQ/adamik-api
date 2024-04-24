@@ -2,8 +2,10 @@ import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 
 const postAddressEncodeSchemaRequest = z.object({
-  chainId: z.string(),
-  pubkey: z.string(),
+  transaction: z.object({
+    chainId: z.string(),
+    pubkey: z.string(),
+  }),
 });
 
 export const addressEncodeConfig: ZodOpenApiPathsObject = {
