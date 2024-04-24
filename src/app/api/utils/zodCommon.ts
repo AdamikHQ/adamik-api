@@ -10,18 +10,20 @@ const errorMsgSchema = z.object({
 });
 
 export const plainTransactionSchema = z.object({
-  chainId: chainIdSchema,
-  mode: transactionModeSchema,
-  senders: z.array(z.string()),
-  recipients: z.array(z.string()),
-  amount: z.string(),
-  useMaxAmount: z.boolean(),
-  fees: z.string().optional(),
-  gas: z.string().optional(),
-  nonce: z.string().optional(),
-  memo: z.string().optional(),
-  format: z.string().optional(), // FIXME should not be here
-  pubKey: z.string().optional(), // FIXME should not be here
+  transaction: z.object({
+    chainId: chainIdSchema,
+    mode: transactionModeSchema,
+    senders: z.array(z.string()),
+    recipients: z.array(z.string()),
+    amount: z.string(),
+    useMaxAmount: z.boolean(),
+    fees: z.string().optional(),
+    gas: z.string().optional(),
+    nonce: z.string().optional(),
+    memo: z.string().optional(),
+    format: z.string().optional(), // FIXME should not be here
+    pubKey: z.string().optional(), // FIXME should not be here
+  }),
 });
 
 export const transactionStatusSchema = z.object({
