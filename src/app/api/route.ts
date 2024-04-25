@@ -1,7 +1,8 @@
 import "~/app/patch";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { generateOpenAPIDoc } from "~/app/swagger/generateOpenAPIDoc";
 
-export async function GET(request: NextRequest) {
-  // TODO Return API doc?
-  return new NextResponse("TODO");
+export async function GET() {
+  const apiReference = generateOpenAPIDoc();
+  return NextResponse.json(apiReference);
 }
