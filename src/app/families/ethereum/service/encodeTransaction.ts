@@ -1,6 +1,6 @@
+import { toHex } from "viem";
 import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { client } from "../client";
-import { formatEther, toHex } from "viem";
 
 async function encodeTransactionToSign(
   chainId: ChainId,
@@ -43,4 +43,5 @@ async function encodeTransactionToBroadcast(
   }) as unknown as string;
 }
 
-export { encodeTransactionToSign, encodeTransactionToBroadcast };
+export { encodeTransactionToBroadcast, encodeTransactionToSign };
+
