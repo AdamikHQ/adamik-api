@@ -1,5 +1,10 @@
 import { ChainId, PlainTransaction } from "~/app/model/types_WIP";
 import { client } from "../client";
+import { estimateGas } from "../backend/node";
+import { getChainConfig } from "~/app/config/chains";
+import { EthereumParams } from "../constants";
+import { publicActionsL2 } from "viem/op-stack";
+import { getEstimatedFees } from "../logic";
 
 // TODO Make sure heavy functions aren't called multiple times / unnecessarily
 // (buildTransaction, network calls, etc...)
@@ -8,19 +13,29 @@ async function completeTransaction(
   chainId: ChainId,
   transaction: PlainTransaction
 ): Promise<PlainTransaction> {
-  const gas = await client(chainId).estimateGas({
-    account: transaction.senders[0] as `0x${string}`,
+  const gas = await estimateGas({
+    chainId,
     to: transaction.recipients[0] as `0x${string}`,
     value: transaction.amount,
   });
 
-  const { maxFeePerGas } = await client(chainId).estimateFeesPerGas();
+  const { maxFeePerGas } = await getEstimatedFees(chainId);
 
   if (maxFeePerGas === undefined) {
     throw new Error("maxFeePerGas is undefined");
   }
 
-  const fees = maxFeePerGas * gas;
+  const chainParams = getChainConfig<EthereumParams>(chainId);
+
+  const fees = chainParams.params?.isL2Fees
+    ? await client(chainId)
+        .extend(publicActionsL2())
+        .estimateTotalFee({
+          to: transaction.recipients[0] as `0x${string}`,
+          account: transaction.senders[0] as `0x${string}`,
+          value: transaction.amount,
+        })
+    : maxFeePerGas * gas;
 
   const amount = await (async () => {
     if (transaction.useMaxAmount) {

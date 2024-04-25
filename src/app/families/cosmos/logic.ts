@@ -23,8 +23,8 @@ import { MsgSend as ProtoMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 
 import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
-import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY } from "./constants";
-import { CHAINS } from "~/app/config/chains";
+import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, CosmosParams } from "./constants";
+import { CHAINS, getChainConfig } from "~/app/config/chains";
 import { isBase64 } from "~/app/api/utils/base64";
 import { MsgBeginRedelegate, MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
@@ -37,8 +37,10 @@ function isValidAddress(chainId: ChainId, address: string) {
     return false;
   }
 
-  const prefix = CHAINS[chainId].params?.prefix;
-  const validatorPrefix = CHAINS[chainId].params?.validatorPrefix;
+  const chainConfig = getChainConfig<CosmosParams | undefined>(chainId);
+
+  const prefix = chainConfig.params?.prefix;
+  const validatorPrefix = chainConfig.params?.validatorPrefix;
   if (
     (!prefix || !address.startsWith(prefix)) &&
     (!validatorPrefix || !address.startsWith(validatorPrefix))
@@ -56,7 +58,7 @@ async function getEstimatedFees(
   gasWanted: bigint;
   gasWantedFees: bigint;
 }> {
-  const chainParams = CHAINS[transaction.chainId].params;
+  const chainParams = getChainConfig<CosmosParams | undefined>(chainId).params;
   if (!chainParams) {
     throw new Error(`Unsupported chain: ${transaction.chainId}`);
   }
@@ -416,11 +418,15 @@ async function encodeToBroadcast(chainId: ChainId, signedTransaction: Transactio
         Secp256k1Signature.fromDer(Buffer.from(signedTransaction.signature, "hex")).toFixedLength()
       );
 
+  console.log({ signature, signedTransaction });
+
   const plainTransation = signedTransaction.plain;
 
   const { protoMsgs } = getMessages(plainTransation);
   const { pubKeyType, pubKey } = await fetchAccount(chainId, plainTransation.senders[0]);
   const signDoc = await buildSignPayload(chainId, plainTransation);
+
+  console.log({ signDoc, protoMsgs });
 
   const txBytes = buildBroadcastPayload({
     protoMsgs,

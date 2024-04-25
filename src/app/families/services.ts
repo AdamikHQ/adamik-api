@@ -19,6 +19,8 @@ const services: Map<ChainId, ChainService> = new Map([
   [ChainId.ZKSYNC, EthereumService],
   [ChainId.ZKSYNC_TESTNET, EthereumService],
   [ChainId.INJECTIVE_TESTNET, EthereumService],
+  [ChainId.BASE, EthereumService],
+  [ChainId.BASE_SEPOLIA, EthereumService],
 ]);
 
 export { services };

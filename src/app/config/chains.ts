@@ -1,4 +1,4 @@
-import { ChainId, Chain } from "../model/types_WIP";
+import { ChainId, Chain, ChainParams } from "../model/types_WIP";
 
 const ethereumUnits = (name: string, code: string) => [
   {
@@ -28,8 +28,11 @@ const ethereumUnits = (name: string, code: string) => [
   },
 ];
 
+export function getChainConfig<T>(chainId: ChainId): Chain<T> {
+  return CHAINS[chainId] as Chain<T>;
+}
 
-const CHAINS: Record<ChainId, Chain> = {
+const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   algorand: {
     id: ChainId.ALGORAND,
     family: "algorand",
@@ -183,10 +186,30 @@ const CHAINS: Record<ChainId, Chain> = {
     name: "Injective",
     units: ethereumUnits("INJ", "INJ"),
     backends: {
-      nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      nodeURL: "https://testnet.rpc.inevm.com/http",
     },
     params: undefined,
-  }
+  },
+  base: {
+    id: ChainId.BASE,
+    family: "ethereum",
+    name: "Base",
+    units: ethereumUnits("ETH", "Ether"),
+    backends: {
+      nodeURL: "https://base-mainnet.g.alchemy.com/v2/rOq_ClcjzdlIKQh-h6sMTBW9MhVBf94Z",
+    },
+    params: undefined,
+  },
+  "base-sepolia": {
+    id: ChainId.BASE_SEPOLIA,
+    family: "ethereum",
+    name: "Base Sepolia",
+    units: ethereumUnits("ETH", "Ether"),
+    backends: {
+      nodeURL: "https://sepolia.base.org",
+    },
+    params: undefined,
+  },
 };
 
 export { CHAINS };

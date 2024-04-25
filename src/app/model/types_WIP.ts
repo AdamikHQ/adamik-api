@@ -1,4 +1,5 @@
 import { CosmosParams } from "../families/cosmos/constants";
+import { EthereumParams } from "../families/ethereum/constants";
 import { ValidatorResponse } from "./validator";
 
 // FIXME Can't be validated at runtime!
@@ -10,12 +11,14 @@ enum ChainId {
   OSMOSIS = "osmosis",
   COSMOSHUB_TESTNET = "cosmoshub-testnet",
 
-  ETHEREUM = 'ethereum',
-  SEPOLIA = 'sepolia',
-  HOLESKY = 'holesky',
-  ZKSYNC = 'zksync',
-  ZKSYNC_TESTNET = 'zksync-testnet',
-  INJECTIVE_TESTNET = 'injective-testnet',
+  ETHEREUM = "ethereum",
+  SEPOLIA = "sepolia",
+  HOLESKY = "holesky",
+  ZKSYNC = "zksync",
+  ZKSYNC_TESTNET = "zksync-testnet",
+  INJECTIVE_TESTNET = "injective-testnet",
+  BASE = "base",
+  BASE_SEPOLIA = "base-sepolia",
 }
 
 type Unit = {
@@ -24,9 +27,9 @@ type Unit = {
   decimals: number;
 };
 
-type ChainParams = CosmosParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
+type ChainParams = CosmosParams | EthereumParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
 
-type Chain = {
+type Chain<ChainParams> = {
   id: ChainId;
   name: string;
   family: string;

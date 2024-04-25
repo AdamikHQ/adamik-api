@@ -1,8 +1,11 @@
 import { createPublicClient, http } from "viem";
-import { sepolia, mainnet, holesky, zkSync, zkSyncSepoliaTestnet } from "viem/chains";
+import { sepolia, mainnet, holesky, zkSync, zkSyncSepoliaTestnet, base, baseSepolia } from "viem/chains";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { injectiveTestnet } from "./chains/injective-testnet";
+import { publicActionsL2 } from "viem/op-stack";
+import { getChainConfig as getAdamikChainConfig } from "~/app/config/chains";
+import { EthereumParams } from "./constants";
 
 const getChainConfig = (chainId: ChainId) => {
   switch (chainId) {
@@ -20,7 +23,11 @@ const getChainConfig = (chainId: ChainId) => {
     case ChainId.ZKSYNC_TESTNET:
       return { chain: zkSyncSepoliaTestnet, transport: http(CHAINS[chainId].backends.nodeURL) };
     case ChainId.INJECTIVE_TESTNET:
-      return { chain: injectiveTestnet, transport: http() };
+      return { chain: injectiveTestnet, transport: http(CHAINS[chainId].backends.nodeURL) };
+    case ChainId.BASE:
+      return { chain: base, transport: http(CHAINS[chainId].backends.nodeURL) };
+    case ChainId.BASE_SEPOLIA:
+      return { chain: baseSepolia, transport: http(CHAINS[chainId].backends.nodeURL) };
     default:
       throw new Error("Unsupported chainId");
   }
