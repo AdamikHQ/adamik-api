@@ -71,9 +71,6 @@ dependencies:
   viem:
     specifier: ^2.9.16
     version: 2.9.16(typescript@5.0.2)(zod@3.22.4)
-  yaml:
-    specifier: ^2.4.1
-    version: 2.4.1
   zod:
     specifier: ^3.22.4
     version: 3.22.4

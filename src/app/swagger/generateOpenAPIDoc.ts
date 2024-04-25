@@ -1,5 +1,4 @@
-import { stringify } from "yaml";
-import { createDocument } from "zod-openapi";
+import { oas31, createDocument } from "zod-openapi";
 import { dataStateSchemaConfig } from "~/app/api/data/state/schema";
 import { addressEncodeConfig } from "../api/address/encode/schema";
 import { addressValidateConfig } from "../api/address/validate/schema";
@@ -10,13 +9,13 @@ import { transactionBroadcastConfig } from "../api/transaction/broadcast/schema"
 import { transactionEncodeConfig } from "../api/transaction/encode/schema";
 import { transactionValidateConfig } from "../api/transaction/validate/schema";
 
-export const createSwaggerFile = () => {
+function generateOpenAPIDoc(): oas31.OpenAPIObject {
   const document = createDocument({
     openapi: "3.1.0",
     info: {
       title: "Adamik",
-      version: "1.0.0",
-      description: "A simple demo for adamik API (still WIP)",
+      version: "0.1.0",
+      description: "Adamik API reference (still WIP)",
     },
     components: {
       securitySchemes: {},
@@ -39,7 +38,7 @@ export const createSwaggerFile = () => {
     },
   });
 
-  const yaml = stringify(document, { aliasDuplicateObjects: false });
+  return document;
+}
 
-  return yaml;
-};
+export { generateOpenAPIDoc };

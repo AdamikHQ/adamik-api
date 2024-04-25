@@ -2,7 +2,7 @@
 
 import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
-import { createSwaggerFile } from "./createSwaggerFile";
+import { generateOpenAPIDoc } from "./generateOpenAPIDoc";
 
 interface Request {
   [k: string]: any;
@@ -17,7 +17,7 @@ function ReactSwagger() {
           headers: { ...request.headers, "X-API-KEY": process.env.NEXT_PUBLIC_DEFAULT_API_KEY },
         };
       }}
-      spec={createSwaggerFile()}
+      spec={generateOpenAPIDoc()}
     />
   );
 }
