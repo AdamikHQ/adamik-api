@@ -1,14 +1,14 @@
 import { toHex } from "viem";
 import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { client } from "../client";
+import { getEstimatedFees } from "../logic";
 
 async function encodeTransactionToSign(
   chainId: ChainId,
   transaction: PlainTransaction,
   format?: Format
 ): Promise<string> {
-  // FIXME: Need to get maxFeePerGas and maxPriorityFeePerGas from the client.
-  const { maxFeePerGas, maxPriorityFeePerGas } = await client(chainId).estimateFeesPerGas();
+  const  { maxFeePerGas, maxPriorityFeePerGas } = await getEstimatedFees(chainId);
 
   // FIXME: Parameters needed in metamask.
   const returnValue = {
@@ -44,4 +44,3 @@ async function encodeTransactionToBroadcast(
 }
 
 export { encodeTransactionToBroadcast, encodeTransactionToSign };
-
