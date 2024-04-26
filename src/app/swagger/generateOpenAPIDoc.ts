@@ -20,12 +20,17 @@ function generateOpenAPIDoc(): oas31.OpenAPIObject {
     components: {
       securitySchemes: {
         ApiKeyAuth: {
-          type: 'apiKey',
-          in: 'header',
-          name: 'X-API-KEY',
+          type: "apiKey",
+          in: "header",
+          name: "X-API-KEY",
         },
       },
     },
+    servers: [
+      {
+        url: "https://adamik.vercel.app",
+      },
+    ],
     security: [
       {
         s2sauth: [],
