@@ -18,7 +18,13 @@ function generateOpenAPIDoc(): oas31.OpenAPIObject {
       description: "Adamik API reference (still WIP)",
     },
     components: {
-      securitySchemes: {},
+      securitySchemes: {
+        ApiKeyAuth: {
+          type: 'apiKey',
+          in: 'header',
+          name: 'X-API-KEY',
+        },
+      },
     },
     security: [
       {
