@@ -29,13 +29,13 @@ type Unit = {
 
 type ChainParams = CosmosParams | EthereumParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
 
-type Chain<ChainParams> = {
+type Chain<TParams> = {
   id: ChainId;
   name: string;
   family: string;
   units: Unit[];
   backends: Backends;
-  params?: ChainParams;
+  params?: TParams;
 };
 
 type Backends = {

@@ -1,7 +1,7 @@
 import { ChainId } from "~/app/model/types_WIP";
-import { multiplyFloat } from "~/lib/bigintmultiply";
 import { estimateMaxPriorityFeePerGas, getEthFeeHistory } from "./backend/node";
 import { ETHEREUM_GAS_AMPLIFIER } from "./constants";
+import { BigNumber } from "bignumber.js";
 
 type EstimatedFees = {
   maxFeePerGas: bigint;
@@ -19,10 +19,14 @@ export const getEstimatedFees = async (chainId: ChainId): Promise<EstimatedFees>
     ]);
 
     const nextBaseFee = BigInt(feeHistory.baseFeePerGas[feeHistory.baseFeePerGas.length - 1]);
+    const maxFeePerGas = new BigNumber(nextBaseFee.toString())
+      .times(ETHEREUM_GAS_AMPLIFIER)
+      .integerValue(BigNumber.ROUND_CEIL)
+      .plus(maxPriorityFeePerGas.toString());
 
     return {
       maxPriorityFeePerGas,
-      maxFeePerGas: multiplyFloat(nextBaseFee, ETHEREUM_GAS_AMPLIFIER) + maxPriorityFeePerGas,
+      maxFeePerGas: BigInt(maxFeePerGas.toFixed()),
     };
   } catch (error) {
     throw new Error(`getEstimatedFees: ${error}`);

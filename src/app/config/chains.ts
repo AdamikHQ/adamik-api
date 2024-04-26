@@ -28,8 +28,8 @@ const ethereumUnits = (name: string, code: string) => [
   },
 ];
 
-export function getChainConfig<T>(chainId: ChainId): Chain<T> {
-  return CHAINS[chainId] as Chain<T>;
+export function getChain<TParams>(chainId: ChainId): Chain<TParams> {
+  return CHAINS[chainId] as Chain<TParams>;
 }
 
 const CHAINS: Record<ChainId, Chain<ChainParams>> = {
@@ -138,7 +138,6 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://ethereum-rpc.publicnode.com",
     },
-    params: undefined,
   },
   sepolia: {
     id: ChainId.SEPOLIA,
@@ -148,7 +147,6 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://ethereum-sepolia-rpc.publicnode.com",
     },
-    params: undefined,
   },
   holesky: {
     id: ChainId.HOLESKY,
@@ -158,7 +156,6 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://ethereum-holesky-rpc.publicnode.com",
     },
-    params: undefined,
   },
   zksync: {
     id: ChainId.ZKSYNC,
@@ -168,7 +165,6 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
     },
-    params: undefined,
   },
   "zksync-testnet": {
     id: ChainId.ZKSYNC_TESTNET,
@@ -178,7 +174,6 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
     },
-    params: undefined,
   },
   "injective-testnet": {
     id: ChainId.INJECTIVE_TESTNET,
@@ -188,7 +183,6 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://testnet.rpc.inevm.com/http",
     },
-    params: undefined,
   },
   base: {
     id: ChainId.BASE,
@@ -198,7 +192,6 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://base-mainnet.g.alchemy.com/v2/rOq_ClcjzdlIKQh-h6sMTBW9MhVBf94Z",
     },
-    params: undefined,
   },
   "base-sepolia": {
     id: ChainId.BASE_SEPOLIA,
@@ -208,7 +201,6 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://sepolia.base.org",
     },
-    params: undefined,
   },
 };
 

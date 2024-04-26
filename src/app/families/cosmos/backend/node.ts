@@ -1,4 +1,4 @@
-import { CHAINS, getChainConfig } from "~/app/config/chains";
+import { CHAINS, getChain } from "~/app/config/chains";
 import { CosmosAccount, CosmosValidatorResponse } from "./types";
 import { ChainId } from "~/app/model/types_WIP";
 import { CosmosParams } from "../constants";
@@ -37,7 +37,7 @@ async function fetchValidators(
 }
 
 async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAccount> {
-  const params = getChainConfig<CosmosParams>(chainId).params;
+  const params = getChain<CosmosParams>(chainId).params;
   const accountData = {
     accountNumber: 0n,
     sequence: 0n,

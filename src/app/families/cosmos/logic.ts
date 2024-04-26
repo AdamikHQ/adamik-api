@@ -7,10 +7,10 @@ import { Secp256k1Signature } from "@cosmjs/crypto";
 import { fromBase64 } from "@cosmjs/encoding";
 import { AminoMsg, StdSignDoc, makeSignDoc, serializeSignDoc } from "@cosmjs/amino";
 import {
-  AminoMsgBeginRedelegate,
   AminoMsgDelegate,
   AminoMsgSend,
   /*
+  AminoMsgBeginRedelegate,
   AminoMsgDelegate,
   AminoMsgUndelegate,
   AminoMsgBeginRedelegate,
@@ -24,7 +24,7 @@ import { MsgSend as ProtoMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, CosmosParams } from "./constants";
-import { CHAINS, getChainConfig } from "~/app/config/chains";
+import { CHAINS, getChain } from "~/app/config/chains";
 import { isBase64 } from "~/app/api/utils/base64";
 import { MsgBeginRedelegate, MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
@@ -37,7 +37,7 @@ function isValidAddress(chainId: ChainId, address: string) {
     return false;
   }
 
-  const chainConfig = getChainConfig<CosmosParams | undefined>(chainId);
+  const chainConfig = getChain<CosmosParams>(chainId);
 
   const prefix = chainConfig.params?.prefix;
   const validatorPrefix = chainConfig.params?.validatorPrefix;
@@ -58,7 +58,7 @@ async function getEstimatedFees(
   gasWanted: bigint;
   gasWantedFees: bigint;
 }> {
-  const chainParams = getChainConfig<CosmosParams | undefined>(chainId).params;
+  const chainParams = getChain<CosmosParams>(chainId).params;
   if (!chainParams) {
     throw new Error(`Unsupported chain: ${transaction.chainId}`);
   }
@@ -417,8 +417,6 @@ async function encodeToBroadcast(chainId: ChainId, signedTransaction: Transactio
     : Buffer.from(
         Secp256k1Signature.fromDer(Buffer.from(signedTransaction.signature, "hex")).toFixedLength()
       );
-
-  console.log({ signature, signedTransaction });
 
   const plainTransation = signedTransaction.plain;
 

@@ -3,11 +3,8 @@ import { sepolia, mainnet, holesky, zkSync, zkSyncSepoliaTestnet, base, baseSepo
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { injectiveTestnet } from "./chains/injective-testnet";
-import { publicActionsL2 } from "viem/op-stack";
-import { getChainConfig as getAdamikChainConfig } from "~/app/config/chains";
-import { EthereumParams } from "./constants";
 
-const getChainConfig = (chainId: ChainId) => {
+const getClientConfig = (chainId: ChainId) => {
   switch (chainId) {
     case ChainId.SEPOLIA:
       return {
@@ -34,5 +31,5 @@ const getChainConfig = (chainId: ChainId) => {
 };
 
 export const client = (chainId: ChainId) => {
-  return createPublicClient(getChainConfig(chainId));
+  return createPublicClient(getClientConfig(chainId));
 };
