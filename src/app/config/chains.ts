@@ -1,4 +1,4 @@
-import { ChainId, Chain } from "../model/types_WIP";
+import { ChainId, Chain, ChainParams } from "../model/types_WIP";
 
 const ethereumUnits = (name: string, code: string) => [
   {
@@ -28,8 +28,11 @@ const ethereumUnits = (name: string, code: string) => [
   },
 ];
 
+export function getChain<TParams>(chainId: ChainId): Chain<TParams> {
+  return CHAINS[chainId] as Chain<TParams>;
+}
 
-const CHAINS: Record<ChainId, Chain> = {
+const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   algorand: {
     id: ChainId.ALGORAND,
     family: "algorand",
@@ -135,7 +138,6 @@ const CHAINS: Record<ChainId, Chain> = {
     backends: {
       nodeURL: "https://ethereum-rpc.publicnode.com",
     },
-    params: undefined,
   },
   sepolia: {
     id: ChainId.SEPOLIA,
@@ -145,7 +147,6 @@ const CHAINS: Record<ChainId, Chain> = {
     backends: {
       nodeURL: "https://ethereum-sepolia-rpc.publicnode.com",
     },
-    params: undefined,
   },
   holesky: {
     id: ChainId.HOLESKY,
@@ -155,7 +156,6 @@ const CHAINS: Record<ChainId, Chain> = {
     backends: {
       nodeURL: "https://ethereum-holesky-rpc.publicnode.com",
     },
-    params: undefined,
   },
   zksync: {
     id: ChainId.ZKSYNC,
@@ -165,7 +165,6 @@ const CHAINS: Record<ChainId, Chain> = {
     backends: {
       nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
     },
-    params: undefined,
   },
   "zksync-testnet": {
     id: ChainId.ZKSYNC_TESTNET,
@@ -175,7 +174,6 @@ const CHAINS: Record<ChainId, Chain> = {
     backends: {
       nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
     },
-    params: undefined,
   },
   "injective-testnet": {
     id: ChainId.INJECTIVE_TESTNET,
@@ -183,10 +181,27 @@ const CHAINS: Record<ChainId, Chain> = {
     name: "Injective",
     units: ethereumUnits("INJ", "INJ"),
     backends: {
-      nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      nodeURL: "https://testnet.rpc.inevm.com/http",
     },
-    params: undefined,
-  }
+  },
+  base: {
+    id: ChainId.BASE,
+    family: "ethereum",
+    name: "Base",
+    units: ethereumUnits("ETH", "Ether"),
+    backends: {
+      nodeURL: "https://base-mainnet.g.alchemy.com/v2/rOq_ClcjzdlIKQh-h6sMTBW9MhVBf94Z",
+    },
+  },
+  "base-sepolia": {
+    id: ChainId.BASE_SEPOLIA,
+    family: "ethereum",
+    name: "Base Sepolia",
+    units: ethereumUnits("ETH", "Ether"),
+    backends: {
+      nodeURL: "https://sepolia.base.org",
+    },
+  },
 };
 
 export { CHAINS };

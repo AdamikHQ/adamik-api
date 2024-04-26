@@ -1,10 +1,10 @@
 import { createPublicClient, http } from "viem";
-import { sepolia, mainnet, holesky, zkSync, zkSyncSepoliaTestnet } from "viem/chains";
+import { sepolia, mainnet, holesky, zkSync, zkSyncSepoliaTestnet, base, baseSepolia } from "viem/chains";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { injectiveTestnet } from "./chains/injective-testnet";
 
-const getChainConfig = (chainId: ChainId) => {
+const getClientConfig = (chainId: ChainId) => {
   switch (chainId) {
     case ChainId.SEPOLIA:
       return {
@@ -20,12 +20,16 @@ const getChainConfig = (chainId: ChainId) => {
     case ChainId.ZKSYNC_TESTNET:
       return { chain: zkSyncSepoliaTestnet, transport: http(CHAINS[chainId].backends.nodeURL) };
     case ChainId.INJECTIVE_TESTNET:
-      return { chain: injectiveTestnet, transport: http() };
+      return { chain: injectiveTestnet, transport: http(CHAINS[chainId].backends.nodeURL) };
+    case ChainId.BASE:
+      return { chain: base, transport: http(CHAINS[chainId].backends.nodeURL) };
+    case ChainId.BASE_SEPOLIA:
+      return { chain: baseSepolia, transport: http(CHAINS[chainId].backends.nodeURL) };
     default:
       throw new Error("Unsupported chainId");
   }
 };
 
 export const client = (chainId: ChainId) => {
-  return createPublicClient(getChainConfig(chainId));
+  return createPublicClient(getClientConfig(chainId));
 };
