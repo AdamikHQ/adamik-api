@@ -33,7 +33,7 @@ function generateOpenAPIDoc(): oas31.OpenAPIObject {
     ],
     security: [
       {
-        s2sauth: [],
+        ApiKeyAuth: [],
       },
     ],
     paths: {
