@@ -1,4 +1,4 @@
-import { getClient } from "../client";
+import { client } from "../client";
 import { ChainId } from "~/app/model/types_WIP";
 
 export async function getAddressState(chainId: ChainId, address: string) {

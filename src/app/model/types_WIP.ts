@@ -1,5 +1,5 @@
 import { CosmosParams } from "../families/cosmos/constants";
-import { EthereumParams } from "../families/ethereum/constants";
+import { EvmParams } from "../families/evm/constants";
 import { ValidatorResponse } from "./validator";
 
 // FIXME Can't be validated at runtime!
@@ -10,7 +10,6 @@ enum ChainId {
   COSMOSHUB = "cosmoshub",
   OSMOSIS = "osmosis",
   COSMOSHUB_TESTNET = "cosmoshub-testnet",
-
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",
   HOLESKY = "holesky",
@@ -27,7 +26,7 @@ type Unit = {
   decimals: number;
 };
 
-type ChainParams = CosmosParams | EthereumParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
+type ChainParams = CosmosParams | EvmParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
 
 type Chain<TParams> = {
   id: ChainId;

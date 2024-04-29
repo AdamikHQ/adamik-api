@@ -2,7 +2,7 @@ import { ChainId, PlainTransaction } from "~/app/model/types_WIP";
 import { client } from "../client";
 import { estimateGas } from "../backend/node";
 import { getChain } from "~/app/config/chains";
-import { EthereumParams } from "../constants";
+import { EvmParams } from "../constants";
 import { publicActionsL2 } from "viem/op-stack";
 import { getEstimatedFees } from "../logic";
 
@@ -25,7 +25,7 @@ async function completeTransaction(
     throw new Error("maxFeePerGas is undefined");
   }
 
-  const chainConfig = getChain<EthereumParams>(chainId);
+  const chainConfig = getChain<EvmParams>(chainId);
 
   const fees = chainConfig.params?.isL2Fees
     ? await client(chainId)

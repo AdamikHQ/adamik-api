@@ -1,4 +1,4 @@
-export type EthereumParams = {
+export type EvmParams = {
   isL2Fees: boolean;
 };
 
