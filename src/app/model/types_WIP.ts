@@ -19,6 +19,8 @@ enum ChainId {
   INJECTIVE_TESTNET = "injective-testnet",
   BASE = "base",
   BASE_SEPOLIA = "base-sepolia",
+  OPTIMISM = "optimism",
+  OPTIMISM_SEPOLIA = "optimism-sepolia",
 }
 
 type Unit = {
