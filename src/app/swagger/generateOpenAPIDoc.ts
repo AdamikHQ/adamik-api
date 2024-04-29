@@ -1,13 +1,14 @@
 import { oas31, createDocument } from "zod-openapi";
-import { dataStateSchemaConfig } from "~/app/api/data/state/schema";
-import { addressEncodeConfig } from "../api/address/encode/schema";
-import { addressValidateConfig } from "../api/address/validate/schema";
-import { chainsChainIdConfig } from "../api/chains/[chainId]/schema";
-import { chainsConfig } from "../api/chains/schema";
-import { dataValidatorsSchemaConfig } from "../api/data/validators/schema";
-import { transactionBroadcastConfig } from "../api/transaction/broadcast/schema";
-import { transactionEncodeConfig } from "../api/transaction/encode/schema";
-import { transactionValidateConfig } from "../api/transaction/validate/schema";
+
+import { addressEncodeOpenAPIPath } from "../api/address/encode/schema";
+import { addressValidateOpenAPIPath } from "../api/address/validate/schema";
+import { chainsOpenAPIPath } from "../api/chains/schema";
+import { chainsChainIdOpenAPIPath } from "../api/chains/[chainId]/schema";
+import { dataStateOpenAPIPath } from "~/app/api/data/state/schema";
+import { dataValidatorsOpenAPIPath } from "../api/data/validators/schema";
+import { transactionBroadcastOpenAPIPath } from "../api/transaction/broadcast/schema";
+import { transactionEncodeOpenAPIPath } from "../api/transaction/encode/schema";
+import { transactionValidateOpenAPIPath } from "../api/transaction/validate/schema";
 
 function generateOpenAPIDoc(): oas31.OpenAPIObject {
   const document = createDocument({
@@ -37,15 +38,15 @@ function generateOpenAPIDoc(): oas31.OpenAPIObject {
       },
     ],
     paths: {
-      ...addressEncodeConfig,
-      ...addressValidateConfig,
-      ...chainsConfig,
-      ...chainsChainIdConfig,
-      ...dataStateSchemaConfig,
-      ...dataValidatorsSchemaConfig,
-      ...transactionBroadcastConfig,
-      ...transactionEncodeConfig,
-      ...transactionValidateConfig,
+      ...addressEncodeOpenAPIPath,
+      ...addressValidateOpenAPIPath,
+      ...chainsOpenAPIPath,
+      ...chainsChainIdOpenAPIPath,
+      ...dataStateOpenAPIPath,
+      ...dataValidatorsOpenAPIPath,
+      ...transactionBroadcastOpenAPIPath,
+      ...transactionEncodeOpenAPIPath,
+      ...transactionValidateOpenAPIPath,
     },
   });
 

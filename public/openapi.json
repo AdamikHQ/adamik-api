@@ -1,1048 +1,896 @@
 {
-    "openapi": "3.1.0",
-    "info": {
-        "title": "Adamik",
-        "version": "0.1.0",
-        "description": "Adamik API reference (still WIP)"
-    },
-    "servers": [
-        {
-            "url": "https://adamik.vercel.app"
-        }
-    ],
-    "security": [
-        {
-            "ApiKeyAuth": []
-        }
-    ],
-    "paths": {
-        "/api/address/encode": {
-            "post": {
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "transaction": {
-                                        "type": "object",
-                                        "properties": {
-                                            "chainId": {
-                                                "type": "string"
-                                            },
-                                            "pubkey": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "required": [
-                                            "chainId",
-                                            "pubkey"
-                                        ]
-                                    }
-                                },
-                                "required": [
-                                    "transaction"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "200 OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "boolean"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/address/validate": {
-            "post": {
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "chainId": {
-                                        "type": "string"
-                                    },
-                                    "address": {
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "chainId",
-                                    "address"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "200 OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "boolean"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/chains": {
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "200 OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/chains/{chainId}": {
-            "get": {
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "chainId",
-                        "description": "Chain ID",
-                        "schema": {
-                            "type": "string",
-                            "description": "Chain ID",
-                            "example": "cosmoshub"
-                        },
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "200 OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "string",
-                                            "enum": [
-                                                "algorand",
-                                                "cosmoshub",
-                                                "osmosis",
-                                                "cosmoshub-testnet",
-                                                "ethereum",
-                                                "sepolia",
-                                                "holesky",
-                                                "zksync",
-                                                "zksync-testnet",
-                                                "injective-testnet",
-                                                "base",
-                                                "base-sepolia"
-                                            ]
-                                        },
-                                        "name": {
-                                            "type": "string"
-                                        },
-                                        "family": {
-                                            "type": "string"
-                                        },
-                                        "units": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "name": {
-                                                        "type": "string"
-                                                    },
-                                                    "code": {
-                                                        "type": "string"
-                                                    },
-                                                    "decimals": {
-                                                        "type": "number"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "name",
-                                                    "code",
-                                                    "decimals"
-                                                ]
-                                            }
-                                        },
-                                        "backends": {
-                                            "type": "object",
-                                            "properties": {
-                                                "nodeURL": {
-                                                    "type": "string"
-                                                },
-                                                "explorerURL": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "nodeURL"
-                                            ]
-                                        },
-                                        "params": {}
-                                    },
-                                    "required": [
-                                        "id",
-                                        "name",
-                                        "family",
-                                        "units",
-                                        "backends"
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/data/state": {
-            "post": {
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "chainId": {
-                                        "type": "string",
-                                        "minLength": 1
-                                    },
-                                    "address": {
-                                        "type": "string",
-                                        "minLength": 1
-                                    }
-                                },
-                                "required": [
-                                    "chainId",
-                                    "address"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "200 OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "balances": {
-                                            "type": "object",
-                                            "properties": {
-                                                "available": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "available"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "balances"
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/data/validators": {
-            "get": {
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "limit",
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "in": "query",
-                        "name": "offset",
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "in": "query",
-                        "name": "chainId",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "200 OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "address": {
-                                            "type": "string"
-                                        },
-                                        "name": {
-                                            "type": "string"
-                                        },
-                                        "logo": {
-                                            "type": "string"
-                                        },
-                                        "website": {
-                                            "type": "string"
-                                        },
-                                        "status": {
-                                            "type": "string"
-                                        },
-                                        "commission": {
-                                            "type": "number"
-                                        },
-                                        "maxCommission": {
-                                            "type": "number"
-                                        },
-                                        "raw": {}
-                                    },
-                                    "required": [
-                                        "address",
-                                        "name",
-                                        "website",
-                                        "status",
-                                        "commission"
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/transaction/broadcast": {
-            "post": {
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "signature": {
-                                        "type": "string"
-                                    },
-                                    "plain": {
-                                        "type": "object",
-                                        "properties": {
-                                            "transaction": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "chainId": {
-                                                        "type": "string",
-                                                        "enum": [
-                                                            "algorand",
-                                                            "cosmoshub",
-                                                            "osmosis",
-                                                            "cosmoshub-testnet",
-                                                            "ethereum",
-                                                            "sepolia",
-                                                            "holesky",
-                                                            "zksync",
-                                                            "zksync-testnet",
-                                                            "injective-testnet",
-                                                            "base",
-                                                            "base-sepolia"
-                                                        ]
-                                                    },
-                                                    "mode": {
-                                                        "anyOf": [
-                                                            {
-                                                                "type": "string",
-                                                                "enum": [
-                                                                    "transfer"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "type": "string",
-                                                                "enum": [
-                                                                    "optIn"
-                                                                ]
-                                                            },
-                                                            {
-                                                                "type": "string",
-                                                                "enum": [
-                                                                    "claimReward"
-                                                                ]
-                                                            }
-                                                        ]
-                                                    },
-                                                    "senders": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "string"
-                                                        }
-                                                    },
-                                                    "recipients": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "type": "string"
-                                                        }
-                                                    },
-                                                    "amount": {
-                                                        "type": "string"
-                                                    },
-                                                    "useMaxAmount": {
-                                                        "type": "boolean"
-                                                    },
-                                                    "fees": {
-                                                        "type": "string"
-                                                    },
-                                                    "gas": {
-                                                        "type": "string"
-                                                    },
-                                                    "nonce": {
-                                                        "type": "string"
-                                                    },
-                                                    "memo": {
-                                                        "type": "string"
-                                                    },
-                                                    "format": {
-                                                        "type": "string"
-                                                    },
-                                                    "pubKey": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "chainId",
-                                                    "mode",
-                                                    "senders",
-                                                    "recipients",
-                                                    "amount",
-                                                    "useMaxAmount"
-                                                ]
-                                            }
-                                        },
-                                        "required": [
-                                            "transaction"
-                                        ]
-                                    },
-                                    "format": {
-                                        "type": "string"
-                                    },
-                                    "pubKey": {
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "signature",
-                                    "plain"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "200 OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "plain": {
-                                            "type": "object",
-                                            "properties": {
-                                                "transaction": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "chainId": {
-                                                            "type": "string",
-                                                            "enum": [
-                                                                "algorand",
-                                                                "cosmoshub",
-                                                                "osmosis",
-                                                                "cosmoshub-testnet",
-                                                                "ethereum",
-                                                                "sepolia",
-                                                                "holesky",
-                                                                "zksync",
-                                                                "zksync-testnet",
-                                                                "injective-testnet",
-                                                                "base",
-                                                                "base-sepolia"
-                                                            ]
-                                                        },
-                                                        "mode": {
-                                                            "anyOf": [
-                                                                {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "transfer"
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "optIn"
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "claimReward"
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        "senders": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        "recipients": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        "amount": {
-                                                            "type": "string"
-                                                        },
-                                                        "useMaxAmount": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "fees": {
-                                                            "type": "string"
-                                                        },
-                                                        "gas": {
-                                                            "type": "string"
-                                                        },
-                                                        "nonce": {
-                                                            "type": "string"
-                                                        },
-                                                        "memo": {
-                                                            "type": "string"
-                                                        },
-                                                        "format": {
-                                                            "type": "string"
-                                                        },
-                                                        "pubKey": {
-                                                            "type": "string"
-                                                        }
-                                                    },
-                                                    "required": [
-                                                        "chainId",
-                                                        "mode",
-                                                        "senders",
-                                                        "recipients",
-                                                        "amount",
-                                                        "useMaxAmount"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "transaction"
-                                            ]
-                                        },
-                                        "encoded": {
-                                            "type": "string"
-                                        },
-                                        "signature": {
-                                            "type": "string"
-                                        },
-                                        "status": {
-                                            "type": "object",
-                                            "properties": {
-                                                "errors": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "message": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "message"
-                                                        ]
-                                                    }
-                                                },
-                                                "warnings": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "message": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "message"
-                                                        ]
-                                                    }
-                                                }
-                                            },
-                                            "required": [
-                                                "errors",
-                                                "warnings"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "plain"
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/transaction/encode": {
-            "post": {
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "transaction": {
-                                        "type": "object",
-                                        "properties": {
-                                            "chainId": {
-                                                "type": "string",
-                                                "enum": [
-                                                    "algorand",
-                                                    "cosmoshub",
-                                                    "osmosis",
-                                                    "cosmoshub-testnet",
-                                                    "ethereum",
-                                                    "sepolia",
-                                                    "holesky",
-                                                    "zksync",
-                                                    "zksync-testnet",
-                                                    "injective-testnet",
-                                                    "base",
-                                                    "base-sepolia"
-                                                ]
-                                            },
-                                            "mode": {
-                                                "anyOf": [
-                                                    {
-                                                        "type": "string",
-                                                        "enum": [
-                                                            "transfer"
-                                                        ]
-                                                    },
-                                                    {
-                                                        "type": "string",
-                                                        "enum": [
-                                                            "optIn"
-                                                        ]
-                                                    },
-                                                    {
-                                                        "type": "string",
-                                                        "enum": [
-                                                            "claimReward"
-                                                        ]
-                                                    }
-                                                ]
-                                            },
-                                            "senders": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "recipients": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "amount": {
-                                                "type": "string"
-                                            },
-                                            "useMaxAmount": {
-                                                "type": "boolean"
-                                            },
-                                            "fees": {
-                                                "type": "string"
-                                            },
-                                            "gas": {
-                                                "type": "string"
-                                            },
-                                            "nonce": {
-                                                "type": "string"
-                                            },
-                                            "memo": {
-                                                "type": "string"
-                                            },
-                                            "format": {
-                                                "type": "string"
-                                            },
-                                            "pubKey": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "required": [
-                                            "chainId",
-                                            "mode",
-                                            "senders",
-                                            "recipients",
-                                            "amount",
-                                            "useMaxAmount"
-                                        ]
-                                    }
-                                },
-                                "required": [
-                                    "transaction"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "200 OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "plain": {
-                                            "type": "object",
-                                            "properties": {
-                                                "transaction": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "chainId": {
-                                                            "type": "string",
-                                                            "enum": [
-                                                                "algorand",
-                                                                "cosmoshub",
-                                                                "osmosis",
-                                                                "cosmoshub-testnet",
-                                                                "ethereum",
-                                                                "sepolia",
-                                                                "holesky",
-                                                                "zksync",
-                                                                "zksync-testnet",
-                                                                "injective-testnet",
-                                                                "base",
-                                                                "base-sepolia"
-                                                            ]
-                                                        },
-                                                        "mode": {
-                                                            "anyOf": [
-                                                                {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "transfer"
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "optIn"
-                                                                    ]
-                                                                },
-                                                                {
-                                                                    "type": "string",
-                                                                    "enum": [
-                                                                        "claimReward"
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        "senders": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        "recipients": {
-                                                            "type": "array",
-                                                            "items": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        "amount": {
-                                                            "type": "string"
-                                                        },
-                                                        "useMaxAmount": {
-                                                            "type": "boolean"
-                                                        },
-                                                        "fees": {
-                                                            "type": "string"
-                                                        },
-                                                        "gas": {
-                                                            "type": "string"
-                                                        },
-                                                        "nonce": {
-                                                            "type": "string"
-                                                        },
-                                                        "memo": {
-                                                            "type": "string"
-                                                        },
-                                                        "format": {
-                                                            "type": "string"
-                                                        },
-                                                        "pubKey": {
-                                                            "type": "string"
-                                                        }
-                                                    },
-                                                    "required": [
-                                                        "chainId",
-                                                        "mode",
-                                                        "senders",
-                                                        "recipients",
-                                                        "amount",
-                                                        "useMaxAmount"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "transaction"
-                                            ]
-                                        },
-                                        "encoded": {
-                                            "type": "string"
-                                        },
-                                        "signature": {
-                                            "type": "string"
-                                        },
-                                        "status": {
-                                            "type": "object",
-                                            "properties": {
-                                                "errors": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "message": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "message"
-                                                        ]
-                                                    }
-                                                },
-                                                "warnings": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "message": {
-                                                                "type": "string"
-                                                            }
-                                                        },
-                                                        "required": [
-                                                            "message"
-                                                        ]
-                                                    }
-                                                }
-                                            },
-                                            "required": [
-                                                "errors",
-                                                "warnings"
-                                            ]
-                                        }
-                                    },
-                                    "required": [
-                                        "plain"
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/transaction/validate": {
-            "post": {
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "transaction": {
-                                        "type": "object",
-                                        "properties": {
-                                            "chainId": {
-                                                "type": "string",
-                                                "enum": [
-                                                    "algorand",
-                                                    "cosmoshub",
-                                                    "osmosis",
-                                                    "cosmoshub-testnet",
-                                                    "ethereum",
-                                                    "sepolia",
-                                                    "holesky",
-                                                    "zksync",
-                                                    "zksync-testnet",
-                                                    "injective-testnet",
-                                                    "base",
-                                                    "base-sepolia"
-                                                ]
-                                            },
-                                            "mode": {
-                                                "anyOf": [
-                                                    {
-                                                        "type": "string",
-                                                        "enum": [
-                                                            "transfer"
-                                                        ]
-                                                    },
-                                                    {
-                                                        "type": "string",
-                                                        "enum": [
-                                                            "optIn"
-                                                        ]
-                                                    },
-                                                    {
-                                                        "type": "string",
-                                                        "enum": [
-                                                            "claimReward"
-                                                        ]
-                                                    }
-                                                ]
-                                            },
-                                            "senders": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "recipients": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "amount": {
-                                                "type": "string"
-                                            },
-                                            "useMaxAmount": {
-                                                "type": "boolean"
-                                            },
-                                            "fees": {
-                                                "type": "string"
-                                            },
-                                            "gas": {
-                                                "type": "string"
-                                            },
-                                            "nonce": {
-                                                "type": "string"
-                                            },
-                                            "memo": {
-                                                "type": "string"
-                                            },
-                                            "format": {
-                                                "type": "string"
-                                            },
-                                            "pubKey": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "required": [
-                                            "chainId",
-                                            "mode",
-                                            "senders",
-                                            "recipients",
-                                            "amount",
-                                            "useMaxAmount"
-                                        ]
-                                    }
-                                },
-                                "required": [
-                                    "transaction"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "200 OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "message": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "message"
-                                                ]
-                                            }
-                                        },
-                                        "warnings": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "message": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "message"
-                                                ]
-                                            }
-                                        }
-                                    },
-                                    "required": [
-                                        "errors",
-                                        "warnings"
-                                    ]
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "components": {
-        "securitySchemes": {
-            "ApiKeyAuth": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "X-API-KEY"
-            }
-        }
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Adamik",
+    "version": "0.1.0",
+    "description": "Adamik API reference (still WIP)"
+  },
+  "servers": [
+    {
+      "url": "https://adamik.vercel.app"
     }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/api/address/encode": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chainId": {
+                    "type": "string"
+                  },
+                  "pubkey": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "chainId",
+                  "pubkey"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/address/validate": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chainId": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "chainId",
+                  "address"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chains": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "200 OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chains/{chainId}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "description": "Chain ID",
+            "schema": {
+              "type": "string",
+              "description": "Chain ID",
+              "example": "cosmoshub"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "osmosis",
+                        "cosmoshub-testnet",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-testnet",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia"
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "family": {
+                      "type": "string"
+                    },
+                    "units": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "decimals": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "code",
+                          "decimals"
+                        ]
+                      }
+                    },
+                    "backends": {
+                      "type": "object",
+                      "properties": {
+                        "nodeURL": {
+                          "type": "string"
+                        },
+                        "explorerURL": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nodeURL"
+                      ]
+                    },
+                    "params": {}
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "family",
+                    "units",
+                    "backends"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/data/state": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chainId": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "address": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "chainId",
+                  "address"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "balances": {
+                      "type": "object",
+                      "properties": {
+                        "available": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "available"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "balances"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/data/validators": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chainId": {
+                    "type": "string"
+                  },
+                  "limit": {
+                    "type": "number"
+                  },
+                  "offset": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "chainId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "logo": {
+                      "type": "string"
+                    },
+                    "website": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "commission": {
+                      "type": "number"
+                    },
+                    "maxCommission": {
+                      "type": "number"
+                    },
+                    "raw": {}
+                  },
+                  "required": [
+                    "address",
+                    "name",
+                    "website",
+                    "status",
+                    "commission"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transaction/broadcast": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transaction": {
+                    "type": "object",
+                    "properties": {
+                      "plain": {
+                        "type": "object",
+                        "properties": {
+                          "chainId": {
+                            "type": "string",
+                            "enum": [
+                              "algorand",
+                              "cosmoshub",
+                              "osmosis",
+                              "cosmoshub-testnet",
+                              "ethereum",
+                              "sepolia",
+                              "holesky",
+                              "zksync",
+                              "zksync-testnet",
+                              "injective-testnet",
+                              "base",
+                              "base-sepolia"
+                            ]
+                          },
+                          "mode": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "transfer"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "optIn"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "claimReward"
+                                ]
+                              }
+                            ]
+                          },
+                          "senders": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "recipients": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "amount": {
+                            "type": "string"
+                          },
+                          "useMaxAmount": {
+                            "type": "boolean"
+                          },
+                          "fees": {
+                            "type": "string"
+                          },
+                          "gas": {
+                            "type": "string"
+                          },
+                          "nonce": {
+                            "type": "string"
+                          },
+                          "memo": {
+                            "type": "string"
+                          },
+                          "format": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "chainId",
+                          "mode",
+                          "senders",
+                          "recipients",
+                          "amount",
+                          "useMaxAmount"
+                        ]
+                      },
+                      "encoded": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "object"
+                          }
+                        ]
+                      },
+                      "signature": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "plain",
+                      "encoded",
+                      "signature"
+                    ]
+                  }
+                },
+                "required": [
+                  "transaction"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "hash": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "hash"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "message"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "error"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transaction/encode": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transaction": {
+                    "type": "object",
+                    "properties": {
+                      "plain": {
+                        "type": "object",
+                        "properties": {
+                          "chainId": {
+                            "type": "string",
+                            "enum": [
+                              "algorand",
+                              "cosmoshub",
+                              "osmosis",
+                              "cosmoshub-testnet",
+                              "ethereum",
+                              "sepolia",
+                              "holesky",
+                              "zksync",
+                              "zksync-testnet",
+                              "injective-testnet",
+                              "base",
+                              "base-sepolia"
+                            ]
+                          },
+                          "mode": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "transfer"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "optIn"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "claimReward"
+                                ]
+                              }
+                            ]
+                          },
+                          "senders": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "recipients": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "amount": {
+                            "type": "string"
+                          },
+                          "useMaxAmount": {
+                            "type": "boolean"
+                          },
+                          "fees": {
+                            "type": "string"
+                          },
+                          "gas": {
+                            "type": "string"
+                          },
+                          "nonce": {
+                            "type": "string"
+                          },
+                          "memo": {
+                            "type": "string"
+                          },
+                          "format": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "chainId",
+                          "mode",
+                          "senders",
+                          "recipients",
+                          "amount",
+                          "useMaxAmount"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "plain"
+                    ]
+                  }
+                },
+                "required": [
+                  "transaction"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transaction": {
+                      "type": "object",
+                      "properties": {
+                        "plain": {
+                          "type": "object",
+                          "properties": {
+                            "chainId": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "cosmoshub-testnet",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-testnet",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia"
+                              ]
+                            },
+                            "mode": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "transfer"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "optIn"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "claimReward"
+                                  ]
+                                }
+                              ]
+                            },
+                            "senders": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "recipients": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "amount": {
+                              "type": "string"
+                            },
+                            "useMaxAmount": {
+                              "type": "boolean"
+                            },
+                            "fees": {
+                              "type": "string"
+                            },
+                            "gas": {
+                              "type": "string"
+                            },
+                            "nonce": {
+                              "type": "string"
+                            },
+                            "memo": {
+                              "type": "string"
+                            },
+                            "format": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "chainId",
+                            "mode",
+                            "senders",
+                            "recipients",
+                            "amount",
+                            "useMaxAmount"
+                          ]
+                        },
+                        "encoded": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "plain",
+                        "encoded"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "transaction"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transaction/validate": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transaction": {
+                    "type": "object",
+                    "properties": {
+                      "plain": {
+                        "type": "object",
+                        "properties": {
+                          "chainId": {
+                            "type": "string",
+                            "enum": [
+                              "algorand",
+                              "cosmoshub",
+                              "osmosis",
+                              "cosmoshub-testnet",
+                              "ethereum",
+                              "sepolia",
+                              "holesky",
+                              "zksync",
+                              "zksync-testnet",
+                              "injective-testnet",
+                              "base",
+                              "base-sepolia"
+                            ]
+                          },
+                          "mode": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "transfer"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "optIn"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "claimReward"
+                                ]
+                              }
+                            ]
+                          },
+                          "senders": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "recipients": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "amount": {
+                            "type": "string"
+                          },
+                          "useMaxAmount": {
+                            "type": "boolean"
+                          },
+                          "fees": {
+                            "type": "string"
+                          },
+                          "gas": {
+                            "type": "string"
+                          },
+                          "nonce": {
+                            "type": "string"
+                          },
+                          "memo": {
+                            "type": "string"
+                          },
+                          "format": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "chainId",
+                          "mode",
+                          "senders",
+                          "recipients",
+                          "amount",
+                          "useMaxAmount"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "plain"
+                    ]
+                  }
+                },
+                "required": [
+                  "transaction"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "message"
+                        ]
+                      }
+                    },
+                    "warnings": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "message"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "errors",
+                    "warnings"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
+      }
+    }
+  }
 }

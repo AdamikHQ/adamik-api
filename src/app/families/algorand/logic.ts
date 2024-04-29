@@ -101,8 +101,8 @@ async function getEstimatedFees(transaction: PlainTransaction): Promise<bigint> 
 
   let suggestedFees = 0;
   if (params.fee) {
-    const payload = await buildRawTransaction(transaction);
-    const encoded = encodeToSign(payload);
+    const rawTransaction = await buildRawTransaction(transaction);
+    const encoded = encodeToSign(rawTransaction);
     suggestedFees = params.fee * (Buffer.from(encoded, "hex").length + SINGLE_SIGNATURE_SIZE);
   }
   return BigInt(Math.max(suggestedFees, params.minFee));

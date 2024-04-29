@@ -10,16 +10,17 @@ export async function GET(_: NextRequest, context: { params: Params }): Promise<
   const { chainId } = context.params;
 
   if (!chainId) {
-    return new NextResponse(null, {
-      status: 400,
-      statusText: "Path param `chainId` is required",
-    });
+    return NextResponse.json(
+      { message: "Invalid request" },
+      { status: 400, statusText: "Path param `chainId` is required" }
+    );
   }
+
   if (!Object.keys(CHAINS).includes(chainId as string)) {
-    return new NextResponse(null, {
-      status: 400,
-      statusText: `Unsupported chain '${chainId}'`,
-    });
+    return NextResponse.json(
+      { message: `Chain ID ${chainId} is not supported` },
+      { status: 400, statusText: `Unsupported chainId` }
+    );
   }
 
   return NextResponse.json(CHAINS[chainId as ChainId]);

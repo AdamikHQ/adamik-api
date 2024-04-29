@@ -1,34 +1,28 @@
 import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { services } from "~/app/families/services";
+import { handleRequestValidationError } from "~/app/api/utils/zodCommon";
+import { requestSchema } from "./schema";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  // TODO validation/sanitization
-  const { chain, pubkey } = await request.json();
-
-  if (!chain) {
-    return new NextResponse(null, {
-      status: 400,
-      statusText: "Field `chain` is required",
-    });
+  const body = await request.json();
+  try {
+    requestSchema.parse(body);
+  } catch (e) {
+    return handleRequestValidationError(e);
   }
 
-  if (!pubkey) {
-    return new NextResponse(null, {
-      status: 400,
-      statusText: "Field `pubkey` is required",
-    });
-  }
+  const { chainId, pubkey } = body;
 
-  const service = services.get(chain);
+  const service = services.get(chainId);
   if (!service) {
-    return new NextResponse(null, {
-      status: 501,
-      statusText: `Unsupported chain: ${chain}`,
-    });
+    return NextResponse.json(
+      { message: `Chain ID ${chainId} is not supported` },
+      { status: 400, statusText: `Unsupported chainId` }
+    );
   }
 
-  const address = await service.pubkeyToAddress(chain.id, pubkey);
+  const address = await service.pubkeyToAddress(chainId, pubkey);
 
   return NextResponse.json(address);
 }

@@ -9,10 +9,10 @@ export function middleware(request: NextRequest) {
   }
 
   if (apiKey !== process.env.NEXT_PUBLIC_DEFAULT_API_KEY) {
-    return new NextResponse(null, {
-      status: 401,
-      statusText: "Missing or invalid API key",
-    });
+    return NextResponse.json(
+      { message: `Missing or invalid API key` },
+      { status: 401, statusText: `Unauthorized` }
+    );
   }
 }
 

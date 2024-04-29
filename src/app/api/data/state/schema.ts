@@ -1,31 +1,33 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 
-export const postDataStateSchema = z.object({
+const requestSchema = z.object({
   chainId: z.string().min(1),
   address: z.string().min(1),
 });
 
-export const postDataStateSchemaResponse = z.object({
+const responseSchema = z.object({
   balances: z.object({ available: z.string() }),
 });
 
-export const dataStateSchemaConfig: ZodOpenApiPathsObject = {
+const dataStateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/data/state": {
     post: {
       requestBody: {
         content: {
-          "application/json": { schema: postDataStateSchema },
+          "application/json": { schema: requestSchema },
         },
       },
       responses: {
         "200": {
           description: "200 OK",
           content: {
-            "application/json": { schema: postDataStateSchemaResponse },
+            "application/json": { schema: responseSchema },
           },
         },
       },
     },
   },
 };
+
+export { requestSchema, responseSchema, dataStateOpenAPIPath };
