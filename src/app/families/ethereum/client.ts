@@ -1,10 +1,10 @@
-import { ClientConfig, createPublicClient, http } from "viem";
+import { createPublicClient, http } from "viem";
 import { sepolia, mainnet, holesky, zkSync, zkSyncSepoliaTestnet, base, baseSepolia } from "viem/chains";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { injectiveTestnet } from "./chains/injective-testnet";
 
-function getClientConfig(chainId: ChainId): ClientConfig {
+function getClientConfig(chainId: ChainId) {
   switch (chainId) {
     case ChainId.SEPOLIA:
       return {

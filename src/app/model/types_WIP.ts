@@ -70,6 +70,7 @@ type CommonTransaction = {
   nonce?: bigint;
   memo?: string;
   format?: Format; // FIXME should not be here
+  pubKey?: string; // FIXME should not be here
 };
 
 type TransferTransaction = CommonTransaction & {
