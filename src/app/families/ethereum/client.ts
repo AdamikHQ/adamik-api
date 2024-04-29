@@ -4,7 +4,7 @@ import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { injectiveTestnet } from "./chains/injective-testnet";
 
-const getClientConfig = (chainId: ChainId) => {
+function getClientConfig(chainId: ChainId) {
   switch (chainId) {
     case ChainId.SEPOLIA:
       return {
@@ -28,7 +28,7 @@ const getClientConfig = (chainId: ChainId) => {
     default:
       throw new Error("Unsupported chainId");
   }
-};
+}
 
 export const client = (chainId: ChainId) => {
   return createPublicClient(getClientConfig(chainId));

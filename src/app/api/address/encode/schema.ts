@@ -1,29 +1,31 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 
-const postAddressEncodeSchemaRequest = z.object({
-  transaction: z.object({
-    chainId: z.string(),
-    pubkey: z.string(),
-  }),
+const requestSchema = z.object({
+  chainId: z.string(),
+  pubkey: z.string(),
 });
 
-export const addressEncodeConfig: ZodOpenApiPathsObject = {
+const responseSchema = z.boolean();
+
+const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/encode": {
     post: {
       requestBody: {
         content: {
-          "application/json": { schema: postAddressEncodeSchemaRequest },
+          "application/json": { schema: requestSchema },
         },
       },
       responses: {
         "200": {
           description: "200 OK",
           content: {
-            "application/json": { schema: z.boolean() },
+            "application/json": { schema: responseSchema },
           },
         },
       },
     },
   },
 };
+
+export { requestSchema, responseSchema, addressEncodeOpenAPIPath };

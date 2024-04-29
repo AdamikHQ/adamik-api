@@ -1,26 +1,38 @@
+import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { plainTransactionSchema, transactionSchema } from "../../utils/zodCommon";
+import { plainTransactionSchema } from "~/app/api/utils/zodCommon";
 
-export const postTransactionEncode = plainTransactionSchema;
+const requestSchema = z.object({
+  transaction: z.object({
+    plain: plainTransactionSchema,
+  }),
+});
 
-export const postTransactionEncodeResponse = transactionSchema;
+const responseSchema = z.object({
+  transaction: z.object({
+    plain: plainTransactionSchema,
+    encoded: z.string(),
+  }),
+});
 
-export const transactionEncodeConfig: ZodOpenApiPathsObject = {
+const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/encode": {
     post: {
       requestBody: {
         content: {
-          "application/json": { schema: postTransactionEncode },
+          "application/json": { schema: requestSchema },
         },
       },
       responses: {
         "200": {
           description: "200 OK",
           content: {
-            "application/json": { schema: postTransactionEncodeResponse },
+            "application/json": { schema: responseSchema },
           },
         },
       },
     },
   },
 };
+
+export { requestSchema, responseSchema, transactionEncodeOpenAPIPath };

@@ -1,13 +1,13 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 
-export const getDataValidators = z.object({
+const requestSchema = z.object({
+  chainId: z.string(),
   limit: z.number().optional(),
   offset: z.number().optional(),
-  chainId: z.string(),
 });
 
-export const getDataValidatorsResponse = z.object({
+const responseSchema = z.object({
   address: z.string(),
   name: z.string(),
   logo: z.string().optional(),
@@ -18,20 +18,24 @@ export const getDataValidatorsResponse = z.object({
   raw: z.unknown(),
 });
 
-export const dataValidatorsSchemaConfig: ZodOpenApiPathsObject = {
+const dataValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/data/validators": {
-    get: {
-      requestParams: {
-        query: getDataValidators,
+    post: {
+      requestBody: {
+        content: {
+          "application/json": { schema: requestSchema },
+        },
       },
       responses: {
         "200": {
           description: "200 OK",
           content: {
-            "application/json": { schema: getDataValidatorsResponse },
+            "application/json": { schema: responseSchema },
           },
         },
       },
     },
   },
 };
+
+export { requestSchema, responseSchema, dataValidatorsOpenAPIPath };

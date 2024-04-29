@@ -1,32 +1,42 @@
-import { ZodOpenApiPathsObject } from "zod-openapi";
-import { plainTransactionSchema, transactionSchema } from "../../utils/zodCommon";
 import z from "zod";
+import { ZodOpenApiPathsObject } from "zod-openapi";
+import { plainTransactionSchema } from "~/app/api/utils/zodCommon";
 
-export const postTransactionBroadcast = z.object({
-  signature: z.string(),
-  plain: plainTransactionSchema,
-  format: z.string().optional(),
-  pubKey: z.string().optional()
+const requestSchema = z.object({
+  transaction: z.object({
+    plain: plainTransactionSchema,
+    encoded: z.string().or(z.object({})),
+    signature: z.string(),
+  }),
 });
 
-export const postTransactionBroadcastResponse = transactionSchema;
+const responseSchema = z.union([
+  z.object({ hash: z.string() }),
+  z.object({
+    error: z.object({
+      message: z.string(),
+    }),
+  }),
+]);
 
-export const transactionBroadcastConfig: ZodOpenApiPathsObject = {
+const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/broadcast": {
     post: {
       requestBody: {
         content: {
-          "application/json": { schema: postTransactionBroadcast },
+          "application/json": { schema: requestSchema },
         },
       },
       responses: {
         "200": {
           description: "200 OK",
           content: {
-            "application/json": { schema: postTransactionBroadcastResponse },
+            "application/json": { schema: responseSchema },
           },
         },
       },
     },
   },
 };
+
+export { requestSchema, responseSchema, transactionBroadcastOpenAPIPath };
