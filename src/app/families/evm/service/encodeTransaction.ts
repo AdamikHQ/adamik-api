@@ -1,6 +1,6 @@
 import { toHex } from "viem";
 import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
-import { client } from "../client";
+import { getClient } from "../client";
 import { getEstimatedFees } from "../logic";
 
 async function encodeTransactionToSign(

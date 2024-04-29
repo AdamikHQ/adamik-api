@@ -1,7 +1,7 @@
 import { ChainId, ChainService } from "~/app/model/types_WIP";
 import { AlgorandService } from "./algorand/service";
 import { CosmosService } from "./cosmos/service";
-import { EthereumService } from "./ethereum/service";
+import { EthereumService } from "./evm/service";
 
 // TODO I don't like the current loose coupling Service <> Chain:
 // - it requires to move around a chain.id in almost every function

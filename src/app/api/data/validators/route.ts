@@ -1,9 +1,7 @@
-import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { services } from "~/app/families/services";
 import { requestSchema } from "./schema";
-import { ChainId } from "~/app/model/types_WIP";
-import { handleRequestValidationError } from "~/app/api/utils/zodCommon";
+import { handleRequestValidationError } from "~/app/api/schemaCommon";
 
 // TODO Make sure to document this implicit limit in the doc / swagger description
 // We could also add something in the response to help user know what to fetch next (next limit, next URL...)

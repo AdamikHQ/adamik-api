@@ -8,7 +8,7 @@ type EstimatedFees = {
   maxPriorityFeePerGas: bigint;
 };
 
-export const getEstimatedFees = async (chainId: ChainId): Promise<EstimatedFees> => {
+const getEstimatedFees = async (chainId: ChainId): Promise<EstimatedFees> => {
   try {
     const maxPriorityFeePerGas = await estimateMaxPriorityFeePerGas({ chainId });
 
@@ -32,3 +32,5 @@ export const getEstimatedFees = async (chainId: ChainId): Promise<EstimatedFees>
     throw new Error(`getEstimatedFees: ${error}`);
   }
 };
+
+export { getEstimatedFees }

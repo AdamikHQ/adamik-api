@@ -25,10 +25,14 @@ import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/type
 import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, CosmosParams } from "./constants";
 import { CHAINS, getChain } from "~/app/config/chains";
-import { isBase64 } from "~/app/api/utils/base64";
 import { MsgBeginRedelegate, MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
 // TODO Keep this file as a fourre-tout or split it?
+
+function isBase64(str: string): boolean {
+  const base64Regex = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
+  return base64Regex.test(str);
+}
 
 function isValidAddress(chainId: ChainId, address: string) {
   try {

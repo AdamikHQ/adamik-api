@@ -1,4 +1,3 @@
-import "~/app/patch";
 import { NextResponse } from "next/server";
 import { generateOpenAPIDoc } from "~/app/swagger/generateOpenAPIDoc";
 
