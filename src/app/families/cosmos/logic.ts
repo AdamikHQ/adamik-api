@@ -424,8 +424,6 @@ async function encodeToBroadcast(chainId: ChainId, signedTransaction: Transactio
   const { pubKeyType, pubKey } = await fetchAccount(chainId, plainTransation.senders[0]);
   const signDoc = await buildSignPayload(chainId, plainTransation);
 
-  console.log({ signDoc, protoMsgs });
-
   const txBytes = buildBroadcastPayload({
     protoMsgs,
     memo: plainTransation.memo || "",

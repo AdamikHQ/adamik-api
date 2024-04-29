@@ -1,56 +1,40 @@
-import { NextRequest, NextResponse } from "next/server";
-import { ZodError } from "zod";
-import { services } from "~/app/families/services";
 import "~/app/patch";
-import { getDataValidators } from "./schema";
+import { NextRequest, NextResponse } from "next/server";
+import { services } from "~/app/families/services";
+import { requestSchema } from "./schema";
 import { ChainId } from "~/app/model/types_WIP";
+import { handleRequestValidationError } from "~/app/api/utils/zodCommon";
 
-type Params = {
-  offset?: number;
-  limit?: number;
-  chainId: ChainId;
-};
+// TODO Make sure to document this implicit limit in the doc / swagger description
+// We could also add something in the response to help user know what to fetch next (next limit, next URL...)
 const VALIDATORS_LIMIT = 100;
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
-  const searchParams = request.nextUrl.searchParams;
-
-  const offset = Number(searchParams.get("offset"));
-  const limit = Number(searchParams.get("limit"));
-  const chainId = searchParams.get("chainId") as ChainId;
-
+export async function POST(request: NextRequest): Promise<NextResponse> {
+  const body = await request.json();
   try {
-    getDataValidators.parse({ offset: offset ?? undefined, limit: limit ?? undefined, chainId: chainId });
+    requestSchema.parse(body);
   } catch (e) {
-    if (e instanceof ZodError) {
-      return NextResponse.json(
-        { message: "invalid request", errors: e.errors },
-        { status: 400, statusText: "Invalid or missing fields" }
-      );
-    }
-    throw e;
+    return handleRequestValidationError(e);
   }
+
+  const { chainId, limit, offset } = body;
 
   const service = services.get(chainId);
   if (!service) {
-    return new NextResponse(null, {
-      status: 501,
-      statusText: `Unsupported chain: ${chainId}`,
-    });
-  }
-
-  if (service.getValidators === undefined) {
     return NextResponse.json(
-      { message: "Validator services is not available" },
-      { status: 404, statusText: "Invalid chainId" }
+      { message: `Chain ID ${chainId} is not supported` },
+      { status: 400, statusText: `Unsupported chainId` }
     );
   }
 
-  const validatorResponse = await service.getValidators(
-    chainId,
-    Number(offset) ?? 0,
-    Number(limit) ?? VALIDATORS_LIMIT
-  );
+  if (!service.getValidators) {
+    return NextResponse.json(
+      { message: `No validators for chain ID ${chainId}` },
+      { status: 400, statusText: "Invalid chainId" }
+    );
+  }
+
+  const validatorResponse = await service.getValidators(chainId, offset ?? 0, limit ?? VALIDATORS_LIMIT);
 
   return NextResponse.json(validatorResponse);
 }

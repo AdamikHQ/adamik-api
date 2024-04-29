@@ -1,26 +1,33 @@
+import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { plainTransactionSchema, transactionStatusSchema } from "../../utils/zodCommon";
+import { plainTransactionSchema, transactionStatusSchema } from "~/app/api/utils/zodCommon";
 
-export const postTransactionValidate = plainTransactionSchema;
+const requestSchema = z.object({
+  transaction: z.object({
+    plain: plainTransactionSchema,
+  }),
+});
 
-export const postTransactionValidateResponse = transactionStatusSchema;
+const responseSchema = transactionStatusSchema;
 
-export const transactionValidateConfig: ZodOpenApiPathsObject = {
+const transactionValidateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/validate": {
     post: {
       requestBody: {
         content: {
-          "application/json": { schema: postTransactionValidate },
+          "application/json": { schema: requestSchema },
         },
       },
       responses: {
         "200": {
           description: "200 OK",
           content: {
-            "application/json": { schema: postTransactionValidateResponse },
+            "application/json": { schema: responseSchema },
           },
         },
       },
     },
   },
 };
+
+export { requestSchema, responseSchema, transactionValidateOpenAPIPath };
