@@ -1,34 +1,28 @@
-import { ChainId } from "~/app/model/types_WIP";
-import { estimateMaxPriorityFeePerGas, getEthFeeHistory } from "./backend/node";
-import { ETHEREUM_GAS_AMPLIFIER } from "./constants";
-import { BigNumber } from "bignumber.js";
+import { getChain } from "~/app/config/chains";
+import { ChainId, PlainTransaction } from "~/app/model/types_WIP";
+import { EthereumParams } from "./constants";
+import { client } from "./client";
+import { publicActionsL2 } from "viem/op-stack";
 
-type EstimatedFees = {
-  maxFeePerGas: bigint;
-  maxPriorityFeePerGas: bigint;
-};
+async function getFees(
+  chainId: ChainId,
+  transaction: PlainTransaction,
+  gas: bigint,
+  maxFeePerGas: bigint
+): Promise<bigint> {
+  const chainConfig = getChain<EthereumParams>(chainId);
 
-export const getEstimatedFees = async (chainId: ChainId): Promise<EstimatedFees> => {
-  try {
-    const maxPriorityFeePerGas = await estimateMaxPriorityFeePerGas({ chainId });
-
-    const feeHistory = await getEthFeeHistory(chainId, [
-      "0x10", // Fetching the history for 10 blocks
-      "latest", // from the latest block
-      [50], // 50% percentile sample
-    ]);
-
-    const nextBaseFee = BigInt(feeHistory.baseFeePerGas[feeHistory.baseFeePerGas.length - 1]);
-    const maxFeePerGas = new BigNumber(nextBaseFee.toString())
-      .times(ETHEREUM_GAS_AMPLIFIER)
-      .integerValue(BigNumber.ROUND_CEIL)
-      .plus(maxPriorityFeePerGas.toString());
-
-    return {
-      maxPriorityFeePerGas,
-      maxFeePerGas: BigInt(maxFeePerGas.toFixed()),
-    };
-  } catch (error) {
-    throw new Error(`getEstimatedFees: ${error}`);
+  if (chainConfig.params?.isL2Fees) {
+    return await client(chainId)
+      .extend(publicActionsL2())
+      .estimateTotalFee({
+        to: transaction.recipients[0] as `0x${string}`,
+        account: transaction.senders[0] as `0x${string}`,
+        value: transaction.amount,
+      });
   }
-};
+
+  return gas * maxFeePerGas;
+}
+
+export { getFees };
