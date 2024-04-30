@@ -31,6 +31,22 @@ const dataset1: { input: unknown; output: unknown }[] = [
     },
   },
   {
+    input: 1234,
+    output: 1234,
+  },
+  {
+    input: 999999999999999999999999999999999999999999,
+    output: 999999999999999999999999999999999999999999,
+  },
+  {
+    input: "1234",
+    output: 1234n,
+  },
+  {
+    input: "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B",
+    output: "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B",
+  },
+  {
     input: "some string",
     output: "some string",
   },
@@ -45,10 +61,6 @@ const dataset1: { input: unknown; output: unknown }[] = [
   {
     input: true,
     output: true,
-  },
-  {
-    input: 1234,
-    output: 1234,
   },
   {
     input: [1, 2, 3],
