@@ -17,12 +17,14 @@ const services: Map<ChainId, ChainService> = new Map([
   [ChainId.SEPOLIA, EthereumService],
   [ChainId.HOLESKY, EthereumService],
   [ChainId.ZKSYNC, EthereumService],
-  [ChainId.ZKSYNC_TESTNET, EthereumService],
+  [ChainId.ZKSYNC_SEPOLIA, EthereumService],
   [ChainId.INJECTIVE_TESTNET, EthereumService],
   [ChainId.BASE, EthereumService],
   [ChainId.BASE_SEPOLIA, EthereumService],
   [ChainId.OPTIMISM, EthereumService],
   [ChainId.OPTIMISM_SEPOLIA, EthereumService],
+  [ChainId.ARBITRUM, EthereumService],
+  [ChainId.ARBITRUM_SEPOLIA, EthereumService],
 ]);
 
 export { services };
