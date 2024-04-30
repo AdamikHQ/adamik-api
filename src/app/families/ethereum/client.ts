@@ -1,5 +1,5 @@
 import { createPublicClient, http } from "viem";
-import { sepolia, mainnet, holesky, zkSync, zkSyncSepoliaTestnet, base, baseSepolia } from "viem/chains";
+import { sepolia, mainnet, holesky, zkSync, zkSyncSepoliaTestnet, base, baseSepolia, optimism, optimismSepolia } from "viem/chains";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { injectiveTestnet } from "./chains/injective-testnet";
@@ -25,6 +25,10 @@ function getClientConfig(chainId: ChainId) {
       return { chain: base, transport: http(CHAINS[chainId].backends.nodeURL) };
     case ChainId.BASE_SEPOLIA:
       return { chain: baseSepolia, transport: http(CHAINS[chainId].backends.nodeURL) };
+    case ChainId.OPTIMISM:
+      return { chain: optimism, transport: http(CHAINS[chainId].backends.nodeURL) };
+    case ChainId.OPTIMISM_SEPOLIA:
+      return { chain: optimismSepolia, transport: http(CHAINS[chainId].backends.nodeURL) };
     default:
       throw new Error("Unsupported chainId");
   }
