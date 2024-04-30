@@ -5,28 +5,19 @@ import { services } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 import { requestSchema } from "./schema";
 import { handleRequestValidationError } from "~/app/api/utils/zodCommon";
+import z from "zod";
+
+type EncodeBodySchema = z.infer<typeof requestSchema>;
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = await request.json();
+  const body: EncodeBodySchema = await request.json();
   try {
     requestSchema.parse(body);
   } catch (e) {
     return handleRequestValidationError(e);
   }
-  // TODO validation/sanitization (zod)
-  const {
-    transaction: { plain: payload },
-  } = body;
 
-  // We need to keep in string senders, recipients and validator,
-  // EVM senders is in hex format so it can become a bigint
-  const transaction: PlainTransaction = {
-    ...stringToBigint(payload),
-    senders: [...payload.senders],
-    recipients: [...payload.recipients],
-    validator: payload.validator ? payload.validator : undefined,
-  };
-
+  const transaction: PlainTransaction = stringToBigint(body.transaction.plain);
   const { chainId } = transaction;
 
   const service = services.get(chainId);
@@ -75,7 +66,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         encoded: encodedTransaction,
         status: fullTransactionStatus,
       };
-    } catch (e: any) { // FIXME Probably will need to have a specific error
+    } catch (e: any) {
+      // FIXME Probably will need to have a specific error
       return {
         plain: transaction,
         status: {
