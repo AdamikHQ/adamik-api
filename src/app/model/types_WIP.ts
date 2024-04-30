@@ -15,12 +15,14 @@ enum ChainId {
   SEPOLIA = "sepolia",
   HOLESKY = "holesky",
   ZKSYNC = "zksync",
-  ZKSYNC_TESTNET = "zksync-testnet",
+  ZKSYNC_SEPOLIA = "zksync-sepolia",
   INJECTIVE_TESTNET = "injective-testnet",
   BASE = "base",
   BASE_SEPOLIA = "base-sepolia",
   OPTIMISM = "optimism",
   OPTIMISM_SEPOLIA = "optimism-sepolia",
+  ARBITRUM = "arbitrum",
+  ARBITRUM_SEPOLIA = "arbitrum-sepolia",
 }
 
 type Unit = {
