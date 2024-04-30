@@ -240,9 +240,6 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://arbitrum-one.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
     },
-    params: {
-      isL2Fees: true,
-    },
   },
   "arbitrum-sepolia": {
     id: ChainId.ARBITRUM_SEPOLIA,
@@ -251,9 +248,6 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     units: ethereumUnits("ETH", "Ether"),
     backends: {
       nodeURL: "https://arbitrum-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-    },
-    params: {
-      isL2Fees: true,
     },
   },
 };
