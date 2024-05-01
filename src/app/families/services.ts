@@ -13,6 +13,7 @@ const services: Map<ChainId, ChainService> = new Map([
   [ChainId.COSMOSHUB, CosmosService],
   [ChainId.OSMOSIS, CosmosService],
   [ChainId.COSMOSHUB_TESTNET, CosmosService],
+  [ChainId.CELESTIA, CosmosService],
   [ChainId.ETHEREUM, EthereumService],
   [ChainId.SEPOLIA, EthereumService],
   [ChainId.HOLESKY, EthereumService],

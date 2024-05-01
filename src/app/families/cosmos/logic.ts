@@ -2,10 +2,10 @@ import { BigNumber } from "bignumber.js";
 import { bech32 } from "bech32";
 import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { AuthInfo, TxRaw, TxBody, Fee } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { AuthInfo, TxRaw, TxBody, Fee, SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { Secp256k1Signature } from "@cosmjs/crypto";
 import { fromBase64 } from "@cosmjs/encoding";
-import { AminoMsg, StdSignDoc, makeSignDoc, serializeSignDoc } from "@cosmjs/amino";
+import { AminoMsg, StdSignDoc, encodeSecp256k1Pubkey, serializeSignDoc } from "@cosmjs/amino";
 import {
   AminoMsgDelegate,
   AminoMsgSend,
@@ -17,7 +17,12 @@ import {
   AminoMsgWithdrawDelegatorReward,
   */
 } from "@cosmjs/stargate";
-import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
+import {
+  EncodeObject as ProtoMsg,
+  encodePubkey,
+  makeAuthInfoBytes,
+  makeSignDoc,
+} from "@cosmjs/proto-signing";
 import { MsgSend as ProtoMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 //import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
@@ -300,7 +305,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
   return { aminoMsgs, protoMsgs };
 }
 
-async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction): Promise<StdSignDoc> {
+async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction): Promise<SignDoc> {
   if (!transaction.fees) {
     throw new Error("Transaction lacks fees information");
   } else if (!transaction.gas) {
@@ -319,17 +324,31 @@ async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction)
     gas: transaction.gas.toString(),
   };
 
-  const { aminoMsgs } = getMessages(transaction);
+  const { protoMsgs } = getMessages(transaction);
   const networkId = await fetchNetworkId(chainId);
-  const { accountNumber, sequence } = await fetchAccount(chainId, transaction.senders[0]);
+  const { accountNumber, sequence, pubKey } = await fetchAccount(chainId, transaction.senders[0]);
+
+  const authInfoBytes = makeAuthInfoBytes(
+    [{ pubkey: fromBase64(pubKey ?? transaction.pubKey), sequence }],
+    feeToEncode.amount,
+    Number(transaction.gas),
+    undefined,
+    undefined
+  );
 
   return makeSignDoc(
-    aminoMsgs,
-    feeToEncode,
+    TxBody.encode(
+      TxBody.fromPartial({
+        messages: protoMsgs,
+        memo: transaction.memo,
+        timeoutHeight: undefined,
+        extensionOptions: [],
+        nonCriticalExtensionOptions: [],
+      })
+    ).finish(),
+    authInfoBytes,
     networkId,
-    transaction.memo || "",
-    accountNumber.toString(),
-    sequence.toString()
+    Number(accountNumber)
   );
 }
 
@@ -373,7 +392,7 @@ function buildBroadcastPayload({
           },
           modeInfo: {
             single: {
-              mode: SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
+              mode: SignMode.SIGN_MODE_DIRECT,
             },
             multi: undefined,
           },

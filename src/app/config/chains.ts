@@ -130,6 +130,33 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       minGasPrice: 0.025,
     },
   },
+  "celestia": {
+    id: ChainId.CELESTIA,
+    family: "cosmos",
+    name: "Celestia",
+    units: [
+      {
+        name: "TIA",
+        code: "tia",
+        decimals: 6,
+      },
+      {
+        name: "Micro-TIA",
+        code: "utia",
+        decimals: 0
+      }
+    ],
+    backends: {
+      nodeURL: "https://api.lunaroasis.net",
+    },
+    params: {
+      prefix: "celestia",
+      validatorPrefix: "ccelestiavaloper",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+  },
   ethereum: {
     id: ChainId.ETHEREUM,
     family: "ethereum",
@@ -239,7 +266,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     units: ethereumUnits("ETH", "Ether"),
     backends: {
       nodeURL: "https://arbitrum-one.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-    },
+    },  
   },
   "arbitrum-sepolia": {
     id: ChainId.ARBITRUM_SEPOLIA,

@@ -10,6 +10,7 @@ enum ChainId {
   COSMOSHUB = "cosmoshub",
   OSMOSIS = "osmosis",
   COSMOSHUB_TESTNET = "cosmoshub-testnet",
+  CELESTIA = "celestia",
 
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",
