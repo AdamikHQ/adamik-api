@@ -18,6 +18,7 @@
   "paths": {
     "/api/address/encode": {
       "post": {
+        "description": "Encodes the public key based on the specified chain ID and returns true if the operation is successful, otherwise false.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -41,7 +42,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK",
+            "description": "200 OK - Returns true if the encoding is successful, otherwise false.",
             "content": {
               "application/json": {
                 "schema": {
@@ -55,6 +56,7 @@
     },
     "/api/address/validate": {
       "post": {
+        "description": "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -78,7 +80,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK",
+            "description": "200 OK - Returns true if the address is valid for the specified chain ID, otherwise false.",
             "content": {
               "application/json": {
                 "schema": {
@@ -91,17 +93,26 @@
       }
     },
     "/api/chains": {
+      "description": "Retrieves a list of all supported blockchain networks.",
       "get": {
         "responses": {
           "200": {
-            "description": "200 OK",
+            "description": "200 OK - Returns a list of names for all supported blockchain networks.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
+                  "type": "object",
+                  "properties": {
+                    "chains": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "chains"
+                  ]
                 }
               }
             }
@@ -111,6 +122,7 @@
     },
     "/api/chains/{chainId}": {
       "get": {
+        "description": "Retrieves detailed information about a specific blockchain network identified by chain ID.",
         "parameters": [
           {
             "in": "path",
@@ -126,7 +138,7 @@
         ],
         "responses": {
           "200": {
-            "description": "200 OK",
+            "description": "200 OK - Successfully returns detailed data about the specified blockchain, including its identifier, name, family classification, supported units of currency, and additional configuration parameters.",
             "content": {
               "application/json": {
                 "schema": {
@@ -143,10 +155,14 @@
                         "sepolia",
                         "holesky",
                         "zksync",
-                        "zksync-testnet",
+                        "zksync-sepolia",
                         "injective-testnet",
                         "base",
-                        "base-sepolia"
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia"
                       ]
                     },
                     "name": {
@@ -209,6 +225,7 @@
     },
     "/api/data/state": {
       "post": {
+        "description": "Returns the account state for a specified address and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -234,7 +251,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK",
+            "description": "200 OK - Returns the current balance information for the specified address and chain ID.",
             "content": {
               "application/json": {
                 "schema": {
@@ -264,6 +281,7 @@
     },
     "/api/data/validators": {
       "post": {
+        "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -289,7 +307,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK",
+            "description": "200 OK - Returns a list of validators, their status, and commission details for the specified chain ID.",
             "content": {
               "application/json": {
                 "schema": {
@@ -334,6 +352,7 @@
     },
     "/api/transaction/broadcast": {
       "post": {
+        "description": "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -357,10 +376,14 @@
                               "sepolia",
                               "holesky",
                               "zksync",
-                              "zksync-testnet",
+                              "zksync-sepolia",
                               "injective-testnet",
                               "base",
-                              "base-sepolia"
+                              "base-sepolia",
+                              "optimism",
+                              "optimism-sepolia",
+                              "arbitrum",
+                              "arbitrum-sepolia"
                             ]
                           },
                           "mode": {
@@ -458,7 +481,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK",
+            "description": "200 OK - Returns a transaction receipt or error details if the transaction fails.",
             "content": {
               "application/json": {
                 "schema": {
@@ -503,6 +526,7 @@
     },
     "/api/transaction/encode": {
       "post": {
+        "description": "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -526,10 +550,14 @@
                               "sepolia",
                               "holesky",
                               "zksync",
-                              "zksync-testnet",
+                              "zksync-sepolia",
                               "injective-testnet",
                               "base",
-                              "base-sepolia"
+                              "base-sepolia",
+                              "optimism",
+                              "optimism-sepolia",
+                              "arbitrum",
+                              "arbitrum-sepolia"
                             ]
                           },
                           "mode": {
@@ -612,7 +640,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK",
+            "description": "200 OK - Returns the transaction data encoded into a blockchain-specific format, ready for broadcasting.",
             "content": {
               "application/json": {
                 "schema": {
@@ -635,10 +663,14 @@
                                 "sepolia",
                                 "holesky",
                                 "zksync",
-                                "zksync-testnet",
+                                "zksync-sepolia",
                                 "injective-testnet",
                                 "base",
-                                "base-sepolia"
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia"
                               ]
                             },
                             "mode": {
@@ -728,6 +760,7 @@
     },
     "/api/transaction/validate": {
       "post": {
+        "description": "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -751,10 +784,14 @@
                               "sepolia",
                               "holesky",
                               "zksync",
-                              "zksync-testnet",
+                              "zksync-sepolia",
                               "injective-testnet",
                               "base",
-                              "base-sepolia"
+                              "base-sepolia",
+                              "optimism",
+                              "optimism-sepolia",
+                              "arbitrum",
+                              "arbitrum-sepolia"
                             ]
                           },
                           "mode": {
@@ -837,7 +874,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK",
+            "description": "200 OK - Provides validation results, including any errors or warnings related to the transaction.",
             "content": {
               "application/json": {
                 "schema": {
