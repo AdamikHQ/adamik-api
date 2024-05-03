@@ -1,37 +1,22 @@
-import { BigNumber } from "bignumber.js";
-import { bech32 } from "bech32";
-import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
-import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { AuthInfo, TxRaw, TxBody, Fee, SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { AminoMsg, pubkeyType, serializeSignDoc } from "@cosmjs/amino";
 import { Secp256k1Signature } from "@cosmjs/crypto";
 import { fromBase64 } from "@cosmjs/encoding";
-import { AminoMsg, StdSignDoc, encodeSecp256k1Pubkey, serializeSignDoc } from "@cosmjs/amino";
-import {
-  AminoMsgDelegate,
-  AminoMsgSend,
-  /*
-  AminoMsgBeginRedelegate,
-  AminoMsgDelegate,
-  AminoMsgUndelegate,
-  AminoMsgBeginRedelegate,
-  AminoMsgWithdrawDelegatorReward,
-  */
-} from "@cosmjs/stargate";
-import {
-  EncodeObject as ProtoMsg,
-  encodePubkey,
-  makeAuthInfoBytes,
-  makeSignDoc,
-} from "@cosmjs/proto-signing";
+import { EncodeObject as ProtoMsg, decodeTxRaw, makeAuthInfoBytes, makeSignDoc } from "@cosmjs/proto-signing";
+import { AminoMsgDelegate, AminoMsgSend } from "@cosmjs/stargate";
+import { bech32 } from "bech32";
+import { BigNumber } from "bignumber.js";
 import { MsgSend as ProtoMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
+import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { AuthInfo, Fee, SignDoc, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 //import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
+import { MsgBeginRedelegate, MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { isBase64 } from "~/app/api/utils/base64";
+import { CHAINS, getChain } from "~/app/config/chains";
 import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, CosmosParams } from "./constants";
-import { CHAINS, getChain } from "~/app/config/chains";
-import { isBase64 } from "~/app/api/utils/base64";
-import { MsgBeginRedelegate, MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
 // TODO Keep this file as a fourre-tout or split it?
 
@@ -128,6 +113,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
       aminoMsgs.push(aminoMsg);
 
       // PROTO MESSAGE
+
       const protoMsg = {
         typeUrl: "/cosmos.bank.v1beta1.MsgSend",
         value: ProtoMsgSend.encode({
@@ -141,6 +127,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           ],
         }).finish(),
       };
+
       protoMsgs.push(protoMsg);
       break;
     case "delegate":
@@ -332,8 +319,8 @@ async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction)
     [{ pubkey: fromBase64(pubKey ?? transaction.pubKey), sequence }],
     feeToEncode.amount,
     Number(transaction.gas),
-    undefined,
-    undefined
+    transaction.senders[0],
+    transaction.senders[0]
   );
 
   return makeSignDoc(
@@ -439,22 +426,61 @@ async function encodeToBroadcast(chainId: ChainId, signedTransaction: Transactio
 
   const plainTransation = signedTransaction.plain;
 
-  const { protoMsgs } = getMessages(plainTransation);
-  const { pubKeyType, pubKey } = await fetchAccount(chainId, plainTransation.senders[0]);
   const signDoc = await buildSignPayload(chainId, plainTransation);
+  const { sequence, pubKey, pubKeyType } = await fetchAccount(chainId, plainTransation.senders[0]);
 
-  const txBytes = buildBroadcastPayload({
-    protoMsgs,
-    memo: plainTransation.memo || "",
-    pubKeyType,
-    pubKey: signedTransaction.plain.pubKey ?? pubKey,
-    feeAmount: signDoc.fee.amount as any,
-    gasLimit: BigInt(signDoc.fee.gas),
-    sequence: BigInt(signDoc.sequence),
-    signature,
-  });
+  // const txBytes = buildBroadcastPayload({
+  //   protoMsgs,
+  //   memo: plainTransation.memo || "",
+  //   pubKeyType,
+  //   pubKey: signedTransaction.plain.pubKey ?? pubKey,
+  //   feeAmount: feeToEncode.amount,
+  //   gasLimit: BigInt(feeToEncode.gas),
+  //   sequence: BigInt(sequence),
+  //   signature,
+  // });
+  const chain = CHAINS[plainTransation.chainId];
+
+  const txBytes = TxRaw.encode(
+    TxRaw.fromPartial({
+      bodyBytes: signDoc.bodyBytes,
+      authInfoBytes: AuthInfo.encode({
+        signerInfos: [
+          {
+            publicKey: {
+              typeUrl: pubKeyType,
+              value: PubKey.encode({
+                key: fromBase64(pubKey ? pubKey : plainTransation.pubKey),
+              }).finish(),
+            },
+            modeInfo: {
+              single: {
+                mode: SignMode.SIGN_MODE_DIRECT,
+              },
+              multi: undefined,
+            },
+            sequence: sequence,
+          },
+        ],
+        fee: Fee.fromPartial({
+          amount: [
+            {
+              denom: chain.units[chain.units.length - 1].code,
+              amount: plainTransation.fees.toString(),
+            },
+          ],
+          gasLimit: plainTransation.gas,
+          granter: plainTransation.senders[0],
+          payer: plainTransation.senders[0],
+        }),
+      }).finish(),
+      signatures: [signature],
+    })
+  ).finish();
+
+  // console.log(JSON.stringify(decodeTxRaw(txBytes)));
 
   return Buffer.from(txBytes).toString("hex");
 }
 
-export { isValidAddress, getEstimatedFees, encodeToSign, encodeToBroadcast };
+export { encodeToBroadcast, encodeToSign, getEstimatedFees, isValidAddress };
