@@ -1,6 +1,6 @@
 import { getChain } from "~/app/config/chains";
 import { ChainId, PlainTransaction } from "~/app/model/types_WIP";
-import { EthereumParams } from "./constants";
+import { EvmParams } from "./constants";
 import { client } from "./client";
 import { publicActionsL2 } from "viem/op-stack";
 
@@ -10,7 +10,7 @@ async function getFees(
   gas: bigint,
   maxFeePerGas: bigint
 ): Promise<bigint> {
-  const chainConfig = getChain<EthereumParams>(chainId);
+  const chainConfig = getChain<EvmParams>(chainId);
 
   if (chainConfig.params?.isL2Fees) {
     return await client(chainId)

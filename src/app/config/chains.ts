@@ -1,34 +1,36 @@
 import { ChainId, Chain, ChainParams } from "../model/types_WIP";
 
-const ethereumUnits = (name: string, code: string) => [
-  {
-    name,
-    code,
-    decimals: 18,
-  },
-  {
-    name: "Gwei",
-    code: "Gwei",
-    decimals: 9,
-  },
-  {
-    name: "Mwei",
-    code: "Mwei",
-    decimals: 6,
-  },
-  {
-    name: "Kwei",
-    code: "Kwei",
-    decimals: 3,
-  },
-  {
-    name: "wei",
-    code: "wei",
-    decimals: 0,
-  },
-];
+function ethereumUnits(name: string, code: string) {
+  return [
+    {
+      name,
+      code,
+      decimals: 18,
+    },
+    {
+      name: "Gwei",
+      code: "Gwei",
+      decimals: 9,
+    },
+    {
+      name: "Mwei",
+      code: "Mwei",
+      decimals: 6,
+    },
+    {
+      name: "Kwei",
+      code: "Kwei",
+      decimals: 3,
+    },
+    {
+      name: "wei",
+      code: "wei",
+      decimals: 0,
+    },
+  ]
+};
 
-export function getChain<TParams>(chainId: ChainId): Chain<TParams> {
+function getChain<TParams>(chainId: ChainId): Chain<TParams> {
   return CHAINS[chainId] as Chain<TParams>;
 }
 
@@ -252,4 +254,4 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
 };
 
-export { CHAINS };
+export { CHAINS, getChain };

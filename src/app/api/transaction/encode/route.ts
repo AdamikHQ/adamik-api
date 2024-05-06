@@ -1,10 +1,9 @@
-import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { services } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 import { requestSchema } from "./schema";
-import { handleRequestValidationError } from "~/app/api/utils/zodCommon";
+import { handleRequestValidationError } from "~/app/api/schemaCommon";
 import z from "zod";
 
 type EncodeBodySchema = z.infer<typeof requestSchema>;

@@ -1,7 +1,7 @@
 import { ChainId, ChainService } from "~/app/model/types_WIP";
 import { AlgorandService } from "./algorand/service";
 import { CosmosService } from "./cosmos/service";
-import { EthereumService } from "./ethereum/service";
+import { EvmService } from "./evm/service";
 
 // TODO I don't like the current loose coupling Service <> Chain:
 // - it requires to move around a chain.id in almost every function
@@ -13,18 +13,18 @@ const services: Map<ChainId, ChainService> = new Map([
   [ChainId.COSMOSHUB, CosmosService],
   [ChainId.OSMOSIS, CosmosService],
   [ChainId.COSMOSHUB_TESTNET, CosmosService],
-  [ChainId.ETHEREUM, EthereumService],
-  [ChainId.SEPOLIA, EthereumService],
-  [ChainId.HOLESKY, EthereumService],
-  [ChainId.ZKSYNC, EthereumService],
-  [ChainId.ZKSYNC_SEPOLIA, EthereumService],
-  [ChainId.INJECTIVE_TESTNET, EthereumService],
-  [ChainId.BASE, EthereumService],
-  [ChainId.BASE_SEPOLIA, EthereumService],
-  [ChainId.OPTIMISM, EthereumService],
-  [ChainId.OPTIMISM_SEPOLIA, EthereumService],
-  [ChainId.ARBITRUM, EthereumService],
-  [ChainId.ARBITRUM_SEPOLIA, EthereumService],
+  [ChainId.ETHEREUM, EvmService],
+  [ChainId.SEPOLIA, EvmService],
+  [ChainId.HOLESKY, EvmService],
+  [ChainId.ZKSYNC, EvmService],
+  [ChainId.ZKSYNC_SEPOLIA, EvmService],
+  [ChainId.INJECTIVE_TESTNET, EvmService],
+  [ChainId.BASE, EvmService],
+  [ChainId.BASE_SEPOLIA, EvmService],
+  [ChainId.OPTIMISM, EvmService],
+  [ChainId.OPTIMISM_SEPOLIA, EvmService],
+  [ChainId.ARBITRUM, EvmService],
+  [ChainId.ARBITRUM_SEPOLIA, EvmService],
 ]);
 
 export { services };

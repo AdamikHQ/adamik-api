@@ -7,7 +7,7 @@ import { pubkeyToAddress } from "./pubkeyToAddress";
 import { validateAddress } from "./validateAddress";
 import { validateTransaction, validateTransactionIntent } from "./validateTransaction";
 
-const EthereumService: ChainService = {
+const EvmService: ChainService = {
   pubkeyToAddress,
   validateAddress,
   getAddressState,
@@ -21,4 +21,4 @@ const EthereumService: ChainService = {
   broadcastTransaction,
 };
 
-export { EthereumService };
+export { EvmService };

@@ -1,10 +1,9 @@
-import "~/app/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { PlainTransaction } from "~/app/model/types_WIP";
 import { stringToBigint } from "~/app/model/serialization";
 import { services } from "~/app/families/services";
 import { requestSchema } from "./schema";
-import { handleRequestValidationError } from "~/app/api/utils/zodCommon";
+import { handleRequestValidationError } from "~/app/api/schemaCommon";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await request.json();

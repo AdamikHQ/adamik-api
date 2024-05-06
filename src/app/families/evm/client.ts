@@ -50,6 +50,8 @@ function getClientConfig(chainId: ChainId) {
   }
 }
 
-export const client = (chainId: ChainId) => {
+function client(chainId: ChainId) {
   return createPublicClient(getClientConfig(chainId));
 };
+
+export { client }
