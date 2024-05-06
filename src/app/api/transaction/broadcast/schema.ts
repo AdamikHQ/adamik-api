@@ -22,6 +22,7 @@ const responseSchema = z.union([
 const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/broadcast": {
     post: {
+      description: "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -29,7 +30,7 @@ const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description: "200 OK",
+          description: "200 OK - Returns a transaction receipt or error details if the transaction fails.",
           content: {
             "application/json": { schema: responseSchema },
           },

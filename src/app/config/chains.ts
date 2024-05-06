@@ -168,8 +168,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
     },
   },
-  "zksync-testnet": {
-    id: ChainId.ZKSYNC_TESTNET,
+  "zksync-sepolia": {
+    id: ChainId.ZKSYNC_SEPOLIA,
     family: "ethereum",
     name: "ZkSync Testnet",
     units: ethereumUnits("ETH", "ether"),
@@ -194,6 +194,9 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://base-mainnet.g.alchemy.com/v2/rOq_ClcjzdlIKQh-h6sMTBW9MhVBf94Z",
     },
+    params: {
+      isL2Fees: true,
+    },
   },
   "base-sepolia": {
     id: ChainId.BASE_SEPOLIA,
@@ -202,6 +205,51 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     units: ethereumUnits("ETH", "Ether"),
     backends: {
       nodeURL: "https://sepolia.base.org",
+    },
+    params: {
+      isL2Fees: true,
+    },
+  },
+  optimism: {
+    id: ChainId.OPTIMISM,
+    family: "ethereum",
+    name: "Optimism",
+    units: ethereumUnits("ETH", "Ether"),
+    backends: {
+      nodeURL: "https://opt-mainnet.g.alchemy.com/v2/pDuVOEX6OCaN6lq_xILoecc3lcFXuyTz",
+    },
+    params: {
+      isL2Fees: true,
+    },
+  },
+  "optimism-sepolia": {
+    id: ChainId.OPTIMISM_SEPOLIA,
+    family: "ethereum",
+    name: "Optimism Sepolia",
+    units: ethereumUnits("ETH", "Ether"),
+    backends: {
+      nodeURL: "https://opt-sepolia.g.alchemy.com/v2/6dtfsgvoSwhyPVqp0_nvAWJ40CbiOqQ8",
+    },
+    params: {
+      isL2Fees: true,
+    },
+  },
+  arbitrum: {
+    id: ChainId.ARBITRUM,
+    family: "ethereum",
+    name: "Arbitrum One",
+    units: ethereumUnits("ETH", "Ether"),
+    backends: {
+      nodeURL: "https://arbitrum-one.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+    },
+  },
+  "arbitrum-sepolia": {
+    id: ChainId.ARBITRUM_SEPOLIA,
+    family: "ethereum",
+    name: "Arbitrum Sepolia",
+    units: ethereumUnits("ETH", "Ether"),
+    backends: {
+      nodeURL: "https://arbitrum-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
     },
   },
 };

@@ -4,9 +4,12 @@ import { services } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 import { requestSchema } from "./schema";
 import { handleRequestValidationError } from "~/app/api/schemaCommon";
+import z from "zod";
+
+type EncodeBodySchema = z.infer<typeof requestSchema>;
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = await request.json();
+  const body: EncodeBodySchema = await request.json();
   try {
     requestSchema.parse(body);
   } catch (e) {
@@ -34,33 +37,44 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       };
     }
 
-    const completedTransaction = await service.completeTransaction(chainId, transaction);
+    try {
+      const completedTransaction = await service.completeTransaction(chainId, transaction);
 
-    const transactionStatus = await service.validateTransaction(chainId, completedTransaction);
+      const transactionStatus = await service.validateTransaction(chainId, completedTransaction);
 
-    const fullTransactionStatus = {
-      errors: transactionIntentStatus.errors.concat(transactionStatus.errors),
-      warnings: transactionIntentStatus.warnings.concat(transactionStatus.warnings),
-    };
+      const fullTransactionStatus = {
+        errors: transactionIntentStatus.errors.concat(transactionStatus.errors),
+        warnings: transactionIntentStatus.warnings.concat(transactionStatus.warnings),
+      };
 
-    if (fullTransactionStatus.errors.length) {
+      if (fullTransactionStatus.errors.length) {
+        return {
+          plain: completedTransaction,
+          status: fullTransactionStatus,
+        };
+      }
+
+      const encodedTransaction = await service.encodeTransactionToSign(
+        chainId,
+        completedTransaction,
+        transaction.format
+      );
+
       return {
         plain: completedTransaction,
+        encoded: encodedTransaction,
         status: fullTransactionStatus,
       };
+    } catch (e: any) {
+      // FIXME Probably will need to have a specific error
+      return {
+        plain: transaction,
+        status: {
+          errors: [{ message: e.message }],
+          warnings: [],
+        },
+      };
     }
-
-    const encodedTransaction = await service.encodeTransactionToSign(
-      chainId,
-      completedTransaction,
-      transaction.format
-    );
-
-    return {
-      plain: completedTransaction,
-      encoded: encodedTransaction,
-      status: fullTransactionStatus,
-    };
   })();
 
   return NextResponse.json({ transaction: processedTransaction });

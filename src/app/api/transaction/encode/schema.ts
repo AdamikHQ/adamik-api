@@ -18,6 +18,7 @@ const responseSchema = z.object({
 const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/encode": {
     post: {
+      description: "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.",
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -25,7 +26,7 @@ const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description: "200 OK",
+          description: "200 OK - Returns the transaction data encoded into a blockchain-specific format, ready for broadcasting.",
           content: {
             "application/json": { schema: responseSchema },
           },

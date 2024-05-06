@@ -17,10 +17,14 @@ const services: Map<ChainId, ChainService> = new Map([
   [ChainId.SEPOLIA, EvmService],
   [ChainId.HOLESKY, EvmService],
   [ChainId.ZKSYNC, EvmService],
-  [ChainId.ZKSYNC_TESTNET, EvmService],
+  [ChainId.ZKSYNC_SEPOLIA, EvmService],
   [ChainId.INJECTIVE_TESTNET, EvmService],
   [ChainId.BASE, EvmService],
   [ChainId.BASE_SEPOLIA, EvmService],
+  [ChainId.OPTIMISM, EvmService],
+  [ChainId.OPTIMISM_SEPOLIA, EvmService],
+  [ChainId.ARBITRUM, EvmService],
+  [ChainId.ARBITRUM_SEPOLIA, EvmService],
 ]);
 
 export { services };

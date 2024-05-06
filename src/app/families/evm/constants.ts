@@ -1,5 +1,8 @@
-export type EvmParams = {
-  isL2Fees: boolean;
+type EvmParams = {
+  isL2Fees?: boolean;
 };
 
-export const ETHEREUM_GAS_AMPLIFIER = 1.2;
+const ETHEREUM_GAS_AMPLIFIER = 1.2;
+
+export type { EvmParams };
+export { ETHEREUM_GAS_AMPLIFIER };

@@ -16,6 +16,11 @@ function stringToBigint(input: unknown, level: number = 0) {
   }
 
   if (["string"].includes(typeof input)) {
+    // Filter-out hexadecimal strings
+    if ((input as string).startsWith("0x")) {
+      return input;
+    }
+
     try {
       // @ts-ignore: mismatch between "object" and {}
       const output = BigInt(input);
