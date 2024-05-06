@@ -39,8 +39,9 @@ const plainTransactionSchema = z.object({
   mode: transactionModeSchema,
   senders: z.array(z.string()),
   recipients: z.array(z.string()),
-  amount: z.string(),
-  useMaxAmount: z.boolean(),
+  // TODO should be only one of [amount, useMaxAmount]
+  amount: z.string().optional(),
+  useMaxAmount: z.boolean().optional(),
   fees: z.string().optional(),
   gas: z.string().optional(),
   nonce: z.string().optional(),

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema, unitSchema, backendsSchema } from "~/app/api/utils/zodCommon";
+import { chainIdSchema, unitSchema, backendsSchema } from "~/app/api/schemaCommon";
 
 extendZodWithOpenApi(z);
 

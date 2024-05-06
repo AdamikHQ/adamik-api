@@ -3,7 +3,7 @@ import { fetchValidators } from "../backend/node";
 import { CosmosValidator } from "../backend/types";
 import { ValidatorResponse } from "~/app/model/validator";
 
-export async function getValidators(
+async function getValidators(
   chainId: ChainId,
   offset: number,
   limit: number
@@ -21,3 +21,5 @@ export async function getValidators(
     })),
   };
 }
+
+export { getValidators }

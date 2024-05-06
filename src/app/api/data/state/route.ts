@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError } from "zod";
 import { services } from "~/app/families/services";
-import "~/app/patch";
 import { requestSchema } from "./schema";
-import { handleRequestValidationError } from "~/app/api/utils/zodCommon";
+import { handleRequestValidationError } from "~/app/api/schemaCommon";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await request.json();
