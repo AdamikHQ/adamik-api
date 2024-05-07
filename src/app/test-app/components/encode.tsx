@@ -57,26 +57,26 @@ function Encode({ props }: { props: Props }) {
     fetch(`${API_URL}/transaction/encode`, {
       headers: AUTH_HEADER,
       method: "POST",
-      body: JSON.stringify({ transaction: plainTransaction }),
+      body: JSON.stringify({ transaction: { plain: plainTransaction } }),
     }).then(async (response) => {
       if (response.status === 200) {
-        const data = await response.json();
-        if (data?.status?.errors?.length) {
+        const { transaction } = await response.json();
+        if (transaction?.status?.errors?.length) {
           // TODO Display all errors
           // TODO Display warnings
-          setError(`Error! ${data.status.errors[0].message}`);
+          setError(`Error! ${transaction.status.errors[0].message}`);
         } else {
-          if (typeof data?.plain?.amount === "string") {
-            setComputedAmount(data.plain.amount);
+          if (typeof transaction?.plain?.amount === "string") {
+            setComputedAmount(transaction.plain.amount);
           }
-          if (typeof data?.plain?.fees === "string") {
-            setFees(data.plain.fees);
+          if (typeof transaction?.plain?.fees === "string") {
+            setFees(transaction.plain.fees);
           }
-          if (typeof data?.plain?.gas === "string") {
-            setGas(data.plain.gas);
+          if (typeof transaction?.plain?.gas === "string") {
+            setGas(transaction.plain.gas);
           }
-          if (typeof data?.encoded === "string") {
-            setEncodedTransaction(data.encoded);
+          if (typeof transaction?.encoded === "string") {
+            setEncodedTransaction(transaction.encoded);
           }
         }
       } else {

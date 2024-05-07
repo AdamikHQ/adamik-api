@@ -54,9 +54,9 @@ export default function Page() {
       });
 
       if (response.status === 200) {
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          setSupportedChainsIds(new Set(data));
+        const { chains } = await response.json();
+        if (Array.isArray(chains)) {
+          setSupportedChainsIds(new Set(chains));
         }
       } else {
         console.error("supported chains - backend error:", response.statusText);
