@@ -1,10 +1,11 @@
 ## TEST APP
 - [x] CSS
 - [x] Split React components
-- [ ] Split into a separate project & package.json --> need API versioning first?
+- [x] Split into a separate project & package.json --> need API versioning first?
 - [x] Bluetooth transport, to use on mobile
-- [ ] Keplr integration
-- [ ] Metamask integration
+- [x] Keplr integration
+- [x] Metamask integration
+- [ ] Use [SWR](https://github.com/vercel/swr) for fetching ?
 #### Integrations
 - [ ] POC integration of ADAMIK in Ledger Live
 
@@ -12,10 +13,10 @@
 - [x] send max
 - [x] get account state
 - [x] validate transaction
-- [ ] Concept of family
+- [x] Concept of family
 - [ ] Staking (cosmos)
 - [ ] Tokens (evm + algorand)
-- [ ] Properly support large numbers with BigNumber.js
+- [x] Properly support large floating numbers with BigNumber.js
 - [x] Units (needs CAL)
 - [ ] Need other data providers than Ledger explorers
 #### ADVANCED
@@ -33,7 +34,7 @@
 - [ ] test framework
 - [ ] Dev / Staging / Prod envs
 - [ ] Documentation strategy
-  - [ ] API swagger
+  - [x] API swagger
   - [ ] sequence diagrams of API flows
   - [ ] glossary
   - [ ] code documentation: comments + .md for design choices
@@ -44,10 +45,9 @@
 
 ## CHAINS
 - [x] algorand
-- [ ] cosmos + chains
-  - [ ] ~~cosmos: use RPC instead of REST?~~
-- [ ] evm + chains
-- [ ] utxo ?
+- [x] cosmos family
+- [x] evm family
+- [ ] utxo-based ?
 
 ## ARCHI
 - [ ] ~~validateTransaction always calls validateTransactionIntent ?~~
@@ -61,10 +61,10 @@
 - [x] API key /!\ will be leaked through network tab --> need authentication too ? or allowed origins ?
 - [ ] Rate limiting (https://stackoverflow.com/a/76968268/1160527)
 - [ ] version in url !
-- [ ] config control over available chains
-- [ ] specific API response types, separated from model + extract them in a 'types' lib?
+- [ ] config control to enable/disable available chains
+- [ ] specific API response types (DTOs), separated from model + extract them in a 'types' lib?
 - [x] ChainId as path param
-- [ ] merge path '/data/' into '/address/' ?
+- [ ] merge path '/data/' into '/address/' and '/chains/'?
 #### ADVANCED
 - [ ] pubkeyToAddress: endpoint should take more param to set the key type to return (algorithm?, multisig?...)
 
