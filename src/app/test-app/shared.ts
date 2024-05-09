@@ -12,11 +12,11 @@ const API_URL: string =
     : "http://localhost:3000/api";
 
 // For debugging - FIXME Use env files instead?
-//const API: string = "https://192.168.1.150:3000/api";
-//const API: string = "https://localhost:3000/api";
+//const API_URL: string = "https://192.168.1.150:3000/api";
+//const API_URL: string = "https://localhost:3000/api";
 
 const AUTH_HEADER: HeadersInit = {
-  "X-API-KEY": process.env.NEXT_PUBLIC_DEFAULT_API_KEY || "",
+  Authorization: process.env.DEFAULT_API_KEY || "",
 };
 
 const KEYRINGS: Map<string, Keyring> = new Map([

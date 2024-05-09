@@ -9,7 +9,7 @@ const nextConfig = {
           { key: "Access-Control-Allow-Methods", value: "GET,DELETE,PATCH,POST,PUT,OPTIONS" },
           {
             key: "Access-Control-Allow-Headers",
-            value: "X-Api-Key, Content-Type",
+            value: "Authorization, Content-Type",
           },
         ],
       },
