@@ -9,6 +9,7 @@ const chainsOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains": {
     description: "Retrieves a list of all supported blockchain networks.",
     get: {
+      tags: ["chains"],
       description: "Retrieves a list of all supported blockchain networks.",
       responses: {
         "200": {

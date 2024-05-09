@@ -11,7 +11,9 @@ const responseSchema = z.boolean();
 const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/encode": {
     post: {
-      description: "Encodes the public key based on the specified chain ID and returns true if the operation is successful, otherwise false.",
+      tags: ["address"],
+      description:
+        "Encodes the public key based on the specified chain ID and returns true if the operation is successful, otherwise false.",
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },

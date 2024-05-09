@@ -13,7 +13,9 @@ const responseSchema = transactionStatusSchema;
 const transactionValidateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/validate": {
     post: {
-      description: "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
+      tags: ["transaction"],
+      description:
+        "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -21,7 +23,8 @@ const transactionValidateOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description: "200 OK - Provides validation results, including any errors or warnings related to the transaction.",
+          description:
+            "200 OK - Provides validation results, including any errors or warnings related to the transaction.",
           content: {
             "application/json": { schema: responseSchema },
           },

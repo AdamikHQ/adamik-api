@@ -21,7 +21,9 @@ const responseSchema = z.object({
 const dataValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/data/validators": {
     post: {
-      description: "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
+      tags: ["data"],
+      description:
+        "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -29,7 +31,8 @@ const dataValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description: "200 OK - Returns a list of validators, their status, and commission details for the specified chain ID.",
+          description:
+            "200 OK - Returns a list of validators, their status, and commission details for the specified chain ID.",
           content: {
             "application/json": { schema: responseSchema },
           },
