@@ -10,6 +10,12 @@ import { transactionBroadcastOpenAPIPath } from "../api/transaction/broadcast/sc
 import { transactionEncodeOpenAPIPath } from "../api/transaction/encode/schema";
 import { transactionValidateOpenAPIPath } from "../api/transaction/validate/schema";
 
+// Vercel env vars don't contain the "https://" part
+const VERCEL_URL: string | undefined =
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+    ? process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
+    : process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL;
+
 function generateOpenAPIDoc(): oas31.OpenAPIObject {
   const document = createDocument({
     openapi: "3.1.0",
@@ -23,13 +29,13 @@ function generateOpenAPIDoc(): oas31.OpenAPIObject {
         ApiKeyAuth: {
           type: "apiKey",
           in: "header",
-          name: "X-API-KEY",
+          name: "Authorization",
         },
       },
     },
     servers: [
       {
-        url: "https://adamik.vercel.app",
+        url: VERCEL_URL ? `https://${VERCEL_URL}` : "http://localhost:3000",
       },
     ],
     security: [

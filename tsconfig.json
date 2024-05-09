@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "allowJs": true, // we might want to change to false
+    "allowJs": false,
     "downlevelIteration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

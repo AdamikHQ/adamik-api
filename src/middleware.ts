@@ -1,14 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
+import { get as getVercelEdgeConfig } from "@vercel/edge-config";
 
-export function middleware(request: NextRequest) {
-  const apiKey = request.headers.get("X-Api-Key");
+type ClientData = {
+  clientId: string;
+  apiKey: string;
+};
+
+export async function middleware(request: NextRequest) {
   const isPreflight = request.method === "OPTIONS";
-
   if (isPreflight) {
     return NextResponse.json({});
   }
 
-  if (apiKey !== process.env.NEXT_PUBLIC_DEFAULT_API_KEY) {
+  const apiKey = request.headers.get("Authorization");
+  const clients: readonly ClientData[] | undefined = await getVercelEdgeConfig("clients");
+  const client = clients?.find((client) => client.apiKey === apiKey);
+
+  // NOTE No additional checks for now
+  // In the future we could apply rate limits, or special access rights
+  if (!client) {
     return NextResponse.json(
       { message: `Missing or invalid API key` },
       { status: 401, statusText: `Unauthorized` }
