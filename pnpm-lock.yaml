@@ -29,6 +29,9 @@ dependencies:
   '@ledgerhq/hw-transport-webusb':
     specifier: ^6.28.4
     version: 6.28.4
+  '@vercel/edge-config':
+    specifier: ^1.1.0
+    version: 1.1.0(typescript@5.0.2)
   '@zondax/ledger-cosmos-js':
     specifier: ^3.0.3
     version: 3.0.3(@babel/core@7.23.6)(@types/node@18.19.3)(eslint@8.0.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.2)
@@ -2291,6 +2294,25 @@ packages:
       '@typescript-eslint/types': 6.13.2
       eslint-visitor-keys: 3.4.3
     dev: true
+
+  /@vercel/edge-config-fs@0.1.0:
+    resolution: {integrity: sha512-NRIBwfcS0bUoUbRWlNGetqjvLSwgYH/BqKqDN7vK1g32p7dN96k0712COgaz6VFizAm9b0g6IG6hR6+hc0KCPg==}
+    dev: false
+
+  /@vercel/edge-config@1.1.0(typescript@5.0.2):
+    resolution: {integrity: sha512-es/4BzzKfyUilL5E1knR42MZHJqHMRfqitrnv18gVZZUha9ywrX3qNoCrPsNMJ1HS8xAAz/FJEyel7YFIDfKoQ==}
+    engines: {node: '>=14.6'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.7.0
+    peerDependenciesMeta:
+      '@opentelemetry/api':
+        optional: true
+    dependencies:
+      '@vercel/edge-config-fs': 0.1.0
+      ts-essentials: 9.4.1(typescript@5.0.2)
+    transitivePeerDependencies:
+      - typescript
+    dev: false
 
   /@vue/cli-overlay@5.0.8:
     resolution: {integrity: sha512-KmtievE/B4kcXp6SuM2gzsnSd8WebkQpg3XaB6GmFh1BJGRqa1UiW9up7L/Q67uOdTigHxr5Ar2lZms4RcDjwQ==}
@@ -9821,6 +9843,17 @@ packages:
     dependencies:
       typescript: 5.0.2
     dev: true
+
+  /ts-essentials@9.4.1(typescript@5.0.2):
+    resolution: {integrity: sha512-oke0rI2EN9pzHsesdmrOrnqv1eQODmJpd/noJjwj2ZPC3Z4N2wbjrOEqnsEgmvlO2+4fBb0a794DCna2elEVIQ==}
+    peerDependencies:
+      typescript: '>=4.1.0'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      typescript: 5.0.2
+    dev: false
 
   /ts-jest@29.1.1(@babel/core@7.23.6)(jest@29.7.0)(typescript@5.0.2):
     resolution: {integrity: sha512-D6xjnnbP17cC85nliwGiL+tpoKN0StpgE0TeOjXQTU6MVCfsB4v7aW05CgQ/1OywGb0x/oy9hHFnN+sczTiRaA==}
