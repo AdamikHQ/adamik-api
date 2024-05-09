@@ -18,6 +18,9 @@
   "paths": {
     "/api/address/encode": {
       "post": {
+        "tags": [
+          "address"
+        ],
         "description": "Encodes the public key based on the specified chain ID and returns true if the operation is successful, otherwise false.",
         "requestBody": {
           "content": {
@@ -56,6 +59,9 @@
     },
     "/api/address/validate": {
       "post": {
+        "tags": [
+          "address"
+        ],
         "description": "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
         "requestBody": {
           "content": {
@@ -93,8 +99,11 @@
       }
     },
     "/api/chains": {
-      "description": "Retrieves a list of all supported blockchain networks.",
       "get": {
+        "tags": [
+          "chains"
+        ],
+        "description": "Retrieves a list of all supported blockchain networks.",
         "responses": {
           "200": {
             "description": "200 OK - Returns a list of names for all supported blockchain networks.",
@@ -122,6 +131,9 @@
     },
     "/api/chains/{chainId}": {
       "get": {
+        "tags": [
+          "chains"
+        ],
         "description": "Retrieves detailed information about a specific blockchain network identified by chain ID.",
         "parameters": [
           {
@@ -225,6 +237,9 @@
     },
     "/api/data/state": {
       "post": {
+        "tags": [
+          "data"
+        ],
         "description": "Returns the account state for a specified address and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
         "requestBody": {
           "content": {
@@ -281,6 +296,9 @@
     },
     "/api/data/validators": {
       "post": {
+        "tags": [
+          "data"
+        ],
         "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
         "requestBody": {
           "content": {
@@ -352,6 +370,9 @@
     },
     "/api/transaction/broadcast": {
       "post": {
+        "tags": [
+          "transaction"
+        ],
         "description": "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
         "requestBody": {
           "content": {
@@ -446,9 +467,7 @@
                           "chainId",
                           "mode",
                           "senders",
-                          "recipients",
-                          "amount",
-                          "useMaxAmount"
+                          "recipients"
                         ]
                       },
                       "encoded": {
@@ -526,6 +545,9 @@
     },
     "/api/transaction/encode": {
       "post": {
+        "tags": [
+          "transaction"
+        ],
         "description": "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.",
         "requestBody": {
           "content": {
@@ -620,9 +642,7 @@
                           "chainId",
                           "mode",
                           "senders",
-                          "recipients",
-                          "amount",
-                          "useMaxAmount"
+                          "recipients"
                         ]
                       }
                     },
@@ -733,9 +753,7 @@
                             "chainId",
                             "mode",
                             "senders",
-                            "recipients",
-                            "amount",
-                            "useMaxAmount"
+                            "recipients"
                           ]
                         },
                         "encoded": {
@@ -760,6 +778,9 @@
     },
     "/api/transaction/validate": {
       "post": {
+        "tags": [
+          "transaction"
+        ],
         "description": "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
         "requestBody": {
           "content": {
@@ -854,9 +875,7 @@
                           "chainId",
                           "mode",
                           "senders",
-                          "recipients",
-                          "amount",
-                          "useMaxAmount"
+                          "recipients"
                         ]
                       }
                     },
