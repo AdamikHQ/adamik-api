@@ -1,7 +1,7 @@
 import "~/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
-import { services } from "~/app/families/services";
+import { SERVICES } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 import { requestSchema } from "./schema";
 import { handleRequestValidationError } from "~/app/api/schemaCommon";
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const transaction: PlainTransaction = stringToBigint(body.transaction.plain);
   const { chainId } = transaction;
 
-  const service = services.get(chainId);
+  const service = SERVICES.get(chainId);
   if (!service) {
     return NextResponse.json(
       { message: `Chain ID ${chainId} is not supported` },
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   const processedTransaction = await (async (): Promise<Transaction> => {
-    const transactionIntentStatus = await service.validateTransactionIntent(chainId, transaction);
+    const transactionIntentStatus = await service.validateTransactionIntent(transaction);
     // FIXME Better use a throw/catch system for all kinds of errors?
     if (transactionIntentStatus.errors.length) {
       return {
@@ -39,9 +39,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     try {
-      const completedTransaction = await service.completeTransaction(chainId, transaction);
+      const completedTransaction = await service.completeTransaction(transaction);
 
-      const transactionStatus = await service.validateTransaction(chainId, completedTransaction);
+      const transactionStatus = await service.validateTransaction(completedTransaction);
 
       const fullTransactionStatus = {
         errors: transactionIntentStatus.errors.concat(transactionStatus.errors),
@@ -56,7 +56,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       }
 
       const encodedTransaction = await service.encodeTransactionToSign(
-        chainId,
         completedTransaction,
         transaction.format
       );

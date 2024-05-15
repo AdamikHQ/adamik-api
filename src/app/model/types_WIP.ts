@@ -143,29 +143,6 @@ type ErrorMsg = {
 
 export type Format = "json" | "hex";
 
-// TODO Doc for each function
-interface ChainService<V = any> {
-  // Chain
-  //getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
-
-  // Address
-  pubkeyToAddress(chainId: ChainId, pubkey: string): Promise<string>;
-  validateAddress(chainId: ChainId, address: string): Promise<boolean>;
-
-  // Data
-  getAddressState(chainId: ChainId, address: string): Promise<AddressState>;
-  //getAddressHistory(chainId: ChainId, address: string): Promise<AddressHistory>;
-  getValidators?(chainId: ChainId, offset: number, limit: number): Promise<ValidatorResponse<V>>;
-
-  // Crafting
-  validateTransactionIntent(chainId: ChainId, transaction: PlainTransaction): Promise<TransactionStatus>;
-  completeTransaction(chainId: ChainId, transaction: PlainTransaction): Promise<PlainTransaction>;
-  validateTransaction(chainId: ChainId, transaction: PlainTransaction): Promise<TransactionStatus>;
-  encodeTransactionToSign(chainId: ChainId, transaction: PlainTransaction, format?: Format): Promise<string>;
-  encodeTransactionToBroadcast(chainId: ChainId, signedTransaction: Transaction): Promise<string>;
-  broadcastTransaction(chainId: ChainId, signedTransaction: string): Promise<BroadcastStatus>;
-}
-
 export { ChainId };
 export type {
   Chain,
@@ -177,5 +154,4 @@ export type {
   TransactionStatus,
   BroadcastStatus,
   ErrorMsg,
-  ChainService,
 };

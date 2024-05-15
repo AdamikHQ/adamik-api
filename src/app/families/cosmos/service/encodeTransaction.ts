@@ -1,16 +1,17 @@
-import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
+import { Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { encodeToSign, encodeToBroadcast } from "../logic";
+import { CosmosService } from ".";
 
 async function encodeTransactionToSign(
-  chainId: ChainId,
+  this: CosmosService,
   transaction: PlainTransaction,
   format?: Format
 ): Promise<string> {
-  return encodeToSign(chainId, transaction, format ?? "hex");
+  return encodeToSign(this.chainId, transaction, format ?? "hex");
 }
 
 async function encodeTransactionToBroadcast(
-  chainId: ChainId,
+  this: CosmosService,
   signedTransaction: Transaction
 ): Promise<string> {
   // FIXME keep string or include into Transaction's fields?...
@@ -21,7 +22,7 @@ async function encodeTransactionToBroadcast(
     throw new Error("encodeTransactionToBroadcast - Expected signedTransaction.signature");
   }
 
-  return encodeToBroadcast(chainId, signedTransaction);
+  return encodeToBroadcast(this.chainId, signedTransaction);
 }
 
 export { encodeTransactionToSign, encodeTransactionToBroadcast };

@@ -1,8 +1,9 @@
-import { ChainId, PlainTransaction } from "~/app/model/types_WIP";
+import { PlainTransaction } from "~/app/model/types_WIP";
 import { estimateMaxSpendable, getEstimatedFees } from "~/app/families/algorand/logic";
+import { AlgorandService } from ".";
 
 async function completeTransaction(
-  chainId: ChainId,
+  this: AlgorandService,
   transaction: PlainTransaction
 ): Promise<PlainTransaction> {
   const fees = await getEstimatedFees(transaction);

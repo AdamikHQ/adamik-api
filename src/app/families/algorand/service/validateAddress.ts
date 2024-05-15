@@ -1,7 +1,7 @@
 import { isValidAddress } from "algosdk";
-import { ChainId } from "~/app/model/types_WIP";
+import { AlgorandService } from ".";
 
-async function validateAddress(chainId: ChainId, address: string): Promise<boolean> {
+async function validateAddress(this: AlgorandService, address: string): Promise<boolean> {
   return isValidAddress(address);
 }
 

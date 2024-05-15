@@ -1,8 +1,8 @@
-export interface ValidatorResponse<T> {
-  validators: ValidatorDTO<T>[];
+export interface ValidatorResponse {
+  validators: ValidatorDTO[];
 }
 
-export interface ValidatorDTO<T> {
+export interface ValidatorDTO {
   address: string;
   name: string;
   logo?: string;
@@ -12,5 +12,5 @@ export interface ValidatorDTO<T> {
   commission: number;
   maxCommission?: number;
 
-  raw: T;
+  raw: unknown;
 }

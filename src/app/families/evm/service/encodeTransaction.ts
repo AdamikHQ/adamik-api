@@ -1,13 +1,14 @@
 import { toHex } from "viem";
-import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
+import { Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { client } from "../client";
+import { EvmService } from ".";
 
 async function encodeTransactionToSign(
-  chainId: ChainId,
+  this: EvmService,
   transaction: PlainTransaction,
   format?: Format
 ): Promise<string> {
-  const { maxFeePerGas, maxPriorityFeePerGas } = await client(chainId).estimateFeesPerGas();
+  const { maxFeePerGas, maxPriorityFeePerGas } = await client(this.chainId).estimateFeesPerGas();
 
   // FIXME: Parameters needed in metamask.
   const returnValue = {
@@ -24,7 +25,7 @@ async function encodeTransactionToSign(
 }
 
 async function encodeTransactionToBroadcast(
-  chainId: ChainId,
+  this: EvmService,
   signedTransaction: Transaction
 ): Promise<string> {
   // FIXME keep string or include into Transaction's fields?...
@@ -35,7 +36,7 @@ async function encodeTransactionToBroadcast(
     throw new Error("encodeTransactionToBroadcast - Expected signedTransaction.signature");
   }
 
-  return client(chainId).prepareTransactionRequest({
+  return client(this.chainId).prepareTransactionRequest({
     account: signedTransaction.plain.senders[0] as `0x${string}`,
     to: signedTransaction.plain.recipients[0] as `0x${string}`,
     value: signedTransaction.plain.amount,

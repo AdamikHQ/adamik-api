@@ -4,19 +4,21 @@ import { CosmosKeyring } from "./keyring/Cosmos";
 import TransportWebUSB from "@ledgerhq/hw-transport-webusb";
 import TransportWebBLE from "@ledgerhq/hw-transport-web-ble";
 
-const API_URL: string =
-  process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-    ? "https://adamik.vercel.app/api"
-    : process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
-    ? `https://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}/api`
-    : "http://localhost:3000/api";
+const API_URL =
+  // Custom URL that can be defined in an env var, locally or in Vercel
+  process.env.NEXT_PUBLIC_ADAMIK_API_TEST_URL ||
+  // Prod URL when running in a Vercel deployment
+  (process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://api.adamik.io/api`
+    : // localhost as a fallback
+      "http://localhost:3000/api");
 
 // For debugging - FIXME Use env files instead?
 //const API_URL: string = "https://192.168.1.150:3000/api";
 //const API_URL: string = "https://localhost:3000/api";
 
 const AUTH_HEADER: HeadersInit = {
-  Authorization: process.env.DEFAULT_API_KEY || "",
+  Authorization: process.env.NEXT_PUBLIC_ADAMIK_API_KEY || "",
 };
 
 const KEYRINGS: Map<string, Keyring> = new Map([

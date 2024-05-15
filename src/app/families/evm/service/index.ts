@@ -1,24 +1,30 @@
-import { ChainService } from "~/app/model/types_WIP";
-import { getAddressState } from "./getAddressState";
-import { encodeTransactionToBroadcast, encodeTransactionToSign } from "./encodeTransaction";
-import { broadcastTransaction } from "./broadcastTransaction";
-import { completeTransaction } from "./completeTransaction";
-import { pubkeyToAddress } from "./pubkeyToAddress";
-import { validateAddress } from "./validateAddress";
-import { validateTransaction, validateTransactionIntent } from "./validateTransaction";
+import { BaseChainService } from "~/app/model/service";
+import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
+import { validateAddress as validateAddressFn } from "./validateAddress";
+import { getAddressState as getAddressStateFn } from "./getAddressState";
+//import { getAddressHistory as getAddressHistoryFn } from "./getAddressHistory";
+import {
+  validateTransactionIntent as validateTransactionIntentFn,
+  validateTransaction as validateTransactionFn,
+} from "./validateTransaction";
+import { completeTransaction as completeTransactionFn } from "./completeTransaction";
+import {
+  encodeTransactionToSign as encodeTransactionToSignFn,
+  encodeTransactionToBroadcast as encodeTransactionToBroadcastFn,
+} from "./encodeTransaction";
+import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTransaction";
 
-const EvmService: ChainService = {
-  pubkeyToAddress,
-  validateAddress,
-  getAddressState,
-  //getAddressHistory,
-  // getValidators,
-  validateTransactionIntent,
-  validateTransaction,
-  completeTransaction,
-  encodeTransactionToSign,
-  encodeTransactionToBroadcast,
-  broadcastTransaction,
-};
+class EvmService extends BaseChainService {
+  pubkeyToAddress = pubkeyToAddressFn;
+  validateAddress = validateAddressFn;
+  getAddressState = getAddressStateFn;
+  //getAddressHistory = getAddressHistoryFn;
+  validateTransactionIntent = validateTransactionIntentFn;
+  completeTransaction = completeTransactionFn;
+  validateTransaction = validateTransactionFn;
+  encodeTransactionToSign = encodeTransactionToSignFn;
+  encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
+  broadcastTransaction = broadcastTransactionFn;
+}
 
 export { EvmService };

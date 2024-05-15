@@ -1,22 +1,23 @@
-import { PlainTransaction, TransactionStatus, ErrorMsg, ChainId } from "~/app/model/types_WIP";
+import { PlainTransaction, TransactionStatus, ErrorMsg } from "~/app/model/types_WIP";
 import { isValidAddress } from "../logic";
+import { CosmosService } from ".";
 
 // FIXME Same implem as algorand... something to make generic?
 async function validateTransactionIntent(
-  chainId: ChainId,
+  this: CosmosService,
   transaction: PlainTransaction
 ): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];
   const warnings: ErrorMsg[] = [];
 
-  const validSender = transaction.senders?.length && isValidAddress(chainId, transaction.senders[0]);
+  const validSender = transaction.senders?.length && isValidAddress(this.chainId, transaction.senders[0]);
   if (!validSender) {
     errors.push({ message: "Sender address is invalid" });
   }
 
   if (transaction.mode === "transfer") {
     const validRecipient =
-      transaction.recipients?.length && isValidAddress(chainId, transaction.recipients[0]);
+      transaction.recipients?.length && isValidAddress(this.chainId, transaction.recipients[0]);
     if (!validRecipient) {
       errors.push({ message: "Recipient address is invalid" });
     }
@@ -29,7 +30,8 @@ async function validateTransactionIntent(
       warnings.push({ message: "Same sender and recipient address" });
     }
   } else if (transaction.mode === "delegate") {
-    const validValidator = transaction.validator.length && isValidAddress(chainId, transaction.validator);
+    const validValidator =
+      transaction.validator.length && isValidAddress(this.chainId, transaction.validator);
     if (!validValidator) {
       errors.push({ message: "Validator address is invalid" });
     }
@@ -56,7 +58,7 @@ async function validateTransactionIntent(
 }
 
 async function validateTransaction(
-  chainId: ChainId,
+  this: CosmosService,
   transaction: PlainTransaction
 ): Promise<TransactionStatus> {
   // TODO Settle this (should validateTransaction call validateTransactionIntent first?)

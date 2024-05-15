@@ -1,7 +1,11 @@
 import { BroadcastStatus, ChainId } from "~/app/model/types_WIP";
 import { broadcastTransaction as broadcast } from "../backend/node";
+import { CosmosService } from ".";
 
-async function broadcastTransaction(chainId: ChainId, signedTransaction: string): Promise<BroadcastStatus> {
+async function broadcastTransaction(
+  this: CosmosService,
+  signedTransaction: string
+): Promise<BroadcastStatus> {
   const status: BroadcastStatus = {};
   try {
     const payload = JSON.stringify({
@@ -9,7 +13,7 @@ async function broadcastTransaction(chainId: ChainId, signedTransaction: string)
       mode: "BROADCAST_MODE_SYNC",
     });
 
-    status.hash = await broadcast(chainId, payload);
+    status.hash = await broadcast(this.chainId, payload);
   } catch (e) {
     status.error = {
       //code: "KO",

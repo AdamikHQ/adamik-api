@@ -1,14 +1,9 @@
-import { ChainId } from "~/app/model/types_WIP";
-import { fetchValidators } from "../backend/node";
-import { CosmosValidator } from "../backend/types";
 import { ValidatorResponse } from "~/app/model/validator";
+import { fetchValidators } from "../backend/node";
+import { CosmosService } from ".";
 
-async function getValidators(
-  chainId: ChainId,
-  offset: number,
-  limit: number
-): Promise<ValidatorResponse<CosmosValidator>> {
-  const response = await fetchValidators(chainId, offset, limit);
+async function getValidators(this: CosmosService, offset: number, limit: number): Promise<ValidatorResponse> {
+  const response = await fetchValidators(this.chainId, offset, limit);
   return {
     validators: response.validators.map((validator) => ({
       address: validator.operator_address,
@@ -22,4 +17,4 @@ async function getValidators(
   };
 }
 
-export { getValidators }
+export { getValidators };
