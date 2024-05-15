@@ -1,7 +1,7 @@
-import { ChainId } from "~/app/model/types_WIP";
 import { isAddress } from "viem";
+import { EvmService } from ".";
 
-async function validateAddress(chainId: ChainId, address: string): Promise<boolean> {
+async function validateAddress(this: EvmService, address: string): Promise<boolean> {
   return isAddress(address);
 }
 

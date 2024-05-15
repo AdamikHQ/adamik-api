@@ -1,10 +1,11 @@
-import { BroadcastStatus, ChainId } from "~/app/model/types_WIP";
+import { BroadcastStatus } from "~/app/model/types_WIP";
 import { client } from "../client";
+import { EvmService } from ".";
 
-async function broadcastTransaction(chainId: ChainId, signedTransaction: string): Promise<BroadcastStatus> {
+async function broadcastTransaction(this: EvmService, signedTransaction: string): Promise<BroadcastStatus> {
   const status: BroadcastStatus = {};
   try {
-    const hash = await client(chainId).sendRawTransaction(JSON.parse(signedTransaction));
+    const hash = await client(this.chainId).sendRawTransaction(JSON.parse(signedTransaction));
     status.hash = hash;
   } catch (e) {
     status.error = {

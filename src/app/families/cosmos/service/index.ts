@@ -1,27 +1,32 @@
-import { ChainService } from "~/app/model/types_WIP";
-import { pubkeyToAddress } from "./pubkeyToAddress";
-import { validateAddress } from "./validateAddress";
-import { getAddressState } from "./getAddressState";
-//import { getAddressHistory } from "./getAddressHistory";
-import { validateTransactionIntent, validateTransaction } from "./validateTransaction";
-import { completeTransaction } from "./completeTransaction";
-import { encodeTransactionToSign, encodeTransactionToBroadcast } from "./encodeTransaction";
-import { broadcastTransaction } from "./broadcastTransaction";
-import { getValidators } from "./getValidators";
-import { CosmosValidator } from "../backend/types";
+import { BaseChainService, StakingService } from "~/app/model/service";
+import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
+import { validateAddress as validateAddressFn } from "./validateAddress";
+import { getAddressState as getAddressStateFn } from "./getAddressState";
+//import { getAddressHistory as getAddressHistoryFn } from "./getAddressHistory";
+import {
+  validateTransactionIntent as validateTransactionIntentFn,
+  validateTransaction as validateTransactionFn,
+} from "./validateTransaction";
+import { completeTransaction as completeTransactionFn } from "./completeTransaction";
+import {
+  encodeTransactionToSign as encodeTransactionToSignFn,
+  encodeTransactionToBroadcast as encodeTransactionToBroadcastFn,
+} from "./encodeTransaction";
+import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTransaction";
+import { getValidators as getValidatorsFn } from "./getValidators";
 
-const CosmosService: ChainService<CosmosValidator> = {
-  pubkeyToAddress,
-  validateAddress,
-  getAddressState,
-  //getAddressHistory,
-  getValidators,
-  validateTransactionIntent,
-  validateTransaction,
-  completeTransaction,
-  encodeTransactionToSign,
-  encodeTransactionToBroadcast,
-  broadcastTransaction,
-};
+class CosmosService extends BaseChainService implements StakingService {
+  pubkeyToAddress = pubkeyToAddressFn;
+  validateAddress = validateAddressFn;
+  getAddressState = getAddressStateFn;
+  //getAddressHistory = getAddressHistoryFn;
+  getValidators = getValidatorsFn;
+  validateTransactionIntent = validateTransactionIntentFn;
+  completeTransaction = completeTransactionFn;
+  validateTransaction = validateTransactionFn;
+  encodeTransactionToSign = encodeTransactionToSignFn;
+  encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
+  broadcastTransaction = broadcastTransactionFn;
+}
 
 export { CosmosService };

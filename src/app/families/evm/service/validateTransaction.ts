@@ -1,8 +1,9 @@
 import { isAddress } from "viem";
-import { PlainTransaction, TransactionStatus, ErrorMsg, ChainId } from "~/app/model/types_WIP";
+import { PlainTransaction, TransactionStatus, ErrorMsg } from "~/app/model/types_WIP";
+import { EvmService } from ".";
 
 async function validateTransactionIntent(
-  chainId: ChainId,
+  this: EvmService,
   transaction: PlainTransaction
 ): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];
@@ -47,7 +48,7 @@ async function validateTransactionIntent(
 }
 
 async function validateTransaction(
-  chainId: ChainId,
+  this: EvmService,
   transaction: PlainTransaction
 ): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];
@@ -62,6 +63,7 @@ async function validateTransaction(
   }
   //*/
 
+  // TODO !!!
 
   return {
     errors,

@@ -1,30 +1,32 @@
-import { ChainId, ChainService } from "~/app/model/types_WIP";
+import { ChainId } from "~/app/model/types_WIP";
+import { BaseChainService } from "~/app/model/service";
 import { AlgorandService } from "./algorand/service";
 import { CosmosService } from "./cosmos/service";
 import { EvmService } from "./evm/service";
 
-// TODO I don't like the current loose coupling Service <> Chain:
-// - it requires to move around a chain.id in almost every function
-// - it doesn't prevent to use an incompatible chainID
-// Would be good to have a way to set only once the chain used by a service,
-// for all its lifetime. Probably needs to define ChainService as a class...
-const services: Map<ChainId, ChainService> = new Map([
-  [ChainId.ALGORAND, AlgorandService],
-  [ChainId.COSMOSHUB, CosmosService],
-  [ChainId.OSMOSIS, CosmosService],
-  [ChainId.COSMOSHUB_TESTNET, CosmosService],
-  [ChainId.ETHEREUM, EvmService],
-  [ChainId.SEPOLIA, EvmService],
-  [ChainId.HOLESKY, EvmService],
-  [ChainId.ZKSYNC, EvmService],
-  [ChainId.ZKSYNC_SEPOLIA, EvmService],
-  [ChainId.INJECTIVE_TESTNET, EvmService],
-  [ChainId.BASE, EvmService],
-  [ChainId.BASE_SEPOLIA, EvmService],
-  [ChainId.OPTIMISM, EvmService],
-  [ChainId.OPTIMISM_SEPOLIA, EvmService],
-  [ChainId.ARBITRUM, EvmService],
-  [ChainId.ARBITRUM_SEPOLIA, EvmService],
+// Mapping of service to use for each supported chain ID
+const SERVICES = new Map<ChainId, BaseChainService>([
+  // Algorand
+  [ChainId.ALGORAND, new AlgorandService(ChainId.ALGORAND)],
+
+  // Cosmos
+  [ChainId.COSMOSHUB, new CosmosService(ChainId.COSMOSHUB)],
+  [ChainId.COSMOSHUB_TESTNET, new CosmosService(ChainId.COSMOSHUB_TESTNET)],
+  [ChainId.OSMOSIS, new CosmosService(ChainId.OSMOSIS)],
+
+  // EVM
+  [ChainId.ETHEREUM, new EvmService(ChainId.ETHEREUM)],
+  [ChainId.SEPOLIA, new EvmService(ChainId.SEPOLIA)],
+  [ChainId.HOLESKY, new EvmService(ChainId.HOLESKY)],
+  [ChainId.ZKSYNC, new EvmService(ChainId.ZKSYNC)],
+  [ChainId.ZKSYNC_SEPOLIA, new EvmService(ChainId.ZKSYNC_SEPOLIA)],
+  [ChainId.INJECTIVE_TESTNET, new EvmService(ChainId.INJECTIVE_TESTNET)],
+  [ChainId.BASE, new EvmService(ChainId.BASE)],
+  [ChainId.BASE_SEPOLIA, new EvmService(ChainId.BASE_SEPOLIA)],
+  [ChainId.OPTIMISM, new EvmService(ChainId.OPTIMISM)],
+  [ChainId.OPTIMISM_SEPOLIA, new EvmService(ChainId.OPTIMISM_SEPOLIA)],
+  [ChainId.ARBITRUM, new EvmService(ChainId.ARBITRUM)],
+  [ChainId.ARBITRUM_SEPOLIA, new EvmService(ChainId.ARBITRUM_SEPOLIA)],
 ]);
 
-export { services };
+export { SERVICES };

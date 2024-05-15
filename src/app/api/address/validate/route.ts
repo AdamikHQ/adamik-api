@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { services } from "~/app/families/services";
+import { SERVICES } from "~/app/families/services";
 import { handleRequestValidationError } from "~/app/api/schemaCommon";
 import { requestSchema } from "./schema";
 
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const { chainId, address } = body;
 
-  const service = services.get(chainId);
+  const service = SERVICES.get(chainId);
   if (!service) {
     return NextResponse.json(
       { message: `Chain ID ${chainId} is not supported` },
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const isValid = await service.validateAddress(chainId, address);
+  const isValid = await service.validateAddress(address);
 
   return NextResponse.json(isValid);
 }

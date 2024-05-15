@@ -1,9 +1,13 @@
 import { decode as msgpackDecode } from "algo-msgpack-with-bigint";
 import { EncodedTransaction as AlgoEncodedTransaction } from "algosdk";
-import { ChainId, PlainTransaction, Transaction } from "~/app/model/types_WIP";
+import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { buildRawTransaction, encodeToSign, encodeToBroadcast } from "~/app/families/algorand/logic";
+import { AlgorandService } from ".";
 
-async function encodeTransactionToSign(chainId: ChainId, transaction: PlainTransaction): Promise<string> {
+async function encodeTransactionToSign(
+  this: AlgorandService,
+  transaction: PlainTransaction
+): Promise<string> {
   const rawTransaction = await buildRawTransaction(transaction);
   const encodedTransaction = encodeToSign(rawTransaction);
 
@@ -11,7 +15,7 @@ async function encodeTransactionToSign(chainId: ChainId, transaction: PlainTrans
 }
 
 async function encodeTransactionToBroadcast(
-  chainId: ChainId,
+  this: AlgorandService,
   signedTransaction: Transaction
 ): Promise<string> {
   // FIXME keep string or include into Transaction's fields?...

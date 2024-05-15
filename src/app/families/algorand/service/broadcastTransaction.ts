@@ -1,7 +1,11 @@
 import { BroadcastStatus, ChainId } from "~/app/model/types_WIP";
 import { broadcast } from "../backend/node";
+import { AlgorandService } from ".";
 
-async function broadcastTransaction(chainId: ChainId, signedTransaction: string): Promise<BroadcastStatus> {
+async function broadcastTransaction(
+  this: AlgorandService,
+  signedTransaction: string
+): Promise<BroadcastStatus> {
   const status: BroadcastStatus = {};
   try {
     status.hash = await broadcast(Buffer.from(signedTransaction, "hex"));

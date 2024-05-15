@@ -1,24 +1,30 @@
-import { ChainService } from "~/app/model/types_WIP";
-import { pubkeyToAddress } from "./pubkeyToAddress";
-import { validateAddress } from "./validateAddress";
-import { getAddressState } from "./getAddressState";
-//import { getAddressHistory } from "./getAddressHistory";
-import { validateTransactionIntent, validateTransaction } from "./validateTransaction";
-import { completeTransaction } from "./completeTransaction";
-import { encodeTransactionToSign, encodeTransactionToBroadcast } from "./encodeTransaction";
-import { broadcastTransaction } from "./broadcastTransaction";
+import { BaseChainService } from "~/app/model/service";
+import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
+import { validateAddress as validateAddressFn } from "./validateAddress";
+import { getAddressState as getAddressStateFn } from "./getAddressState";
+//import { getAddressHistory as getAddressHistoryFn } from "./getAddressHistory";
+import {
+  validateTransactionIntent as validateTransactionIntentFn,
+  validateTransaction as validateTransactionFn,
+} from "./validateTransaction";
+import { completeTransaction as completeTransactionFn } from "./completeTransaction";
+import {
+  encodeTransactionToSign as encodeTransactionToSignFn,
+  encodeTransactionToBroadcast as encodeTransactionToBroadcastFn,
+} from "./encodeTransaction";
+import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTransaction";
 
-const AlgorandService: ChainService = {
-  pubkeyToAddress,
-  validateAddress,
-  getAddressState,
-  //getAddressHistory,
-  validateTransactionIntent,
-  validateTransaction,
-  completeTransaction,
-  encodeTransactionToSign,
-  encodeTransactionToBroadcast,
-  broadcastTransaction,
-};
+class AlgorandService extends BaseChainService {
+  pubkeyToAddress = pubkeyToAddressFn;
+  validateAddress = validateAddressFn;
+  getAddressState = getAddressStateFn;
+  //getAddressHistory = getAddressHistoryFn;
+  validateTransactionIntent = validateTransactionIntentFn;
+  completeTransaction = completeTransactionFn;
+  validateTransaction = validateTransactionFn;
+  encodeTransactionToSign = encodeTransactionToSignFn;
+  encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
+  broadcastTransaction = broadcastTransactionFn;
+}
 
 export { AlgorandService };

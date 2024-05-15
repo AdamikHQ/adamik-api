@@ -1,6 +1,6 @@
-import { ChainId } from "~/app/model/types_WIP";
+import { EvmService } from ".";
 
-async function pubkeyToAddress(chainId: ChainId, pubkey: string): Promise<string> {
+async function pubkeyToAddress(this: EvmService, pubkey: string): Promise<string> {
   throw new Error("Not implemented");
 }
 

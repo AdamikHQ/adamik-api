@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://adamik.vercel.app"
+      "url": "https://api.adamik.io"
     }
   ],
   "security": [

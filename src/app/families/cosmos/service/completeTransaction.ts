@@ -1,20 +1,21 @@
-import { ChainId, PlainTransaction } from "~/app/model/types_WIP";
+import { PlainTransaction } from "~/app/model/types_WIP";
 import { getEstimatedFees } from "../logic";
 import { fetchBalance } from "../backend/node";
+import { CosmosService } from ".";
 
 // TODO Make sure heavy functions aren't called multiple times / unnecessarily
 // (buildTransaction, network calls, etc...)
 
 async function completeTransaction(
-  chainId: ChainId,
+  this: CosmosService,
   transaction: PlainTransaction
 ): Promise<PlainTransaction> {
-  const balance = await fetchBalance(chainId, transaction.senders[0]);
+  const balance = await fetchBalance(this.chainId, transaction.senders[0]);
   const transactionToEstimate = {
     ...transaction,
     amount: transaction.useMaxAmount ? balance - 2500n : transaction.amount, // FIXME Magic number !
   };
-  const { gasWanted, gasWantedFees } = await getEstimatedFees(chainId, transactionToEstimate);
+  const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, transactionToEstimate);
 
   const amount = transaction.useMaxAmount
     ? balance > gasWantedFees

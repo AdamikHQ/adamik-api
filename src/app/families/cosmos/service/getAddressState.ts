@@ -1,8 +1,9 @@
-import { AddressState, ChainId } from "~/app/model/types_WIP";
+import { AddressState } from "~/app/model/types_WIP";
 import { fetchBalance } from "../backend/node";
+import { CosmosService } from ".";
 
-async function getAddressState(chainId: ChainId, address: string): Promise<AddressState> {
-  const balance = await fetchBalance(chainId, address);
+async function getAddressState(this: CosmosService, address: string): Promise<AddressState> {
+  const balance = await fetchBalance(this.chainId, address);
   return { balances: { available: balance } };
 }
 

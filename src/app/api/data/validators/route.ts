@@ -1,8 +1,9 @@
 import "~/patch";
 import { NextRequest, NextResponse } from "next/server";
-import { services } from "~/app/families/services";
+import { SERVICES } from "~/app/families/services";
 import { requestSchema } from "./schema";
 import { handleRequestValidationError } from "~/app/api/schemaCommon";
+import { isStakingService } from "~/app/model/service";
 
 // TODO Make sure to document this implicit limit in the doc / swagger description
 // We could also add something in the response to help user know what to fetch next (next limit, next URL...)
@@ -18,7 +19,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const { chainId, limit, offset } = body;
 
-  const service = services.get(chainId);
+  const service = SERVICES.get(chainId);
+
   if (!service) {
     return NextResponse.json(
       { message: `Chain ID ${chainId} is not supported` },
@@ -26,14 +28,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  if (!service.getValidators) {
+  if (!isStakingService(service)) {
     return NextResponse.json(
-      { message: `No validators for chain ID ${chainId}` },
+      { message: `Staking not implemented for chain ID ${chainId}` },
       { status: 400, statusText: "Invalid chainId" }
     );
   }
 
-  const validatorResponse = await service.getValidators(chainId, offset ?? 0, limit ?? VALIDATORS_LIMIT);
+  const validatorResponse = await service.getValidators(offset ?? 0, limit ?? VALIDATORS_LIMIT);
 
   return NextResponse.json(validatorResponse);
 }
