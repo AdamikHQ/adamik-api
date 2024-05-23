@@ -19,6 +19,7 @@
     "@ledgerhq/hw-app-algorand": "^6.28.1",
     "@ledgerhq/hw-transport-web-ble": "^6.28.4",
     "@ledgerhq/hw-transport-webusb": "^6.28.4",
+    "@t3-oss/env-nextjs": "^0.10.1",
     "@vercel/edge-config": "^1.1.0",
     "@zondax/ledger-cosmos-js": "^3.0.3",
     "algo-msgpack-with-bigint": "^2.1.1",
