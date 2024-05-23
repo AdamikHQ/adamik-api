@@ -85,11 +85,11 @@ async function estimateMaxSpendable(transaction: PlainTransaction): Promise<bigi
   };
 
   // TODO Validation: exactly 1 sender & 1 recipient
-  const { balance, assets } = await fetchAccount(transaction.senders[0]);
+  const { balance, assetAmounts } = await fetchAccount(transaction.senders[0]);
 
   const maxSpendable = computeAlgoMaxSpendable({
     accountBalance: balance,
-    nbAccountAssets: assets.length,
+    nbAccountAssets: assetAmounts.length,
     mode: tx.mode,
   });
 
