@@ -11,8 +11,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       decimals: 6,
     },
     backends: {
-      nodeURL: "https://algorand.coin.ledger.com/ps2/v2",
-      explorerURL: "https://algorand.coin.ledger.com/idx2/v2",
+      nodeURL: "https://mainnet-idx.algonode.cloud/v2",
+      explorerURL: "https://mainnet-idx.algonode.cloud/v2",
     },
   },
   cosmoshub: {

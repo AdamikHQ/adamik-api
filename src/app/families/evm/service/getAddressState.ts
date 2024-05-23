@@ -24,12 +24,15 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
 
   for (const event of eventPerContractAddress.values()) {
     const { contractAddress, tokenName, tokenSymbol, tokenDecimal } = event;
+
     const tokenBalance = await getERC20Balance(this.chainId, contractAddress, address);
+
     const tokenUnit: Unit = {
       id: tokenName,
       tag: tokenSymbol,
       decimals: +tokenDecimal, // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Unary_plus
     };
+
     tokenAmounts.push({
       unit: tokenUnit,
       value: tokenBalance,
