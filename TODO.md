@@ -40,7 +40,7 @@
   - [ ] code documentation: comments + .md for design choices
 - [ ] Use tooling on repo:
   - [ ] 'unimported'
-  - [ ] 'dpdm'
+  - [ ] 'madge'
   - [ ] 'depcheck'
 
 ## CHAINS
