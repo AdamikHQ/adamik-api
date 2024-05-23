@@ -1,4 +1,4 @@
-import { PlainTransaction, TransactionStatus, ErrorMsg } from "~/app/model/types_WIP";
+import { PlainTransaction, TransactionStatus, ErrorMsg, TransactionMode } from "~/app/model/types_WIP";
 import { isValidAddress } from "../logic";
 import { CosmosService } from ".";
 
@@ -15,7 +15,7 @@ async function validateTransactionIntent(
     errors.push({ message: "Sender address is invalid" });
   }
 
-  if (transaction.mode === "transfer") {
+  if (transaction.mode === TransactionMode.TRANSFER) {
     const validRecipient =
       transaction.recipients?.length && isValidAddress(this.chainId, transaction.recipients[0]);
     if (!validRecipient) {
@@ -29,7 +29,7 @@ async function validateTransactionIntent(
     ) {
       warnings.push({ message: "Same sender and recipient address" });
     }
-  } else if (transaction.mode === "delegate") {
+  } else if (transaction.mode === TransactionMode.DELEGATE) {
     const validValidator =
       transaction.validator.length && isValidAddress(this.chainId, transaction.validator);
     if (!validValidator) {
@@ -38,7 +38,7 @@ async function validateTransactionIntent(
   }
 
   switch (transaction.mode) {
-    case "transfer": {
+    case TransactionMode.TRANSFER: {
       if (transaction.amount === undefined && !transaction.useMaxAmount) {
         errors.push({ message: "Missing amount or useMaxAmount" });
       } else if (!!transaction.amount && transaction.useMaxAmount) {

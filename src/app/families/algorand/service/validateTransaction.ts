@@ -1,5 +1,5 @@
 import { isValidAddress } from "algosdk";
-import { PlainTransaction, TransactionStatus, ErrorMsg } from "~/app/model/types_WIP";
+import { PlainTransaction, TransactionStatus, ErrorMsg, TransactionMode } from "~/app/model/types_WIP";
 import { ALGORAND_MAX_MEMO_SIZE, isAmountValidForRecipient, estimateMaxSpendable } from "../logic";
 import { AlgorandService } from ".";
 
@@ -30,7 +30,7 @@ async function validateTransactionIntent(
   }
 
   switch (transaction.mode) {
-    case "transfer": {
+    case TransactionMode.TRANSFER: {
       if (transaction.amount === undefined && !transaction.useMaxAmount) {
         errors.push({ message: "Missing amount or useMaxAmount" });
       } else if (!!transaction.amount && transaction.useMaxAmount) {
@@ -72,7 +72,7 @@ async function validateTransaction(
   const maxSpendable = await estimateMaxSpendable(transaction);
 
   switch (transaction.mode) {
-    case "transfer": {
+    case TransactionMode.TRANSFER: {
       if (!(await isAmountValidForRecipient(transaction.recipients[0], transaction.amount))) {
         errors.push({
           message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",

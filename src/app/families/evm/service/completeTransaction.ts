@@ -1,6 +1,6 @@
 import { EstimateGasErrorType } from "viem";
 import { PlainTransaction } from "~/app/model/types_WIP";
-import { client } from "../client";
+import { getNodeClient } from "../backend/node";
 import { getFees } from "../logic";
 import { EvmService } from ".";
 
@@ -12,13 +12,13 @@ async function completeTransaction(
   transaction: PlainTransaction
 ): Promise<PlainTransaction> {
   try {
-    const gas = await client(this.chainId).estimateGas({
+    const gas = await getNodeClient(this.chainId).estimateGas({
       account: transaction.senders[0] as `0x${string}`,
       to: transaction.recipients[0] as `0x${string}`,
       value: transaction.amount,
     });
 
-    const { maxFeePerGas } = await client(this.chainId).estimateFeesPerGas();
+    const { maxFeePerGas } = await getNodeClient(this.chainId).estimateFeesPerGas();
 
     if (maxFeePerGas === undefined) {
       throw new Error("maxFeePerGas is undefined");
@@ -28,7 +28,7 @@ async function completeTransaction(
 
     const amount = await (async () => {
       if (transaction.useMaxAmount) {
-        const balance = await client(this.chainId).getBalance({
+        const balance = await getNodeClient(this.chainId).getBalance({
           address: transaction.senders[0] as `0x${string}`,
         });
 

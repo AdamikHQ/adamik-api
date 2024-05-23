@@ -1,9 +1,5 @@
-import { CosmosParams } from "../families/cosmos/constants";
-import { EvmParams } from "../families/evm/constants";
-import { ValidatorResponse } from "./validator";
-
-// FIXME Can't be validated at runtime!
-//type ChainId = "algorand" | "cosmoshub";
+import { CosmosParams } from "../families/cosmos/types";
+import { EvmParams } from "../families/evm/types";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -25,20 +21,41 @@ enum ChainId {
 }
 
 type Unit = {
-  name: string;
-  code: string;
+  id: string;
+  tag: string;
   decimals: number;
+};
+
+type Amount = {
+  unit: Unit;
+  value: bigint;
 };
 
 type ChainParams = CosmosParams | EvmParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
 
+// FIXME Can TParams be replaced with ChainParams?
 type Chain<TParams> = {
   id: ChainId;
+  //nativeId: string; // e.g value of chain-id on EVM
   name: string;
   family: string;
-  units: Unit[];
+  unit: Unit;
   backends: Backends;
   params?: TParams;
+};
+
+type TokenType = "ERC20" | "ASA";
+// Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
+
+// Unused/unneeded at the moment
+type Token = {
+  chainId: ChainId;
+  type: TokenType;
+  id: string; // <ChainID>/<type>/<nativeId>
+  nativeId: string; // e.g contract address on EVM
+  name: string;
+  unit: Unit;
+  contractAddress?: string;
 };
 
 type Backends = {
@@ -47,15 +64,31 @@ type Backends = {
 };
 
 type AddressState = {
+  chainId: ChainId;
   balances: {
-    available: bigint;
-    //locked: bigint;
-    //unlocking: bigint[];
-    //unlocked: bigint;
+    native: {
+      available: Amount; // Cosmos, Polkadot, Solana : provides available, need to deduce total from staking
+      //total: ChainAmount; // Will need staking
+    };
+    tokens?: Amount[];
   };
+  //rewards?: {
+  //  pending: ChainAmount;
+  //};
+  //staking?: {
+  //locked: bigint;
+  //unlocking: bigint[];
+  //unlocked: bigint;
+  //}
 };
-// FIXME Can't be validated at runtime!
-type TransactionMode = "transfer" | "optIn" | "claimReward" | "delegate" | "undelegate" | "redelegate";
+
+enum TransactionMode {
+  TRANSFER = "transfer",
+  DELEGATE = "delegate",
+  REDELEGATE = "redelegate",
+  UNDELEGATE = "undelegate",
+  CLAIM_REWARD = "claimReward",
+}
 
 // TODO WIP
 // FIXME de/serialization types <> string
@@ -63,6 +96,7 @@ type TransactionMode = "transfer" | "optIn" | "claimReward" | "delegate" | "unde
 // FIXME one 'PlainTransaction' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
 type CommonTransaction = {
+  mode: TransactionMode;
   chainId: ChainId;
   senders: string[];
   recipients: string[];
@@ -77,27 +111,27 @@ type CommonTransaction = {
 };
 
 type TransferTransaction = CommonTransaction & {
-  mode: "transfer";
+  mode: TransactionMode.TRANSFER;
 };
 
 type DelegateTransaction = CommonTransaction & {
-  mode: "delegate";
+  mode: TransactionMode.DELEGATE;
   validator: string;
 };
 
 type UndelegateTransaction = CommonTransaction & {
-  mode: "undelegate";
+  mode: TransactionMode.UNDELEGATE;
   validator: string;
 };
 
 type RedelegateTransaction = CommonTransaction & {
-  mode: "redelegate";
+  mode: TransactionMode.REDELEGATE;
   sourceValidator: string;
   targetValidator: string;
 };
 
 type ClaimRewardTransaction = CommonTransaction & {
-  mode: "claimReward";
+  mode: TransactionMode.CLAIM_REWARD;
   validator: string;
 };
 
@@ -143,12 +177,14 @@ type ErrorMsg = {
 
 export type Format = "json" | "hex";
 
-export { ChainId };
+export { ChainId, TransactionMode };
 export type {
+  Unit,
+  Amount,
   Chain,
   ChainParams,
+  Token,
   AddressState,
-  TransactionMode,
   PlainTransaction,
   Transaction,
   TransactionStatus,

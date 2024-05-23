@@ -64,7 +64,8 @@ function computeAlgoMaxSpendable({
 function computeMinimumAlgoBalance(mode: TransactionMode, nbAccountAssets: number): number {
   const base = 100000; // 0.1 ALGO = 100000 mALGO
   const currentAssets = nbAccountAssets;
-  const newAsset = mode === "optIn" ? 1 : 0;
+  //const newAsset = mode === "optIn" ? 1 : 0;
+  const newAsset = 0;
   return base * (1 + currentAssets + newAsset);
 }
 
