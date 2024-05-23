@@ -29,4 +29,4 @@ type EvmParams = {
   isL2Fees?: boolean;
 };
 
-export type { Chain, ChainParams };
+export type { Chain, ChainParams, CosmosParams, EvmParams };

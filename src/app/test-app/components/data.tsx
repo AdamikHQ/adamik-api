@@ -46,9 +46,9 @@ function Data({ props }: { props: Props }) {
       <br />
       <br />
 
-      <label>Balance (in {chain.units[0].name})</label>
+      <label>Balance (in {chain.unit.tag})</label>
       <br />
-      <div>{amountToMainUnit(balance, chain.units[0].decimals)}</div>
+      <div>{amountToMainUnit(balance, chain.unit.decimals)}</div>
       <br />
 
       <div className="vertically-centered">
