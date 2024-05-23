@@ -6,7 +6,8 @@ import { ChainId } from "~/app/model/types_WIP";
 
 const chainIdSchema = z.nativeEnum(ChainId);
 
-const transactionModeSchema = z.union([z.literal("transfer"), z.literal("optIn"), z.literal("claimReward")]);
+// FIXME This should be built from TransactionMode instead of hardcoded
+const transactionModeSchema = z.union([z.literal("transfer"), z.literal("delegate")]);
 
 // TODO Experiment with modular zod schemas:
 /*

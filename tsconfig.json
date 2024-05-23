@@ -12,8 +12,8 @@
       "dom.iterable",
       "es2020"
     ],
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "module": "es2020",
+    "moduleResolution": "bundler",
     "noEmit": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
