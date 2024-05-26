@@ -1,5 +1,11 @@
 import { CHAINS } from "~/app/config/chains";
-import { AlgoAccount, AlgoAsset, AlgoTransactionParams, AlgoTransactionBroadcastResponse } from "./types";
+import {
+  AlgoAccount,
+  AlgoAsset,
+  AlgoTransactionParams,
+  AlgoTransactionBroadcastResponse,
+  AlgoAssetAmount,
+} from "./types";
 
 // TODO Caching !
 // TODO Sanitize data from backend
@@ -9,24 +15,40 @@ const ROOT_URL = CHAINS.algorand.backends.nodeURL;
 async function fetchAccount(address: string): Promise<AlgoAccount> {
   const url = `${ROOT_URL}/accounts/${address}`;
 
-  const data = await fetch(url).then((response) => response.json());
+  // NOTE: non-standard response format from the current algonode.cloud provider:
+  // additional top-level "account" field, instead of flat account data in standard response
+  const { account } = await fetch(url).then((response) => response.json());
 
-  const assets: AlgoAsset[] = data.assets
-    ? // FIXME: what is the type of `a`?
-      data.assets.map((a: any): AlgoAsset => {
+  const assetAmounts: AlgoAssetAmount[] = account.assets
+    ? account.assets.map((asset: { "asset-id": number; amount: number }): AlgoAssetAmount => {
         return {
-          assetId: a["asset-id"].toString(),
-          balance: BigInt(a.amount),
+          assetId: asset["asset-id"].toString(),
+          amount: BigInt(asset.amount),
         };
       })
     : [];
 
   return {
-    round: data.round,
-    address: data.address,
-    balance: BigInt(data.amount),
-    pendingRewards: BigInt(data["pending-rewards"]),
-    assets,
+    round: account.round,
+    address: account.address,
+    balance: BigInt(account.amount),
+    pendingRewards: BigInt(account["pending-rewards"]),
+    assetAmounts,
+  };
+}
+
+async function fetchASA(assetId: string): Promise<AlgoAsset> {
+  const url = `${ROOT_URL}/assets/${assetId}`;
+
+  // NOTE: non-standard response format from the current algonode.cloud provider:
+  // additional top-level "asset" field, instead of flat asset data in standard response
+  const { asset } = await fetch(url).then((response) => response.json());
+
+  return {
+    assetId,
+    name: asset.params.name,
+    unitName: asset.params["unit-name"],
+    decimals: asset.params.decimals,
   };
 }
 
@@ -59,8 +81,8 @@ async function broadcast(payload: Buffer): Promise<string> {
   if (data.message) {
     throw new Error(data.message);
   }
-  
+
   return data.txId;
 }
 
-export { fetchAccount, fetchTransactionParams, broadcast };
+export { fetchAccount, fetchASA, fetchTransactionParams, broadcast };

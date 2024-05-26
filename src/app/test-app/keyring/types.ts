@@ -1,5 +1,7 @@
+import { ChainParams } from "../server-types";
+
 type Reader = {
-  getAddress({ accountNb, chainPrefix }: { accountNb?: number; chainPrefix?: string }): Promise<{
+  getAddress({ accountNb, chainParams }: { accountNb?: number; chainParams?: ChainParams }): Promise<{
     publicKey: string;
     address: string;
   }>;

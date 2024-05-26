@@ -1,7 +1,7 @@
-import { CHAINS, getChain } from "~/app/config/chains";
+import { CHAINS } from "~/app/config/chains";
 import { CosmosAccount, CosmosValidatorResponse } from "./types";
 import { ChainId } from "~/app/model/types_WIP";
-import { CosmosParams } from "../constants";
+import { CosmosParams } from "../types";
 
 // TODO Caching !
 // TODO Sanitize data from backend
@@ -10,14 +10,13 @@ const getRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
 
 async function fetchBalance(chainId: ChainId, address: string): Promise<bigint> {
   const url = `${getRootUrl(chainId)}/cosmos/bank/v1beta1/balances/${address}`;
-  const units = CHAINS[chainId].units;
-  const denom = units[units.length - 1].code; // Last unit is the smallest, by convention
+  const chainParams = CHAINS[chainId].params as CosmosParams;
 
   const data = await fetch(url).then((response) => response.json());
 
   return data.balances.reduce(
     (sum: bigint, item: { denom: string; amount: string }) =>
-      item.denom === denom ? sum + BigInt(item.amount) : sum,
+      item.denom === chainParams.denom ? sum + BigInt(item.amount) : sum,
     0n
   );
 }
@@ -37,11 +36,12 @@ async function fetchValidators(
 }
 
 async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAccount> {
-  const params = getChain<CosmosParams>(chainId).params;
+  const chainParams = CHAINS[chainId].params as CosmosParams;
+
   const accountData = {
     accountNumber: 0n,
     sequence: 0n,
-    pubKeyType: params?.defaultPubKeyType || "",
+    pubKeyType: chainParams.defaultPubKeyType || "",
     pubKey: "",
   };
 
