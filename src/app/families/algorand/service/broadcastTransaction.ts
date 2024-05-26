@@ -1,4 +1,4 @@
-import { BroadcastStatus, ChainId } from "~/app/model/types_WIP";
+import { BroadcastStatus } from "~/app/model/types_WIP";
 import { broadcast } from "../backend/node";
 import { AlgorandService } from ".";
 

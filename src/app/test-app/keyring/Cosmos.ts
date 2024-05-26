@@ -1,13 +1,17 @@
 import { Keyring } from "./types";
 import { CosmosApp as LedgerApp } from "@zondax/ledger-cosmos-js";
-import { getTransport } from "../shared";
+import { CosmosParams, getTransport } from "../shared";
 
 const DERIVATION_PATH = (accountNb: number) => `44'/118'/${accountNb}'/0/0`;
 
 const splitPathNodes = (path: string): number[] => path.split("/").map((p) => parseInt(p.replace("'", "")));
 
 const CosmosKeyring: Keyring = {
-  async getAddress({ accountNb = 0, chainPrefix }: { accountNb: number; chainPrefix: string }) {
+  async getAddress({ accountNb = 0, chainParams }: { accountNb: number; chainParams?: CosmosParams }) {
+    if (!chainParams || !chainParams.prefix) {
+      throw new Error("Invalid CosmosParams provided to getAddress");
+    }
+
     const transport = await getTransport();
     const ledgerApp = new LedgerApp(transport);
     const derivationPath = DERIVATION_PATH(accountNb);
@@ -15,7 +19,7 @@ const CosmosKeyring: Keyring = {
     const pathNodes = splitPathNodes(derivationPath);
     const { compressed_pk: publicKey, bech32_address: address } = await ledgerApp.getAddressAndPubKey(
       pathNodes,
-      chainPrefix,
+      chainParams.prefix,
       false
     );
 

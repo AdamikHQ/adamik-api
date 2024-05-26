@@ -21,10 +21,11 @@ import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
 import { MsgSend as ProtoMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 //import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
-import { ChainId, Format, PlainTransaction, Transaction } from "~/app/model/types_WIP";
+import { ChainId, Format, PlainTransaction, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
-import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, CosmosParams } from "./constants";
-import { CHAINS, getChain } from "~/app/config/chains";
+import { CosmosParams } from "./types";
+import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY } from "./constants";
+import { CHAINS } from "~/app/config/chains";
 import { MsgBeginRedelegate, MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
 // TODO Keep this file as a fourre-tout or split it?
@@ -41,10 +42,10 @@ function isValidAddress(chainId: ChainId, address: string) {
     return false;
   }
 
-  const chainConfig = getChain<CosmosParams>(chainId);
+  const chainParams = CHAINS[chainId].params as CosmosParams;
 
-  const prefix = chainConfig.params?.prefix;
-  const validatorPrefix = chainConfig.params?.validatorPrefix;
+  const prefix = chainParams.prefix;
+  const validatorPrefix = chainParams.validatorPrefix;
   if (
     (!prefix || !address.startsWith(prefix)) &&
     (!validatorPrefix || !address.startsWith(validatorPrefix))
@@ -62,10 +63,7 @@ async function getEstimatedFees(
   gasWanted: bigint;
   gasWantedFees: bigint;
 }> {
-  const chainParams = getChain<CosmosParams>(chainId).params;
-  if (!chainParams) {
-    throw new Error(`Unsupported chain: ${transaction.chainId}`);
-  }
+  const chainParams = CHAINS[chainId].params as CosmosParams;
 
   const { protoMsgs } = getMessages(transaction);
   const { sequence, pubKeyType, pubKey } = await fetchAccount(chainId, transaction.senders[0]);
@@ -105,12 +103,12 @@ async function getEstimatedFees(
 }
 
 function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; protoMsgs: ProtoMsg[] } {
-  const chain = CHAINS[transaction.chainId];
+  const chainParams = CHAINS[transaction.chainId].params as CosmosParams;
 
   const aminoMsgs: Array<AminoMsg> = [];
   const protoMsgs: Array<ProtoMsg> = [];
   switch (transaction.mode) {
-    case "transfer":
+    case TransactionMode.TRANSFER:
       const aminoMsg: AminoMsgSend = {
         type: "cosmos-sdk/MsgSend",
         value: {
@@ -118,7 +116,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           to_address: transaction.recipients[0],
           amount: [
             {
-              denom: chain.units[chain.units.length - 1].code,
+              denom: chainParams.denom,
               amount: transaction.amount.toString(),
             },
           ],
@@ -134,7 +132,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           toAddress: transaction.recipients[0],
           amount: [
             {
-              denom: chain.units[chain.units.length - 1].code,
+              denom: chainParams.denom,
               amount: transaction.amount.toString(),
             },
           ],
@@ -142,14 +140,14 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
       };
       protoMsgs.push(protoMsg);
       break;
-    case "delegate":
+    case TransactionMode.DELEGATE:
       const aminoDelegateMsg: AminoMsgDelegate = {
         type: "cosmos-sdk/MsgDelegate",
         value: {
           delegator_address: transaction.senders[0],
           validator_address: transaction.validator,
           amount: {
-            denom: chain.units[chain.units.length - 1].code,
+            denom: chainParams.denom,
             amount: transaction.amount.toString(),
           },
         },
@@ -163,7 +161,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           delegatorAddress: transaction.senders[0],
           validatorAddress: transaction.validator,
           amount: {
-            denom: chain.units[chain.units.length - 1].code,
+            denom: chainParams.denom,
             amount: transaction.amount.toString(),
           },
         }).finish(),
@@ -178,7 +176,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           validator_src_address: transaction.sourceValidator,
           validator_dst_address: transaction.targetValidator,
           amount: {
-            denom: chain.units[chain.units.length - 1].code,
+            denom: chainParams.denom,
             amount: transaction.amount.toString(),
           },
         },
@@ -192,7 +190,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           validatorSrcAddress: transaction.sourceValidator,
           validatorDstAddress: transaction.targetValidator,
           amount: {
-            denom: chain.units[chain.units.length - 1].code,
+            denom: chainParams.denom,
             amount: transaction.amount.toString(),
           },
         }).finish(),
@@ -311,12 +309,12 @@ async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction)
     throw new Error("Transaction lacks gas information");
   }
 
-  const chain = CHAINS[transaction.chainId];
+  const chainParams = CHAINS[chainId].params as CosmosParams;
 
   const feeToEncode = {
     amount: [
       {
-        denom: chain.units[chain.units.length - 1].code,
+        denom: chainParams.denom,
         amount: transaction.fees.toString(),
       },
     ],

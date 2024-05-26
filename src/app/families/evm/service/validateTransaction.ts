@@ -1,5 +1,5 @@
 import { isAddress } from "viem";
-import { PlainTransaction, TransactionStatus, ErrorMsg } from "~/app/model/types_WIP";
+import { PlainTransaction, TransactionStatus, ErrorMsg, TransactionMode } from "~/app/model/types_WIP";
 import { EvmService } from ".";
 
 async function validateTransactionIntent(
@@ -28,7 +28,7 @@ async function validateTransactionIntent(
   }
 
   switch (transaction.mode) {
-    case "transfer": {
+    case TransactionMode.TRANSFER: {
       if (transaction.amount === undefined && !transaction.useMaxAmount) {
         errors.push({ message: "Missing amount or useMaxAmount" });
       } else if (!!transaction.amount && transaction.useMaxAmount) {

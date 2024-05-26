@@ -14,15 +14,15 @@ import {
 } from "viem/chains";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
-import { injectiveTestnet } from "./chains/injective-testnet";
+import { injectiveTestnet } from "../chains/injective-testnet";
 
-function getClientConfig(chainId: ChainId) {
+// Couldn't find a proper type that works besides 'any'
+const CLIENTS = new Map<ChainId, any>();
+
+function getNodeClientConfig(chainId: ChainId) {
   switch (chainId) {
     case ChainId.SEPOLIA:
-      return {
-        chain: sepolia,
-        transport: http(CHAINS[chainId].backends.nodeURL),
-      };
+      return { chain: sepolia, transport: http(CHAINS[chainId].backends.nodeURL) };
     case ChainId.ETHEREUM:
       return { chain: mainnet, transport: http(CHAINS[chainId].backends.nodeURL) };
     case ChainId.HOLESKY:
@@ -50,8 +50,14 @@ function getClientConfig(chainId: ChainId) {
   }
 }
 
-function client(chainId: ChainId) {
-  return createPublicClient(getClientConfig(chainId));
-};
+function getNodeClient(chainId: ChainId) {
+  if (CLIENTS.has(chainId)) {
+    return CLIENTS.get(chainId)!;
+  } else {
+    const client = createPublicClient(getNodeClientConfig(chainId));
+    CLIENTS.set(chainId, client);
+    return client;
+  }
+}
 
-export { client }
+export { getNodeClient };

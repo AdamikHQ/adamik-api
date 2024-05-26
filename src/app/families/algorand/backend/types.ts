@@ -1,14 +1,22 @@
+type AlgoAsset = {
+  assetId: string;
+  name: string;
+  unitName: string;
+  decimals: number;
+};
+
+type AlgoAssetAmount = {
+  assetId: string;
+  amount: bigint;
+  //isFrozen: boolean;
+};
+
 type AlgoAccount = {
   round: number;
   address: string;
   balance: bigint;
   pendingRewards: bigint;
-  assets: AlgoAsset[];
-};
-
-type AlgoAsset = {
-  assetId: string;
-  balance: bigint;
+  assetAmounts: AlgoAssetAmount[];
 };
 
 type AlgoTransactionParams = {
@@ -26,8 +34,9 @@ type AlgoTransactionBroadcastResponse = {
 };
 
 export type {
-  AlgoAccount,
   AlgoAsset,
+  AlgoAssetAmount,
+  AlgoAccount,
   AlgoTransactionParams,
   AlgoTransactionBroadcastResponse,
 };

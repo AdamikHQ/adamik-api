@@ -1,105 +1,36 @@
 import { ChainId, Chain, ChainParams } from "../model/types_WIP";
 
-function ethereumUnits(name: string, code: string) {
-  return [
-    {
-      name,
-      code,
-      decimals: 18,
-    },
-    {
-      name: "Gwei",
-      code: "Gwei",
-      decimals: 9,
-    },
-    {
-      name: "Mwei",
-      code: "Mwei",
-      decimals: 6,
-    },
-    {
-      name: "Kwei",
-      code: "Kwei",
-      decimals: 3,
-    },
-    {
-      name: "wei",
-      code: "wei",
-      decimals: 0,
-    },
-  ]
-};
-
-function getChain<TParams>(chainId: ChainId): Chain<TParams> {
-  return CHAINS[chainId] as Chain<TParams>;
-}
-
 const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   algorand: {
     id: ChainId.ALGORAND,
     family: "algorand",
     name: "Algorand",
-    units: [
-      {
-        name: "ALGO",
-        code: "algo",
-        decimals: 6,
-      },
-    ],
+    unit: {
+      id: "algo",
+      tag: "ALGO",
+      decimals: 6,
+    },
     backends: {
-      nodeURL: "https://algorand.coin.ledger.com/ps2/v2",
-      explorerURL: "https://algorand.coin.ledger.com/idx2/v2",
+      nodeURL: "https://mainnet-idx.algonode.cloud/v2",
+      explorerURL: "https://mainnet-idx.algonode.cloud/v2",
     },
   },
   cosmoshub: {
     id: ChainId.COSMOSHUB,
     family: "cosmos",
     name: "CosmosHub",
-    units: [
-      {
-        name: "ATOM",
-        code: "atom",
-        decimals: 6,
-      },
-      {
-        name: "Micro-ATOM",
-        code: "uatom",
-        decimals: 0,
-      },
-    ],
+    unit: {
+      id: "atom",
+      tag: "ATOM",
+      decimals: 6,
+    },
     backends: {
       nodeURL: "https://cosmos-rest.publicnode.com",
     },
     params: {
       prefix: "cosmos",
       validatorPrefix: "cosmosvaloper",
-      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
-      defaultGas: 100000,
-      minGasPrice: 0.025,
-    },
-  },
-  osmosis: {
-    id: ChainId.OSMOSIS,
-    family: "cosmos",
-    name: "Osmosis",
-    units: [
-      {
-        name: "OSMO",
-        code: "osmo",
-        decimals: 6,
-      },
-      {
-        name: "Micro-OSMO",
-        code: "uosmo",
-        decimals: 0,
-      },
-    ],
-    backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/cos3/rest/b18879ccf0bbb32d82c6c6ee02074f8a",
-    },
-    params: {
-      prefix: "osmo",
-      validatorPrefix: "osmovaloper",
+      denom: "uatom",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
       minGasPrice: 0.025,
@@ -109,24 +40,39 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     id: ChainId.COSMOSHUB_TESTNET,
     family: "cosmos",
     name: "CosmosHub Testnet",
-    units: [
-      {
-        name: "ATOM",
-        code: "atom",
-        decimals: 6,
-      },
-      {
-        name: "Micro-ATOM",
-        code: "uatom",
-        decimals: 0,
-      },
-    ],
+    unit: {
+      id: "atom",
+      tag: "ATOM",
+      decimals: 6,
+    },
     backends: {
       nodeURL: "https://api-t.cosmos.nodestake.top",
     },
     params: {
       prefix: "cosmos",
       validatorPrefix: "cosmosvaloper",
+      denom: "uatom",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+  },
+  osmosis: {
+    id: ChainId.OSMOSIS,
+    family: "cosmos",
+    name: "Osmosis",
+    unit: {
+      id: "osmo",
+      tag: "OSMO",
+      decimals: 6,
+    },
+    backends: {
+      nodeURL: "https://g.w.lavanet.xyz:443/gateway/cos3/rest/b18879ccf0bbb32d82c6c6ee02074f8a",
+    },
+    params: {
+      prefix: "osmo",
+      validatorPrefix: "osmovaloper",
+      denom: "uosmo",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
       minGasPrice: 0.025,
@@ -134,65 +80,100 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   ethereum: {
     id: ChainId.ETHEREUM,
-    family: "ethereum",
+    family: "evm",
     name: "Ethereum",
-    units: ethereumUnits("ETH", "ether"),
+    unit: {
+      id: "ether",
+      tag: "ETH",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://ethereum-rpc.publicnode.com",
+      explorerURL: "https://api.etherscan.io/api",
     },
   },
   sepolia: {
     id: ChainId.SEPOLIA,
-    family: "ethereum",
+    family: "evm",
     name: "Sepolia",
-    units: ethereumUnits("ETH", "ether"),
+    unit: {
+      id: "ether",
+      tag: "ETH",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://ethereum-sepolia-rpc.publicnode.com",
+      explorerURL: "https://api-sepolia.etherscan.io/api",
     },
   },
   holesky: {
     id: ChainId.HOLESKY,
-    family: "ethereum",
+    family: "evm",
     name: "Holesky",
-    units: ethereumUnits("ETH", "ether"),
+    unit: {
+      id: "ether",
+      tag: "ETH",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://ethereum-holesky-rpc.publicnode.com",
+      explorerURL: "https://api-holesky.etherscan.io/api",
     },
   },
   zksync: {
     id: ChainId.ZKSYNC,
-    family: "ethereum",
+    family: "evm",
     name: "ZkSync",
-    units: ethereumUnits("ETH", "ether"),
+    unit: {
+      id: "ether",
+      tag: "ETH",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      explorerURL: "https://zksync.blockscout.com/api",
     },
   },
   "zksync-sepolia": {
     id: ChainId.ZKSYNC_SEPOLIA,
-    family: "ethereum",
+    family: "evm",
     name: "ZkSync Testnet",
-    units: ethereumUnits("ETH", "ether"),
+    unit: {
+      id: "ether",
+      tag: "ETH",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      explorerURL: "https://zksync.blockscout.com/api",
     },
   },
   "injective-testnet": {
     id: ChainId.INJECTIVE_TESTNET,
-    family: "ethereum",
+    family: "evm",
     name: "Injective",
-    units: ethereumUnits("INJ", "INJ"),
+    unit: {
+      id: "inj",
+      tag: "INJ",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://testnet.rpc.inevm.com/http",
+      //explorerURL: TODO,
     },
   },
   base: {
     id: ChainId.BASE,
-    family: "ethereum",
+    family: "evm",
     name: "Base",
-    units: ethereumUnits("ETH", "Ether"),
+    unit: {
+      id: "ether",
+      tag: "ETH",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://base-mainnet.g.alchemy.com/v2/rOq_ClcjzdlIKQh-h6sMTBW9MhVBf94Z",
+      explorerURL: "https://api.basescan.org/api",
     },
     params: {
       isL2Fees: true,
@@ -200,11 +181,16 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "base-sepolia": {
     id: ChainId.BASE_SEPOLIA,
-    family: "ethereum",
+    family: "evm",
     name: "Base Sepolia",
-    units: ethereumUnits("ETH", "Ether"),
+    unit: {
+      id: "ether",
+      tag: "ETH",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://sepolia.base.org",
+      explorerURL: "https://api.basescan.org/api",
     },
     params: {
       isL2Fees: true,
@@ -212,11 +198,16 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   optimism: {
     id: ChainId.OPTIMISM,
-    family: "ethereum",
+    family: "evm",
     name: "Optimism",
-    units: ethereumUnits("ETH", "Ether"),
+    unit: {
+      id: "ether",
+      tag: "ETH",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://opt-mainnet.g.alchemy.com/v2/pDuVOEX6OCaN6lq_xILoecc3lcFXuyTz",
+      explorerURL: "https://api-optimistic.etherscan.io/api",
     },
     params: {
       isL2Fees: true,
@@ -224,11 +215,16 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "optimism-sepolia": {
     id: ChainId.OPTIMISM_SEPOLIA,
-    family: "ethereum",
+    family: "evm",
     name: "Optimism Sepolia",
-    units: ethereumUnits("ETH", "Ether"),
+    unit: {
+      id: "ether",
+      tag: "ETH",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://opt-sepolia.g.alchemy.com/v2/6dtfsgvoSwhyPVqp0_nvAWJ40CbiOqQ8",
+      explorerURL: "https://api-sepolia-optimistic.etherscan.io/api",
     },
     params: {
       isL2Fees: true,
@@ -236,22 +232,32 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   arbitrum: {
     id: ChainId.ARBITRUM,
-    family: "ethereum",
+    family: "evm",
     name: "Arbitrum One",
-    units: ethereumUnits("ETH", "Ether"),
+    unit: {
+      id: "ether",
+      tag: "ETH",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://arbitrum-one.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      explorerURL: "https://api.arbiscan.io/api",
     },
   },
   "arbitrum-sepolia": {
     id: ChainId.ARBITRUM_SEPOLIA,
-    family: "ethereum",
+    family: "evm",
     name: "Arbitrum Sepolia",
-    units: ethereumUnits("ETH", "Ether"),
+    unit: {
+      id: "ether",
+      tag: "ETH",
+      decimals: 18,
+    },
     backends: {
       nodeURL: "https://arbitrum-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      explorerURL: "https://api-sepolia.arbiscan.io/api",
     },
   },
 };
 
-export { CHAINS, getChain };
+export { CHAINS };

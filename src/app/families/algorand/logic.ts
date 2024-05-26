@@ -64,7 +64,8 @@ function computeAlgoMaxSpendable({
 function computeMinimumAlgoBalance(mode: TransactionMode, nbAccountAssets: number): number {
   const base = 100000; // 0.1 ALGO = 100000 mALGO
   const currentAssets = nbAccountAssets;
-  const newAsset = mode === "optIn" ? 1 : 0;
+  //const newAsset = mode === "optIn" ? 1 : 0;
+  const newAsset = 0;
   return base * (1 + currentAssets + newAsset);
 }
 
@@ -84,11 +85,11 @@ async function estimateMaxSpendable(transaction: PlainTransaction): Promise<bigi
   };
 
   // TODO Validation: exactly 1 sender & 1 recipient
-  const { balance, assets } = await fetchAccount(transaction.senders[0]);
+  const { balance, assetAmounts } = await fetchAccount(transaction.senders[0]);
 
   const maxSpendable = computeAlgoMaxSpendable({
     accountBalance: balance,
-    nbAccountAssets: assets.length,
+    nbAccountAssets: assetAmounts.length,
     mode: tx.mode,
   });
 
