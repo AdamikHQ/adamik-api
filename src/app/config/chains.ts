@@ -131,7 +131,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     },
     backends: {
       nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-      //explorerURL: TODO,
+      explorerURL: "https://zksync.blockscout.com/api",
     },
   },
   "zksync-sepolia": {
@@ -145,7 +145,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     },
     backends: {
       nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-      //explorerURL: TODO,
+      explorerURL: "https://zksync.blockscout.com/api",
     },
   },
   "injective-testnet": {

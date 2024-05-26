@@ -27,16 +27,19 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
 
     const tokenBalance = await getERC20Balance(this.chainId, contractAddress, address);
 
-    const tokenUnit: Unit = {
-      id: tokenName,
-      tag: tokenSymbol,
-      decimals: +tokenDecimal, // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Unary_plus
-    };
+    // For now we filter any error while retrieving balance -OR- balance of 0
+    if (tokenBalance) {
+      const tokenUnit: Unit = {
+        id: tokenName,
+        tag: tokenSymbol,
+        decimals: +tokenDecimal, // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Unary_plus
+      };
 
-    tokenAmounts.push({
-      unit: tokenUnit,
-      value: tokenBalance,
-    });
+      tokenAmounts.push({
+        unit: tokenUnit,
+        value: tokenBalance,
+      });
+    }
   }
 
   return {
@@ -54,15 +57,23 @@ async function getERC20Balance(
   chainId: ChainId,
   contractAdress: EvmAddress,
   address: EvmAddress
-): Promise<bigint> {
+): Promise<bigint | null> {
   const client = getNodeClient(chainId);
 
-  return (await client.readContract({
-    address: contractAdress,
-    abi: ERC20ABI,
-    functionName: "balanceOf",
-    args: [address],
-  })) as bigint;
+  let balance: bigint;
+  try {
+    balance = (await client.readContract({
+      address: contractAdress,
+      abi: ERC20ABI,
+      functionName: "balanceOf",
+      args: [address],
+    })) as bigint;
+  } catch {
+    console.warn(`/!\\ balanceOf call failed on contract ${contractAdress} for chain ${chainId}`);
+    return null;
+  }
+
+  return balance;
 }
 
 export { getAddressState };

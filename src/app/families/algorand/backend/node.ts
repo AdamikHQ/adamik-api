@@ -19,9 +19,6 @@ async function fetchAccount(address: string): Promise<AlgoAccount> {
   // additional top-level "account" field, instead of flat account data in standard response
   const { account } = await fetch(url).then((response) => response.json());
 
-  // FIXME DEBUG TBR
-  //console.log("fetchAccount - data.assets:", account.assets);
-
   const assetAmounts: AlgoAssetAmount[] = account.assets
     ? account.assets.map((asset: { "asset-id": number; amount: number }): AlgoAssetAmount => {
         return {

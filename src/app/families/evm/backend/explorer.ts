@@ -5,6 +5,9 @@ import { EXPLORER_API_KEYS } from "~/app/config/apiKeys";
 
 // Etherscan-like explorer
 
+// TODO Currently also used as Blockscout-like explorer for some chains, because the API is similar to Etherscan
+// Not perfectly the same though, so it should probably be put in a separate explorer implem
+
 const DEFAULT_THROTTLE = 200; // 5 calls per second
 const DEFAULT_RETRIES = 5;
 
@@ -41,7 +44,7 @@ async function getERC20TransferEvents(
 ): Promise<Array<EtherscanERC20Event>> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   if (!explorerURL) {
-    console.warn(`Chain ${chainId} has no defined explorer`);
+    console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return [];
   }
 
@@ -58,7 +61,13 @@ async function getERC20TransferEvents(
       sort: "desc",
     });
 
-  return await fetchWithRetries<EtherscanERC20Event[]>(url);
+  const events = await fetchWithRetries<EtherscanERC20Event[]>(url);
+
+  // FIXME Blockscout-type explorers mix ERC20, ERC721 and ERC1155. Need to filter-them out to only keep ERC20
+  // Weak way to differenciate: ERC20 events don't contain a 'tokenID' field...
+  const filteredEvents = events.filter((event) => !(event as any).tokenID);
+
+  return filteredEvents;
 }
 
 export { getERC20TransferEvents };
