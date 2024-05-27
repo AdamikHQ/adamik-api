@@ -7,7 +7,19 @@ const requestSchema = z.object({
 });
 
 const responseSchema = z.object({
-  balances: z.object({ available: z.string() }),
+  chainId: z.string(),
+  balances: z.object({
+    native: z.object({
+      available: z.string(),
+    }),
+    tokens: z
+      .object({
+        tokenId: z.string(),
+        value: z.string(),
+      })
+      .array()
+      .optional(),
+  }),
 });
 
 const dataStateOpenAPIPath: ZodOpenApiPathsObject = {
