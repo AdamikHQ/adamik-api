@@ -20,18 +20,12 @@ enum ChainId {
   ARBITRUM_SEPOLIA = "arbitrum-sepolia",
 }
 
-type Unit = {
-  id: string;
-  tag: string;
-  decimals: number;
-};
-
-type Amount = {
-  unit: Unit;
-  value: bigint;
-};
-
 type ChainParams = CosmosParams | EvmParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
+
+type Backends = {
+  nodeURL: string;
+  explorerURL?: string;
+};
 
 // FIXME Can TParams be replaced with ChainParams?
 type Chain<TParams> = {
@@ -39,38 +33,43 @@ type Chain<TParams> = {
   //nativeId: string; // e.g value of chain-id on EVM
   name: string;
   family: string;
-  unit: Unit;
+  ticker: string;
+  decimals: number;
   backends: Backends;
   params?: TParams;
 };
 
-type TokenType = "ERC20" | "ASA";
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
+enum TokenType {
+  ASA = "ASA",
+  ERC20 = "ERC20",
+}
 
-// Unused/unneeded at the moment
 type Token = {
   chainId: ChainId;
   type: TokenType;
-  id: string; // <ChainID>/<type>/<nativeId>
-  nativeId: string; // e.g contract address on EVM
+  id: string;
   name: string;
-  unit: Unit;
+  ticker: string;
+  decimals: number;
   contractAddress?: string;
 };
 
-type Backends = {
-  nodeURL: string;
-  explorerURL?: string;
+type TokenAmount = {
+  tokenId: string;
+  value: bigint;
 };
 
 type AddressState = {
   chainId: ChainId;
   balances: {
     native: {
-      available: Amount; // Cosmos, Polkadot, Solana : provides available, need to deduce total from staking
-      //total: ChainAmount; // Will need staking
+      available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
+      //total: bigint; // Will need staking
     };
-    tokens?: Amount[];
+    tokens?: TokenAmount[];
+    //ft?: TokenAmount[];
+    //nft?: NFTAmount[];
   };
   //rewards?: {
   //  pending: ChainAmount;
@@ -84,6 +83,7 @@ type AddressState = {
 
 enum TransactionMode {
   TRANSFER = "transfer",
+  TRANSFER_FUNGIBLE_TOKEN = "transfer.ft",
   DELEGATE = "delegate",
   REDELEGATE = "redelegate",
   UNDELEGATE = "undelegate",
@@ -177,13 +177,12 @@ type ErrorMsg = {
 
 export type Format = "json" | "hex";
 
-export { ChainId, TransactionMode };
+export { ChainId, TransactionMode, TokenType };
 export type {
-  Unit,
-  Amount,
   Chain,
   ChainParams,
   Token,
+  TokenAmount,
   AddressState,
   PlainTransaction,
   Transaction,

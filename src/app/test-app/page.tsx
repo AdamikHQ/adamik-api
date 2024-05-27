@@ -18,8 +18,8 @@ export default function Page() {
     name: "",
     family: "",
     unit: {
-      id: "",
-      tag: "",
+      name: "",
+      ticker: "",
       decimals: 0,
     },
   });

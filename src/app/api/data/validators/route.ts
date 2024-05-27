@@ -30,7 +30,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   if (!isStakingService(service)) {
     return NextResponse.json(
-      { message: `Staking not implemented for chain ID ${chainId}` },
+      { message: `Staking is not supported for chain ID ${chainId}` },
       { status: 400, statusText: "Invalid chainId" }
     );
   }

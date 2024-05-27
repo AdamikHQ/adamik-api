@@ -4,6 +4,7 @@ import { addressEncodeOpenAPIPath } from "../api/address/encode/schema";
 import { addressValidateOpenAPIPath } from "../api/address/validate/schema";
 import { chainsOpenAPIPath } from "../api/chains/schema";
 import { chainsChainIdOpenAPIPath } from "../api/chains/[chainId]/schema";
+import { chainsChainIdTokenTokenIdOpenAPIPath } from "../api/chains/[chainId]/token/[tokenId]/schema";
 import { dataStateOpenAPIPath } from "~/app/api/data/state/schema";
 import { dataValidatorsOpenAPIPath } from "../api/data/validators/schema";
 import { transactionBroadcastOpenAPIPath } from "../api/transaction/broadcast/schema";
@@ -48,6 +49,7 @@ function generateOpenAPIDoc(): oas31.OpenAPIObject {
       ...addressValidateOpenAPIPath,
       ...chainsOpenAPIPath,
       ...chainsChainIdOpenAPIPath,
+      ...chainsChainIdTokenTokenIdOpenAPIPath,
       ...dataStateOpenAPIPath,
       ...dataValidatorsOpenAPIPath,
       ...transactionBroadcastOpenAPIPath,

@@ -115,7 +115,7 @@ function Encode({ props }: { props: Props }) {
       <br />
       <br />
 
-      <label>Amount (in {chain.unit.tag})</label>
+      <label>Amount (in {chain.unit.ticker})</label>
       <br />
       <input
         id="amount"

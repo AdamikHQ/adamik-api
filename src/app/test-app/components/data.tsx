@@ -46,7 +46,7 @@ function Data({ props }: { props: Props }) {
       <br />
       <br />
 
-      <label>Balance (in {chain.unit.tag})</label>
+      <label>Balance (in {chain.unit.ticker})</label>
       <br />
       <div>{amountToMainUnit(balance, chain.unit.decimals)}</div>
       <br />

@@ -37,12 +37,17 @@ async function fetchAccount(address: string): Promise<AlgoAccount> {
   };
 }
 
-async function fetchASA(assetId: string): Promise<AlgoAsset> {
+async function fetchASA(assetId: string): Promise<AlgoAsset | null> {
   const url = `${ROOT_URL}/assets/${assetId}`;
 
   // NOTE: non-standard response format from the current algonode.cloud provider:
   // additional top-level "asset" field, instead of flat asset data in standard response
-  const { asset } = await fetch(url).then((response) => response.json());
+  const { asset, message } = await fetch(url).then((response) => response.json());
+
+  if (message) {
+    console.warn(`/!\\ Failed to fetch algorand token with ID '${assetId}':`, message);
+    return null;
+  }
 
   return {
     assetId,

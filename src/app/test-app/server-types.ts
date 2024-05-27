@@ -2,8 +2,8 @@
 // TODO Extract in a separate "types" lib? Or some protobuf generation?...
 
 type Unit = {
-  id: string;
-  tag: string;
+  name: string;
+  ticker: string;
   decimals: number;
 };
 
