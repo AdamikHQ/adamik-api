@@ -23,5 +23,11 @@ export async function GET(_: NextRequest, context: { params: Params }): Promise<
     );
   }
 
-  return NextResponse.json(CHAINS[chainId as ChainId]);
+  const chain = CHAINS[chainId as ChainId];
+
+  // FIXME Trick to filter-out private 'backends' field from response
+  // Needs to be handled with DTO instead
+  const response = (({ backends, ...chain }) => chain)(chain);
+
+  return NextResponse.json(response);
 }

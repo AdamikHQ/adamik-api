@@ -2,12 +2,7 @@ import z from "zod";
 import { ZodError } from "zod";
 import { NextResponse } from "next/server";
 
-import { ChainId } from "~/app/model/types_WIP";
-
-const chainIdSchema = z.nativeEnum(ChainId);
-
-// FIXME This should be built from TransactionMode instead of hardcoded
-const transactionModeSchema = z.union([z.literal("transfer"), z.literal("delegate")]);
+import { ChainId, TransactionMode } from "~/app/model/types_WIP";
 
 // TODO Experiment with modular zod schemas:
 /*
@@ -36,8 +31,8 @@ const plainTransactionSchema = commonTransactionSchema.and(z.union([transferTran
 //*/
 
 const plainTransactionSchema = z.object({
-  chainId: chainIdSchema,
-  mode: transactionModeSchema,
+  chainId: z.nativeEnum(ChainId),
+  mode: z.nativeEnum(TransactionMode),
   senders: z.array(z.string()),
   recipients: z.array(z.string()),
   // TODO should be only one of [amount, useMaxAmount]
@@ -59,12 +54,6 @@ const transactionStatusSchema = z.object({
   warnings: z.array(errorMsgSchema),
 });
 
-const unitSchema = z.object({
-  name: z.string(),
-  code: z.string(),
-  decimals: z.number(),
-});
-
 const backendsSchema = z.object({
   nodeURL: z.string(),
   explorerURL: z.string().optional(),
@@ -80,11 +69,4 @@ function handleRequestValidationError(e: unknown): NextResponse {
   throw e;
 }
 
-export {
-  chainIdSchema,
-  unitSchema,
-  backendsSchema,
-  plainTransactionSchema,
-  transactionStatusSchema,
-  handleRequestValidationError,
-};
+export { backendsSchema, plainTransactionSchema, transactionStatusSchema, handleRequestValidationError };
