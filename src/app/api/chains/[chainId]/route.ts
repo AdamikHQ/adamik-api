@@ -3,7 +3,7 @@ import { ChainId } from "~/app/model/types_WIP";
 import { CHAINS } from "~/app/config/chains";
 
 type Params = {
-  chainId: string;
+  chainId: ChainId;
 };
 
 export async function GET(_: NextRequest, context: { params: Params }): Promise<NextResponse> {
@@ -16,14 +16,14 @@ export async function GET(_: NextRequest, context: { params: Params }): Promise<
     );
   }
 
-  if (!Object.keys(CHAINS).includes(chainId as string)) {
+  const chain = CHAINS[chainId];
+
+  if (!chain) {
     return NextResponse.json(
       { message: `Chain ID ${chainId} is not supported` },
       { status: 400, statusText: `Unsupported chainId` }
     );
   }
-
-  const chain = CHAINS[chainId as ChainId];
 
   // FIXME Trick to filter-out private 'backends' field from response
   // Needs to be handled with DTO instead
