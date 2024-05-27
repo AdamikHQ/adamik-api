@@ -5,10 +5,7 @@ import { AlgorandService } from ".";
 async function getAddressState(this: AlgorandService, address: string): Promise<AddressState> {
   const { balance: nativeBalance, assetAmounts } = await fetchAccount(address);
 
-  const tokenAmounts: TokenAmount[] = assetAmounts.map((assetAmount): TokenAmount => {
-    return { tokenId: assetAmount.assetId, value: assetAmount.amount };
-  });
-
+  const tokenAmounts: TokenAmount[] = [];
   for (const assetAmount of assetAmounts) {
     tokenAmounts.push({
       tokenId: assetAmount.assetId,

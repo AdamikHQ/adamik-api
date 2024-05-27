@@ -54,11 +54,6 @@ const transactionStatusSchema = z.object({
   warnings: z.array(errorMsgSchema),
 });
 
-const backendsSchema = z.object({
-  nodeURL: z.string(),
-  explorerURL: z.string().optional(),
-});
-
 function handleRequestValidationError(e: unknown): NextResponse {
   if (e instanceof ZodError) {
     return NextResponse.json(
@@ -69,4 +64,4 @@ function handleRequestValidationError(e: unknown): NextResponse {
   throw e;
 }
 
-export { backendsSchema, plainTransactionSchema, transactionStatusSchema, handleRequestValidationError };
+export { plainTransactionSchema, transactionStatusSchema, handleRequestValidationError };

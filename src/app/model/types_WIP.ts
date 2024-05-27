@@ -41,8 +41,8 @@ type Chain<TParams> = {
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
 enum TokenType {
-  ERC20 = "ERC20",
   ASA = "ASA",
+  ERC20 = "ERC20",
 }
 
 type Token = {

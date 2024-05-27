@@ -25,10 +25,10 @@ const responseSchema = z.object({
   contractAddress: z.string().optional(),
 });
 
-const chainsChainIdOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/chains/{chainId}/token": {
+const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
+  "/api/chains/{chainId}/token/{tokenId}": {
     get: {
-      tags: ["chains", "token"],
+      tags: ["chains"],
       description:
         "Retrieves detailed information about a specific token for a blockchain network, identified by chain ID and token ID.",
       requestParams: {
@@ -47,4 +47,4 @@ const chainsChainIdOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, chainsChainIdOpenAPIPath };
+export { requestSchema, responseSchema, chainsChainIdTokenTokenIdOpenAPIPath };
