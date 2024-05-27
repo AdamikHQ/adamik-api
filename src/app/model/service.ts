@@ -4,6 +4,7 @@ import {
   ChainId,
   Format,
   PlainTransaction,
+  Token,
   Transaction,
   TransactionStatus,
 } from "./types_WIP";
@@ -21,7 +22,7 @@ abstract class BaseChainService {
   }
 
   // Chain
-  //getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
+  //abstract getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
 
   // Address
   abstract pubkeyToAddress(pubkey: string): Promise<string>;
@@ -62,7 +63,7 @@ function isStakingService(object: BaseChainService | StakingService): object is 
 // TOKENS ////////////////////////////////////////////////////////////////////////////////////
 
 interface TokenService {
-  // TODO
+  getTokenInfo(tokenId: string): Promise<Token | null>;
 }
 
 // Type predicate: checks that the input object implements the TokenService interface
@@ -70,7 +71,9 @@ function isTokenService(object: BaseChainService | TokenService): object is Toke
   // TS limitation: types don't exist at runtime, so this dummy
   // instance is necessary to extract members of the interface
   const dummy: TokenService = {
-    // TODO
+    getTokenInfo: (): never => {
+      throw new Error("Must not be used");
+    },
   };
   const keys = Object.keys(dummy);
   return keys.reduce((valid, key) => valid && key in object, true);

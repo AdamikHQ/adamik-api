@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema, unitSchema, backendsSchema } from "~/app/api/schemaCommon";
+import { ChainId } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
@@ -12,11 +12,9 @@ const requestSchema = z.object({
 });
 
 const responseSchema = z.object({
-  id: chainIdSchema,
+  id: z.nativeEnum(ChainId),
   name: z.string(),
   family: z.string(),
-  units: z.array(unitSchema),
-  backends: backendsSchema, // FIXME Should be part of the response (need proper DTOs)
   params: z.any().optional(),
 });
 

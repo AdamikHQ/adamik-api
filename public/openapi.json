@@ -183,50 +183,109 @@
                     "family": {
                       "type": "string"
                     },
-                    "units": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string"
-                          },
-                          "code": {
-                            "type": "string"
-                          },
-                          "decimals": {
-                            "type": "number"
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "code",
-                          "decimals"
-                        ]
-                      }
-                    },
-                    "backends": {
-                      "type": "object",
-                      "properties": {
-                        "nodeURL": {
-                          "type": "string"
-                        },
-                        "explorerURL": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "nodeURL"
-                      ]
-                    },
                     "params": {}
                   },
                   "required": [
                     "id",
                     "name",
-                    "family",
-                    "units",
-                    "backends"
+                    "family"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chains/{chainId}/token/{tokenId}": {
+      "get": {
+        "tags": [
+          "chains"
+        ],
+        "description": "Retrieves detailed information about a specific token for a blockchain network, identified by chain ID and token ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "description": "Chain ID",
+            "schema": {
+              "type": "string",
+              "description": "Chain ID",
+              "example": "ethereum"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "tokenId",
+            "description": "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
+            "schema": {
+              "type": "string",
+              "description": "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
+              "example": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 OK - Successfully returns detailed data about the token on the specified blockchain.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "osmosis",
+                        "cosmoshub-testnet",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia"
+                      ]
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "ASA",
+                        "ERC20"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "ticker": {
+                      "type": "string"
+                    },
+                    "decimals": {
+                      "type": "string"
+                    },
+                    "contractAddress": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "type",
+                    "id",
+                    "name",
+                    "ticker",
+                    "decimals"
                   ]
                 }
               }
@@ -408,25 +467,10 @@
                             ]
                           },
                           "mode": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "transfer"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "optIn"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "claimReward"
-                                ]
-                              }
+                            "type": "string",
+                            "enum": [
+                              "transfer",
+                              "delegate",
                             ]
                           },
                           "senders": {
@@ -583,25 +627,10 @@
                             ]
                           },
                           "mode": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "transfer"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "optIn"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "claimReward"
-                                ]
-                              }
+                            "type": "string",
+                            "enum": [
+                              "transfer",
+                              "delegate",
                             ]
                           },
                           "senders": {
@@ -694,25 +723,10 @@
                               ]
                             },
                             "mode": {
-                              "anyOf": [
-                                {
-                                  "type": "string",
-                                  "enum": [
-                                    "transfer"
-                                  ]
-                                },
-                                {
-                                  "type": "string",
-                                  "enum": [
-                                    "optIn"
-                                  ]
-                                },
-                                {
-                                  "type": "string",
-                                  "enum": [
-                                    "claimReward"
-                                  ]
-                                }
+                              "type": "string",
+                              "enum": [
+                                "transfer",
+                                "delegate",
                               ]
                             },
                             "senders": {
@@ -816,25 +830,10 @@
                             ]
                           },
                           "mode": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "transfer"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "optIn"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "claimReward"
-                                ]
-                              }
+                            "type": "string",
+                            "enum": [
+                              "transfer",
+                              "delegate",
                             ]
                           },
                           "senders": {

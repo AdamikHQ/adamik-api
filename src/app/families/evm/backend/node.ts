@@ -1,4 +1,4 @@
-import { createPublicClient, http } from "viem";
+import { createPublicClient, erc20Abi, http } from "viem";
 import {
   sepolia,
   mainnet,
@@ -15,6 +15,7 @@ import {
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { injectiveTestnet } from "../chains/injective-testnet";
+import { EvmAddress } from "../types";
 
 // Couldn't find a proper type that works besides 'any'
 const CLIENTS = new Map<ChainId, any>();
@@ -60,4 +61,48 @@ function getNodeClient(chainId: ChainId) {
   }
 }
 
-export { getNodeClient };
+async function makeContractCall(
+  chainId: ChainId,
+  contractAdress: EvmAddress,
+  functionName: string,
+  args: unknown[] = []
+): Promise<unknown | null> {
+  const client = getNodeClient(chainId);
+
+  let value;
+  try {
+    value = await client.readContract({
+      address: contractAdress,
+      abi: erc20Abi,
+      functionName,
+      args,
+    });
+  } catch (e) {
+    console.warn(`/!\\ ${functionName} call failed on contract ${contractAdress} for chain ${chainId}`);
+    throw e;
+  }
+
+  return value;
+}
+
+async function getERC20name(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
+  return (await makeContractCall(chainId, contractAdress, "name")) as string;
+}
+
+async function getERC20Decimals(chainId: ChainId, contractAdress: EvmAddress): Promise<number> {
+  return (await makeContractCall(chainId, contractAdress, "decimals")) as number;
+}
+
+async function getERC20Ticker(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
+  return (await makeContractCall(chainId, contractAdress, "symbol")) as string;
+}
+
+async function getERC20Balance(
+  chainId: ChainId,
+  contractAdress: EvmAddress,
+  address: EvmAddress
+): Promise<bigint> {
+  return (await makeContractCall(chainId, contractAdress, "balanceOf", [address])) as bigint;
+}
+
+export { getNodeClient, getERC20name, getERC20Decimals, getERC20Ticker, getERC20Balance };

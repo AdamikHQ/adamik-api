@@ -53,17 +53,17 @@ function Sign({ props }: { props: Props }) {
 
   return (
     <div className="section">
-      <label>Amount (in {unit.tag})</label>
+      <label>Amount (in {unit.ticker})</label>
       <br />
       <div>{amountToMainUnit(computedAmount, unit.decimals)}</div>
       <br />
 
-      <label>Fees (in {unit.tag})</label>
+      <label>Fees (in {unit.ticker})</label>
       <br />
       <div>{amountToMainUnit(fees, unit.decimals)}</div>
       <br />
 
-      <label>Gas (in {unit.tag})</label>
+      <label>Gas (in {unit.ticker})</label>
       <br />
       <div>{amountToMainUnit(gas, unit.decimals)}</div>
       <br />
