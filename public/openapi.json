@@ -500,7 +500,7 @@
                             "type": "string",
                             "enum": [
                               "transfer",
-                              "delegate",
+                              "delegate"
                             ]
                           },
                           "senders": {
@@ -660,7 +660,7 @@
                             "type": "string",
                             "enum": [
                               "transfer",
-                              "delegate",
+                              "delegate"
                             ]
                           },
                           "senders": {
@@ -756,7 +756,7 @@
                               "type": "string",
                               "enum": [
                                 "transfer",
-                                "delegate",
+                                "delegate"
                               ]
                             },
                             "senders": {
@@ -863,7 +863,7 @@
                             "type": "string",
                             "enum": [
                               "transfer",
-                              "delegate",
+                              "delegate"
                             ]
                           },
                           "senders": {
