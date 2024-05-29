@@ -16,6 +16,8 @@ export async function middleware(request: NextRequest) {
   const clients: readonly ClientData[] | undefined = await getVercelEdgeConfig("clients");
   const client = clients?.find((client) => client.apiKey === apiKey);
 
+  console.log("API KEY:", client?.apiKey);
+
   // NOTE No additional checks for now
   // In the future we could apply rate limits, or special access rights
   if (!client) {
