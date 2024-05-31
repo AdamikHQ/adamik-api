@@ -1,4 +1,4 @@
-name: Update node provider md
+name: Update providers doc
 
 on:
   push:

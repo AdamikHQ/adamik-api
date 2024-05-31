@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "md:nodeprovider": "ts-node src/scripts/nodeProvider.ts"
+    "doc:providers": "ts-node src/scripts/extractProviders.ts"
   },
   "dependencies": {
     "@cosmjs/amino": "^0.32.2",
