@@ -1,6 +1,6 @@
 import { isValidAddress } from "algosdk";
 import { PlainTransaction, TransactionStatus, ErrorMsg, TransactionMode } from "~/app/model/types_WIP";
-import { ALGORAND_MAX_MEMO_SIZE, isAmountValidForRecipient, estimateMaxSpendable } from "../logic";
+import { ALGORAND_MAX_MEMO_SIZE, isAmountValidForRecipient, computeMaxSpendable } from "../logic";
 import { AlgorandService } from ".";
 
 // FIXME Same implem as cosmos... something to make generic?
@@ -69,7 +69,7 @@ async function validateTransaction(
   //*/
 
   // FIXME Shouldn't recompute this in this function
-  const maxSpendable = await estimateMaxSpendable(transaction);
+  const maxSpendable = await computeMaxSpendable(transaction);
 
   switch (transaction.mode) {
     case TransactionMode.TRANSFER: {
@@ -100,7 +100,7 @@ async function validateTransaction(
         errors.assetId = new Error("Asset Id is not set");
       }
 
-      if (algoSpendableBalance.lt(estimatedFees)) {
+      if (algoSpendableBalance.lt(computeFees)) {
         errors.amount = new NotEnoughBalance();
       }
 
@@ -112,7 +112,7 @@ async function validateTransaction(
         errors.amount = new NotEnoughBalance();
       }
 
-      if (estimatedFees.gt(algorandResources.rewards)) {
+      if (computeFees.gt(algorandResources.rewards)) {
         warnings.claimReward = new ClaimRewardsFeesWarning();
       }
 

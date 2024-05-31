@@ -1,17 +1,18 @@
-import { PlainTransaction } from "~/app/model/types_WIP";
-import { estimateMaxSpendable, getEstimatedFees } from "~/app/families/algorand/logic";
+import { PlainTransaction, TransactionMode } from "~/app/model/types_WIP";
+import { computeMaxSpendable, computeFees } from "~/app/families/algorand/logic";
 import { AlgorandService } from ".";
 
 async function completeTransaction(
   this: AlgorandService,
   transaction: PlainTransaction
 ): Promise<PlainTransaction> {
-  const fees = await getEstimatedFees(transaction);
+  const fees = await computeFees(transaction);
 
   const amount = await (async () => {
     if (transaction.useMaxAmount) {
-      const maxSpendable = await estimateMaxSpendable(transaction);
-      const amount = maxSpendable - fees;
+      const maxSpendable = await computeMaxSpendable(transaction);
+      const amount =
+        transaction.mode === TransactionMode.TRANSFER_FUNGIBLE_TOKEN ? maxSpendable : maxSpendable - fees;
       return amount >= 0n ? amount : 0n;
     } else {
       return transaction.amount;

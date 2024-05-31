@@ -7,6 +7,7 @@ import {
   Transaction as AlgoTransaction,
   EncodedTransaction as AlgoEncodedTransaction,
   makePaymentTxnWithSuggestedParams,
+  makeAssetTransferTxnWithSuggestedParams,
   decodeSignedTransaction,
 } from "algosdk";
 import { PlainTransaction, TransactionMode } from "~/app/model/types_WIP";
@@ -74,30 +75,24 @@ async function isAmountValidForRecipient(recipientAddress: string, amount: bigin
   return recipientAccount.balance === 0n ? amount >= ALGORAND_MIN_ACCOUNT_BALANCE : true;
 }
 
-// NOTE Voluntarily ignoring fees
-// TODO rename
-async function estimateMaxSpendable(transaction: PlainTransaction): Promise<bigint> {
-  const tx: PlainTransaction = {
-    //...createTransaction(transaction.mode),
-    ...transaction,
-    //recipient: transaction?.recipient || getAbandonSeedAddress(ChainId.ALGORAND),
-    useMaxAmount: true,
-  };
-
-  // TODO Validation: exactly 1 sender & 1 recipient
+async function computeMaxSpendable(transaction: PlainTransaction): Promise<bigint> {
   const { balance, assetAmounts } = await fetchAccount(transaction.senders[0]);
 
-  const maxSpendable = computeAlgoMaxSpendable({
-    accountBalance: balance,
-    nbAccountAssets: assetAmounts.length,
-    mode: tx.mode,
-  });
+  if (transaction.mode === TransactionMode.TRANSFER_FUNGIBLE_TOKEN) {
+    const token = assetAmounts.find((assetAmount) => assetAmount.assetId === transaction.tokenId);
+    return token?.amount || 0n;
+  } else {
+    const maxSpendable = computeAlgoMaxSpendable({
+      accountBalance: balance,
+      nbAccountAssets: assetAmounts.length,
+      mode: transaction.mode,
+    });
 
-  return maxSpendable > 0 ? maxSpendable : 0n;
+    return maxSpendable > 0 ? maxSpendable : 0n;
+  }
 }
 
-// TODO rename
-async function getEstimatedFees(transaction: PlainTransaction): Promise<bigint> {
+async function computeFees(transaction: PlainTransaction): Promise<bigint> {
   const params = await fetchTransactionParams();
 
   let suggestedFees = 0;
@@ -106,25 +101,32 @@ async function getEstimatedFees(transaction: PlainTransaction): Promise<bigint> 
     const encoded = encodeToSign(rawTransaction);
     suggestedFees = params.fee * (Buffer.from(encoded, "hex").length + SINGLE_SIGNATURE_SIZE);
   }
+
   return BigInt(Math.max(suggestedFees, params.minFee));
 }
 
 async function buildRawTransaction(transaction: PlainTransaction): Promise<AlgoEncodedTransaction> {
-  // TODO Validation of these fields
   const { amount, senders, recipients, mode, memo } = transaction;
 
   const note = memo ? new TextEncoder().encode(memo) : undefined;
 
   const params = await fetchTransactionParams();
 
-  const algoTxn: AlgoTransaction = makePaymentTxnWithSuggestedParams(
-    senders[0],
-    recipients[0],
-    amount,
-    undefined,
-    note,
-    params
-  );
+  const assetId = mode === TransactionMode.TRANSFER_FUNGIBLE_TOKEN && transaction.tokenId;
+
+  const algoTxn: AlgoTransaction = !assetId
+    ? makePaymentTxnWithSuggestedParams(senders[0], recipients[0], amount, undefined, note, params)
+    : makeAssetTransferTxnWithSuggestedParams(
+        senders[0],
+        recipients[0],
+        undefined,
+        undefined,
+        amount,
+        note,
+        Number(assetId),
+        params,
+        undefined
+      );
 
   // Bit of safety: set tx validity to the next 1000 blocks
   algoTxn.firstRound = params.lastRound;
@@ -163,8 +165,8 @@ export {
   ALGORAND_MAX_MEMO_SIZE,
   encodeAddress,
   isAmountValidForRecipient,
-  estimateMaxSpendable,
-  getEstimatedFees,
+  computeMaxSpendable,
+  computeFees,
   buildRawTransaction,
   encodeToSign,
   encodeToBroadcast,

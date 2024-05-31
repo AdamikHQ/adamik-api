@@ -1,5 +1,9 @@
 const MAX_RECURSION = 10;
 
+// Hack to manually ignore some fields to keep them as strings
+// FIXME Should be managed with API DTOs instead
+const EXCLUDE_LIST = ["tokenId"];
+
 /**
  *
  * @param input TODO Description
@@ -15,14 +19,13 @@ function stringToBigint(input: unknown, level: number = 0) {
     return input;
   }
 
-  if (["string"].includes(typeof input)) {
+  if ("string" === typeof input) {
     // Filter-out hexadecimal strings
     if ((input as string).startsWith("0x")) {
       return input;
     }
 
     try {
-      // @ts-ignore: mismatch between "object" and {}
       const output = BigInt(input);
       return output;
     } catch {
@@ -38,7 +41,11 @@ function stringToBigint(input: unknown, level: number = 0) {
   }
 
   for (const entry of Object.entries(input)) {
-    output[entry[0]] = stringToBigint(entry[1], level + 1);
+    if (EXCLUDE_LIST.includes(entry[0])) {
+      output[entry[0]] = entry[1];
+    } else {
+      output[entry[0]] = stringToBigint(entry[1], level + 1);
+    }
   }
 
   return output;
