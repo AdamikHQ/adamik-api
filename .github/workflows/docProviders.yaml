@@ -38,8 +38,8 @@ jobs:
 
     - name: Commit changes
       run: |
-        git add .
-        git commit -m "Automated changes by GitHub Actions" || echo "No changes to commit"
+        git add doc/.
+        git commit -m "Update Providers Doc" || echo "No changes to commit"
 
     - name: Push changes
       env:
