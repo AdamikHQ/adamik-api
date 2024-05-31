@@ -18,4 +18,10 @@ function generateReadme() {
   return `# Chains\n\n${chainsTable}`;
 }
 
-fs.writeFileSync(path.join(__dirname, "../../doc", "Providers.md"), generateReadme());
+const dir = path.join(__dirname, "../../doc");
+
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir);
+}
+
+fs.writeFileSync(path.join(dir, "Providers.md"), generateReadme());
