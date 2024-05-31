@@ -1,6 +1,6 @@
 import { CHAINS } from "../app/config/chains";
 import fs from "fs";
-import path from "path"
+import path from "path";
 
 function generateReadme() {
   const chains = Object.entries(CHAINS);
@@ -18,4 +18,4 @@ function generateReadme() {
   return `# Chains\n\n${chainsTable}`;
 }
 
-fs.writeFileSync(path.join(__dirname, '../../doc', 'Providers.md'), generateReadme());
+fs.writeFileSync(path.join(__dirname, "../../doc", "Providers.md"), generateReadme());
