@@ -15,6 +15,9 @@ import {
 } from "./encodeTransaction";
 import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTransaction";
 
+// TODO Make sure heavy functions aren't called multiple times / unnecessarily
+// (buildTransaction, network calls, etc...)
+
 class AlgorandService extends BaseChainService implements TokenService {
   getTokenInfo = getTokenInfoFn;
   pubkeyToAddress = pubkeyToAddressFn;

@@ -76,6 +76,9 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://ethereum-rpc.publicnode.com",
       explorerURL: "https://api.etherscan.io/api",
     },
+    params: {
+      evmChainId: 1,
+    },
   },
   sepolia: {
     id: ChainId.SEPOLIA,
@@ -86,6 +89,9 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://ethereum-sepolia-rpc.publicnode.com",
       explorerURL: "https://api-sepolia.etherscan.io/api",
+    },
+    params: {
+      evmChainId: 11155111,
     },
   },
   holesky: {
@@ -98,6 +104,9 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://ethereum-holesky-rpc.publicnode.com",
       explorerURL: "https://api-holesky.etherscan.io/api",
     },
+    params: {
+      evmChainId: 17000,
+    },
   },
   zksync: {
     id: ChainId.ZKSYNC,
@@ -108,6 +117,9 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
       explorerURL: "https://zksync.blockscout.com/api",
+    },
+    params: {
+      evmChainId: 324,
     },
   },
   "zksync-sepolia": {
@@ -120,6 +132,9 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
       explorerURL: "https://zksync.blockscout.com/api",
     },
+    params: {
+      evmChainId: 300,
+    },
   },
   "injective-testnet": {
     id: ChainId.INJECTIVE_TESTNET,
@@ -130,6 +145,9 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://testnet.rpc.inevm.com/http",
       //explorerURL: TODO,
+    },
+    params: {
+      evmChainId: 2424,
     },
   },
   base: {
@@ -143,6 +161,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       explorerURL: "https://api.basescan.org/api",
     },
     params: {
+      evmChainId: 8453,
       isL2Fees: true,
     },
   },
@@ -157,6 +176,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       explorerURL: "https://api.basescan.org/api",
     },
     params: {
+      evmChainId: 84532,
       isL2Fees: true,
     },
   },
@@ -171,6 +191,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       explorerURL: "https://api-optimistic.etherscan.io/api",
     },
     params: {
+      evmChainId: 10,
       isL2Fees: true,
     },
   },
@@ -185,6 +206,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       explorerURL: "https://api-sepolia-optimistic.etherscan.io/api",
     },
     params: {
+      evmChainId: 11155420,
       isL2Fees: true,
     },
   },
@@ -198,6 +220,9 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://arbitrum-one.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
       explorerURL: "https://api.arbiscan.io/api",
     },
+    params: {
+      evmChainId: 42161,
+    },
   },
   "arbitrum-sepolia": {
     id: ChainId.ARBITRUM_SEPOLIA,
@@ -208,6 +233,9 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://arbitrum-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
       explorerURL: "https://api-sepolia.arbiscan.io/api",
+    },
+    params: {
+      evmChainId: 421614,
     },
   },
 };

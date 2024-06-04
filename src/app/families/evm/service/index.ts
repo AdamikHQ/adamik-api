@@ -16,6 +16,9 @@ import {
 import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTransaction";
 import { Token } from "~/app/model/types_WIP";
 
+// TODO Make sure heavy functions aren't called multiple times / unnecessarily
+// (buildTransaction, network calls, etc...)
+
 class EvmService extends BaseChainService implements TokenService {
   getTokenInfo = getTokenInfoFn;
   pubkeyToAddress = pubkeyToAddressFn;
