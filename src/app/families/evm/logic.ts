@@ -13,7 +13,7 @@ async function getFees(
 ): Promise<bigint> {
   const chainParams = CHAINS[chainId].params as EvmParams;
 
-  if (chainParams.isL2Fees) {
+  if (chainParams?.isL2Fees) {
     return await getNodeClient(chainId)
       .extend(publicActionsL2())
       .estimateTotalFee({

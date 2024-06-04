@@ -8,7 +8,7 @@ const splitPathNodes = (path: string): number[] => path.split("/").map((p) => pa
 
 const CosmosKeyring: Keyring = {
   async getAddress({ accountNb = 0, chainParams }: { accountNb: number; chainParams?: CosmosParams }) {
-    if (!chainParams || !chainParams.prefix) {
+    if (!chainParams?.prefix) {
       throw new Error("Invalid CosmosParams provided to getAddress");
     }
 

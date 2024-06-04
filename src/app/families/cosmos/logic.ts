@@ -44,8 +44,8 @@ function isValidAddress(chainId: ChainId, address: string) {
 
   const chainParams = CHAINS[chainId].params as CosmosParams;
 
-  const prefix = chainParams.prefix;
-  const validatorPrefix = chainParams.validatorPrefix;
+  const prefix = chainParams?.prefix;
+  const validatorPrefix = chainParams?.validatorPrefix;
   if (
     (!prefix || !address.startsWith(prefix)) &&
     (!validatorPrefix || !address.startsWith(validatorPrefix))
@@ -90,14 +90,14 @@ async function getEstimatedFees(
       console.error("Failed to estimate gas usage during tx simulation. Error:", e);
     }
 
-    return BigInt(chainParams.defaultGas);
+    return BigInt(chainParams?.defaultGas);
   })();
 
   // Need to use the BigNumber lib to multiply bigints and floats...
   const gasWanted = new BigNumber(gasUsed.toString())
     .times(COSMOS_GAS_AMPLIFIER)
     .integerValue(BigNumber.ROUND_CEIL);
-  const gasWantedFees = gasWanted.times(chainParams.minGasPrice).integerValue(BigNumber.ROUND_CEIL);
+  const gasWantedFees = gasWanted.times(chainParams?.minGasPrice).integerValue(BigNumber.ROUND_CEIL);
 
   return { gasWanted: BigInt(gasWanted.toFixed()), gasWantedFees: BigInt(gasWantedFees.toFixed()) };
 }
@@ -116,7 +116,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           to_address: transaction.recipients[0],
           amount: [
             {
-              denom: chainParams.denom,
+              denom: chainParams?.denom,
               amount: transaction.amount.toString(),
             },
           ],
@@ -132,7 +132,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           toAddress: transaction.recipients[0],
           amount: [
             {
-              denom: chainParams.denom,
+              denom: chainParams?.denom,
               amount: transaction.amount.toString(),
             },
           ],
@@ -147,7 +147,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           delegator_address: transaction.senders[0],
           validator_address: transaction.validator,
           amount: {
-            denom: chainParams.denom,
+            denom: chainParams?.denom,
             amount: transaction.amount.toString(),
           },
         },
@@ -161,7 +161,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           delegatorAddress: transaction.senders[0],
           validatorAddress: transaction.validator,
           amount: {
-            denom: chainParams.denom,
+            denom: chainParams?.denom,
             amount: transaction.amount.toString(),
           },
         }).finish(),
@@ -176,7 +176,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           validator_src_address: transaction.sourceValidator,
           validator_dst_address: transaction.targetValidator,
           amount: {
-            denom: chainParams.denom,
+            denom: chainParams?.denom,
             amount: transaction.amount.toString(),
           },
         },
@@ -190,7 +190,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           validatorSrcAddress: transaction.sourceValidator,
           validatorDstAddress: transaction.targetValidator,
           amount: {
-            denom: chainParams.denom,
+            denom: chainParams?.denom,
             amount: transaction.amount.toString(),
           },
         }).finish(),
@@ -314,7 +314,7 @@ async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction)
   const feeToEncode = {
     amount: [
       {
-        denom: chainParams.denom,
+        denom: chainParams?.denom,
         amount: transaction.fees.toString(),
       },
     ],

@@ -16,7 +16,7 @@ async function fetchBalance(chainId: ChainId, address: string): Promise<bigint> 
 
   return data.balances.reduce(
     (sum: bigint, item: { denom: string; amount: string }) =>
-      item.denom === chainParams.denom ? sum + BigInt(item.amount) : sum,
+      item.denom === chainParams?.denom ? sum + BigInt(item.amount) : sum,
     0n
   );
 }
@@ -41,7 +41,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
   const accountData = {
     accountNumber: 0n,
     sequence: 0n,
-    pubKeyType: chainParams.defaultPubKeyType || "",
+    pubKeyType: chainParams?.defaultPubKeyType || "",
     pubKey: "",
   };
 
