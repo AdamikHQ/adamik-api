@@ -41,8 +41,12 @@ export async function GET(_: NextRequest, context: { params: Params }): Promise<
     );
   }
 
-  // TODO token can be null, adapt response?
   const token = await service.getTokenInfo(tokenId);
 
-  return NextResponse.json(token);
+  return token
+    ? NextResponse.json(token)
+    : NextResponse.json(
+        { message: `Token ID ${tokenId} is not supported for chain ID ${chainId}` },
+        { status: 400, statusText: `Unsupported tokenId` }
+      );
 }
