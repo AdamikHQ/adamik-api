@@ -76,7 +76,7 @@ async function getTransactionAmount(
     return tokenBalance;
   } else {
     const balance = await getBalance(chainId, transaction.senders[0] as EvmAddress);
-    return balance - fees;
+    return balance - fees >= 0n ? balance - fees : 0n;
   }
 }
 

@@ -104,7 +104,7 @@ type CommonTransaction = {
   useMaxAmount?: boolean;
   fees: bigint;
   gas?: bigint;
-  nonce?: bigint;
+  nonce?: number;
   memo?: string;
   format?: Format; // FIXME should not be here
   pubKey?: string; // FIXME should not be here

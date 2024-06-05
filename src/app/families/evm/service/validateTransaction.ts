@@ -41,6 +41,10 @@ async function validateTransactionIntent(
     }
   }
 
+  if (transaction.nonce && transaction.nonce < 0) {
+    errors.push({ message: "Nonce cannot be negative" });
+  }
+
   return {
     errors,
     warnings,

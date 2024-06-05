@@ -28,9 +28,6 @@ async function encodeTransactionToSign(
   } else {
     // FIXME: Parameters for specific Metamask format
     // Probably need to change function signature, if 'string' is not always the right return type
-    // Or maybe build and use a raw transaction instead?
-    // https://viem.sh/docs/utilities/serializeTransaction#serializetransaction
-    // https://docs.metamask.io/wallet/reference/eth_sendrawtransaction/
     return {
       maxPriorityFeePerGas: toHex(maxPriorityFeePerGas as bigint),
       maxFeePerGas: toHex(maxFeePerGas as bigint),
@@ -40,6 +37,38 @@ async function encodeTransactionToSign(
       to: transaction.recipients[0],
     } as any;
   }
+
+  // TODO Maybe build and use a raw transaction instead?
+  // ⚠️ Must check that Metamask doesn't blind sign when doing this
+  // https://viem.sh/op-stack/utilities/serializeTransaction
+  // https://docs.metamask.io/wallet/reference/eth_sendrawtransaction/
+  /*
+  const chainParams = CHAINS[this.chainId].params as EvmParams;
+  const data =
+    transaction.mode === TransactionMode.TRANSFER_TOKEN
+      ? encodeFunctionData({
+          abi: erc20Abi,
+          functionName: "transfer",
+          args: [transaction.recipients[0] as EvmAddress, transaction.amount],
+        })
+      : undefined;
+
+  const recipient =
+    transaction.mode === TransactionMode.TRANSFER_TOKEN
+      ? (transaction.tokenId as EvmAddress)
+      : (transaction.recipients[0] as EvmAddress);
+
+  return serializeTransaction({
+    chainId: chainParams.evmChainId,
+    maxFeePerGas,
+    maxPriorityFeePerGas,
+    gas: transaction.gas,
+    nonce: transaction.nonce,
+    to: recipient,
+    value: transaction.amount,
+    data,
+  });
+  */
 }
 
 async function encodeTransactionToBroadcast(
@@ -56,7 +85,7 @@ async function encodeTransactionToBroadcast(
   // TODO
 
   // Untestable at the moment since all supported EVM signers want to do the broadcast themselves
-  // Code from Ledger Live, as a refence of what probably needs to be done
+  // Code from Ledger Live, as a reference of what probably needs to be done
 
   /*
   const sig = (await signerContext(deviceId, signer => {
