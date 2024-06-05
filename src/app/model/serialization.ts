@@ -2,6 +2,7 @@ const MAX_RECURSION = 10;
 
 // Hack to manually ignore some fields to keep them as strings
 // FIXME Should be managed with API DTOs instead
+// https://adamik.atlassian.net/browse/ADV-13
 const EXCLUDE_LIST = ["tokenId"];
 
 /**

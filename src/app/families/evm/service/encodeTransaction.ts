@@ -11,7 +11,7 @@ async function encodeTransactionToSign(
 ): Promise<string> {
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(this.chainId);
 
-  if (transaction.mode === TransactionMode.TRANSFER_FUNGIBLE_TOKEN) {
+  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     const data = encodeFunctionData({
       abi: erc20Abi,
       functionName: "transfer",
@@ -26,7 +26,7 @@ async function encodeTransactionToSign(
       data,
     } as any;
   } else {
-    // FIXME: Parameters needed in specific Metamask format
+    // FIXME: Parameters for specific Metamask format
     // Probably need to change function signature, if 'string' is not always the right return type
     // Or maybe build and use a raw transaction instead?
     // https://viem.sh/docs/utilities/serializeTransaction#serializetransaction

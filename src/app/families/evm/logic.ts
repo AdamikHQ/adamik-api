@@ -2,9 +2,9 @@ import { CHAINS } from "~/app/config/chains";
 import { ChainId, PlainTransaction, TransactionMode } from "~/app/model/types_WIP";
 import { EvmAddress, EvmParams } from "./types";
 import {
-  estimateERC20Fees,
+  estimateERC20FeesForL2,
   estimateERC20Gas,
-  estimateFees,
+  estimateFeesForL2,
   estimateGas,
   getBalance,
   getERC20Balance,
@@ -12,7 +12,7 @@ import {
 import { EtherscanERC20Event } from "./backend/types";
 
 async function getTransactionGas(chainId: ChainId, transaction: PlainTransaction): Promise<bigint> {
-  if (transaction.mode === TransactionMode.TRANSFER_FUNGIBLE_TOKEN) {
+  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     return await estimateERC20Gas({
       chainId,
       contractAddress: transaction.tokenId as EvmAddress,
@@ -39,15 +39,15 @@ async function getTransactionFees(
   const chainParams = CHAINS[chainId].params as EvmParams;
 
   if (chainParams?.isL2Fees) {
-    return transaction.mode === TransactionMode.TRANSFER_FUNGIBLE_TOKEN
-      ? await estimateERC20Fees({
+    return transaction.mode === TransactionMode.TRANSFER_TOKEN
+      ? await estimateERC20FeesForL2({
           chainId,
           contractAddress: transaction.tokenId as EvmAddress,
           senderAddress: transaction.senders[0] as EvmAddress,
           recipientAddress: transaction.recipients[0] as EvmAddress,
           amount: transaction.amount,
         })
-      : await estimateFees({
+      : await estimateFeesForL2({
           chainId,
           senderAddress: transaction.senders[0] as EvmAddress,
           recipientAddress: transaction.recipients[0] as EvmAddress,
@@ -67,7 +67,7 @@ async function getTransactionAmount(
     return transaction.amount;
   }
 
-  if (transaction.mode === TransactionMode.TRANSFER_FUNGIBLE_TOKEN) {
+  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     const tokenBalance = await getERC20Balance({
       chainId,
       contractAddress: transaction.tokenId as EvmAddress,

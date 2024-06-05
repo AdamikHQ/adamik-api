@@ -11,8 +11,7 @@ async function completeTransaction(
   const amount = await (async () => {
     if (transaction.useMaxAmount) {
       const maxSpendable = await computeMaxSpendable(transaction);
-      const amount =
-        transaction.mode === TransactionMode.TRANSFER_FUNGIBLE_TOKEN ? maxSpendable : maxSpendable - fees;
+      const amount = transaction.mode === TransactionMode.TRANSFER_TOKEN ? maxSpendable : maxSpendable - fees;
       return amount >= 0n ? amount : 0n;
     } else {
       return transaction.amount;

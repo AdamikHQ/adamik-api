@@ -106,7 +106,7 @@ async function estimateFeesPerGas(chainId: ChainId): Promise<FeeValuesEIP1559> {
   return await getClient(chainId).estimateFeesPerGas();
 }
 
-async function estimateFees({
+async function estimateFeesForL2({
   chainId,
   senderAddress,
   recipientAddress,
@@ -124,7 +124,7 @@ async function estimateFees({
   });
 }
 
-async function estimateERC20Fees({
+async function estimateERC20FeesForL2({
   chainId,
   contractAddress,
   recipientAddress,
@@ -213,7 +213,7 @@ export {
   estimateGas,
   estimateERC20Gas,
   estimateFeesPerGas,
-  estimateFees,
-  estimateERC20Fees,
+  estimateFeesForL2,
+  estimateERC20FeesForL2,
   broadcast,
 };

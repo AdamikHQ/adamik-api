@@ -83,7 +83,7 @@ type AddressState = {
 
 enum TransactionMode {
   TRANSFER = "transfer",
-  TRANSFER_FUNGIBLE_TOKEN = "transferToken",
+  TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
   REDELEGATE = "redelegate",
   UNDELEGATE = "undelegate",
@@ -115,7 +115,7 @@ type TransferTransaction = CommonTransaction & {
 };
 
 type TransferTokenTransaction = CommonTransaction & {
-  mode: TransactionMode.TRANSFER_FUNGIBLE_TOKEN;
+  mode: TransactionMode.TRANSFER_TOKEN;
   tokenId: string;
 };
 

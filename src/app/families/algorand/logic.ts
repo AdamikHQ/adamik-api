@@ -78,7 +78,7 @@ async function isAmountValidForRecipient(recipientAddress: string, amount: bigin
 async function computeMaxSpendable(transaction: PlainTransaction): Promise<bigint> {
   const { balance, assetAmounts } = await fetchAccount(transaction.senders[0]);
 
-  if (transaction.mode === TransactionMode.TRANSFER_FUNGIBLE_TOKEN) {
+  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     const token = assetAmounts.find((assetAmount) => assetAmount.assetId === transaction.tokenId);
     return token?.amount || 0n;
   } else {
@@ -112,7 +112,7 @@ async function buildRawTransaction(transaction: PlainTransaction): Promise<AlgoE
 
   const params = await fetchTransactionParams();
 
-  const assetId = mode === TransactionMode.TRANSFER_FUNGIBLE_TOKEN && transaction.tokenId;
+  const assetId = mode === TransactionMode.TRANSFER_TOKEN && transaction.tokenId;
 
   const algoTxn: AlgoTransaction = !assetId
     ? makePaymentTxnWithSuggestedParams(senders[0], recipients[0], amount, undefined, note, params)
