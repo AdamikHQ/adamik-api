@@ -2,7 +2,7 @@
 
 ## algorand
 
-| nodeURL | https://mainnet-idx.algonode.cloud/v2 |
+| nodeURL | https://mainnet-api.algonode.cloud/v2 |
 | explorerURL | https://mainnet-idx.algonode.cloud/v2 |
 
 ## cosmoshub
