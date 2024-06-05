@@ -1,11 +1,36 @@
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, PlainTransaction } from "~/app/model/types_WIP";
+import { ChainId, PlainTransaction, TransactionMode } from "~/app/model/types_WIP";
 import { EvmAddress, EvmParams } from "./types";
-import { getNodeClient } from "./backend/node";
-import { publicActionsL2 } from "viem/op-stack";
+import {
+  estimateERC20FeesForL2,
+  estimateERC20Gas,
+  estimateFeesForL2,
+  estimateGas,
+  getBalance,
+  getERC20Balance,
+} from "./backend/node";
 import { EtherscanERC20Event } from "./backend/types";
 
-async function getFees(
+async function getTransactionGas(chainId: ChainId, transaction: PlainTransaction): Promise<bigint> {
+  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
+    return await estimateERC20Gas({
+      chainId,
+      contractAddress: transaction.tokenId as EvmAddress,
+      senderAddress: transaction.senders[0] as EvmAddress,
+      recipientAddress: transaction.recipients[0] as EvmAddress,
+      amount: transaction.amount,
+    });
+  } else {
+    return await estimateGas({
+      chainId,
+      senderAddress: transaction.senders[0] as EvmAddress,
+      recipientAddress: transaction.recipients[0] as EvmAddress,
+      amount: transaction.amount,
+    });
+  }
+}
+
+async function getTransactionFees(
   chainId: ChainId,
   transaction: PlainTransaction,
   gas: bigint,
@@ -14,16 +39,45 @@ async function getFees(
   const chainParams = CHAINS[chainId].params as EvmParams;
 
   if (chainParams?.isL2Fees) {
-    return await getNodeClient(chainId)
-      .extend(publicActionsL2())
-      .estimateTotalFee({
-        to: transaction.recipients[0] as `0x${string}`,
-        account: transaction.senders[0] as `0x${string}`,
-        value: transaction.amount,
-      });
+    return transaction.mode === TransactionMode.TRANSFER_TOKEN
+      ? await estimateERC20FeesForL2({
+          chainId,
+          contractAddress: transaction.tokenId as EvmAddress,
+          senderAddress: transaction.senders[0] as EvmAddress,
+          recipientAddress: transaction.recipients[0] as EvmAddress,
+          amount: transaction.amount,
+        })
+      : await estimateFeesForL2({
+          chainId,
+          senderAddress: transaction.senders[0] as EvmAddress,
+          recipientAddress: transaction.recipients[0] as EvmAddress,
+          amount: transaction.amount,
+        });
   }
 
   return gas * maxFeePerGas;
+}
+
+async function getTransactionAmount(
+  chainId: ChainId,
+  transaction: PlainTransaction,
+  fees: bigint
+): Promise<bigint> {
+  if (!transaction.useMaxAmount) {
+    return transaction.amount;
+  }
+
+  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
+    const tokenBalance = await getERC20Balance({
+      chainId,
+      contractAddress: transaction.tokenId as EvmAddress,
+      senderAddress: transaction.senders[0] as EvmAddress,
+    });
+    return tokenBalance;
+  } else {
+    const balance = await getBalance(chainId, transaction.senders[0] as EvmAddress);
+    return balance - fees >= 0n ? balance - fees : 0n;
+  }
 }
 
 // For each unique contract address in the list of events,
@@ -39,4 +93,4 @@ function getOneEventPerContractAddress(events: EtherscanERC20Event[]): Map<EvmAd
   return eventPerContractAddress;
 }
 
-export { getFees, getOneEventPerContractAddress };
+export { getTransactionGas, getTransactionFees, getTransactionAmount, getOneEventPerContractAddress };

@@ -1,12 +1,11 @@
 import { BroadcastStatus } from "~/app/model/types_WIP";
-import { getNodeClient } from "../backend/node";
+import { broadcast } from "../backend/node";
 import { EvmService } from ".";
 
 async function broadcastTransaction(this: EvmService, signedTransaction: string): Promise<BroadcastStatus> {
   const status: BroadcastStatus = {};
   try {
-    const hash = await getNodeClient(this.chainId).sendRawTransaction(JSON.parse(signedTransaction));
-    status.hash = hash;
+    status.hash = await broadcast(this.chainId, signedTransaction);
   } catch (e) {
     status.error = {
       //code: "KO",

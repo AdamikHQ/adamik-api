@@ -1,4 +1,5 @@
-import { createPublicClient, erc20Abi, http } from "viem";
+import { FeeValuesEIP1559, createPublicClient, erc20Abi, http } from "viem";
+import { publicActionsL2 } from "viem/op-stack";
 import {
   sepolia,
   mainnet,
@@ -20,7 +21,7 @@ import { EvmAddress } from "../types";
 // Couldn't find a proper type that works besides 'any'
 const CLIENTS = new Map<ChainId, any>();
 
-function getNodeClientConfig(chainId: ChainId) {
+function getClientConfig(chainId: ChainId) {
   switch (chainId) {
     case ChainId.SEPOLIA:
       return { chain: sepolia, transport: http(CHAINS[chainId].backends.nodeURL) };
@@ -51,23 +52,109 @@ function getNodeClientConfig(chainId: ChainId) {
   }
 }
 
-function getNodeClient(chainId: ChainId) {
+function getClient(chainId: ChainId) {
   if (CLIENTS.has(chainId)) {
     return CLIENTS.get(chainId)!;
   } else {
-    const client = createPublicClient(getNodeClientConfig(chainId));
+    const client = createPublicClient(getClientConfig(chainId));
     CLIENTS.set(chainId, client);
     return client;
   }
 }
 
-async function makeContractCall(
+async function estimateGas({
+  chainId,
+  senderAddress,
+  recipientAddress,
+  amount,
+}: {
+  chainId: ChainId;
+  senderAddress: EvmAddress;
+  recipientAddress: EvmAddress;
+  amount: bigint;
+}): Promise<bigint> {
+  return await getClient(chainId).estimateGas({
+    account: senderAddress,
+    to: recipientAddress,
+    value: amount,
+  });
+}
+
+async function estimateERC20Gas({
+  chainId,
+  contractAddress,
+  senderAddress,
+  recipientAddress,
+  amount,
+}: {
+  chainId: ChainId;
+  contractAddress: EvmAddress;
+  senderAddress: EvmAddress;
+  recipientAddress: EvmAddress;
+  amount: bigint;
+}): Promise<bigint> {
+  return await getClient(chainId).estimateContractGas({
+    address: contractAddress,
+    abi: erc20Abi,
+    functionName: "transfer",
+    account: senderAddress,
+    args: [recipientAddress, amount],
+  });
+}
+
+async function estimateFeesPerGas(chainId: ChainId): Promise<FeeValuesEIP1559> {
+  return await getClient(chainId).estimateFeesPerGas();
+}
+
+async function estimateFeesForL2({
+  chainId,
+  senderAddress,
+  recipientAddress,
+  amount,
+}: {
+  chainId: ChainId;
+  senderAddress: EvmAddress;
+  recipientAddress: EvmAddress;
+  amount: bigint;
+}): Promise<bigint> {
+  return await getClient(chainId).extend(publicActionsL2()).estimateTotalFee({
+    account: senderAddress,
+    to: recipientAddress,
+    value: amount,
+  });
+}
+
+async function estimateERC20FeesForL2({
+  chainId,
+  contractAddress,
+  recipientAddress,
+  senderAddress,
+  amount,
+}: {
+  chainId: ChainId;
+  contractAddress: EvmAddress;
+  senderAddress: EvmAddress;
+  recipientAddress: EvmAddress;
+  amount: bigint;
+}): Promise<bigint> {
+  return await getClient(chainId)
+    .extend(publicActionsL2())
+    .estimateContractTotalFee({
+      address: contractAddress,
+      abi: erc20Abi,
+      functionName: "transfer",
+      account: senderAddress,
+      args: [recipientAddress, amount],
+    });
+}
+
+async function makeERC20ContractCall(
   chainId: ChainId,
   contractAdress: EvmAddress,
   functionName: string,
   args: unknown[] = []
 ): Promise<unknown | null> {
-  const client = getNodeClient(chainId);
+  const client = getClient(chainId);
 
   let value;
   try {
@@ -86,23 +173,47 @@ async function makeContractCall(
 }
 
 async function getERC20name(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
-  return (await makeContractCall(chainId, contractAdress, "name")) as string;
+  return (await makeERC20ContractCall(chainId, contractAdress, "name")) as string;
 }
 
 async function getERC20Decimals(chainId: ChainId, contractAdress: EvmAddress): Promise<number> {
-  return (await makeContractCall(chainId, contractAdress, "decimals")) as number;
+  return (await makeERC20ContractCall(chainId, contractAdress, "decimals")) as number;
 }
 
 async function getERC20Ticker(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
-  return (await makeContractCall(chainId, contractAdress, "symbol")) as string;
+  return (await makeERC20ContractCall(chainId, contractAdress, "symbol")) as string;
 }
 
-async function getERC20Balance(
-  chainId: ChainId,
-  contractAdress: EvmAddress,
-  address: EvmAddress
-): Promise<bigint> {
-  return (await makeContractCall(chainId, contractAdress, "balanceOf", [address])) as bigint;
+async function getERC20Balance({
+  chainId,
+  contractAddress,
+  senderAddress,
+}: {
+  chainId: ChainId;
+  contractAddress: EvmAddress;
+  senderAddress: EvmAddress;
+}): Promise<bigint> {
+  return (await makeERC20ContractCall(chainId, contractAddress, "balanceOf", [senderAddress])) as bigint;
 }
 
-export { getNodeClient, getERC20name, getERC20Decimals, getERC20Ticker, getERC20Balance };
+async function getBalance(chainId: ChainId, address: EvmAddress): Promise<bigint> {
+  return getClient(chainId).getBalance({ address });
+}
+
+async function broadcast(chainId: ChainId, signedTransaction: string) {
+  return await getClient(chainId).sendRawTransaction(JSON.parse(signedTransaction));
+}
+
+export {
+  getBalance,
+  getERC20Balance,
+  getERC20name,
+  getERC20Decimals,
+  getERC20Ticker,
+  estimateGas,
+  estimateERC20Gas,
+  estimateFeesPerGas,
+  estimateFeesForL2,
+  estimateERC20FeesForL2,
+  broadcast,
+};

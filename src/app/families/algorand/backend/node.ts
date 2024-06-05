@@ -15,12 +15,10 @@ const ROOT_URL = CHAINS.algorand.backends.nodeURL;
 async function fetchAccount(address: string): Promise<AlgoAccount> {
   const url = `${ROOT_URL}/accounts/${address}`;
 
-  // NOTE: non-standard response format from the current algonode.cloud provider:
-  // additional top-level "account" field, instead of flat account data in standard response
-  const { account } = await fetch(url).then((response) => response.json());
+  const data = await fetch(url).then((response) => response.json());
 
-  const assetAmounts: AlgoAssetAmount[] = account.assets
-    ? account.assets.map((asset: { "asset-id": number; amount: number }): AlgoAssetAmount => {
+  const assetAmounts: AlgoAssetAmount[] = data.assets
+    ? data.assets.map((asset: { "asset-id": number; amount: number }): AlgoAssetAmount => {
         return {
           assetId: asset["asset-id"].toString(),
           amount: BigInt(asset.amount),
@@ -29,10 +27,10 @@ async function fetchAccount(address: string): Promise<AlgoAccount> {
     : [];
 
   return {
-    round: account.round,
-    address: account.address,
-    balance: BigInt(account.amount),
-    pendingRewards: BigInt(account["pending-rewards"]),
+    round: data.round,
+    address: data.address,
+    balance: BigInt(data.amount),
+    pendingRewards: BigInt(data["pending-rewards"]),
     assetAmounts,
   };
 }
@@ -40,20 +38,18 @@ async function fetchAccount(address: string): Promise<AlgoAccount> {
 async function fetchASA(assetId: string): Promise<AlgoAsset | null> {
   const url = `${ROOT_URL}/assets/${assetId}`;
 
-  // NOTE: non-standard response format from the current algonode.cloud provider:
-  // additional top-level "asset" field, instead of flat asset data in standard response
-  const { asset, message } = await fetch(url).then((response) => response.json());
+  const data = await fetch(url).then((response) => response.json());
 
-  if (message) {
-    console.warn(`/!\\ Failed to fetch algorand token with ID '${assetId}':`, message);
+  if (data.message) {
+    console.warn(`/!\\ Failed to fetch algorand token with ID '${assetId}':`, data.message);
     return null;
   }
 
   return {
     assetId,
-    name: asset.params.name,
-    unitName: asset.params["unit-name"],
-    decimals: asset.params.decimals,
+    name: data.params.name,
+    unitName: data.params["unit-name"],
+    decimals: data.params.decimals,
   };
 }
 

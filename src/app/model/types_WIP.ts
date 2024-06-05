@@ -83,7 +83,7 @@ type AddressState = {
 
 enum TransactionMode {
   TRANSFER = "transfer",
-  TRANSFER_FUNGIBLE_TOKEN = "transfer.ft",
+  TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
   REDELEGATE = "redelegate",
   UNDELEGATE = "undelegate",
@@ -104,7 +104,7 @@ type CommonTransaction = {
   useMaxAmount?: boolean;
   fees: bigint;
   gas?: bigint;
-  nonce?: bigint;
+  nonce?: number;
   memo?: string;
   format?: Format; // FIXME should not be here
   pubKey?: string; // FIXME should not be here
@@ -112,6 +112,11 @@ type CommonTransaction = {
 
 type TransferTransaction = CommonTransaction & {
   mode: TransactionMode.TRANSFER;
+};
+
+type TransferTokenTransaction = CommonTransaction & {
+  mode: TransactionMode.TRANSFER_TOKEN;
+  tokenId: string;
 };
 
 type DelegateTransaction = CommonTransaction & {
@@ -137,6 +142,7 @@ type ClaimRewardTransaction = CommonTransaction & {
 
 type PlainTransaction =
   | TransferTransaction
+  | TransferTokenTransaction
   | DelegateTransaction
   | UndelegateTransaction
   | RedelegateTransaction

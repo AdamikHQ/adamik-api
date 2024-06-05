@@ -27,6 +27,7 @@ export async function GET(_: NextRequest, context: { params: Params }): Promise<
 
   // FIXME Trick to filter-out private 'backends' field from response
   // Needs to be handled with DTO instead
+  // https://adamik.atlassian.net/browse/ADV-13
   const response = (({ backends, ...chain }) => chain)(chain);
 
   return NextResponse.json(response);

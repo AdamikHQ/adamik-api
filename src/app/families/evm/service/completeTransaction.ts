@@ -1,55 +1,29 @@
-import { EstimateGasErrorType } from "viem";
 import { PlainTransaction } from "~/app/model/types_WIP";
-import { getNodeClient } from "../backend/node";
-import { getFees } from "../logic";
+import { estimateFeesPerGas } from "../backend/node";
+import { getTransactionFees, getTransactionAmount, getTransactionGas } from "../logic";
 import { EvmService } from ".";
-
-// TODO Make sure heavy functions aren't called multiple times / unnecessarily
-// (buildTransaction, network calls, etc...)
 
 async function completeTransaction(
   this: EvmService,
   transaction: PlainTransaction
 ): Promise<PlainTransaction> {
-  try {
-    const gas = await getNodeClient(this.chainId).estimateGas({
-      account: transaction.senders[0] as `0x${string}`,
-      to: transaction.recipients[0] as `0x${string}`,
-      value: transaction.amount,
-    });
+  const gas = await getTransactionGas(this.chainId, transaction);
 
-    const { maxFeePerGas } = await getNodeClient(this.chainId).estimateFeesPerGas();
-
-    if (maxFeePerGas === undefined) {
-      throw new Error("maxFeePerGas is undefined");
-    }
-
-    const fees = await getFees(this.chainId, transaction, gas, maxFeePerGas);
-
-    const amount = await (async () => {
-      if (transaction.useMaxAmount) {
-        const balance = await getNodeClient(this.chainId).getBalance({
-          address: transaction.senders[0] as `0x${string}`,
-        });
-
-        return balance - fees;
-      }
-      return transaction.amount;
-    })();
-
-    return {
-      ...transaction,
-      amount,
-      fees,
-      gas,
-    };
-  } catch (e: any) {
-    if (e.name === "EstimateGasExecutionError") {
-      const error = e as EstimateGasErrorType;
-      throw new Error(error.details);
-    }
-    throw e;
+  const { maxFeePerGas } = await estimateFeesPerGas(this.chainId);
+  if (maxFeePerGas === undefined) {
+    throw new Error("maxFeePerGas is undefined");
   }
+
+  const fees = await getTransactionFees(this.chainId, transaction, gas, maxFeePerGas);
+
+  const amount = await getTransactionAmount(this.chainId, transaction, fees);
+
+  return {
+    ...transaction,
+    amount,
+    fees,
+    gas,
+  };
 }
 
 export { completeTransaction };

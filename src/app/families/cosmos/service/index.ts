@@ -15,6 +15,9 @@ import {
 import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTransaction";
 import { getValidators as getValidatorsFn } from "./getValidators";
 
+// TODO Make sure heavy functions aren't called multiple times / unnecessarily
+// (buildTransaction, network calls, etc...)
+
 class CosmosService extends BaseChainService implements StakingService {
   pubkeyToAddress = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
