@@ -27,6 +27,8 @@ async function completeTransaction(
 
   const amount = await (async () => {
     if (transaction.useMaxAmount) {
+      // - For a token transaction, the max spent amount is just the token balance, because fees are deducted from the native balance
+      // - For a native transaction, the max spent amount is the native amount minus the fees, because both tap in the same native balance
       const amount =
         transaction.mode === TransactionMode.TRANSFER_TOKEN ? maxSpendable.token : maxSpendable.native - fees;
       return amount && amount >= 0n ? amount : 0n;

@@ -29,7 +29,7 @@ async function completeTransaction(this: EvmService, transaction: PlainTransacti
       }
     } catch (e: any) {
       const message =
-        e instanceof ViemError ? e.shortMessage : e.message || "Failed to complete the transaction";
+        (e instanceof ViemError ? e.shortMessage : e.message) || "Failed to complete the transaction";
       status.errors.push({ message });
       return transaction;
     }
