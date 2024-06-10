@@ -47,6 +47,7 @@ async function completeTransaction(this: EvmService, transaction: PlainTransacti
   return { plain: completedTransaction, status };
 }
 
+// FIXME input 'transaction' is mutated, maybe not a good pattern since it's coming from the API request
 async function completeNativeTransaction(
   chainId: ChainId,
   transaction: PlainTransaction
@@ -57,23 +58,19 @@ async function completeNativeTransaction(
   }
 
   // Since a gas estimation is done by simulating the transaction,
-  // we can't know in advanced how much we should put in the simulation.
+  // we can't know in advance how much we should put in the simulation.
   // But as a native transaction (no smart contract) should always consume the same amount of gas,
   // no matter the amount of coin transfered, we can infer the gas with any amount
-  const gas = await getTransactionGas(chainId, transaction);
+  transaction.gas = await getTransactionGas(chainId, transaction);
 
-  const fees = await getTransactionFees(chainId, transaction, gas, maxFeePerGas);
+  transaction.fees = await getTransactionFees(chainId, transaction, maxFeePerGas);
 
-  const amount = await getTransactionAmount(chainId, transaction, fees);
+  transaction.amount = await getTransactionAmount(chainId, transaction);
 
-  return {
-    ...transaction,
-    amount,
-    fees,
-    gas,
-  };
+  return transaction;
 }
 
+// FIXME input 'transaction' is mutated, maybe not a good pattern since it's coming from the API request
 async function completeTokenTransaction(
   chainId: ChainId,
   transaction: PlainTransaction
@@ -83,21 +80,16 @@ async function completeTokenTransaction(
     throw new Error("Could not retrieve maxFeePerGas");
   }
 
-  const amount = await getTransactionAmount(chainId, transaction);
+  transaction.amount = await getTransactionAmount(chainId, transaction);
 
-  const gas = await getTransactionGas(chainId, transaction);
+  transaction.gas = await getTransactionGas(chainId, transaction);
 
-  const fees = await getTransactionFees(chainId, transaction, gas, maxFeePerGas);
+  transaction.fees = await getTransactionFees(chainId, transaction, maxFeePerGas);
 
-  return {
-    ...transaction,
-    amount,
-    fees,
-    gas,
-  };
+  return transaction;
 }
 
-// Update input 'status' (which is mutated)
+// NOTE input 'status' is mutated (more or less fine since it's local to this file...)
 async function validateTransaction(
   transaction: PlainTransaction,
   maxSpendable: TransactionSpendableAmounts,

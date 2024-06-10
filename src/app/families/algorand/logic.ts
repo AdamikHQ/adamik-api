@@ -89,17 +89,17 @@ async function computeMaxSpendable(transaction: PlainTransaction): Promise<Trans
     mode: transaction.mode,
   });
 
-  const algo = maxSpendable > 0 ? maxSpendable : 0n;
+  const algoBalance = maxSpendable > 0 ? maxSpendable : 0n;
 
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     const token = assetAmounts.find((assetAmount) => assetAmount.assetId === transaction.tokenId);
-    const asa = token?.amount || 0n;
+    const asaBalance = token?.amount || 0n;
     return {
-      native: algo,
-      token: asa,
+      native: algoBalance,
+      token: asaBalance,
     };
   } else {
-    return { native: algo };
+    return { native: algoBalance };
   }
 }
 

@@ -38,9 +38,12 @@ async function getTransactionGas(chainId: ChainId, transaction: PlainTransaction
 async function getTransactionFees(
   chainId: ChainId,
   transaction: PlainTransaction,
-  gas: bigint,
   maxFeePerGas: bigint
 ): Promise<bigint> {
+  if (!transaction.gas) {
+    throw new Error("Missing gas from transaction to compute fees");
+  }
+
   const chainParams = CHAINS[chainId].params as EvmParams;
 
   if (chainParams?.isL2Fees) {
@@ -60,14 +63,10 @@ async function getTransactionFees(
         });
   }
 
-  return gas * maxFeePerGas;
+  return transaction.gas * maxFeePerGas;
 }
 
-async function getTransactionAmount(
-  chainId: ChainId,
-  transaction: PlainTransaction,
-  fees: bigint = 0n
-): Promise<bigint> {
+async function getTransactionAmount(chainId: ChainId, transaction: PlainTransaction): Promise<bigint> {
   if (!transaction.useMaxAmount) {
     return transaction.amount;
   }
@@ -77,7 +76,7 @@ async function getTransactionAmount(
     return maxSpendable.token!;
   } else {
     const maxSpendable = await getMaxSpendable(chainId, transaction);
-    return maxSpendable.native - fees >= 0n ? maxSpendable.native - fees : 0n;
+    return maxSpendable.native - transaction.fees >= 0n ? maxSpendable.native - transaction.fees : 0n;
   }
 }
 
@@ -85,20 +84,20 @@ async function getMaxSpendable(
   chainId: ChainId,
   transaction: PlainTransaction
 ): Promise<TransactionSpendableAmounts> {
-  const eth = await getBalance(chainId, transaction.senders[0] as EvmAddress);
+  const ethBalance = await getBalance(chainId, transaction.senders[0] as EvmAddress);
 
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
-    const erc20 = await getERC20Balance({
+    const erc20Balance = await getERC20Balance({
       chainId,
       contractAddress: transaction.tokenId as EvmAddress,
       senderAddress: transaction.senders[0] as EvmAddress,
     });
     return {
-      native: eth,
-      token: erc20,
+      native: ethBalance,
+      token: erc20Balance,
     };
   } else {
-    return { native: eth };
+    return { native: ethBalance };
   }
 }
 
