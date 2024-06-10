@@ -29,52 +29,33 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   const processedTransaction = await (async (): Promise<Transaction> => {
-    const transactionIntentStatus = await service.validateTransactionIntent(transaction);
-    // FIXME Better use a throw/catch system for all kinds of errors?
-    if (transactionIntentStatus.errors.length) {
+    // Pre-validation
+    const prevalidationStatus = await service.prevalidateTransaction(transaction);
+    if (prevalidationStatus.errors.length) {
       return {
         plain: transaction,
-        status: transactionIntentStatus,
+        status: prevalidationStatus,
       };
     }
 
-    try {
-      const completedTransaction = await service.completeTransaction(transaction);
+    // Completion + validation
+    const completedTransaction = await service.completeTransaction(transaction);
 
-      const transactionStatus = await service.validateTransaction(completedTransaction);
+    completedTransaction.status.warnings = completedTransaction.status.warnings.concat(
+      prevalidationStatus.warnings || []
+    );
 
-      const fullTransactionStatus = {
-        errors: transactionIntentStatus.errors.concat(transactionStatus.errors),
-        warnings: transactionIntentStatus.warnings.concat(transactionStatus.warnings),
-      };
-
-      if (fullTransactionStatus.errors.length) {
-        return {
-          plain: completedTransaction,
-          status: fullTransactionStatus,
-        };
-      }
-
-      const encodedTransaction = await service.encodeTransactionToSign(
-        completedTransaction,
-        transaction.format
-      );
-
-      return {
-        plain: completedTransaction,
-        encoded: encodedTransaction,
-        status: fullTransactionStatus,
-      };
-    } catch (e: any) {
-      // FIXME Probably will need to have a specific error
-      return {
-        plain: transaction,
-        status: {
-          errors: [{ message: e.message }],
-          warnings: [],
-        },
-      };
+    if (completedTransaction.status.errors.length) {
+      return completedTransaction;
     }
+
+    // Encoding
+    completedTransaction.encoded = await service.encodeTransactionToSign(
+      completedTransaction.plain,
+      transaction.format
+    );
+
+    return completedTransaction;
   })();
 
   return NextResponse.json({ transaction: processedTransaction });

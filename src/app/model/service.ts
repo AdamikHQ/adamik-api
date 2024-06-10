@@ -33,10 +33,10 @@ abstract class BaseChainService {
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
   // Crafting
-  abstract completeTransaction(transaction: PlainTransaction): Promise<PlainTransaction>;
-  abstract validateTransactionIntent(transaction: PlainTransaction): Promise<TransactionStatus>;
+  abstract prevalidateTransaction(transaction: PlainTransaction): Promise<TransactionStatus>;
+  abstract completeTransaction(transaction: PlainTransaction): Promise<Transaction>;
+  //abstract validateTransaction(transaction: PlainTransaction): Promise<TransactionStatus>;
   abstract encodeTransactionToSign(transaction: PlainTransaction, format?: Format): Promise<string>;
-  abstract validateTransaction(transaction: PlainTransaction): Promise<TransactionStatus>;
   abstract encodeTransactionToBroadcast(signedTransaction: Transaction): Promise<string>;
   abstract broadcastTransaction(signedTransaction: string): Promise<BroadcastStatus>;
 }

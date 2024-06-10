@@ -2,7 +2,9 @@ import { encodeFunctionData, erc20Abi, toHex } from "viem";
 import { Format, PlainTransaction, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { estimateFeesPerGas } from "../backend/node";
 import { EvmService } from ".";
-import { EvmAddress } from "../types";
+import { EvmAddress, EvmParams } from "../types";
+import { CHAINS } from "~/app/config/chains";
+import { serializeTransaction } from "viem/op-stack";
 
 async function encodeTransactionToSign(
   this: EvmService,
@@ -11,6 +13,7 @@ async function encodeTransactionToSign(
 ): Promise<string> {
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(this.chainId);
 
+  //*
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     const data = encodeFunctionData({
       abi: erc20Abi,
@@ -42,7 +45,7 @@ async function encodeTransactionToSign(
   // ⚠️ Must check that Metamask doesn't blind sign when doing this
   // https://viem.sh/op-stack/utilities/serializeTransaction
   // https://docs.metamask.io/wallet/reference/eth_sendrawtransaction/
-  /*
+  /*/
   const chainParams = CHAINS[this.chainId].params as EvmParams;
   const data =
     transaction.mode === TransactionMode.TRANSFER_TOKEN
@@ -68,7 +71,7 @@ async function encodeTransactionToSign(
     value: transaction.amount,
     data,
   });
-  */
+  //*/
 }
 
 async function encodeTransactionToBroadcast(

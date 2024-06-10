@@ -35,14 +35,14 @@ function isBase64(str: string): boolean {
   return base64Regex.test(str);
 }
 
-function isValidAddress(chainId: ChainId, address: string) {
+function isValidAddress(address: string, chainId?: ChainId): boolean {
   try {
     bech32.decode(address);
   } catch (e) {
     return false;
   }
 
-  const chainParams = CHAINS[chainId].params as CosmosParams;
+  const chainParams = chainId && (CHAINS[chainId].params as CosmosParams);
 
   const prefix = chainParams?.prefix;
   const validatorPrefix = chainParams?.validatorPrefix;

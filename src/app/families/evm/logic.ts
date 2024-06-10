@@ -1,5 +1,10 @@
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, PlainTransaction, TransactionMode } from "~/app/model/types_WIP";
+import {
+  ChainId,
+  PlainTransaction,
+  TransactionMode,
+  TransactionSpendableAmounts,
+} from "~/app/model/types_WIP";
 import { EvmAddress, EvmParams } from "./types";
 import {
   estimateERC20FeesForL2,
@@ -61,22 +66,39 @@ async function getTransactionFees(
 async function getTransactionAmount(
   chainId: ChainId,
   transaction: PlainTransaction,
-  fees: bigint
+  fees: bigint = 0n
 ): Promise<bigint> {
   if (!transaction.useMaxAmount) {
     return transaction.amount;
   }
 
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
-    const tokenBalance = await getERC20Balance({
+    const maxSpendable = await getMaxSpendable(chainId, transaction);
+    return maxSpendable.token!;
+  } else {
+    const maxSpendable = await getMaxSpendable(chainId, transaction);
+    return maxSpendable.native - fees >= 0n ? maxSpendable.native - fees : 0n;
+  }
+}
+
+async function getMaxSpendable(
+  chainId: ChainId,
+  transaction: PlainTransaction
+): Promise<TransactionSpendableAmounts> {
+  const eth = await getBalance(chainId, transaction.senders[0] as EvmAddress);
+
+  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
+    const erc20 = await getERC20Balance({
       chainId,
       contractAddress: transaction.tokenId as EvmAddress,
       senderAddress: transaction.senders[0] as EvmAddress,
     });
-    return tokenBalance;
+    return {
+      native: eth,
+      token: erc20,
+    };
   } else {
-    const balance = await getBalance(chainId, transaction.senders[0] as EvmAddress);
-    return balance - fees >= 0n ? balance - fees : 0n;
+    return { native: eth };
   }
 }
 
@@ -93,4 +115,10 @@ function getOneEventPerContractAddress(events: EtherscanERC20Event[]): Map<EvmAd
   return eventPerContractAddress;
 }
 
-export { getTransactionGas, getTransactionFees, getTransactionAmount, getOneEventPerContractAddress };
+export {
+  getTransactionGas,
+  getTransactionFees,
+  getTransactionAmount,
+  getMaxSpendable,
+  getOneEventPerContractAddress,
+};

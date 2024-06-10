@@ -29,6 +29,7 @@
 - [ ] Review and address TODOs and FIXMEs !
 - [ ] proper error management : server errors, validation errors... + review all 'throw' + use zod
 - [ ] easy and configurable caching of any network request
+- [ ] create a context for any route, with account data for instance, that is propagated to all service functions?
 - [ ] proper config (JSON ?)
 - [ ] logging / instrumentation / tracking + review all console.xxx
 - [ ] test framework
@@ -51,7 +52,7 @@
 
 ## ARCHI
 - [ ] ~~validateTransaction always calls validateTransactionIntent ?~~
-- [ ] validateTransactionIntent is the same for all coins?
+- [x] prevalidateTransaction is the same for all coins?
 - [ ] modularization ? Families as independent modules / libs
 ### transaction model
 - [ ] review & consolidate all fields of all chains in Live
