@@ -108,7 +108,7 @@ async function validateTransaction(
       if (transaction.fees > maxSpendable.native) {
         status.errors.push({ message: "Balance is too low" });
       }
-      if (maxSpendable.token && transaction.amount > maxSpendable.token) {
+      if (maxSpendable.token !== undefined && transaction.amount > maxSpendable.token) {
         status.errors.push({ message: "Token balance is too low" });
       }
 
