@@ -26,6 +26,9 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
   
+      - name: Change working directory to HEAD
+        run: cd head
+
       - name: Install dependencies
         run: pnpm install
   

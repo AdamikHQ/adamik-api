@@ -19,7 +19,7 @@ import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTrans
 
 class AlgorandService extends BaseChainService implements TokenService {
   getTokenInfo = getTokenInfoFn;
-  pubkeyToAddress = pubkeyToAddressFn;
+  pubkeyToAddresses = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
   getAddressState = getAddressStateFn;
   prevalidateTransaction = prevalidateTransactionFn;

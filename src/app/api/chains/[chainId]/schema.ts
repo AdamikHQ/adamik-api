@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { ChainId } from "~/app/model/types_WIP";
+import { ChainId } from "../../../model/types_WIP";
 
 extendZodWithOpenApi(z);
 

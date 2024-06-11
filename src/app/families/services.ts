@@ -3,6 +3,7 @@ import { BaseChainService } from "~/app/model/service";
 import { AlgorandService } from "./algorand/service";
 import { CosmosService } from "./cosmos/service";
 import { EvmService } from "./evm/service";
+import { BtcService } from "./bitcoin/service";
 
 // Mapping of service to use for each supported chain ID
 const SERVICES = new Map<ChainId, BaseChainService>([
@@ -27,6 +28,10 @@ const SERVICES = new Map<ChainId, BaseChainService>([
   [ChainId.OPTIMISM_SEPOLIA, new EvmService(ChainId.OPTIMISM_SEPOLIA)],
   [ChainId.ARBITRUM, new EvmService(ChainId.ARBITRUM)],
   [ChainId.ARBITRUM_SEPOLIA, new EvmService(ChainId.ARBITRUM_SEPOLIA)],
+
+  // BTC
+  [ChainId.BITCOIN, new BtcService(ChainId.BITCOIN)],
+  [ChainId.BITCOIN_TESTNET, new BtcService(ChainId.BITCOIN_TESTNET)],
 ]);
 
 export { SERVICES };

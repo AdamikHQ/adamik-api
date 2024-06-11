@@ -18,7 +18,7 @@ import { getValidators as getValidatorsFn } from "./getValidators";
 // (buildTransaction, network calls, etc...)
 
 class CosmosService extends BaseChainService implements StakingService {
-  pubkeyToAddress = pubkeyToAddressFn;
+  pubkeyToAddresses = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
   getAddressState = getAddressStateFn;
   getValidators = getValidatorsFn;

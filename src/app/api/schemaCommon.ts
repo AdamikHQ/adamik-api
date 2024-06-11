@@ -30,12 +30,18 @@ const delegateTransactionSchema = z.object({
 const plainTransactionSchema = commonTransactionSchema.and(z.union([transferTransactionSchema, delegateTransactionSchema,]));
 //*/
 
+const recipientSchema = z.object({
+  amount: z.string(),
+  recipient: z.string(),
+});
+
 const plainTransactionSchema = z.object({
   chainId: z.nativeEnum(ChainId),
   mode: z.nativeEnum(TransactionMode),
   senders: z.array(z.string()),
-  recipients: z.array(z.string()),
+  recipients: z.array(recipientSchema),
   // TODO should be only one of [amount, useMaxAmount]
+  // FIXME should be replaced by usage of recipientSchema
   amount: z.string().optional(),
   useMaxAmount: z.boolean().optional(),
   fees: z.string().optional(),
