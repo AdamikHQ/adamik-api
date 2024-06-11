@@ -2,7 +2,7 @@ import { isValidAddress } from "../logic";
 import { CosmosService } from ".";
 
 async function validateAddress(this: CosmosService, address: string): Promise<boolean> {
-  return isValidAddress(this.chainId, address);
+  return isValidAddress(address, this.chainId);
 }
 
 export { validateAddress };

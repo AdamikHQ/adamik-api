@@ -153,7 +153,7 @@ type Transaction = {
   plain: PlainTransaction;
   encoded?: string;
   signature?: string;
-  status?: TransactionStatus;
+  status: TransactionStatus;
 };
 
 /*
@@ -162,6 +162,12 @@ type TransactionMetadata = {
   useMaxAmount: boolean;
 };
 */
+
+// Used to list spendable amounts, in native currency and one optional token currency
+type TransactionSpendableAmounts = {
+  native: bigint;
+  token?: bigint;
+};
 
 type TransactionStatus = {
   errors: ErrorMsg[];
@@ -192,6 +198,7 @@ export type {
   AddressState,
   PlainTransaction,
   Transaction,
+  TransactionSpendableAmounts,
   TransactionStatus,
   BroadcastStatus,
   ErrorMsg,

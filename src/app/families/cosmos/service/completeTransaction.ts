@@ -1,4 +1,4 @@
-import { PlainTransaction } from "~/app/model/types_WIP";
+import { PlainTransaction, Transaction, TransactionStatus } from "~/app/model/types_WIP";
 import { getEstimatedFees } from "../logic";
 import { fetchBalance } from "../backend/node";
 import { CosmosService } from ".";
@@ -6,10 +6,8 @@ import { CosmosService } from ".";
 // TODO Make sure heavy functions aren't called multiple times / unnecessarily
 // (buildTransaction, network calls, etc...)
 
-async function completeTransaction(
-  this: CosmosService,
-  transaction: PlainTransaction
-): Promise<PlainTransaction> {
+async function completeTransaction(this: CosmosService, transaction: PlainTransaction): Promise<Transaction> {
+  // Completion
   const balance = await fetchBalance(this.chainId, transaction.senders[0]);
   const transactionToEstimate = {
     ...transaction,
@@ -23,12 +21,28 @@ async function completeTransaction(
       : 0n
     : transaction.amount;
 
+  // Validation
+  const status = await validateTransaction(transaction);
+
   return {
-    ...transaction,
-    fees: gasWantedFees,
-    gas: gasWanted,
-    amount,
+    plain: {
+      ...transaction,
+      fees: gasWantedFees,
+      gas: gasWanted,
+      amount,
+    },
+    status,
   };
+}
+
+async function validateTransaction(transaction: PlainTransaction): Promise<TransactionStatus> {
+  const status: TransactionStatus = { errors: [], warnings: [] };
+
+  // TODO
+
+  // NOTE amount can't be 0 on cosmos chains?...
+
+  return status;
 }
 
 export { completeTransaction };

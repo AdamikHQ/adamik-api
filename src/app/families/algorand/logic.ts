@@ -10,7 +10,7 @@ import {
   makeAssetTransferTxnWithSuggestedParams,
   decodeSignedTransaction,
 } from "algosdk";
-import { PlainTransaction, TransactionMode } from "~/app/model/types_WIP";
+import { PlainTransaction, TransactionMode, TransactionSpendableAmounts } from "~/app/model/types_WIP";
 import { fetchAccount, fetchTransactionParams } from "~/app/families/algorand/backend/node";
 
 // TODO Keep this file as a fourre-tout or split it?
@@ -75,20 +75,31 @@ async function isAmountValidForRecipient(recipientAddress: string, amount: bigin
   return recipientAccount.balance === 0n ? amount >= ALGORAND_MIN_ACCOUNT_BALANCE : true;
 }
 
-async function computeMaxSpendable(transaction: PlainTransaction): Promise<bigint> {
+const addressHasAsset = async (address: string, assetId: string): Promise<boolean> => {
+  const recipientAccount = await fetchAccount(address);
+  return recipientAccount.assetAmounts.map((a) => a.assetId).includes(assetId);
+};
+
+async function computeMaxSpendable(transaction: PlainTransaction): Promise<TransactionSpendableAmounts> {
   const { balance, assetAmounts } = await fetchAccount(transaction.senders[0]);
+
+  const maxSpendable = computeAlgoMaxSpendable({
+    accountBalance: balance,
+    nbAccountAssets: assetAmounts.length,
+    mode: transaction.mode,
+  });
+
+  const algoBalance = maxSpendable > 0 ? maxSpendable : 0n;
 
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     const token = assetAmounts.find((assetAmount) => assetAmount.assetId === transaction.tokenId);
-    return token?.amount || 0n;
+    const asaBalance = token?.amount || 0n;
+    return {
+      native: algoBalance,
+      token: asaBalance,
+    };
   } else {
-    const maxSpendable = computeAlgoMaxSpendable({
-      accountBalance: balance,
-      nbAccountAssets: assetAmounts.length,
-      mode: transaction.mode,
-    });
-
-    return maxSpendable > 0 ? maxSpendable : 0n;
+    return { native: algoBalance };
   }
 }
 
@@ -165,6 +176,7 @@ export {
   ALGORAND_MAX_MEMO_SIZE,
   encodeAddress,
   isAmountValidForRecipient,
+  addressHasAsset,
   computeMaxSpendable,
   computeFees,
   buildRawTransaction,
