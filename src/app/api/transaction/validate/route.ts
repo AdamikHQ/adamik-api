@@ -25,7 +25,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const status = await service.validateTransactionIntent(transaction);
+  const status = await service.prevalidateTransaction(transaction);
 
   return NextResponse.json(status);
 }

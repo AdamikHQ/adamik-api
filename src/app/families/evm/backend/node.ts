@@ -73,7 +73,7 @@ async function estimateGas({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId).estimateGas({
+  return await getClient(chainId).extend(publicActionsL2()).estimateGas({
     account: senderAddress,
     to: recipientAddress,
     value: amount,
@@ -93,13 +93,15 @@ async function estimateERC20Gas({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId).estimateContractGas({
-    address: contractAddress,
-    abi: erc20Abi,
-    functionName: "transfer",
-    account: senderAddress,
-    args: [recipientAddress, amount],
-  });
+  return await getClient(chainId)
+    .extend(publicActionsL2())
+    .estimateContractGas({
+      address: contractAddress,
+      abi: erc20Abi,
+      functionName: "transfer",
+      account: senderAddress,
+      args: [recipientAddress, amount],
+    });
 }
 
 async function estimateFeesPerGas(chainId: ChainId): Promise<FeeValuesEIP1559> {
