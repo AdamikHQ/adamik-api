@@ -8,4 +8,8 @@ if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
 }
 
-fs.writeFileSync(path.join(dir, "openapi.json"), JSON.stringify(generateOpenAPIDoc(), null, 2));
+const fileName = process.env.OPEN_API_FILE_NAME || "openapi.json";
+
+console.log(`Generating ${fileName}...`);
+
+fs.writeFileSync(path.join(dir, fileName), JSON.stringify(generateOpenAPIDoc(), null, 2));
