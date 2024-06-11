@@ -1,11 +1,11 @@
-import { oas31, createDocument } from "zod-openapi";
+import { createDocument, oas31 } from "zod-openapi";
 
+import { dataStateOpenAPIPath } from "~/app/api/data/state/schema";
 import { addressEncodeOpenAPIPath } from "../api/address/encode/schema";
 import { addressValidateOpenAPIPath } from "../api/address/validate/schema";
-import { chainsOpenAPIPath } from "../api/chains/schema";
 import { chainsChainIdOpenAPIPath } from "../api/chains/[chainId]/schema";
 import { chainsChainIdTokenTokenIdOpenAPIPath } from "../api/chains/[chainId]/token/[tokenId]/schema";
-import { dataStateOpenAPIPath } from "~/app/api/data/state/schema";
+import { chainsOpenAPIPath } from "../api/chains/schema";
 import { dataValidatorsOpenAPIPath } from "../api/data/validators/schema";
 import { transactionBroadcastOpenAPIPath } from "../api/transaction/broadcast/schema";
 import { transactionEncodeOpenAPIPath } from "../api/transaction/encode/schema";
