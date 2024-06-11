@@ -30,10 +30,14 @@ jobs:
         working-directory: head
         run: pnpm install
   
-      - name: Run script
+      - name: Run script to generate OpenAPI docs
         working-directory: head
         run: pnpm run doc:openapi
-    
+
+      - name: Check for changes
+        working-directory: head
+        run: git diff --exit-code || echo "Changes detected"
+
       - name: "Run breaking change check (with OpenAPITools/openapi-diff)"
         id: diff_state
         uses: swimmwatch/openapi-diff-action@v1.0.0
