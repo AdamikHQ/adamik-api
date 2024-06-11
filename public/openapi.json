@@ -541,7 +541,10 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate"
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimReward"
                             ]
                           },
                           "senders": {
@@ -706,7 +709,10 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate"
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimReward"
                             ]
                           },
                           "senders": {
@@ -807,7 +813,10 @@
                               "enum": [
                                 "transfer",
                                 "transferToken",
-                                "delegate"
+                                "delegate",
+                                "redelegate",
+                                "undelegate",
+                                "claimReward"
                               ]
                             },
                             "senders": {
@@ -919,7 +928,10 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate"
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimReward"
                             ]
                           },
                           "senders": {
