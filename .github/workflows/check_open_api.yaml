@@ -2,9 +2,9 @@ on:
   pull_request:
   workflow_dispatch:
 
-name: validate-schema-changes
+name: generate-open-api-docs-and-validate-schema-changes
 jobs:
-  detect-breaking-changes:
+  generate-open-api-docs-and-validate-schema-changes:
     runs-on: ubuntu-latest
     steps:
       - name: Check out BASE rev
@@ -36,7 +36,10 @@ jobs:
 
       - name: Check for changes
         working-directory: head
-        run: git diff --exit-code || echo "Changes detected"
+        run: git diff --exit-code >> /dev/null || echo "Changes detected"
+
+      - name: Check for files
+        run: ls -a head/public/openapi.json base/public/openapi.json || echo "No files found"
 
       - name: "Run breaking change check (with OpenAPITools/openapi-diff)"
         id: diff_state
