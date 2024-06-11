@@ -16,6 +16,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
+          path: head
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -24,14 +25,13 @@ jobs:
   
       - name: Install pnpm
         run: npm install -g pnpm
-  
-      - name: Change working directory to HEAD
-        run: cd head
 
       - name: Install dependencies
+        working-directory: head
         run: pnpm install
   
       - name: Run script
+        working-directory: head
         run: pnpm run doc:openapi
     
       - name: "Run breaking change check (with OpenAPITools/openapi-diff)"
