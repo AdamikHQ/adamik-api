@@ -35,6 +35,7 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
 
   return {
     chainId: this.chainId,
+    address,
     balances: {
       native: {
         available: nativeBalance,
