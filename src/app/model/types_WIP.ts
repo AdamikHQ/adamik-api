@@ -62,6 +62,7 @@ type TokenAmount = {
 
 type AddressState = {
   chainId: ChainId;
+  address: string;
   balances: {
     native: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
