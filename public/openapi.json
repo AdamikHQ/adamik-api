@@ -505,7 +505,8 @@
                             "type": "string",
                             "enum": [
                               "transfer",
-                              "transferToken"
+                              "transferToken",
+                              "delegate"
                             ]
                           },
                           "senders": {
@@ -665,7 +666,8 @@
                             "type": "string",
                             "enum": [
                               "transfer",
-                              "transferToken"
+                              "transferToken",
+                              "delegate"
                             ]
                           },
                           "senders": {
@@ -761,7 +763,8 @@
                               "type": "string",
                               "enum": [
                                 "transfer",
-                                "transferToken"
+                                "transferToken",
+                                "delegate"
                               ]
                             },
                             "senders": {
@@ -868,7 +871,8 @@
                             "type": "string",
                             "enum": [
                               "transfer",
-                              "transferToken"
+                              "transferToken",
+                              "delegate"
                             ]
                           },
                           "senders": {

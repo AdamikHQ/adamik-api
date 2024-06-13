@@ -56,7 +56,7 @@ type Token = {
 };
 
 type TokenAmount = {
-  tokenId: string;
+  token: Token;
   value: bigint;
 };
 
@@ -85,6 +85,7 @@ type AddressState = {
 enum TransactionMode {
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
+  DELEGATE = "delegate",
 }
 
 // TODO WIP
@@ -116,10 +117,10 @@ type TransferTokenTransaction = CommonTransaction & {
   tokenId: string;
 };
 
-// type DelegateTransaction = CommonTransaction & {
-//   mode: TransactionMode.DELEGATE;
-//   validator: string;
-// };
+type DelegateTransaction = CommonTransaction & {
+  mode: TransactionMode.DELEGATE;
+  validator: string;
+};
 
 // type UndelegateTransaction = CommonTransaction & {
 //   mode: TransactionMode.UNDELEGATE;
