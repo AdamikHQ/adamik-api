@@ -23,10 +23,10 @@ const responseSchema = z.object({
   }),
 });
 
-const dataStateOpenAPIPath: ZodOpenApiPathsObject = {
+const addressStateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/state": {
     post: {
-      tags: ["data"],
+      tags: ["address"],
       description:
         "Returns the account state for a specified address and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
       requestBody: {
@@ -47,4 +47,4 @@ const dataStateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, dataStateOpenAPIPath };
+export { requestSchema, responseSchema, addressStateOpenAPIPath };

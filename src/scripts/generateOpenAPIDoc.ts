@@ -1,15 +1,15 @@
-import { oas31, createDocument } from "zod-openapi";
+import { createDocument, oas31 } from "zod-openapi";
 
-import { addressEncodeOpenAPIPath } from "../api/address/encode/schema";
-import { addressValidateOpenAPIPath } from "../api/address/validate/schema";
-import { chainsOpenAPIPath } from "../api/chains/schema";
-import { chainsChainIdOpenAPIPath } from "../api/chains/[chainId]/schema";
-import { chainsChainIdTokenTokenIdOpenAPIPath } from "../api/chains/[chainId]/token/[tokenId]/schema";
-import { dataValidatorsOpenAPIPath } from "../api/chains/[chainId]/validators/schema";
-import { transactionBroadcastOpenAPIPath } from "../api/transaction/broadcast/schema";
-import { transactionEncodeOpenAPIPath } from "../api/transaction/encode/schema";
-import { transactionValidateOpenAPIPath } from "../api/transaction/validate/schema";
-import { dataStateOpenAPIPath } from "../api/address/state/schema";
+import { addressEncodeOpenAPIPath } from "../app/api/address/encode/schema";
+import { addressStateOpenAPIPath } from "../app/api/address/state/schema";
+import { addressValidateOpenAPIPath } from "../app/api/address/validate/schema";
+import { chainsChainIdOpenAPIPath } from "../app/api/chains/[chainId]/schema";
+import { chainsChainIdTokenTokenIdOpenAPIPath } from "../app/api/chains/[chainId]/token/[tokenId]/schema";
+import { chainsChainIdValidatorsOpenAPIPath } from "../app/api/chains/[chainId]/validators/schema";
+import { chainsOpenAPIPath } from "../app/api/chains/schema";
+import { transactionBroadcastOpenAPIPath } from "../app/api/transaction/broadcast/schema";
+import { transactionEncodeOpenAPIPath } from "../app/api/transaction/encode/schema";
+import { transactionValidateOpenAPIPath } from "../app/api/transaction/validate/schema";
 
 // Vercel env vars don't contain the "https://" part
 const VERCEL_URL: string | undefined =
@@ -36,7 +36,7 @@ function generateOpenAPIDoc(): oas31.OpenAPIObject {
     },
     servers: [
       {
-        url: VERCEL_URL ? `https://${VERCEL_URL}` : "http://localhost:3000",
+        url: VERCEL_URL ? `https://${VERCEL_URL}` : "https://api.adamik.io",
       },
     ],
     security: [
@@ -50,8 +50,8 @@ function generateOpenAPIDoc(): oas31.OpenAPIObject {
       ...chainsOpenAPIPath,
       ...chainsChainIdOpenAPIPath,
       ...chainsChainIdTokenTokenIdOpenAPIPath,
-      ...dataStateOpenAPIPath,
-      ...dataValidatorsOpenAPIPath,
+      ...addressStateOpenAPIPath,
+      ...chainsChainIdValidatorsOpenAPIPath,
       ...transactionBroadcastOpenAPIPath,
       ...transactionEncodeOpenAPIPath,
       ...transactionValidateOpenAPIPath,
