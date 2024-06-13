@@ -86,9 +86,6 @@ enum TransactionMode {
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
-  REDELEGATE = "redelegate",
-  UNDELEGATE = "undelegate",
-  CLAIM_REWARD = "claimReward",
 }
 
 // TODO WIP
@@ -125,29 +122,23 @@ type DelegateTransaction = CommonTransaction & {
   validator: string;
 };
 
-type UndelegateTransaction = CommonTransaction & {
-  mode: TransactionMode.UNDELEGATE;
-  validator: string;
-};
+// type UndelegateTransaction = CommonTransaction & {
+//   mode: TransactionMode.UNDELEGATE;
+//   validator: string;
+// };
 
-type RedelegateTransaction = CommonTransaction & {
-  mode: TransactionMode.REDELEGATE;
-  sourceValidator: string;
-  targetValidator: string;
-};
+// type RedelegateTransaction = CommonTransaction & {
+//   mode: TransactionMode.REDELEGATE;
+//   sourceValidator: string;
+//   targetValidator: string;
+// };
 
-type ClaimRewardTransaction = CommonTransaction & {
-  mode: TransactionMode.CLAIM_REWARD;
-  validator: string;
-};
+// type ClaimRewardTransaction = CommonTransaction & {
+//   mode: TransactionMode.CLAIM_REWARD;
+//   validator: string;
+// };
 
-type PlainTransaction =
-  | TransferTransaction
-  | TransferTokenTransaction
-  | DelegateTransaction
-  | UndelegateTransaction
-  | RedelegateTransaction
-  | ClaimRewardTransaction;
+type PlainTransaction = TransferTransaction | TransferTokenTransaction | DelegateTransaction;
 
 type Transaction = {
   //metadata: TransactionMetadata // good idea or not ?

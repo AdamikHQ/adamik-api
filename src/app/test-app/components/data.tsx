@@ -20,7 +20,7 @@ function Data({ props }: { props: Props }) {
     setError("");
     setBalance("");
 
-    fetch(`${API_URL}/data/state`, {
+    fetch(`${API_URL}/address/state`, {
       headers: AUTH_HEADER,
       method: "POST",
       body: JSON.stringify({ chainId: chain.id, address: sender }),
