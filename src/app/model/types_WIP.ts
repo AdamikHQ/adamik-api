@@ -138,7 +138,7 @@ type DelegateTransaction = CommonTransaction & {
 //   validator: string;
 // };
 
-type PlainTransaction = TransferTransaction | TransferTokenTransaction;
+type PlainTransaction = TransferTransaction | TransferTokenTransaction | DelegateTransaction;
 
 type Transaction = {
   //metadata: TransactionMetadata // good idea or not ?

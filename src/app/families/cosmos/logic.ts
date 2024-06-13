@@ -168,34 +168,34 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
       });
       break;
 
-    case "redelegate":
-      aminoMsgs.push({
-        type: "cosmos-sdk/MsgBeginRedelegate",
-        value: {
-          delegator_address: transaction.senders[0],
-          validator_src_address: transaction.sourceValidator,
-          validator_dst_address: transaction.targetValidator,
-          amount: {
-            denom: chainParams?.denom,
-            amount: transaction.amount.toString(),
-          },
-        },
-      });
+    // case "redelegate":
+    //   aminoMsgs.push({
+    //     type: "cosmos-sdk/MsgBeginRedelegate",
+    //     value: {
+    //       delegator_address: transaction.senders[0],
+    //       validator_src_address: transaction.sourceValidator,
+    //       validator_dst_address: transaction.targetValidator,
+    //       amount: {
+    //         denom: chainParams?.denom,
+    //         amount: transaction.amount.toString(),
+    //       },
+    //     },
+    //   });
 
-      // PROTO MESSAGE
-      protoMsgs.push({
-        typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
-        value: MsgBeginRedelegate.encode({
-          delegatorAddress: transaction.senders[0],
-          validatorSrcAddress: transaction.sourceValidator,
-          validatorDstAddress: transaction.targetValidator,
-          amount: {
-            denom: chainParams?.denom,
-            amount: transaction.amount.toString(),
-          },
-        }).finish(),
-      });
-      break;
+    //   // PROTO MESSAGE
+    //   protoMsgs.push({
+    //     typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+    //     value: MsgBeginRedelegate.encode({
+    //       delegatorAddress: transaction.senders[0],
+    //       validatorSrcAddress: transaction.sourceValidator,
+    //       validatorDstAddress: transaction.targetValidator,
+    //       amount: {
+    //         denom: chainParams?.denom,
+    //         amount: transaction.amount.toString(),
+    //       },
+    //     }).finish(),
+    //   });
+    //   break;
     /*
 
     case "undelegate":

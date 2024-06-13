@@ -53,8 +53,11 @@ async function prevalidateTransactionCommon(
     }
     default: {
       // TODO Fine-tune this test by comparing with supported features of the chain (when implemented)
+      // transaction mode need to be cast here because TS thing that transaction is never.
       errors.push({
-        message: `Unsupported transaction mode ${transaction.mode} for chain ID ${transaction.chainId}`,
+        message: `Unsupported transaction mode ${(transaction as PlainTransaction).mode} for chain ID ${
+          (transaction as PlainTransaction).chainId
+        }`,
       });
       break;
     }
