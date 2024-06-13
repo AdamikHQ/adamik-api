@@ -13,7 +13,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return handleRequestValidationError(e);
   }
 
-  const transaction: Transaction = {
+  let transaction: Transaction = {
     ...stringToBigint(body.transaction),
     status: { errors: [], warnings: [] },
   };
