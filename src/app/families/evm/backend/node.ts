@@ -16,7 +16,7 @@ import {
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { injectiveTestnet } from "../chains/injective-testnet";
-import { EvmAddress } from "../types";
+import { EvmAddress, EvmParams } from "../types";
 
 // Couldn't find a proper type that works besides 'any'
 const CLIENTS = new Map<ChainId, any>();
@@ -56,7 +56,10 @@ function getClient(chainId: ChainId) {
   if (CLIENTS.has(chainId)) {
     return CLIENTS.get(chainId)!;
   } else {
-    const client = createPublicClient(getClientConfig(chainId));
+    const chainParams = CHAINS[chainId].params as EvmParams;
+    const client = chainParams.isL2Fees
+      ? createPublicClient(getClientConfig(chainId)).extend(publicActionsL2())
+      : createPublicClient(getClientConfig(chainId));
     CLIENTS.set(chainId, client);
     return client;
   }
@@ -73,7 +76,7 @@ async function estimateGas({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId).extend(publicActionsL2()).estimateGas({
+  return await getClient(chainId).estimateGas({
     account: senderAddress,
     to: recipientAddress,
     value: amount,
@@ -93,15 +96,13 @@ async function estimateERC20Gas({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId)
-    .extend(publicActionsL2())
-    .estimateContractGas({
-      address: contractAddress,
-      abi: erc20Abi,
-      functionName: "transfer",
-      account: senderAddress,
-      args: [recipientAddress, amount],
-    });
+  return await getClient(chainId).estimateContractGas({
+    address: contractAddress,
+    abi: erc20Abi,
+    functionName: "transfer",
+    account: senderAddress,
+    args: [recipientAddress, amount],
+  });
 }
 
 async function estimateFeesPerGas(chainId: ChainId): Promise<FeeValuesEIP1559> {
@@ -119,7 +120,7 @@ async function estimateFeesForL2({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId).extend(publicActionsL2()).estimateTotalFee({
+  return await getClient(chainId).estimateTotalFee({
     account: senderAddress,
     to: recipientAddress,
     value: amount,
@@ -139,15 +140,13 @@ async function estimateERC20FeesForL2({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId)
-    .extend(publicActionsL2())
-    .estimateContractTotalFee({
-      address: contractAddress,
-      abi: erc20Abi,
-      functionName: "transfer",
-      account: senderAddress,
-      args: [recipientAddress, amount],
-    });
+  return await getClient(chainId).estimateContractTotalFee({
+    address: contractAddress,
+    abi: erc20Abi,
+    functionName: "transfer",
+    account: senderAddress,
+    args: [recipientAddress, amount],
+  });
 }
 
 async function makeERC20ContractCall(

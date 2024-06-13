@@ -17,46 +17,43 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return handleRequestValidationError(e);
   }
 
-  const transaction: PlainTransaction = stringToBigint(body.transaction.plain);
-  const { chainId } = transaction;
+  const plainTransaction: PlainTransaction = stringToBigint(body.transaction.plain);
 
-  const service = SERVICES.get(chainId);
+  const service = SERVICES.get(plainTransaction.chainId);
   if (!service) {
     return NextResponse.json(
-      { message: `Chain ID ${chainId} is not supported` },
+      { message: `Chain ID ${plainTransaction.chainId} is not supported` },
       { status: 400, statusText: `Unsupported chainId` }
     );
   }
 
-  const processedTransaction = await (async (): Promise<Transaction> => {
-    // Pre-validation
-    const prevalidationStatus = await service.prevalidateTransaction(transaction);
-    if (prevalidationStatus.errors.length) {
-      return {
-        plain: transaction,
-        status: prevalidationStatus,
-      };
-    }
+  // Initialization of the full transaction that will be returned
+  // NOTE It will traverse and be mutated by all the service functions below
+  let transaction: Transaction = {
+    plain: plainTransaction,
+    status: { errors: [], warnings: [] },
+  };
 
-    // Completion + validation
-    const completedTransaction = await service.completeTransaction(transaction);
+  await service.prevalidateTransaction(transaction);
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  }
 
-    completedTransaction.status.warnings = completedTransaction.status.warnings.concat(
-      prevalidationStatus.warnings || []
-    );
+  await service.completeTransaction(transaction);
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  }
 
-    if (completedTransaction.status.errors.length) {
-      return completedTransaction;
-    }
+  await service.validateTransaction(transaction);
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  }
 
-    // Encoding
-    completedTransaction.encoded = await service.encodeTransactionToSign(
-      completedTransaction.plain,
-      transaction.format
-    );
+  await service.encodeTransactionToSign(transaction);
 
-    return completedTransaction;
-  })();
-
-  return NextResponse.json({ transaction: processedTransaction });
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  } else {
+    return NextResponse.json({ transaction });
+  }
 }

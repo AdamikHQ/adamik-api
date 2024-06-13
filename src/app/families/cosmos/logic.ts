@@ -35,7 +35,7 @@ function isBase64(str: string): boolean {
   return base64Regex.test(str);
 }
 
-function isValidAddress(address: string, chainId?: ChainId): boolean {
+function isValidAddress(address: string, chainId: ChainId): boolean {
   try {
     bech32.decode(address);
   } catch (e) {
@@ -411,7 +411,7 @@ async function encodeToSign(
 
 async function encodeToBroadcast(chainId: ChainId, signedTransaction: Transaction): Promise<string> {
   if (!signedTransaction.signature) {
-    throw new Error("Transaction lacks signature");
+    throw new Error("missing transaction signature");
   }
 
   const signature = isBase64(signedTransaction.signature)
