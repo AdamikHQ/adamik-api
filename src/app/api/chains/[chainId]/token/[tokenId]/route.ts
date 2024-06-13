@@ -11,6 +11,8 @@ type Params = {
 export async function GET(_: NextRequest, context: { params: Params }): Promise<NextResponse> {
   const { chainId, tokenId } = context.params;
 
+  // TODO Use zod / apply requestSchema
+
   if (!chainId) {
     return NextResponse.json(
       { message: "Invalid request" },
