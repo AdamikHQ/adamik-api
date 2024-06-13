@@ -1,5 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { TokenType } from "~/app/model/types_WIP";
 
 const requestSchema = z.object({
   chainId: z.string().min(1),
@@ -15,7 +16,15 @@ const responseSchema = z.object({
     }),
     tokens: z
       .object({
-        tokenId: z.string(),
+        token: z.object({
+          chainId: z.string(),
+          type: z.enum([TokenType.ASA, TokenType.ERC20]),
+          id: z.string(),
+          name: z.string(),
+          ticker: z.string(),
+          decimals: z.number(),
+          contractAddress: z.string().optional(),
+        }),
         value: z.string(),
       })
       .array()
