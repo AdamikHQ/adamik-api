@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://api.adamik.io"
+      "url": "http://localhost:3000"
     }
   ],
   "security": [
@@ -294,7 +294,7 @@
         }
       }
     },
-    "/api/data/state": {
+    "/api/address/state": {
       "post": {
         "tags": [
           "data"
@@ -333,6 +333,10 @@
                   "properties": {
                     "chainId": {
                       "type": "string"
+                    },
+                    "address": {
+                      "type": "string",
+                      "minLength": 1
                     },
                     "balances": {
                       "type": "object",
@@ -374,6 +378,7 @@
                   },
                   "required": [
                     "chainId",
+                    "address",
                     "balances"
                   ]
                 }
@@ -500,7 +505,11 @@
                             "type": "string",
                             "enum": [
                               "transfer",
-                              "delegate"
+                              "transferToken",
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimReward"
                             ]
                           },
                           "senders": {
@@ -660,7 +669,11 @@
                             "type": "string",
                             "enum": [
                               "transfer",
-                              "delegate"
+                              "transferToken",
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimReward"
                             ]
                           },
                           "senders": {
@@ -756,7 +769,11 @@
                               "type": "string",
                               "enum": [
                                 "transfer",
-                                "delegate"
+                                "transferToken",
+                                "delegate",
+                                "redelegate",
+                                "undelegate",
+                                "claimReward"
                               ]
                             },
                             "senders": {
@@ -863,7 +880,11 @@
                             "type": "string",
                             "enum": [
                               "transfer",
-                              "delegate"
+                              "transferToken",
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimReward"
                             ]
                           },
                           "senders": {

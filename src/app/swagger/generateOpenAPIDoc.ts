@@ -5,11 +5,11 @@ import { addressValidateOpenAPIPath } from "../api/address/validate/schema";
 import { chainsOpenAPIPath } from "../api/chains/schema";
 import { chainsChainIdOpenAPIPath } from "../api/chains/[chainId]/schema";
 import { chainsChainIdTokenTokenIdOpenAPIPath } from "../api/chains/[chainId]/token/[tokenId]/schema";
-import { dataStateOpenAPIPath } from "~/app/api/data/state/schema";
-import { dataValidatorsOpenAPIPath } from "../api/data/validators/schema";
+import { dataValidatorsOpenAPIPath } from "../api/chains/[chainId]/validators/schema";
 import { transactionBroadcastOpenAPIPath } from "../api/transaction/broadcast/schema";
 import { transactionEncodeOpenAPIPath } from "../api/transaction/encode/schema";
 import { transactionValidateOpenAPIPath } from "../api/transaction/validate/schema";
+import { dataStateOpenAPIPath } from "../api/address/state/schema";
 
 // Vercel env vars don't contain the "https://" part
 const VERCEL_URL: string | undefined =
