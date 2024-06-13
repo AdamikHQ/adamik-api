@@ -10,6 +10,7 @@ import {
   estimateERC20FeesForL2,
   estimateERC20Gas,
   estimateFeesForL2,
+  estimateFeesPerGas,
   estimateGas,
   getBalance,
   getERC20Balance,
@@ -35,15 +36,7 @@ async function getTransactionGas(chainId: ChainId, transaction: PlainTransaction
   }
 }
 
-async function getTransactionFees(
-  chainId: ChainId,
-  transaction: PlainTransaction,
-  maxFeePerGas: bigint
-): Promise<bigint> {
-  if (!transaction.gas) {
-    throw new Error("Missing gas from transaction to compute fees");
-  }
-
+async function getTransactionFees(chainId: ChainId, transaction: PlainTransaction): Promise<bigint> {
   const chainParams = CHAINS[chainId].params as EvmParams;
 
   if (chainParams?.isL2Fees) {
@@ -61,6 +54,15 @@ async function getTransactionFees(
           recipientAddress: transaction.recipients[0] as EvmAddress,
           amount: transaction.amount,
         });
+  }
+
+  if (!transaction.gas) {
+    throw new Error("Missing gas from transaction to compute fees");
+  }
+
+  const { maxFeePerGas } = await estimateFeesPerGas(chainId);
+  if (maxFeePerGas === undefined) {
+    throw new Error("Could not retrieve maxFeePerGas");
   }
 
   return transaction.gas * maxFeePerGas;
