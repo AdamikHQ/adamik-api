@@ -408,7 +408,7 @@ async function encodeToSign(
   // Need to provide payload for Protobuf signer as well?...
   const signDoc = await buildSignPayload(chainId, transaction);
 
-  if (format === "json") {
+  if (format === EncodedTransactionFormat.JSON) {
     // FIXME we will need to redefine type here.
     return signDoc as unknown as string;
   }
