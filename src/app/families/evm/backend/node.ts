@@ -201,11 +201,16 @@ async function getBalance(chainId: ChainId, address: EvmAddress): Promise<bigint
   return getClient(chainId).getBalance({ address });
 }
 
+async function getNonce(chainId: ChainId, address: EvmAddress): Promise<number> {
+  return getClient(chainId).getTransactionCount({ address });
+}
+
 async function broadcast(chainId: ChainId, signedTransaction: string) {
   return await getClient(chainId).sendRawTransaction(JSON.parse(signedTransaction));
 }
 
 export {
+  getNonce,
   getBalance,
   getERC20Balance,
   getERC20name,
