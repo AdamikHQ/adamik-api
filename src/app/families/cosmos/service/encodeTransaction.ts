@@ -1,4 +1,4 @@
-import { Transaction } from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, Transaction } from "~/app/model/types_WIP";
 import { encodeToSign, encodeToBroadcast } from "../logic";
 import { CosmosService } from ".";
 
@@ -6,7 +6,7 @@ async function encodeTransactionToSign(this: CosmosService, transaction: Transac
   transaction.encoded = await encodeToSign(
     this.chainId,
     transaction.plain,
-    transaction.plain.format ?? "hex"
+    transaction.plain.format ?? EncodedTransactionFormat.HEX
   );
 }
 
