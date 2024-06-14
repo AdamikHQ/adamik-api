@@ -357,15 +357,50 @@
                           "items": {
                             "type": "object",
                             "properties": {
-                              "tokenId": {
-                                "type": "string"
+                              "token": {
+                                "type": "object",
+                                "properties": {
+                                  "chainId": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "enum": [
+                                      "ASA",
+                                      "ERC20"
+                                    ]
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string"
+                                  },
+                                  "decimals": {
+                                    "type": "number"
+                                  },
+                                  "contractAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "chainId",
+                                  "type",
+                                  "id",
+                                  "name",
+                                  "ticker",
+                                  "decimals"
+                                ]
                               },
                               "value": {
                                 "type": "string"
                               }
                             },
                             "required": [
-                              "tokenId",
+                              "token",
                               "value"
                             ]
                           }

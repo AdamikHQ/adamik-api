@@ -56,7 +56,7 @@ type Token = {
 };
 
 type TokenAmount = {
-  tokenId: string;
+  token: Token;
   value: bigint;
 };
 

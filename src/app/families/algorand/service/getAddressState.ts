@@ -6,12 +6,16 @@ async function getAddressState(this: AlgorandService, address: string): Promise<
   const { balance: nativeBalance, assetAmounts } = await fetchAccount(address);
 
   const tokenAmounts: TokenAmount[] = [];
-  for (const assetAmount of assetAmounts) {
-    tokenAmounts.push({
-      tokenId: assetAmount.assetId,
-      value: assetAmount.amount,
-    });
-  }
+
+  const tokenDetailsPromises = assetAmounts.map((assetAmount) => {
+    return this.getTokenInfo(assetAmount.assetId);
+  });
+
+  const tokenDetails = await Promise.all(tokenDetailsPromises);
+
+  tokenDetails.forEach((tokenDetail, index) => {
+    if (tokenDetail) tokenAmounts.push({ token: tokenDetail, value: assetAmounts[index].amount });
+  });
 
   return {
     chainId: this.chainId,
