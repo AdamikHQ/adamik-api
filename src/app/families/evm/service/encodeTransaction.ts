@@ -20,6 +20,8 @@ import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 async function encodeTransactionToSign(this: EvmService, transaction: Transaction): Promise<void> {
   try {
     switch (transaction.plain.format) {
+      // JSON is the current default, when format is not explicitely provided
+      case undefined:
       case EncodedTransactionFormat.JSON:
         await encodeTransactionToSignAsJSON(this.chainId, transaction);
         break;
@@ -27,8 +29,9 @@ async function encodeTransactionToSign(this: EvmService, transaction: Transactio
         await encodeTransactionToSignAsHex(this.chainId, transaction);
         break;
       default:
-        `Unsupported transaction format ${transaction.plain.format} for chain ID ${transaction.plain.chainId}`;
-        break;
+        throw new Error(
+          `Unsupported encoding format '${transaction.plain.format}' for chain ID ${transaction.plain.chainId}`
+        );
     }
   } catch (e: any) {
     const message =
