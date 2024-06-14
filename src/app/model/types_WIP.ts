@@ -104,7 +104,7 @@ type CommonTransaction = {
   gas?: bigint;
   nonce?: number;
   memo?: string;
-  format?: Format; // FIXME should not be here
+  format?: EncodedTransactionFormat; // FIXME should not be here
   pubKey?: string; // FIXME should not be here
 };
 
@@ -179,9 +179,12 @@ type ErrorMsg = {
   message: string;
 };
 
-export type Format = "json" | "hex";
+enum EncodedTransactionFormat {
+  JSON = "json",
+  HEX = "hex",
+}
 
-export { ChainId, TransactionMode, TokenType };
+export { ChainId, TransactionMode, EncodedTransactionFormat, TokenType };
 export type {
   Chain,
   ChainParams,

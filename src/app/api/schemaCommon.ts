@@ -2,7 +2,7 @@ import z from "zod";
 import { ZodError } from "zod";
 import { NextResponse } from "next/server";
 
-import { ChainId, TransactionMode } from "~/app/model/types_WIP";
+import { ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
 
 // TODO Experiment with modular zod schemas:
 /*
@@ -15,7 +15,7 @@ const commonTransactionSchema = z.object({
   gas: z.string().optional(),
   nonce: z.string().optional(),
   memo: z.string().optional(),
-  format: z.string().optional(), // FIXME should not be here
+  format: z.string().optional(),
 })
 
 const transferTransactionSchema = z.object({
@@ -42,7 +42,7 @@ const plainTransactionSchema = z.object({
   gas: z.string().optional(),
   nonce: z.string().optional(),
   memo: z.string().optional(),
-  format: z.string().optional(), // FIXME should not be here
+  format: z.nativeEnum(EncodedTransactionFormat).optional(),
 });
 
 const errorMsgSchema = z.object({

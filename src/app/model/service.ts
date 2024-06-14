@@ -1,13 +1,4 @@
-import {
-  AddressState,
-  BroadcastStatus,
-  ChainId,
-  Format,
-  PlainTransaction,
-  Token,
-  Transaction,
-  TransactionStatus,
-} from "./types_WIP";
+import { AddressState, BroadcastStatus, ChainId, Token, Transaction } from "./types_WIP";
 import { ValidatorResponse } from "./validator";
 
 // TODO Doc (comment) for each function in every service
