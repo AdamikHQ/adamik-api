@@ -13,6 +13,12 @@ async function prevalidateTransaction(this: AlgorandService, transaction: Transa
   transaction.status = await prevalidateTransactionCommon(transaction.plain, async (address: string) =>
     isValidAddress(address)
   );
+
+  if (transaction.plain.format) {
+    transaction.status.warnings.push({
+      message: `Field 'format' is not supported for chain ID ${this.chainId}`,
+    });
+  }
 }
 
 async function validateTransaction(this: AlgorandService, transaction: Transaction): Promise<void> {
