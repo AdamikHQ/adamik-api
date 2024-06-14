@@ -540,7 +540,11 @@
                             "type": "string"
                           },
                           "format": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                              "json",
+                              "hex"
+                            ]
                           }
                         },
                         "required": [
@@ -701,7 +705,11 @@
                             "type": "string"
                           },
                           "format": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                              "json",
+                              "hex"
+                            ]
                           }
                         },
                         "required": [
@@ -798,7 +806,11 @@
                               "type": "string"
                             },
                             "format": {
-                              "type": "string"
+                              "type": "string",
+                              "enum": [
+                                "json",
+                                "hex"
+                              ]
                             }
                           },
                           "required": [
@@ -906,7 +918,11 @@
                             "type": "string"
                           },
                           "format": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                              "json",
+                              "hex"
+                            ]
                           }
                         },
                         "required": [
