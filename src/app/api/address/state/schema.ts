@@ -18,7 +18,7 @@ const responseSchema = z.object({
       .object({
         token: z.object({
           chainId: z.string(),
-          type: z.enum([TokenType.ASA, TokenType.ERC20]),
+          type: z.nativeEnum(TokenType),
           id: z.string(),
           name: z.string(),
           ticker: z.string(),
