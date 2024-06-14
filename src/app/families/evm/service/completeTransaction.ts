@@ -2,9 +2,13 @@ import { ChainId, PlainTransaction, Transaction, TransactionMode } from "~/app/m
 import { getTransactionFees, getTransactionAmount, getTransactionGas } from "../logic";
 import { EvmService } from ".";
 import { BaseError as ViemError } from "viem";
+import { getNonce } from "../backend/node";
+import { EvmAddress } from "../types";
 
 async function completeTransaction(this: EvmService, transaction: Transaction): Promise<void> {
   try {
+    transaction.plain.nonce = await getNonce(this.chainId, transaction.plain.senders[0] as EvmAddress);
+
     switch (transaction.plain.mode) {
       case TransactionMode.TRANSFER:
         await completeNativeTransaction(this.chainId, transaction.plain);
