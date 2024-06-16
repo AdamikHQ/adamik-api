@@ -37,7 +37,7 @@ jobs:
 
       - name: Check for changes
         working-directory: head
-        run: git diff --exit-code >> /dev/null || echo "Changes detected"
+        run: git diff --exit-code || echo "Changes detected"
 
         # TODO: run only if there are changes
       - name: Running OpenAPI Spec diff action
