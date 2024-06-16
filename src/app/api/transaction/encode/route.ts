@@ -17,65 +17,43 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return handleRequestValidationError(e);
   }
 
-  const transaction: PlainTransaction = stringToBigint(body.transaction.plain);
-  const { chainId } = transaction;
+  const plainTransaction: PlainTransaction = stringToBigint(body.transaction.plain);
 
-  const service = SERVICES.get(chainId);
+  const service = SERVICES.get(plainTransaction.chainId);
   if (!service) {
     return NextResponse.json(
-      { message: `Chain ID ${chainId} is not supported` },
+      { message: `Chain ID ${plainTransaction.chainId} is not supported` },
       { status: 400, statusText: `Unsupported chainId` }
     );
   }
 
-  const processedTransaction = await (async (): Promise<Transaction> => {
-    const transactionIntentStatus = await service.validateTransactionIntent(transaction);
-    // FIXME Better use a throw/catch system for all kinds of errors?
-    if (transactionIntentStatus.errors.length) {
-      return {
-        plain: transaction,
-        status: transactionIntentStatus,
-      };
-    }
+  // Initialization of the full transaction that will be returned
+  // NOTE It will traverse and be mutated by all the service functions below
+  let transaction: Transaction = {
+    plain: plainTransaction,
+    status: { errors: [], warnings: [] },
+  };
 
-    try {
-      const completedTransaction = await service.completeTransaction(transaction);
+  await service.prevalidateTransaction(transaction);
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  }
 
-      const transactionStatus = await service.validateTransaction(completedTransaction);
+  await service.completeTransaction(transaction);
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  }
 
-      const fullTransactionStatus = {
-        errors: transactionIntentStatus.errors.concat(transactionStatus.errors),
-        warnings: transactionIntentStatus.warnings.concat(transactionStatus.warnings),
-      };
+  await service.validateTransaction(transaction);
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  }
 
-      if (fullTransactionStatus.errors.length) {
-        return {
-          plain: completedTransaction,
-          status: fullTransactionStatus,
-        };
-      }
+  await service.encodeTransactionToSign(transaction);
 
-      const encodedTransaction = await service.encodeTransactionToSign(
-        completedTransaction,
-        transaction.format
-      );
-
-      return {
-        plain: completedTransaction,
-        encoded: encodedTransaction,
-        status: fullTransactionStatus,
-      };
-    } catch (e: any) {
-      // FIXME Probably will need to have a specific error
-      return {
-        plain: transaction,
-        status: {
-          errors: [{ message: e.message }],
-          warnings: [],
-        },
-      };
-    }
-  })();
-
-  return NextResponse.json({ transaction: processedTransaction });
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  } else {
+    return NextResponse.json({ transaction });
+  }
 }

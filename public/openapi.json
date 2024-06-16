@@ -294,10 +294,10 @@
         }
       }
     },
-    "/api/data/state": {
+    "/api/address/state": {
       "post": {
         "tags": [
-          "data"
+          "address"
         ],
         "description": "Returns the account state for a specified address and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
         "requestBody": {
@@ -334,6 +334,10 @@
                     "chainId": {
                       "type": "string"
                     },
+                    "address": {
+                      "type": "string",
+                      "minLength": 1
+                    },
                     "balances": {
                       "type": "object",
                       "properties": {
@@ -353,15 +357,50 @@
                           "items": {
                             "type": "object",
                             "properties": {
-                              "tokenId": {
-                                "type": "string"
+                              "token": {
+                                "type": "object",
+                                "properties": {
+                                  "chainId": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "enum": [
+                                      "ASA",
+                                      "ERC20"
+                                    ]
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string"
+                                  },
+                                  "decimals": {
+                                    "type": "number"
+                                  },
+                                  "contractAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "chainId",
+                                  "type",
+                                  "id",
+                                  "name",
+                                  "ticker",
+                                  "decimals"
+                                ]
                               },
                               "value": {
                                 "type": "string"
                               }
                             },
                             "required": [
-                              "tokenId",
+                              "token",
                               "value"
                             ]
                           }
@@ -374,6 +413,7 @@
                   },
                   "required": [
                     "chainId",
+                    "address",
                     "balances"
                   ]
                 }
@@ -383,10 +423,10 @@
         }
       }
     },
-    "/api/data/validators": {
+    "/api/chains/{chainId}/validators": {
       "post": {
         "tags": [
-          "data"
+          "chains"
         ],
         "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
         "requestBody": {
@@ -500,6 +540,7 @@
                             "type": "string",
                             "enum": [
                               "transfer",
+                              "transferToken",
                               "delegate"
                             ]
                           },
@@ -534,7 +575,11 @@
                             "type": "string"
                           },
                           "format": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                              "json",
+                              "hex"
+                            ]
                           }
                         },
                         "required": [
@@ -660,6 +705,7 @@
                             "type": "string",
                             "enum": [
                               "transfer",
+                              "transferToken",
                               "delegate"
                             ]
                           },
@@ -694,7 +740,11 @@
                             "type": "string"
                           },
                           "format": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                              "json",
+                              "hex"
+                            ]
                           }
                         },
                         "required": [
@@ -756,6 +806,7 @@
                               "type": "string",
                               "enum": [
                                 "transfer",
+                                "transferToken",
                                 "delegate"
                               ]
                             },
@@ -790,7 +841,11 @@
                               "type": "string"
                             },
                             "format": {
-                              "type": "string"
+                              "type": "string",
+                              "enum": [
+                                "json",
+                                "hex"
+                              ]
                             }
                           },
                           "required": [
@@ -863,6 +918,7 @@
                             "type": "string",
                             "enum": [
                               "transfer",
+                              "transferToken",
                               "delegate"
                             ]
                           },
@@ -897,7 +953,11 @@
                             "type": "string"
                           },
                           "format": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                              "json",
+                              "hex"
+                            ]
                           }
                         },
                         "required": [

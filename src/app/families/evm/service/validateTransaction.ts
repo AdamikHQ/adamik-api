@@ -1,78 +1,38 @@
-import { isAddress } from "viem";
-import { PlainTransaction, TransactionStatus, ErrorMsg, TransactionMode } from "~/app/model/types_WIP";
+import { isAddress as isValidAddress } from "viem";
+import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { prevalidateTransactionCommon } from "../../common";
 import { EvmService } from ".";
+import { getMaxSpendable } from "../logic";
 
-async function validateTransactionIntent(
-  this: EvmService,
-  transaction: PlainTransaction
-): Promise<TransactionStatus> {
-  const errors: ErrorMsg[] = [];
-  const warnings: ErrorMsg[] = [];
+async function prevalidateTransaction(this: EvmService, transaction: Transaction): Promise<void> {
+  transaction.status = await prevalidateTransactionCommon(transaction.plain, async (address: string) =>
+    isValidAddress(address)
+  );
+}
 
-  const validSender = transaction.senders?.length && isAddress(transaction.senders[0]);
-  if (!validSender) {
-    errors.push({ message: "Sender address is invalid" });
-  }
+async function validateTransaction(this: EvmService, transaction: Transaction): Promise<void> {
+  const maxSpendable = await getMaxSpendable(this.chainId, transaction.plain);
 
-  const validRecipient = transaction.recipients?.length && isAddress(transaction.recipients[0]);
-  if (!validRecipient) {
-    errors.push({ message: "Recipient address is invalid" });
-  }
-
-  if (
-    /*transaction.mode === "send" &&*/ validSender &&
-    validRecipient &&
-    transaction.senders[0] === transaction.recipients[0]
-  ) {
-    warnings.push({ message: "Same sender and recipient address" });
-  }
-
-  switch (transaction.mode) {
+  switch (transaction.plain.mode) {
     case TransactionMode.TRANSFER: {
-      if (transaction.amount === undefined && !transaction.useMaxAmount) {
-        errors.push({ message: "Missing amount or useMaxAmount" });
-      } else if (!!transaction.amount && transaction.useMaxAmount) {
-        errors.push({
-          message: "Amount and useMaxAmount cannot be used together",
-        });
-      } else if (transaction.amount && transaction.amount < 0n) {
-        errors.push({ message: "Amount cannot be negative" });
+      if (transaction.plain.amount + transaction.plain.fees > maxSpendable.native) {
+        transaction.status.errors.push({ message: "Balance is too low" });
+      } else if (transaction.plain.amount < transaction.plain.fees * 10n) {
+        transaction.status.warnings.push({ message: "Network fees are above 10% of the amount" });
       }
+      break;
+    }
+    case TransactionMode.TRANSFER_TOKEN: {
+      if (transaction.plain.fees > maxSpendable.native) {
+        transaction.status.errors.push({ message: "Balance is too low" });
+      }
+      if (maxSpendable.token !== undefined && transaction.plain.amount > maxSpendable.token) {
+        transaction.status.errors.push({ message: "Token balance is too low" });
+      }
+
+      break;
     }
   }
-
-  if (transaction.nonce && transaction.nonce < 0) {
-    errors.push({ message: "Nonce cannot be negative" });
-  }
-
-  return {
-    errors,
-    warnings,
-  };
 }
 
-async function validateTransaction(
-  this: EvmService,
-  transaction: PlainTransaction
-): Promise<TransactionStatus> {
-  const errors: ErrorMsg[] = [];
-  const warnings: ErrorMsg[] = [];
-  /*/
-  const { errors, warnings } = await validateTransactionIntent(transaction);
-  if (errors.length) {
-    return {
-      errors,
-      warnings,
-    };
-  }
-  //*/
-
-  // TODO !!!
-
-  return {
-    errors,
-    warnings,
-  };
-}
-
-export { validateTransactionIntent, validateTransaction };
+export { prevalidateTransaction, validateTransaction };

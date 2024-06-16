@@ -15,26 +15,36 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
   const events = await getERC20TransferEvents(this.chainId, address);
   const eventPerContractAddress = getOneEventPerContractAddress(events);
 
+  const tokenBalancePromises = [];
+  const tokenDetailsPromises = [];
+
   for (const { contractAddress } of eventPerContractAddress.values()) {
-    try {
-      const tokenBalance = await getERC20Balance({
+    tokenBalancePromises.push(
+      getERC20Balance({
         chainId: this.chainId,
         contractAddress,
         senderAddress: address,
-      });
+      }).catch(() => null)
+    );
 
-      // For now we filter any error while retrieving balance -OR- balance of 0
-      if (tokenBalance) {
-        tokenAmounts.push({
-          tokenId: contractAddress,
-          value: tokenBalance,
-        });
-      }
-    } catch {}
+    tokenDetailsPromises.push(this.getTokenInfo(contractAddress).catch(() => null));
   }
+
+  const tokenBalances = await Promise.all(tokenBalancePromises);
+  const tokenDetails = await Promise.all(tokenDetailsPromises);
+
+  tokenDetails.forEach((tokenDetail, index) => {
+    if (tokenDetail && tokenBalances[index]) {
+      tokenAmounts.push({
+        token: tokenDetail,
+        value: tokenBalances[index] as bigint,
+      });
+    }
+  });
 
   return {
     chainId: this.chainId,
+    address,
     balances: {
       native: {
         available: nativeBalance,

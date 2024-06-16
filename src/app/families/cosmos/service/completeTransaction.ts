@@ -1,34 +1,23 @@
-import { PlainTransaction } from "~/app/model/types_WIP";
+import { Transaction } from "~/app/model/types_WIP";
 import { getEstimatedFees } from "../logic";
 import { fetchBalance } from "../backend/node";
 import { CosmosService } from ".";
 
-// TODO Make sure heavy functions aren't called multiple times / unnecessarily
-// (buildTransaction, network calls, etc...)
+async function completeTransaction(this: CosmosService, transaction: Transaction): Promise<void> {
+  const balance = await fetchBalance(this.chainId, transaction.plain.senders[0]);
 
-async function completeTransaction(
-  this: CosmosService,
-  transaction: PlainTransaction
-): Promise<PlainTransaction> {
-  const balance = await fetchBalance(this.chainId, transaction.senders[0]);
-  const transactionToEstimate = {
-    ...transaction,
-    amount: transaction.useMaxAmount ? balance - 2500n : transaction.amount, // FIXME Magic number !
-  };
-  const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, transactionToEstimate);
+  if (transaction.plain.useMaxAmount) {
+    transaction.plain.amount = balance - 2500n; // Simulated amount, just for estimating fees
+  }
 
-  const amount = transaction.useMaxAmount
-    ? balance > gasWantedFees
-      ? balance - gasWantedFees
-      : 0n
-    : transaction.amount;
+  const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, transaction.plain);
 
-  return {
-    ...transaction,
-    fees: gasWantedFees,
-    gas: gasWanted,
-    amount,
-  };
+  if (transaction.plain.useMaxAmount) {
+    transaction.plain.amount = balance > gasWantedFees ? balance - gasWantedFees : 0n;
+  }
+
+  transaction.plain.fees = gasWantedFees;
+  transaction.plain.gas = gasWanted;
 }
 
 export { completeTransaction };

@@ -1,13 +1,4 @@
-import {
-  AddressState,
-  BroadcastStatus,
-  ChainId,
-  Format,
-  PlainTransaction,
-  Token,
-  Transaction,
-  TransactionStatus,
-} from "./types_WIP";
+import { AddressState, BroadcastStatus, ChainId, Token, Transaction } from "./types_WIP";
 import { ValidatorResponse } from "./validator";
 
 // TODO Doc (comment) for each function in every service
@@ -33,12 +24,15 @@ abstract class BaseChainService {
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
   // Crafting
-  abstract completeTransaction(transaction: PlainTransaction): Promise<PlainTransaction>;
-  abstract validateTransactionIntent(transaction: PlainTransaction): Promise<TransactionStatus>;
-  abstract encodeTransactionToSign(transaction: PlainTransaction, format?: Format): Promise<string>;
-  abstract validateTransaction(transaction: PlainTransaction): Promise<TransactionStatus>;
+  // NOTE All of these functions will mutate the input 'Transaction' with additional info!
+  abstract prevalidateTransaction(transaction: Transaction): Promise<void>;
+  abstract completeTransaction(transaction: Transaction): Promise<void>;
+  abstract validateTransaction(transaction: Transaction): Promise<void>;
+  abstract encodeTransactionToSign(transaction: Transaction): Promise<void>;
   abstract encodeTransactionToBroadcast(signedTransaction: Transaction): Promise<string>;
-  abstract broadcastTransaction(signedTransaction: string): Promise<BroadcastStatus>;
+
+  // Broadcast
+  abstract broadcastTransaction(payload: string): Promise<BroadcastStatus>;
 }
 
 // STAKING ////////////////////////////////////////////////////////////////////////////////////
