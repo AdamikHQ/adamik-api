@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { generateOpenAPIDoc } from "../app/swagger/generateOpenAPIDoc";
+import { generateOpenAPIDoc } from "~/scripts/generateOpenAPIDoc";
 
 const dir = path.join(__dirname, "../../public");
 

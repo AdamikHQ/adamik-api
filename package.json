@@ -10,7 +10,7 @@
     "lint": "next lint",
     "test": "jest",
     "doc:providers": "ts-node src/scripts/extractProviders.ts",
-    "doc:openapi": "NEXT_PUBLIC_VERCEL_BRANCH_URL=api.adamik.io ts-node src/scripts/extractOpenAPI.ts"
+    "doc:openapi": "ts-node src/scripts/extractOpenAPI.ts"
   },
   "dependencies": {
     "@cosmjs/amino": "^0.32.2",

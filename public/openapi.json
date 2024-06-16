@@ -174,7 +174,9 @@
                         "optimism",
                         "optimism-sepolia",
                         "arbitrum",
-                        "arbitrum-sepolia"
+                        "arbitrum-sepolia",
+                        "bitcoin",
+                        "bitcoin-testnet"
                       ]
                     },
                     "name": {
@@ -253,7 +255,9 @@
                         "optimism",
                         "optimism-sepolia",
                         "arbitrum",
-                        "arbitrum-sepolia"
+                        "arbitrum-sepolia",
+                        "bitcoin",
+                        "bitcoin-testnet"
                       ]
                     },
                     "type": {
@@ -533,7 +537,9 @@
                               "optimism",
                               "optimism-sepolia",
                               "arbitrum",
-                              "arbitrum-sepolia"
+                              "arbitrum-sepolia",
+                              "bitcoin",
+                              "bitcoin-testnet"
                             ]
                           },
                           "mode": {
@@ -541,10 +547,7 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate",
-                              "redelegate",
-                              "undelegate",
-                              "claimReward"
+                              "delegate"
                             ]
                           },
                           "senders": {
@@ -556,7 +559,19 @@
                           "recipients": {
                             "type": "array",
                             "items": {
-                              "type": "string"
+                              "type": "object",
+                              "properties": {
+                                "amount": {
+                                  "type": "string"
+                                },
+                                "recipient": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "amount",
+                                "recipient"
+                              ]
                             }
                           },
                           "amount": {
@@ -701,7 +716,9 @@
                               "optimism",
                               "optimism-sepolia",
                               "arbitrum",
-                              "arbitrum-sepolia"
+                              "arbitrum-sepolia",
+                              "bitcoin",
+                              "bitcoin-testnet"
                             ]
                           },
                           "mode": {
@@ -709,10 +726,7 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate",
-                              "redelegate",
-                              "undelegate",
-                              "claimReward"
+                              "delegate"
                             ]
                           },
                           "senders": {
@@ -724,7 +738,19 @@
                           "recipients": {
                             "type": "array",
                             "items": {
-                              "type": "string"
+                              "type": "object",
+                              "properties": {
+                                "amount": {
+                                  "type": "string"
+                                },
+                                "recipient": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "amount",
+                                "recipient"
+                              ]
                             }
                           },
                           "amount": {
@@ -805,7 +831,9 @@
                                 "optimism",
                                 "optimism-sepolia",
                                 "arbitrum",
-                                "arbitrum-sepolia"
+                                "arbitrum-sepolia",
+                                "bitcoin",
+                                "bitcoin-testnet"
                               ]
                             },
                             "mode": {
@@ -813,10 +841,7 @@
                               "enum": [
                                 "transfer",
                                 "transferToken",
-                                "delegate",
-                                "redelegate",
-                                "undelegate",
-                                "claimReward"
+                                "delegate"
                               ]
                             },
                             "senders": {
@@ -828,7 +853,19 @@
                             "recipients": {
                               "type": "array",
                               "items": {
-                                "type": "string"
+                                "type": "object",
+                                "properties": {
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "recipient": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "amount",
+                                  "recipient"
+                                ]
                               }
                             },
                             "amount": {
@@ -920,7 +957,9 @@
                               "optimism",
                               "optimism-sepolia",
                               "arbitrum",
-                              "arbitrum-sepolia"
+                              "arbitrum-sepolia",
+                              "bitcoin",
+                              "bitcoin-testnet"
                             ]
                           },
                           "mode": {
@@ -928,10 +967,7 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate",
-                              "redelegate",
-                              "undelegate",
-                              "claimReward"
+                              "delegate"
                             ]
                           },
                           "senders": {
@@ -943,7 +979,19 @@
                           "recipients": {
                             "type": "array",
                             "items": {
-                              "type": "string"
+                              "type": "object",
+                              "properties": {
+                                "amount": {
+                                  "type": "string"
+                                },
+                                "recipient": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "amount",
+                                "recipient"
+                              ]
                             }
                           },
                           "amount": {
