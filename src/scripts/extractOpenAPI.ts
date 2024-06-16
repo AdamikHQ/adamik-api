@@ -8,7 +8,7 @@ if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
 }
 
-const fileName = process.env.OPEN_API_FILE_NAME || "openapi.json";
+const fileName = "openapi.json";
 const filePath = path.join(dir, fileName);
 
 console.log(`Generating ${filePath}...`);
