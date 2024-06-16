@@ -8,6 +8,7 @@ const requestSchema = z.object({
 
 const responseSchema = z.object({
   chainId: z.string(),
+  address: z.string().min(1),
   balances: z.object({
     native: z.object({
       available: z.string(),

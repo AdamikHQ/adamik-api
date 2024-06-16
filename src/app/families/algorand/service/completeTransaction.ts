@@ -1,24 +1,21 @@
-import { PlainTransaction, TransactionMode } from "~/app/model/types_WIP";
-import { computeMaxSpendable, computeFees } from "~/app/families/algorand/logic";
-import { AlgorandService } from ".";
+import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { computeMaxSpendable, computeFees } from "../logic";
 
-async function completeTransaction(
-  this: AlgorandService,
-  transaction: PlainTransaction
-): Promise<PlainTransaction> {
-  const fees = await computeFees(transaction);
+async function completeTransaction(transaction: Transaction): Promise<void> {
+  const maxSpendable = await computeMaxSpendable(transaction.plain);
 
-  const amount = await (async () => {
-    if (transaction.useMaxAmount) {
-      const maxSpendable = await computeMaxSpendable(transaction);
-      const amount = transaction.mode === TransactionMode.TRANSFER_TOKEN ? maxSpendable : maxSpendable - fees;
-      return amount >= 0n ? amount : 0n;
-    } else {
-      return transaction.amount;
-    }
-  })();
+  transaction.plain.fees = await computeFees(transaction.plain);
 
-  return { ...transaction, amount, fees };
+  if (transaction.plain.useMaxAmount) {
+    const amount =
+      transaction.plain.mode === TransactionMode.TRANSFER_TOKEN
+        ? // For a token transaction, the max spent amount is just the token balance, because fees are deducted from the native balance
+          maxSpendable.token
+        : // For a native transaction, the max spent amount is the native amount minus the fees, because both tap in the same native balance
+          maxSpendable.native - transaction.plain.fees;
+
+    transaction.plain.amount = amount && amount >= 0n ? amount : 0n;
+  }
 }
 
 export { completeTransaction };

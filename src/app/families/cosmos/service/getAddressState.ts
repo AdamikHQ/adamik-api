@@ -7,6 +7,7 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
 
   return {
     chainId: this.chainId,
+    address,
     balances: {
       native: {
         available: nativeBalance,

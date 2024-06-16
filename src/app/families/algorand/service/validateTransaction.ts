@@ -1,88 +1,70 @@
 import { isValidAddress } from "algosdk";
-import { PlainTransaction, TransactionStatus, ErrorMsg, TransactionMode } from "~/app/model/types_WIP";
-import { ALGORAND_MAX_MEMO_SIZE, isAmountValidForRecipient, computeMaxSpendable } from "../logic";
+import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { prevalidateTransactionCommon } from "../../common";
 import { AlgorandService } from ".";
+import {
+  ALGORAND_MAX_MEMO_SIZE,
+  addressHasAsset,
+  computeMaxSpendable,
+  isAmountValidForRecipient,
+} from "../logic";
 
-// FIXME Same implem as cosmos... something to make generic?
-async function validateTransactionIntent(
-  this: AlgorandService,
-  transaction: PlainTransaction
-): Promise<TransactionStatus> {
-  const errors: ErrorMsg[] = [];
-  const warnings: ErrorMsg[] = [];
+async function prevalidateTransaction(this: AlgorandService, transaction: Transaction): Promise<void> {
+  transaction.status = await prevalidateTransactionCommon(transaction.plain, async (address: string) =>
+    isValidAddress(address)
+  );
 
-  const validSender = transaction.senders?.length && isValidAddress(transaction.senders[0]);
-  if (!validSender) {
-    errors.push({ message: "Sender address is invalid" });
+  if (transaction.plain.format) {
+    transaction.status.warnings.push({
+      message: `Field 'format' is not supported for chain ID ${this.chainId}`,
+    });
   }
-
-  const validRecipient = transaction.recipients?.length && isValidAddress(transaction.recipients[0]);
-  if (!validRecipient) {
-    errors.push({ message: "Recipient address is invalid" });
-  }
-
-  if (
-    /*transaction.mode === "send" &&*/ validSender &&
-    validRecipient &&
-    transaction.senders[0] === transaction.recipients[0]
-  ) {
-    warnings.push({ message: "Same sender and recipient address" });
-  }
-
-  switch (transaction.mode) {
-    case TransactionMode.TRANSFER: {
-      if (transaction.amount === undefined && !transaction.useMaxAmount) {
-        errors.push({ message: "Missing amount or useMaxAmount" });
-      } else if (!!transaction.amount && transaction.useMaxAmount) {
-        errors.push({
-          message: "Amount and useMaxAmount cannot be used together",
-        });
-      } else if (transaction.amount && transaction.amount < 0n) {
-        errors.push({ message: "Amount cannot be negative" });
-      }
-    }
-  }
-
-  return {
-    errors,
-    warnings,
-  };
 }
 
-// FIXME Should useMaxAmount be considered in this function?... or just the amount, whatever it is?
-async function validateTransaction(
-  this: AlgorandService,
-  transaction: PlainTransaction
-): Promise<TransactionStatus> {
-  // TODO Settle this (should validateTransaction call validateTransactionIntent first?)
-  //*
-  const errors: ErrorMsg[] = [];
-  const warnings: ErrorMsg[] = [];
-  /*/
-  const { errors, warnings } = await validateTransactionIntent(transaction);
-  if (errors.length) {
-    return {
-      errors,
-      warnings,
-    };
+async function validateTransaction(this: AlgorandService, transaction: Transaction): Promise<void> {
+  if (transaction.plain.memo && transaction.plain.memo.length > ALGORAND_MAX_MEMO_SIZE) {
+    transaction.status.errors.push({ message: "Memo is too long" });
   }
-  //*/
 
-  // FIXME Shouldn't recompute this in this function
-  const maxSpendable = await computeMaxSpendable(transaction);
+  // FIXME Already called by completeTransaction,
+  // should ideally be put in some common context, or at least some cache
+  const maxSpendable = await computeMaxSpendable(transaction.plain);
 
-  switch (transaction.mode) {
+  switch (transaction.plain.mode) {
     case TransactionMode.TRANSFER: {
-      if (!(await isAmountValidForRecipient(transaction.recipients[0], transaction.amount))) {
-        errors.push({
+      if (transaction.plain.amount + transaction.plain.fees > maxSpendable.native) {
+        transaction.status.errors.push({ message: "Balance is too low" });
+      } else if (transaction.plain.amount < transaction.plain.fees * 10n) {
+        transaction.status.warnings.push({ message: "Network fees are above 10% of the amount" });
+      }
+
+      if (!(await isAmountValidForRecipient(transaction.plain.recipients[0], transaction.plain.amount))) {
+        transaction.status.errors.push({
           message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
         });
       }
 
-      if (transaction.amount + transaction.fees > maxSpendable) {
-        errors.push({ message: "Balance is too low" });
-      } else if (transaction.amount < transaction.fees * 10n) {
-        warnings.push({ message: "Network fees are above 10% of the amount" });
+      break;
+    }
+    case TransactionMode.TRANSFER_TOKEN: {
+      if (transaction.plain.fees > maxSpendable.native) {
+        transaction.status.errors.push({ message: "Balance is too low" });
+      }
+
+      if (maxSpendable.token !== undefined && transaction.plain.amount > maxSpendable.token) {
+        transaction.status.errors.push({ message: "Token balance is too low" });
+      }
+
+      if (!(await isAmountValidForRecipient(transaction.plain.recipients[0], 0n))) {
+        transaction.status.errors.push({
+          message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
+        });
+      }
+
+      if (!(await addressHasAsset(transaction.plain.recipients[0], transaction.plain.tokenId))) {
+        transaction.status.errors.push({
+          message: "Recipient address has not opted in for the selected ASA",
+        });
       }
 
       break;
@@ -90,13 +72,13 @@ async function validateTransaction(
 
     /*
     case "optIn": {
-      if (!transaction.fees || !transaction.fees.gt(0)) {
+      if (!transaction.plain.fees || !transaction.plain.fees.gt(0)) {
         errors.fees = new FeeNotLoaded();
       }
 
       // This error doesn't need to be translate,
       // it will use to block until the user choose an assetId
-      if (!transaction.assetId) {
+      if (!transaction.plain.assetId) {
         errors.assetId = new Error("Asset Id is not set");
       }
 
@@ -106,29 +88,8 @@ async function validateTransaction(
 
       break;
     }
-
-    case "claimReward": {
-      if (algoSpendableBalance.lt(totalSpent)) {
-        errors.amount = new NotEnoughBalance();
-      }
-
-      if (computeFees.gt(algorandResources.rewards)) {
-        warnings.claimReward = new ClaimRewardsFeesWarning();
-      }
-
-      break;
-    }
     */
   }
-
-  if (transaction.memo && transaction.memo.length > ALGORAND_MAX_MEMO_SIZE) {
-    throw new Error("Memo is too long");
-  }
-
-  return {
-    errors,
-    warnings,
-  };
 }
 
-export { validateTransactionIntent, validateTransaction };
+export { prevalidateTransaction, validateTransaction };

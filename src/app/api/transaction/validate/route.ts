@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PlainTransaction } from "~/app/model/types_WIP";
+import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { stringToBigint } from "~/app/model/serialization";
 import { SERVICES } from "~/app/families/services";
 import { requestSchema } from "./schema";
@@ -13,19 +13,26 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return handleRequestValidationError(e);
   }
 
-  const transaction: PlainTransaction = stringToBigint(body.transaction.plain);
+  const plainTransaction: PlainTransaction = stringToBigint(body.transaction.plain);
 
-  const { chainId } = transaction;
-
-  const service = SERVICES.get(chainId);
+  const service = SERVICES.get(plainTransaction.chainId);
   if (!service) {
     return NextResponse.json(
-      { message: `Chain ID ${chainId} is not supported` },
+      { message: `Chain ID ${plainTransaction.chainId} is not supported` },
       { status: 400, statusText: `Unsupported chainId` }
     );
   }
 
-  const status = await service.validateTransactionIntent(transaction);
+  let transaction: Transaction = {
+    plain: plainTransaction,
+    status: { errors: [], warnings: [] },
+  };
 
-  return NextResponse.json(status);
+  await service.prevalidateTransaction(transaction);
+
+  if (transaction.status.errors.length) {
+    return NextResponse.json(transaction.status, { status: 400, statusText: `Invalid transaction` });
+  } else {
+    return NextResponse.json(transaction.status);
+  }
 }

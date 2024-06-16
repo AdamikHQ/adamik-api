@@ -1,115 +1,151 @@
-import { encodeFunctionData, erc20Abi, toHex } from "viem";
-import { Format, PlainTransaction, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import {
+  encodeFunctionData,
+  parseSignature,
+  serializeTransaction as serializeL1Transaction,
+  erc20Abi,
+  toHex,
+  BaseError as ViemError,
+  Signature,
+  parseTransaction,
+  TransactionSerializable,
+  TransactionSerialized,
+} from "viem";
+import { Transaction, TransactionMode, EncodedTransactionFormat, ChainId } from "~/app/model/types_WIP";
 import { estimateFeesPerGas } from "../backend/node";
 import { EvmService } from ".";
-import { EvmAddress } from "../types";
+import { EvmAddress, EvmParams } from "../types";
+import { CHAINS } from "~/app/config/chains";
+import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 
-async function encodeTransactionToSign(
-  this: EvmService,
-  transaction: PlainTransaction,
-  format?: Format
-): Promise<string> {
-  const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(this.chainId);
-
-  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
-    const data = encodeFunctionData({
-      abi: erc20Abi,
-      functionName: "transfer",
-      args: [transaction.recipients[0] as EvmAddress, transaction.amount],
-    });
-
-    return {
-      maxPriorityFeePerGas: toHex(maxPriorityFeePerGas as bigint),
-      maxFeePerGas: toHex(maxFeePerGas as bigint),
-      from: transaction.senders[0],
-      to: transaction.tokenId,
-      data,
-    } as any;
-  } else {
-    // FIXME: Parameters for specific Metamask format
-    // Probably need to change function signature, if 'string' is not always the right return type
-    return {
-      maxPriorityFeePerGas: toHex(maxPriorityFeePerGas as bigint),
-      maxFeePerGas: toHex(maxFeePerGas as bigint),
-      value: toHex(transaction.amount),
-      //account: transaction.senders[0],
-      from: transaction.senders[0],
-      to: transaction.recipients[0],
-    } as any;
+async function encodeTransactionToSign(this: EvmService, transaction: Transaction): Promise<void> {
+  try {
+    switch (transaction.plain.format) {
+      // JSON is the current default, when format is not explicitely provided
+      case undefined:
+      case EncodedTransactionFormat.JSON:
+        await encodeTransactionToSignAsJSON(this.chainId, transaction);
+        break;
+      case EncodedTransactionFormat.HEX:
+        await encodeTransactionToSignAsHex(this.chainId, transaction);
+        break;
+      default:
+        throw new Error(
+          `Unsupported encoding format '${transaction.plain.format}' for chain ID ${transaction.plain.chainId}`
+        );
+    }
+  } catch (e: any) {
+    const message =
+      (e instanceof ViemError ? e.shortMessage : e.message) || "Failed to encode the transaction";
+    transaction.status.errors.push({ message });
   }
+}
 
-  // TODO Maybe build and use a raw transaction instead?
-  // ⚠️ Must check that Metamask doesn't blind sign when doing this
-  // https://viem.sh/op-stack/utilities/serializeTransaction
-  // https://docs.metamask.io/wallet/reference/eth_sendrawtransaction/
-  /*
-  const chainParams = CHAINS[this.chainId].params as EvmParams;
+async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Transaction) {
+  const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
+
+  switch (transaction.plain.mode) {
+    case TransactionMode.TRANSFER: {
+      // NOTE These parameters are specific to Metamask-like signers
+      // Will need a more precise format than "JSON" if other signers require other parameters
+      transaction.encoded = {
+        maxPriorityFeePerGas: toHex(maxPriorityFeePerGas as bigint),
+        maxFeePerGas: toHex(maxFeePerGas as bigint),
+        value: toHex(transaction.plain.amount),
+        from: transaction.plain.senders[0],
+        to: transaction.plain.recipients[0],
+      } as any;
+      break;
+    }
+    case TransactionMode.TRANSFER_TOKEN: {
+      const data = encodeFunctionData({
+        abi: erc20Abi,
+        functionName: "transfer",
+        args: [transaction.plain.recipients[0] as EvmAddress, transaction.plain.amount],
+      });
+
+      transaction.encoded = {
+        maxPriorityFeePerGas: toHex(maxPriorityFeePerGas as bigint),
+        maxFeePerGas: toHex(maxFeePerGas as bigint),
+        from: transaction.plain.senders[0],
+        to: transaction.plain.tokenId,
+        data,
+      } as any;
+      break;
+    }
+    default:
+      throw new Error(
+        `Unsupported transaction mode ${transaction.plain.mode} for chain ID ${transaction.plain.chainId}`
+      );
+  }
+}
+
+async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Transaction) {
+  const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
+
+  const chainParams = CHAINS[chainId].params as EvmParams;
   const data =
-    transaction.mode === TransactionMode.TRANSFER_TOKEN
+    transaction.plain.mode === TransactionMode.TRANSFER_TOKEN
       ? encodeFunctionData({
           abi: erc20Abi,
           functionName: "transfer",
-          args: [transaction.recipients[0] as EvmAddress, transaction.amount],
+          args: [transaction.plain.recipients[0] as EvmAddress, transaction.plain.amount],
         })
       : undefined;
 
   const recipient =
-    transaction.mode === TransactionMode.TRANSFER_TOKEN
-      ? (transaction.tokenId as EvmAddress)
-      : (transaction.recipients[0] as EvmAddress);
+    transaction.plain.mode === TransactionMode.TRANSFER_TOKEN
+      ? (transaction.plain.tokenId as EvmAddress)
+      : (transaction.plain.recipients[0] as EvmAddress);
 
-  return serializeTransaction({
+  const serializeTransactionFn = chainParams.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
+
+  transaction.encoded = serializeTransactionFn({
     chainId: chainParams.evmChainId,
     maxFeePerGas,
     maxPriorityFeePerGas,
-    gas: transaction.gas,
-    nonce: transaction.nonce,
+    gas: transaction.plain.gas,
+    nonce: transaction.plain.nonce,
     to: recipient,
-    value: transaction.amount,
+    value: transaction.plain.amount,
     data,
-  });
-  */
+  }) as TransactionSerialized;
 }
 
+// FIXME Untestable at the moment since all supported EVM signers want to do the broadcast themselves
+// Code from Ledger Live, as a reference of what probably needs to be done
 async function encodeTransactionToBroadcast(
   this: EvmService,
   signedTransaction: Transaction
 ): Promise<string> {
-  if (!signedTransaction.encoded) {
-    throw new Error("Missing encoded transaction");
-  }
-  if (!signedTransaction.signature) {
-    throw new Error("Missing signature");
-  }
+  try {
+    if (!signedTransaction.encoded) {
+      throw new Error("missing encoded transaction");
+    }
+    if (!signedTransaction.signature) {
+      throw new Error("missing transaction signature");
+    }
 
-  // TODO
+    // TODO Make sure this is documented...
+    // NOTE signedTransaction.signature is assumed to be built that way, r,s,v being correct hexadecimal strings:
+    //
+    // signedTransaction.signature = r + s.slice(2) + v.slice(2)
+    //
+    // 1) Remove the front "0x" from s and v strings
+    // 2) Concatenate them all in a single string
+    const signature: Signature = parseSignature(signedTransaction.signature as `0x${string}`);
 
-  // Untestable at the moment since all supported EVM signers want to do the broadcast themselves
-  // Code from Ledger Live, as a reference of what probably needs to be done
-
-  /*
-  const sig = (await signerContext(deviceId, signer => {
-    signer.setLoadConfig(loadConfig);
-    // Request signature on the nano
-    return signer.clearSignTransaction(
-      account.freshAddressPath,
-      serializedTxHexString,
-      resolutionConfig,
-      true,
+    const transaction: TransactionSerializable = parseTransaction(
+      signedTransaction.encoded as TransactionSerialized
     );
-  })) as EvmSignature;
 
-  o.next({ type: "device-signature-granted" }); // Signature is done
+    const chainParams = CHAINS[this.chainId].params as EvmParams;
+    const serializeTransactionFn = chainParams.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
-  const { chainId = 0 } = account.currency.ethereumLikeInfo || {};
-  // Create a new serialized tx with the signature now
-  const signature = await getSerializedTransaction(preparedTransaction, {
-    r: "0x" + sig.r,
-    s: "0x" + sig.s,
-    v: applyEIP155(typeof sig.v === "number" ? sig.v.toString(16) : sig.v, chainId),
-  });
-  */
-  return signedTransaction.encoded;
+    return serializeTransactionFn(transaction, signature);
+  } catch (e: any) {
+    signedTransaction.status.errors.push({ message: `Error while encoding to broadcast: ${e.message}` });
+    return "";
+  }
 }
 
 export { encodeTransactionToBroadcast, encodeTransactionToSign };

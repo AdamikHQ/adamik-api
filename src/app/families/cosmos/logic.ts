@@ -21,7 +21,13 @@ import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
 import { MsgSend as ProtoMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 //import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 
-import { ChainId, Format, PlainTransaction, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import {
+  ChainId,
+  EncodedTransactionFormat,
+  PlainTransaction,
+  Transaction,
+  TransactionMode,
+} from "~/app/model/types_WIP";
 import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
 import { CosmosParams } from "./types";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY } from "./constants";
@@ -35,14 +41,14 @@ function isBase64(str: string): boolean {
   return base64Regex.test(str);
 }
 
-function isValidAddress(chainId: ChainId, address: string) {
+function isValidAddress(address: string, chainId: ChainId): boolean {
   try {
     bech32.decode(address);
   } catch (e) {
     return false;
   }
 
-  const chainParams = CHAINS[chainId].params as CosmosParams;
+  const chainParams = chainId && (CHAINS[chainId].params as CosmosParams);
 
   const prefix = chainParams?.prefix;
   const validatorPrefix = chainParams?.validatorPrefix;
@@ -168,34 +174,34 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
       });
       break;
 
-    case "redelegate":
-      aminoMsgs.push({
-        type: "cosmos-sdk/MsgBeginRedelegate",
-        value: {
-          delegator_address: transaction.senders[0],
-          validator_src_address: transaction.sourceValidator,
-          validator_dst_address: transaction.targetValidator,
-          amount: {
-            denom: chainParams?.denom,
-            amount: transaction.amount.toString(),
-          },
-        },
-      });
+    // case "redelegate":
+    //   aminoMsgs.push({
+    //     type: "cosmos-sdk/MsgBeginRedelegate",
+    //     value: {
+    //       delegator_address: transaction.senders[0],
+    //       validator_src_address: transaction.sourceValidator,
+    //       validator_dst_address: transaction.targetValidator,
+    //       amount: {
+    //         denom: chainParams?.denom,
+    //         amount: transaction.amount.toString(),
+    //       },
+    //     },
+    //   });
 
-      // PROTO MESSAGE
-      protoMsgs.push({
-        typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
-        value: MsgBeginRedelegate.encode({
-          delegatorAddress: transaction.senders[0],
-          validatorSrcAddress: transaction.sourceValidator,
-          validatorDstAddress: transaction.targetValidator,
-          amount: {
-            denom: chainParams?.denom,
-            amount: transaction.amount.toString(),
-          },
-        }).finish(),
-      });
-      break;
+    //   // PROTO MESSAGE
+    //   protoMsgs.push({
+    //     typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+    //     value: MsgBeginRedelegate.encode({
+    //       delegatorAddress: transaction.senders[0],
+    //       validatorSrcAddress: transaction.sourceValidator,
+    //       validatorDstAddress: transaction.targetValidator,
+    //       amount: {
+    //         denom: chainParams?.denom,
+    //         amount: transaction.amount.toString(),
+    //       },
+    //     }).finish(),
+    //   });
+    //   break;
     /*
 
     case "undelegate":
@@ -396,13 +402,13 @@ function buildBroadcastPayload({
 async function encodeToSign(
   chainId: ChainId,
   transaction: PlainTransaction,
-  format?: Format
+  format?: EncodedTransactionFormat
 ): Promise<string> {
   // NOTE Providing payload for an Amino signer (like Ledger)
   // Need to provide payload for Protobuf signer as well?...
   const signDoc = await buildSignPayload(chainId, transaction);
 
-  if (format === "json") {
+  if (format === EncodedTransactionFormat.JSON) {
     // FIXME we will need to redefine type here.
     return signDoc as unknown as string;
   }
@@ -411,7 +417,7 @@ async function encodeToSign(
 
 async function encodeToBroadcast(chainId: ChainId, signedTransaction: Transaction): Promise<string> {
   if (!signedTransaction.signature) {
-    throw new Error("Transaction lacks signature");
+    throw new Error("missing transaction signature");
   }
 
   const signature = isBase64(signedTransaction.signature)

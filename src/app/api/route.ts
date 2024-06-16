@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { generateOpenAPIDoc } from "~/app/swagger/generateOpenAPIDoc";
+import { generateOpenAPIDoc } from "~/scripts/generateOpenAPIDoc";
 
 export async function GET() {
   const apiReference = generateOpenAPIDoc();

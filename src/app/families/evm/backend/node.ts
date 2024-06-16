@@ -16,7 +16,7 @@ import {
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { injectiveTestnet } from "../chains/injective-testnet";
-import { EvmAddress } from "../types";
+import { EvmAddress, EvmParams } from "../types";
 
 // Couldn't find a proper type that works besides 'any'
 const CLIENTS = new Map<ChainId, any>();
@@ -56,7 +56,10 @@ function getClient(chainId: ChainId) {
   if (CLIENTS.has(chainId)) {
     return CLIENTS.get(chainId)!;
   } else {
-    const client = createPublicClient(getClientConfig(chainId));
+    const chainParams = CHAINS[chainId].params as EvmParams;
+    const client = chainParams.isL2Fees
+      ? createPublicClient(getClientConfig(chainId)).extend(publicActionsL2())
+      : createPublicClient(getClientConfig(chainId));
     CLIENTS.set(chainId, client);
     return client;
   }
@@ -117,7 +120,7 @@ async function estimateFeesForL2({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId).extend(publicActionsL2()).estimateTotalFee({
+  return await getClient(chainId).estimateTotalFee({
     account: senderAddress,
     to: recipientAddress,
     value: amount,
@@ -137,15 +140,13 @@ async function estimateERC20FeesForL2({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId)
-    .extend(publicActionsL2())
-    .estimateContractTotalFee({
-      address: contractAddress,
-      abi: erc20Abi,
-      functionName: "transfer",
-      account: senderAddress,
-      args: [recipientAddress, amount],
-    });
+  return await getClient(chainId).estimateContractTotalFee({
+    address: contractAddress,
+    abi: erc20Abi,
+    functionName: "transfer",
+    account: senderAddress,
+    args: [recipientAddress, amount],
+  });
 }
 
 async function makeERC20ContractCall(
@@ -200,11 +201,16 @@ async function getBalance(chainId: ChainId, address: EvmAddress): Promise<bigint
   return getClient(chainId).getBalance({ address });
 }
 
+async function getNonce(chainId: ChainId, address: EvmAddress): Promise<number> {
+  return getClient(chainId).getTransactionCount({ address });
+}
+
 async function broadcast(chainId: ChainId, signedTransaction: string) {
   return await getClient(chainId).sendRawTransaction(JSON.parse(signedTransaction));
 }
 
 export {
+  getNonce,
   getBalance,
   getERC20Balance,
   getERC20name,

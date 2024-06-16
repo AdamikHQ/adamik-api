@@ -56,12 +56,13 @@ type Token = {
 };
 
 type TokenAmount = {
-  tokenId: string;
+  token: Token;
   value: bigint;
 };
 
 type AddressState = {
   chainId: ChainId;
+  address: string;
   balances: {
     native: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
@@ -85,9 +86,6 @@ enum TransactionMode {
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
-  REDELEGATE = "redelegate",
-  UNDELEGATE = "undelegate",
-  CLAIM_REWARD = "claimReward",
 }
 
 // TODO WIP
@@ -106,7 +104,7 @@ type CommonTransaction = {
   gas?: bigint;
   nonce?: number;
   memo?: string;
-  format?: Format; // FIXME should not be here
+  format?: EncodedTransactionFormat; // FIXME should not be here
   pubKey?: string; // FIXME should not be here
 };
 
@@ -124,36 +122,30 @@ type DelegateTransaction = CommonTransaction & {
   validator: string;
 };
 
-type UndelegateTransaction = CommonTransaction & {
-  mode: TransactionMode.UNDELEGATE;
-  validator: string;
-};
+// type UndelegateTransaction = CommonTransaction & {
+//   mode: TransactionMode.UNDELEGATE;
+//   validator: string;
+// };
 
-type RedelegateTransaction = CommonTransaction & {
-  mode: TransactionMode.REDELEGATE;
-  sourceValidator: string;
-  targetValidator: string;
-};
+// type RedelegateTransaction = CommonTransaction & {
+//   mode: TransactionMode.REDELEGATE;
+//   sourceValidator: string;
+//   targetValidator: string;
+// };
 
-type ClaimRewardTransaction = CommonTransaction & {
-  mode: TransactionMode.CLAIM_REWARD;
-  validator: string;
-};
+// type ClaimRewardTransaction = CommonTransaction & {
+//   mode: TransactionMode.CLAIM_REWARD;
+//   validator: string;
+// };
 
-type PlainTransaction =
-  | TransferTransaction
-  | TransferTokenTransaction
-  | DelegateTransaction
-  | UndelegateTransaction
-  | RedelegateTransaction
-  | ClaimRewardTransaction;
+type PlainTransaction = TransferTransaction | TransferTokenTransaction | DelegateTransaction;
 
 type Transaction = {
   //metadata: TransactionMetadata // good idea or not ?
   plain: PlainTransaction;
   encoded?: string;
   signature?: string;
-  status?: TransactionStatus;
+  status: TransactionStatus;
 };
 
 /*
@@ -162,6 +154,12 @@ type TransactionMetadata = {
   useMaxAmount: boolean;
 };
 */
+
+// Used to list spendable amounts, in native currency and one optional token currency
+type TransactionSpendableAmounts = {
+  native: bigint;
+  token?: bigint;
+};
 
 type TransactionStatus = {
   errors: ErrorMsg[];
@@ -181,9 +179,12 @@ type ErrorMsg = {
   message: string;
 };
 
-export type Format = "json" | "hex";
+enum EncodedTransactionFormat {
+  JSON = "json",
+  HEX = "hex",
+}
 
-export { ChainId, TransactionMode, TokenType };
+export { ChainId, TransactionMode, EncodedTransactionFormat, TokenType };
 export type {
   Chain,
   ChainParams,
@@ -192,6 +193,7 @@ export type {
   AddressState,
   PlainTransaction,
   Transaction,
+  TransactionSpendableAmounts,
   TransactionStatus,
   BroadcastStatus,
   ErrorMsg,
