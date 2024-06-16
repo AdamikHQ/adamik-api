@@ -19,7 +19,7 @@ import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTrans
 
 class EvmService extends BaseChainService implements TokenService {
   getTokenInfo = getTokenInfoFn;
-  pubkeyToAddresses = pubkeyToAddressFn;
+  pubkeyToAddress = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
   getAddressState = getAddressStateFn;
   prevalidateTransaction = prevalidateTransactionFn;

@@ -16,7 +16,7 @@ abstract class BaseChainService {
   //abstract getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
 
   // Address
-  abstract pubkeyToAddresses(pubkey: string): Promise<string[]>;
+  abstract pubkeyToAddress(pubkey: string): Promise<string>;
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data

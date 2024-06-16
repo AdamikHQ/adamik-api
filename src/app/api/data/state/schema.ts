@@ -1,15 +1,9 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 
-const ACCOUNT_ORIGIN_VALUES = ["Address", "Xpub"] as const;
-const AccountOriginEnums = z.enum(ACCOUNT_ORIGIN_VALUES);
-
 const requestSchema = z.object({
   chainId: z.string().min(1),
-  account: z.object({
-    origin: AccountOriginEnums,
-    value: z.string().min(1),
-  }),
+  address: z.string().min(1),
 });
 
 const responseSchema = z.object({
@@ -18,7 +12,6 @@ const responseSchema = z.object({
   balances: z.object({
     native: z.object({
       available: z.string(),
-      unconfirmed: z.string().optional(),
     }),
     tokens: z
       .object({

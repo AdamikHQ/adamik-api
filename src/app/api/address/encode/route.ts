@@ -21,7 +21,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const address = await service.pubkeyToAddresses(pubkey);
+  const address = await service.pubkeyToAddress(pubkey);
 
   return NextResponse.json(address);
 }

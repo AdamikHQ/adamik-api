@@ -1,4 +1,3 @@
-import { BtcParams } from "../families/bitcoin/types";
 import { CosmosParams } from "../families/cosmos/types";
 import { EvmParams } from "../families/evm/types";
 
@@ -19,11 +18,9 @@ enum ChainId {
   OPTIMISM_SEPOLIA = "optimism-sepolia",
   ARBITRUM = "arbitrum",
   ARBITRUM_SEPOLIA = "arbitrum-sepolia",
-  BITCOIN = "bitcoin",
-  BITCOIN_TESTNET = "bitcoin-testnet",
 }
 
-type ChainParams = CosmosParams | EvmParams | BtcParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
+type ChainParams = CosmosParams | EvmParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
 
 type Backends = {
   nodeURL: string;
@@ -69,7 +66,6 @@ type AddressState = {
   balances: {
     native: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
-      unconfirmed: bigint; // Bitcoin: available + pending
       //total: bigint; // Will need staking
     };
     tokens?: TokenAmount[];
@@ -86,28 +82,11 @@ type AddressState = {
   //}
 };
 
-// FIXME: Should fully replace AddressState?
-type AccountState = {
-  chainId: ChainId;
-  balances: {
-    native: {
-      available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
-      unconfirmed: bigint; // Bitcoin: available + pending
-    };
-    tokens?: TokenAmount[];
-  };
-};
-
 enum TransactionMode {
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
 }
-
-type Recipient = {
-  amount: bigint;
-  address: string;
-};
 
 // TODO WIP
 // FIXME de/serialization types <> string
@@ -118,7 +97,7 @@ type CommonTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
   senders: string[];
-  recipients: Recipient[];
+  recipients: string[];
   amount: bigint;
   useMaxAmount?: boolean;
   fees: bigint;
