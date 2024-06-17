@@ -22,4 +22,19 @@ type EtherscanERC20Event = {
   // confirmations: string;
 };
 
-export type { EtherscanERC20Event };
+type MoralisERC20TokenBalance = {
+  token_address: EvmAddress;
+  name: string;
+  symbol: string;
+  //logo: string,
+  //thumbnail: string,
+  decimals: number;
+  balance: string;
+  possible_spam: boolean;
+  //verified_collection: boolean,
+  //total_supply: string,
+  //total_supply_formatted: string,
+  //percentage_relative_to_total_supply: number
+};
+
+export type { EtherscanERC20Event, MoralisERC20TokenBalance };

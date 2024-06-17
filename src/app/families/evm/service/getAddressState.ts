@@ -1,9 +1,10 @@
 import { getBalance, getERC20Balance } from "../backend/node";
 import { EvmService } from ".";
-import { AddressState, TokenAmount } from "~/app/model/types_WIP";
+import { AddressState, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { getERC20TransferEvents } from "../backend/explorer";
 import { EvmAddress } from "../types";
 import { getOneEventPerContractAddress } from "../logic";
+import { getTokens } from "../backend/moralis";
 
 async function getAddressState(this: EvmService, address: EvmAddress): Promise<AddressState> {
   // Native
@@ -11,6 +12,28 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
 
   // Tokens
   const tokenAmounts: TokenAmount[] = [];
+
+  //*
+  // Moralis implementation
+
+  const tokensData = await getTokens(this.chainId, address);
+  tokensData?.forEach((tokenData) =>
+    tokenAmounts.push({
+      token: {
+        chainId: this.chainId,
+        type: TokenType.ERC20,
+        id: tokenData.token_address,
+        name: tokenData.name,
+        decimals: tokenData.decimals,
+        ticker: tokenData.symbol,
+        contractAddress: tokenData.token_address,
+      },
+      value: BigInt(tokenData.balance),
+    })
+  );
+
+  /*/
+  // Etherscan implementation
 
   const events = await getERC20TransferEvents(this.chainId, address);
   const eventPerContractAddress = getOneEventPerContractAddress(events);
@@ -41,6 +64,7 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
       });
     }
   });
+  //*/
 
   return {
     chainId: this.chainId,
