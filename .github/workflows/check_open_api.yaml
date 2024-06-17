@@ -39,7 +39,8 @@ jobs:
         uses: tj-actions/verify-changed-files@v20
         id: changed-files
         with:
-          files: head/public/openapi.json
+          files: public/openapi.json
+          path: head
 
       # TODO: run only if there are changes
       - name: Running OpenAPI Spec diff action
