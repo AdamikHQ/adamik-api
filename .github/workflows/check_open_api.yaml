@@ -36,11 +36,14 @@ jobs:
         run: pnpm run doc:openapi
 
       - name: Check for changes
-        working-directory: head
-        run: git diff --exit-code || echo "Changes detected"
+        uses: tj-actions/verify-changed-files@v20
+        id: changed-files
+        with:
+          files: head/public/openapi.json
 
-        # TODO: run only if there are changes
+      # TODO: run only if there are changes
       - name: Running OpenAPI Spec diff action
+        if: steps.changed-files.outputs.files_changed == 'true'
         id: changes
         uses: oasdiff/oasdiff-action/breaking@main
         with:
@@ -48,24 +51,28 @@ jobs:
           revision: head/public/openapi.json
 
       - name: Comment on PR
+        if: steps.changed-files.outputs.files_changed == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: head
         run: "gh pr comment ${{github.event.number}} --body \"OpenAPI Comparison results: ${{steps.changes.outputs.breaking}}\""
 
       - name: Configure git
+        if: steps.changed-files.outputs.files_changed == 'true'
         working-directory: head
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
       - name: Commit changes
+        if: steps.changed-files.outputs.files_changed == 'true'
         working-directory: head
         run: |
           git add public/openapi.json
           git commit -m "Update OpenAPI JSON docs" || echo "No changes to commit"
 
       - name: Push changes
+        if: steps.changed-files.outputs.files_changed == 'true'
         working-directory: head
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
