@@ -4,7 +4,7 @@ import { AddressState, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { EvmAddress } from "../types";
 import { getOneEventPerContractAddress } from "../logic";
 import { getERC20TransferEvents } from "../backend/etherscan";
-import { getTokens } from "../backend/moralis";
+import { getERC20Tokens } from "../backend/moralis";
 
 async function getAddressState(this: EvmService, address: EvmAddress): Promise<AddressState> {
   // Native
@@ -13,10 +13,12 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
   // Tokens
   const tokenAmounts: TokenAmount[] = [];
 
+  // TODO Providers abstraction https://adamik.atlassian.net/browse/ADV-201
+
   //*
   // Moralis implementation
 
-  const tokensData = await getTokens(this.chainId, address);
+  const tokensData = await getERC20Tokens(this.chainId, address);
   tokensData?.forEach((tokenData) =>
     tokenAmounts.push({
       token: {

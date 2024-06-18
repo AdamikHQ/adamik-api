@@ -17,7 +17,7 @@ const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.INJECTIVE_TESTNET, "base%20sepolia"],
 ]);
 
-async function getTokens(chainId: ChainId, address: EvmAddress): Promise<MoralisERC20TokenBalance[]> {
+async function getERC20Tokens(chainId: ChainId, address: EvmAddress): Promise<MoralisERC20TokenBalance[]> {
   const chain = MORALIS_CHAIN_IDS.get(chainId);
   if (!chain) {
     throw new Error(`Chain ID ${chainId} is not suported by Moralis API`);
@@ -42,4 +42,4 @@ async function getTokens(chainId: ChainId, address: EvmAddress): Promise<Moralis
   return data.message ? [] : data;
 }
 
-export { getTokens };
+export { getERC20Tokens };
