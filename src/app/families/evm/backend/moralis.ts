@@ -24,11 +24,11 @@ async function getERC20Tokens(chainId: ChainId, address: EvmAddress): Promise<Mo
   }
 
   const url =
-    `https://deep-index.moralis.io/api/v2.2/${address}/erc20` +
+    `https://deep-index.moralis.io/api/v2.2/wallets/${address}/tokens` +
     "?" +
     new URLSearchParams({
       chain,
-      exclude_spam: "true",
+      exclude_spam: "false",
     });
 
   const params: RequestInit = {
@@ -37,9 +37,12 @@ async function getERC20Tokens(chainId: ChainId, address: EvmAddress): Promise<Mo
     },
   };
 
+  // TODO This request is paginated, need to handle pagination
   const data = await fetch(url, params).then((response) => response.json());
 
-  return data.message ? [] : data;
+  // Moralis includes an "Ether" token, labeled as native_token: true
+  // so we need to remove it from the results
+  return data?.result.filter((token: MoralisERC20TokenBalance) => !token.native_token) || [];
 }
 
 export { getERC20Tokens };

@@ -22,6 +22,7 @@ type EtherscanERC20Event = {
   // confirmations: string;
 };
 
+/*
 type MoralisERC20TokenBalance = {
   token_address: EvmAddress;
   name: string;
@@ -35,6 +36,29 @@ type MoralisERC20TokenBalance = {
   //total_supply: string,
   //total_supply_formatted: string,
   //percentage_relative_to_total_supply: number
+};
+*/
+
+type MoralisERC20TokenBalance = {
+  token_address: EvmAddress;
+  name: string;
+  symbol: string;
+  //logo: string,
+  //thumbnail: string,
+  decimals: number;
+  native_token: boolean;
+  possible_spam: false;
+  balance: string;
+  //verified_contract: boolean;
+  //balance_formatted: string;
+  //total_supply: string;
+  //total_supply_formatted: string;
+  //usd_price: number;
+  //usd_price_24hr_percent_change: number;
+  //usd_price_24hr_usd_change: number;
+  //usd_value: number;
+  //usd_value_24hr_usd_change: number;
+  //portfolio_percentage: number;
 };
 
 export type { EtherscanERC20Event, MoralisERC20TokenBalance };
