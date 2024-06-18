@@ -1,9 +1,9 @@
 import { getBalance, getERC20Balance } from "../backend/node";
 import { EvmService } from ".";
 import { AddressState, TokenAmount, TokenType } from "~/app/model/types_WIP";
-import { getERC20TransferEvents } from "../backend/explorer";
 import { EvmAddress } from "../types";
 import { getOneEventPerContractAddress } from "../logic";
+import { getERC20TransferEvents } from "../backend/etherscan";
 import { getTokens } from "../backend/moralis";
 
 async function getAddressState(this: EvmService, address: EvmAddress): Promise<AddressState> {
