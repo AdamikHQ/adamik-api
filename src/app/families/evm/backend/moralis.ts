@@ -14,13 +14,13 @@ const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.OPTIMISM_SEPOLIA, "optimism%20sepolia"],
   [ChainId.BASE, "base"],
   [ChainId.BASE_SEPOLIA, "base%20sepolia"],
-  [ChainId.INJECTIVE_TESTNET, "base%20sepolia"],
 ]);
 
 async function getERC20Tokens(chainId: ChainId, address: EvmAddress): Promise<MoralisERC20TokenBalance[]> {
   const chain = MORALIS_CHAIN_IDS.get(chainId);
   if (!chain) {
-    throw new Error(`Chain ID ${chainId} is not suported by Moralis API`);
+    console.error(`Chain ID ${chainId} is not suported by Moralis API`);
+    return [];
   }
 
   const url =
