@@ -5,6 +5,11 @@ type CosmosAccount = {
   pubKey: string;
 };
 
+type CosmosBalance = {
+  denom: string;
+  amount: bigint;
+};
+
 type COSMOS_STATUS =
   | "BOND_STATUS_UNSPECIFIED"
   | "BOND_STATUS_UNBONDED"
@@ -45,4 +50,4 @@ export type CosmosValidatorResponse = {
   validators: CosmosValidator[];
 };
 
-export type { CosmosAccount };
+export type { CosmosAccount, CosmosBalance };

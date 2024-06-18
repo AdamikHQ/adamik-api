@@ -1,5 +1,5 @@
 import { CHAINS } from "~/app/config/chains";
-import { CosmosAccount, CosmosValidatorResponse } from "./types";
+import { CosmosAccount, CosmosBalance, CosmosValidatorResponse } from "./types";
 import { ChainId } from "~/app/model/types_WIP";
 import { CosmosParams } from "../types";
 
@@ -8,17 +8,13 @@ import { CosmosParams } from "../types";
 
 const getRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
 
-async function fetchBalance(chainId: ChainId, address: string): Promise<bigint> {
+async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosBalance[]> {
   const url = `${getRootUrl(chainId)}/cosmos/bank/v1beta1/balances/${address}`;
-  const chainParams = CHAINS[chainId].params as CosmosParams;
 
+  // TODO This request is paginated, need to handle pagination
   const data = await fetch(url).then((response) => response.json());
 
-  return data.balances.reduce(
-    (sum: bigint, item: { denom: string; amount: string }) =>
-      item.denom === chainParams?.denom ? sum + BigInt(item.amount) : sum,
-    0n
-  );
+  return data?.balances || [];
 }
 
 async function fetchValidators(
@@ -38,7 +34,7 @@ async function fetchValidators(
 async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAccount> {
   const chainParams = CHAINS[chainId].params as CosmosParams;
 
-  const accountData = {
+  const accountData: CosmosAccount = {
     accountNumber: 0n,
     sequence: 0n,
     pubKeyType: chainParams?.defaultPubKeyType || "",
@@ -72,6 +68,14 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
   }
 
   return accountData;
+}
+
+async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promise<string> {
+  const url = `${getRootUrl(chainId)}/ibc/apps/transfer/v1/denom_traces/${ibcTokenId}`;
+
+  const data = await fetch(url).then((response) => response.json());
+
+  return data?.denom_trace?.base_denom || "";
 }
 
 async function fetchNetworkId(chainId: ChainId): Promise<string> {
@@ -121,8 +125,9 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
 }
 
 export {
-  fetchBalance,
+  fetchBalances,
   fetchAccount,
+  fetchIBCTokenTicker,
   fetchNetworkId,
   simulateTransaction,
   broadcastTransaction,

@@ -112,7 +112,6 @@ async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Trans
 }
 
 // FIXME Untestable at the moment since all supported EVM signers want to do the broadcast themselves
-// Code from Ledger Live, as a reference of what probably needs to be done
 async function encodeTransactionToBroadcast(
   this: EvmService,
   signedTransaction: Transaction
