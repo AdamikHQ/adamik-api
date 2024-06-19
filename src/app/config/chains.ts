@@ -39,6 +39,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://api-t.cosmos.nodestake.top",
     },
+    isTestNet: true,
     params: {
       prefix: "cosmos",
       validatorPrefix: "cosmosvaloper",
@@ -90,6 +91,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/sepolia/REDACTED",
       explorerURL: "https://api-sepolia.etherscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 11155111,
     },
@@ -104,6 +106,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/holesky/REDACTED",
       explorerURL: "https://api-holesky.etherscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 17000,
     },
@@ -132,6 +135,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/zksync-sepolia/REDACTED",
       explorerURL: "https://zksync.blockscout.com/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 300,
     },
@@ -146,6 +150,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://testnet.rpc.inevm.com/http",
       //explorerURL: TODO,
     },
+    isTestNet: true,
     params: {
       evmChainId: 2424,
     },
@@ -175,6 +180,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/base-sepolia/REDACTED",
       explorerURL: "https://api.basescan.org/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 84532,
       isL2Fees: true,
@@ -205,6 +211,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/optimism-sepolia/REDACTED",
       explorerURL: "https://api-sepolia-optimistic.etherscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 11155420,
       isL2Fees: true,
@@ -234,6 +241,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/arbitrum-sepolia/REDACTED",
       explorerURL: "https://api-sepolia.arbiscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 421614,
     },
