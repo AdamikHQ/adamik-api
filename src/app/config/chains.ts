@@ -74,7 +74,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://ethereum-rpc.publicnode.com",
-      explorerURL: "https://api.etherscan.io/api",
+      //explorerURL: "https://api.etherscan.io/api",
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 1,
@@ -88,7 +89,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://ethereum-sepolia-rpc.publicnode.com",
-      explorerURL: "https://api-sepolia.etherscan.io/api",
+      //explorerURL: "https://api-sepolia.etherscan.io/api",
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 11155111,
@@ -102,7 +104,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://ethereum-holesky-rpc.publicnode.com",
-      explorerURL: "https://api-holesky.etherscan.io/api",
+      //explorerURL: "https://api-holesky.etherscan.io/api",
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 17000,
@@ -116,7 +119,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-      explorerURL: "https://zksync.blockscout.com/api",
+      //explorerURL: "https://zksync.blockscout.com/api",
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 324,
@@ -130,7 +134,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-      explorerURL: "https://zksync.blockscout.com/api",
+      //explorerURL: "https://zksync.blockscout.com/api",
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 300,
@@ -144,7 +149,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://testnet.rpc.inevm.com/http",
-      //explorerURL: TODO,
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 2424,
@@ -158,7 +163,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://base-mainnet.g.alchemy.com/v2/rOq_ClcjzdlIKQh-h6sMTBW9MhVBf94Z",
-      explorerURL: "https://api.basescan.org/api",
+      //explorerURL: "https://api.basescan.org/api",
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 8453,
@@ -173,7 +179,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://sepolia.base.org",
-      explorerURL: "https://api.basescan.org/api",
+      //explorerURL: "https://api.basescan.org/api",
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 84532,
@@ -188,7 +195,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://opt-mainnet.g.alchemy.com/v2/pDuVOEX6OCaN6lq_xILoecc3lcFXuyTz",
-      explorerURL: "https://api-optimistic.etherscan.io/api",
+      //explorerURL: "https://api-optimistic.etherscan.io/api",
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 10,
@@ -203,7 +211,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://opt-sepolia.g.alchemy.com/v2/6dtfsgvoSwhyPVqp0_nvAWJ40CbiOqQ8",
-      explorerURL: "https://api-sepolia-optimistic.etherscan.io/api",
+      //explorerURL: "https://api-sepolia-optimistic.etherscan.io/api",
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 11155420,
@@ -218,7 +227,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://arbitrum-one.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-      explorerURL: "https://api.arbiscan.io/api",
+      //explorerURL: "https://api.arbiscan.io/api",
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 42161,
@@ -232,7 +242,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 18,
     backends: {
       nodeURL: "https://arbitrum-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-      explorerURL: "https://api-sepolia.arbiscan.io/api",
+      //explorerURL: "https://api-sepolia.arbiscan.io/api",
+      explorerURL: "https://deep-index.moralis.io/api",
     },
     params: {
       evmChainId: 421614,

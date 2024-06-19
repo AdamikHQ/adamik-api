@@ -2,6 +2,7 @@ import { ChainId } from "~/app/model/types_WIP";
 import { EvmAddress } from "../types";
 import { MoralisERC20TokenBalance } from "./types";
 import { MORALIS_API_KEY } from "~/app/config/apiKeys";
+import { CHAINS } from "~/app/config/chains";
 
 const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth"],
@@ -9,40 +10,59 @@ const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.HOLESKY, "holesky"],
   //[ChainId.POLYGON, "polygon"],
   [ChainId.ARBITRUM, "arbitrum"],
-  [ChainId.ARBITRUM_SEPOLIA, "arbitrum%20sepolia"],
+  [ChainId.ARBITRUM_SEPOLIA, "arbitrum sepolia"],
   [ChainId.OPTIMISM, "optimism"],
-  [ChainId.OPTIMISM_SEPOLIA, "optimism%20sepolia"],
+  [ChainId.OPTIMISM_SEPOLIA, "optimism sepolia"],
   [ChainId.BASE, "base"],
-  [ChainId.BASE_SEPOLIA, "base%20sepolia"],
+  [ChainId.BASE_SEPOLIA, "base sepolia"],
 ]);
 
 async function getERC20Tokens(chainId: ChainId, address: EvmAddress): Promise<MoralisERC20TokenBalance[]> {
-  const chain = MORALIS_CHAIN_IDS.get(chainId);
-  if (!chain) {
+  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  if (!moralisChainId) {
     console.error(`Chain ID ${chainId} is not suported by Moralis API`);
     return [];
   }
 
-  const url =
-    `https://deep-index.moralis.io/api/v2.2/wallets/${address}/tokens` +
-    "?" +
-    new URLSearchParams({
-      chain,
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  if (!explorerURL) {
+    console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
+    return [];
+  }
+
+  let tokens: MoralisERC20TokenBalance[] = [];
+  let data;
+  do {
+    const queryParams = new URLSearchParams({
+      chain: moralisChainId,
       exclude_spam: "false",
+      limit: "200",
     });
 
-  const params: RequestInit = {
-    headers: {
-      "X-API-Key": MORALIS_API_KEY,
-    },
-  };
+    if (data?.cursor) {
+      queryParams.append("cursor", data.cursor);
+    }
 
-  // TODO This request is paginated, need to handle pagination
-  const data = await fetch(url, params).then((response) => response.json());
+    const url = `${explorerURL}/v2.2/wallets/${address}/tokens` + "?" + queryParams;
 
-  // Moralis includes an "Ether" token, labeled as native_token: true
-  // so we need to remove it from the results
-  return data?.result.filter((token: MoralisERC20TokenBalance) => !token.native_token) || [];
+    const headers: RequestInit = {
+      headers: {
+        "X-API-Key": MORALIS_API_KEY,
+      },
+    };
+
+    data = await fetch(url, headers).then((response) => response.json());
+
+    if (!Array.isArray(data?.result)) {
+      break;
+    }
+
+    tokens = tokens.concat(data.result);
+  } while (data?.cursor);
+
+  // Moralis includes an "ETH" token in the results, labeled as native_token: true
+  // so we need to remove these from the results
+  return tokens.filter((token: MoralisERC20TokenBalance) => !token.native_token);
 }
 
 export { getERC20Tokens };

@@ -22,23 +22,6 @@ type EtherscanERC20Event = {
   // confirmations: string;
 };
 
-/*
-type MoralisERC20TokenBalance = {
-  token_address: EvmAddress;
-  name: string;
-  symbol: string;
-  //logo: string,
-  //thumbnail: string,
-  decimals: number;
-  balance: string;
-  possible_spam: boolean;
-  //verified_collection: boolean,
-  //total_supply: string,
-  //total_supply_formatted: string,
-  //percentage_relative_to_total_supply: number
-};
-*/
-
 type MoralisERC20TokenBalance = {
   token_address: EvmAddress;
   name: string;
