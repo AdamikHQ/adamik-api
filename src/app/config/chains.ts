@@ -73,7 +73,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://ethereum-rpc.publicnode.com",
+      nodeURL: "https://site1.moralis-nodes.com/eth/REDACTED",
       explorerURL: "https://api.etherscan.io/api",
     },
     params: {
@@ -87,7 +87,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://ethereum-sepolia-rpc.publicnode.com",
+      nodeURL: "https://site1.moralis-nodes.com/sepolia/REDACTED",
       explorerURL: "https://api-sepolia.etherscan.io/api",
     },
     params: {
@@ -101,7 +101,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://ethereum-holesky-rpc.publicnode.com",
+      nodeURL: "https://site1.moralis-nodes.com/holesky/REDACTED",
       explorerURL: "https://api-holesky.etherscan.io/api",
     },
     params: {
@@ -157,7 +157,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://base-mainnet.g.alchemy.com/v2/rOq_ClcjzdlIKQh-h6sMTBW9MhVBf94Z",
+      nodeURL: "https://site1.moralis-nodes.com/base/REDACTED",
       explorerURL: "https://api.basescan.org/api",
     },
     params: {
@@ -172,7 +172,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://sepolia.base.org",
+      nodeURL: "https://site1.moralis-nodes.com/base-sepolia/REDACTED",
       explorerURL: "https://api.basescan.org/api",
     },
     params: {
@@ -187,7 +187,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://opt-mainnet.g.alchemy.com/v2/pDuVOEX6OCaN6lq_xILoecc3lcFXuyTz",
+      nodeURL: "https://site1.moralis-nodes.com/optimism/REDACTED",
       explorerURL: "https://api-optimistic.etherscan.io/api",
     },
     params: {
@@ -202,7 +202,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://opt-sepolia.g.alchemy.com/v2/6dtfsgvoSwhyPVqp0_nvAWJ40CbiOqQ8",
+      nodeURL: "https://site1.moralis-nodes.com/optimism-sepolia/REDACTED",
       explorerURL: "https://api-sepolia-optimistic.etherscan.io/api",
     },
     params: {
@@ -217,7 +217,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://arbitrum-one.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      nodeURL: "https://site1.moralis-nodes.com/arbitrum/REDACTED",
       explorerURL: "https://api.arbiscan.io/api",
     },
     params: {
@@ -231,7 +231,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://arbitrum-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      nodeURL: "https://site1.moralis-nodes.com/arbitrum-sepolia/REDACTED",
       explorerURL: "https://api-sepolia.arbiscan.io/api",
     },
     params: {
