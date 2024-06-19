@@ -238,6 +238,132 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 421614,
     },
   },
+  polygon: {
+    id: ChainId.POLYGON,
+    family: "evm",
+    name: "Polygon",
+    ticker: "MATIC",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/polygon/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 137,
+    },
+  },
+  "polygon-amoy": {
+    id: ChainId.POLYGON_AMOY,
+    family: "evm",
+    name: "Polygon Amoy",
+    ticker: "MATIC",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/amoy/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 80002,
+    },
+  },
+  "binance-smart-chain": {
+    id: ChainId.BSC,
+    family: "evm",
+    name: "Binance Smart Chain",
+    ticker: "BNB",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/bsc/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 56,
+    },
+  },
+  "binance-smart-chain-testnet": {
+    id: ChainId.BSC_TESTNET,
+    family: "evm",
+    name: "Binance Smart Chain Testnet",
+    ticker: "BNB",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/bsc-testnet/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 97,
+    },
+  },
+  "linea": {
+    id: ChainId.LINEA,
+    family: "evm",
+    name: "Linea",
+    ticker: "ETH",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/linea/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 59144,
+    },
+  },
+  "linea-sepolia": {
+    id: ChainId.LINEA_SEPOLIA,
+    family: "evm",
+    name: "Linea Sepolia",
+    ticker: "ETH",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/linea-sepolia/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 59141,
+    },
+  },
+  "avalanche": {
+    id: ChainId.AVALANCHE,
+    family: "evm",
+    name: "Avalanche",
+    ticker: "AVAX",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/avalanche/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 43114,
+    },
+  },
+  "gnosis": {
+    id: ChainId.GNOSIS,
+    family: "evm",
+    name: "Gnosis",
+    ticker: "ETH",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/gnosis/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 100,
+    },
+  },
+  "gnosis-testnet": {
+    id: ChainId.GNOSIS_TESTNET,
+    family: "evm",
+    name: "Gnosis Chiado",
+    ticker: "ETH",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/gnosis-testnet/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 10200,
+    },
+  },
 };
 
 export { CHAINS };
