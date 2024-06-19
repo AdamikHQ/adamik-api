@@ -1,7 +1,8 @@
 import { ChainId } from "../model/types_WIP";
 
-// FIXME Manage this through Vercel env vars?...
-const EXPLORER_API_KEYS: Map<ChainId, string> = new Map([
+// FIXME Manage this through Vercel storage or env vars?...
+
+const ETHERSCAN_API_KEYS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "REDACTED"],
   [ChainId.SEPOLIA, "REDACTED"],
   [ChainId.HOLESKY, "REDACTED"],
@@ -19,4 +20,7 @@ const EXPLORER_API_KEYS: Map<ChainId, string> = new Map([
   [ChainId.ZKSYNC_SEPOLIA, "REDACTED"],
 ]);
 
-export { EXPLORER_API_KEYS };
+const MORALIS_API_KEY =
+  "REDACTED";
+
+export { ETHERSCAN_API_KEYS, MORALIS_API_KEY };
