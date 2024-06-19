@@ -238,6 +238,30 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 421614,
     },
   },
+  [ChainId.BITCOIN]: {
+    id: ChainId.BITCOIN,
+    name: "Bitcoin mainnet",
+    family: "btc",
+    ticker: "BTC",
+    decimals: 0,
+    backends: {
+      nodeURL: "",
+      explorerURL: undefined
+    },
+    params: undefined
+  },
+  [ChainId.BITCOIN_TESTNET]: {
+    id: ChainId.BITCOIN_TESTNET,
+    name: "Bitcoin testnet",
+    family: "btc",
+    ticker: "BTC",
+    decimals: 0,
+    backends: {
+      nodeURL: "",
+      explorerURL: undefined
+    },
+    params: undefined
+  }
 };
 
 export { CHAINS };
