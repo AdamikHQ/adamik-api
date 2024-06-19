@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { ChainId } from "~/app/model/types_WIP";
+import { ChainFamily, ChainId } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
@@ -14,7 +14,8 @@ const requestSchema = z.object({
 const responseSchema = z.object({
   id: z.nativeEnum(ChainId),
   name: z.string(),
-  family: z.string(),
+  family: z.nativeEnum(ChainFamily),
+  isTestnet: z.boolean().optional(),
   params: z.any().optional(),
 });
 

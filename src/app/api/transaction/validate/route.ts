@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { stringToBigint } from "~/app/model/serialization";
-import { SERVICES } from "~/app/families/services";
+import { getService } from "~/app/families/services";
 import { requestSchema } from "./schema";
 import { handleRequestValidationError } from "~/app/api/schemaCommon";
 
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const plainTransaction: PlainTransaction = stringToBigint(body.transaction.plain);
 
-  const service = SERVICES.get(plainTransaction.chainId);
+  const service = getService(plainTransaction.chainId);
   if (!service) {
     return NextResponse.json(
       { message: `Chain ID ${plainTransaction.chainId} is not supported` },

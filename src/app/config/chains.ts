@@ -1,9 +1,9 @@
-import { ChainId, Chain, ChainParams } from "../model/types_WIP";
+import { ChainId, Chain, ChainParams, ChainFamily } from "../model/types_WIP";
 
 const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   algorand: {
     id: ChainId.ALGORAND,
-    family: "algorand",
+    family: ChainFamily.ALGORAND,
     name: "Algorand",
     ticker: "ALGO",
     decimals: 6,
@@ -14,7 +14,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   cosmoshub: {
     id: ChainId.COSMOSHUB,
-    family: "cosmos",
+    family: ChainFamily.COSMOS,
     name: "CosmosHub",
     ticker: "ATOM",
     decimals: 6,
@@ -32,7 +32,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "cosmoshub-testnet": {
     id: ChainId.COSMOSHUB_TESTNET,
-    family: "cosmos",
+    family: ChainFamily.COSMOS,
     name: "CosmosHub Testnet",
     ticker: "ATOM",
     decimals: 6,
@@ -51,7 +51,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   osmosis: {
     id: ChainId.OSMOSIS,
-    family: "cosmos",
+    family: ChainFamily.COSMOS,
     name: "Osmosis",
     ticker: "OSMO",
     decimals: 6,
@@ -69,7 +69,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   ethereum: {
     id: ChainId.ETHEREUM,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Ethereum",
     ticker: "ETH",
     decimals: 18,
@@ -85,7 +85,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   sepolia: {
     id: ChainId.SEPOLIA,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Sepolia",
     ticker: "ETH",
     decimals: 18,
@@ -102,7 +102,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   holesky: {
     id: ChainId.HOLESKY,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Holesky",
     ticker: "ETH",
     decimals: 18,
@@ -119,7 +119,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   zksync: {
     id: ChainId.ZKSYNC,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "ZkSync",
     ticker: "ETH",
     decimals: 18,
@@ -135,7 +135,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "zksync-sepolia": {
     id: ChainId.ZKSYNC_SEPOLIA,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "ZkSync Testnet",
     ticker: "ETH",
     decimals: 18,
@@ -152,7 +152,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "injective-testnet": {
     id: ChainId.INJECTIVE_TESTNET,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Injective",
     ticker: "INJ",
     decimals: 18,
@@ -167,7 +167,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   base: {
     id: ChainId.BASE,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Base",
     ticker: "ETH",
     decimals: 18,
@@ -184,7 +184,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "base-sepolia": {
     id: ChainId.BASE_SEPOLIA,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Base Sepolia",
     ticker: "ETH",
     decimals: 18,
@@ -202,7 +202,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   optimism: {
     id: ChainId.OPTIMISM,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Optimism",
     ticker: "ETH",
     decimals: 18,
@@ -219,7 +219,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "optimism-sepolia": {
     id: ChainId.OPTIMISM_SEPOLIA,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Optimism Sepolia",
     ticker: "ETH",
     decimals: 18,
@@ -237,7 +237,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   arbitrum: {
     id: ChainId.ARBITRUM,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Arbitrum One",
     ticker: "ETH",
     decimals: 18,
@@ -253,7 +253,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "arbitrum-sepolia": {
     id: ChainId.ARBITRUM_SEPOLIA,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Arbitrum Sepolia",
     ticker: "ETH",
     decimals: 18,
@@ -270,7 +270,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   polygon: {
     id: ChainId.POLYGON,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Polygon",
     ticker: "MATIC",
     decimals: 18,
@@ -284,7 +284,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "polygon-amoy": {
     id: ChainId.POLYGON_AMOY,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Polygon Amoy",
     ticker: "MATIC",
     decimals: 18,
@@ -299,7 +299,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   bsc: {
     id: ChainId.BSC,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Binance Smart Chain",
     ticker: "BNB",
     decimals: 18,
@@ -313,7 +313,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "bsc-testnet": {
     id: ChainId.BSC_TESTNET,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Binance Smart Chain Testnet",
     ticker: "BNB",
     decimals: 18,
@@ -328,7 +328,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   linea: {
     id: ChainId.LINEA,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Linea",
     ticker: "ETH",
     decimals: 18,
@@ -342,7 +342,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "linea-sepolia": {
     id: ChainId.LINEA_SEPOLIA,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Linea Sepolia",
     ticker: "ETH",
     decimals: 18,
@@ -357,7 +357,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   avalanche: {
     id: ChainId.AVALANCHE,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Avalanche",
     ticker: "AVAX",
     decimals: 18,
@@ -371,7 +371,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   gnosis: {
     id: ChainId.GNOSIS,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Gnosis",
     ticker: "ETH",
     decimals: 18,
@@ -385,7 +385,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
   },
   "gnosis-chiado": {
     id: ChainId.GNOSIS_CHIADO,
-    family: "evm",
+    family: ChainFamily.EVM,
     name: "Gnosis Chiado",
     ticker: "ETH",
     decimals: 18,
