@@ -270,11 +270,12 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/amoy/REDACTED",
       //TODO explorerURL: "",
     },
+    isTestNet: true,
     params: {
       evmChainId: 80002,
     },
   },
-  "binance-smart-chain": {
+  "bsc": {
     id: ChainId.BSC,
     family: "evm",
     name: "Binance Smart Chain",
@@ -288,7 +289,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 56,
     },
   },
-  "binance-smart-chain-testnet": {
+  "bsc-testnet": {
     id: ChainId.BSC_TESTNET,
     family: "evm",
     name: "Binance Smart Chain Testnet",
@@ -298,6 +299,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/bsc-testnet/REDACTED",
       //TODO explorerURL: "",
     },
+    isTestNet: true,
     params: {
       evmChainId: 97,
     },
@@ -326,6 +328,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/linea-sepolia/REDACTED",
       //TODO explorerURL: "",
     },
+    isTestNet: true,
     params: {
       evmChainId: 59141,
     },
@@ -358,8 +361,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 100,
     },
   },
-  "gnosis-testnet": {
-    id: ChainId.GNOSIS_TESTNET,
+  "gnosis-chiado": {
+    id: ChainId.GNOSIS_CHIADO,
     family: "evm",
     name: "Gnosis Chiado",
     ticker: "ETH",
@@ -368,6 +371,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/gnosis-testnet/REDACTED",
       //TODO explorerURL: "",
     },
+    isTestNet: true,
     params: {
       evmChainId: 10200,
     },
