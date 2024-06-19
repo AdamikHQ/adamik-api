@@ -1,6 +1,6 @@
 import { BaseChainService, TokenService } from "~/app/model/service";
 import { getTokenInfo as getTokenInfoFn } from "./getTokenInfo";
-import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
+import { pubkeyToAddresses as pubkeyToAddressesFn } from "./pubkeyToAddresses";
 import { validateAddress as validateAddressFn } from "./validateAddress";
 import { getAddressState as getAddressStateFn } from "./getAddressState";
 import {
@@ -19,7 +19,7 @@ import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTrans
 
 class EvmService extends BaseChainService implements TokenService {
   getTokenInfo = getTokenInfoFn;
-  pubkeyToAddress = pubkeyToAddressFn;
+  pubkeyToAddresses = pubkeyToAddressesFn;
   validateAddress = validateAddressFn;
   getAddressState = getAddressStateFn;
   prevalidateTransaction = prevalidateTransactionFn;

@@ -1,5 +1,5 @@
 import { BaseChainService, StakingService } from "~/app/model/service";
-import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
+import { pubkeyToAddresses as pubkeyToAddressesFn } from "./pubkeyToAddresses";
 import { validateAddress as validateAddressFn } from "./validateAddress";
 import { getAddressState as getAddressStateFn } from "./getAddressState";
 import {
@@ -18,7 +18,7 @@ import { getValidators as getValidatorsFn } from "./getValidators";
 // (buildTransaction, network calls, etc...)
 
 class CosmosService extends BaseChainService implements StakingService {
-  pubkeyToAddress = pubkeyToAddressFn;
+  pubkeyToAddresses = pubkeyToAddressesFn;
   validateAddress = validateAddressFn;
   getAddressState = getAddressStateFn;
   getValidators = getValidatorsFn;
