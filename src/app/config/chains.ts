@@ -115,7 +115,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      nodeURL: "https://site1.moralis-nodes.com/zksync/547c7bd4d8e24c62ae1f059e634b06ae",
       explorerURL: "https://zksync.blockscout.com/api",
     },
     params: {
@@ -129,7 +129,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      nodeURL: "https://site1.moralis-nodes.com/zksync-sepolia/a55bf0a6af264a73b083323f58a5d50b",
       explorerURL: "https://zksync.blockscout.com/api",
     },
     params: {
