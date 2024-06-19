@@ -39,6 +39,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://api-t.cosmos.nodestake.top",
     },
+    isTestNet: true,
     params: {
       prefix: "cosmos",
       validatorPrefix: "cosmosvaloper",
@@ -73,7 +74,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://ethereum-rpc.publicnode.com",
+      nodeURL: "https://site1.moralis-nodes.com/eth/REDACTED",
       explorerURL: "https://api.etherscan.io/api",
     },
     params: {
@@ -87,9 +88,10 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://ethereum-sepolia-rpc.publicnode.com",
+      nodeURL: "https://site1.moralis-nodes.com/sepolia/REDACTED",
       explorerURL: "https://api-sepolia.etherscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 11155111,
     },
@@ -101,9 +103,10 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://ethereum-holesky-rpc.publicnode.com",
+      nodeURL: "https://site1.moralis-nodes.com/holesky/REDACTED",
       explorerURL: "https://api-holesky.etherscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 17000,
     },
@@ -115,7 +118,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      nodeURL: "https://site1.moralis-nodes.com/zksync/REDACTED",
       explorerURL: "https://zksync.blockscout.com/api",
     },
     params: {
@@ -129,9 +132,10 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      nodeURL: "https://site1.moralis-nodes.com/zksync-sepolia/REDACTED",
       explorerURL: "https://zksync.blockscout.com/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 300,
     },
@@ -146,6 +150,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://testnet.rpc.inevm.com/http",
       //explorerURL: TODO,
     },
+    isTestNet: true,
     params: {
       evmChainId: 2424,
     },
@@ -157,7 +162,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://base-mainnet.g.alchemy.com/v2/rOq_ClcjzdlIKQh-h6sMTBW9MhVBf94Z",
+      nodeURL: "https://site1.moralis-nodes.com/base/REDACTED",
       explorerURL: "https://api.basescan.org/api",
     },
     params: {
@@ -172,9 +177,10 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://sepolia.base.org",
+      nodeURL: "https://site1.moralis-nodes.com/base-sepolia/REDACTED",
       explorerURL: "https://api.basescan.org/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 84532,
       isL2Fees: true,
@@ -187,7 +193,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://opt-mainnet.g.alchemy.com/v2/pDuVOEX6OCaN6lq_xILoecc3lcFXuyTz",
+      nodeURL: "https://site1.moralis-nodes.com/optimism/REDACTED",
       explorerURL: "https://api-optimistic.etherscan.io/api",
     },
     params: {
@@ -202,9 +208,10 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://opt-sepolia.g.alchemy.com/v2/6dtfsgvoSwhyPVqp0_nvAWJ40CbiOqQ8",
+      nodeURL: "https://site1.moralis-nodes.com/optimism-sepolia/REDACTED",
       explorerURL: "https://api-sepolia-optimistic.etherscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 11155420,
       isL2Fees: true,
@@ -217,7 +224,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://arbitrum-one.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      nodeURL: "https://site1.moralis-nodes.com/arbitrum/REDACTED",
       explorerURL: "https://api.arbiscan.io/api",
     },
     params: {
@@ -231,11 +238,142 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "ETH",
     decimals: 18,
     backends: {
-      nodeURL: "https://arbitrum-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
+      nodeURL: "https://site1.moralis-nodes.com/arbitrum-sepolia/REDACTED",
       explorerURL: "https://api-sepolia.arbiscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 421614,
+    },
+  },
+  polygon: {
+    id: ChainId.POLYGON,
+    family: "evm",
+    name: "Polygon",
+    ticker: "MATIC",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/polygon/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 137,
+    },
+  },
+  "polygon-amoy": {
+    id: ChainId.POLYGON_AMOY,
+    family: "evm",
+    name: "Polygon Amoy",
+    ticker: "MATIC",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/amoy/REDACTED",
+      //TODO explorerURL: "",
+    },
+    isTestNet: true,
+    params: {
+      evmChainId: 80002,
+    },
+  },
+  "bsc": {
+    id: ChainId.BSC,
+    family: "evm",
+    name: "Binance Smart Chain",
+    ticker: "BNB",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/bsc/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 56,
+    },
+  },
+  "bsc-testnet": {
+    id: ChainId.BSC_TESTNET,
+    family: "evm",
+    name: "Binance Smart Chain Testnet",
+    ticker: "BNB",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/bsc-testnet/REDACTED",
+      //TODO explorerURL: "",
+    },
+    isTestNet: true,
+    params: {
+      evmChainId: 97,
+    },
+  },
+  "linea": {
+    id: ChainId.LINEA,
+    family: "evm",
+    name: "Linea",
+    ticker: "ETH",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/linea/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 59144,
+    },
+  },
+  "linea-sepolia": {
+    id: ChainId.LINEA_SEPOLIA,
+    family: "evm",
+    name: "Linea Sepolia",
+    ticker: "ETH",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/linea-sepolia/REDACTED",
+      //TODO explorerURL: "",
+    },
+    isTestNet: true,
+    params: {
+      evmChainId: 59141,
+    },
+  },
+  "avalanche": {
+    id: ChainId.AVALANCHE,
+    family: "evm",
+    name: "Avalanche",
+    ticker: "AVAX",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/avalanche/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 43114,
+    },
+  },
+  "gnosis": {
+    id: ChainId.GNOSIS,
+    family: "evm",
+    name: "Gnosis",
+    ticker: "ETH",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/gnosis/REDACTED",
+      //TODO explorerURL: "",
+    },
+    params: {
+      evmChainId: 100,
+    },
+  },
+  "gnosis-chiado": {
+    id: ChainId.GNOSIS_CHIADO,
+    family: "evm",
+    name: "Gnosis Chiado",
+    ticker: "ETH",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/gnosis-testnet/REDACTED",
+      //TODO explorerURL: "",
+    },
+    isTestNet: true,
+    params: {
+      evmChainId: 10200,
     },
   },
 };

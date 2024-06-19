@@ -18,6 +18,15 @@ enum ChainId {
   OPTIMISM_SEPOLIA = "optimism-sepolia",
   ARBITRUM = "arbitrum",
   ARBITRUM_SEPOLIA = "arbitrum-sepolia",
+  POLYGON = "polygon",
+  POLYGON_AMOY = "polygon-amoy",
+  BSC = "bsc",
+  BSC_TESTNET = "bsc-testnet",
+  LINEA = "linea",
+  LINEA_SEPOLIA = "linea-sepolia",
+  AVALANCHE = "avalanche",
+  GNOSIS = "gnosis",
+  GNOSIS_CHIADO = "gnosis-chiado",
 }
 
 type ChainParams = CosmosParams | EvmParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
@@ -36,6 +45,7 @@ type Chain<TParams> = {
   ticker: string;
   decimals: number;
   backends: Backends;
+  isTestNet?: boolean;
   params?: TParams;
 };
 
