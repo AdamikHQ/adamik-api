@@ -12,6 +12,15 @@ import {
   optimismSepolia,
   arbitrum,
   arbitrumSepolia,
+  polygon,
+  polygonAmoy,
+  bscTestnet,
+  bsc,
+  lineaSepolia,
+  linea,
+  avalanche,
+  gnosis,
+  gnosisChiado,
 } from "viem/chains";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
@@ -22,33 +31,53 @@ import { EvmAddress, EvmParams } from "../types";
 const CLIENTS = new Map<ChainId, any>();
 
 function getClientConfig(chainId: ChainId) {
+  const transport = http(CHAINS[chainId].backends.nodeURL);
+
   switch (chainId) {
     case ChainId.SEPOLIA:
-      return { chain: sepolia, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: sepolia, transport };
     case ChainId.ETHEREUM:
-      return { chain: mainnet, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: mainnet, transport };
     case ChainId.HOLESKY:
-      return { chain: holesky, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: holesky, transport };
     case ChainId.ZKSYNC:
-      return { chain: zkSync, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: zkSync, transport };
     case ChainId.ZKSYNC_SEPOLIA:
-      return { chain: zkSyncSepoliaTestnet, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: zkSyncSepoliaTestnet, transport };
     case ChainId.INJECTIVE_TESTNET:
-      return { chain: injectiveTestnet, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: injectiveTestnet, transport };
     case ChainId.BASE:
-      return { chain: base, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: base, transport };
     case ChainId.BASE_SEPOLIA:
-      return { chain: baseSepolia, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: baseSepolia, transport };
     case ChainId.OPTIMISM:
-      return { chain: optimism, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: optimism, transport };
     case ChainId.OPTIMISM_SEPOLIA:
-      return { chain: optimismSepolia, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: optimismSepolia, transport };
     case ChainId.ARBITRUM:
-      return { chain: arbitrum, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: arbitrum, transport };
     case ChainId.ARBITRUM_SEPOLIA:
-      return { chain: arbitrumSepolia, transport: http(CHAINS[chainId].backends.nodeURL) };
+      return { chain: arbitrumSepolia, transport };
+    case ChainId.POLYGON:
+      return { chain: polygon, transport };
+    case ChainId.POLYGON_AMOY:
+      return { chain: polygonAmoy, transport };
+    case ChainId.BSC:
+      return { chain: bsc, transport };
+    case ChainId.BSC_TESTNET:
+      return { chain: bscTestnet, transport };
+    case ChainId.LINEA:
+      return { chain: linea, transport };
+    case ChainId.LINEA_SEPOLIA:
+      return { chain: lineaSepolia, transport };
+    case ChainId.AVALANCHE:
+      return { chain: avalanche, transport };
+    case ChainId.GNOSIS:
+      return { chain: gnosis, transport };
+    case ChainId.GNOSIS_CHIADO:
+      return { chain: gnosisChiado, transport };
     default:
-      throw new Error("Unsupported chainId");
+      throw new Error("Unsupported chainId for Viem client");
   }
 }
 

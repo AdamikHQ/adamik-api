@@ -20,7 +20,7 @@ const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
 async function getERC20Tokens(chainId: ChainId, address: EvmAddress): Promise<MoralisERC20TokenBalance[]> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
-    console.error(`Chain ID ${chainId} is not suported by Moralis API`);
+    console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return [];
   }
 

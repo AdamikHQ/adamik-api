@@ -29,6 +29,12 @@ enum ChainId {
   GNOSIS_CHIADO = "gnosis-chiado",
 }
 
+enum ChainFamily {
+  ALGORAND = "algorand",
+  COSMOS = "cosmos",
+  EVM = "evm",
+}
+
 type ChainParams = CosmosParams | EvmParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
 
 type Backends = {
@@ -41,7 +47,7 @@ type Chain<TParams> = {
   id: ChainId;
   //nativeId: string; // e.g value of chain-id on EVM
   name: string;
-  family: string;
+  family: ChainFamily;
   ticker: string;
   decimals: number;
   backends: Backends;
@@ -194,7 +200,7 @@ enum EncodedTransactionFormat {
   HEX = "hex",
 }
 
-export { ChainId, TransactionMode, EncodedTransactionFormat, TokenType };
+export { ChainId, ChainFamily, TransactionMode, EncodedTransactionFormat, TokenType };
 export type {
   Chain,
   ChainParams,

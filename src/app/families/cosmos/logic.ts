@@ -93,7 +93,7 @@ async function getEstimatedFees(
       });
       return await simulateTransaction(chainId, payload);
     } catch (e) {
-      console.error("Failed to estimate gas usage during tx simulation. Error:", e);
+      console.warn("/!\\ Failed to estimate gas usage during tx simulation. Error:", e);
     }
 
     return BigInt(chainParams?.defaultGas);
