@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ChainId } from "~/app/model/types_WIP";
 import { isTokenService } from "~/app/model/service";
-import { SERVICES } from "~/app/families/services";
+import { getService } from "~/app/families/services";
 
 type Params = {
   chainId: ChainId;
@@ -27,8 +27,7 @@ export async function GET(_: NextRequest, context: { params: Params }): Promise<
     );
   }
 
-  const service = SERVICES.get(chainId);
-
+  const service = getService(chainId);
   if (!service) {
     return NextResponse.json(
       { message: `Chain ID ${chainId} is not supported` },

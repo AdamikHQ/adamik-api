@@ -1,7 +1,8 @@
 import { ChainId } from "../model/types_WIP";
 
-// FIXME Manage this through Vercel env vars?...
-const EXPLORER_API_KEYS: Map<ChainId, string> = new Map([
+// FIXME Manage this through Vercel storage or env vars?...
+
+const ETHERSCAN_API_KEYS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "TWTGBZ1263QHAEQVPUHISTQ82XHSP6P75E"],
   [ChainId.SEPOLIA, "TWTGBZ1263QHAEQVPUHISTQ82XHSP6P75E"],
   [ChainId.HOLESKY, "TWTGBZ1263QHAEQVPUHISTQ82XHSP6P75E"],
@@ -19,4 +20,7 @@ const EXPLORER_API_KEYS: Map<ChainId, string> = new Map([
   [ChainId.ZKSYNC_SEPOLIA, "467105d9-a6bb-436f-bc7a-b1a76321d058"],
 ]);
 
-export { EXPLORER_API_KEYS };
+const MORALIS_API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6ImJjOWNmZjNlLTNiMzEtNDgzYS1hZWM5LTE0OGI3ZmE5Y2U1NCIsIm9yZ0lkIjoiMzg2MDcwIiwidXNlcklkIjoiMzk2Njk4IiwidHlwZSI6IlBST0pFQ1QiLCJ0eXBlSWQiOiI2MzliMGIyNS0zYjFmLTRhNDgtYjUzOS03MzMzMTA5ZDQ2OTQiLCJpYXQiOjE3MTg3MTY1NzIsImV4cCI6NDg3NDQ3NjU3Mn0.Ugf7B8n21IfEoIWXpE-xFbjLm0r4tLU1LVGv8VXmsJg";
+
+export { ETHERSCAN_API_KEYS, MORALIS_API_KEY };

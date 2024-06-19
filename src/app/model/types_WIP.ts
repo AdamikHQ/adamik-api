@@ -18,6 +18,21 @@ enum ChainId {
   OPTIMISM_SEPOLIA = "optimism-sepolia",
   ARBITRUM = "arbitrum",
   ARBITRUM_SEPOLIA = "arbitrum-sepolia",
+  POLYGON = "polygon",
+  POLYGON_AMOY = "polygon-amoy",
+  BSC = "bsc",
+  BSC_TESTNET = "bsc-testnet",
+  LINEA = "linea",
+  LINEA_SEPOLIA = "linea-sepolia",
+  AVALANCHE = "avalanche",
+  GNOSIS = "gnosis",
+  GNOSIS_CHIADO = "gnosis-chiado",
+}
+
+enum ChainFamily {
+  ALGORAND = "algorand",
+  COSMOS = "cosmos",
+  EVM = "evm",
 }
 
 type ChainParams = CosmosParams | EvmParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
@@ -32,10 +47,11 @@ type Chain<TParams> = {
   id: ChainId;
   //nativeId: string; // e.g value of chain-id on EVM
   name: string;
-  family: string;
+  family: ChainFamily;
   ticker: string;
   decimals: number;
   backends: Backends;
+  isTestNet?: boolean;
   params?: TParams;
 };
 
@@ -185,7 +201,7 @@ enum EncodedTransactionFormat {
   HEX = "hex",
 }
 
-export { ChainId, TransactionMode, EncodedTransactionFormat, TokenType };
+export { ChainId, ChainFamily, TransactionMode, EncodedTransactionFormat, TokenType };
 export type {
   Chain,
   ChainParams,
