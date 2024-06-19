@@ -39,6 +39,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     backends: {
       nodeURL: "https://api-t.cosmos.nodestake.top",
     },
+    isTestNet: true,
     params: {
       prefix: "cosmos",
       validatorPrefix: "cosmosvaloper",
@@ -90,6 +91,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/sepolia/fe0cd204d0324cae84cb27769d5ab205",
       explorerURL: "https://api-sepolia.etherscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 11155111,
     },
@@ -104,6 +106,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/holesky/59fb652c988245799984ee5b4ff8c065",
       explorerURL: "https://api-holesky.etherscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 17000,
     },
@@ -132,6 +135,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/zksync-sepolia/a55bf0a6af264a73b083323f58a5d50b",
       explorerURL: "https://zksync.blockscout.com/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 300,
     },
@@ -146,6 +150,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://testnet.rpc.inevm.com/http",
       //explorerURL: TODO,
     },
+    isTestNet: true,
     params: {
       evmChainId: 2424,
     },
@@ -175,6 +180,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/base-sepolia/55c79b8e9fbb41da84c53550ada7b1fb",
       explorerURL: "https://api.basescan.org/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 84532,
       isL2Fees: true,
@@ -205,6 +211,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/optimism-sepolia/e76f53f4949641a2b9c87571b7e03e87",
       explorerURL: "https://api-sepolia-optimistic.etherscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 11155420,
       isL2Fees: true,
@@ -234,6 +241,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       nodeURL: "https://site1.moralis-nodes.com/arbitrum-sepolia/50db3911bb294983a8701b9c0930d80c",
       explorerURL: "https://api-sepolia.arbiscan.io/api",
     },
+    isTestNet: true,
     params: {
       evmChainId: 421614,
     },

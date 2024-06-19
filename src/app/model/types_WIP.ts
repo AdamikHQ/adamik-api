@@ -34,6 +34,7 @@ type ChainParams = CosmosParams | EvmParams; // Intended as union of all existin
 type Backends = {
   nodeURL: string;
   explorerURL?: string;
+  publicNodeURL?: string;
 };
 
 // FIXME Can TParams be replaced with ChainParams?
@@ -45,6 +46,7 @@ type Chain<TParams> = {
   ticker: string;
   decimals: number;
   backends: Backends;
+  isTestNet?: boolean;
   params?: TParams;
 };
 
