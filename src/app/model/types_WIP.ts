@@ -20,13 +20,13 @@ enum ChainId {
   ARBITRUM_SEPOLIA = "arbitrum-sepolia",
   POLYGON = "polygon",
   POLYGON_AMOY = "polygon-amoy",
-  BSC = "binance-smart-chain",
-  BSC_TESTNET = "binance-smart-chain-testnet",
+  BSC = "bsc",
+  BSC_TESTNET = "bsc-testnet",
   LINEA = "linea",
   LINEA_SEPOLIA = "linea-sepolia",
   AVALANCHE = "avalanche",
   GNOSIS = "gnosis",
-  GNOSIS_TESTNET = "gnosis-testnet",
+  GNOSIS_CHIADO = "gnosis-chiado",
 }
 
 type ChainParams = CosmosParams | EvmParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
@@ -34,7 +34,6 @@ type ChainParams = CosmosParams | EvmParams; // Intended as union of all existin
 type Backends = {
   nodeURL: string;
   explorerURL?: string;
-  publicNodeURL?: string;
 };
 
 // FIXME Can TParams be replaced with ChainParams?
