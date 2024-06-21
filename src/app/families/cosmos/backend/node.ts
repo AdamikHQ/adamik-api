@@ -13,8 +13,16 @@ async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosB
 
   // TODO This request is paginated, need to handle pagination
   const data = await fetch(url).then((response) => response.json());
+  if (!data?.balances) {
+    return [];
+  }
 
-  return data?.balances || [];
+  return data.balances.map((item: any) => {
+    return {
+      denom: item.denom,
+      amount: BigInt(item.amount),
+    };
+  });
 }
 
 async function fetchValidators(
