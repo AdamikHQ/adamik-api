@@ -398,6 +398,77 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 10200,
     },
   },
+  "moonbeam": {
+    id: ChainId.MOONBEAM,
+    family: ChainFamily.EVM,
+    name: "Moonbeam",
+    ticker: "GLMR",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/moonbeam/REDACTED",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    params: {
+      evmChainId: 1284,
+    },
+  },
+  "moonriver": {
+    id: ChainId.MOONRIVER,
+    family: ChainFamily.EVM,
+    name: "Moonriver",
+    ticker: "MOVR",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/moonriver/REDACTED",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    params: {
+      evmChainId: 1285,
+    },
+  },
+  "moonbase": {
+    id: ChainId.MOONBASE,
+    family: ChainFamily.EVM,
+    name: "Moonbase",
+    ticker: "ETH",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/moonbase/REDACTED",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    isTestNet: true,
+    params: {
+      evmChainId: 1287,
+    },
+  },
+  "fantom": {
+    id: ChainId.FANTOM,
+    family: ChainFamily.EVM,
+    name: "Fantom",
+    ticker: "FTM",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://rpcapi.fantom.network",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    params: {
+      evmChainId: 250,
+    },
+  },
+  "palm": {
+    id: ChainId.PALM,
+    family: ChainFamily.EVM,
+    name: "Palm ",
+    ticker: "PALM",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    params: {
+      evmChainId: 11297108109,
+    },
+  }
 };
 
 // FIXME Trick to filter-out private 'backends' field from response
