@@ -121,3 +121,28 @@
 
 | nodeURL | https://site1.moralis-nodes.com/gnosis-testnet/REDACTED |
 | explorerURL | https://deep-index.moralis.io/api |
+
+## moonbeam
+
+| nodeURL | https://site1.moralis-nodes.com/moonbeam/REDACTED |
+| explorerURL | https://deep-index.moralis.io/api |
+
+## moonriver
+
+| nodeURL | https://site1.moralis-nodes.com/moonriver/REDACTED |
+| explorerURL | https://deep-index.moralis.io/api |
+
+## moonbase
+
+| nodeURL | https://site1.moralis-nodes.com/moonbase/REDACTED |
+| explorerURL | https://deep-index.moralis.io/api |
+
+## fantom
+
+| nodeURL | https://rpcapi.fantom.network |
+| explorerURL | https://deep-index.moralis.io/api |
+
+## palm
+
+| nodeURL | https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b |
+| explorerURL | https://deep-index.moralis.io/api |
