@@ -403,11 +403,11 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
 // FIXME Trick to filter-out private 'backends' field from response
 // Needs to be handled with DTO instead
 // https://adamik.atlassian.net/browse/ADV-13
-const displayChains = Object.fromEntries(
+const CHAINS_PUBLIC = Object.fromEntries(
   Object.entries(CHAINS).map(([key, value]) => {
     const { backends, ...rest } = value;
     return [key, rest];
   })
 );
 
-export { CHAINS, displayChains };
+export { CHAINS, CHAINS_PUBLIC };

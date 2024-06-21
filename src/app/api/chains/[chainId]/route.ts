@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { CHAINS_PUBLIC } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
-import { CHAINS, displayChains } from "~/app/config/chains";
 
 type Params = {
   chainId: ChainId;
@@ -16,7 +16,7 @@ export async function GET(_: NextRequest, context: { params: Params }): Promise<
     );
   }
 
-  const chain = displayChains[chainId];
+  const chain = CHAINS_PUBLIC[chainId];
 
   if (!chain) {
     return NextResponse.json(
