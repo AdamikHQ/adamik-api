@@ -1,8 +1,18 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { ChainFamily, ChainId } from "~/app/model/types_WIP";
 
 const responseSchema = z.object({
-  chains: z.array(z.string()),
+  chains: z.record(
+    z.string(),
+    z.object({
+      id: z.nativeEnum(ChainId),
+      name: z.string(),
+      family: z.nativeEnum(ChainFamily),
+      isTestnet: z.boolean().optional(),
+      params: z.any().optional(),
+    })
+  ),
 });
 
 const chainsOpenAPIPath: ZodOpenApiPathsObject = {
