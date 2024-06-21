@@ -1,30 +1,22 @@
 import { Token, TokenType } from "~/app/model/types_WIP";
-import { fetchIBCTokenTicker } from "../backend/node";
+import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
+import { IBCToken } from "../types";
 import { CosmosService } from ".";
-import { CHAINS } from "~/app/config/chains";
 
 async function getTokenInfo(this: CosmosService, tokenId: string): Promise<Token | null> {
-  try {
-    const ibcTokenTicker = await fetchIBCTokenTicker(this.chainId, tokenId);
-    if (!ibcTokenTicker) {
-      return null;
-    }
-
-    const chain = CHAINS[this.chainId];
-
-    const token: Token = {
-      chainId: this.chainId,
-      type: TokenType.IBC,
-      id: tokenId,
-      name: ibcTokenTicker,
-      ticker: ibcTokenTicker,
-      decimals: chain.decimals,
-    };
-
-    return token;
-  } catch (e) {
+  const token = COSMOS_TOKENS.find((token) => token.denom === tokenId) as IBCToken;
+  if (!token) {
     return null;
   }
+
+  return {
+    chainId: this.chainId,
+    type: TokenType.IBC,
+    id: token.denom,
+    name: token.symbol,
+    ticker: token.symbol,
+    decimals: token.decimals,
+  };
 }
 
 export { getTokenInfo };

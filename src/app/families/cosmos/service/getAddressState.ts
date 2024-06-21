@@ -18,8 +18,6 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
     if (item.denom === chainParams?.denom) {
       nativeBalance += BigInt(item.amount);
     } else if (item.denom.startsWith("ibc/")) {
-      const tokenId = item.denom.slice(4);
-
       const token = COSMOS_TOKENS.find((token) => token.denom === item.denom) as IBCToken;
 
       if (token) {
@@ -28,7 +26,7 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
           token: {
             chainId: this.chainId,
             type: TokenType.IBC,
-            id: tokenId,
+            id: token.denom,
             name: token.symbol,
             ticker: token.symbol,
             decimals: token.decimals,
