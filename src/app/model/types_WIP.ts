@@ -27,6 +27,12 @@ enum ChainId {
   AVALANCHE = "avalanche",
   GNOSIS = "gnosis",
   GNOSIS_CHIADO = "gnosis-chiado",
+  MOONBEAM = "moonbeam",
+  MOONRIVER = "moonriver",
+  MOONBASE = "moonbase",
+  FANTOM = "fantom",
+  PALM = "palm",
+
 }
 
 enum ChainFamily {
