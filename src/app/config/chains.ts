@@ -246,7 +246,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 0,
     backends: {
       nodeURL: "",
-      explorerURL: undefined
+      explorerURL: "https://api.blockchair.com/bitcoin",
     },
     params: undefined
   },
@@ -258,7 +258,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     decimals: 0,
     backends: {
       nodeURL: "",
-      explorerURL: undefined
+      explorerURL: "https://api.blockchair.com/bitcoin/testnet"
     },
     params: undefined
   }

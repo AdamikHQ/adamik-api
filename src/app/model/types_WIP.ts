@@ -69,7 +69,7 @@ type AddressState = {
   balances: {
     native: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
-      unconfirmed: bigint; // Bitcoin: available + pending
+      unconfirmed?: bigint; // Bitcoin: available + pending
       //total: bigint; // Will need staking
     };
     tokens?: TokenAmount[];
@@ -92,7 +92,7 @@ type AccountState = {
   balances: {
     native: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
-      unconfirmed: bigint; // Bitcoin: available + pending
+      unconfirmed?: bigint; // Bitcoin: available + pending
     };
     tokens?: TokenAmount[];
   };
@@ -118,7 +118,7 @@ type CommonTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
   senders: string[];
-  recipients: Recipient[];
+  recipients: string[];
   amount: bigint;
   useMaxAmount?: boolean;
   fees: bigint;
