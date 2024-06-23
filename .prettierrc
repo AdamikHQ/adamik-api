@@ -19,5 +19,18 @@
   "useTabs": false,
   "embeddedLanguageFormatting": "auto",
   "vueIndentScriptAndStyle": false,
-  "parser": "typescript"
+  "overrides": [
+    {
+      "files": ["*.json"],
+      "options": {
+        "parser": "json"
+      }
+    },
+    {
+      "files": ["*.ts"],
+      "options": {
+        "parser": "typescript"
+      }
+    }
+  ]
 }
