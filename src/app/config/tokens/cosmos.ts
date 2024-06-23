@@ -1,3 +1,6 @@
+// GENERATED, DO NOT EDIT MANUALLY
+// Generated using `pnpm gen:cosmos-tokens`
+
 const COSMOS_TOKENS = [
   {
     "denom": "uagg",
