@@ -144,7 +144,12 @@
                               "linea-sepolia",
                               "avalanche",
                               "gnosis",
-                              "gnosis-chiado"
+                              "gnosis-chiado",
+                              "moonbeam",
+                              "moonriver",
+                              "moonbase",
+                              "fantom",
+                              "palm"
                             ]
                           },
                           "name": {
@@ -235,7 +240,12 @@
                         "linea-sepolia",
                         "avalanche",
                         "gnosis",
-                        "gnosis-chiado"
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "palm"
                       ]
                     },
                     "name": {
@@ -331,7 +341,12 @@
                         "linea-sepolia",
                         "avalanche",
                         "gnosis",
-                        "gnosis-chiado"
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "palm"
                       ]
                     },
                     "type": {
@@ -620,7 +635,12 @@
                               "linea-sepolia",
                               "avalanche",
                               "gnosis",
-                              "gnosis-chiado"
+                              "gnosis-chiado",
+                              "moonbeam",
+                              "moonriver",
+                              "moonbase",
+                              "fantom",
+                              "palm"
                             ]
                           },
                           "mode": {
@@ -794,7 +814,12 @@
                               "linea-sepolia",
                               "avalanche",
                               "gnosis",
-                              "gnosis-chiado"
+                              "gnosis-chiado",
+                              "moonbeam",
+                              "moonriver",
+                              "moonbase",
+                              "fantom",
+                              "palm"
                             ]
                           },
                           "mode": {
@@ -904,7 +929,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "gnosis",
-                                "gnosis-chiado"
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm"
                               ]
                             },
                             "mode": {
@@ -1025,7 +1055,12 @@
                               "linea-sepolia",
                               "avalanche",
                               "gnosis",
-                              "gnosis-chiado"
+                              "gnosis-chiado",
+                              "moonbeam",
+                              "moonriver",
+                              "moonbase",
+                              "fantom",
+                              "palm"
                             ]
                           },
                           "mode": {
