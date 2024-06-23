@@ -5,19 +5,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  generate-open-api-docs-and-validate-schema-changes:
+  generate-open-api-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out BASE rev
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.base_ref }}
-          path: base
       - name: Check out HEAD rev
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
           path: head
+
+      - name: Check out BASE rev
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.base_ref }}
+          path: base
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -35,16 +36,26 @@ jobs:
         working-directory: head
         run: pnpm run doc:openapi
 
-      - name: Check for changes
-        uses: tj-actions/verify-changed-files@v20
-        id: changed-files
-        with:
-          files: public/openapi.json
-          path: head
+      - name: Configure git
+        working-directory: head
+        run: |
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+  
+      - name: Check for Changes
+        id: check_changes
+        working-directory: head
+        run: |
+          if [[ -n "$(git diff --exit-code public/openapi.json)" ]]; then
+            echo "Changes detected."
+            echo "openapi_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "No changes detected."
+            echo "openapi_changed=false" >> $GITHUB_OUTPUT
+          fi
 
-      # TODO: run only if there are changes
       - name: Running OpenAPI Spec diff action
-        if: steps.changed-files.outputs.files_changed == 'true'
+        if: steps.check_changes.outputs.openapi_changed == 'true'
         id: changes
         uses: oasdiff/oasdiff-action/breaking@main
         with:
@@ -52,28 +63,21 @@ jobs:
           revision: head/public/openapi.json
 
       - name: Comment on PR
-        if: steps.changed-files.outputs.files_changed == 'true'
+        if: steps.check_changes.outputs.openapi_changed == 'true'
+        working-directory: head
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: head
         run: "gh pr comment ${{github.event.number}} --body \"OpenAPI Comparison results: ${{steps.changes.outputs.breaking}}\""
 
-      - name: Configure git
-        if: steps.changed-files.outputs.files_changed == 'true'
-        working-directory: head
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
       - name: Commit changes
-        if: steps.changed-files.outputs.files_changed == 'true'
+        if: steps.check_changes.outputs.openapi_changed == 'true'
         working-directory: head
         run: |
           git add public/openapi.json
           git commit -m "Update OpenAPI JSON docs" || echo "No changes to commit"
 
       - name: Push changes
-        if: steps.changed-files.outputs.files_changed == 'true'
+        if: steps.check_changes.outputs.openapi_changed == 'true'
         working-directory: head
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
