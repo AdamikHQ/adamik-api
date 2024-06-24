@@ -398,6 +398,87 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 10200,
     },
   },
+  "moonbeam": {
+    id: ChainId.MOONBEAM,
+    family: ChainFamily.EVM,
+    name: "Moonbeam",
+    ticker: "GLMR",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/moonbeam/82196cbf24574538b48c18bb13ffda21",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    params: {
+      evmChainId: 1284,
+    },
+  },
+  "moonriver": {
+    id: ChainId.MOONRIVER,
+    family: ChainFamily.EVM,
+    name: "Moonriver",
+    ticker: "MOVR",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/moonriver/84a61f509f5e4ae3a9c29ebd7e8fda67",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    params: {
+      evmChainId: 1285,
+    },
+  },
+  "moonbase": {
+    id: ChainId.MOONBASE,
+    family: ChainFamily.EVM,
+    name: "Moonbase",
+    ticker: "ETH",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/moonbase/a4078cfc56ad43d5a5aa557241ddb7bb",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    isTestNet: true,
+    params: {
+      evmChainId: 1287,
+    },
+  },
+  "fantom": {
+    id: ChainId.FANTOM,
+    family: ChainFamily.EVM,
+    name: "Fantom",
+    ticker: "FTM",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://rpcapi.fantom.network",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    params: {
+      evmChainId: 250,
+    },
+  },
+  "palm": {
+    id: ChainId.PALM,
+    family: ChainFamily.EVM,
+    name: "Palm ",
+    ticker: "PALM",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    params: {
+      evmChainId: 11297108109,
+    },
+  }
 };
 
-export { CHAINS };
+// FIXME Trick to filter-out private 'backends' field from response
+// Needs to be handled with DTO instead
+// https://adamik.atlassian.net/browse/ADV-13
+const CHAINS_PUBLIC = Object.fromEntries(
+  Object.entries(CHAINS).map(([key, value]) => {
+    const { backends, ...rest } = value;
+    return [key, rest];
+  })
+);
+
+export { CHAINS, CHAINS_PUBLIC };

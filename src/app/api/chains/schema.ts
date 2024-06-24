@@ -1,8 +1,9 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { chainSchema } from "../schemaCommon";
 
 const responseSchema = z.object({
-  chains: z.array(z.string()),
+  chains: z.record(z.string(), chainSchema),
 });
 
 const chainsOpenAPIPath: ZodOpenApiPathsObject = {
