@@ -353,7 +353,8 @@
                       "type": "string",
                       "enum": [
                         "ASA",
-                        "ERC20"
+                        "ERC20",
+                        "IBC"
                       ]
                     },
                     "id": {
@@ -460,7 +461,8 @@
                                     "type": "string",
                                     "enum": [
                                       "ASA",
-                                      "ERC20"
+                                      "ERC20",
+                                      "IBC"
                                     ]
                                   },
                                   "id": {

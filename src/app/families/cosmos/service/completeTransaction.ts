@@ -1,10 +1,19 @@
 import { Transaction } from "~/app/model/types_WIP";
 import { getEstimatedFees } from "../logic";
-import { fetchBalance } from "../backend/node";
+import { fetchBalances } from "../backend/node";
 import { CosmosService } from ".";
+import { CHAINS } from "~/app/config/chains";
+import { CosmosParams } from "../types";
 
 async function completeTransaction(this: CosmosService, transaction: Transaction): Promise<void> {
-  const balance = await fetchBalance(this.chainId, transaction.plain.senders[0]);
+  const chainParams = CHAINS[this.chainId].params as CosmosParams;
+
+  const address = transaction.plain.senders[0];
+  const balances = await fetchBalances(this.chainId, address);
+  const balance = balances.find((balance) => balance.denom === chainParams?.denom)?.amount;
+  if (!balance) {
+    throw new Error(`Failed to retrieve balance for ${this.chainId} address ${address}`);
+  }
 
   if (transaction.plain.useMaxAmount) {
     transaction.plain.amount = balance - 2500n; // Simulated amount, just for estimating fees

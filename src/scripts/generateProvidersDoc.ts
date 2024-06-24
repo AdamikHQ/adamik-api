@@ -2,7 +2,7 @@ import { CHAINS } from "../app/config/chains";
 import fs from "fs";
 import path from "path";
 
-function generateReadme() {
+function generateProvidersMarkdown() {
   const chains = Object.entries(CHAINS);
   const chainsTable = chains
     .map(([chainId, chain]) => {
@@ -24,4 +24,4 @@ if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
 }
 
-fs.writeFileSync(path.join(dir, "Providers.md"), generateReadme());
+fs.writeFileSync(path.join(dir, "Providers.md"), generateProvidersMarkdown());

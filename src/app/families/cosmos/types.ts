@@ -14,4 +14,11 @@ type CosmosParams = {
   minGasPrice: number;
 };
 
-export type { CosmosParams };
+type IBCToken = {
+  denom: string;
+  type: string;
+  symbol: string;
+  decimals: number;
+};
+
+export type { CosmosParams, IBCToken };

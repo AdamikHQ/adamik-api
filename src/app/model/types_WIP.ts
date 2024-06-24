@@ -65,6 +65,7 @@ type Chain<TParams> = {
 enum TokenType {
   ASA = "ASA",
   ERC20 = "ERC20",
+  IBC = "IBC",
 }
 
 type Token = {
