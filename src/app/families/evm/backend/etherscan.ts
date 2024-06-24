@@ -1,7 +1,7 @@
 import { ChainId } from "~/app/model/types_WIP";
 import { EtherscanERC20Event } from "./types";
 import { CHAINS } from "~/app/config/chains";
-import { EXPLORER_API_KEYS } from "~/app/config/apiKeys";
+import { ETHERSCAN_API_KEYS } from "~/app/config/apiKeys";
 
 // Etherscan-like explorer
 
@@ -52,7 +52,7 @@ async function getERC20TransferEvents(
     explorerURL +
     "?" +
     new URLSearchParams({
-      apikey: EXPLORER_API_KEYS.get(chainId) || "",
+      apikey: ETHERSCAN_API_KEYS.get(chainId) || "",
       module: "account",
       action: "tokentx",
       address,

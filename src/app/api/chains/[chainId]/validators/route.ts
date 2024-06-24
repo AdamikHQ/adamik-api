@@ -1,6 +1,6 @@
 import "~/patch";
 import { NextRequest, NextResponse } from "next/server";
-import { SERVICES } from "~/app/families/services";
+import { getService } from "~/app/families/services";
 import { requestSchema } from "./schema";
 import { handleRequestValidationError } from "~/app/api/schemaCommon";
 import { isStakingService } from "~/app/model/service";
@@ -19,8 +19,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const { chainId, limit, offset } = body;
 
-  const service = SERVICES.get(chainId);
-
+  const service = getService(chainId);
   if (!service) {
     return NextResponse.json(
       { message: `Chain ID ${chainId} is not supported` },
