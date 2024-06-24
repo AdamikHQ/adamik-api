@@ -1,8 +1,9 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { ChainId } from "~/app/model/types_WIP";
 
 const requestSchema = z.object({
-  chainId: z.string(),
+  chainId: z.nativeEnum(ChainId),
   limit: z.number().optional(),
   offset: z.number().optional(),
 });

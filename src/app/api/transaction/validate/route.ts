@@ -6,22 +6,15 @@ import { requestSchema } from "./schema";
 import { handleRequestValidationError } from "~/app/api/schemaCommon";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = await request.json();
-  try {
-    requestSchema.parse(body);
-  } catch (e) {
-    return handleRequestValidationError(e);
-  }
+  const parsedRequest = requestSchema.safeParse(await request.json());
 
+  if (parsedRequest.success === false) {
+    return handleRequestValidationError(parsedRequest.error);
+  }
+  const body = parsedRequest.data;
   const plainTransaction: PlainTransaction = stringToBigint(body.transaction.plain);
 
   const service = getService(plainTransaction.chainId);
-  if (!service) {
-    return NextResponse.json(
-      { message: `Chain ID ${plainTransaction.chainId} is not supported` },
-      { status: 400, statusText: `Unsupported chainId` }
-    );
-  }
 
   let transaction: Transaction = {
     plain: plainTransaction,

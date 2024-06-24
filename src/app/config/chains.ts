@@ -1,6 +1,6 @@
 import { ChainId, Chain, ChainParams, ChainFamily } from "../model/types_WIP";
 
-const CHAINS: Record<ChainId, Chain<ChainParams>> = {
+const CHAINS: {[key in ChainId]: Chain<ChainParams>} = {
   algorand: {
     id: ChainId.ALGORAND,
     family: ChainFamily.ALGORAND,
@@ -469,7 +469,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 11297108109,
     },
   }
-};
+} as const;
 
 // FIXME Trick to filter-out private 'backends' field from response
 // Needs to be handled with DTO instead

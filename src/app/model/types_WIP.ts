@@ -32,7 +32,6 @@ enum ChainId {
   MOONBASE = "moonbase",
   FANTOM = "fantom",
   PALM = "palm",
-
 }
 
 enum ChainFamily {

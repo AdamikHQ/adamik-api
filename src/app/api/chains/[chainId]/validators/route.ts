@@ -10,22 +10,15 @@ import { isStakingService } from "~/app/model/service";
 const VALIDATORS_LIMIT = 100;
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = await request.json();
-  try {
-    requestSchema.parse(body);
-  } catch (e) {
-    return handleRequestValidationError(e);
+  const parsedRequest = requestSchema.safeParse(await request.json());
+
+  if (parsedRequest.success === false) {
+    return handleRequestValidationError(parsedRequest.error);
   }
 
-  const { chainId, limit, offset } = body;
+  const { chainId, limit, offset } = parsedRequest.data;
 
   const service = getService(chainId);
-  if (!service) {
-    return NextResponse.json(
-      { message: `Chain ID ${chainId} is not supported` },
-      { status: 400, statusText: `Unsupported chainId` }
-    );
-  }
 
   if (!isStakingService(service)) {
     return NextResponse.json(

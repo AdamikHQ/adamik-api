@@ -27,13 +27,13 @@ export async function GET(_: NextRequest, context: { params: Params }): Promise<
     );
   }
 
-  const service = getService(chainId);
-  if (!service) {
+  if (chainId in ChainId === false) {
     return NextResponse.json(
       { message: `Chain ID ${chainId} is not supported` },
       { status: 400, statusText: `Unsupported chainId` }
     );
   }
+  const service = getService(chainId);
 
   if (!isTokenService(service)) {
     return NextResponse.json(

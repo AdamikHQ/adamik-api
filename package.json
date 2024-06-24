@@ -38,7 +38,8 @@
     "tweetnacl": "^1.0.3",
     "viem": "^2.14.0",
     "zod": "^3.22.4",
-    "zod-openapi": "^2.14.0"
+    "zod-openapi": "^2.14.0",
+    "zod-validation-error": "^3.3.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.10",

@@ -1,14 +1,14 @@
-import z from "zod";
+import z, { ZodIssueCode, ZodIssueOptionalMessage } from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { TokenType } from "~/app/model/types_WIP";
+import { ChainId, TokenType } from "~/app/model/types_WIP";
 
 const requestSchema = z.object({
-  chainId: z.string().min(1),
+  chainId: z.nativeEnum(ChainId),
   address: z.string().min(1),
 });
 
 const responseSchema = z.object({
-  chainId: z.string(),
+  chainId: z.nativeEnum(ChainId),
   address: z.string().min(1),
   balances: z.object({
     native: z.object({

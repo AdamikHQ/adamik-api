@@ -1,5 +1,7 @@
 import z from "zod";
 import { ZodError } from "zod";
+import { fromZodError } from "zod-validation-error";
+
 import { NextResponse } from "next/server";
 
 import { ChainFamily, ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
@@ -65,7 +67,7 @@ const chainSchema = z.object({
 function handleRequestValidationError(e: unknown): NextResponse {
   if (e instanceof ZodError) {
     return NextResponse.json(
-      { message: "invalid request", errors: e.errors },
+      { message: "invalid request", errors: fromZodError(e).toString() },
       { status: 400, statusText: "Invalid or missing fields" }
     );
   }
