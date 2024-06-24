@@ -9,8 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "doc:providers": "ts-node src/scripts/extractProviders.ts",
-    "doc:openapi": "ts-node src/scripts/extractOpenAPI.ts"
+    "doc:providers": "ts-node src/scripts/generateProvidersDoc.ts",
+    "doc:openapi": "ts-node src/scripts/generateOpenAPIDoc.ts",
+    "gen:cosmos-tokens": "ts-node src/scripts/generateCosmosIBCTokensDefinitions.ts"
   },
   "dependencies": {
     "@cosmjs/amino": "^0.32.2",
