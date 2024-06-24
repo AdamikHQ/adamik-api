@@ -21,3 +21,7 @@ export function fetchAddressesBalances(addresses: string[]) {
         }
     });
 }
+
+export function fetchAccountAddresses(pubKey: string) {
+    
+}

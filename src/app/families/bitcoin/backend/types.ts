@@ -43,21 +43,17 @@ export const requestContextSchema = z.object({
     rows: z.number().optional(),
     market_price_usd: z.number().optional(),
     total_rows: z.number().optional(),
-    api: z.array(
-        z.object({
-            version: z.string(),
-            last_major_update: z.string().optional(),
-            next_major_update: z.string().optional(),
-            documentation: z.string().optional(),
-            notice: z.string().optional(),
-        })
-    ).optional(),
-    cache: z.array(
-        z.object({
-            live: z.boolean(),
-            until: z.string().optional(),
-        }),
-    ).optional(),
+    api: z.object({
+        version: z.string(),
+        last_major_update: z.string().optional(),
+        next_major_update: z.string().optional(),
+        documentation: z.string().optional(),
+        notice: z.string().optional(),
+    }).optional(),
+    cache: z.object({
+        live: z.boolean(),
+        until: z.string().optional(),
+    }).optional(),
     request_cost: z.number(),
 });
 
@@ -86,16 +82,21 @@ export const requestContextSchema = z.object({
     }
  * ```
  */
-export const addressBalancesDataSchema = (addresses: string[]): z.ZodSchema<{
-    data: Record<string, bigint>;
-    context: z.infer<typeof requestContextSchema>;
-}> => {
+export const addressBalancesDataSchema = (addresses: string[]) => {
     const toNumber = z.number().or(z.string()).pipe(z.coerce.number());
     const toBigInt = z.bigint().or(toNumber).pipe(z.coerce.bigint());
+    const addressesData: z.ZodType<Record<string, bigint | undefined>> = addresses.reduce((object, address) => {
+        return object.setKey(address, toBigInt);
+    }, z.object({}));
     return z.object({
-        data: addresses.reduce((object, address) => {
-            return object.setKey(address, toBigInt);
-        }, z.object({})),
+        data: addressesData.or(z.tuple([])).nullable(),
         context: requestContextSchema,
-    })
+    }).transform((body) => {
+        // if no data is returned, set each address to 0
+        return {
+            data: Array.isArray(body.data) ? {} : body.data ?? {},
+            context: body.context,
+        }
+    });
 };
+

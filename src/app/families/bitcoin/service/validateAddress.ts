@@ -1,7 +1,8 @@
 import { BtcService } from ".";
+import { isValidAddress } from "../logic";
 
 async function validateAddress(this: BtcService, address: string): Promise<boolean> {
-  throw new Error("Not implemented");
+    return isValidAddress(address, this.chainId);
 }
 
 export { validateAddress };

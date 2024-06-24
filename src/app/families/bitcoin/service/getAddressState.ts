@@ -7,11 +7,11 @@ async function getAddressState(this: BtcService, address: string): Promise<Addre
   const explorerURL = CHAINS[this.chainId].backends.explorerURL;
   const url = `/addresses/balances?addresses=${address}`;
 
-  const response = await fetch(explorerURL + url);
-  const result = addressBalancesDataSchema([address]).safeParse(await response.json());
+  const response = await fetch(explorerURL + url).then((response) => response.json());
+  const result = addressBalancesDataSchema([address]).safeParse(response);
 
   if (!result.success) {
-    console.info("getAddressState - backend parsing error:", result.error);
+    console.info(`getAddressState - received invalid response ${JSON.stringify(response)}\n\tbackend parsing error: ${result.error}`);
   }
 
   return {
@@ -19,7 +19,7 @@ async function getAddressState(this: BtcService, address: string): Promise<Addre
     address,
     balances: {
       native: {
-        available: result.success ? result.data.data[address] : 0n,
+        available: result.success ? result.data.data[address] ?? 0n : 0n,
       },
     },
   };

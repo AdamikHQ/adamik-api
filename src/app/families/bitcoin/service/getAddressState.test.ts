@@ -49,7 +49,7 @@ describe("getAddressState", () => {
                 },
             },
         };
-        
+
         jest.spyOn(global, "fetch").mockResolvedValueOnce(Promise.resolve(new Response(
             JSON.stringify({}),
         )));
@@ -72,15 +72,16 @@ describe("getAddressState", () => {
             },
         };
 
+        const nullDataResponse = JSON.stringify({
+            data: null,
+            context: {
+                code: 400,
+                error: "Addresses are not set",
+                request_cost: 1,
+            },
+        });
         jest.spyOn(global, "fetch").mockResolvedValueOnce(Promise.resolve(new Response(
-            JSON.stringify({
-                data: null,
-                context: {
-                    code: 400,
-                    error: "Addresses are not set",
-                    request_cost: 1,
-                },
-            }),
+            nullDataResponse,
         )));
 
         const result = await getAddressState.call(btcService, address);
