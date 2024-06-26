@@ -1,29 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CHAINS_PUBLIC } from "~/app/config/chains";
-import { ChainId } from "~/app/model/types_WIP";
+import { apiHandler } from "~/app/api/handlers/apiHandler";
+import { requestSchema } from "./schema";
+import { z } from "zod";
 
-type Params = {
-  chainId: ChainId;
-};
+type Params = z.infer<typeof requestSchema>;
 
-export async function GET(_: NextRequest, context: { params: Params }): Promise<NextResponse> {
-  const { chainId } = context.params;
-
-  if (!chainId) {
-    return NextResponse.json(
-      { message: "Invalid request" },
-      { status: 400, statusText: "Path param `chainId` is required" }
-    );
-  }
+async function GET(_: NextRequest, context: { params: Params }): Promise<NextResponse> {
+  const { chainId } = requestSchema.parse(context.params);
 
   const chain = CHAINS_PUBLIC[chainId];
 
-  if (!chain) {
-    return NextResponse.json(
-      { message: `Chain ID ${chainId} is not supported` },
-      { status: 400, statusText: `Unsupported chainId` }
-    );
-  }
-
   return NextResponse.json(chain);
 }
+
+module.exports = apiHandler({
+  GET
+});

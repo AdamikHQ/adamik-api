@@ -4,14 +4,11 @@ import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { getService } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 import { requestSchema } from "./schema";
-import { handleRequestValidationError } from "~/app/api/schemaCommon";
+import { apiHandler } from "~/app/api/handlers/apiHandler";
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  const parsedRequest = requestSchema.safeParse(await request.json());
-  if (parsedRequest.success === false) {
-    return handleRequestValidationError(parsedRequest.error);
-  }
-  const body = parsedRequest.data;
+async function POST(request: NextRequest): Promise<NextResponse> {
+  const body = requestSchema.parse(await request.json());
+
   const plainTransaction: PlainTransaction = stringToBigint(body.transaction.plain);
 
   const service = getService(plainTransaction.chainId);
@@ -46,3 +43,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ transaction });
   }
 }
+
+module.exports = apiHandler({
+  POST
+});

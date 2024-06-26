@@ -1,9 +1,11 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { chainIdSchema } from "~/app/api/schemaCommon";
 import { ChainId } from "~/app/model/types_WIP";
 
+// FIXME: chainId is already defined in the URL as a path parameter, use it instead
 const requestSchema = z.object({
-  chainId: z.nativeEnum(ChainId),
+  chainId: chainIdSchema,
   limit: z.number().optional(),
   offset: z.number().optional(),
 });

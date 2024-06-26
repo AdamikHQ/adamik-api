@@ -1,15 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { handleRequestValidationError } from "~/app/api/schemaCommon";
 import { requestSchema } from "./schema";
+import { apiHandler } from  "~/app/api/handlers/apiHandler";
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  const parsedRequest = requestSchema.safeParse(await request.json());
-
-  if (parsedRequest.success === false) {
-    return handleRequestValidationError(parsedRequest.error);
-  }
-  const { chainId, pubkey } = parsedRequest.data;
+async function POST(request: NextRequest): Promise<NextResponse> {
+  const { chainId, pubkey } = requestSchema.parse(await request.json());
 
   const service = getService(chainId);
 
@@ -17,3 +12,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   return NextResponse.json(address);
 }
+
+module.exports = apiHandler({
+  POST
+});

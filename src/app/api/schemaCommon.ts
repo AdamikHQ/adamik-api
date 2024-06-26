@@ -1,5 +1,4 @@
-import z from "zod";
-import { ZodError } from "zod";
+import z, { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 
 import { NextResponse } from "next/server";
@@ -32,8 +31,22 @@ const delegateTransactionSchema = z.object({
 const plainTransactionSchema = commonTransactionSchema.and(z.union([transferTransactionSchema, delegateTransactionSchema,]));
 //*/
 
+// DOMAIN TYPES //////////////////////////////////////////////////////////////
+
+const chainIdSchema = z.nativeEnum(ChainId, {
+  errorMap: (issue, ctx) => {
+    if (issue.code === z.ZodIssueCode.invalid_enum_value) {
+      return { message: `unsupported value "${ctx.data}" encountered` };
+    }
+    return { message: ctx.defaultError };
+  }
+}).openapi({
+  description: "Chain ID",
+  example: ChainId.ETHEREUM,
+});
+
 const plainTransactionSchema = z.object({
-  chainId: z.nativeEnum(ChainId),
+  chainId: chainIdSchema,
   mode: z.nativeEnum(TransactionMode),
   senders: z.array(z.string()),
   recipients: z.array(z.string()),
@@ -57,7 +70,7 @@ const transactionStatusSchema = z.object({
 });
 
 const chainSchema = z.object({
-  id: z.nativeEnum(ChainId),
+  id: chainIdSchema,
   name: z.string(),
   family: z.nativeEnum(ChainFamily),
   isTestnet: z.boolean().optional(),
@@ -67,11 +80,13 @@ const chainSchema = z.object({
 function handleRequestValidationError(e: unknown): NextResponse {
   if (e instanceof ZodError) {
     return NextResponse.json(
-      { message: "invalid request", errors: fromZodError(e).toString() },
+      { message: fromZodError(e).toString(), errors: e.errors },
       { status: 400, statusText: "Invalid or missing fields" }
     );
   }
+  // FIXME: maybe handle error instead of throwing it away?
   throw e;
 }
 
-export { plainTransactionSchema, transactionStatusSchema, handleRequestValidationError, chainSchema };
+export { chainIdSchema, chainSchema, handleRequestValidationError, plainTransactionSchema, transactionStatusSchema };
+

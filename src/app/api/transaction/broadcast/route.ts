@@ -2,17 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { BroadcastStatus, Transaction } from "~/app/model/types_WIP";
 import { stringToBigint } from "~/app/model/serialization";
 import { getService } from "~/app/families/services";
-import { handleRequestValidationError } from "~/app/api/schemaCommon";
 import { requestSchema } from "./schema";
+import { apiHandler } from "~/app/api/handlers/apiHandler";
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  const parsedRequest = requestSchema.safeParse(await request.json());
+async function POST(request: NextRequest): Promise<NextResponse> {
+  const body = requestSchema.parse(await request.json());
 
-  if (parsedRequest.success === false) {
-    return handleRequestValidationError(parsedRequest.error);
-  }
-
-  const body = parsedRequest.data;
   let transaction: Transaction = {
     ...stringToBigint(body.transaction),
     status: { errors: [], warnings: [] },
@@ -37,3 +32,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json(broadcastStatus);
   }
 }
+
+module.exports = apiHandler({
+  POST
+});
