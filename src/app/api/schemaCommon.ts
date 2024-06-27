@@ -3,6 +3,9 @@ import { ZodError } from "zod";
 import { NextResponse } from "next/server";
 
 import { ChainFamily, ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
+import { extendZodWithOpenApi } from "zod-openapi";
+
+extendZodWithOpenApi(z);
 
 // TODO Experiment with modular zod schemas:
 /*
@@ -32,7 +35,7 @@ const plainTransactionSchema = commonTransactionSchema.and(z.union([transferTran
 
 
 const toNumber = z.number().or(z.string()).pipe(z.coerce.number());
-const positiveBigintSchema = z.bigint().or(toNumber).pipe(z.coerce.bigint().positive());
+const positiveBigintSchema = z.bigint().or(toNumber).pipe(z.coerce.bigint().positive()).openapi({ type: "integer" });
 
 const recipientSchema = z.object({
   amount: positiveBigintSchema,
