@@ -1,10 +1,30 @@
+import TTLCache from "@isaacs/ttlcache";
 import { CHAINS } from "~/app/config/chains";
-import { CosmosAccount, CosmosBalance, CosmosValidatorResponse } from "./types";
-import { ChainId } from "~/app/model/types_WIP";
+import {
+  CosmosAccount,
+  CosmosBalance,
+  CosmosDelegation,
+  CosmosRedelegation,
+  CosmosRewards,
+  CosmosUnbondingDelegation,
+  CosmosValidator,
+} from "./types";
+import {
+  ChainId,
+  Pagination,
+  StakingPosition,
+  StakingReward,
+  TokenStakingReward,
+  StakingStatus,
+} from "~/app/model/types_WIP";
 import { CosmosParams } from "../types";
 
-// TODO Caching !
-// TODO Sanitize data from backend
+// TODO Sanitize data from backend ?
+
+const VALIDATORS_CACHE = new TTLCache<string, CosmosValidator[]>({
+  max: 1, // Only need one item
+  ttl: 1000 * 60 * 60, // Cache expiration = 1h
+});
 
 const getRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
 
@@ -25,18 +45,155 @@ async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosB
   });
 }
 
-async function fetchValidators(
+async function fetchDelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
+  const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegations/${address}`;
+
+  // TODO This request is paginated, need to handle pagination
+  const data = await fetch(url).then((response) => response.json());
+
+  const delegationsData: CosmosDelegation[] = data.delegation_responses;
+
+  return delegationsData.map((delegation) => {
+    return {
+      validatorAddresses: [delegation.delegation.validator_address],
+      amount: BigInt(delegation.balance.amount),
+      status: StakingStatus.LOCKED,
+    };
+  });
+}
+
+// NOTE This is unused at the moment, as redelegations are also included in the delegations
+// (missing specific info such as the destination validator, but we don't need it for now)
+async function fetchRedelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
+  const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegators/${address}/redelegations`;
+
+  // TODO This request is paginated, need to handle pagination
+  const data = await fetch(url).then((response) => response.json());
+
+  const redelegationsData: CosmosRedelegation[] = data.redelegation_responses;
+
+  const redelegations: StakingPosition[] = [];
+  for (const { entries, redelegation } of redelegationsData) {
+    for (const entry of entries) {
+      const {
+        redelegation_entry: { initial_balance: initialBalance, completion_time: completionTime },
+      } = entry;
+
+      redelegations.push({
+        // NOTE redelegation.validator_src_address is ignored at the moment,
+        // no distinction made between re/delegation. TBD if it is important or not.
+        validatorAddresses: [redelegation.validator_dst_address],
+        amount: BigInt(initialBalance),
+        status: StakingStatus.LOCKED,
+        completionDate: new Date(completionTime).getTime(),
+      });
+    }
+  }
+
+  return redelegations;
+}
+
+async function fetchUnbondingDelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
+  const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegators/${address}/unbonding_delegations`;
+
+  // TODO This request is paginated, need to handle pagination
+  const data = await fetch(url).then((response) => response.json());
+
+  const unbondingsData: CosmosUnbondingDelegation[] = data.unbonding_responses;
+
+  const unbondings: StakingPosition[] = [];
+  for (const { validator_address: validatorAddress, entries } of unbondingsData) {
+    for (const { initial_balance: initialBalance, completion_time: completionTime } of entries) {
+      unbondings.push({
+        validatorAddresses: [validatorAddress],
+        amount: BigInt(initialBalance),
+        status: StakingStatus.UNLOCKING,
+        completionDate: new Date(completionTime).getTime(),
+      });
+    }
+  }
+
+  return unbondings;
+}
+
+async function fetchRewards(
   chainId: ChainId,
-  offset: number,
-  limit: number
-): Promise<CosmosValidatorResponse> {
+  address: string
+): Promise<{ native: StakingReward[]; tokens: TokenStakingReward[] }> {
+  const url = `${getRootUrl(chainId)}/cosmos/distribution/v1beta1/delegators/${address}/rewards`;
+
+  const data: CosmosRewards = await fetch(url).then((response) => response.json());
+
+  const rewardsData = data.rewards;
+
+  const nativeRewards: StakingReward[] = [];
+  const tokenRewards: TokenStakingReward[] = [];
+  const chainParams = CHAINS[chainId].params as CosmosParams;
+
+  for (const { reward: rewardData, validator_address: validatorAddress } of rewardsData) {
+    for (const { denom, amount: amountWithDecimals } of rewardData) {
+      const amount = BigInt(amountWithDecimals.split(".")[0]);
+      if (amount === 0n) {
+        // For now we always filter-out dust amounts to lighten the reponse,
+        // but should rather be controlled with a request param
+        // TODO https://adamik.atlassian.net/browse/ADV-150
+        continue;
+      }
+
+      if (denom === chainParams.denom) {
+        nativeRewards.push({
+          validatorAddress,
+          amount,
+        });
+      } else if (denom.startsWith("ibc/")) {
+        tokenRewards.push({
+          tokenId: denom,
+          validatorAddress,
+          amount,
+        });
+      }
+    }
+  }
+
+  return {
+    native: nativeRewards,
+    tokens: tokenRewards,
+  };
+}
+
+async function fetchAllValidators(chainId: ChainId): Promise<CosmosValidator[]> {
   const url = new URL(`${getRootUrl(chainId)}/cosmos/staking/v1beta1/validators`);
-  url.searchParams.set("pagination.offset", offset.toString());
-  url.searchParams.set("pagination.limit", limit.toString());
 
-  const data: CosmosValidatorResponse = await fetch(url.toString()).then((response) => response.json());
+  let validators: CosmosValidator[] = [];
+  let data;
+  do {
+    if (data?.pagination?.next_key) {
+      url.searchParams.set("pagination.key", data.pagination.next_key);
+    }
 
-  return data;
+    data = await fetch(url.toString()).then((response) => response.json());
+
+    if (!Array.isArray(data?.validators)) {
+      break;
+    }
+
+    validators = validators.concat(data.validators);
+  } while (data?.pagination?.next_key);
+
+  return validators;
+}
+
+async function getValidatorsCached(chainId: ChainId, pagination?: Pagination): Promise<CosmosValidator[]> {
+  const cacheKey = `validators-${chainId}`;
+
+  if (!VALIDATORS_CACHE.has(cacheKey)) {
+    const newValidators = await fetchAllValidators(chainId);
+    VALIDATORS_CACHE.set(cacheKey, newValidators);
+  }
+
+  const validators = VALIDATORS_CACHE.get(cacheKey) || [];
+
+  return pagination ? validators.slice(pagination.offset, pagination.offset + pagination.limit) : validators;
 }
 
 async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAccount> {
@@ -78,6 +235,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
   return accountData;
 }
 
+// NOTE Unused at the moment, all IBC token infos are retrieved from src/app/config/tokens/cosmos.ts
 async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promise<string> {
   const url = `${getRootUrl(chainId)}/ibc/apps/transfer/v1/denom_traces/${ibcTokenId}`;
 
@@ -135,9 +293,11 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
 export {
   fetchBalances,
   fetchAccount,
-  fetchIBCTokenTicker,
+  fetchDelegations,
+  fetchUnbondingDelegations,
+  fetchRewards,
   fetchNetworkId,
   simulateTransaction,
   broadcastTransaction,
-  fetchValidators,
+  getValidatorsCached,
 };

@@ -151,7 +151,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
         type: "cosmos-sdk/MsgDelegate",
         value: {
           delegator_address: transaction.senders[0],
-          validator_address: transaction.validator,
+          validator_address: transaction.validatorAddress,
           amount: {
             denom: chainParams?.denom,
             amount: transaction.amount.toString(),
@@ -165,7 +165,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
         typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: MsgDelegate.encode({
           delegatorAddress: transaction.senders[0],
-          validatorAddress: transaction.validator,
+          validatorAddress: transaction.validatorAddress,
           amount: {
             denom: chainParams?.denom,
             amount: transaction.amount.toString(),

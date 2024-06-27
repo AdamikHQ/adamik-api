@@ -1,6 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { TokenType } from "~/app/model/types_WIP";
+import { StakingStatus, TokenType } from "~/app/model/types_WIP";
 
 const requestSchema = z.object({
   chainId: z.string().min(1),
@@ -25,11 +25,44 @@ const responseSchema = z.object({
           decimals: z.number(),
           contractAddress: z.string().optional(),
         }),
-        value: z.string(),
+        amount: z.string(),
       })
       .array()
       .optional(),
   }),
+  staking: z
+    .object({
+      total: z.string(),
+      locked: z.string(),
+      unlocking: z.string(),
+      unlocked: z.string(),
+      positions: z
+        .object({
+          validatorAddresses: z.string().array(),
+          amount: z.string(),
+          status: z.nativeEnum(StakingStatus),
+          completionDate: z.number().optional(),
+        })
+        .array(),
+      rewards: z
+        .object({
+          native: z
+            .object({
+              validatorAddress: z.string(),
+              amount: z.string(),
+            })
+            .array(),
+          tokens: z
+            .object({
+              tokenId: z.string(),
+              validatorAddress: z.string().optional(),
+              amount: z.string(),
+            })
+            .array(),
+        })
+        .optional(),
+    })
+    .optional(),
 });
 
 const addressStateOpenAPIPath: ZodOpenApiPathsObject = {

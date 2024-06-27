@@ -74,7 +74,37 @@ type Token = {
 
 type TokenAmount = {
   token: Token;
-  value: bigint;
+  amount: bigint;
+};
+
+enum StakingStatus {
+  FREE = "free", // Can be used as part of the available balance
+  LOCKED = "locked",
+  UNLOCKING = "unlocking",
+  UNLOCKED = "unlocked", // Can't be used as part of the avaialble balance, needs a transaction first
+}
+
+type Validator = {
+  address: string;
+  name: string;
+  commission?: number;
+};
+
+type StakingPosition = {
+  validatorAddresses: string[];
+  amount: bigint;
+  status: StakingStatus;
+  completionDate?: number;
+};
+
+type StakingReward = {
+  validatorAddress: string;
+  amount: bigint;
+  //claimable: boolean; // FIXME Unsure how to handle that info
+};
+
+type TokenStakingReward = StakingReward & {
+  tokenId: string;
 };
 
 type AddressState = {
@@ -82,21 +112,23 @@ type AddressState = {
   address: string;
   balances: {
     native: {
-      available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
-      //total: bigint; // Will need staking
+      available: bigint; // Cosmos, Polkadot, Solana : all provide available, so need to deduce total from staking
+      total: bigint; // May include staking balances, or be equal to available
     };
     tokens?: TokenAmount[];
-    //ft?: TokenAmount[];
     //nft?: NFTAmount[];
+    staking?: {
+      total: bigint;
+      locked: bigint;
+      unlocking: bigint;
+      unlocked: bigint;
+      positions: StakingPosition[];
+      rewards: {
+        native: StakingReward[];
+        tokens: TokenStakingReward[];
+      };
+    };
   };
-  //rewards?: {
-  //  pending: ChainAmount;
-  //};
-  //staking?: {
-  //locked: bigint;
-  //unlocking: bigint[];
-  //unlocked: bigint;
-  //}
 };
 
 enum TransactionMode {
@@ -136,23 +168,23 @@ type TransferTokenTransaction = CommonTransaction & {
 
 type DelegateTransaction = CommonTransaction & {
   mode: TransactionMode.DELEGATE;
-  validator: string;
+  validatorAddress: string;
 };
 
 // type UndelegateTransaction = CommonTransaction & {
 //   mode: TransactionMode.UNDELEGATE;
-//   validator: string;
+//   validatorAddress: string;
 // };
 
 // type RedelegateTransaction = CommonTransaction & {
 //   mode: TransactionMode.REDELEGATE;
-//   sourceValidator: string;
-//   targetValidator: string;
+//   sourceValidatorAddress: string;
+//   targetValidatorAddress: string;
 // };
 
 // type ClaimRewardTransaction = CommonTransaction & {
 //   mode: TransactionMode.CLAIM_REWARD;
-//   validator: string;
+//   validatorAddress: string;
 // };
 
 type PlainTransaction = TransferTransaction | TransferTokenTransaction | DelegateTransaction;
@@ -201,12 +233,21 @@ enum EncodedTransactionFormat {
   HEX = "hex",
 }
 
-export { ChainId, ChainFamily, TransactionMode, EncodedTransactionFormat, TokenType };
+type Pagination = {
+  offset: number;
+  limit: number;
+};
+
+export { ChainId, ChainFamily, TransactionMode, EncodedTransactionFormat, TokenType, StakingStatus };
 export type {
   Chain,
   ChainParams,
   Token,
   TokenAmount,
+  Validator,
+  StakingPosition,
+  StakingReward,
+  TokenStakingReward,
   AddressState,
   PlainTransaction,
   Transaction,
@@ -214,4 +255,5 @@ export type {
   TransactionStatus,
   BroadcastStatus,
   ErrorMsg,
+  Pagination,
 };

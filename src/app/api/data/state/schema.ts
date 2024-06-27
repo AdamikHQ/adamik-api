@@ -16,7 +16,7 @@ const responseSchema = z.object({
     tokens: z
       .object({
         tokenId: z.string(),
-        value: z.string(),
+        amount: z.string(),
       })
       .array()
       .optional(),

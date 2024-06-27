@@ -19,6 +19,7 @@
     "@cosmjs/encoding": "^0.32.3",
     "@cosmjs/proto-signing": "^0.32.2",
     "@cosmjs/stargate": "^0.32.2",
+    "@isaacs/ttlcache": "^1.4.1",
     "@ledgerhq/hw-app-algorand": "^6.28.1",
     "@ledgerhq/hw-transport-web-ble": "^6.28.4",
     "@ledgerhq/hw-transport-webusb": "^6.28.4",

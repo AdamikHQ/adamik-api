@@ -1,3 +1,7 @@
+// FIXME Unused at the moment
+// To be considered again when introducing DTOs
+// https://adamik.atlassian.net/browse/ADV-13
+
 export interface ValidatorResponse {
   validators: ValidatorDTO[];
 }

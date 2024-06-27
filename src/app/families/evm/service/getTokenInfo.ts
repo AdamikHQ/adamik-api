@@ -6,6 +6,7 @@ import { EvmAddress } from "../types";
 async function getTokenInfo(this: EvmService, tokenId: string): Promise<Token | null> {
   const contractAddress = tokenId as EvmAddress;
 
+  // TODO Leverage Moralis instead
   try {
     const name = await getERC20name(this.chainId, contractAddress);
     const decimals = await getERC20Decimals(this.chainId, contractAddress);

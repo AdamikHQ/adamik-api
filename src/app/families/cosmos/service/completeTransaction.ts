@@ -10,10 +10,12 @@ async function completeTransaction(this: CosmosService, transaction: Transaction
 
   const address = transaction.plain.senders[0];
   const balances = await fetchBalances(this.chainId, address);
-  const balance = balances.find((balance) => balance.denom === chainParams?.denom)?.amount;
-  if (!balance) {
+  const balanceStr = balances.find((balance) => balance.denom === chainParams?.denom)?.amount;
+  if (!balanceStr) {
     throw new Error(`Failed to retrieve balance for ${this.chainId} address ${address}`);
   }
+
+  const balance = BigInt(balanceStr);
 
   if (transaction.plain.useMaxAmount) {
     transaction.plain.amount = balance - 2500n; // Simulated amount, just for estimating fees

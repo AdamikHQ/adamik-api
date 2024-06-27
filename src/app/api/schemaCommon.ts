@@ -4,6 +4,11 @@ import { NextResponse } from "next/server";
 
 import { ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
 
+const paginationSchema = z.object({
+  limit: z.number(),
+  offset: z.number(),
+});
+
 // TODO Experiment with modular zod schemas:
 /*
 const commonTransactionSchema = z.object({
@@ -64,4 +69,4 @@ function handleRequestValidationError(e: unknown): NextResponse {
   throw e;
 }
 
-export { plainTransactionSchema, transactionStatusSchema, handleRequestValidationError };
+export { paginationSchema, plainTransactionSchema, transactionStatusSchema, handleRequestValidationError };

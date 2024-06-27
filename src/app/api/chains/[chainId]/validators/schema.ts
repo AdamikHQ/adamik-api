@@ -1,10 +1,10 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { paginationSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
   chainId: z.string(),
-  limit: z.number().optional(),
-  offset: z.number().optional(),
+  pagination: paginationSchema.optional(),
 });
 
 const responseSchema = z.object({
