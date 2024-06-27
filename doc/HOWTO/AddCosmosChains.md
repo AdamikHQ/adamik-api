@@ -30,7 +30,7 @@
       denom: xxx, // "denom" in chain.json
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey", // Should be the same value for all Cosmos chains
       defaultGas: 100000, // Should be the same value for all Cosmos chains
-      minGasPrice: xxx, // "fixed_min_gas_price" in chain.json
+      minGasPrice: xxx, // "average_gas_price" in chain.json
     },
   },
 ```
