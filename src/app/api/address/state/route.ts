@@ -6,12 +6,14 @@ import { apiHandler } from "~/app/api/handlers/apiHandler";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
   const body = requestSchema.parse(await request.json());
+
   const service = getService(body.chainId);
+
   const isAddressValid = await service.validateAddress(body.address);
 
   if (!isAddressValid) {
     return NextResponse.json(
-      { message: "Address format is invalid" },
+      { message: "Address is invalid" },
       { status: 400, statusText: "Invalid or missing fields" }
     );
   }
@@ -19,7 +21,6 @@ async function POST(request: NextRequest): Promise<NextResponse> {
   const state = await service.getAddressState(body.address);
 
   return NextResponse.json(state);
-
 }
 
 module.exports = apiHandler({
