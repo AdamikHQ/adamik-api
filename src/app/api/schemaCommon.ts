@@ -35,7 +35,7 @@ const plainTransactionSchema = commonTransactionSchema.and(z.union([transferTran
 
 
 const toNumber = z.number().or(z.string()).pipe(z.coerce.number());
-const positiveBigintSchema = z.bigint().or(toNumber).pipe(z.coerce.bigint().positive()).openapi({ type: "integer" });
+const positiveBigintSchema = z.bigint().or(toNumber).pipe(z.coerce.bigint().positive()).openapi({ type: "string" });
 
 const recipientSchema = z.object({
   amount: positiveBigintSchema,
