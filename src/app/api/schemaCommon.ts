@@ -30,26 +30,68 @@ const delegateTransactionSchema = z.object({
 const plainTransactionSchema = commonTransactionSchema.and(z.union([transferTransactionSchema, delegateTransactionSchema,]));
 //*/
 
+
+const toNumber = z.number().or(z.string()).pipe(z.coerce.number());
+const positiveBigintSchema = z.bigint().or(toNumber).pipe(z.coerce.bigint().positive());
+
 const recipientSchema = z.object({
-  amount: z.string(),
+  amount: positiveBigintSchema,
   recipient: z.string(),
 });
 
-const plainTransactionSchema = z.object({
+const transactionContentUnion = z.discriminatedUnion("mode", [
+  z.object({
+    mode: z.literal(TransactionMode.DELEGATE),
+    senders: z.array(z.string()),
+    recipients: z.array(z.string()),
+    // TODO should be only one of [amount, useMaxAmount]
+    amount: z.string().optional(),
+    useMaxAmount: z.boolean().optional(),
+    fees: z.string().optional(),
+    gas: z.string().optional(),
+    nonce: z.string().optional(),
+    memo: z.string().optional(),
+    format: z.nativeEnum(EncodedTransactionFormat).optional(),
+  }),
+  z.object({
+    mode: z.literal(TransactionMode.TRANSFER),
+    senders: z.array(z.string()),
+    recipients: z.array(z.string()),
+    // TODO should be only one of [amount, useMaxAmount]
+    amount: z.string().optional(),
+    useMaxAmount: z.boolean().optional(),
+    fees: z.string().optional(),
+    gas: z.string().optional(),
+    nonce: z.string().optional(),
+    memo: z.string().optional(),
+    format: z.nativeEnum(EncodedTransactionFormat).optional(),
+  }),
+  z.object({
+    mode: z.literal(TransactionMode.TRANSFER_TOKEN),
+    senders: z.array(z.string()),
+    recipients: z.array(z.string()),
+    // TODO should be only one of [amount, useMaxAmount]
+    amount: z.string().optional(),
+    useMaxAmount: z.boolean().optional(),
+    fees: z.string().optional(),
+    gas: z.string().optional(),
+    nonce: z.string().optional(),
+    memo: z.string().optional(),
+    format: z.nativeEnum(EncodedTransactionFormat).optional(),
+  }),
+  z.object({
+    mode: z.literal(TransactionMode.TRANSFER_TO_MANY),
+    sender: z.string(),
+    recipients: z.array(recipientSchema),
+    fees: positiveBigintSchema.optional(),
+    memo: z.string().optional(),
+    format: z.nativeEnum(EncodedTransactionFormat).optional(),
+  }),
+])
+
+const transactionWrapperSchema = z.object({
   chainId: z.nativeEnum(ChainId),
-  mode: z.nativeEnum(TransactionMode),
-  senders: z.array(z.string()),
-  recipients: z.array(recipientSchema),
-  // TODO: should be only one of [amount, useMaxAmount]
-  // FIXME: deprecated should be replaced by usage of recipientSchema. How should it all combine with useMaxAmount?
-  amount: z.string().optional(),
-  useMaxAmount: z.boolean().optional(),
-  fees: z.string().optional(),
-  gas: z.string().optional(),
-  nonce: z.string().optional(),
-  memo: z.string().optional(),
-  format: z.nativeEnum(EncodedTransactionFormat).optional(),
-});
+}).and(transactionContentUnion);
 
 const errorMsgSchema = z.object({
   message: z.string(),
@@ -78,4 +120,4 @@ function handleRequestValidationError(e: unknown): NextResponse {
   throw e;
 }
 
-export { plainTransactionSchema, transactionStatusSchema, handleRequestValidationError, chainSchema };
+export { transactionWrapperSchema, transactionStatusSchema, handleRequestValidationError, chainSchema };

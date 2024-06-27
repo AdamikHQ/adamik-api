@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { BroadcastStatus, Transaction } from "~/app/model/types_WIP";
-import { stringToBigint } from "~/app/model/serialization";
-import { getService } from "~/app/families/services";
 import { handleRequestValidationError } from "~/app/api/schemaCommon";
+import { getService } from "~/app/families/services";
+import { stringToBigint } from "~/app/model/serialization";
+import { BroadcastStatus, TransactionWrapper } from "~/app/model/types_WIP";
 import { requestSchema } from "./schema";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -13,8 +13,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return handleRequestValidationError(e);
   }
 
-  let transaction: Transaction = {
-    ...stringToBigint(body.transaction),
+  let transaction: TransactionWrapper = {
+    plain: stringToBigint(body.transaction.plain),
+    encoded: body.transaction.encoded,
+    signature: body.transaction.signature,
     status: { errors: [], warnings: [] },
   };
 

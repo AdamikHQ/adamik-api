@@ -2,7 +2,7 @@ import { CosmosService } from ".";
 
 // https://github.com/cosmos/cosmos-sdk/blob/main/docs/architecture/adr-028-public-key-addresses.md
 // https://github.com/cosmos/cosmjs/wiki/What-can-CosmJS-do-for-me%3F
-async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<string[]> {
+async function pubkeyToAddress(this: CosmosService, pubkey: string): Promise<string> {
   // TODO
   throw new Error("Not implemented");
 
@@ -18,4 +18,4 @@ async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<s
   */
 }
 
-export { pubkeyToAddresses };
+export { pubkeyToAddress };

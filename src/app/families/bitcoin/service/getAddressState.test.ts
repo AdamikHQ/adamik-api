@@ -1,4 +1,4 @@
-import { getAddressState } from "./getAddressState";
+import { getAddressesState } from "./getAddressesState";
 import { BtcService } from ".";
 import { AddressState, ChainId } from "~/app/model/types_WIP";
 
@@ -7,10 +7,10 @@ const CHAIN_ID = ChainId.BITCOIN;
 describe("getAddressState", () => {
     it("should fetch address state successfully", async () => {
         const btcService = new BtcService(CHAIN_ID);
-        const address = "sample_address";
+        const addresses = ["sample_address"];
         const expectedAddressState: AddressState = {
             chainId: btcService.chainId,
-            address,
+            address: addresses[0],
             balances: {
                 native: {
                     available: 25550215769897n,
@@ -33,16 +33,16 @@ describe("getAddressState", () => {
             }),
         )));
 
-        const result = await getAddressState.call(btcService, address);
+        const result = await getAddressesState.call(btcService, addresses);
         expect(result).toEqual(expectedAddressState);
     });
 
     it("should have balance at 0n if blockchair returns invalid response", async () => {
         const btcService = new BtcService(CHAIN_ID);
-        const address = "sample_address";
+        const addresses = ["sample_address"];
         const expectedAddressState = {
             chainId: btcService.chainId,
-            address,
+            address: addresses[0],
             balances: {
                 native: {
                     available: 0n,
@@ -54,17 +54,17 @@ describe("getAddressState", () => {
             JSON.stringify({}),
         )));
 
-        const result = await getAddressState.call(btcService, address);
+        const result = await getAddressesState.call(btcService, addresses);
 
         expect(result).toEqual(expectedAddressState)
     });
 
     it("should have balance at 0n if blockchair returns response with error code 400", async () => {
         const btcService = new BtcService(CHAIN_ID);
-        const address = "sample_address";
+        const addresses = ["sample_address"];
         const expectedAddressState = {
             chainId: btcService.chainId,
-            address,
+            address: addresses[0],
             balances: {
                 native: {
                     available: 0n,
@@ -84,7 +84,7 @@ describe("getAddressState", () => {
             nullDataResponse,
         )));
 
-        const result = await getAddressState.call(btcService, address);
+        const result = await getAddressesState.call(btcService, addresses);
         expect(result).toEqual(expectedAddressState)
     });
 });

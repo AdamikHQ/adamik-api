@@ -1,4 +1,6 @@
-import { AddressState, BroadcastStatus, ChainId, Token, Transaction } from "./types_WIP";
+import { z } from "zod";
+import { requestSchema } from "../api/address/state/schema";
+import { AddressesState, AddressState, BroadcastStatus, ChainId, StateOrigin, Token, Transaction, TransactionMode, TransactionWrapper } from "./types_WIP";
 import { ValidatorResponse } from "./validator";
 
 // TODO Doc (comment) for each function in every service
@@ -11,28 +13,52 @@ abstract class BaseChainService {
   constructor(chainId: ChainId) {
     this.chainId = chainId;
   }
-
   // Chain
   //abstract getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
 
   // Address
-  abstract pubkeyToAddresses(pubkey: string): Promise<string[]>;
+  abstract pubkeyToAddress(pubkey: string): Promise<string>;
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data
-  abstract getAddressState(address: string): Promise<AddressState>;
+  abstract getAddressState(stateOrigin: StateOrigin): Promise<AddressState>;
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
   // Crafting
-  // NOTE All of these functions will mutate the input 'Transaction' with additional info!
-  abstract prevalidateTransaction(transaction: Transaction): Promise<void>;
-  abstract completeTransaction(transaction: Transaction): Promise<void>;
-  abstract validateTransaction(transaction: Transaction): Promise<void>;
-  abstract encodeTransactionToSign(transaction: Transaction): Promise<void>;
-  abstract encodeTransactionToBroadcast(signedTransaction: Transaction): Promise<string>;
+  // NOTE All of these functions will mutate the input 'TransactionWrapper' with additional info!
+  abstract prevalidateTransaction(transaction: TransactionWrapper): Promise<void>;
+  abstract completeTransaction(transaction: TransactionWrapper): Promise<void>;
+  abstract validateTransaction(transaction: TransactionWrapper): Promise<void>;
+  abstract encodeTransactionToSign(transaction: TransactionWrapper): Promise<void>;
+  abstract encodeTransactionToBroadcast(signedTransaction: TransactionWrapper): Promise<string>;
 
   // Broadcast
   abstract broadcastTransaction(payload: string): Promise<BroadcastStatus>;
+
+  // Helper function for services that were coded with `Transaction` instead of `TransactionWrapper`
+  protected transactionMethodAdaptator<T>(fn: (transaction: Transaction) => Promise<T>): (transaction: TransactionWrapper) => Promise<T> {
+    return (transaction: TransactionWrapper): Promise<T> => {
+      if (
+        transaction.plain.mode === TransactionMode.DELEGATE ||
+        transaction.plain.mode === TransactionMode.TRANSFER ||
+        transaction.plain.mode === TransactionMode.TRANSFER_TOKEN
+      ) {
+        return fn(transaction as Transaction);
+      }
+      throw new Error(`Unsupported transaction mode: ${transaction.plain.mode} for chain ID ${this.chainId}`);
+    };
+  };
+
+  protected addressStateMethodAdaptator(fn: (address: string) => Promise<AddressState>): (stateOrigin: StateOrigin) => Promise<AddressState> {
+    return (stateOrigin: StateOrigin): Promise<AddressState> => {
+      if (typeof stateOrigin === "string") {
+        return fn(stateOrigin);
+      } else if ("address" in stateOrigin) {
+        return fn(stateOrigin.address);
+      }
+      throw new Error(`Unsupported state origin xpub for chain ID ${this.chainId}`);
+    }
+  };
 }
 
 // STAKING ////////////////////////////////////////////////////////////////////////////////////
@@ -73,5 +99,23 @@ function isTokenService(object: BaseChainService | TokenService): object is Toke
   return keys.reduce((valid, key) => valid && key in object, true);
 }
 
-export type { StakingService, TokenService };
-export { BaseChainService, isStakingService, isTokenService };
+// MULTI BALANCES //////////////////////////////////////////////////////////////////////////
+
+interface MultiBalancesService {
+  getAddressesState(addresses: string[]): Promise<AddressesState>;
+}
+
+function isMultiBalancesService(object: BaseChainService | MultiBalancesService): object is MultiBalancesService {
+  // TS limitation: types don't exist at runtime, so this dummy
+  // instance is necessary to extract members of the interface
+  const dummy: MultiBalancesService = {
+    getAddressesState: (): never => {
+      throw new Error("Must not be used");
+    },
+  };
+  const keys = Object.keys(dummy);
+  return keys.reduce((valid, key) => valid && key in object, true);
+}
+
+export type { StakingService, TokenService, MultiBalancesService };
+export { BaseChainService, isStakingService, isTokenService, isMultiBalancesService };

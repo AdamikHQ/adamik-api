@@ -1,6 +1,8 @@
+import { z } from "zod";
 import { BtcParams } from "../families/bitcoin/types";
 import { CosmosParams } from "../families/cosmos/types";
 import { EvmParams } from "../families/evm/types";
+import { requestSchema as addressStateRequestSchema } from "../api/address/state/schema";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -84,6 +86,7 @@ type TokenAmount = {
   token: Token;
   value: bigint;
 };
+type StateOrigin = z.infer<typeof addressStateRequestSchema>["address"];
 
 type AddressState = {
   chainId: ChainId;
@@ -108,6 +111,15 @@ type AddressState = {
   //}
 };
 
+type AddressesState = {
+  chainId: ChainId;
+  addresses: {
+    [key: string]: {
+      balances: AddressState["balances"];
+    };
+  };
+};
+
 // FIXME: Should fully replace AddressState?
 type AccountState = {
   chainId: ChainId;
@@ -124,6 +136,7 @@ enum TransactionMode {
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
+  TRANSFER_TO_MANY = "transferToMany",
 }
 
 type Recipient = {
@@ -135,10 +148,13 @@ type Recipient = {
 // FIXME de/serialization types <> string
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
 // FIXME one 'PlainTransaction' type with everything in it, or composition of specific types
-// (TransactionWithMemo TransactionWithGas, etc...) ?
-type CommonTransaction = {
+// (TransactionWithMemo TransactionWithGas, etc...) ? <-- yes
+type BaseTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
+}
+
+type CommonTransaction = {
   senders: string[];
   recipients: string[];
   amount: bigint;
@@ -151,19 +167,26 @@ type CommonTransaction = {
   pubKey?: string; // FIXME should not be here
 };
 
-type TransferTransaction = CommonTransaction & {
+type TransferTransaction = BaseTransaction & CommonTransaction & {
   mode: TransactionMode.TRANSFER;
 };
 
-type TransferTokenTransaction = CommonTransaction & {
+type TransferTokenTransaction = BaseTransaction & CommonTransaction & {
   mode: TransactionMode.TRANSFER_TOKEN;
   tokenId: string;
 };
 
-type DelegateTransaction = CommonTransaction & {
+type DelegateTransaction = BaseTransaction & CommonTransaction & {
   mode: TransactionMode.DELEGATE;
   validator: string;
 };
+
+type MultiRecipientTransaction = BaseTransaction & BaseTransaction & {
+  mode: TransactionMode.TRANSFER_TO_MANY;
+  senders: string;
+  recipients: Recipient[];
+  fees: bigint;
+}
 
 // type UndelegateTransaction = CommonTransaction & {
 //   mode: TransactionMode.UNDELEGATE;
@@ -181,15 +204,34 @@ type DelegateTransaction = CommonTransaction & {
 //   validator: string;
 // };
 
+
+/**
+ * @deprecated You should use {@link TransactionData} 
+ */
 type PlainTransaction = TransferTransaction | TransferTokenTransaction | DelegateTransaction;
 
+type TransactionData = PlainTransaction | MultiRecipientTransaction;
+
+/** 
+ * @deprecated You should use {@link TransactionWrapper}
+ * 
+ * FIXME: refacto EVM + COSMOS + ALGORAND families to stop using Transaction
+ */
 type Transaction = {
-  //metadata: TransactionMetadata // good idea or not ?
+  // plain: PlainTransaction;
   plain: PlainTransaction;
   encoded?: string;
   signature?: string;
   status: TransactionStatus;
 };
+
+type TransactionWrapper = {
+  plain: TransactionData;
+  encoded?: string;
+  signature?: string;
+  status: TransactionStatus;
+
+}
 
 /*
 type TransactionMetadata = {
@@ -233,9 +275,13 @@ export type {
   ChainParams,
   Token,
   TokenAmount,
+  StateOrigin,
   AddressState,
+  AddressesState,
   PlainTransaction,
+  TransactionData,
   Transaction,
+  TransactionWrapper,
   TransactionSpendableAmounts,
   TransactionStatus,
   BroadcastStatus,

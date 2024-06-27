@@ -1,8 +1,10 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { ChainId } from "~/app/model/types_WIP";
 
 const requestSchema = z.object({
-  chainId: z.string(),
+  // FIXME: replace ChainId as a Zod Enum
+  chainId: z.nativeEnum(ChainId),
   pubkey: z.string(),
 });
 

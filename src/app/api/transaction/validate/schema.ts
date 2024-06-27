@@ -1,10 +1,10 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { plainTransactionSchema, transactionStatusSchema } from "~/app/api/schemaCommon";
+import { transactionWrapperSchema, transactionStatusSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
   transaction: z.object({
-    plain: plainTransactionSchema,
+    plain: transactionWrapperSchema,
   }),
 });
 

@@ -85,16 +85,16 @@ export const requestContextSchema = z.object({
 export const addressBalancesDataSchema = (addresses: string[]) => {
     const toNumber = z.number().or(z.string()).pipe(z.coerce.number());
     const toBigInt = z.bigint().or(toNumber).pipe(z.coerce.bigint());
-    const addressesData: z.ZodType<Record<string, bigint | undefined>> = addresses.reduce((object, address) => {
+    const addressesData: z.ZodType<Record<string, bigint>> = addresses.reduce((object, address) => {
         return object.setKey(address, toBigInt);
     }, z.object({}));
     return z.object({
         data: addressesData.or(z.tuple([])).nullable(),
         context: requestContextSchema,
     }).transform((body) => {
-        // if no data is returned, set each address to 0
+        // if no data is returned, set it to an empty object
         return {
-            data: Array.isArray(body.data) ? {} : body.data ?? {},
+            data: !body.data || Array.isArray(body.data) ? {} : body.data ?? {},
             context: body.context,
         }
     });

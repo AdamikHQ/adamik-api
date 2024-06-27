@@ -1,10 +1,28 @@
 import z from "zod";
-import { ZodOpenApiPathsObject } from "zod-openapi";
+import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
 import { TokenType } from "~/app/model/types_WIP";
+
+extendZodWithOpenApi(z);
+
+const xpubRegex = /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!.*&c=)c=\d{10}|(?!.*&h=)h=bip\d{2,3})(?:(?=(?:&c=|&h=))&(c=\d{10}|h=bip\d{2,3}))?)?$/;
+
+const addressSchema = z.string().min(1);
 
 const requestSchema = z.object({
   chainId: z.string().min(1),
-  address: z.string().min(1),
+  // default is address, but allow for explicit address or xpub
+  address: addressSchema
+    .or(z.object({ address: addressSchema }))
+    .or(z.object({ xpub: z.string().regex(xpubRegex) }))
+    .openapi({
+      unionOneOf: true,
+      description: "Address or XPUB",
+      examples: [
+        "sample_address",
+        { xpub: "sample_xpub" },
+        { address: "sample_address" },
+      ]
+    }),
 });
 
 const responseSchema = z.object({
@@ -56,4 +74,5 @@ const addressStateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, addressStateOpenAPIPath };
+export { addressStateOpenAPIPath, requestSchema, responseSchema };
+

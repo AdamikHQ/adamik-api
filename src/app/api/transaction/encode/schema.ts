@@ -1,16 +1,16 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { plainTransactionSchema } from "~/app/api/schemaCommon";
+import { transactionWrapperSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
   transaction: z.object({
-    plain: plainTransactionSchema,
+    plain: transactionWrapperSchema,
   }),
 });
 
 const responseSchema = z.object({
   transaction: z.object({
-    plain: plainTransactionSchema,
+    plain: transactionWrapperSchema,
     encoded: z.string(),
   }),
 });

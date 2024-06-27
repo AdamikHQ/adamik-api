@@ -1,6 +1,6 @@
 import "~/patch";
 import { NextRequest, NextResponse } from "next/server";
-import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
+import { PlainTransaction, Transaction, TransactionData, TransactionWrapper } from "~/app/model/types_WIP";
 import { getService } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 import { requestSchema } from "./schema";
@@ -17,19 +17,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return handleRequestValidationError(e);
   }
 
-  const plainTransaction: PlainTransaction = stringToBigint(body.transaction.plain);
+  const plainTransaction: TransactionData = stringToBigint(body.transaction.plain);
 
   const service = getService(plainTransaction.chainId);
   if (!service) {
     return NextResponse.json(
       { message: `Chain ID ${plainTransaction.chainId} is not supported` },
       { status: 400, statusText: `Unsupported chainId` }
-    );
+    )
   }
 
   // Initialization of the full transaction that will be returned
   // NOTE It will traverse and be mutated by all the service functions below
-  let transaction: Transaction = {
+  let transaction: TransactionWrapper = {
     plain: plainTransaction,
     status: { errors: [], warnings: [] },
   };
