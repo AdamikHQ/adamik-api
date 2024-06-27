@@ -5,6 +5,11 @@ enum ChainId {
   ALGORAND = "algorand",
   COSMOSHUB = "cosmoshub",
   OSMOSIS = "osmosis",
+  OSMOSIS_TESTNET = "osmosis-testnet",
+  CELESTIA = "celestia",
+  CELESTIA_TESTNET = "celestia-testnet",
+  DYDX = "dydx",
+  DYDX_TESTNET = "dydx-testnet",
   COSMOSHUB_TESTNET = "cosmoshub-testnet",
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",
@@ -32,7 +37,6 @@ enum ChainId {
   MOONBASE = "moonbase",
   FANTOM = "fantom",
   PALM = "palm",
-
 }
 
 enum ChainFamily {

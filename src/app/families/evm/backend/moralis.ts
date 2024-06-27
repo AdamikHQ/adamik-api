@@ -8,13 +8,28 @@ const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth"],
   [ChainId.SEPOLIA, "sepolia"],
   [ChainId.HOLESKY, "holesky"],
-  //[ChainId.POLYGON, "polygon"],
+  [ChainId.POLYGON, "polygon"],
+  [ChainId.POLYGON_AMOY, "polygon amoy"],
   [ChainId.ARBITRUM, "arbitrum"],
-  [ChainId.ARBITRUM_SEPOLIA, "arbitrum sepolia"],
+  // no indexer for Sepolia with Moralis, to update later or switch to Etherscan
+  // [ChainId.ARBITRUM_SEPOLIA, "arbitrum sepolia"],
   [ChainId.OPTIMISM, "optimism"],
-  [ChainId.OPTIMISM_SEPOLIA, "optimism sepolia"],
+  // no indexer for Sepolia with Moralis, to update later or switch to Etherscan
+  // [ChainId.OPTIMISM_SEPOLIA, "optimism sepolia"],
   [ChainId.BASE, "base"],
   [ChainId.BASE_SEPOLIA, "base sepolia"],
+  [ChainId.BSC, "bsc"],
+  [ChainId.BSC_TESTNET, "bsc testnet"],
+  [ChainId.LINEA, "linea"],
+  [ChainId.LINEA_SEPOLIA, "linea sepolia"],
+  [ChainId.AVALANCHE, "avalanche"],
+  [ChainId.GNOSIS, "gnosis"],
+  [ChainId.GNOSIS_CHIADO, "gnosis testnet"],
+  [ChainId.MOONBEAM, "moonbeam"],
+  [ChainId.MOONRIVER, "moonriver"],
+  [ChainId.MOONBASE, "moonbase"],
+  [ChainId.FANTOM, "fantom"],
+  [ChainId.PALM, "palm"],
 ]);
 
 async function getERC20Tokens(chainId: ChainId, address: EvmAddress): Promise<MoralisERC20TokenBalance[]> {
