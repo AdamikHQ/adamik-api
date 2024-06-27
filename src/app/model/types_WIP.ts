@@ -10,6 +10,7 @@ enum ChainId {
   CELESTIA_TESTNET = "celestia-testnet",
   DYDX = "dydx",
   COSMOSHUB_TESTNET = "cosmoshub-testnet",
+  AXELAR = "axelar",
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",
   HOLESKY = "holesky",

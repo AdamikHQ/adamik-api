@@ -141,6 +141,24 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       minGasPrice: 0.025,
     },
   },
+  axelar: {
+    id: ChainId.AXELAR,
+    family: ChainFamily.COSMOS,
+    name: "Axelar",
+    ticker: "AXL",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://g.w.lavanet.xyz:443/gateway/axelar/rest/bfdb617358bd786c30374c8799978c27",
+    },
+    params: {
+      prefix: "axelar",
+      validatorPrefix: "axelarvaloper",
+      denom: "uaxl",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.007,
+    },
+  },
   ethereum: {
     id: ChainId.ETHEREUM,
     family: ChainFamily.EVM,
