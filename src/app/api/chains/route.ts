@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { CHAINS } from "~/app/config/chains";
+import { CHAINS_PUBLIC } from "~/app/config/chains";
 
 export async function GET(): Promise<NextResponse> {
-  return NextResponse.json({ chains: Object.keys(CHAINS) });
+  return NextResponse.json({ chains: CHAINS_PUBLIC });
 }

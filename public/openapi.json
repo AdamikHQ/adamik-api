@@ -103,19 +103,76 @@
         "tags": [
           "chains"
         ],
-        "description": "Retrieves a list of all supported blockchain networks.",
+        "description": "Retrieves a list of all supported blockchain networks with their detailed information.",
         "responses": {
           "200": {
-            "description": "200 OK - Returns a list of names for all supported blockchain networks.",
+            "description": "200 OK - Returns a list of names and detailed information for all supported blockchain networks.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "chains": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "enum": [
+                              "algorand",
+                              "cosmoshub",
+                              "osmosis",
+                              "cosmoshub-testnet",
+                              "ethereum",
+                              "sepolia",
+                              "holesky",
+                              "zksync",
+                              "zksync-sepolia",
+                              "injective-testnet",
+                              "base",
+                              "base-sepolia",
+                              "optimism",
+                              "optimism-sepolia",
+                              "arbitrum",
+                              "arbitrum-sepolia",
+                              "polygon",
+                              "polygon-amoy",
+                              "bsc",
+                              "bsc-testnet",
+                              "linea",
+                              "linea-sepolia",
+                              "avalanche",
+                              "gnosis",
+                              "gnosis-chiado",
+                              "moonbeam",
+                              "moonriver",
+                              "moonbase",
+                              "fantom",
+                              "palm"
+                            ]
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "family": {
+                            "type": "string",
+                            "enum": [
+                              "algorand",
+                              "cosmos",
+                              "evm"
+                            ]
+                          },
+                          "isTestnet": {
+                            "type": "boolean"
+                          },
+                          "params": {}
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "family"
+                        ]
                       }
                     }
                   },
@@ -174,14 +231,36 @@
                         "optimism",
                         "optimism-sepolia",
                         "arbitrum",
-                        "arbitrum-sepolia"
+                        "arbitrum-sepolia",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "palm"
                       ]
                     },
                     "name": {
                       "type": "string"
                     },
                     "family": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmos",
+                        "evm"
+                      ]
+                    },
+                    "isTestnet": {
+                      "type": "boolean"
                     },
                     "params": {}
                   },
@@ -253,14 +332,29 @@
                         "optimism",
                         "optimism-sepolia",
                         "arbitrum",
-                        "arbitrum-sepolia"
+                        "arbitrum-sepolia",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "palm"
                       ]
                     },
                     "type": {
                       "type": "string",
                       "enum": [
                         "ASA",
-                        "ERC20"
+                        "ERC20",
+                        "IBC"
                       ]
                     },
                     "id": {
@@ -367,7 +461,8 @@
                                     "type": "string",
                                     "enum": [
                                       "ASA",
-                                      "ERC20"
+                                      "ERC20",
+                                      "IBC"
                                     ]
                                   },
                                   "id": {
@@ -533,7 +628,21 @@
                               "optimism",
                               "optimism-sepolia",
                               "arbitrum",
-                              "arbitrum-sepolia"
+                              "arbitrum-sepolia",
+                              "polygon",
+                              "polygon-amoy",
+                              "bsc",
+                              "bsc-testnet",
+                              "linea",
+                              "linea-sepolia",
+                              "avalanche",
+                              "gnosis",
+                              "gnosis-chiado",
+                              "moonbeam",
+                              "moonriver",
+                              "moonbase",
+                              "fantom",
+                              "palm"
                             ]
                           },
                           "mode": {
@@ -698,7 +807,21 @@
                               "optimism",
                               "optimism-sepolia",
                               "arbitrum",
-                              "arbitrum-sepolia"
+                              "arbitrum-sepolia",
+                              "polygon",
+                              "polygon-amoy",
+                              "bsc",
+                              "bsc-testnet",
+                              "linea",
+                              "linea-sepolia",
+                              "avalanche",
+                              "gnosis",
+                              "gnosis-chiado",
+                              "moonbeam",
+                              "moonriver",
+                              "moonbase",
+                              "fantom",
+                              "palm"
                             ]
                           },
                           "mode": {
@@ -799,7 +922,21 @@
                                 "optimism",
                                 "optimism-sepolia",
                                 "arbitrum",
-                                "arbitrum-sepolia"
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm"
                               ]
                             },
                             "mode": {
@@ -911,7 +1048,21 @@
                               "optimism",
                               "optimism-sepolia",
                               "arbitrum",
-                              "arbitrum-sepolia"
+                              "arbitrum-sepolia",
+                              "polygon",
+                              "polygon-amoy",
+                              "bsc",
+                              "bsc-testnet",
+                              "linea",
+                              "linea-sepolia",
+                              "avalanche",
+                              "gnosis",
+                              "gnosis-chiado",
+                              "moonbeam",
+                              "moonriver",
+                              "moonbase",
+                              "fantom",
+                              "palm"
                             ]
                           },
                           "mode": {

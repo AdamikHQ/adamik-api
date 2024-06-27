@@ -2,7 +2,7 @@ import z from "zod";
 import { ZodError } from "zod";
 import { NextResponse } from "next/server";
 
-import { ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
+import { ChainFamily, ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
 
 const paginationSchema = z.object({
   limit: z.number(),
@@ -59,6 +59,14 @@ const transactionStatusSchema = z.object({
   warnings: z.array(errorMsgSchema),
 });
 
+const chainSchema = z.object({
+  id: z.nativeEnum(ChainId),
+  name: z.string(),
+  family: z.nativeEnum(ChainFamily),
+  isTestnet: z.boolean().optional(),
+  params: z.any().optional(),
+});
+
 function handleRequestValidationError(e: unknown): NextResponse {
   if (e instanceof ZodError) {
     return NextResponse.json(
@@ -69,4 +77,10 @@ function handleRequestValidationError(e: unknown): NextResponse {
   throw e;
 }
 
-export { paginationSchema, plainTransactionSchema, transactionStatusSchema, handleRequestValidationError };
+export {
+  paginationSchema,
+  plainTransactionSchema,
+  transactionStatusSchema,
+  handleRequestValidationError,
+  chainSchema,
+};
