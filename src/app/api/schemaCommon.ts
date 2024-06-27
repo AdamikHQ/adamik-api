@@ -4,6 +4,9 @@ import { fromZodError } from "zod-validation-error";
 import { NextResponse } from "next/server";
 
 import { ChainFamily, ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
+import { extendZodWithOpenApi } from "zod-openapi";
+
+extendZodWithOpenApi(z);
 
 // TODO Experiment with modular zod schemas:
 /*
