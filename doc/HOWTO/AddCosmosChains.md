@@ -1,10 +1,11 @@
 # How to support a new Cosmos chain in the [cosmos](https://github.com/AdamikHQ/adamik/tree/main/src/app/families/cosmos) family
 
-### Chain definition
+## Chain definition
 
 1. In [/src/app/model/types_WIP.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/model/types_WIP.ts): add your chain in the `ChainId` enum.
 
-2. In [/src/app/config/chains.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/config/chains.ts): add a new item in `CHAINS` with the following settings (**without** the comments):
+2. In [/src/app/config/chains.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/config/chains.ts): add a new item in `CHAINS` with the following settings:\
+   (**without** the comments :pray:)
 
 ```
   // Most values can be found at:
