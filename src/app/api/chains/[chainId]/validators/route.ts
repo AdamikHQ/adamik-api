@@ -32,5 +32,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const validators = pagination ? await service.getValidators(pagination) : await service.getValidators();
 
-  return NextResponse.json({ validators });
+  const validatorsResponse = {
+    chainId,
+    validators,
+  };
+
+  return NextResponse.json(validatorsResponse);
 }
