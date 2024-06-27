@@ -1,10 +1,11 @@
 # How to support a new EVM chain in the [evm](https://github.com/AdamikHQ/adamik/tree/main/src/app/families/evm) family
 
-### Chain definition
+## Chain definition
 
 1. In [/src/app/model/types_WIP.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/model/types_WIP.ts): add your chain in the `ChainId` enum.
 
-2. In [/src/app/config/chains.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/config/chains.ts): add a new item in `CHAINS` with the following settings (**without** the comments):
+2. In [/src/app/config/chains.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/config/chains.ts): add a new item in `CHAINS` with the following settings:\
+   (**without** the comments :pray: )
 
 ```
   YOUR_CHAIN_ID: {
@@ -29,7 +30,7 @@
   },
 ```
 
-### Viem lib
+## Viem lib
 
 [Viem](https://viem.sh/) is the library we use to interact with EVM nodes.\
 It uses its own IDs to identify chains, so we need a mapping with our Adamik `ChainId`.
@@ -43,7 +44,7 @@ In [/src/app/families/evm/backend/node.ts](https://github.com/AdamikHQ/adamik/bl
 
 2. Update the `getClientConfig` function with a `case` to map your ChainId to Viem's
 
-### Moralis explorer
+## Moralis explorer
 
 Moralis is currently the default and only explorer we use for all of our supported EVM chains.\
 (_Note: an Etherscan-based implementation also exists but isn't used, and in the future we'll likely support different implementations together_)
