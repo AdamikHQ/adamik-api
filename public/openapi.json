@@ -670,35 +670,34 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "address": {
+                    "chainId": {
                       "type": "string"
                     },
-                    "name": {
-                      "type": "string"
-                    },
-                    "logo": {
-                      "type": "string"
-                    },
-                    "website": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    },
-                    "commission": {
-                      "type": "number"
-                    },
-                    "maxCommission": {
-                      "type": "number"
-                    },
-                    "raw": {}
+                    "validators": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "commission": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "name"
+                        ]
+                      }
+                    }
                   },
                   "required": [
-                    "address",
-                    "name",
-                    "website",
-                    "status",
-                    "commission"
+                    "chainId",
+                    "validators"
                   ]
                 }
               }
