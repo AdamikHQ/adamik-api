@@ -19,8 +19,6 @@ import {
 } from "~/app/model/types_WIP";
 import { CosmosParams } from "../types";
 
-// TODO Sanitize data from backend ?
-
 const VALIDATORS_CACHE = new TTLCache<string, CosmosValidator[]>({
   max: 1, // Only need one item
   ttl: 1000 * 60 * 60, // Cache expiration = 1h
@@ -28,7 +26,7 @@ const VALIDATORS_CACHE = new TTLCache<string, CosmosValidator[]>({
 
 const getRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
 
-async function fetchWithPagination<T>(urlString: string, dataKey: string) {
+async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string) {
   const url = new URL(urlString);
 
   let data: T[] = [];
@@ -41,6 +39,7 @@ async function fetchWithPagination<T>(urlString: string, dataKey: string) {
     response = await fetch(url.toString()).then((response) => response.json());
 
     if (!response || !Array.isArray(response[dataKey])) {
+      console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}`);
       break;
     }
 
@@ -53,13 +52,13 @@ async function fetchWithPagination<T>(urlString: string, dataKey: string) {
 async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosBalance[]> {
   const url = `${getRootUrl(chainId)}/cosmos/bank/v1beta1/balances/${address}`;
 
-  return await fetchWithPagination<CosmosBalance>(url, "balances");
+  return await fetchWithPagination<CosmosBalance>(chainId, url, "balances");
 }
 
 async function fetchDelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
   const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegations/${address}`;
 
-  const delegationsData = await fetchWithPagination<CosmosDelegation>(url, "delegation_responses");
+  const delegationsData = await fetchWithPagination<CosmosDelegation>(chainId, url, "delegation_responses");
 
   return delegationsData.map((delegation) => {
     return {
@@ -75,7 +74,11 @@ async function fetchDelegations(chainId: ChainId, address: string): Promise<Stak
 async function fetchRedelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
   const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegators/${address}/redelegations`;
 
-  const redelegationsData = await fetchWithPagination<CosmosRedelegation>(url, "redelegation_responses");
+  const redelegationsData = await fetchWithPagination<CosmosRedelegation>(
+    chainId,
+    url,
+    "redelegation_responses"
+  );
 
   const redelegations: StakingPosition[] = [];
   for (const { entries, redelegation } of redelegationsData) {
@@ -101,7 +104,11 @@ async function fetchRedelegations(chainId: ChainId, address: string): Promise<St
 async function fetchUnbondingDelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
   const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegators/${address}/unbonding_delegations`;
 
-  const unbondingsData = await fetchWithPagination<CosmosUnbondingDelegation>(url, "unbonding_responses");
+  const unbondingsData = await fetchWithPagination<CosmosUnbondingDelegation>(
+    chainId,
+    url,
+    "unbonding_responses"
+  );
 
   const unbondings: StakingPosition[] = [];
   for (const { validator_address: validatorAddress, entries } of unbondingsData) {
@@ -126,6 +133,10 @@ async function fetchRewards(
 
   // (Note: this endpoint is not paginated)
   const data: CosmosRewards = await fetch(url).then((response) => response.json());
+  if (!data?.rewards) {
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    return { native: [], tokens: [] };
+  }
 
   const rewardsData = data.rewards;
 
@@ -167,7 +178,7 @@ async function fetchRewards(
 async function fetchAllValidators(chainId: ChainId): Promise<CosmosValidator[]> {
   const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/validators`;
 
-  return await fetchWithPagination<CosmosValidator>(url, "validators");
+  return await fetchWithPagination<CosmosValidator>(chainId, url, "validators");
 }
 
 async function getValidatorsCached(chainId: ChainId, pagination?: Pagination): Promise<CosmosValidator[]> {
@@ -214,9 +225,8 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
       accountData.pubKeyType = srcAccount.pub_key["@type"];
     }
   } catch (e) {
-    console.warn(
-      "Could not fetch account info, account might have never been used, using default values instead"
-    );
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    throw new Error(`Error while fetching ${chainId} account info from the node`);
   }
 
   return accountData;
@@ -227,13 +237,21 @@ async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promis
   const url = `${getRootUrl(chainId)}/ibc/apps/transfer/v1/denom_traces/${ibcTokenId}`;
 
   const data = await fetch(url).then((response) => response.json());
+  if (!data?.denom_trace?.base_denom) {
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    return "";
+  }
 
-  return data?.denom_trace?.base_denom || "";
+  return data.denom_trace.base_denom;
 }
 
 async function fetchNetworkId(chainId: ChainId): Promise<string> {
   const url = `${getRootUrl(chainId)}/cosmos/base/tendermint/v1beta1/node_info`;
   const data = await fetch(url).then((response) => response.json());
+  if (!data?.default_node_info?.network) {
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    return "";
+  }
 
   return data.default_node_info.network;
 }
@@ -246,12 +264,12 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
   };
 
   const data = await fetch(url, options).then((response) => response.json());
-
-  if (data?.gas_info?.gas_used) {
-    return BigInt(data.gas_info.gas_used);
-  } else {
-    throw new Error("No gas_used returned from the node");
+  if (!data?.gas_info?.gas_used) {
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    throw new Error("Error while getting gas estimate from the node");
   }
+
+  return BigInt(data.gas_info.gas_used);
 }
 
 async function broadcastTransaction(chainId: ChainId, payload: string): Promise<string> {
@@ -263,15 +281,14 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
 
   const data = await fetch(url, options).then((response) => response.json());
 
-  if (data?.tx_response?.code) {
+  if (data?.tx_response?.code || !data?.tx_response?.txhash) {
     // error codes: https://github.com/cosmos/cosmos-sdk/blob/master/types/errors/errors.go
-    throw new Error(
-      "invalid broadcast return (code: " +
-        (data?.tx_response?.code || "?") +
-        ", message: '" +
-        (data?.tx_response?.raw_log || "") +
-        "')"
-    );
+    const errorMessage = `Invalid response from broadcast on ${chainId} node (code: ${
+      data?.tx_response?.code || "?"
+    }, message: '${data?.tx_response?.raw_log || ""}')`;
+
+    console.warn("/!\\ " + errorMessage);
+    throw new Error(errorMessage);
   }
 
   return data.tx_response.txhash;
