@@ -30,7 +30,7 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
         ticker: tokenData.symbol,
         contractAddress: tokenData.token_address,
       },
-      value: BigInt(tokenData.balance),
+      amount: BigInt(tokenData.balance),
     })
   );
 
@@ -62,7 +62,7 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
     if (tokenDetail && tokenBalances[index]) {
       tokenAmounts.push({
         token: tokenDetail,
-        value: tokenBalances[index] as bigint,
+        amount: tokenBalances[index] as bigint,
       });
     }
   });
@@ -74,6 +74,7 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
     balances: {
       native: {
         available: nativeBalance,
+        total: nativeBalance,
       },
       tokens: tokenAmounts,
     },

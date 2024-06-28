@@ -14,7 +14,7 @@ async function getAddressState(this: AlgorandService, address: string): Promise<
   const tokenDetails = await Promise.all(tokenDetailsPromises);
 
   tokenDetails.forEach((tokenDetail, index) => {
-    if (tokenDetail) tokenAmounts.push({ token: tokenDetail, value: assetAmounts[index].amount });
+    if (tokenDetail) tokenAmounts.push({ token: tokenDetail, amount: assetAmounts[index].amount });
   });
 
   return {
@@ -23,6 +23,7 @@ async function getAddressState(this: AlgorandService, address: string): Promise<
     balances: {
       native: {
         available: nativeBalance,
+        total: nativeBalance,
       },
       tokens: tokenAmounts,
     },

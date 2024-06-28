@@ -5,10 +5,6 @@ import { requestSchema } from "./schema";
 import { handleRequestValidationError } from "~/app/api/schemaCommon";
 import { isStakingService } from "~/app/model/service";
 
-// TODO Make sure to document this implicit limit in the doc / swagger description
-// We could also add something in the response to help user know what to fetch next (next limit, next URL...)
-const VALIDATORS_LIMIT = 100;
-
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await request.json();
   try {
@@ -17,7 +13,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return handleRequestValidationError(e);
   }
 
-  const { chainId, limit, offset } = body;
+  const { chainId, pagination } = body;
 
   const service = getService(chainId);
   if (!service) {
@@ -34,7 +30,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const validatorResponse = await service.getValidators(offset ?? 0, limit ?? VALIDATORS_LIMIT);
+  const validators = pagination ? await service.getValidators(pagination) : await service.getValidators();
 
-  return NextResponse.json(validatorResponse);
+  const validatorsResponse = {
+    chainId,
+    validators,
+  };
+
+  return NextResponse.json(validatorsResponse);
 }

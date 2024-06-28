@@ -505,19 +505,125 @@
                                   "decimals"
                                 ]
                               },
-                              "value": {
+                              "amount": {
                                 "type": "string"
                               }
                             },
                             "required": [
                               "token",
-                              "value"
+                              "amount"
                             ]
                           }
                         }
                       },
                       "required": [
                         "native"
+                      ]
+                    },
+                    "staking": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "string"
+                        },
+                        "locked": {
+                          "type": "string"
+                        },
+                        "unlocking": {
+                          "type": "string"
+                        },
+                        "unlocked": {
+                          "type": "string"
+                        },
+                        "positions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "validatorAddresses": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "amount": {
+                                "type": "string"
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "free",
+                                  "locked",
+                                  "unlocking",
+                                  "unlocked"
+                                ]
+                              },
+                              "completionDate": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "validatorAddresses",
+                              "amount",
+                              "status"
+                            ]
+                          }
+                        },
+                        "rewards": {
+                          "type": "object",
+                          "properties": {
+                            "native": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "validatorAddress",
+                                  "amount"
+                                ]
+                              }
+                            },
+                            "tokens": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "tokenId": {
+                                    "type": "string"
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "tokenId",
+                                  "amount"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "native",
+                            "tokens"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "locked",
+                        "unlocking",
+                        "unlocked",
+                        "positions"
                       ]
                     }
                   },
@@ -548,11 +654,20 @@
                   "chainId": {
                     "type": "string"
                   },
-                  "limit": {
-                    "type": "number"
-                  },
-                  "offset": {
-                    "type": "number"
+                  "pagination": {
+                    "type": "object",
+                    "properties": {
+                      "limit": {
+                        "type": "number"
+                      },
+                      "offset": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "limit",
+                      "offset"
+                    ]
                   }
                 },
                 "required": [
@@ -570,35 +685,34 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "address": {
+                    "chainId": {
                       "type": "string"
                     },
-                    "name": {
-                      "type": "string"
-                    },
-                    "logo": {
-                      "type": "string"
-                    },
-                    "website": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "string"
-                    },
-                    "commission": {
-                      "type": "number"
-                    },
-                    "maxCommission": {
-                      "type": "number"
-                    },
-                    "raw": {}
+                    "validators": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "commission": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "name"
+                        ]
+                      }
+                    }
                   },
                   "required": [
-                    "address",
-                    "name",
-                    "website",
-                    "status",
-                    "commission"
+                    "chainId",
+                    "validators"
                   ]
                 }
               }
