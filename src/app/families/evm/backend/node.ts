@@ -21,6 +21,11 @@ import {
   avalanche,
   gnosis,
   gnosisChiado,
+  moonbeam,
+  moonriver,
+  moonbeamDev,
+  fantom,
+  palm,
 } from "viem/chains";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
@@ -76,6 +81,16 @@ function getClientConfig(chainId: ChainId) {
       return { chain: gnosis, transport };
     case ChainId.GNOSIS_CHIADO:
       return { chain: gnosisChiado, transport };
+    case ChainId.MOONBEAM:
+      return { chain: moonbeam, transport };
+    case ChainId.MOONRIVER:
+      return { chain: moonriver, transport };
+    case ChainId.MOONBASE:
+      return { chain: moonbeamDev, transport };
+    case ChainId.FANTOM:
+      return { chain: fantom, transport };
+    case ChainId.PALM:
+      return { chain: palm, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }
