@@ -14,20 +14,20 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
 
   let nativeBalance = 0n;
   let tokenBalances: TokenAmount[] = [];
-  for (const item of balances) {
-    if (item.denom === chainParams?.denom) {
+  for (const balance of balances) {
+    if (balance.denom === chainParams?.denom) {
       // Native
-      nativeBalance += BigInt(item.amount);
+      nativeBalance += BigInt(balance.amount);
 
       // FIXME Should maybe remove this additional condition?
       // as some IBC tokens ids seem to not include the "ibc/" prefix
-    } else if (item.denom.startsWith("ibc/")) {
+    } else if (balance.denom.startsWith("ibc/")) {
       // Tokens
-      const token = COSMOS_TOKENS.find((token) => token.denom === item.denom) as IBCToken;
+      const token = COSMOS_TOKENS.find((token) => token.denom === balance.denom) as IBCToken;
 
       if (token) {
         tokenBalances.push({
-          amount: BigInt(item.amount),
+          amount: BigInt(balance.amount),
           token: {
             chainId: this.chainId,
             type: TokenType.IBC,
@@ -38,7 +38,7 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
           },
         });
       } else {
-        console.warn(`/!\\ Could not find info about IBC token '${item.denom}':`);
+        console.warn(`/!\\ Missing info about IBC token '${balance.denom}':`);
       }
     }
   }

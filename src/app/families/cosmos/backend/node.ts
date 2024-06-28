@@ -28,30 +28,38 @@ const VALIDATORS_CACHE = new TTLCache<string, CosmosValidator[]>({
 
 const getRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
 
+async function fetchWithPagination<T>(urlString: string, dataKey: string) {
+  const url = new URL(urlString);
+
+  let data: T[] = [];
+  let response;
+  do {
+    if (response?.pagination?.next_key) {
+      url.searchParams.set("pagination.key", response.pagination.next_key);
+    }
+
+    response = await fetch(url.toString()).then((response) => response.json());
+
+    if (!response || !Array.isArray(response[dataKey])) {
+      break;
+    }
+
+    data = data.concat(response[dataKey]);
+  } while (response?.pagination?.next_key);
+
+  return data;
+}
+
 async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosBalance[]> {
   const url = `${getRootUrl(chainId)}/cosmos/bank/v1beta1/balances/${address}`;
 
-  // TODO This request is paginated, need to handle pagination
-  const data = await fetch(url).then((response) => response.json());
-  if (!data?.balances) {
-    return [];
-  }
-
-  return data.balances.map((item: any) => {
-    return {
-      denom: item.denom,
-      amount: BigInt(item.amount),
-    };
-  });
+  return await fetchWithPagination<CosmosBalance>(url, "balances");
 }
 
 async function fetchDelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
   const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegations/${address}`;
 
-  // TODO This request is paginated, need to handle pagination
-  const data = await fetch(url).then((response) => response.json());
-
-  const delegationsData: CosmosDelegation[] = data.delegation_responses;
+  const delegationsData = await fetchWithPagination<CosmosDelegation>(url, "delegation_responses");
 
   return delegationsData.map((delegation) => {
     return {
@@ -67,10 +75,7 @@ async function fetchDelegations(chainId: ChainId, address: string): Promise<Stak
 async function fetchRedelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
   const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegators/${address}/redelegations`;
 
-  // TODO This request is paginated, need to handle pagination
-  const data = await fetch(url).then((response) => response.json());
-
-  const redelegationsData: CosmosRedelegation[] = data.redelegation_responses;
+  const redelegationsData = await fetchWithPagination<CosmosRedelegation>(url, "redelegation_responses");
 
   const redelegations: StakingPosition[] = [];
   for (const { entries, redelegation } of redelegationsData) {
@@ -96,10 +101,7 @@ async function fetchRedelegations(chainId: ChainId, address: string): Promise<St
 async function fetchUnbondingDelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
   const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegators/${address}/unbonding_delegations`;
 
-  // TODO This request is paginated, need to handle pagination
-  const data = await fetch(url).then((response) => response.json());
-
-  const unbondingsData: CosmosUnbondingDelegation[] = data.unbonding_responses;
+  const unbondingsData = await fetchWithPagination<CosmosUnbondingDelegation>(url, "unbonding_responses");
 
   const unbondings: StakingPosition[] = [];
   for (const { validator_address: validatorAddress, entries } of unbondingsData) {
@@ -122,6 +124,7 @@ async function fetchRewards(
 ): Promise<{ native: StakingReward[]; tokens: TokenStakingReward[] }> {
   const url = `${getRootUrl(chainId)}/cosmos/distribution/v1beta1/delegators/${address}/rewards`;
 
+  // (Note: this endpoint is not paginated)
   const data: CosmosRewards = await fetch(url).then((response) => response.json());
 
   const rewardsData = data.rewards;
@@ -162,25 +165,9 @@ async function fetchRewards(
 }
 
 async function fetchAllValidators(chainId: ChainId): Promise<CosmosValidator[]> {
-  const url = new URL(`${getRootUrl(chainId)}/cosmos/staking/v1beta1/validators`);
+  const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/validators`;
 
-  let validators: CosmosValidator[] = [];
-  let data;
-  do {
-    if (data?.pagination?.next_key) {
-      url.searchParams.set("pagination.key", data.pagination.next_key);
-    }
-
-    data = await fetch(url.toString()).then((response) => response.json());
-
-    if (!Array.isArray(data?.validators)) {
-      break;
-    }
-
-    validators = validators.concat(data.validators);
-  } while (data?.pagination?.next_key);
-
-  return validators;
+  return await fetchWithPagination<CosmosValidator>(url, "validators");
 }
 
 async function getValidatorsCached(chainId: ChainId, pagination?: Pagination): Promise<CosmosValidator[]> {
