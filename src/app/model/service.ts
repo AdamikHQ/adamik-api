@@ -1,5 +1,12 @@
-import { AddressState, BroadcastStatus, ChainId, Token, Transaction } from "./types_WIP";
-import { ValidatorResponse } from "./validator";
+import {
+  AddressState,
+  BroadcastStatus,
+  ChainId,
+  Pagination,
+  Token,
+  Transaction,
+  Validator,
+} from "./types_WIP";
 
 // TODO Doc (comment) for each function in every service
 
@@ -38,7 +45,7 @@ abstract class BaseChainService {
 // STAKING ////////////////////////////////////////////////////////////////////////////////////
 
 interface StakingService {
-  getValidators(offset: number, limit: number): Promise<ValidatorResponse>;
+  getValidators(pagination?: Pagination): Promise<Validator[]>;
 }
 
 // Type predicate: checks that the input object implements the StakingService interface

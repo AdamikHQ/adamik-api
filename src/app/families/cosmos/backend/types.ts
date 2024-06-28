@@ -7,23 +7,80 @@ type CosmosAccount = {
 
 type CosmosBalance = {
   denom: string;
-  amount: bigint;
+  amount: string;
 };
 
-type COSMOS_STATUS =
+type CosmosDelegation = {
+  balance: CosmosBalance;
+  delegation: {
+    delegator_address: string;
+    validator_address: string;
+    shares: number;
+  };
+};
+
+type CosmosRedelegation = {
+  redelegation: {
+    delegator_address: string;
+    validator_src_address: string;
+    validator_dst_address: string;
+    entries:
+      | {
+          creation_height: string;
+          completion_time: string;
+          initial_balance: string;
+          shares_dst: string;
+        }[]
+      // null since sdk 0.46
+      | null;
+  };
+  entries: {
+    redelegation_entry: {
+      creation_height: string;
+      completion_time: string;
+      initial_balance: string;
+      shares_dst: string;
+      // only since sdk 0.46
+      unbonding_id?: string;
+    };
+    balance: string;
+  }[];
+};
+
+type CosmosUnbondingDelegation = {
+  delegator_address: string;
+  validator_address: string;
+  entries: {
+    creation_height: string;
+    completion_time: string;
+    initial_balance: string;
+    balance: string;
+    unbonding_id: string;
+    unbonding_on_hold_ref_count: string;
+  }[];
+};
+
+type CosmosReward = {
+  validator_address: string;
+  reward: CosmosBalance[];
+};
+
+type CosmosRewards = {
+  rewards: CosmosReward[];
+  total: CosmosBalance[];
+};
+
+type COSMOS_STAKING_STATUS =
   | "BOND_STATUS_UNSPECIFIED"
   | "BOND_STATUS_UNBONDED"
   | "BOND_STATUS_UNBONDING"
   | "BOND_STATUS_BONDED";
 
-/**
- * Naive implementation of Cosmos Validator
- */
-export type CosmosValidator = {
+type CosmosValidator = {
   operator_address: string;
   consensus_pubkey: string;
   jailed: boolean;
-  status: COSMOS_STATUS;
+  status: COSMOS_STAKING_STATUS;
   tokens: string;
   delegator_shares: string;
   description: {
@@ -46,8 +103,12 @@ export type CosmosValidator = {
   min_self_delegation: string;
 };
 
-export type CosmosValidatorResponse = {
-  validators: CosmosValidator[];
+export type {
+  CosmosAccount,
+  CosmosBalance,
+  CosmosDelegation,
+  CosmosRedelegation,
+  CosmosUnbondingDelegation,
+  CosmosRewards,
+  CosmosValidator,
 };
-
-export type { CosmosAccount, CosmosBalance };

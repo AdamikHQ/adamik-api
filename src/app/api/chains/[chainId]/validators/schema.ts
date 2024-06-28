@@ -1,21 +1,21 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { paginationSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
   chainId: z.string(),
-  limit: z.number().optional(),
-  offset: z.number().optional(),
+  pagination: paginationSchema.optional(),
 });
 
 const responseSchema = z.object({
-  address: z.string(),
-  name: z.string(),
-  logo: z.string().optional(),
-  website: z.string(),
-  status: z.string(),
-  commission: z.number(),
-  maxCommission: z.number().optional(),
-  raw: z.unknown(),
+  chainId: z.string(), // FIXME Update after https://github.com/AdamikHQ/adamik/pull/47 is merged
+  validators: z
+    .object({
+      address: z.string(),
+      name: z.string(),
+      commission: z.number().optional(),
+    })
+    .array(),
 });
 
 const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
