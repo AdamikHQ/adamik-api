@@ -1,38 +1,23 @@
-import { getBalance, getERC20Balance } from "../backend/node";
-import { EvmService } from ".";
 import { AddressState, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { EvmAddress } from "../types";
 import { getOneEventPerContractAddress } from "../logic";
+import { getBalance, getERC20Balance } from "../backend/node";
 import { getERC20TransferEvents } from "../backend/etherscan";
-import { getERC20Tokens } from "../backend/moralis";
+import { getERC20TokenAmounts } from "../backend/moralis";
+import { EvmService } from ".";
 
 async function getAddressState(this: EvmService, address: EvmAddress): Promise<AddressState> {
   // Native
   const nativeBalance = await getBalance(this.chainId, address);
 
   // Tokens
-  const tokenAmounts: TokenAmount[] = [];
 
   // TODO Providers abstraction https://adamik.atlassian.net/browse/ADV-201
 
   //*
   // Moralis implementation
 
-  const tokensData = await getERC20Tokens(this.chainId, address);
-  tokensData?.forEach((tokenData) =>
-    tokenAmounts.push({
-      token: {
-        chainId: this.chainId,
-        type: TokenType.ERC20,
-        id: tokenData.token_address,
-        name: tokenData.name,
-        decimals: tokenData.decimals,
-        ticker: tokenData.symbol,
-        contractAddress: tokenData.token_address,
-      },
-      amount: BigInt(tokenData.balance),
-    })
-  );
+  const tokenAmounts: TokenAmount[] = await getERC20TokenAmounts(this.chainId, address);
 
   /*/
   // Etherscan implementation
