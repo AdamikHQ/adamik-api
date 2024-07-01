@@ -18,7 +18,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
         { status: 400, statusText: "Invalid or missing fields" }
       );
     }
-  }
+  } // else xpub doesnt need to be validated, zod already validated it with a regex
   const state = await service.getAddressState(origin);
 
   return NextResponse.json(state);

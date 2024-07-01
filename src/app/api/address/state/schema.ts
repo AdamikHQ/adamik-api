@@ -12,30 +12,39 @@ const addressSchema = z.string().min(1);
 const requestSchema = z.object({
   chainId: chainIdSchema,
   // default is address, but allow for explicit address or xpub
-  origin: z.union([
-    addressSchema.openapi({
+}).and(
+  z.object({
+    address: addressSchema.openapi({
       title: "address"
     }),
-    z.object({ address: addressSchema }).openapi({
-      title: "address"
-    }),
-    z.object({ xpub: z.string().regex(xpubRegex) }).openapi({
-      title: "xpub"
-    }),
-  ]).transform(data => {
-    // make sure we always return an object for ease of use in the code, similate backwards compatibility
-    if (typeof (data) === 'string') {
+  }).or(
+    z.object({
+      origin: z.union([
+        z.object({ address: addressSchema }).openapi({
+          title: "address"
+        }),
+        z.object({ xpub: z.string().regex(xpubRegex) }).openapi({
+          title: "xpub"
+        }),
+      ])
+    })
+  ).transform(data => {
+    // TODO: to remove, we just want to poke a simulate backwards compatibility
+    // make sure we always return an object for ease of use in the code
+    if ('address' in data) {
       return {
-        address: data
+        origin: {
+          address: data.address
+        }
       };
     }
     return data;
   }),
-}).openapi({
+).openapi({
   examples: [
     {
       chainId: ChainId.ETHEREUM,
-      origin: "0x0000000000000000000000000000000000000000"
+      address: "0x0000000000000000000000000000000000000000"
     },
     {
       chainId: ChainId.ETHEREUM,
