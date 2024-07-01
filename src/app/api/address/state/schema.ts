@@ -1,14 +1,15 @@
-import z from "zod";
+import z, { ZodIssueCode, ZodIssueOptionalMessage } from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import { StakingStatus, TokenType } from "~/app/model/types_WIP";
+import { chainIdSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
-  chainId: z.string().min(1),
+  chainId: chainIdSchema,
   address: z.string().min(1),
 });
 
 const responseSchema = z.object({
-  chainId: z.string(),
+  chainId: chainIdSchema,
   address: z.string().min(1),
   balances: z.object({
     native: z.object({

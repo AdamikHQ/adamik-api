@@ -3,25 +3,14 @@ import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { stringToBigint } from "~/app/model/serialization";
 import { getService } from "~/app/families/services";
 import { requestSchema } from "./schema";
-import { handleRequestValidationError } from "~/app/api/schemaCommon";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = await request.json();
-  try {
-    requestSchema.parse(body);
-  } catch (e) {
-    return handleRequestValidationError(e);
-  }
+async function POST(request: NextRequest): Promise<NextResponse> {
+  const body = requestSchema.parse(await request.json());
 
   const plainTransaction: PlainTransaction = stringToBigint(body.transaction.plain);
 
   const service = getService(plainTransaction.chainId);
-  if (!service) {
-    return NextResponse.json(
-      { message: `Chain ID ${plainTransaction.chainId} is not supported` },
-      { status: 400, statusText: `Unsupported chainId` }
-    );
-  }
 
   let transaction: Transaction = {
     plain: plainTransaction,
@@ -36,3 +25,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json(transaction.status);
   }
 }
+
+module.exports = apiHandler({
+  POST
+});

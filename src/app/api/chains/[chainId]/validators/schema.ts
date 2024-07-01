@@ -1,14 +1,16 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { chainIdSchema } from "~/app/api/schemaCommon";
 import { paginationSchema } from "~/app/api/schemaCommon";
 
+// FIXME: chainId is already defined in the URL as a path parameter, use it instead
 const requestSchema = z.object({
-  chainId: z.string(),
+  chainId: chainIdSchema,
   pagination: paginationSchema.optional(),
 });
 
 const responseSchema = z.object({
-  chainId: z.string(), // FIXME Update after https://github.com/AdamikHQ/adamik/pull/47 is merged
+  chainId: chainIdSchema,
   validators: z
     .object({
       address: z.string(),
