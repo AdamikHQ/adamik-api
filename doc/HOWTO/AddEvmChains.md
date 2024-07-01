@@ -9,8 +9,9 @@
 
 ```
   YOUR_CHAIN_ID: {
-    id: ChainId.YOUR_CHAIN_ID,
     family: ChainFamily.EVM,
+    id: ChainId.YOUR_CHAIN_ID,
+    nativeId: YOUR CHAIN'S chain-id, // Evm native chain-id can be found at https://chainlist.org
     name: "YOUR CHAIN NAME", // Full name can be found at https://chainlist.org
     ticker: "YOUR CHAIN TICKER", // Ticker can be found at https://chainlist.org, as "Currency"
     decimals: 18, // Decimals should be 18 for all EVM chains
@@ -21,10 +22,9 @@
       // Moralis explorer (current default):
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    // Refer to EvmParams in https://github.com/AdamikHQ/adamik/blob/main/src/app/families/evm/types.ts
+    // Refer to EvmChainParams in https://github.com/AdamikHQ/adamik/blob/main/src/app/families/evm/types.ts
     // for the following EVM-specific parameters
     params: {
-      evmChainId: YOUR CHAIN'S chain-id, // Evm native chain-id can be found at https://chainlist.org
       isL2Fees: true, // Default is false, should be set to true only for L2 chains with specific fees management (Optimism, Base...)
     },
   },

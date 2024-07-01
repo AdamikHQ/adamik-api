@@ -80,9 +80,11 @@ async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Tran
 }
 
 async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Transaction) {
+  const chain = CHAINS[chainId];
+  const chainParams = chain.params as EvmParams;
+
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
-  const chainParams = CHAINS[chainId].params as EvmParams;
   const data =
     transaction.plain.mode === TransactionMode.TRANSFER_TOKEN
       ? encodeFunctionData({
@@ -100,7 +102,7 @@ async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Trans
   const serializeTransactionFn = chainParams.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
   transaction.encoded = serializeTransactionFn({
-    chainId: chainParams.evmChainId,
+    chainId: Number(chain.nativeId),
     maxFeePerGas,
     maxPriorityFeePerGas,
     gas: transaction.plain.gas,

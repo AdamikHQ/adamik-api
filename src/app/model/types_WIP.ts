@@ -52,17 +52,16 @@ type Backends = {
   explorerURL?: string;
 };
 
-// FIXME Can TParams be replaced with ChainParams?
-type Chain<TParams> = {
+type Chain = {
   id: ChainId;
-  //nativeId: string; // e.g value of chain-id on EVM
+  nativeId: string; // Native chain identifier as defined by the chain itself
   name: string;
   family: ChainFamily;
   ticker: string;
   decimals: number;
   backends: Backends;
   isTestNet?: boolean;
-  params?: TParams;
+  params?: ChainParams;
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
