@@ -13,8 +13,9 @@
   // - https://github.com/cosmos/chain-registry/blob/master/[YOUR_CHAIN]/assetlist.json
 
   YOUR_CHAIN_ID: {
-    id: ChainId.YOUR_CHAIN_ID,
     family: ChainFamily.COSMOS,
+    id: ChainId.YOUR_CHAIN_ID,
+    nativeId: YOUR CHAIN'S chain-id, // "chain_id" in chain.json
     name: "YOUR CHAIN NAME", // "pretty_name" in chain.json
     ticker: "YOUR CHAIN TICKER", // "symbol" in assetlist.json
     decimals: xxx, // "exponent" for the ticker, in assetlist.json
