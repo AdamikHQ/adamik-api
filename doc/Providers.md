@@ -15,7 +15,27 @@
 
 ## osmosis
 
-| nodeURL | https://g.w.lavanet.xyz:443/gateway/cos3/rest/b18879ccf0bbb32d82c6c6ee02074f8a |
+| nodeURL | https://g.w.lavanet.xyz:443/gateway/osmosis/rest/bfdb617358bd786c30374c8799978c27 |
+
+## osmosis-testnet
+
+| nodeURL | https://g.w.lavanet.xyz:443/gateway/osmosist/rest/bfdb617358bd786c30374c8799978c27 |
+
+## celestia
+
+| nodeURL | https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27 |
+
+## celestia-testnet
+
+| nodeURL | https://g.w.lavanet.xyz:443/gateway/celestiatm/rest/bfdb617358bd786c30374c8799978c27 |
+
+## dydx
+
+| nodeURL | https://community.nuxian-node.ch:6797/dydx/crpc |
+
+## axelar
+
+| nodeURL | https://g.w.lavanet.xyz:443/gateway/axelar/rest/bfdb617358bd786c30374c8799978c27 |
 
 ## ethereum
 

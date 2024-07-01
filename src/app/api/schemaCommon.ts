@@ -5,6 +5,11 @@ import { extendZodWithOpenApi } from "zod-openapi";
 
 extendZodWithOpenApi(z);
 
+const paginationSchema = z.object({
+  limit: z.number(),
+  offset: z.number(),
+});
+
 // TODO Experiment with modular zod schemas:
 /*
 const commonTransactionSchema = z.object({
@@ -77,5 +82,10 @@ const chainSchema = z.object({
   params: z.any().optional(),
 });
 
-export { chainIdSchema, chainSchema, plainTransactionSchema, transactionStatusSchema };
-
+export {
+  paginationSchema,
+  plainTransactionSchema,
+  transactionStatusSchema,
+  chainIdSchema,
+  chainSchema,
+};

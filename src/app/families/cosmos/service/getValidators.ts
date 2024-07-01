@@ -1,20 +1,21 @@
-import { ValidatorResponse } from "~/app/model/validator";
-import { fetchValidators } from "../backend/node";
+import { Pagination, Validator } from "~/app/model/types_WIP";
+import { getValidatorsCached } from "../backend/node";
 import { CosmosService } from ".";
 
-async function getValidators(this: CosmosService, offset: number, limit: number): Promise<ValidatorResponse> {
-  const response = await fetchValidators(this.chainId, offset, limit);
-  return {
-    validators: response.validators.map((validator) => ({
-      address: validator.operator_address,
-      name: validator.description.moniker,
-      commission: Number(validator.commission.commission_rates.rate) * 100,
-      maxCommission: Number(validator.commission.commission_rates.max_rate) * 100,
-      website: validator.description.website,
-      status: validator.status,
-      raw: validator,
-    })),
-  };
+async function getValidators(this: CosmosService, pagination?: Pagination): Promise<Validator[]> {
+  const validatorsData = await getValidatorsCached(this.chainId, pagination);
+  return validatorsData.map((validatorData) => {
+    const validator: Validator = {
+      address: validatorData.operator_address,
+      name: validatorData.description?.moniker,
+    };
+
+    if (validatorData.commission?.commission_rates?.rate !== undefined) {
+      validator.commission = Number(validatorData.commission?.commission_rates?.rate) * 100;
+    }
+
+    return validator;
+  });
 }
 
 export { getValidators };

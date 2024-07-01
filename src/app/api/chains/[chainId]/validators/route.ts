@@ -11,7 +11,7 @@ import { apiHandler } from "~/app/tools/handlers/apiHandler";
 const VALIDATORS_LIMIT = 100;
 
 async function POST(request: NextRequest): Promise<NextResponse> {
-  const { chainId, limit, offset } = requestSchema.parse(await request.json());
+  const { chainId, pagination } = requestSchema.parse(await request.json());
 
   const service = getService(chainId);
 
@@ -22,9 +22,14 @@ async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const validatorResponse = await service.getValidators(offset ?? 0, limit ?? VALIDATORS_LIMIT);
+  const validators = pagination ? await service.getValidators(pagination) : await service.getValidators();
 
-  return NextResponse.json(validatorResponse);
+  const validatorsResponse = {
+    chainId,
+    validators,
+  };
+
+  return NextResponse.json(validatorsResponse);
 }
 
 module.exports = apiHandler({
