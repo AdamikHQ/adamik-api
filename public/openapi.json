@@ -587,96 +587,119 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "chainId": {
-                    "type": "string",
-                    "enum": [
-                      "algorand",
-                      "cosmoshub",
-                      "osmosis",
-                      "osmosis-testnet",
-                      "celestia",
-                      "celestia-testnet",
-                      "dydx",
-                      "cosmoshub-testnet",
-                      "axelar",
-                      "ethereum",
-                      "sepolia",
-                      "holesky",
-                      "zksync",
-                      "zksync-sepolia",
-                      "injective-testnet",
-                      "base",
-                      "base-sepolia",
-                      "optimism",
-                      "optimism-sepolia",
-                      "arbitrum",
-                      "arbitrum-sepolia",
-                      "bitcoin",
-                      "bitcoin-testnet",
-                      "polygon",
-                      "polygon-amoy",
-                      "bsc",
-                      "bsc-testnet",
-                      "linea",
-                      "linea-sepolia",
-                      "avalanche",
-                      "gnosis",
-                      "gnosis-chiado",
-                      "moonbeam",
-                      "moonriver",
-                      "moonbase",
-                      "fantom",
-                      "palm"
-                    ],
-                    "description": "Chain ID",
-                    "example": "ethereum"
-                  },
-                  "origin": {
-                    "anyOf": [
-                      {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "chainId": {
                         "type": "string",
-                        "minLength": 1,
-                        "title": "address"
-                      },
+                        "enum": [
+                          "algorand",
+                          "cosmoshub",
+                          "osmosis",
+                          "osmosis-testnet",
+                          "celestia",
+                          "celestia-testnet",
+                          "dydx",
+                          "cosmoshub-testnet",
+                          "axelar",
+                          "ethereum",
+                          "sepolia",
+                          "holesky",
+                          "zksync",
+                          "zksync-sepolia",
+                          "injective-testnet",
+                          "base",
+                          "base-sepolia",
+                          "optimism",
+                          "optimism-sepolia",
+                          "arbitrum",
+                          "arbitrum-sepolia",
+                          "bitcoin",
+                          "bitcoin-testnet",
+                          "polygon",
+                          "polygon-amoy",
+                          "bsc",
+                          "bsc-testnet",
+                          "linea",
+                          "linea-sepolia",
+                          "avalanche",
+                          "gnosis",
+                          "gnosis-chiado",
+                          "moonbeam",
+                          "moonriver",
+                          "moonbase",
+                          "fantom",
+                          "palm"
+                        ],
+                        "description": "Chain ID",
+                        "example": "ethereum"
+                      }
+                    },
+                    "required": [
+                      "chainId"
+                    ]
+                  },
+                  {
+                    "anyOf": [
                       {
                         "type": "object",
                         "properties": {
                           "address": {
                             "type": "string",
-                            "minLength": 1
+                            "minLength": 1,
+                            "title": "address"
                           }
                         },
                         "required": [
                           "address"
-                        ],
-                        "title": "address"
+                        ]
                       },
                       {
                         "type": "object",
                         "properties": {
-                          "xpub": {
-                            "type": "string",
-                            "pattern": "^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\\?)((?!.*&c=)c=\\d{10}|(?!.*&h=)h=bip\\d{2,3})(?:(?=(?:&c=|&h=))&(c=\\d{10}|h=bip\\d{2,3}))?)?$"
+                          "origin": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "address": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  }
+                                },
+                                "required": [
+                                  "address"
+                                ],
+                                "title": "address"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "xpub": {
+                                    "type": "string",
+                                    "pattern": "^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\\?)((?!.*&c=)c=\\d{10}|(?!.*&h=)h=bip\\d{2,3})(?:(?=(?:&c=|&h=))&(c=\\d{10}|h=bip\\d{2,3}))?)?$"
+                                  }
+                                },
+                                "required": [
+                                  "xpub"
+                                ],
+                                "title": "xpub"
+                              }
+                            ]
                           }
                         },
                         "required": [
-                          "xpub"
-                        ],
-                        "title": "xpub"
+                          "origin"
+                        ]
                       }
                     ]
                   }
-                },
-                "required": [
-                  "chainId",
-                  "origin"
                 ],
                 "examples": [
                   {
                     "chainId": "ethereum",
-                    "origin": "0x0000000000000000000000000000000000000000"
+                    "address": "0x0000000000000000000000000000000000000000"
                   },
                   {
                     "chainId": "ethereum",
@@ -935,6 +958,225 @@
                     "chainId",
                     "address",
                     "balances"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/addresses/state": {
+      "post": {
+        "tags": [
+          "address"
+        ],
+        "description": "Returns the addresses state for a specified list of addresses and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chainId": {
+                    "type": "string",
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "cosmoshub-testnet",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "bitcoin",
+                      "bitcoin-testnet",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "palm"
+                    ],
+                    "description": "Chain ID",
+                    "example": "ethereum"
+                  },
+                  "origin": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "addresses": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        },
+                        "required": [
+                          "addresses"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "xpub": {
+                            "type": "string",
+                            "pattern": "^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\\?)((?!.*&c=)c=\\d{10}|(?!.*&h=)h=bip\\d{2,3})(?:(?=(?:&c=|&h=))&(c=\\d{10}|h=bip\\d{2,3}))?)?$"
+                          }
+                        },
+                        "required": [
+                          "xpub"
+                        ]
+                      }
+                    ],
+                    "description": "Address or XPUB",
+                    "examples": [
+                      {
+                        "xpub": "sample_xpub"
+                      },
+                      {
+                        "addresses": [
+                          "sample_address"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "chainId",
+                  "origin"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns the current balance information for the specified addresses and chain ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "type": "string"
+                    },
+                    "addresses": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "balances": {
+                            "type": "object",
+                            "properties": {
+                              "native": {
+                                "type": "object",
+                                "properties": {
+                                  "available": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "available"
+                                ]
+                              },
+                              "tokens": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "token": {
+                                      "type": "object",
+                                      "properties": {
+                                        "chainId": {
+                                          "type": "string"
+                                        },
+                                        "type": {
+                                          "type": "string",
+                                          "enum": [
+                                            "ASA",
+                                            "ERC20",
+                                            "IBC"
+                                          ]
+                                        },
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "ticker": {
+                                          "type": "string"
+                                        },
+                                        "decimals": {
+                                          "type": "number"
+                                        },
+                                        "contractAddress": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "chainId",
+                                        "type",
+                                        "id",
+                                        "name",
+                                        "ticker",
+                                        "decimals"
+                                      ]
+                                    },
+                                    "value": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "token",
+                                    "value"
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "native"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "balances"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "addresses"
                   ]
                 }
               }
