@@ -7,7 +7,7 @@ import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
 type Params = z.infer<typeof requestSchema>
 
-export async function GET(_: NextRequest, context: { params: Params}): Promise<NextResponse> {
+export async function GET(_: NextRequest, context: { params: Params }): Promise<NextResponse> {
   const { chainId, tokenId } = requestSchema.parse(context.params);
 
   const service = getService(chainId);
@@ -24,9 +24,9 @@ export async function GET(_: NextRequest, context: { params: Params}): Promise<N
   return token
     ? NextResponse.json(token)
     : NextResponse.json(
-        { message: `Token ID ${tokenId} is not supported for chain ID ${chainId}` },
-        { status: 400, statusText: `Unsupported tokenId` }
-      );
+      { message: `Token ID ${tokenId} is not supported for chain ID ${chainId}` },
+      { status: 400, statusText: `Unsupported tokenId` }
+    );
 }
 
 module.exports = apiHandler({

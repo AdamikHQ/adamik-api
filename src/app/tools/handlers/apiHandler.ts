@@ -33,11 +33,11 @@ export function apiHandler(handler: RouteHandler) {
 
 function handleRequestValidationError(e: unknown): NextResponse {
     if (e instanceof ZodError) {
-      return NextResponse.json(
-        { message: fromZodError(e).toString(), errors: e.errors },
-        { status: 400, statusText: "Invalid or missing fields" }
-      );
+        return NextResponse.json(
+            { message: fromZodError(e).toString(), errors: e.errors },
+            { status: 400, statusText: "Invalid or missing fields" }
+        );
     }
     // FIXME: maybe handle error instead of throwing it away?
     throw e;
-  }
+}

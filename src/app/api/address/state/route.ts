@@ -1,15 +1,15 @@
-import "~/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { requestSchema } from "./schema";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import "~/patch";
+import { requestSchema } from "./schema";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = requestSchema.parse(await request.json());
+  const { chainId, address } = requestSchema.parse(await request.json());
 
-  const service = getService(body.chainId);
+  const service = getService(chainId);
 
-  const isAddressValid = await service.validateAddress(body.address);
+  const isAddressValid = await service.validateAddress(address);
 
   if (!isAddressValid) {
     return NextResponse.json(
@@ -18,7 +18,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const state = await service.getAddressState(body.address);
+  const state = await service.getAddressState(address);
 
   return NextResponse.json(state);
 }

@@ -16,7 +16,7 @@ function getService(chainId: ChainId): BaseChainService {
       return new EvmService(chainId);
     default: // ensure exhaustive check, both at compile time and runtime: https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
       const assertNever = (x: never): never => {
-        throw new Error(`Unexpected value ${x}.`);
+        throw new Error(`No service defined for family ${family}`);
       }
       return assertNever(family);
   }
