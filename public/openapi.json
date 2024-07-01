@@ -52,6 +52,8 @@
                       "optimism-sepolia",
                       "arbitrum",
                       "arbitrum-sepolia",
+                      "bitcoin",
+                      "bitcoin-testnet",
                       "polygon",
                       "polygon-amoy",
                       "bsc",
@@ -132,6 +134,8 @@
                       "optimism-sepolia",
                       "arbitrum",
                       "arbitrum-sepolia",
+                      "bitcoin",
+                      "bitcoin-testnet",
                       "polygon",
                       "polygon-amoy",
                       "bsc",
@@ -219,6 +223,8 @@
                               "optimism-sepolia",
                               "arbitrum",
                               "arbitrum-sepolia",
+                              "bitcoin",
+                              "bitcoin-testnet",
                               "polygon",
                               "polygon-amoy",
                               "bsc",
@@ -245,7 +251,8 @@
                             "enum": [
                               "algorand",
                               "cosmos",
-                              "evm"
+                              "evm",
+                              "bitcoin"
                             ]
                           },
                           "isTestnet": {
@@ -306,6 +313,8 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
+                "bitcoin",
+                "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -359,6 +368,8 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
+                        "bitcoin",
+                        "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -385,7 +396,8 @@
                       "enum": [
                         "algorand",
                         "cosmos",
-                        "evm"
+                        "evm",
+                        "bitcoin"
                       ]
                     },
                     "isTestnet": {
@@ -440,6 +452,8 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
+                "bitcoin",
+                "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -504,6 +518,8 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
+                        "bitcoin",
+                        "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -597,6 +613,8 @@
                       "optimism-sepolia",
                       "arbitrum",
                       "arbitrum-sepolia",
+                      "bitcoin",
+                      "bitcoin-testnet",
                       "polygon",
                       "polygon-amoy",
                       "bsc",
@@ -615,14 +633,63 @@
                     "description": "Chain ID",
                     "example": "ethereum"
                   },
-                  "address": {
-                    "type": "string",
-                    "minLength": 1
+                  "origin": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "title": "address"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "address"
+                        ],
+                        "title": "address"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "xpub": {
+                            "type": "string",
+                            "pattern": "^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\\?)((?!.*&c=)c=\\d{10}|(?!.*&h=)h=bip\\d{2,3})(?:(?=(?:&c=|&h=))&(c=\\d{10}|h=bip\\d{2,3}))?)?$"
+                          }
+                        },
+                        "required": [
+                          "xpub"
+                        ],
+                        "title": "xpub"
+                      }
+                    ]
                   }
                 },
                 "required": [
                   "chainId",
-                  "address"
+                  "origin"
+                ],
+                "examples": [
+                  {
+                    "chainId": "ethereum",
+                    "origin": "0x0000000000000000000000000000000000000000"
+                  },
+                  {
+                    "chainId": "ethereum",
+                    "origin": {
+                      "address": "0x0000000000000000000000000000000000000000"
+                    }
+                  },
+                  {
+                    "chainId": "bitcoin",
+                    "origin": {
+                      "xpub": "xpub"
+                    }
+                  }
                 ]
               }
             }
@@ -660,6 +727,8 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
+                        "bitcoin",
+                        "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -910,6 +979,8 @@
                       "optimism-sepolia",
                       "arbitrum",
                       "arbitrum-sepolia",
+                      "bitcoin",
+                      "bitcoin-testnet",
                       "polygon",
                       "polygon-amoy",
                       "bsc",
@@ -983,6 +1054,8 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
+                        "bitcoin",
+                        "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -1050,101 +1123,274 @@
                     "type": "object",
                     "properties": {
                       "plain": {
-                        "type": "object",
-                        "properties": {
-                          "chainId": {
-                            "type": "string",
-                            "enum": [
-                              "algorand",
-                              "cosmoshub",
-                              "osmosis",
-                              "osmosis-testnet",
-                              "celestia",
-                              "celestia-testnet",
-                              "dydx",
-                              "cosmoshub-testnet",
-                              "axelar",
-                              "ethereum",
-                              "sepolia",
-                              "holesky",
-                              "zksync",
-                              "zksync-sepolia",
-                              "injective-testnet",
-                              "base",
-                              "base-sepolia",
-                              "optimism",
-                              "optimism-sepolia",
-                              "arbitrum",
-                              "arbitrum-sepolia",
-                              "polygon",
-                              "polygon-amoy",
-                              "bsc",
-                              "bsc-testnet",
-                              "linea",
-                              "linea-sepolia",
-                              "avalanche",
-                              "gnosis",
-                              "gnosis-chiado",
-                              "moonbeam",
-                              "moonriver",
-                              "moonbase",
-                              "fantom",
-                              "palm"
-                            ],
-                            "description": "Chain ID",
-                            "example": "ethereum"
-                          },
-                          "mode": {
-                            "type": "string",
-                            "enum": [
-                              "transfer",
-                              "transferToken",
-                              "delegate"
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "chainId": {
+                                "type": "string",
+                                "enum": [
+                                  "algorand",
+                                  "cosmoshub",
+                                  "osmosis",
+                                  "osmosis-testnet",
+                                  "celestia",
+                                  "celestia-testnet",
+                                  "dydx",
+                                  "cosmoshub-testnet",
+                                  "axelar",
+                                  "ethereum",
+                                  "sepolia",
+                                  "holesky",
+                                  "zksync",
+                                  "zksync-sepolia",
+                                  "injective-testnet",
+                                  "base",
+                                  "base-sepolia",
+                                  "optimism",
+                                  "optimism-sepolia",
+                                  "arbitrum",
+                                  "arbitrum-sepolia",
+                                  "bitcoin",
+                                  "bitcoin-testnet",
+                                  "polygon",
+                                  "polygon-amoy",
+                                  "bsc",
+                                  "bsc-testnet",
+                                  "linea",
+                                  "linea-sepolia",
+                                  "avalanche",
+                                  "gnosis",
+                                  "gnosis-chiado",
+                                  "moonbeam",
+                                  "moonriver",
+                                  "moonbase",
+                                  "fantom",
+                                  "palm"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "chainId"
                             ]
                           },
-                          "senders": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "recipients": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "amount": {
-                            "type": "string"
-                          },
-                          "useMaxAmount": {
-                            "type": "boolean"
-                          },
-                          "fees": {
-                            "type": "string"
-                          },
-                          "gas": {
-                            "type": "string"
-                          },
-                          "nonce": {
-                            "type": "string"
-                          },
-                          "memo": {
-                            "type": "string"
-                          },
-                          "format": {
-                            "type": "string",
-                            "enum": [
-                              "json",
-                              "hex"
+                          {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "delegate"
+                                    ]
+                                  },
+                                  "senders": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean"
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "gas": {
+                                    "type": "string"
+                                  },
+                                  "nonce": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senders",
+                                  "recipients"
+                                ],
+                                "title": "Delegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transfer"
+                                    ]
+                                  },
+                                  "senders": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean"
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "gas": {
+                                    "type": "string"
+                                  },
+                                  "nonce": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senders",
+                                  "recipients"
+                                ],
+                                "title": "Transfer"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transferToken"
+                                    ]
+                                  },
+                                  "senders": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean"
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "gas": {
+                                    "type": "string"
+                                  },
+                                  "nonce": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senders",
+                                  "recipients"
+                                ],
+                                "title": "TransferToken"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transferToMany"
+                                    ]
+                                  },
+                                  "sender": {
+                                    "type": "string"
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "amount": {
+                                          "type": "string"
+                                        },
+                                        "address": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "amount",
+                                        "address"
+                                      ]
+                                    }
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "sender",
+                                  "recipients"
+                                ],
+                                "title": "TransferToMany"
+                              }
                             ]
                           }
-                        },
-                        "required": [
-                          "chainId",
-                          "mode",
-                          "senders",
-                          "recipients"
                         ]
                       },
                       "encoded": {
@@ -1236,101 +1482,274 @@
                     "type": "object",
                     "properties": {
                       "plain": {
-                        "type": "object",
-                        "properties": {
-                          "chainId": {
-                            "type": "string",
-                            "enum": [
-                              "algorand",
-                              "cosmoshub",
-                              "osmosis",
-                              "osmosis-testnet",
-                              "celestia",
-                              "celestia-testnet",
-                              "dydx",
-                              "cosmoshub-testnet",
-                              "axelar",
-                              "ethereum",
-                              "sepolia",
-                              "holesky",
-                              "zksync",
-                              "zksync-sepolia",
-                              "injective-testnet",
-                              "base",
-                              "base-sepolia",
-                              "optimism",
-                              "optimism-sepolia",
-                              "arbitrum",
-                              "arbitrum-sepolia",
-                              "polygon",
-                              "polygon-amoy",
-                              "bsc",
-                              "bsc-testnet",
-                              "linea",
-                              "linea-sepolia",
-                              "avalanche",
-                              "gnosis",
-                              "gnosis-chiado",
-                              "moonbeam",
-                              "moonriver",
-                              "moonbase",
-                              "fantom",
-                              "palm"
-                            ],
-                            "description": "Chain ID",
-                            "example": "ethereum"
-                          },
-                          "mode": {
-                            "type": "string",
-                            "enum": [
-                              "transfer",
-                              "transferToken",
-                              "delegate"
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "chainId": {
+                                "type": "string",
+                                "enum": [
+                                  "algorand",
+                                  "cosmoshub",
+                                  "osmosis",
+                                  "osmosis-testnet",
+                                  "celestia",
+                                  "celestia-testnet",
+                                  "dydx",
+                                  "cosmoshub-testnet",
+                                  "axelar",
+                                  "ethereum",
+                                  "sepolia",
+                                  "holesky",
+                                  "zksync",
+                                  "zksync-sepolia",
+                                  "injective-testnet",
+                                  "base",
+                                  "base-sepolia",
+                                  "optimism",
+                                  "optimism-sepolia",
+                                  "arbitrum",
+                                  "arbitrum-sepolia",
+                                  "bitcoin",
+                                  "bitcoin-testnet",
+                                  "polygon",
+                                  "polygon-amoy",
+                                  "bsc",
+                                  "bsc-testnet",
+                                  "linea",
+                                  "linea-sepolia",
+                                  "avalanche",
+                                  "gnosis",
+                                  "gnosis-chiado",
+                                  "moonbeam",
+                                  "moonriver",
+                                  "moonbase",
+                                  "fantom",
+                                  "palm"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "chainId"
                             ]
                           },
-                          "senders": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "recipients": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "amount": {
-                            "type": "string"
-                          },
-                          "useMaxAmount": {
-                            "type": "boolean"
-                          },
-                          "fees": {
-                            "type": "string"
-                          },
-                          "gas": {
-                            "type": "string"
-                          },
-                          "nonce": {
-                            "type": "string"
-                          },
-                          "memo": {
-                            "type": "string"
-                          },
-                          "format": {
-                            "type": "string",
-                            "enum": [
-                              "json",
-                              "hex"
+                          {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "delegate"
+                                    ]
+                                  },
+                                  "senders": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean"
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "gas": {
+                                    "type": "string"
+                                  },
+                                  "nonce": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senders",
+                                  "recipients"
+                                ],
+                                "title": "Delegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transfer"
+                                    ]
+                                  },
+                                  "senders": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean"
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "gas": {
+                                    "type": "string"
+                                  },
+                                  "nonce": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senders",
+                                  "recipients"
+                                ],
+                                "title": "Transfer"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transferToken"
+                                    ]
+                                  },
+                                  "senders": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean"
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "gas": {
+                                    "type": "string"
+                                  },
+                                  "nonce": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senders",
+                                  "recipients"
+                                ],
+                                "title": "TransferToken"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transferToMany"
+                                    ]
+                                  },
+                                  "sender": {
+                                    "type": "string"
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "amount": {
+                                          "type": "string"
+                                        },
+                                        "address": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "amount",
+                                        "address"
+                                      ]
+                                    }
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "sender",
+                                  "recipients"
+                                ],
+                                "title": "TransferToMany"
+                              }
                             ]
                           }
-                        },
-                        "required": [
-                          "chainId",
-                          "mode",
-                          "senders",
-                          "recipients"
                         ]
                       }
                     },
@@ -1358,101 +1777,274 @@
                       "type": "object",
                       "properties": {
                         "plain": {
-                          "type": "object",
-                          "properties": {
-                            "chainId": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmoshub",
-                                "osmosis",
-                                "osmosis-testnet",
-                                "celestia",
-                                "celestia-testnet",
-                                "dydx",
-                                "cosmoshub-testnet",
-                                "axelar",
-                                "ethereum",
-                                "sepolia",
-                                "holesky",
-                                "zksync",
-                                "zksync-sepolia",
-                                "injective-testnet",
-                                "base",
-                                "base-sepolia",
-                                "optimism",
-                                "optimism-sepolia",
-                                "arbitrum",
-                                "arbitrum-sepolia",
-                                "polygon",
-                                "polygon-amoy",
-                                "bsc",
-                                "bsc-testnet",
-                                "linea",
-                                "linea-sepolia",
-                                "avalanche",
-                                "gnosis",
-                                "gnosis-chiado",
-                                "moonbeam",
-                                "moonriver",
-                                "moonbase",
-                                "fantom",
-                                "palm"
-                              ],
-                              "description": "Chain ID",
-                              "example": "ethereum"
-                            },
-                            "mode": {
-                              "type": "string",
-                              "enum": [
-                                "transfer",
-                                "transferToken",
-                                "delegate"
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "chainId": {
+                                  "type": "string",
+                                  "enum": [
+                                    "algorand",
+                                    "cosmoshub",
+                                    "osmosis",
+                                    "osmosis-testnet",
+                                    "celestia",
+                                    "celestia-testnet",
+                                    "dydx",
+                                    "cosmoshub-testnet",
+                                    "axelar",
+                                    "ethereum",
+                                    "sepolia",
+                                    "holesky",
+                                    "zksync",
+                                    "zksync-sepolia",
+                                    "injective-testnet",
+                                    "base",
+                                    "base-sepolia",
+                                    "optimism",
+                                    "optimism-sepolia",
+                                    "arbitrum",
+                                    "arbitrum-sepolia",
+                                    "bitcoin",
+                                    "bitcoin-testnet",
+                                    "polygon",
+                                    "polygon-amoy",
+                                    "bsc",
+                                    "bsc-testnet",
+                                    "linea",
+                                    "linea-sepolia",
+                                    "avalanche",
+                                    "gnosis",
+                                    "gnosis-chiado",
+                                    "moonbeam",
+                                    "moonriver",
+                                    "moonbase",
+                                    "fantom",
+                                    "palm"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "chainId"
                               ]
                             },
-                            "senders": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              }
-                            },
-                            "recipients": {
-                              "type": "array",
-                              "items": {
-                                "type": "string"
-                              }
-                            },
-                            "amount": {
-                              "type": "string"
-                            },
-                            "useMaxAmount": {
-                              "type": "boolean"
-                            },
-                            "fees": {
-                              "type": "string"
-                            },
-                            "gas": {
-                              "type": "string"
-                            },
-                            "nonce": {
-                              "type": "string"
-                            },
-                            "memo": {
-                              "type": "string"
-                            },
-                            "format": {
-                              "type": "string",
-                              "enum": [
-                                "json",
-                                "hex"
+                            {
+                              "oneOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "delegate"
+                                      ]
+                                    },
+                                    "senders": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "recipients": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean"
+                                    },
+                                    "fees": {
+                                      "type": "string"
+                                    },
+                                    "gas": {
+                                      "type": "string"
+                                    },
+                                    "nonce": {
+                                      "type": "string"
+                                    },
+                                    "memo": {
+                                      "type": "string"
+                                    },
+                                    "format": {
+                                      "type": "string",
+                                      "enum": [
+                                        "json",
+                                        "hex"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "senders",
+                                    "recipients"
+                                  ],
+                                  "title": "Delegate"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "transfer"
+                                      ]
+                                    },
+                                    "senders": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "recipients": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean"
+                                    },
+                                    "fees": {
+                                      "type": "string"
+                                    },
+                                    "gas": {
+                                      "type": "string"
+                                    },
+                                    "nonce": {
+                                      "type": "string"
+                                    },
+                                    "memo": {
+                                      "type": "string"
+                                    },
+                                    "format": {
+                                      "type": "string",
+                                      "enum": [
+                                        "json",
+                                        "hex"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "senders",
+                                    "recipients"
+                                  ],
+                                  "title": "Transfer"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "transferToken"
+                                      ]
+                                    },
+                                    "senders": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "recipients": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean"
+                                    },
+                                    "fees": {
+                                      "type": "string"
+                                    },
+                                    "gas": {
+                                      "type": "string"
+                                    },
+                                    "nonce": {
+                                      "type": "string"
+                                    },
+                                    "memo": {
+                                      "type": "string"
+                                    },
+                                    "format": {
+                                      "type": "string",
+                                      "enum": [
+                                        "json",
+                                        "hex"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "senders",
+                                    "recipients"
+                                  ],
+                                  "title": "TransferToken"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "transferToMany"
+                                      ]
+                                    },
+                                    "sender": {
+                                      "type": "string"
+                                    },
+                                    "recipients": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "amount": {
+                                            "type": "string"
+                                          },
+                                          "address": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "amount",
+                                          "address"
+                                        ]
+                                      }
+                                    },
+                                    "fees": {
+                                      "type": "string"
+                                    },
+                                    "memo": {
+                                      "type": "string"
+                                    },
+                                    "format": {
+                                      "type": "string",
+                                      "enum": [
+                                        "json",
+                                        "hex"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "sender",
+                                    "recipients"
+                                  ],
+                                  "title": "TransferToMany"
+                                }
                               ]
                             }
-                          },
-                          "required": [
-                            "chainId",
-                            "mode",
-                            "senders",
-                            "recipients"
                           ]
                         },
                         "encoded": {
@@ -1491,101 +2083,274 @@
                     "type": "object",
                     "properties": {
                       "plain": {
-                        "type": "object",
-                        "properties": {
-                          "chainId": {
-                            "type": "string",
-                            "enum": [
-                              "algorand",
-                              "cosmoshub",
-                              "osmosis",
-                              "osmosis-testnet",
-                              "celestia",
-                              "celestia-testnet",
-                              "dydx",
-                              "cosmoshub-testnet",
-                              "axelar",
-                              "ethereum",
-                              "sepolia",
-                              "holesky",
-                              "zksync",
-                              "zksync-sepolia",
-                              "injective-testnet",
-                              "base",
-                              "base-sepolia",
-                              "optimism",
-                              "optimism-sepolia",
-                              "arbitrum",
-                              "arbitrum-sepolia",
-                              "polygon",
-                              "polygon-amoy",
-                              "bsc",
-                              "bsc-testnet",
-                              "linea",
-                              "linea-sepolia",
-                              "avalanche",
-                              "gnosis",
-                              "gnosis-chiado",
-                              "moonbeam",
-                              "moonriver",
-                              "moonbase",
-                              "fantom",
-                              "palm"
-                            ],
-                            "description": "Chain ID",
-                            "example": "ethereum"
-                          },
-                          "mode": {
-                            "type": "string",
-                            "enum": [
-                              "transfer",
-                              "transferToken",
-                              "delegate"
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "chainId": {
+                                "type": "string",
+                                "enum": [
+                                  "algorand",
+                                  "cosmoshub",
+                                  "osmosis",
+                                  "osmosis-testnet",
+                                  "celestia",
+                                  "celestia-testnet",
+                                  "dydx",
+                                  "cosmoshub-testnet",
+                                  "axelar",
+                                  "ethereum",
+                                  "sepolia",
+                                  "holesky",
+                                  "zksync",
+                                  "zksync-sepolia",
+                                  "injective-testnet",
+                                  "base",
+                                  "base-sepolia",
+                                  "optimism",
+                                  "optimism-sepolia",
+                                  "arbitrum",
+                                  "arbitrum-sepolia",
+                                  "bitcoin",
+                                  "bitcoin-testnet",
+                                  "polygon",
+                                  "polygon-amoy",
+                                  "bsc",
+                                  "bsc-testnet",
+                                  "linea",
+                                  "linea-sepolia",
+                                  "avalanche",
+                                  "gnosis",
+                                  "gnosis-chiado",
+                                  "moonbeam",
+                                  "moonriver",
+                                  "moonbase",
+                                  "fantom",
+                                  "palm"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "chainId"
                             ]
                           },
-                          "senders": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "recipients": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "amount": {
-                            "type": "string"
-                          },
-                          "useMaxAmount": {
-                            "type": "boolean"
-                          },
-                          "fees": {
-                            "type": "string"
-                          },
-                          "gas": {
-                            "type": "string"
-                          },
-                          "nonce": {
-                            "type": "string"
-                          },
-                          "memo": {
-                            "type": "string"
-                          },
-                          "format": {
-                            "type": "string",
-                            "enum": [
-                              "json",
-                              "hex"
+                          {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "delegate"
+                                    ]
+                                  },
+                                  "senders": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean"
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "gas": {
+                                    "type": "string"
+                                  },
+                                  "nonce": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senders",
+                                  "recipients"
+                                ],
+                                "title": "Delegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transfer"
+                                    ]
+                                  },
+                                  "senders": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean"
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "gas": {
+                                    "type": "string"
+                                  },
+                                  "nonce": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senders",
+                                  "recipients"
+                                ],
+                                "title": "Transfer"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transferToken"
+                                    ]
+                                  },
+                                  "senders": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean"
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "gas": {
+                                    "type": "string"
+                                  },
+                                  "nonce": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senders",
+                                  "recipients"
+                                ],
+                                "title": "TransferToken"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transferToMany"
+                                    ]
+                                  },
+                                  "sender": {
+                                    "type": "string"
+                                  },
+                                  "recipients": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "amount": {
+                                          "type": "string"
+                                        },
+                                        "address": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "amount",
+                                        "address"
+                                      ]
+                                    }
+                                  },
+                                  "fees": {
+                                    "type": "string"
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "sender",
+                                  "recipients"
+                                ],
+                                "title": "TransferToMany"
+                              }
                             ]
                           }
-                        },
-                        "required": [
-                          "chainId",
-                          "mode",
-                          "senders",
-                          "recipients"
                         ]
                       }
                     },
