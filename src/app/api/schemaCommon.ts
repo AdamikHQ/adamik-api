@@ -50,12 +50,12 @@ const chainIdSchema = z.nativeEnum(ChainId, {
   example: ChainId.ETHEREUM,
 });
 
-const toNumber = z.number().or(z.string()).pipe(z.coerce.number());
-const positiveBigintSchema = z.bigint().or(toNumber).pipe(z.coerce.bigint().positive()).openapi({ type: "string" });
+const toNumber = z.number().or(z.string()).pipe(z.coerce.number().positive());
+const positiveBigintSchema = z.bigint().positive().or(toNumber).transform((data) => BigInt(data)).openapi({ type: "string" });
 
 const recipientSchema = z.object({
   amount: positiveBigintSchema,
-  recipient: z.string(),
+  address: z.string(),
 });
 
 const plainTransactionSchema = z.object({
@@ -86,6 +86,9 @@ const transactionContentUnion = z.discriminatedUnion("mode", [
     nonce: z.string().optional(),
     memo: z.string().optional(),
     format: z.nativeEnum(EncodedTransactionFormat).optional(),
+  }).openapi({
+    // ref: "Delegate",
+    title: "Delegate",
   }),
   z.object({
     mode: z.literal(TransactionMode.TRANSFER),
@@ -99,6 +102,9 @@ const transactionContentUnion = z.discriminatedUnion("mode", [
     nonce: z.string().optional(),
     memo: z.string().optional(),
     format: z.nativeEnum(EncodedTransactionFormat).optional(),
+  }).openapi({
+    // ref: "Transfer",
+    title: "Transfer",
   }),
   z.object({
     mode: z.literal(TransactionMode.TRANSFER_TOKEN),
@@ -112,6 +118,9 @@ const transactionContentUnion = z.discriminatedUnion("mode", [
     nonce: z.string().optional(),
     memo: z.string().optional(),
     format: z.nativeEnum(EncodedTransactionFormat).optional(),
+  }).openapi({
+    // ref: "TransferToken",
+    title: "TransferToken",
   }),
   z.object({
     mode: z.literal(TransactionMode.TRANSFER_TO_MANY),
@@ -120,8 +129,11 @@ const transactionContentUnion = z.discriminatedUnion("mode", [
     fees: positiveBigintSchema.optional(),
     memo: z.string().optional(),
     format: z.nativeEnum(EncodedTransactionFormat).optional(),
+  }).openapi({
+    // ref: "TransferToMany",
+    title: "TransferToMany",
   }),
-])
+]);
 
 const transactionWrapperSchema = z.object({
   chainId: z.nativeEnum(ChainId),
