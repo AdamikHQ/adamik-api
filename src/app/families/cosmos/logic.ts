@@ -29,7 +29,7 @@ import {
   TransactionMode,
 } from "~/app/model/types_WIP";
 import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
-import { CosmosParams } from "./types";
+import { CosmosChainParams } from "./types";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY } from "./constants";
 import { CHAINS } from "~/app/config/chains";
 import { MsgBeginRedelegate, MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
@@ -48,7 +48,7 @@ function isValidAddress(address: string, chainId: ChainId): boolean {
     return false;
   }
 
-  const chainParams = chainId && (CHAINS[chainId].params as CosmosParams);
+  const chainParams = chainId && (CHAINS[chainId].params as CosmosChainParams);
 
   const prefix = chainParams?.prefix;
   const validatorPrefix = chainParams?.validatorPrefix;
@@ -69,20 +69,22 @@ async function getEstimatedFees(
   gasWanted: bigint;
   gasWantedFees: bigint;
 }> {
-  const chainParams = CHAINS[chainId].params as CosmosParams;
+  const chainParams = CHAINS[chainId].params as CosmosChainParams;
 
   const { protoMsgs } = getMessages(transaction);
-  const { sequence, pubKeyType, pubKey } = await fetchAccount(chainId, transaction.senders[0]);
+
   const dummySignature = new Uint8Array(Buffer.from(COSMOS_MOCK_PUBKEY, "hex"));
+
+  const dummyPubKey = "0000"; // Pubkey length must be a multiple of 4
 
   const txBytes = buildBroadcastPayload({
     protoMsgs,
     memo: transaction.memo || "",
-    pubKeyType,
-    pubKey,
+    pubKeyType: chainParams.defaultPubKeyType,
+    pubKey: dummyPubKey,
     feeAmount: undefined,
+    sequence: 0n,
     gasLimit: undefined,
-    sequence,
     signature: dummySignature,
   });
 
@@ -93,7 +95,7 @@ async function getEstimatedFees(
       });
       return await simulateTransaction(chainId, payload);
     } catch (e) {
-      console.warn("/!\\ Failed to estimate gas usage during tx simulation. Error:", e);
+      console.warn("/!\\ Failed to estimate gas usage during tx simulation, using default value. Error:", e);
     }
 
     return BigInt(chainParams?.defaultGas);
@@ -109,7 +111,7 @@ async function getEstimatedFees(
 }
 
 function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; protoMsgs: ProtoMsg[] } {
-  const chainParams = CHAINS[transaction.chainId].params as CosmosParams;
+  const chainParams = CHAINS[transaction.chainId].params as CosmosChainParams;
 
   const aminoMsgs: Array<AminoMsg> = [];
   const protoMsgs: Array<ProtoMsg> = [];
@@ -310,12 +312,12 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
 
 async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction): Promise<StdSignDoc> {
   if (!transaction.fees) {
-    throw new Error("Transaction lacks fees information");
+    throw new Error("Missing fees data in transaction");
   } else if (!transaction.gas) {
-    throw new Error("Transaction lacks gas information");
+    throw new Error("Missing gas data in transaction");
   }
 
-  const chainParams = CHAINS[chainId].params as CosmosParams;
+  const chainParams = CHAINS[chainId].params as CosmosChainParams;
 
   const feeToEncode = {
     amount: [
@@ -385,12 +387,12 @@ function buildBroadcastPayload({
             },
             multi: undefined,
           },
-          sequence: sequence,
+          sequence,
         },
       ],
       fee: Fee.fromPartial({
         amount: feeAmount as any,
-        gasLimit: gasLimit,
+        gasLimit,
       }),
     }).finish(),
     signatures: [signature],
@@ -415,9 +417,14 @@ async function encodeToSign(
   return Buffer.from(serializeSignDoc(signDoc)).toString("hex");
 }
 
-async function encodeToBroadcast(chainId: ChainId, signedTransaction: Transaction): Promise<string> {
+async function encodeToBroadcast(
+  chainId: ChainId,
+  signedTransaction: Transaction,
+  pubKeyType: string,
+  pubKey: string
+): Promise<string> {
   if (!signedTransaction.signature) {
-    throw new Error("missing transaction signature");
+    throw new Error("Missing signature in transaction");
   }
 
   const signature = isBase64(signedTransaction.signature)
@@ -429,7 +436,7 @@ async function encodeToBroadcast(chainId: ChainId, signedTransaction: Transactio
   const plainTransation = signedTransaction.plain;
 
   const { protoMsgs } = getMessages(plainTransation);
-  const { pubKeyType, pubKey } = await fetchAccount(chainId, plainTransation.senders[0]);
+
   const signDoc = await buildSignPayload(chainId, plainTransation);
 
   const txBytes = buildBroadcastPayload({

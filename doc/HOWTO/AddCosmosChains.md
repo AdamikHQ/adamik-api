@@ -23,7 +23,7 @@
       // Public nodes are listed in "apis.rest.*" in chain.json
       nodeURL: xxx,
     },
-    // Refer to CosmosParams in https://github.com/AdamikHQ/adamik/blob/main/src/app/families/cosmos/types.ts
+    // Refer to CosmosChainParams in https://github.com/AdamikHQ/adamik/blob/main/src/app/families/cosmos/types.ts
     // for the following Cosmos-specific parameters
     params: {
       prefix: xxx, // "bech32_prefix" in chain.json
