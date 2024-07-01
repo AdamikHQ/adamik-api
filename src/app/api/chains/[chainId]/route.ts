@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CHAINS_PUBLIC } from "~/app/config/chains";
-import { apiHandler } from "~/app/api/handlers/apiHandler";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { requestSchema } from "./schema";
 import { z } from "zod";
 

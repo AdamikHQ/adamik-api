@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isTokenService } from "~/app/model/service";
 import { getService } from "~/app/families/services";
-import { apiHandler } from "~/app/api/handlers/apiHandler";
 import { z } from "zod";
 import { requestSchema } from "./schema";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
 type Params = z.infer<typeof requestSchema>
 

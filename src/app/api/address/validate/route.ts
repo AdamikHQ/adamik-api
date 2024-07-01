@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { apiHandler } from "~/app/api/handlers/apiHandler";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { requestSchema } from "./schema";
 
 async function POST(request: NextRequest): Promise<NextResponse> {

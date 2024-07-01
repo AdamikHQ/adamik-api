@@ -2,7 +2,7 @@ import "~/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { requestSchema } from "./schema";
-import { apiHandler } from "~/app/api/handlers/apiHandler";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
   const body = requestSchema.parse(await request.json());

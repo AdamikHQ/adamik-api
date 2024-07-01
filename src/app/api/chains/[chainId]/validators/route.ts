@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { requestSchema } from "./schema";
 import { isStakingService } from "~/app/model/service";
-import { apiHandler } from "~/app/api/handlers/apiHandler";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
 
 // TODO Make sure to document this implicit limit in the doc / swagger description

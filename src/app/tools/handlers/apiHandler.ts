@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { handleRequestValidationError } from "../schemaCommon";
+import { ZodError } from "zod";
+import { fromZodError } from "zod-validation-error";
 
 type RouteHandler = Partial<{ [key in typeof httpMethods[number]]: (req: NextRequest, ...args: any) => Promise<NextResponse> }>
 
@@ -29,3 +30,14 @@ export function apiHandler(handler: RouteHandler) {
 
     return wrappedHandler;
 }
+
+function handleRequestValidationError(e: unknown): NextResponse {
+    if (e instanceof ZodError) {
+      return NextResponse.json(
+        { message: fromZodError(e).toString(), errors: e.errors },
+        { status: 400, statusText: "Invalid or missing fields" }
+      );
+    }
+    // FIXME: maybe handle error instead of throwing it away?
+    throw e;
+  }
