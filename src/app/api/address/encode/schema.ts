@@ -1,8 +1,10 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { ChainId } from "~/app/model/types_WIP";
+import { chainIdSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
-  chainId: z.string(),
+  chainId: chainIdSchema,
   pubkey: z.string(),
 });
 

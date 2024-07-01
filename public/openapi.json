@@ -29,7 +29,46 @@
                 "type": "object",
                 "properties": {
                   "chainId": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "cosmoshub-testnet",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "palm"
+                    ],
+                    "description": "Chain ID",
+                    "example": "ethereum"
                   },
                   "pubkey": {
                     "type": "string"
@@ -70,7 +109,46 @@
                 "type": "object",
                 "properties": {
                   "chainId": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "cosmoshub-testnet",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "palm"
+                    ],
+                    "description": "Chain ID",
+                    "example": "ethereum"
                   },
                   "address": {
                     "type": "string"
@@ -155,7 +233,9 @@
                               "moonbase",
                               "fantom",
                               "palm"
-                            ]
+                            ],
+                            "description": "Chain ID",
+                            "example": "ethereum"
                           },
                           "name": {
                             "type": "string"
@@ -204,8 +284,45 @@
             "description": "Chain ID",
             "schema": {
               "type": "string",
+              "enum": [
+                "algorand",
+                "cosmoshub",
+                "osmosis",
+                "osmosis-testnet",
+                "celestia",
+                "celestia-testnet",
+                "dydx",
+                "cosmoshub-testnet",
+                "axelar",
+                "ethereum",
+                "sepolia",
+                "holesky",
+                "zksync",
+                "zksync-sepolia",
+                "injective-testnet",
+                "base",
+                "base-sepolia",
+                "optimism",
+                "optimism-sepolia",
+                "arbitrum",
+                "arbitrum-sepolia",
+                "polygon",
+                "polygon-amoy",
+                "bsc",
+                "bsc-testnet",
+                "linea",
+                "linea-sepolia",
+                "avalanche",
+                "gnosis",
+                "gnosis-chiado",
+                "moonbeam",
+                "moonriver",
+                "moonbase",
+                "fantom",
+                "palm"
+              ],
               "description": "Chain ID",
-              "example": "cosmoshub"
+              "example": "ethereum"
             },
             "required": true
           }
@@ -256,7 +373,9 @@
                         "moonbase",
                         "fantom",
                         "palm"
-                      ]
+                      ],
+                      "description": "Chain ID",
+                      "example": "ethereum"
                     },
                     "name": {
                       "type": "string"
@@ -299,6 +418,43 @@
             "description": "Chain ID",
             "schema": {
               "type": "string",
+              "enum": [
+                "algorand",
+                "cosmoshub",
+                "osmosis",
+                "osmosis-testnet",
+                "celestia",
+                "celestia-testnet",
+                "dydx",
+                "cosmoshub-testnet",
+                "axelar",
+                "ethereum",
+                "sepolia",
+                "holesky",
+                "zksync",
+                "zksync-sepolia",
+                "injective-testnet",
+                "base",
+                "base-sepolia",
+                "optimism",
+                "optimism-sepolia",
+                "arbitrum",
+                "arbitrum-sepolia",
+                "polygon",
+                "polygon-amoy",
+                "bsc",
+                "bsc-testnet",
+                "linea",
+                "linea-sepolia",
+                "avalanche",
+                "gnosis",
+                "gnosis-chiado",
+                "moonbeam",
+                "moonriver",
+                "moonbase",
+                "fantom",
+                "palm"
+              ],
               "description": "Chain ID",
               "example": "ethereum"
             },
@@ -362,7 +518,9 @@
                         "moonbase",
                         "fantom",
                         "palm"
-                      ]
+                      ],
+                      "description": "Chain ID",
+                      "example": "ethereum"
                     },
                     "type": {
                       "type": "string",
@@ -417,7 +575,45 @@
                 "properties": {
                   "chainId": {
                     "type": "string",
-                    "minLength": 1
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "cosmoshub-testnet",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "palm"
+                    ],
+                    "description": "Chain ID",
+                    "example": "ethereum"
                   },
                   "address": {
                     "type": "string",
@@ -441,7 +637,46 @@
                   "type": "object",
                   "properties": {
                     "chainId": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "cosmoshub-testnet",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "palm"
+                      ],
+                      "description": "Chain ID",
+                      "example": "ethereum"
                     },
                     "address": {
                       "type": "string",
@@ -652,7 +887,46 @@
                 "type": "object",
                 "properties": {
                   "chainId": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "cosmoshub-testnet",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "palm"
+                    ],
+                    "description": "Chain ID",
+                    "example": "ethereum"
                   },
                   "pagination": {
                     "type": "object",
@@ -686,7 +960,46 @@
                   "type": "object",
                   "properties": {
                     "chainId": {
-                      "type": "string"
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "cosmoshub-testnet",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "palm"
+                      ],
+                      "description": "Chain ID",
+                      "example": "ethereum"
                     },
                     "validators": {
                       "type": "array",
@@ -777,7 +1090,9 @@
                               "moonbase",
                               "fantom",
                               "palm"
-                            ]
+                            ],
+                            "description": "Chain ID",
+                            "example": "ethereum"
                           },
                           "mode": {
                             "type": "string",
@@ -961,7 +1276,9 @@
                               "moonbase",
                               "fantom",
                               "palm"
-                            ]
+                            ],
+                            "description": "Chain ID",
+                            "example": "ethereum"
                           },
                           "mode": {
                             "type": "string",
@@ -1081,7 +1398,9 @@
                                 "moonbase",
                                 "fantom",
                                 "palm"
-                              ]
+                              ],
+                              "description": "Chain ID",
+                              "example": "ethereum"
                             },
                             "mode": {
                               "type": "string",
@@ -1212,7 +1531,9 @@
                               "moonbase",
                               "fantom",
                               "palm"
-                            ]
+                            ],
+                            "description": "Chain ID",
+                            "example": "ethereum"
                           },
                           "mode": {
                             "type": "string",

@@ -1,8 +1,9 @@
 import z from "zod";
-import { ZodError } from "zod";
-import { NextResponse } from "next/server";
 
 import { ChainFamily, ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
+import { extendZodWithOpenApi } from "zod-openapi";
+
+extendZodWithOpenApi(z);
 
 const paginationSchema = z.object({
   limit: z.number(),
@@ -35,8 +36,22 @@ const delegateTransactionSchema = z.object({
 const plainTransactionSchema = commonTransactionSchema.and(z.union([transferTransactionSchema, delegateTransactionSchema,]));
 //*/
 
+// DOMAIN TYPES //////////////////////////////////////////////////////////////
+
+const chainIdSchema = z.nativeEnum(ChainId, {
+  errorMap: (issue, ctx) => {
+    if (issue.code === z.ZodIssueCode.invalid_enum_value) {
+      return { message: `unsupported value "${ctx.data}" encountered` };
+    }
+    return { message: ctx.defaultError };
+  }
+}).openapi({
+  description: "Chain ID",
+  example: ChainId.ETHEREUM,
+});
+
 const plainTransactionSchema = z.object({
-  chainId: z.nativeEnum(ChainId),
+  chainId: chainIdSchema,
   mode: z.nativeEnum(TransactionMode),
   senders: z.array(z.string()),
   recipients: z.array(z.string()),
@@ -60,27 +75,17 @@ const transactionStatusSchema = z.object({
 });
 
 const chainSchema = z.object({
-  id: z.nativeEnum(ChainId),
+  id: chainIdSchema,
   name: z.string(),
   family: z.nativeEnum(ChainFamily),
   isTestnet: z.boolean().optional(),
   params: z.any().optional(),
 });
 
-function handleRequestValidationError(e: unknown): NextResponse {
-  if (e instanceof ZodError) {
-    return NextResponse.json(
-      { message: "invalid request", errors: e.errors },
-      { status: 400, statusText: "Invalid or missing fields" }
-    );
-  }
-  throw e;
-}
-
 export {
   paginationSchema,
   plainTransactionSchema,
   transactionStatusSchema,
-  handleRequestValidationError,
+  chainIdSchema,
   chainSchema,
 };
