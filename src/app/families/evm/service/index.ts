@@ -21,7 +21,7 @@ class EvmService extends BaseChainService implements TokenService {
   getTokenInfo = getTokenInfoFn;
   pubkeyToAddress = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
-  getAddressState = getAddressStateFn;
+  getAddressState = this.addressStateMethodAdaptator(getAddressStateFn);
   prevalidateTransaction = this.transactionMethodAdaptator(prevalidateTransactionFn);
   completeTransaction = completeTransactionFn;
   validateTransaction = validateTransactionFn;

@@ -1,6 +1,8 @@
-import { BaseChainService, StakingService } from "~/app/model/service";
+import { BaseChainService, StakingService, TokenService } from "~/app/model/service";
 import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
 import { validateAddress as validateAddressFn } from "./validateAddress";
+import { getAddressState as getAddressStateFn } from "./getAddressState";
+import { getTokenInfo as getTokenInfoFn } from "./getTokenInfo";
 import {
   prevalidateTransaction as prevalidateTransactionFn,
   validateTransaction as validateTransactionFn,
@@ -12,15 +14,15 @@ import {
 } from "./encodeTransaction";
 import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTransaction";
 import { getValidators as getValidatorsFn } from "./getValidators";
-import { getAddressState as getAddressStateFn } from "./getAddressState";
 
 // TODO Make sure heavy functions aren't called multiple times / unnecessarily
 // (buildTransaction, network calls, etc...)
 
-class CosmosService extends BaseChainService implements StakingService {
+class CosmosService extends BaseChainService implements TokenService, StakingService {
   pubkeyToAddress = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
-  getAddressState = getAddressStateFn;
+  getAddressState = this.addressStateMethodAdaptator(getAddressStateFn);
+  getTokenInfo = getTokenInfoFn;
   getValidators = getValidatorsFn;
   prevalidateTransaction = prevalidateTransactionFn;
   completeTransaction = completeTransactionFn;

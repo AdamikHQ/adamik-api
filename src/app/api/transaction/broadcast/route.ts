@@ -1,34 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { handleRequestValidationError } from "~/app/api/schemaCommon";
 import { getService } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 import { BroadcastStatus, TransactionWrapper } from "~/app/model/types_WIP";
 import { requestSchema } from "./schema";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = await request.json();
-  try {
-    requestSchema.parse(body);
-  } catch (e) {
-    return handleRequestValidationError(e);
-  }
+async function POST(request: NextRequest): Promise<NextResponse> {
+  const body = requestSchema.parse(await request.json());
 
   let transaction: TransactionWrapper = {
     plain: stringToBigint(body.transaction.plain),
-    encoded: body.transaction.encoded,
+    // FIXME: better schema for encoded required
+    encoded: body.transaction.encoded as any,
     signature: body.transaction.signature,
     status: { errors: [], warnings: [] },
   };
 
   const chainId = transaction.plain.chainId;
-
   const service = getService(chainId);
-  if (!service) {
-    return NextResponse.json(
-      { message: `Chain ID ${chainId} is not supported` },
-      { status: 400, statusText: `Unsupported chainId` }
-    );
-  }
 
   const signedTransaction = await service.encodeTransactionToBroadcast(transaction);
   if (transaction.status.errors.length) {
@@ -46,3 +35,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json(broadcastStatus);
   }
 }
+
+module.exports = apiHandler({
+  POST
+});

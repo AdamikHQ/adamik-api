@@ -1,7 +1,16 @@
-import { z } from "zod";
-import { requestSchema } from "../api/address/state/schema";
-import { AddressesState, AddressState, BroadcastStatus, ChainId, StateOrigin, Token, Transaction, TransactionMode, TransactionWrapper } from "./types_WIP";
-import { ValidatorResponse } from "./validator";
+import {
+  AddressState,
+  AddressesState,
+  BroadcastStatus,
+  ChainId,
+  Pagination,
+  StateOrigin,
+  Token,
+  Transaction,
+  TransactionMode,
+  TransactionWrapper,
+  Validator,
+} from "./types_WIP";
 
 // TODO Doc (comment) for each function in every service
 
@@ -21,7 +30,8 @@ abstract class BaseChainService {
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data
-  abstract getAddressState(stateOrigin: StateOrigin): Promise<AddressState>;
+  abstract getAddressState(origin: StateOrigin): Promise<AddressState>;
+
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
   // Crafting
@@ -49,12 +59,12 @@ abstract class BaseChainService {
     };
   };
 
-  protected addressStateMethodAdaptator(fn: (address: string) => Promise<AddressState>): (stateOrigin: StateOrigin) => Promise<AddressState> {
+  // Helper function for services that were coded with `string` instead of `StateOrigin`
+  //   FIXME: using generics + cast to work around EVM `EvmAddress` specificity
+  protected addressStateMethodAdaptator<T extends string>(fn: (address: T) => Promise<AddressState>): (stateOrigin: StateOrigin) => Promise<AddressState> {
     return (stateOrigin: StateOrigin): Promise<AddressState> => {
-      if (typeof stateOrigin === "string") {
-        return fn(stateOrigin);
-      } else if ("address" in stateOrigin) {
-        return fn(stateOrigin.address);
+      if ("address" in stateOrigin) {
+        return fn(stateOrigin.address as T);
       }
       throw new Error(`Unsupported state origin xpub for chain ID ${this.chainId}`);
     }
@@ -64,7 +74,7 @@ abstract class BaseChainService {
 // STAKING ////////////////////////////////////////////////////////////////////////////////////
 
 interface StakingService {
-  getValidators(offset: number, limit: number): Promise<ValidatorResponse>;
+  getValidators(pagination?: Pagination): Promise<Validator[]>;
 }
 
 // Type predicate: checks that the input object implements the StakingService interface
@@ -103,6 +113,7 @@ function isTokenService(object: BaseChainService | TokenService): object is Toke
 
 interface MultiBalancesService {
   getAddressesState(addresses: string[]): Promise<AddressesState>;
+  getAddressState(address: StateOrigin): Promise<AddressState>;
 }
 
 function isMultiBalancesService(object: BaseChainService | MultiBalancesService): object is MultiBalancesService {
@@ -110,6 +121,9 @@ function isMultiBalancesService(object: BaseChainService | MultiBalancesService)
   // instance is necessary to extract members of the interface
   const dummy: MultiBalancesService = {
     getAddressesState: (): never => {
+      throw new Error("Must not be used");
+    },
+    getAddressState: (): never => {
       throw new Error("Must not be used");
     },
   };

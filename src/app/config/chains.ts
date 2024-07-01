@@ -1,6 +1,6 @@
 import { ChainId, Chain, ChainParams, ChainFamily } from "../model/types_WIP";
 
-const CHAINS: Record<ChainId, Chain<ChainParams>> = {
+const CHAINS: {[key in ChainId]: Chain<ChainParams>} = {
   algorand: {
     id: ChainId.ALGORAND,
     family: ChainFamily.ALGORAND,
@@ -56,7 +56,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     ticker: "OSMO",
     decimals: 6,
     backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/cos3/rest/b18879ccf0bbb32d82c6c6ee02074f8a",
+      nodeURL: "https://g.w.lavanet.xyz:443/gateway/osmosis/rest/bfdb617358bd786c30374c8799978c27",
     },
     params: {
       prefix: "osmo",
@@ -65,6 +65,98 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
       minGasPrice: 0.025,
+    },
+  },
+  "osmosis-testnet": {
+    id: ChainId.OSMOSIS_TESTNET,
+    family: ChainFamily.COSMOS,
+    name: "Osmosis Testnet",
+    ticker: "OSMO",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://g.w.lavanet.xyz:443/gateway/osmosist/rest/bfdb617358bd786c30374c8799978c27",
+    },
+    isTestNet: true,
+    params: {
+      prefix: "osmo",
+      validatorPrefix: "osmovaloper",
+      denom: "uosmo",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+  },
+  celestia: {
+    id: ChainId.CELESTIA,
+    family: ChainFamily.COSMOS,
+    name: "Celestia",
+    ticker: "TIA",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27",
+    },
+    params: {
+      prefix: "celestia",
+      validatorPrefix: "celestiavaloper",
+      denom: "utia",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.02,
+    },
+  },
+  "celestia-testnet": {
+    id: ChainId.CELESTIA_TESTNET,
+    family: ChainFamily.COSMOS,
+    name: "Celestia Testnet",
+    ticker: "TIA",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestiatm/rest/bfdb617358bd786c30374c8799978c27",
+    },
+    params: {
+      prefix: "celestia",
+      validatorPrefix: "celestiavaloper",
+      denom: "utia",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.02,
+    },
+  },
+  dydx: {
+    id: ChainId.DYDX,
+    family: ChainFamily.COSMOS,
+    name: "dYdX Protocol",
+    ticker: "DYDX",
+    decimals: 18,
+    backends: {
+      //TODO update the nodeURL with a stable node provider
+      nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc",
+    },
+    params: {
+      prefix: "dydx",
+      validatorPrefix: "dydxvaloper",
+      denom: "adydx",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+  },
+  axelar: {
+    id: ChainId.AXELAR,
+    family: ChainFamily.COSMOS,
+    name: "Axelar",
+    ticker: "AXL",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://g.w.lavanet.xyz:443/gateway/axelar/rest/bfdb617358bd786c30374c8799978c27",
+    },
+    params: {
+      prefix: "axelar",
+      validatorPrefix: "axelarvaloper",
+      denom: "uaxl",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.007,
     },
   },
   ethereum: {
@@ -422,7 +514,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 10200,
     },
   },
-  "moonbeam": {
+  moonbeam: {
     id: ChainId.MOONBEAM,
     family: ChainFamily.EVM,
     name: "Moonbeam",
@@ -436,7 +528,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 1284,
     },
   },
-  "moonriver": {
+  moonriver: {
     id: ChainId.MOONRIVER,
     family: ChainFamily.EVM,
     name: "Moonriver",
@@ -450,7 +542,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 1285,
     },
   },
-  "moonbase": {
+  moonbase: {
     id: ChainId.MOONBASE,
     family: ChainFamily.EVM,
     name: "Moonbase",
@@ -465,7 +557,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 1287,
     },
   },
-  "fantom": {
+  fantom: {
     id: ChainId.FANTOM,
     family: ChainFamily.EVM,
     name: "Fantom",
@@ -479,7 +571,7 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
       evmChainId: 250,
     },
   },
-  "palm": {
+  palm: {
     id: ChainId.PALM,
     family: ChainFamily.EVM,
     name: "Palm ",
@@ -492,8 +584,8 @@ const CHAINS: Record<ChainId, Chain<ChainParams>> = {
     params: {
       evmChainId: 11297108109,
     },
-  }
-};
+  },
+} as const;
 
 // FIXME Trick to filter-out private 'backends' field from response
 // Needs to be handled with DTO instead

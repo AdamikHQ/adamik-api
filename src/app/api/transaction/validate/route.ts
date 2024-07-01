@@ -3,35 +3,29 @@ import { Transaction, TransactionWrapper } from "~/app/model/types_WIP";
 import { stringToBigint } from "~/app/model/serialization";
 import { getService } from "~/app/families/services";
 import { requestSchema } from "./schema";
-import { handleRequestValidationError } from "~/app/api/schemaCommon";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = await request.json();
-  try {
-    let transactionWrapper = requestSchema.parse(body);
-    const plainTransaction = stringToBigint(transactionWrapper.transaction.plain);
+async function POST(request: NextRequest): Promise<NextResponse> {
+  const body = requestSchema.parse(await request.json());
 
-    const service = getService(plainTransaction.chainId);
-    if (!service) {
-      return NextResponse.json(
-        { message: `Chain ID ${plainTransaction.chainId} is not supported` },
-        { status: 400, statusText: `Unsupported chainId` }
-      );
-    }
+  const plainTransaction = stringToBigint(body.transaction.plain);
 
-    let transaction: TransactionWrapper = {
-      plain: plainTransaction,
-      status: { errors: [], warnings: [] },
-    };
+  const service = getService(plainTransaction.chainId);
 
-    await service.prevalidateTransaction(transaction);
+  let transaction: TransactionWrapper = {
+    plain: plainTransaction,
+    status: { errors: [], warnings: [] },
+  };
 
-    if (transaction.status.errors.length) {
-      return NextResponse.json(transaction.status, { status: 400, statusText: `Invalid transaction` });
-    } else {
-      return NextResponse.json(transaction.status);
-    }
-  } catch (e) {
-    return handleRequestValidationError(e);
+  await service.prevalidateTransaction(transaction);
+
+  if (transaction.status.errors.length) {
+    return NextResponse.json(transaction.status, { status: 400, statusText: `Invalid transaction` });
+  } else {
+    return NextResponse.json(transaction.status);
   }
 }
+
+module.exports = apiHandler({
+  POST
+});

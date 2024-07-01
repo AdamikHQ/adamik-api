@@ -8,7 +8,12 @@ enum ChainId {
   ALGORAND = "algorand",
   COSMOSHUB = "cosmoshub",
   OSMOSIS = "osmosis",
+  OSMOSIS_TESTNET = "osmosis-testnet",
+  CELESTIA = "celestia",
+  CELESTIA_TESTNET = "celestia-testnet",
+  DYDX = "dydx",
   COSMOSHUB_TESTNET = "cosmoshub-testnet",
+  AXELAR = "axelar",
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",
   HOLESKY = "holesky",
@@ -70,6 +75,7 @@ type Chain<TParams> = {
 enum TokenType {
   ASA = "ASA",
   ERC20 = "ERC20",
+  IBC = "IBC",
 }
 
 type Token = {
@@ -84,9 +90,39 @@ type Token = {
 
 type TokenAmount = {
   token: Token;
-  value: bigint;
+  amount: bigint;
 };
-type StateOrigin = z.infer<typeof addressStateRequestSchema>["address"];
+
+enum StakingStatus {
+  FREE = "free", // Can be used as part of the available balance
+  LOCKED = "locked",
+  UNLOCKING = "unlocking",
+  UNLOCKED = "unlocked", // Can't be used as part of the avaialble balance, needs a transaction first
+}
+
+type Validator = {
+  address: string;
+  name: string;
+  commission?: number;
+};
+
+type StakingPosition = {
+  validatorAddresses: string[];
+  amount: bigint;
+  status: StakingStatus;
+  completionDate?: number;
+};
+
+type StakingReward = {
+  validatorAddress: string;
+  amount: bigint;
+  //claimable: boolean; // FIXME Unsure how to handle that info
+};
+
+type TokenStakingReward = StakingReward & {
+  tokenId: string;
+};
+type StateOrigin = z.infer<typeof addressStateRequestSchema>["origin"];
 
 type AddressState = {
   chainId: ChainId;
@@ -95,20 +131,22 @@ type AddressState = {
     native: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
       unconfirmed?: bigint; // Bitcoin: available + pending
-      //total: bigint; // Will need staking
+      total: bigint; // May include staking balances, or be equal to available
     };
     tokens?: TokenAmount[];
-    //ft?: TokenAmount[];
     //nft?: NFTAmount[];
+    staking?: {
+      total: bigint;
+      locked: bigint;
+      unlocking: bigint;
+      unlocked: bigint;
+      positions: StakingPosition[];
+      rewards: {
+        native: StakingReward[];
+        tokens: TokenStakingReward[];
+      };
+    };
   };
-  //rewards?: {
-  //  pending: ChainAmount;
-  //};
-  //staking?: {
-  //locked: bigint;
-  //unlocking: bigint[];
-  //unlocked: bigint;
-  //}
 };
 
 type AddressesState = {
@@ -178,7 +216,7 @@ type TransferTokenTransaction = BaseTransaction & CommonTransaction & {
 
 type DelegateTransaction = BaseTransaction & CommonTransaction & {
   mode: TransactionMode.DELEGATE;
-  validator: string;
+  validatorAddress: string;
 };
 
 type MultiRecipientTransaction = BaseTransaction & BaseTransaction & {
@@ -190,31 +228,31 @@ type MultiRecipientTransaction = BaseTransaction & BaseTransaction & {
 
 // type UndelegateTransaction = CommonTransaction & {
 //   mode: TransactionMode.UNDELEGATE;
-//   validator: string;
+//   validatorAddress: string;
 // };
 
 // type RedelegateTransaction = CommonTransaction & {
 //   mode: TransactionMode.REDELEGATE;
-//   sourceValidator: string;
-//   targetValidator: string;
+//   sourceValidatorAddress: string;
+//   targetValidatorAddress: string;
 // };
 
 // type ClaimRewardTransaction = CommonTransaction & {
 //   mode: TransactionMode.CLAIM_REWARD;
-//   validator: string;
+//   validatorAddress: string;
 // };
 
 
 /**
- * @deprecated You should use {@link TransactionData} 
+ * @deprecated You should use {@link TransactionData}
  */
 type PlainTransaction = TransferTransaction | TransferTokenTransaction | DelegateTransaction;
 
 type TransactionData = PlainTransaction | MultiRecipientTransaction;
 
-/** 
+/**
  * @deprecated You should use {@link TransactionWrapper}
- * 
+ *
  * FIXME: refacto EVM + COSMOS + ALGORAND families to stop using Transaction
  */
 type Transaction = {
@@ -269,13 +307,22 @@ enum EncodedTransactionFormat {
   HEX = "hex",
 }
 
-export { ChainId, ChainFamily, TransactionMode, EncodedTransactionFormat, TokenType };
+type Pagination = {
+  offset: number;
+  limit: number;
+};
+
+export { ChainId, ChainFamily, TransactionMode, EncodedTransactionFormat, TokenType, StakingStatus };
 export type {
   Chain,
   ChainParams,
   Token,
   TokenAmount,
   StateOrigin,
+  Validator,
+  StakingPosition,
+  StakingReward,
+  TokenStakingReward,
   AddressState,
   AddressesState,
   PlainTransaction,
@@ -286,4 +333,5 @@ export type {
   TransactionStatus,
   BroadcastStatus,
   ErrorMsg,
+  Pagination,
 };

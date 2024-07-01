@@ -1,21 +1,23 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { chainIdSchema } from "~/app/api/schemaCommon";
+import { paginationSchema } from "~/app/api/schemaCommon";
 
+// FIXME: chainId is already defined in the URL as a path parameter, use it instead
 const requestSchema = z.object({
-  chainId: z.string(),
-  limit: z.number().optional(),
-  offset: z.number().optional(),
+  chainId: chainIdSchema,
+  pagination: paginationSchema.optional(),
 });
 
 const responseSchema = z.object({
-  address: z.string(),
-  name: z.string(),
-  logo: z.string().optional(),
-  website: z.string(),
-  status: z.string(),
-  commission: z.number(),
-  maxCommission: z.number().optional(),
-  raw: z.unknown(),
+  chainId: chainIdSchema,
+  validators: z
+    .object({
+      address: z.string(),
+      name: z.string(),
+      commission: z.number().optional(),
+    })
+    .array(),
 });
 
 const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {

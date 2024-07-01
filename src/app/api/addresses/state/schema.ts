@@ -1,6 +1,7 @@
 import z from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
 import { TokenType } from "~/app/model/types_WIP";
+import { chainIdSchema } from "../../schemaCommon";
 
 extendZodWithOpenApi(z);
 
@@ -9,9 +10,9 @@ const xpubRegex = /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!
 const addressSchema = z.string().min(1).array();
 
 const requestSchema = z.object({
-  chainId: z.string().min(1),
+  chainId: chainIdSchema,
   // default is address, but allow for explicit address or xpub
-  addresses:
+  origin:
     z.union([
       z.object({ addresses: addressSchema }),
       z.object({ xpub: z.string().regex(xpubRegex) })

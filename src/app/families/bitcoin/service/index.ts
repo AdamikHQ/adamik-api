@@ -9,15 +9,19 @@ import { broadcastTransaction } from "./broadcastTransaction";
 import { AddressState, Transaction } from "~/app/model/types_WIP";
 
 class BtcService extends BaseChainService implements MultiBalancesService {
-  getAddressState(stateOrigin: string | { address: string; } | { xpub: string; }): Promise<AddressState> {
-    // FIXME: check if it's an address or an xpub
-    return this.getAddressesState([stateOrigin as string]).then((addressesState): AddressState => {
-      return {
-        chainId: this.chainId,
-        address: stateOrigin as string,
-        balances: addressesState.addresses[stateOrigin as string].balances,
-      }
-    });
+  getAddressState(stateOrigin: { address: string; } | { xpub: string; }): Promise<AddressState> {
+    // TODO: implement for xpub
+    if ("address" in stateOrigin) {
+      return this.getAddressesState([stateOrigin.address]).then((addressesState): AddressState => {
+        return {
+          chainId: this.chainId,
+          address: stateOrigin.address,
+          balances: addressesState.addresses[stateOrigin.address].balances,
+        }
+      });
+    }
+
+    throw new Error("Xpub handling not implemented.");
   }
   prevalidateTransaction(transaction: Transaction): Promise<void> {
     throw new Error("Method not implemented.");

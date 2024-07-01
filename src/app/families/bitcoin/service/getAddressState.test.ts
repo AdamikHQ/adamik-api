@@ -1,19 +1,22 @@
 import { getAddressesState } from "./getAddressesState";
 import { BtcService } from ".";
-import { AddressState, ChainId } from "~/app/model/types_WIP";
+import { AddressState, AddressesState, ChainId } from "~/app/model/types_WIP";
 
 const CHAIN_ID = ChainId.BITCOIN;
 
 describe("getAddressState", () => {
     it("should fetch address state successfully", async () => {
         const btcService = new BtcService(CHAIN_ID);
-        const addresses = ["sample_address"];
-        const expectedAddressState: AddressState = {
+        const expectedAddressState: AddressesState = {
             chainId: btcService.chainId,
-            address: addresses[0],
-            balances: {
-                native: {
-                    available: 25550215769897n,
+            addresses: {
+                sample_address: {
+                    balances: {
+                        native: {
+                            available: 25550215769897n,
+                            total: 25550215769897n,
+                        },
+                    },
                 },
             },
         };
@@ -33,19 +36,22 @@ describe("getAddressState", () => {
             }),
         )));
 
-        const result = await getAddressesState.call(btcService, addresses);
+        const result = await getAddressesState.call(btcService, ["sample_address"]);
         expect(result).toEqual(expectedAddressState);
     });
 
     it("should have balance at 0n if blockchair returns invalid response", async () => {
         const btcService = new BtcService(CHAIN_ID);
-        const addresses = ["sample_address"];
-        const expectedAddressState = {
+        const expectedAddressState: AddressesState = {
             chainId: btcService.chainId,
-            address: addresses[0],
-            balances: {
-                native: {
-                    available: 0n,
+            addresses: {
+                sample_address: {
+                    balances: {
+                        native: {
+                            available: 0n,
+                            total: 0n,
+                        },
+                    },
                 },
             },
         };
@@ -54,20 +60,22 @@ describe("getAddressState", () => {
             JSON.stringify({}),
         )));
 
-        const result = await getAddressesState.call(btcService, addresses);
-
-        expect(result).toEqual(expectedAddressState)
+        // TODO: make this test more robust and test for specific error instead of generic Error
+        await expect(btcService.getAddressesState(['sample_address'])).rejects.toThrow();
     });
 
     it("should have balance at 0n if blockchair returns response with error code 400", async () => {
         const btcService = new BtcService(CHAIN_ID);
-        const addresses = ["sample_address"];
-        const expectedAddressState = {
+        const expectedAddressState: AddressesState = {
             chainId: btcService.chainId,
-            address: addresses[0],
-            balances: {
-                native: {
-                    available: 0n,
+            addresses: {
+                sample_address: {
+                    balances: {
+                        native: {
+                            available: 0n,
+                            total: 0n,
+                        },
+                    },
                 },
             },
         };
@@ -84,7 +92,7 @@ describe("getAddressState", () => {
             nullDataResponse,
         )));
 
-        const result = await getAddressesState.call(btcService, addresses);
+        const result = await getAddressesState.call(btcService, ['sample_address']);
         expect(result).toEqual(expectedAddressState)
     });
 });

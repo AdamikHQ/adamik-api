@@ -47,7 +47,7 @@ async function prevalidateTransactionCommon(
       break;
     case TransactionMode.DELEGATE: {
       const validValidator =
-        transaction.validator?.length && (await addressValidationFn(transaction.validator));
+        transaction.validatorAddress?.length && (await addressValidationFn(transaction.validatorAddress));
       if (!validValidator) {
         errors.push({ message: "Validator address is invalid" });
       }

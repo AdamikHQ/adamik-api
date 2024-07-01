@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
-import { generateOpenAPIDoc } from "~/app/tools/openapi/generateOpenAPIDoc";
+import { generateOpenAPISpec } from "~/app/tools/openapi/generateOpenAPISpec";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
-export async function GET() {
-  const apiReference = generateOpenAPIDoc();
-  return NextResponse.json(apiReference);
+async function GET() {
+  const apiSpec = generateOpenAPISpec();
+  return NextResponse.json(apiSpec);
 }
+
+module.exports = apiHandler({
+  GET
+});

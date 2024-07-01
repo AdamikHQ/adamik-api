@@ -1,15 +1,11 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { ChainId } from "../../../model/types_WIP";
-import { chainSchema } from "../../schemaCommon";
+import { chainIdSchema, chainSchema } from "~/app/api/schemaCommon";
 
 extendZodWithOpenApi(z);
 
 const requestSchema = z.object({
-  chainId: z.string().openapi({
-    description: "Chain ID",
-    example: "cosmoshub",
-  }),
+  chainId: chainIdSchema,
 });
 
 const responseSchema = chainSchema;
@@ -36,4 +32,4 @@ const chainsChainIdOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { chainsChainIdOpenAPIPath };
+export { chainsChainIdOpenAPIPath, requestSchema };

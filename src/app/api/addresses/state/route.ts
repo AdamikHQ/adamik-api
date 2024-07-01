@@ -2,18 +2,10 @@ import "~/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { requestSchema } from "./schema";
-import { handleRequestValidationError } from "~/app/api/schemaCommon";
 import { isMultiBalancesService } from "~/app/model/service";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = await request.json();
-  try {
-    requestSchema.parse(body);
-  } catch (e) {
-    handleRequestValidationError(e);
-  }
-
-  const { chainId, addresses } = body;
+  const { chainId, origin } = requestSchema.parse(await request.json());
 
   const service = getService(chainId);
   if (!service || !isMultiBalancesService(service)) {
@@ -23,17 +15,21 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  for (const address of addresses) {
-    const isAddressValid = await service.validateAddress(address);
-    if (!isAddressValid) {
-      return NextResponse.json(
-        { message: `Address ${address} is invalid` },
-        { status: 400, statusText: "Invalid or missing fields" }
-      );
+  // TODO: move origin as parameter of getAddressesState
+  if ('addresses' in origin) {
+    for (const address of origin.addresses) {
+      const isAddressValid = await service.validateAddress(address);
+      if (!isAddressValid) {
+        return NextResponse.json(
+          { message: `Address ${address} is invalid` },
+          { status: 400, statusText: "Invalid or missing fields" }
+        );
+      }
     }
+
+    const state = await service.getAddressesState(origin.addresses);
+
+    return NextResponse.json(state);
   }
-
-  const state = await service.getAddressesState(addresses);
-
-  return NextResponse.json(state);
+  return NextResponse.json({});
 }

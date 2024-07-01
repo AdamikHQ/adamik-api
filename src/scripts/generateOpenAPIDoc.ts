@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { generateOpenAPIDoc } from "~/app/tools/openapi/generateOpenAPIDoc";
+import { generateOpenAPISpec } from "~/app/tools/openapi/generateOpenAPISpec";
 
 const dir = path.join(__dirname, "../../public");
 
@@ -13,4 +13,4 @@ const filePath = path.join(dir, fileName);
 
 console.log(`Generating ${filePath}...`);
 
-fs.writeFileSync(filePath, JSON.stringify(generateOpenAPIDoc(), null, 2));
+fs.writeFileSync(filePath, JSON.stringify(generateOpenAPISpec(), null, 2));

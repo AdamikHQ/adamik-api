@@ -1,39 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ChainId } from "~/app/model/types_WIP";
 import { isTokenService } from "~/app/model/service";
 import { getService } from "~/app/families/services";
+import { z } from "zod";
+import { requestSchema } from "./schema";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
-type Params = {
-  chainId: ChainId;
-  tokenId: string;
-};
+type Params = z.infer<typeof requestSchema>
 
 export async function GET(_: NextRequest, context: { params: Params }): Promise<NextResponse> {
-  const { chainId, tokenId } = context.params;
-
-  // TODO Use zod / apply requestSchema
-
-  if (!chainId) {
-    return NextResponse.json(
-      { message: "Invalid request" },
-      { status: 400, statusText: "Path param `chainId` is required" }
-    );
-  }
-
-  if (!tokenId) {
-    return NextResponse.json(
-      { message: "Invalid request" },
-      { status: 400, statusText: "Path param `tokenId` is required" }
-    );
-  }
+  const { chainId, tokenId } = requestSchema.parse(context.params);
 
   const service = getService(chainId);
-  if (!service) {
-    return NextResponse.json(
-      { message: `Chain ID ${chainId} is not supported` },
-      { status: 400, statusText: `Unsupported chainId` }
-    );
-  }
 
   if (!isTokenService(service)) {
     return NextResponse.json(
@@ -47,7 +24,11 @@ export async function GET(_: NextRequest, context: { params: Params }): Promise<
   return token
     ? NextResponse.json(token)
     : NextResponse.json(
-        { message: `Token ID ${tokenId} is not supported for chain ID ${chainId}` },
-        { status: 400, statusText: `Unsupported tokenId` }
-      );
+      { message: `Token ID ${tokenId} is not supported for chain ID ${chainId}` },
+      { status: 400, statusText: `Unsupported tokenId` }
+    );
 }
+
+module.exports = apiHandler({
+  GET
+});

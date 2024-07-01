@@ -1,14 +1,12 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { ChainId, TokenType } from "../../../../../model/types_WIP";
+import { chainIdSchema } from "~/app/api/schemaCommon";
+import { TokenType } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
 const requestSchema = z.object({
-  chainId: z.string().openapi({
-    description: "Chain ID",
-    example: "ethereum",
-  }),
+  chainId: chainIdSchema,
   tokenId: z.string().openapi({
     description: "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
     example: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
@@ -16,7 +14,7 @@ const requestSchema = z.object({
 });
 
 const responseSchema = z.object({
-  chainId: z.nativeEnum(ChainId),
+  chainId: chainIdSchema,
   type: z.nativeEnum(TokenType),
   id: z.string(),
   name: z.string(),

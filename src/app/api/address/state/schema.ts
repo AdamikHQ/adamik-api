@@ -1,6 +1,7 @@
-import z from "zod";
+import z, { ZodIssueCode, ZodIssueOptionalMessage } from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
-import { TokenType } from "~/app/model/types_WIP";
+import { StakingStatus, TokenType } from "~/app/model/types_WIP";
+import { chainIdSchema } from "~/app/api/schemaCommon";
 
 extendZodWithOpenApi(z);
 
@@ -9,11 +10,21 @@ const xpubRegex = /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!
 const addressSchema = z.string().min(1);
 
 const requestSchema = z.object({
-  chainId: z.string().min(1),
+  chainId: chainIdSchema,
   // default is address, but allow for explicit address or xpub
-  address: addressSchema
-    .or(z.object({ address: addressSchema }))
-    .or(z.object({ xpub: z.string().regex(xpubRegex) }))
+  origin: z.union([
+    addressSchema,
+    z.object({ address: addressSchema }),
+    z.object({ xpub: z.string().regex(xpubRegex) }),
+  ])
+    .transform(data => {
+      if (typeof (data) === 'string') {
+        return {
+          address: data
+        };
+      }
+      return data;
+    })
     .openapi({
       unionOneOf: true,
       description: "Address or XPUB",
@@ -24,9 +35,10 @@ const requestSchema = z.object({
       ]
     }),
 });
+type Request = z.infer<typeof requestSchema>;
 
 const responseSchema = z.object({
-  chainId: z.string(),
+  chainId: chainIdSchema,
   address: z.string().min(1),
   balances: z.object({
     native: z.object({
@@ -43,11 +55,44 @@ const responseSchema = z.object({
           decimals: z.number(),
           contractAddress: z.string().optional(),
         }),
-        value: z.string(),
+        amount: z.string(),
       })
       .array()
       .optional(),
   }),
+  staking: z
+    .object({
+      total: z.string(),
+      locked: z.string(),
+      unlocking: z.string(),
+      unlocked: z.string(),
+      positions: z
+        .object({
+          validatorAddresses: z.string().array(),
+          amount: z.string(),
+          status: z.nativeEnum(StakingStatus),
+          completionDate: z.number().optional(),
+        })
+        .array(),
+      rewards: z
+        .object({
+          native: z
+            .object({
+              validatorAddress: z.string(),
+              amount: z.string(),
+            })
+            .array(),
+          tokens: z
+            .object({
+              tokenId: z.string(),
+              validatorAddress: z.string().optional(),
+              amount: z.string(),
+            })
+            .array(),
+        })
+        .optional(),
+    })
+    .optional(),
 });
 
 const addressStateOpenAPIPath: ZodOpenApiPathsObject = {

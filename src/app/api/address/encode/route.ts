@@ -1,25 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { handleRequestValidationError } from "~/app/api/schemaCommon";
 import { requestSchema } from "./schema";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = await request.json();
-  try {
-    const { chainId, pubkey } = requestSchema.parse(body);
+async function POST(request: NextRequest): Promise<NextResponse> {
+  const { chainId, pubkey } = requestSchema.parse(await request.json());
 
-    const service = getService(chainId);
-    if (!service) {
-      return NextResponse.json(
-        { message: `Chain ID ${chainId} is not supported` },
-        { status: 400, statusText: `Unsupported chainId` }
-      );
-    }
+  const service = getService(chainId);
 
-    let address = await service.pubkeyToAddress(pubkey);
+  const address = await service.pubkeyToAddress(pubkey);
 
-    return NextResponse.json(address);
-  } catch (e) {
-    return handleRequestValidationError(e);
-  }
+  return NextResponse.json(address);
 }
+
+module.exports = apiHandler({
+  POST
+});

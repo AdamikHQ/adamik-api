@@ -17,7 +17,7 @@ const VERCEL_URL: string | undefined =
     ? process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
     : process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL;
 
-function generateOpenAPIDoc(): oas31.OpenAPIObject {
+function generateOpenAPISpec(): oas31.OpenAPIObject {
   const document = createDocument({
     openapi: "3.1.0",
     info: {
@@ -61,4 +61,4 @@ function generateOpenAPIDoc(): oas31.OpenAPIObject {
   return document;
 }
 
-export { generateOpenAPIDoc };
+export { generateOpenAPISpec };

@@ -4,28 +4,14 @@ import { PlainTransaction, Transaction, TransactionData, TransactionWrapper } fr
 import { getService } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 import { requestSchema } from "./schema";
-import { handleRequestValidationError } from "~/app/api/schemaCommon";
-import z from "zod";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
-type EncodeBodySchema = z.infer<typeof requestSchema>;
-
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  const body: EncodeBodySchema = await request.json();
-  try {
-    requestSchema.parse(body);
-  } catch (e) {
-    return handleRequestValidationError(e);
-  }
+async function POST(request: NextRequest): Promise<NextResponse> {
+  const body = requestSchema.parse(await request.json());
 
   const plainTransaction: TransactionData = stringToBigint(body.transaction.plain);
 
   const service = getService(plainTransaction.chainId);
-  if (!service) {
-    return NextResponse.json(
-      { message: `Chain ID ${plainTransaction.chainId} is not supported` },
-      { status: 400, statusText: `Unsupported chainId` }
-    )
-  }
 
   // Initialization of the full transaction that will be returned
   // NOTE It will traverse and be mutated by all the service functions below
@@ -57,3 +43,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ transaction });
   }
 }
+
+module.exports = apiHandler({
+  POST
+});
