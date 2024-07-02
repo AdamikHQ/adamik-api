@@ -14,9 +14,9 @@ const requestSchema = z.object({
   // default is address, but allow for explicit address or xpub
 }).and(
   z.object({
-    address: addressSchema.openapi({
-      title: "address"
-    }),
+    address: addressSchema,
+  }).openapi({
+    title: "address"
   }).or(
     z.object({
       origin: z.union([
@@ -27,19 +27,22 @@ const requestSchema = z.object({
           title: "xpub"
         }),
       ])
+    }).openapi({
+      title: "origin"
     })
-  ).transform(data => {
-    // TODO: to remove, we just want to poke a simulate backwards compatibility
-    // make sure we always return an object for ease of use in the code
-    if ('address' in data) {
-      return {
-        origin: {
-          address: data.address
-        }
-      };
-    }
-    return data;
-  }),
+  )
+    // TODO: to remove, we just want to poke a simulated backwards compatibility
+    .transform(data => {
+      // make sure we always return an object for ease of use in the code
+      if ('address' in data) {
+        return {
+          origin: {
+            address: data.address
+          }
+        };
+      }
+      return data;
+    }),
 ).openapi({
   examples: [
     {
