@@ -101,10 +101,9 @@ function getClient(chainId: ChainId) {
     return CLIENTS.get(chainId)!;
   } else {
     const chainParams = CHAINS[chainId].params as EvmChainParams;
-    const client =
-      chainParams && chainParams.isL2Fees
-        ? createPublicClient(getClientConfig(chainId)).extend(publicActionsL2())
-        : createPublicClient(getClientConfig(chainId));
+    const client = chainParams?.isL2Fees
+      ? createPublicClient(getClientConfig(chainId)).extend(publicActionsL2())
+      : createPublicClient(getClientConfig(chainId));
     CLIENTS.set(chainId, client);
     return client;
   }
