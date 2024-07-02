@@ -48,7 +48,7 @@ enum ChainFamily {
   ALGORAND = "algorand",
   COSMOS = "cosmos",
   EVM = "evm",
-  BTC = "bitcoin",
+  BITCOIN = "bitcoin",
 }
 
 type ChainParams = CosmosParams | EvmParams | BtcParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
