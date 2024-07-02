@@ -14,9 +14,10 @@ export default function Page() {
   const [supportedChainsIds, setSupportedChainsIds] = useState<Set<string>>(new Set([]));
   const [supportedChainsDetails, setSupportedChainsDetails] = useState<Record<string, Chain>>({});
   const [selectedChain, setSelectedChain] = useState<Chain>({
-    id: "",
-    name: "",
     family: "",
+    id: "",
+    nativeId: "",
+    name: "",
     unit: {
       name: "",
       ticker: "",

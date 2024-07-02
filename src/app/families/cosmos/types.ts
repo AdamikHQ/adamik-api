@@ -1,5 +1,7 @@
-// Params that differ for each cosmos chain
-type CosmosParams = {
+import z from "zod";
+
+// Params that exist only for cosmos chains
+type CosmosChainParams = {
   // Prefix of addresses
   prefix: string;
   // Prefix of validator addresses
@@ -14,6 +16,18 @@ type CosmosParams = {
   minGasPrice: number;
 };
 
+// Cosmos-specific fields to provide with Cosmos chains transactions
+type CosmosTransactionParams =
+  | {
+      // Public key of the sender address, necessary when it never made a transaction yet
+      pubKey?: string;
+    }
+  | undefined; // undefined is for type safety, since the data will be coming from requests
+
+const cosmosTransactionParamsSchema = z.object({
+  pubKey: z.string().optional(),
+});
+
 type IBCToken = {
   denom: string;
   type: string;
@@ -21,4 +35,5 @@ type IBCToken = {
   decimals: number;
 };
 
-export type { CosmosParams, IBCToken };
+export type { CosmosChainParams, CosmosTransactionParams, IBCToken };
+export { cosmosTransactionParamsSchema };

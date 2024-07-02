@@ -5,7 +5,7 @@ import {
   TransactionMode,
   TransactionSpendableAmounts,
 } from "~/app/model/types_WIP";
-import { EvmAddress, EvmParams } from "./types";
+import { EvmAddress, EvmChainParams } from "./types";
 import {
   estimateERC20FeesForL2,
   estimateERC20Gas,
@@ -37,7 +37,7 @@ async function getTransactionGas(chainId: ChainId, transaction: PlainTransaction
 }
 
 async function getTransactionFees(chainId: ChainId, transaction: PlainTransaction): Promise<bigint> {
-  const chainParams = CHAINS[chainId].params as EvmParams;
+  const chainParams = CHAINS[chainId].params as EvmChainParams;
 
   if (chainParams?.isL2Fees) {
     return transaction.mode === TransactionMode.TRANSFER_TOKEN

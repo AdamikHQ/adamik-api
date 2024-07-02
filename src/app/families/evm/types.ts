@@ -1,9 +1,9 @@
-type EvmAddress = `0x${string}`;
-
-// Params that differ for each EVM chain
-type EvmParams = {
+// Params that exist only for EVM chains
+type EvmChainParams = {
   // Is it a L2 chain with specific logic regarding fees?
   isL2Fees?: boolean;
 };
 
-export type { EvmAddress, EvmParams };
+type EvmAddress = `0x${string}`;
+
+export type { EvmChainParams, EvmAddress };

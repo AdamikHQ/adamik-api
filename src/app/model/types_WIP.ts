@@ -1,5 +1,5 @@
-import { CosmosParams } from "../families/cosmos/types";
-import { EvmParams } from "../families/evm/types";
+import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
+import { EvmChainParams } from "../families/evm/types";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -45,7 +45,7 @@ enum ChainFamily {
   EVM = "evm",
 }
 
-type ChainParams = CosmosParams | EvmParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
+type ChainParams = CosmosChainParams | EvmChainParams;
 
 type Backends = {
   nodeURL: string;
@@ -53,10 +53,10 @@ type Backends = {
 };
 
 type Chain = {
+  family: ChainFamily;
   id: ChainId;
   nativeId: string; // Native chain identifier as defined by the chain itself
   name: string;
-  family: ChainFamily;
   ticker: string;
   decimals: number;
   backends: Backends;
@@ -146,6 +146,8 @@ enum TransactionMode {
   DELEGATE = "delegate",
 }
 
+type TransactionParams = CosmosTransactionParams;
+
 // TODO WIP
 // FIXME de/serialization types <> string
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
@@ -162,8 +164,8 @@ type CommonTransaction = {
   gas?: bigint;
   nonce?: number;
   memo?: string;
-  format?: EncodedTransactionFormat; // FIXME should not be here
-  pubKey?: string; // FIXME should not be here
+  format?: EncodedTransactionFormat;
+  params?: TransactionParams;
 };
 
 type TransferTransaction = CommonTransaction & {
@@ -258,6 +260,7 @@ export type {
   StakingReward,
   TokenStakingReward,
   AddressState,
+  TransactionParams,
   PlainTransaction,
   Transaction,
   TransactionSpendableAmounts,

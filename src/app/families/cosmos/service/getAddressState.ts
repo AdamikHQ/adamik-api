@@ -4,13 +4,13 @@ import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 import { CosmosBalance } from "../backend/types";
 import { fetchBalances, fetchDelegations, fetchRewards, fetchUnbondingDelegations } from "../backend/node";
 import { CosmosService } from ".";
-import { CosmosParams, IBCToken } from "../types";
+import { CosmosChainParams, IBCToken } from "../types";
 
 async function getAddressState(this: CosmosService, address: string): Promise<AddressState> {
   const balances: CosmosBalance[] = await fetchBalances(this.chainId, address);
 
   const chain = CHAINS[this.chainId];
-  const chainParams = chain.params as CosmosParams;
+  const chainParams = chain.params as CosmosChainParams;
 
   let nativeBalance = 0n;
   let tokenBalances: TokenAmount[] = [];
