@@ -647,13 +647,13 @@
                         "properties": {
                           "address": {
                             "type": "string",
-                            "minLength": 1,
-                            "title": "address"
+                            "minLength": 1
                           }
                         },
                         "required": [
                           "address"
-                        ]
+                        ],
+                        "title": "address"
                       },
                       {
                         "type": "object",
@@ -691,7 +691,8 @@
                         },
                         "required": [
                           "origin"
-                        ]
+                        ],
+                        "title": "origin"
                       }
                     ]
                   }
