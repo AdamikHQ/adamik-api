@@ -1115,7 +1115,8 @@
                             }
                           },
                           "amount": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                           },
                           "useMaxAmount": {
                             "type": "boolean"
@@ -1138,6 +1139,14 @@
                               "json",
                               "hex"
                             ]
+                          },
+                          "params": {
+                            "type": "object",
+                            "properties": {
+                              "pubKey": {
+                                "type": "string"
+                              }
+                            }
                           }
                         },
                         "required": [
@@ -1301,7 +1310,8 @@
                             }
                           },
                           "amount": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                           },
                           "useMaxAmount": {
                             "type": "boolean"
@@ -1324,6 +1334,14 @@
                               "json",
                               "hex"
                             ]
+                          },
+                          "params": {
+                            "type": "object",
+                            "properties": {
+                              "pubKey": {
+                                "type": "string"
+                              }
+                            }
                           }
                         },
                         "required": [
@@ -1423,7 +1441,8 @@
                               }
                             },
                             "amount": {
-                              "type": "string"
+                              "type": "string",
+                              "minLength": 1
                             },
                             "useMaxAmount": {
                               "type": "boolean"
@@ -1446,6 +1465,14 @@
                                 "json",
                                 "hex"
                               ]
+                            },
+                            "params": {
+                              "type": "object",
+                              "properties": {
+                                "pubKey": {
+                                  "type": "string"
+                                }
+                              }
                             }
                           },
                           "required": [
@@ -1556,7 +1583,8 @@
                             }
                           },
                           "amount": {
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                           },
                           "useMaxAmount": {
                             "type": "boolean"
@@ -1579,6 +1607,14 @@
                               "json",
                               "hex"
                             ]
+                          },
+                          "params": {
+                            "type": "object",
+                            "properties": {
+                              "pubKey": {
+                                "type": "string"
+                              }
+                            }
                           }
                         },
                         "required": [

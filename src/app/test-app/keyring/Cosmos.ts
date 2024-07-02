@@ -30,13 +30,20 @@ const CosmosKeyring: Keyring = {
   },
 
   async signTransaction({ accountNb = 0, transaction }: { accountNb: number; transaction: string }) {
+    // FIXME DEBUG TBR
+    console.log("signTransaction - transaction: ", transaction);
+
     const transport = await getTransport();
     const ledgerApp = new LedgerApp(transport);
     const derivationPath = DERIVATION_PATH(accountNb);
 
     const pathNodes = splitPathNodes(derivationPath);
     const messageBuffer = Buffer.from(transaction, "hex");
+    console.log("signTransaction - messageBuffer: ", messageBuffer);
     const { signature } = await ledgerApp.sign(pathNodes, messageBuffer);
+
+    // FIXME DEBUG TBR
+    console.log("signTransaction - signature: ", signature);
 
     return {
       signature,

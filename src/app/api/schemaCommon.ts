@@ -1,7 +1,8 @@
 import z from "zod";
+import { extendZodWithOpenApi } from "zod-openapi";
 
 import { ChainFamily, ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
-import { extendZodWithOpenApi } from "zod-openapi";
+import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 
 extendZodWithOpenApi(z);
 
@@ -38,17 +39,19 @@ const plainTransactionSchema = commonTransactionSchema.and(z.union([transferTran
 
 // DOMAIN TYPES //////////////////////////////////////////////////////////////
 
-const chainIdSchema = z.nativeEnum(ChainId, {
-  errorMap: (issue, ctx) => {
-    if (issue.code === z.ZodIssueCode.invalid_enum_value) {
-      return { message: `unsupported value "${ctx.data}" encountered` };
-    }
-    return { message: ctx.defaultError };
-  }
-}).openapi({
-  description: "Chain ID",
-  example: ChainId.ETHEREUM,
-});
+const chainIdSchema = z
+  .nativeEnum(ChainId, {
+    errorMap: (issue, ctx) => {
+      if (issue.code === z.ZodIssueCode.invalid_enum_value) {
+        return { message: `unsupported value "${ctx.data}" encountered` };
+      }
+      return { message: ctx.defaultError };
+    },
+  })
+  .openapi({
+    description: "Chain ID",
+    example: ChainId.ETHEREUM,
+  });
 
 const plainTransactionSchema = z.object({
   chainId: chainIdSchema,
@@ -56,13 +59,14 @@ const plainTransactionSchema = z.object({
   senders: z.array(z.string()),
   recipients: z.array(z.string()),
   // TODO should be only one of [amount, useMaxAmount]
-  amount: z.string().optional(),
+  amount: z.string().min(1).optional(),
   useMaxAmount: z.boolean().optional(),
   fees: z.string().optional(),
   gas: z.string().optional(),
   nonce: z.string().optional(),
   memo: z.string().optional(),
   format: z.nativeEnum(EncodedTransactionFormat).optional(),
+  params: cosmosTransactionParamsSchema.optional(), // For more than 1 family z.union() should be used
 });
 
 const errorMsgSchema = z.object({
@@ -82,10 +86,4 @@ const chainSchema = z.object({
   params: z.any().optional(),
 });
 
-export {
-  paginationSchema,
-  plainTransactionSchema,
-  transactionStatusSchema,
-  chainIdSchema,
-  chainSchema,
-};
+export { paginationSchema, plainTransactionSchema, transactionStatusSchema, chainIdSchema, chainSchema };
