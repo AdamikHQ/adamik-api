@@ -1140,6 +1140,12 @@
                               "hex"
                             ]
                           },
+                          "tokenId": {
+                            "type": "string"
+                          },
+                          "validatorAddress": {
+                            "type": "string"
+                          },
                           "params": {
                             "type": "object",
                             "properties": {
@@ -1335,6 +1341,12 @@
                               "hex"
                             ]
                           },
+                          "tokenId": {
+                            "type": "string"
+                          },
+                          "validatorAddress": {
+                            "type": "string"
+                          },
                           "params": {
                             "type": "object",
                             "properties": {
@@ -1465,6 +1477,12 @@
                                 "json",
                                 "hex"
                               ]
+                            },
+                            "tokenId": {
+                              "type": "string"
+                            },
+                            "validatorAddress": {
+                              "type": "string"
                             },
                             "params": {
                               "type": "object",
@@ -1607,6 +1625,12 @@
                               "json",
                               "hex"
                             ]
+                          },
+                          "tokenId": {
+                            "type": "string"
+                          },
+                          "validatorAddress": {
+                            "type": "string"
                           },
                           "params": {
                             "type": "object",
