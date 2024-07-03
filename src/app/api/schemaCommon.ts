@@ -66,6 +66,7 @@ const plainTransactionSchema = z.object({
   nonce: z.string().optional(),
   memo: z.string().optional(),
   format: z.nativeEnum(EncodedTransactionFormat).optional(),
+  tokenId: z.string().optional(),
   params: cosmosTransactionParamsSchema.optional(), // For more than 1 family z.union() should be used
 });
 
