@@ -21,7 +21,7 @@ class AlgorandService extends BaseChainService implements TokenService {
   getTokenInfo = getTokenInfoFn;
   pubkeyToAddress = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
-  getAddressState = this.addressStateMethodAdaptator(getAddressStateFn);
+  getAddressState = getAddressStateFn;
   prevalidateTransaction = this.transactionMethodAdaptator(prevalidateTransactionFn);
   completeTransaction = this.transactionMethodAdaptator(completeTransactionFn);
   validateTransaction = this.transactionMethodAdaptator(validateTransactionFn);

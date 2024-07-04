@@ -5,25 +5,9 @@ import { chainIdSchema } from "../../schemaCommon";
 
 extendZodWithOpenApi(z);
 
-const xpubRegex = /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!.*&c=)c=\d{10}|(?!.*&h=)h=bip\d{2,3})(?:(?=(?:&c=|&h=))&(c=\d{10}|h=bip\d{2,3}))?)?$/;
-
-const addressSchema = z.string().min(1).array();
-
 const requestSchema = z.object({
   chainId: chainIdSchema,
-  // default is address, but allow for explicit address or xpub
-  origin:
-    z.union([
-      z.object({ addresses: addressSchema }),
-      z.object({ xpub: z.string().regex(xpubRegex) })
-    ]).openapi({
-      unionOneOf: true,
-      description: "Address or XPUB",
-      examples: [
-        { xpub: "sample_xpub" },
-        { addresses: ["sample_address"] },
-      ]
-    }),
+  addresses: z.string().min(1).array()
 });
 
 const responseSchema = z.object({

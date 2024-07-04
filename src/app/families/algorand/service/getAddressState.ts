@@ -1,4 +1,4 @@
-import { AddressState, StateOrigin, TokenAmount } from "~/app/model/types_WIP";
+import { AddressState, TokenAmount } from "~/app/model/types_WIP";
 import { fetchAccount } from "../backend/node";
 import { AlgorandService } from ".";
 

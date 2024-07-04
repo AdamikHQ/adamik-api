@@ -21,7 +21,7 @@ import { getValidators as getValidatorsFn } from "./getValidators";
 class CosmosService extends BaseChainService implements TokenService, StakingService {
   pubkeyToAddress = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
-  getAddressState = this.addressStateMethodAdaptator(getAddressStateFn);
+  getAddressState = getAddressStateFn;
   getTokenInfo = getTokenInfoFn;
   getValidators = getValidatorsFn;
   prevalidateTransaction = this.transactionMethodAdaptator(prevalidateTransactionFn);

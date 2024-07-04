@@ -1,8 +1,6 @@
-import { z } from "zod";
 import { BtcParams } from "../families/bitcoin/types";
 import { CosmosParams } from "../families/cosmos/types";
 import { EvmParams } from "../families/evm/types";
-import { requestSchema as addressStateRequestSchema } from "../api/address/state/schema";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -26,8 +24,6 @@ enum ChainId {
   OPTIMISM_SEPOLIA = "optimism-sepolia",
   ARBITRUM = "arbitrum",
   ARBITRUM_SEPOLIA = "arbitrum-sepolia",
-  BITCOIN = "bitcoin",
-  BITCOIN_TESTNET = "bitcoin-testnet",
   POLYGON = "polygon",
   POLYGON_AMOY = "polygon-amoy",
   BSC = "bsc",
@@ -42,6 +38,9 @@ enum ChainId {
   MOONBASE = "moonbase",
   FANTOM = "fantom",
   PALM = "palm",
+  // BTC family
+  BITCOIN = "bitcoin",
+  BITCOIN_TESTNET = "bitcoin-testnet",
 }
 
 enum ChainFamily {
@@ -122,7 +121,6 @@ type StakingReward = {
 type TokenStakingReward = StakingReward & {
   tokenId: string;
 };
-type StateOrigin = z.infer<typeof addressStateRequestSchema>["origin"];
 
 type AddressState = {
   chainId: ChainId;
@@ -248,6 +246,7 @@ type MultiRecipientTransaction = BaseTransaction & BaseTransaction & {
  */
 type PlainTransaction = TransferTransaction | TransferTokenTransaction | DelegateTransaction;
 
+// TODO: remove PlainTransaction and replace it with all other types
 type TransactionData = PlainTransaction | MultiRecipientTransaction;
 
 /**
@@ -312,26 +311,14 @@ type Pagination = {
   limit: number;
 };
 
-export { ChainId, ChainFamily, TransactionMode, EncodedTransactionFormat, TokenType, StakingStatus };
+export { ChainFamily, ChainId, EncodedTransactionFormat, StakingStatus, TokenType, TransactionMode };
 export type {
-  Chain,
-  ChainParams,
-  Token,
-  TokenAmount,
-  StateOrigin,
-  Validator,
-  StakingPosition,
-  StakingReward,
-  TokenStakingReward,
   AddressState,
-  AddressesState,
-  PlainTransaction,
-  TransactionData,
-  Transaction,
-  TransactionWrapper,
-  TransactionSpendableAmounts,
-  TransactionStatus,
-  BroadcastStatus,
-  ErrorMsg,
-  Pagination,
+  AddressesState, BroadcastStatus, Chain,
+  ChainParams, ErrorMsg,
+  Pagination, PlainTransaction, StakingPosition,
+  StakingReward, Token,
+  TokenAmount, TokenStakingReward, Transaction, TransactionData, TransactionSpendableAmounts,
+  TransactionStatus, TransactionWrapper, Validator
 };
+

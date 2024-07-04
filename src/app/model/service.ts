@@ -4,7 +4,6 @@ import {
   BroadcastStatus,
   ChainId,
   Pagination,
-  StateOrigin,
   Token,
   Transaction,
   TransactionMode,
@@ -30,7 +29,7 @@ abstract class BaseChainService {
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data
-  abstract getAddressState(origin: StateOrigin): Promise<AddressState>;
+  abstract getAddressState(accountId: string): Promise<AddressState>;
 
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
@@ -61,17 +60,6 @@ abstract class BaseChainService {
       }
       throw new Error(`Unsupported transaction mode: ${transaction.data.mode} for chain ID ${this.chainId}`);
     };
-  };
-
-  // Helper function for services that were coded with `string` instead of `StateOrigin`
-  //   FIXME: using generics + cast to work around EVM `EvmAddress` specificity
-  protected addressStateMethodAdaptator<T extends string>(fn: (address: T) => Promise<AddressState>): (stateOrigin: StateOrigin) => Promise<AddressState> {
-    return (stateOrigin: StateOrigin): Promise<AddressState> => {
-      if ("address" in stateOrigin) {
-        return fn(stateOrigin.address as T);
-      }
-      throw new Error(`Unsupported state origin xpub for chain ID ${this.chainId}`);
-    }
   };
 }
 

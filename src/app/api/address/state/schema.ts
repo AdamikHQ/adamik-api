@@ -5,8 +5,6 @@ import { chainIdSchema } from "~/app/api/schemaCommon";
 
 extendZodWithOpenApi(z);
 
-const xpubRegex = /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!.*&c=)c=\d{10}|(?!.*&h=)h=bip\d{2,3})(?:(?=(?:&c=|&h=))&(c=\d{10}|h=bip\d{2,3}))?)?$/;
-
 const addressSchema = z.string().min(1);
 
 const requestSchema = z.object({
@@ -16,33 +14,22 @@ const requestSchema = z.object({
   z.object({
     address: addressSchema,
   }).openapi({
-    title: "address"
+    title: "address",
+    deprecated: true,
   }).or(
     z.object({
-      origin: z.union([
-        z.object({ address: addressSchema }).openapi({
-          title: "address"
-        }),
-        z.object({ xpub: z.string().regex(xpubRegex) }).openapi({
-          title: "xpub"
-        }),
-      ])
+      account_id: z.string(),
     }).openapi({
-      title: "origin"
+      title: "account id"
     })
-  )
-    // TODO: to remove, we just want to poke a simulated backwards compatibility
-    .transform(data => {
-      // make sure we always return an object for ease of use in the code
-      if ('address' in data) {
-        return {
-          origin: {
-            address: data.address
-          }
-        };
-      }
-      return data;
-    }),
+  ).transform((object) => {
+    if ('address' in object) {
+      return {
+        account_id: object.address
+      };
+    }
+    return object;
+  })
 ).openapi({
   examples: [
     {
@@ -51,15 +38,11 @@ const requestSchema = z.object({
     },
     {
       chainId: ChainId.ETHEREUM,
-      origin: {
-        address: "0x0000000000000000000000000000000000000000"
-      }
+      account_id: "0x0000000000000000000000000000000000000000",
     },
     {
       chainId: ChainId.BITCOIN,
-      origin: {
-        xpub: "xpub"
-      }
+      account_id: "xpub",
     },
   ]
 });

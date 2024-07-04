@@ -5,20 +5,18 @@ import "~/patch";
 import { requestSchema } from "./schema";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
-  const { chainId, origin } = requestSchema.parse(await request.json());
+  const { chainId, account_id } = requestSchema.parse(await request.json());
 
   const service = getService(chainId);
 
-  if ('address' in origin) {
-    const isAddressValid = await service.validateAddress(origin.address);
+  const isAddressValid = await service.validateAddress(account_id);
 
-    if (!isAddressValid) {
-      return NextResponse.json(
-        { message: "Address is invalid" },
-        { status: 400, statusText: "Invalid or missing fields" }
-      );
-    }
-  } // else xpub doesnt need to be validated, zod already validated it with a regex
+  if (!isAddressValid) {
+    return NextResponse.json(
+      { message: "Address is invalid" },
+      { status: 400, statusText: "Invalid or missing fields" }
+    );
+  }
   const state = await service.getAddressState(origin);
 
   return NextResponse.json(state);
