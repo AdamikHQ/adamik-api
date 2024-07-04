@@ -195,6 +195,14 @@
                       "additionalProperties": {
                         "type": "object",
                         "properties": {
+                          "family": {
+                            "type": "string",
+                            "enum": [
+                              "algorand",
+                              "cosmos",
+                              "evm"
+                            ]
+                          },
                           "id": {
                             "type": "string",
                             "enum": [
@@ -237,26 +245,46 @@
                             "description": "Chain ID",
                             "example": "ethereum"
                           },
+                          "nativeId": {
+                            "type": "string"
+                          },
                           "name": {
                             "type": "string"
                           },
-                          "family": {
-                            "type": "string",
-                            "enum": [
-                              "algorand",
-                              "cosmos",
-                              "evm"
-                            ]
+                          "ticker": {
+                            "type": "string"
+                          },
+                          "decimals": {
+                            "type": "string"
                           },
                           "isTestnet": {
                             "type": "boolean"
                           },
-                          "params": {}
+                          "params": {},
+                          "supportedFeatures": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "enum": [
+                                "balances.native",
+                                "balances.tokens",
+                                "balances.staking",
+                                "transactions.native",
+                                "transactions.tokens",
+                                "transactions.staking",
+                                "memo"
+                              ]
+                            }
+                          }
                         },
                         "required": [
+                          "family",
                           "id",
+                          "nativeId",
                           "name",
-                          "family"
+                          "ticker",
+                          "decimals",
+                          "supportedFeatures"
                         ]
                       }
                     }
@@ -335,6 +363,14 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "family": {
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmos",
+                        "evm"
+                      ]
+                    },
                     "id": {
                       "type": "string",
                       "enum": [
@@ -377,26 +413,46 @@
                       "description": "Chain ID",
                       "example": "ethereum"
                     },
+                    "nativeId": {
+                      "type": "string"
+                    },
                     "name": {
                       "type": "string"
                     },
-                    "family": {
-                      "type": "string",
-                      "enum": [
-                        "algorand",
-                        "cosmos",
-                        "evm"
-                      ]
+                    "ticker": {
+                      "type": "string"
+                    },
+                    "decimals": {
+                      "type": "string"
                     },
                     "isTestnet": {
                       "type": "boolean"
                     },
-                    "params": {}
+                    "params": {},
+                    "supportedFeatures": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "balances.native",
+                          "balances.tokens",
+                          "balances.staking",
+                          "transactions.native",
+                          "transactions.tokens",
+                          "transactions.staking",
+                          "memo"
+                        ]
+                      }
+                    }
                   },
                   "required": [
+                    "family",
                     "id",
+                    "nativeId",
                     "name",
-                    "family"
+                    "ticker",
+                    "decimals",
+                    "supportedFeatures"
                   ]
                 }
               }
