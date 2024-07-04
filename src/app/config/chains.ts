@@ -23,7 +23,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
     ChainFeature.TRANSACTIONS_NATIVE,
     ChainFeature.TRANSACTIONS_TOKENS,
   ],
-} as const;
+};
 
 const CHAINS: { [key in ChainId]: Chain } = {
   algorand: {
