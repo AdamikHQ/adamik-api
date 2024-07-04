@@ -1,6 +1,6 @@
 import { ChainId, Chain, ChainParams, ChainFamily } from "../model/types_WIP";
 
-const CHAINS: {[key in ChainId]: Chain<ChainParams>} = {
+const CHAINS: { [key in ChainId]: Chain<ChainParams> } = {
   algorand: {
     id: ChainId.ALGORAND,
     family: ChainFamily.ALGORAND,
@@ -363,7 +363,7 @@ const CHAINS: {[key in ChainId]: Chain<ChainParams>} = {
   [ChainId.BITCOIN]: {
     id: ChainId.BITCOIN,
     name: "Bitcoin mainnet",
-    family: ChainFamily.BTC,
+    family: ChainFamily.BITCOIN,
     ticker: "BTC",
     decimals: 0,
     backends: {
@@ -375,7 +375,7 @@ const CHAINS: {[key in ChainId]: Chain<ChainParams>} = {
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,
     name: "Bitcoin testnet",
-    family: ChainFamily.BTC,
+    family: ChainFamily.BITCOIN,
     ticker: "BTC",
     decimals: 0,
     backends: {
