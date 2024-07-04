@@ -9,14 +9,14 @@ import { apiHandler } from "~/app/tools/handlers/apiHandler";
 async function POST(request: NextRequest): Promise<NextResponse> {
   const body = requestSchema.parse(await request.json());
 
-  const plainTransaction: TransactionData = stringToBigint(body.transaction.plain);
+  const transactionData: TransactionData = stringToBigint(body.transaction.data);
 
-  const service = getService(plainTransaction.chainId);
+  const service = getService(transactionData.chainId);
 
   // Initialization of the full transaction that will be returned
   // NOTE It will traverse and be mutated by all the service functions below
   let transaction: TransactionWrapper = {
-    plain: plainTransaction,
+    data: transactionData,
     status: { errors: [], warnings: [] },
   };
 

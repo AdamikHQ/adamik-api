@@ -1,11 +1,24 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { transactionWrapperSchema, transactionStatusSchema } from "~/app/api/schemaCommon";
+import { transactionDataSchema, transactionStatusSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
-  transaction: z.object({
-    plain: transactionWrapperSchema,
-  }),
+  transaction:
+    // TODO: should be replaced by data field
+    z.object({
+      plain: transactionDataSchema,
+    }).openapi({
+      deprecated: true,
+    }).or(z.object({
+      data: transactionDataSchema
+    })).transform((object) => {
+      if ('plain' in object) {
+        return {
+          data: object.plain,
+        }
+      }
+      return object;
+    }),
 });
 
 const responseSchema = transactionStatusSchema;

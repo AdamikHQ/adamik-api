@@ -264,7 +264,7 @@ type Transaction = {
 };
 
 type TransactionWrapper = {
-  plain: TransactionData;
+  data: TransactionData;
   encoded?: string;
   signature?: string;
   status: TransactionStatus;

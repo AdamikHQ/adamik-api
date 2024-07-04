@@ -9,14 +9,14 @@ async function POST(request: NextRequest): Promise<NextResponse> {
   const body = requestSchema.parse(await request.json());
 
   let transaction: TransactionWrapper = {
-    plain: stringToBigint(body.transaction.plain),
+    data: stringToBigint(body.transaction.data),
     // FIXME: better schema for encoded required
     encoded: body.transaction.encoded as any,
     signature: body.transaction.signature,
     status: { errors: [], warnings: [] },
   };
 
-  const chainId = transaction.plain.chainId;
+  const chainId = transaction.data.chainId;
   const service = getService(chainId);
 
   const signedTransaction = await service.encodeTransactionToBroadcast(transaction);

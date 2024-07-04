@@ -2,6 +2,7 @@ import z from "zod";
 
 import { ChainFamily, ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
 import { extendZodWithOpenApi } from "zod-openapi";
+import { validateAddress } from "../families/algorand/service/validateAddress";
 
 extendZodWithOpenApi(z);
 
@@ -85,6 +86,7 @@ const transactionContentUnion = z.discriminatedUnion("mode", [
     gas: z.string().optional(),
     nonce: z.string().optional(),
     memo: z.string().optional(),
+    validateAddress: z.string().optional(),
     format: z.nativeEnum(EncodedTransactionFormat).optional(),
   }).openapi({
     // ref: "Delegate",
@@ -118,6 +120,7 @@ const transactionContentUnion = z.discriminatedUnion("mode", [
     nonce: z.string().optional(),
     memo: z.string().optional(),
     format: z.nativeEnum(EncodedTransactionFormat).optional(),
+    tokenId: z.string(),
   }).openapi({
     // ref: "TransferToken",
     title: "TransferToken",
@@ -135,7 +138,7 @@ const transactionContentUnion = z.discriminatedUnion("mode", [
   }),
 ]);
 
-const transactionWrapperSchema = z.object({
+const transactionDataSchema = z.object({
   chainId: z.nativeEnum(ChainId),
 }).and(transactionContentUnion);
 
@@ -159,7 +162,7 @@ const chainSchema = z.object({
 export {
   paginationSchema,
   plainTransactionSchema,
-  transactionWrapperSchema,
+  transactionDataSchema,
   transactionStatusSchema,
   chainIdSchema,
   chainSchema,

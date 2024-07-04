@@ -49,13 +49,17 @@ abstract class BaseChainService {
   protected transactionMethodAdaptator<T>(fn: (transaction: Transaction) => Promise<T>): (transaction: TransactionWrapper) => Promise<T> {
     return (transaction: TransactionWrapper): Promise<T> => {
       if (
-        transaction.plain.mode === TransactionMode.DELEGATE ||
-        transaction.plain.mode === TransactionMode.TRANSFER ||
-        transaction.plain.mode === TransactionMode.TRANSFER_TOKEN
+        transaction.data.mode === TransactionMode.DELEGATE ||
+        transaction.data.mode === TransactionMode.TRANSFER ||
+        transaction.data.mode === TransactionMode.TRANSFER_TOKEN
       ) {
-        return fn(transaction as Transaction);
+        const old_transaction_format: Transaction = {
+          plain: transaction.data,
+          status: transaction.status,
+        };
+        return fn(old_transaction_format);
       }
-      throw new Error(`Unsupported transaction mode: ${transaction.plain.mode} for chain ID ${this.chainId}`);
+      throw new Error(`Unsupported transaction mode: ${transaction.data.mode} for chain ID ${this.chainId}`);
     };
   };
 

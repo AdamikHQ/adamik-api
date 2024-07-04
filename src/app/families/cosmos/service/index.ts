@@ -24,11 +24,11 @@ class CosmosService extends BaseChainService implements TokenService, StakingSer
   getAddressState = this.addressStateMethodAdaptator(getAddressStateFn);
   getTokenInfo = getTokenInfoFn;
   getValidators = getValidatorsFn;
-  prevalidateTransaction = prevalidateTransactionFn;
-  completeTransaction = completeTransactionFn;
-  validateTransaction = validateTransactionFn;
-  encodeTransactionToSign = encodeTransactionToSignFn;
-  encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
+  prevalidateTransaction = this.transactionMethodAdaptator(prevalidateTransactionFn);
+  completeTransaction = this.transactionMethodAdaptator(completeTransactionFn);
+  validateTransaction = this.transactionMethodAdaptator(validateTransactionFn);
+  encodeTransactionToSign = this.transactionMethodAdaptator(encodeTransactionToSignFn);
+  encodeTransactionToBroadcast = this.transactionMethodAdaptator(encodeTransactionToBroadcastFn);
   broadcastTransaction = broadcastTransactionFn;
 }
 

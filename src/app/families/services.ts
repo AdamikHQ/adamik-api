@@ -15,7 +15,7 @@ function getService(chainId: ChainId): BaseChainService {
       return new CosmosService(chainId);
     case ChainFamily.EVM:
       return new EvmService(chainId);
-    case ChainFamily.BTC:
+    case ChainFamily.BITCOIN:
       return new BtcService(chainId);
     default: // ensure exhaustive check, both at compile time and runtime: https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
       const assertNever = (x: never): never => {
