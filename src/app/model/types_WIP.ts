@@ -47,6 +47,18 @@ enum ChainFamily {
 
 type ChainParams = CosmosChainParams | EvmChainParams;
 
+enum ChainFeature {
+  BALANCES_NATIVE = "balances.native",
+  BALANCES_TOKENS = "balances.tokens",
+  //BALANCES_NFT = "balances.nft",
+  BALANCES_STAKING = "balances.staking",
+  TRANSACTIONS_NATIVE = "transactions.native",
+  TRANSACTIONS_TOKENS = "transactions.tokens",
+  //TRANSACTIONS_NFT = "transactions.nft",
+  TRANSACTIONS_STAKING = "transactions.staking",
+  MEMO = "memo",
+}
+
 type Backends = {
   nodeURL: string;
   explorerURL?: string;
@@ -62,6 +74,7 @@ type Chain = {
   backends: Backends;
   isTestNet?: boolean;
   params?: ChainParams;
+  supportedFeatures: ChainFeature[];
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
@@ -249,7 +262,15 @@ type Pagination = {
   limit: number;
 };
 
-export { ChainId, ChainFamily, TransactionMode, EncodedTransactionFormat, TokenType, StakingStatus };
+export {
+  ChainId,
+  ChainFamily,
+  ChainFeature,
+  TransactionMode,
+  EncodedTransactionFormat,
+  TokenType,
+  StakingStatus,
+};
 export type {
   Chain,
   ChainParams,
