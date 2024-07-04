@@ -117,7 +117,6 @@ function isTokenService(object: BaseChainService | TokenService): object is Toke
 
 interface MultiBalancesService {
   getAddressesState(addresses: string[]): Promise<AddressesState>;
-  getAddressState(address: StateOrigin): Promise<AddressState>;
 }
 
 function isMultiBalancesService(object: BaseChainService | MultiBalancesService): object is MultiBalancesService {
@@ -125,9 +124,6 @@ function isMultiBalancesService(object: BaseChainService | MultiBalancesService)
   // instance is necessary to extract members of the interface
   const dummy: MultiBalancesService = {
     getAddressesState: (): never => {
-      throw new Error("Must not be used");
-    },
-    getAddressState: (): never => {
       throw new Error("Must not be used");
     },
   };
