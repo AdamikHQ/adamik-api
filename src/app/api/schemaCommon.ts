@@ -1,7 +1,13 @@
 import z from "zod";
 import { extendZodWithOpenApi } from "zod-openapi";
 
-import { ChainFamily, ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
+import {
+  ChainFamily,
+  ChainFeature,
+  ChainId,
+  EncodedTransactionFormat,
+  TransactionMode,
+} from "~/app/model/types_WIP";
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 
 extendZodWithOpenApi(z);
@@ -81,11 +87,15 @@ const transactionStatusSchema = z.object({
 });
 
 const chainSchema = z.object({
-  id: chainIdSchema,
-  name: z.string(),
   family: z.nativeEnum(ChainFamily),
+  id: chainIdSchema,
+  nativeId: z.string(),
+  name: z.string(),
+  ticker: z.string(),
+  decimals: z.string(),
   isTestnet: z.boolean().optional(),
   params: z.any().optional(),
+  supportedFeatures: z.nativeEnum(ChainFeature).array(),
 });
 
 export { paginationSchema, plainTransactionSchema, transactionStatusSchema, chainIdSchema, chainSchema };
