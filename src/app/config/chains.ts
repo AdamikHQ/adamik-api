@@ -498,7 +498,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     id: ChainId.GNOSIS,
     nativeId: "100",
     name: "Gnosis",
-    ticker: "ETH",
+    ticker: "xDAI",
     decimals: 18,
     backends: {
       nodeURL: "https://site1.moralis-nodes.com/gnosis/87598d6b313843f6be61fecc9b874cdd",
@@ -511,7 +511,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     id: ChainId.GNOSIS_CHIADO,
     nativeId: "10200",
     name: "Gnosis Chiado",
-    ticker: "ETH",
+    ticker: "xDAI",
     decimals: 18,
     backends: {
       nodeURL: "https://site1.moralis-nodes.com/gnosis-testnet/91e2e32f95864e6891fbe76dc97e57cb",
@@ -551,7 +551,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     id: ChainId.MOONBASE,
     nativeId: "1287",
     name: "Moonbase",
-    ticker: "ETH",
+    ticker: "DEV",
     decimals: 18,
     backends: {
       nodeURL: "https://site1.moralis-nodes.com/moonbase/a4078cfc56ad43d5a5aa557241ddb7bb",
