@@ -151,6 +151,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     backends: {
       nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestiatm/rest/REDACTED",
     },
+    isTestNet: true,
     params: {
       prefix: "celestia",
       validatorPrefix: "celestiavaloper",
