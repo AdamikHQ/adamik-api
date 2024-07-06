@@ -1,9 +1,9 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { chainSchema } from "../schemaCommon";
+import { chainIdSchema, chainSchema } from "../schemaCommon";
 
 const responseSchema = z.object({
-  chains: z.record(z.string(), chainSchema),
+  chains: z.record(chainIdSchema, chainSchema),
 });
 
 const chainsOpenAPIPath: ZodOpenApiPathsObject = {
@@ -13,7 +13,8 @@ const chainsOpenAPIPath: ZodOpenApiPathsObject = {
       description: "Retrieves a list of all supported blockchain networks with their detailed information.",
       responses: {
         "200": {
-          description: "200 OK - Returns a list of names and detailed information for all supported blockchain networks.",
+          description:
+            "200 OK - Returns a list of names and detailed information for all supported blockchain networks.",
           content: {
             "application/json": { schema: responseSchema },
           },
