@@ -1,6 +1,4 @@
 import z from "zod";
-import { extendZodWithOpenApi } from "zod-openapi";
-
 import {
   ChainFamily,
   ChainFeature,
@@ -9,8 +7,6 @@ import {
   TransactionMode,
 } from "~/app/model/types_WIP";
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
-
-extendZodWithOpenApi(z);
 
 const paginationSchema = z.object({
   limit: z.number(),
@@ -45,19 +41,14 @@ const plainTransactionSchema = commonTransactionSchema.and(z.union([transferTran
 
 // DOMAIN TYPES //////////////////////////////////////////////////////////////
 
-const chainIdSchema = z
-  .nativeEnum(ChainId, {
-    errorMap: (issue, ctx) => {
-      if (issue.code === z.ZodIssueCode.invalid_enum_value) {
-        return { message: `unsupported value "${ctx.data}" encountered` };
-      }
-      return { message: ctx.defaultError };
-    },
-  })
-  .openapi({
-    description: "Chain ID",
-    example: ChainId.ETHEREUM,
-  });
+const chainIdSchema = z.nativeEnum(ChainId, {
+  errorMap: (issue, ctx) => {
+    if (issue.code === z.ZodIssueCode.invalid_enum_value) {
+      return { message: `unsupported value "${ctx.data}" encountered` };
+    }
+    return { message: ctx.defaultError };
+  },
+});
 
 const plainTransactionSchema = z.object({
   chainId: chainIdSchema,
