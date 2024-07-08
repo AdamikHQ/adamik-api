@@ -413,9 +413,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "",
       explorerURL: "https://api.blockchair.com/bitcoin",
     },
-    params: undefined,
     nativeId: "something", // FIXME
-    supportedFeatures: FEATURES[ChainFamily.BITCOIN]
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+    params: {
+      confirmations: 280,
+    }
   },
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,

@@ -1,5 +1,31 @@
 import z from "zod";
 
+// Blockchair responses SUB-MODELS
+const UtxosSchema = z.object({
+  block_id: z.number(),
+  transaction_hash: z.string(),
+  index: z.number(),
+  value: z.number(),
+  address: z.string(),
+});
+
+const AddressSchema = z.object({
+  type: z.string(),
+  script_hex: z.string(),
+  balance: z.number(),
+  balance_usd: z.number(),
+  received: z.number(),
+  received_usd: z.number(),
+  spent: z.number(),
+  spent_usd: z.number(),
+  output_count: z.number(),
+  unspent_output_count: z.number(),
+  first_seen_receiving: z.string(),
+  last_seen_receiving: z.string(),
+  first_seen_spending: z.string().nullable(),
+  last_seen_spending: z.string().nullable(),
+});
+
 /**
  * Metadata that's part of all blockchair responses
  *
@@ -35,11 +61,11 @@ import z from "zod";
 export const requestContextSchema = z.object({
   code: z.number(),
   error: z.string().optional(),
-  state: z.number().optional(),
+  state: z.number(),
   state_layer_2: z.number().optional(),
   results: z.number().optional(),
-  limit: z.number().optional(),
-  offset: z.number().optional(),
+  limit: z.string().optional(),
+  offset: z.string().optional(),
   rows: z.number().optional(),
   market_price_usd: z.number().optional(),
   total_rows: z.number().optional(),
@@ -56,49 +82,6 @@ export const requestContextSchema = z.object({
   }).optional(),
   request_cost: z.number(),
 });
-
-/**
- * Dynamic body of the blockchair response for the call
- * https://api.blockchair.com/{:btc_chain}/addresses/balances (POST)
- *
- * @param addresses list of addresses to check the balance of
- *
- * @link https://blockchair.com/api/docs#link_390
- *
- * @example
- * ```json
-    {
-        "data": {
-            "35hK24tcLEWcgNA4JxpvbkNkoAcDGqQPsP": 25550215769897,
-            "34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo": 4053399981517
-        },
-        "context": {
-            "code": 200,
-            "results": 2,
-            "state": 635329,
-            "request_cost": 1.003,
-            ...
-        }
-    }
- * ```
- */
-export const addressBalancesDataSchema = (addresses: string[]) => {
-  const toNumber = z.number().or(z.string()).pipe(z.coerce.number());
-  const toBigInt = z.bigint().or(toNumber).pipe(z.coerce.bigint());
-  const addressesData: z.ZodType<Record<string, bigint>> = addresses.reduce((object, address) => {
-    return object.setKey(address, toBigInt);
-  }, z.object({}));
-  return z.object({
-    data: addressesData.or(z.tuple([])).nullable(),
-    context: requestContextSchema,
-  }).transform((body) => {
-    // if no data is returned, set it to an empty object
-    return {
-      data: !body.data || Array.isArray(body.data) ? {} : body.data ?? {},
-      context: body.context,
-    }
-  });
-};
 
 /**
  *  Dynamic body of the blockchair response for the call
@@ -201,60 +184,59 @@ export const addressBalancesDataSchema = (addresses: string[]) => {
   }
 }
  */
-export const xpubDashboardDataSchema = (xpub: string) => {
-  return z.object({
-    data: z.object({
-      [xpub]: z.object({
-        xpub: z.object({
-          address_count: z.number(),
-          balance: z.number().pipe(z.coerce.bigint()),
-          balance_usd: z.number(),
-          received: z.number().pipe(z.coerce.bigint()),
-          received_usd: z.number(),
-          spent: z.number(),
-          spent_usd: z.number(),
-          output_count: z.number(),
-          unspent_output_count: z.number(),
-          first_seen_receiving: z.string(),
-          last_seen_receiving: z.string(),
-          first_seen_spending: z.string(),
-          last_seen_spending: z.string(),
-          transaction_count: z.number(),
-        }),
-        addresses: z.record(
-          z.string(), z.object({
-            path: z.string(),
-            type: z.string(),
-            script_hex: z.string(),
-            balance: z.number(),
-            balance_usd: z.number(),
-            received: z.number(),
-            received_usd: z.number(),
-            spent: z.number(),
-            spent_usd: z.number(),
-            output_count: z.number(),
-            unspent_output_count: z.number(),
-            first_seen_receiving: z.string(),
-            last_seen_receiving: z.string(),
-            first_seen_spending: z.string(),
-            last_seen_spending: z.string(),
-          })
-        ),
-        transactions: z.array(z.string()),
-        utxo: z.array(z.object({
-          block_id: z.number(),
-          transaction_hash: z.string(),
-          index: z.number(),
-          value: z.number(),
-          address: z.string(),
-        })),
-      })
+export const XpubDashboardData = z.record(
+  z.string(), z.object({
+    xpub: z.object({
+      address_count: z.number(),
+      balance: z.number().pipe(z.coerce.bigint()),
+      balance_usd: z.number(),
+      received: z.number().pipe(z.coerce.bigint()),
+      received_usd: z.number().optional(),
+      spent: z.number(),
+      spent_usd: z.number().optional(),
+      output_count: z.number(),
+      unspent_output_count: z.number(),
+      first_seen_receiving: z.string(),
+      last_seen_receiving: z.string(),
+      first_seen_spending: z.string().nullable(),
+      last_seen_spending: z.string().nullable(),
+      transaction_count: z.number(),
     }),
-    context: requestContextSchema,
-  }).and(requestContextSchema.and(
+    addresses: z.record(
+      z.string(), AddressSchema.and(z.object({
+        path: z.string(),
+      }))
+    ),
+    transactions: z.array(z.string()),
+    utxo: UtxosSchema.array(),
+  })
+);
+
+export const XpubDashboardResponse = z.object({
+  data: XpubDashboardData,
+  context: requestContextSchema.and(
     // not part of the typical context answer, only happens in the xpub dashboard
     z.object({
       checked: z.array(z.string()),
     })
-  ));
-};
+  )
+});
+
+export const AddressesDashboardResponse = z.object({
+  data: z.object({
+    set: AddressSchema.omit({
+      type: true,
+      script_hex: true,
+      received_usd: true,
+      spent_usd: true,
+    }),
+    addresses: z.record(
+      z.string(), AddressSchema
+    ),
+    transactions: z.array(z.string()),
+    utxo: UtxosSchema.and(z.object({
+      address: z.string(),
+    })).array(),
+  }),
+  context: requestContextSchema
+});

@@ -1,4 +1,6 @@
 // Params that differ for each bitcoin-like chain
-type BtcParams = {};
+type BtcParams = {
+    confirmations: number;
+};
 
 export type { BtcParams };
