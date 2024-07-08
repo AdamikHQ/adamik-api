@@ -1,6 +1,6 @@
 import { BtcParams } from "../families/bitcoin/types";
-import { CosmosParams } from "../families/cosmos/types";
-import { EvmParams } from "../families/evm/types";
+import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
+import { EvmChainParams } from "../families/evm/types";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -50,24 +50,36 @@ enum ChainFamily {
   BITCOIN = "bitcoin",
 }
 
-type ChainParams = CosmosParams | EvmParams | BtcParams; // Intended as union of all existing chain-specific params: AlgorandParams | CosmosParams | ...
+type ChainParams = CosmosChainParams | EvmChainParams | BtcParams;
+
+enum ChainFeature {
+  BALANCES_NATIVE = "balances.native",
+  BALANCES_TOKENS = "balances.tokens",
+  //BALANCES_NFT = "balances.nft",
+  BALANCES_STAKING = "balances.staking",
+  TRANSACTIONS_NATIVE = "transactions.native",
+  TRANSACTIONS_TOKENS = "transactions.tokens",
+  //TRANSACTIONS_NFT = "transactions.nft",
+  TRANSACTIONS_STAKING = "transactions.staking",
+  MEMO = "memo",
+}
 
 type Backends = {
   nodeURL: string;
   explorerURL?: string;
 };
 
-// FIXME Can TParams be replaced with ChainParams?
-type Chain<TParams> = {
-  id: ChainId;
-  //nativeId: string; // e.g value of chain-id on EVM
-  name: string;
+type Chain = {
   family: ChainFamily;
+  id: ChainId;
+  nativeId: string; // Native chain identifier as defined by the chain itself
+  name: string;
   ticker: string;
   decimals: number;
   backends: Backends;
   isTestNet?: boolean;
-  params?: TParams;
+  params?: ChainParams;
+  supportedFeatures: ChainFeature[];
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
@@ -180,6 +192,8 @@ type Recipient = {
   address: string;
 };
 
+type TransactionParams = CosmosTransactionParams;
+
 // TODO WIP
 // FIXME de/serialization types <> string
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
@@ -199,8 +213,8 @@ type CommonTransaction = {
   gas?: bigint;
   nonce?: number;
   memo?: string;
-  format?: EncodedTransactionFormat; // FIXME should not be here
-  pubKey?: string; // FIXME should not be here
+  format?: EncodedTransactionFormat;
+  params?: TransactionParams;
 };
 
 type TransferTransaction = BaseTransaction & CommonTransaction & {
@@ -311,10 +325,18 @@ type Pagination = {
   limit: number;
 };
 
-export { ChainFamily, ChainId, EncodedTransactionFormat, StakingStatus, TokenType, TransactionMode };
+export {
+  ChainId,
+  ChainFamily,
+  ChainFeature,
+  TransactionMode,
+  EncodedTransactionFormat,
+  TokenType,
+  StakingStatus,
+};
+
 export type {
-  AddressState,
-  AddressesState, BroadcastStatus, Chain,
+  AddressesState, AddressState, BroadcastStatus, Chain,
   ChainParams, ErrorMsg,
   Pagination, PlainTransaction, StakingPosition,
   StakingReward, Token,

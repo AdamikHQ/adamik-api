@@ -30,7 +30,7 @@ import {
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { injectiveTestnet } from "../chains/injective-testnet";
-import { EvmAddress, EvmParams } from "../types";
+import { EvmAddress, EvmChainParams } from "../types";
 
 // Couldn't find a proper type that works besides 'any'
 const CLIENTS = new Map<ChainId, any>();
@@ -100,8 +100,8 @@ function getClient(chainId: ChainId) {
   if (CLIENTS.has(chainId)) {
     return CLIENTS.get(chainId)!;
   } else {
-    const chainParams = CHAINS[chainId].params as EvmParams;
-    const client = chainParams.isL2Fees
+    const chainParams = CHAINS[chainId].params as EvmChainParams;
+    const client = chainParams?.isL2Fees
       ? createPublicClient(getClientConfig(chainId)).extend(publicActionsL2())
       : createPublicClient(getClientConfig(chainId));
     CLIENTS.set(chainId, client);

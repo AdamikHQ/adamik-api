@@ -13,7 +13,7 @@ import {
 import { Transaction, TransactionMode, EncodedTransactionFormat, ChainId } from "~/app/model/types_WIP";
 import { estimateFeesPerGas } from "../backend/node";
 import { EvmService } from ".";
-import { EvmAddress, EvmParams } from "../types";
+import { EvmAddress, EvmChainParams } from "../types";
 import { CHAINS } from "~/app/config/chains";
 import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 
@@ -80,9 +80,11 @@ async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Tran
 }
 
 async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Transaction) {
+  const chain = CHAINS[chainId];
+  const chainParams = chain.params as EvmChainParams;
+
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
-  const chainParams = CHAINS[chainId].params as EvmParams;
   const data =
     transaction.plain.mode === TransactionMode.TRANSFER_TOKEN
       ? encodeFunctionData({
@@ -100,7 +102,7 @@ async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Trans
   const serializeTransactionFn = chainParams.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
   transaction.encoded = serializeTransactionFn({
-    chainId: chainParams.evmChainId,
+    chainId: Number(chain.nativeId),
     maxFeePerGas,
     maxPriorityFeePerGas,
     gas: transaction.plain.gas,
@@ -137,7 +139,7 @@ async function encodeTransactionToBroadcast(
       signedTransaction.encoded as TransactionSerialized
     );
 
-    const chainParams = CHAINS[this.chainId].params as EvmParams;
+    const chainParams = CHAINS[this.chainId].params as EvmChainParams;
     const serializeTransactionFn = chainParams.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
     return serializeTransactionFn(transaction, signature);

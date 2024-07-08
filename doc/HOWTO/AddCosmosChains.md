@@ -13,8 +13,9 @@
   // - https://github.com/cosmos/chain-registry/blob/master/[YOUR_CHAIN]/assetlist.json
 
   YOUR_CHAIN_ID: {
-    id: ChainId.YOUR_CHAIN_ID,
     family: ChainFamily.COSMOS,
+    id: ChainId.YOUR_CHAIN_ID,
+    nativeId: YOUR CHAIN'S chain-id, // "chain_id" in chain.json
     name: "YOUR CHAIN NAME", // "pretty_name" in chain.json
     ticker: "YOUR CHAIN TICKER", // "symbol" in assetlist.json
     decimals: xxx, // "exponent" for the ticker, in assetlist.json
@@ -22,7 +23,7 @@
       // Public nodes are listed in "apis.rest.*" in chain.json
       nodeURL: xxx,
     },
-    // Refer to CosmosParams in https://github.com/AdamikHQ/adamik/blob/main/src/app/families/cosmos/types.ts
+    // Refer to CosmosChainParams in https://github.com/AdamikHQ/adamik/blob/main/src/app/families/cosmos/types.ts
     // for the following Cosmos-specific parameters
     params: {
       prefix: xxx, // "bech32_prefix" in chain.json

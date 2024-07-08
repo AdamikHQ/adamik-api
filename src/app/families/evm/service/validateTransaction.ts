@@ -24,7 +24,9 @@ async function validateTransaction(this: EvmService, transaction: Transaction): 
     }
     case TransactionMode.TRANSFER_TOKEN: {
       if (transaction.plain.fees > maxSpendable.native) {
-        transaction.status.errors.push({ message: "Balance is too low" });
+        transaction.status.errors.push({
+          message: `The ${transaction.plain.chainId} balance is too low to cover the fees.`,
+        });
       }
       if (maxSpendable.token !== undefined && transaction.plain.amount > maxSpendable.token) {
         transaction.status.errors.push({ message: "Token balance is too low" });

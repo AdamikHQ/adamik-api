@@ -1,8 +1,6 @@
 import { z } from "zod";
-import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
+import { ZodOpenApiPathsObject } from "zod-openapi";
 import { chainIdSchema, chainSchema } from "~/app/api/schemaCommon";
-
-extendZodWithOpenApi(z);
 
 const requestSchema = z.object({
   chainId: chainIdSchema,

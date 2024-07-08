@@ -8,9 +8,10 @@ type Unit = {
 };
 
 type Chain = {
-  id: string;
-  name: string;
   family: string;
+  id: string;
+  nativeId: string;
+  name: string;
   unit: Unit;
   params?: ChainParams;
 };
@@ -25,7 +26,6 @@ type CosmosParams = {
 };
 
 type EvmParams = {
-  //evmChainId: string;
   isL2Fees?: boolean;
 };
 

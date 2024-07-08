@@ -7,11 +7,17 @@ async function prevalidateTransaction(this: CosmosService, transaction: Transact
   transaction.status = await prevalidateTransactionCommon(transaction.plain, async (address: string) =>
     isValidAddress(address, this.chainId)
   );
+
+  // Amount can't be 0 on cosmos chains
+  if (transaction.plain.amount === 0n) {
+    transaction.status.errors.push({
+      message: `Amount cannot be 0 on chain ${this.chainId}`,
+    });
+  }
 }
 
 async function validateTransaction(this: CosmosService, transaction: Transaction): Promise<void> {
   // TODO
-  // NOTE amount can't be 0 on cosmos chains?...
 }
 
 export { prevalidateTransaction, validateTransaction };

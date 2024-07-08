@@ -17,7 +17,7 @@ import {
   TokenStakingReward,
   StakingStatus,
 } from "~/app/model/types_WIP";
-import { CosmosParams } from "../types";
+import { CosmosChainParams } from "../types";
 
 const VALIDATORS_CACHE = new TTLCache<string, CosmosValidator[]>({
   max: 1, // Only need one item
@@ -142,7 +142,7 @@ async function fetchRewards(
 
   const nativeRewards: StakingReward[] = [];
   const tokenRewards: TokenStakingReward[] = [];
-  const chainParams = CHAINS[chainId].params as CosmosParams;
+  const chainParams = CHAINS[chainId].params as CosmosChainParams;
 
   for (const { reward: rewardData, validator_address: validatorAddress } of rewardsData) {
     for (const { denom, amount: amountWithDecimals } of rewardData) {
@@ -195,9 +195,9 @@ async function getValidatorsCached(chainId: ChainId, pagination?: Pagination): P
 }
 
 async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAccount> {
-  const chainParams = CHAINS[chainId].params as CosmosParams;
+  const chainParams = CHAINS[chainId].params as CosmosChainParams;
 
-  const accountData: CosmosAccount = {
+  const account: CosmosAccount = {
     accountNumber: 0n,
     sequence: 0n,
     pubKeyType: chainParams?.defaultPubKeyType || "",
@@ -210,26 +210,26 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
     const data = await fetch(url).then((response) => response.json());
 
     // We use base_account for Ethermint chains and account for the rest
-    const srcAccount = data.account.base_account || data.account;
+    const accountData = data.account.base_account || data.account;
 
-    if (srcAccount.account_number) {
-      accountData.accountNumber = BigInt(srcAccount.account_number);
+    if (accountData.account_number) {
+      account.accountNumber = BigInt(accountData.account_number);
     }
 
-    if (srcAccount.sequence) {
-      accountData.sequence = BigInt(srcAccount.sequence);
+    if (accountData.sequence) {
+      account.sequence = BigInt(accountData.sequence);
     }
 
-    if (srcAccount.pub_key) {
-      accountData.pubKey = srcAccount.pub_key.key;
-      accountData.pubKeyType = srcAccount.pub_key["@type"];
+    if (accountData.pub_key) {
+      account.pubKey = accountData.pub_key.key;
+      account.pubKeyType = accountData.pub_key["@type"];
     }
   } catch (e) {
     console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
     throw new Error(`Error while fetching ${chainId} account info from the node`);
   }
 
-  return accountData;
+  return account;
 }
 
 // NOTE Unused at the moment, all IBC token infos are retrieved from src/app/config/tokens/cosmos.ts

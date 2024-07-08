@@ -1,8 +1,8 @@
 import z from "zod";
 
-import { ChainFamily, ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
 import { extendZodWithOpenApi } from "zod-openapi";
-import { validateAddress } from "../families/algorand/service/validateAddress";
+import { ChainFamily, ChainFeature, ChainId, EncodedTransactionFormat, TransactionMode } from "~/app/model/types_WIP";
+import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 
 extendZodWithOpenApi(z);
 
@@ -45,10 +45,7 @@ const chainIdSchema = z.nativeEnum(ChainId, {
       return { message: `unsupported value "${ctx.data}" encountered` };
     }
     return { message: ctx.defaultError };
-  }
-}).openapi({
-  description: "Chain ID",
-  example: ChainId.ETHEREUM,
+  },
 });
 
 const toNumber = z.number().or(z.string()).pipe(z.coerce.number().positive());
@@ -65,13 +62,16 @@ const plainTransactionSchema = z.object({
   senders: z.array(z.string()),
   recipients: z.array(z.string()),
   // TODO should be only one of [amount, useMaxAmount]
-  amount: z.string().optional(),
+  amount: z.string().min(1).optional(),
   useMaxAmount: z.boolean().optional(),
   fees: z.string().optional(),
   gas: z.string().optional(),
   nonce: z.string().optional(),
   memo: z.string().optional(),
   format: z.nativeEnum(EncodedTransactionFormat).optional(),
+  tokenId: z.string().optional(),
+  validatorAddress: z.string().optional(),
+  params: cosmosTransactionParamsSchema.optional(), // For more than 1 family z.union() should be used
 });
 
 const transactionContentUnion = z.discriminatedUnion("mode", [
@@ -152,18 +152,16 @@ const transactionStatusSchema = z.object({
 });
 
 const chainSchema = z.object({
-  id: chainIdSchema,
-  name: z.string(),
   family: z.nativeEnum(ChainFamily),
+  id: chainIdSchema,
+  nativeId: z.string(),
+  name: z.string(),
+  ticker: z.string(),
+  decimals: z.string(),
   isTestnet: z.boolean().optional(),
   params: z.any().optional(),
+  supportedFeatures: z.nativeEnum(ChainFeature).array(),
 });
 
-export {
-  paginationSchema,
-  plainTransactionSchema,
-  transactionDataSchema,
-  transactionStatusSchema,
-  chainIdSchema,
-  chainSchema,
-};
+export { chainIdSchema, chainSchema, paginationSchema, plainTransactionSchema, transactionDataSchema, transactionStatusSchema };
+
