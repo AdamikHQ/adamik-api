@@ -4517,6 +4517,16 @@
                 "required": [
                   "chainId",
                   "addresses"
+                ],
+                "description": "List of addresses for the specified chain ID",
+                "examples": [
+                  {
+                    "chainId": "bitcoin",
+                    "addresses": [
+                      "sample_address1",
+                      "sample_address2"
+                    ]
+                  }
                 ]
               }
             }
