@@ -5,11 +5,11 @@ import "~/patch";
 import { requestSchema } from "./schema";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
-  const { chainId, account_id } = requestSchema.parse(await request.json());
+  const { chainId, accountId } = requestSchema.parse(await request.json());
 
   const service = getService(chainId);
 
-  const isAddressValid = await service.validateAddress(account_id);
+  const isAddressValid = await service.validateAddress(accountId);
 
   if (!isAddressValid) {
     return NextResponse.json(

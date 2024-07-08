@@ -18,14 +18,14 @@ const requestSchema = z.object({
     deprecated: true,
   }).or(
     z.object({
-      account_id: z.string(),
+      accountId: z.string(),
     }).openapi({
-      title: "account id"
+      title: "account id (either an address or an xpub)",
     })
   ).transform((object) => {
     if ('address' in object) {
       return {
-        account_id: object.address
+        accountId: object.address
       };
     }
     return object;
@@ -38,11 +38,11 @@ const requestSchema = z.object({
     },
     {
       chainId: ChainId.ETHEREUM,
-      account_id: "0x0000000000000000000000000000000000000000",
+      accountId: "0x0000000000000000000000000000000000000000",
     },
     {
       chainId: ChainId.BITCOIN,
-      account_id: "xpub",
+      accountId: "xpub",
     },
   ]
 });
