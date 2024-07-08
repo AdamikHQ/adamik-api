@@ -5,10 +5,9 @@ import { getService } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 import { requestSchema } from "./schema";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import { z } from "zod";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
-  const body: z.infer<typeof requestSchema> = requestSchema.parse(await request.json());
+  const body = requestSchema.parse(await request.json());
 
   const transactionData: TransactionData = stringToBigint(body.transaction.data);
 
