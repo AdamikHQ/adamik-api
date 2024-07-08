@@ -231,9 +231,9 @@ type DelegateTransaction = BaseTransaction & CommonTransaction & {
   validatorAddress: string;
 };
 
-type MultiRecipientTransaction = BaseTransaction & BaseTransaction & {
+type MultiRecipientTransaction = BaseTransaction & {
   mode: TransactionMode.TRANSFER_TO_MANY;
-  senders: string;
+  sender: string;
   recipients: Recipient[];
   fees: bigint;
 }
