@@ -3,27 +3,26 @@ import { ZodOpenApiPathsObject } from "zod-openapi";
 import { transactionDataSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
-  transaction:
+  transaction: z.object({
+    encoded: z.string().or(z.object({})),
+    signature: z.string(),
+  }).and(
+    // TODO: should be remove in farvor of data field
     z.object({
-      encoded: z.string().or(z.object({})),
-      signature: z.string(),
-    }).and(
-      // TODO: should be replaced by data field
-      z.object({
-        plain: transactionDataSchema,
-      }).openapi({
-        deprecated: true,
-      }).or(z.object({
-        data: transactionDataSchema
-      })).transform((object) => {
-        if ('plain' in object) {
-          return {
-            data: object.plain,
-            ...object
-          }
+      plain: transactionDataSchema,
+    }).openapi({
+      deprecated: true,
+    }).or(z.object({
+      data: transactionDataSchema
+    })).transform((object) => {
+      if ('plain' in object) {
+        return {
+          data: object.plain,
+          ...object
         }
-      }),
-    ),
+      }
+    }),
+  ),
 });
 
 const responseSchema = z.union([

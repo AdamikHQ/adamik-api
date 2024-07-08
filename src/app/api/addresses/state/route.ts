@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { requestSchema } from "./schema";
 import { isMultiBalancesService } from "~/app/model/service";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const { chainId, addresses } = requestSchema.parse(await request.json());
@@ -15,7 +16,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  // TODO: move origin as parameter of getAddressesState
   for (const address of addresses) {
     const isAddressValid = await service.validateAddress(address);
     if (!isAddressValid) {
@@ -30,3 +30,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   return NextResponse.json(state);
 }
+
+module.exports = apiHandler({
+  POST
+});

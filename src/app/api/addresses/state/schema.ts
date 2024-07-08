@@ -1,6 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
-import { TokenType } from "~/app/model/types_WIP";
+import { ChainId, TokenType } from "~/app/model/types_WIP";
 import { chainIdSchema } from "../../schemaCommon";
 
 extendZodWithOpenApi(z);
@@ -8,6 +8,14 @@ extendZodWithOpenApi(z);
 const requestSchema = z.object({
   chainId: chainIdSchema,
   addresses: z.string().min(1).array()
+}).openapi({
+  description: "List of addresses for the specified chain ID",
+  examples: [
+    {
+      chainId: ChainId.BITCOIN,
+      addresses: ["sample_address1", "sample_address2"],
+    },
+  ]
 });
 
 const responseSchema = z.object({

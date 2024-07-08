@@ -4,7 +4,7 @@ import { transactionDataSchema, transactionStatusSchema } from "~/app/api/schema
 
 const requestSchema = z.object({
   transaction:
-    // TODO: should be replaced by data field
+    // TODO: should be replaced in favor of data field
     z.object({
       plain: transactionDataSchema,
     }).openapi({

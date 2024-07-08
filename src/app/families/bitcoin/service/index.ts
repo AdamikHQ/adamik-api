@@ -3,7 +3,7 @@ import { TransactionWrapper } from "~/app/model/types_WIP";
 import { broadcastTransaction } from "./broadcastTransaction";
 import { completeTransaction } from "./completeTransaction";
 import { encodeTransactionToBroadcast, encodeTransactionToSign } from "./encodeTransaction";
-import { getAddressState, getAddressesState } from "./getAddressesState";
+import { getAddressState, getAddressesState, getXpubState } from "./getAddressesState";
 import { pubkeyToAddress } from "./pubkeyToAddress";
 import { validateAddress } from "./validateAddress";
 import { validateTransaction } from "./validateTransaction";
@@ -23,6 +23,7 @@ class BtcService extends BaseChainService implements MultiBalancesService {
   encodeTransactionToSign = encodeTransactionToSign;
   encodeTransactionToBroadcast = encodeTransactionToBroadcast;
   broadcastTransaction = broadcastTransaction;
+  getXpubState = getXpubState;
 }
 
 export { BtcService };
