@@ -99,7 +99,7 @@ async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Trans
       ? (transaction.plain.tokenId as EvmAddress)
       : (transaction.plain.recipients[0] as EvmAddress);
 
-  const serializeTransactionFn = chainParams.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
+  const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
   transaction.encoded = serializeTransactionFn({
     chainId: Number(chain.nativeId),
@@ -140,7 +140,7 @@ async function encodeTransactionToBroadcast(
     );
 
     const chainParams = CHAINS[this.chainId].params as EvmChainParams;
-    const serializeTransactionFn = chainParams.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
+    const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
     return serializeTransactionFn(transaction, signature);
   } catch (e: any) {
