@@ -3911,10 +3911,14 @@
                           "properties": {
                             "available": {
                               "type": "string"
+                            },
+                            "total": {
+                              "type": "string"
                             }
                           },
                           "required": [
-                            "available"
+                            "available",
+                            "total"
                           ]
                         },
                         "tokens": {
