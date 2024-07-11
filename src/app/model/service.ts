@@ -57,7 +57,7 @@ abstract class BaseChainService {
           plain: transaction.data,
           status: transaction.status,
         };
-        return fn(old_transaction_format);
+        return fn.bind(this)(old_transaction_format);
       }
       throw new Error(`Unsupported transaction mode: ${transaction.data.mode} for chain ID ${this.chainId}`);
     };

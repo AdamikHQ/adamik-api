@@ -405,10 +405,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
   },
   [ChainId.BITCOIN]: {
     id: ChainId.BITCOIN,
-    name: "Bitcoin mainnet",
+    name: "Bitcoin",
     family: ChainFamily.BITCOIN,
     ticker: "BTC",
-    decimals: 0,
+    decimals: 8,
     backends: {
       nodeURL: "",
       explorerURL: "https://api.blockchair.com/bitcoin",
@@ -424,7 +424,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Bitcoin testnet",
     family: ChainFamily.BITCOIN,
     ticker: "BTC",
-    decimals: 0,
+    decimals: 8,
     backends: {
       nodeURL: "",
       explorerURL: "https://api.blockchair.com/bitcoin/testnet"
