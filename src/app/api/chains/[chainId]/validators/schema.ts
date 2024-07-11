@@ -11,11 +11,13 @@ const requestSchema = z.object({
 });
 
 const responseSchema = z.object({
-  validators: z.object({
-    address: z.string(),
-    name: z.string(),
-    commission: z.number().optional(), // TODO: maybe we want a default value rather than an optional?
-  }).array(),
+  validators: z
+    .object({
+      address: z.string(),
+      name: z.string(),
+      commission: z.number().optional(), // TODO: maybe we want a default value rather than an optional?
+    })
+    .array(),
 });
 
 const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
