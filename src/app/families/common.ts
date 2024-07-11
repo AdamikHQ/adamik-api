@@ -6,8 +6,13 @@ async function prevalidateTransactionCommon(
 ): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];
   const warnings: ErrorMsg[] = [];
-
-  const validSender = transaction.senders?.length && (await addressValidationFn(transaction.senders[0]));
+  let validSender;
+  // TODO: deprecate multiple senders?
+  if ('senders' in transaction) {
+    validSender = transaction.senders?.length && (await addressValidationFn(transaction.senders[0]));
+  } else {
+    validSender = await addressValidationFn(transaction.sender);
+  }
   if (!validSender) {
     errors.push({ message: "Sender address is invalid" });
   }
@@ -16,7 +21,6 @@ async function prevalidateTransactionCommon(
     if (transaction.nonce && transaction.nonce < 0) {
       errors.push({ message: "Nonce cannot be negative" });
     }
-
     if (transaction.amount === undefined && !transaction.useMaxAmount) {
       errors.push({ message: "Missing amount or useMaxAmount" });
     } else if (!!transaction.amount && transaction.useMaxAmount) {
