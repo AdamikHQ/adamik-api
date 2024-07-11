@@ -102,11 +102,11 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK - Returns true if the encoding is successful, otherwise false.",
+            "description": "200 OK - Returns true if the encoded result",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "type": "string"
                 }
               }
             }
@@ -270,7 +270,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -363,7 +363,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -456,7 +456,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -549,7 +549,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -642,7 +642,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -735,7 +735,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -828,7 +828,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -921,7 +921,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -1014,7 +1014,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -1107,7 +1107,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -1200,7 +1200,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -1293,7 +1293,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -1386,7 +1386,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -1479,7 +1479,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -1572,7 +1572,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -1665,7 +1665,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -1758,7 +1758,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -1851,7 +1851,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -1944,7 +1944,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -2037,7 +2037,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -2130,7 +2130,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -2223,7 +2223,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -2316,7 +2316,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -2409,7 +2409,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -2502,7 +2502,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -2595,7 +2595,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -2688,7 +2688,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -2781,7 +2781,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -2874,7 +2874,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -2967,7 +2967,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -3060,7 +3060,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -3153,7 +3153,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -3246,7 +3246,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -3339,7 +3339,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -3432,7 +3432,7 @@
                               "type": "string"
                             },
                             "decimals": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "isTestnet": {
                               "type": "boolean"
@@ -3597,7 +3597,7 @@
                       "type": "string"
                     },
                     "decimals": {
-                      "type": "string"
+                      "type": "number"
                     },
                     "isTestnet": {
                       "type": "boolean"
@@ -3765,7 +3765,7 @@
                       "type": "string"
                     },
                     "decimals": {
-                      "type": "string"
+                      "type": "number"
                     },
                     "contractAddress": {
                       "type": "string"
@@ -4101,52 +4101,59 @@
           "chains"
         ],
         "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "algorand",
+                "cosmoshub",
+                "osmosis",
+                "osmosis-testnet",
+                "celestia",
+                "celestia-testnet",
+                "dydx",
+                "cosmoshub-testnet",
+                "axelar",
+                "ethereum",
+                "sepolia",
+                "holesky",
+                "zksync",
+                "zksync-sepolia",
+                "injective-testnet",
+                "base",
+                "base-sepolia",
+                "optimism",
+                "optimism-sepolia",
+                "arbitrum",
+                "arbitrum-sepolia",
+                "polygon",
+                "polygon-amoy",
+                "bsc",
+                "bsc-testnet",
+                "linea",
+                "linea-sepolia",
+                "avalanche",
+                "gnosis",
+                "gnosis-chiado",
+                "moonbeam",
+                "moonriver",
+                "moonbase",
+                "fantom",
+                "palm"
+              ]
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "chainId": {
-                    "type": "string",
-                    "enum": [
-                      "algorand",
-                      "cosmoshub",
-                      "osmosis",
-                      "osmosis-testnet",
-                      "celestia",
-                      "celestia-testnet",
-                      "dydx",
-                      "cosmoshub-testnet",
-                      "axelar",
-                      "ethereum",
-                      "sepolia",
-                      "holesky",
-                      "zksync",
-                      "zksync-sepolia",
-                      "injective-testnet",
-                      "base",
-                      "base-sepolia",
-                      "optimism",
-                      "optimism-sepolia",
-                      "arbitrum",
-                      "arbitrum-sepolia",
-                      "polygon",
-                      "polygon-amoy",
-                      "bsc",
-                      "bsc-testnet",
-                      "linea",
-                      "linea-sepolia",
-                      "avalanche",
-                      "gnosis",
-                      "gnosis-chiado",
-                      "moonbeam",
-                      "moonriver",
-                      "moonbase",
-                      "fantom",
-                      "palm"
-                    ]
-                  },
                   "pagination": {
                     "type": "object",
                     "properties": {
@@ -4162,10 +4169,7 @@
                       "offset"
                     ]
                   }
-                },
-                "required": [
-                  "chainId"
-                ]
+                }
               }
             }
           }
@@ -4178,46 +4182,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "chainId": {
-                      "type": "string",
-                      "enum": [
-                        "algorand",
-                        "cosmoshub",
-                        "osmosis",
-                        "osmosis-testnet",
-                        "celestia",
-                        "celestia-testnet",
-                        "dydx",
-                        "cosmoshub-testnet",
-                        "axelar",
-                        "ethereum",
-                        "sepolia",
-                        "holesky",
-                        "zksync",
-                        "zksync-sepolia",
-                        "injective-testnet",
-                        "base",
-                        "base-sepolia",
-                        "optimism",
-                        "optimism-sepolia",
-                        "arbitrum",
-                        "arbitrum-sepolia",
-                        "polygon",
-                        "polygon-amoy",
-                        "bsc",
-                        "bsc-testnet",
-                        "linea",
-                        "linea-sepolia",
-                        "avalanche",
-                        "gnosis",
-                        "gnosis-chiado",
-                        "moonbeam",
-                        "moonriver",
-                        "moonbase",
-                        "fantom",
-                        "palm"
-                      ]
-                    },
                     "validators": {
                       "type": "array",
                       "items": {
@@ -4241,7 +4205,6 @@
                     }
                   },
                   "required": [
-                    "chainId",
                     "validators"
                   ]
                 }
@@ -4343,7 +4306,7 @@
                             "type": "string"
                           },
                           "nonce": {
-                            "type": "string"
+                            "type": "number"
                           },
                           "memo": {
                             "type": "string"
@@ -4542,7 +4505,7 @@
                             "type": "string"
                           },
                           "nonce": {
-                            "type": "string"
+                            "type": "number"
                           },
                           "memo": {
                             "type": "string"
@@ -4677,7 +4640,7 @@
                               "type": "string"
                             },
                             "nonce": {
-                              "type": "string"
+                              "type": "number"
                             },
                             "memo": {
                               "type": "string"
@@ -4718,6 +4681,140 @@
                       "required": [
                         "plain",
                         "encoded"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "transaction"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400 Bad Request - The transaction data is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transaction": {
+                      "type": "object",
+                      "properties": {
+                        "plain": {
+                          "type": "object",
+                          "properties": {
+                            "chainId": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm"
+                              ]
+                            },
+                            "mode": {
+                              "type": "string",
+                              "enum": [
+                                "transfer",
+                                "transferToken",
+                                "delegate"
+                              ]
+                            },
+                            "senders": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "recipients": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "amount": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "useMaxAmount": {
+                              "type": "boolean"
+                            },
+                            "fees": {
+                              "type": "string"
+                            },
+                            "gas": {
+                              "type": "string"
+                            },
+                            "nonce": {
+                              "type": "number"
+                            },
+                            "memo": {
+                              "type": "string"
+                            },
+                            "format": {
+                              "type": "string",
+                              "enum": [
+                                "json",
+                                "hex"
+                              ]
+                            },
+                            "tokenId": {
+                              "type": "string"
+                            },
+                            "validatorAddress": {
+                              "type": "string"
+                            },
+                            "params": {
+                              "type": "object",
+                              "properties": {
+                                "pubKey": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "required": [
+                            "chainId",
+                            "mode",
+                            "senders",
+                            "recipients"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "plain"
                       ]
                     }
                   },
@@ -4823,7 +4920,7 @@
                             "type": "string"
                           },
                           "nonce": {
-                            "type": "string"
+                            "type": "number"
                           },
                           "memo": {
                             "type": "string"
