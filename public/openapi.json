@@ -5091,9 +5091,6 @@
                                           "fees": {
                                             "type": "string"
                                           },
-                                          "memo": {
-                                            "type": "string"
-                                          },
                                           "format": {
                                             "type": "string",
                                             "enum": [
@@ -5376,9 +5373,6 @@
                                             }
                                           },
                                           "fees": {
-                                            "type": "string"
-                                          },
-                                          "memo": {
                                             "type": "string"
                                           },
                                           "format": {
@@ -5735,9 +5729,6 @@
                                       "fees": {
                                         "type": "string"
                                       },
-                                      "memo": {
-                                        "type": "string"
-                                      },
                                       "format": {
                                         "type": "string",
                                         "enum": [
@@ -6020,9 +6011,6 @@
                                         }
                                       },
                                       "fees": {
-                                        "type": "string"
-                                      },
-                                      "memo": {
                                         "type": "string"
                                       },
                                       "format": {
@@ -6326,9 +6314,6 @@
                                     "fees": {
                                       "type": "string"
                                     },
-                                    "memo": {
-                                      "type": "string"
-                                    },
                                     "format": {
                                       "type": "string",
                                       "enum": [
@@ -6603,9 +6588,6 @@
                                       }
                                     },
                                     "fees": {
-                                      "type": "string"
-                                    },
-                                    "memo": {
                                       "type": "string"
                                     },
                                     "format": {
@@ -6921,9 +6903,6 @@
                                       "fees": {
                                         "type": "string"
                                       },
-                                      "memo": {
-                                        "type": "string"
-                                      },
                                       "format": {
                                         "type": "string",
                                         "enum": [
@@ -7206,9 +7185,6 @@
                                         }
                                       },
                                       "fees": {
-                                        "type": "string"
-                                      },
-                                      "memo": {
                                         "type": "string"
                                       },
                                       "format": {
