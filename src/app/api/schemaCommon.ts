@@ -130,7 +130,6 @@ const transactionContentUnion = z.discriminatedUnion("mode", [
     sender: z.string(),
     recipients: z.array(recipientSchema),
     fees: positiveBigintSchema.optional(),
-    memo: z.string().optional(),
     format: z.nativeEnum(EncodedTransactionFormat).optional(),
   }).openapi({
     // ref: "TransferToMany",
