@@ -1,14 +1,12 @@
-import "~/patch";
-import { NextRequest, NextResponse } from "next/server";
-import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
+import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
-import { requestSchema } from "./schema";
-import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
+import { deepBigintToString } from "~/app/tools/convertors/deepBigintToString";
+import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { errorResponseSchema, requestSchema, responseSchema } from "./schema";
 
-async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = requestSchema.parse(await request.json());
-
+export const POST = apiHandlerWrapper(async (body) => {
   const plainTransaction: PlainTransaction = stringToBigint(body.transaction.plain);
 
   const service = getService(plainTransaction.chainId);
@@ -22,28 +20,30 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   await service.prevalidateTransaction(transaction);
   if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+    return NextResponse.json({ transaction: deepBigintToString(transaction) }, { status: 400, statusText: `Invalid transaction` });
   }
 
   await service.completeTransaction(transaction);
   if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+    return NextResponse.json({ transaction: deepBigintToString(transaction) }, { status: 400, statusText: `Invalid transaction` });
   }
 
   await service.validateTransaction(transaction);
   if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+    return NextResponse.json({ transaction: deepBigintToString(transaction) }, { status: 400, statusText: `Invalid transaction` });
   }
 
   await service.encodeTransactionToSign(transaction);
 
   if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+    return NextResponse.json({ transaction: deepBigintToString(transaction) }, { status: 400, statusText: `Invalid transaction` });
   } else {
-    return NextResponse.json({ transaction });
+    return NextResponse.json({ transaction: deepBigintToString(transaction) });
   }
-}
-
-module.exports = apiHandler({
-  POST
+}, {
+  requestSchema,
+  // composite responseSchema to allow support of potentialy undefined `encoded` field in case of 400 error
+  // TODO: find a way to simplify this, maybe with a better schema directly using zod-openapi?
+  // That would allow for a check of the posible status codes in the response (making sure our code behavior is always updating the doc)
+  responseSchema: responseSchema.or(errorResponseSchema)
 });

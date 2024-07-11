@@ -1,18 +1,15 @@
-import "~/patch";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { requestSchema } from "./schema";
 import { isStakingService } from "~/app/model/service";
-import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { requestSchema, responseSchema, urlParamsSchema } from "./schema";
 
 
 // TODO Make sure to document this implicit limit in the doc / swagger description
 // We could also add something in the response to help user know what to fetch next (next limit, next URL...)
 const VALIDATORS_LIMIT = 100;
 
-async function POST(request: NextRequest): Promise<NextResponse> {
-  const { chainId, pagination } = requestSchema.parse(await request.json());
-
+export const POST = apiHandlerWrapper(async ({ pagination }, { chainId }) => {
   const service = getService(chainId);
 
   if (!isStakingService(service)) {
@@ -30,8 +27,8 @@ async function POST(request: NextRequest): Promise<NextResponse> {
   };
 
   return NextResponse.json(validatorsResponse);
-}
-
-module.exports = apiHandler({
-  POST
+}, {
+  requestSchema,
+  responseSchema,
+  urlParamsSchema
 });

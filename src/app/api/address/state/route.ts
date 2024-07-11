@@ -1,12 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import "~/patch";
-import { requestSchema } from "./schema";
+import { deepBigintToString } from "~/app/tools/convertors/deepBigintToString";
+import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { requestSchema, responseSchema } from "./schema";
 
-async function POST(request: NextRequest): Promise<NextResponse> {
-  const { chainId, address } = requestSchema.parse(await request.json());
-
+export const POST = apiHandlerWrapper(async ({ chainId, address }) => {
   const service = getService(chainId);
 
   const isAddressValid = await service.validateAddress(address);
@@ -20,9 +18,8 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   const state = await service.getAddressState(address);
 
-  return NextResponse.json(state);
-}
-
-module.exports = apiHandler({
-  POST
+  return NextResponse.json(deepBigintToString(state));
+}, {
+  requestSchema,
+  responseSchema
 });

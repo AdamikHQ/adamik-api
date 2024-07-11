@@ -1,13 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
-import { BroadcastStatus, Transaction } from "~/app/model/types_WIP";
-import { stringToBigint } from "~/app/model/serialization";
+import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { requestSchema } from "./schema";
-import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { stringToBigint } from "~/app/model/serialization";
+import { Transaction } from "~/app/model/types_WIP";
+import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { requestSchema, responseSchema } from "./schema";
 
-async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = requestSchema.parse(await request.json());
-
+export const POST = apiHandlerWrapper(async (body) => {
+  // FIXME: use zod instead to convert string to bigint
   let transaction: Transaction = {
     ...stringToBigint(body.transaction),
     status: { errors: [], warnings: [] },
@@ -18,7 +17,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   const signedTransaction = await service.encodeTransactionToBroadcast(transaction);
   if (transaction.status.errors.length) {
-    return NextResponse.json({ error: transaction.status.errors[0] } as BroadcastStatus, {
+    return NextResponse.json({ error: transaction.status.errors[0] }, {
       status: 400,
       statusText: `Invalid transaction`,
     });
@@ -26,13 +25,12 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   const broadcastStatus = await service.broadcastTransaction(signedTransaction);
 
-  if (broadcastStatus.error) {
+  if ('error' in broadcastStatus) {
     return NextResponse.json(broadcastStatus, { status: 400, statusText: `Invalid transaction` });
   } else {
     return NextResponse.json(broadcastStatus);
   }
-}
-
-module.exports = apiHandler({
-  POST
+}, {
+  requestSchema,
+  responseSchema
 });

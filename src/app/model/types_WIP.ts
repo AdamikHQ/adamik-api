@@ -239,10 +239,7 @@ type TransactionStatus = {
   warnings: ErrorMsg[];
 };
 
-type BroadcastStatus = {
-  error?: ErrorMsg;
-  hash?: string;
-};
+type BroadcastStatus = { hash: string } | { error: ErrorMsg };
 
 type ErrorCode = "OK" | "KO";
 

@@ -1,34 +1,64 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError } from "zod";
+import { ZodError, ZodTypeAny, ZodVoid, z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
-type RouteHandler = Partial<{ [key in typeof httpMethods[number]]: (req: NextRequest, ...args: any) => Promise<NextResponse> }>
 
-const httpMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as const;
+export const apiResponseErrorSchema = z.object({
+    message: z.string(),
+});
+export type ApiResponseError = z.infer<typeof apiResponseErrorSchema>;
 
-export function apiHandler(handler: RouteHandler) {
-    const wrappedHandler: RouteHandler = {};
+export type ApiResponse<T> = T | ApiResponseError
 
-    // wrap handler methods to add global error handler
-    httpMethods.forEach(method => {
-        const route = handler[method];
+/**
+ * The default value of the next.js route parameter
+ */
+export const nextRouteParamsSchema = z.record(
+    z.union([z.any(), z.any().array()]),
+)
+export type NextRouteParams = z.infer<typeof nextRouteParamsSchema>;
 
-        if (!route || typeof route !== 'function') {
-            return;
+type MethodCallHandler<
+    In extends ZodTypeAny,
+    Out extends ZodTypeAny,
+    UrlParams extends ZodTypeAny = typeof nextRouteParamsSchema,
+> = {
+    (body: z.infer<In>, params: z.infer<UrlParams>): Promise<NextResponse<ApiResponse<z.infer<Out>>>>;
+};
+
+export interface Schemas<
+    In extends ZodTypeAny,
+    Out extends ZodTypeAny,
+    UrlParams extends ZodTypeAny,
+> {
+    requestSchema?: In;
+    responseSchema?: Out;
+    urlParamsSchema?: UrlParams;
+}
+
+export function apiHandlerWrapper<
+    In extends ZodTypeAny,
+    Out extends ZodTypeAny,
+    UrlParams extends ZodTypeAny = typeof nextRouteParamsSchema,
+>(
+    handler: MethodCallHandler<In, UrlParams, Out>,
+    { requestSchema, urlParamsSchema, responseSchema }: Schemas<In, UrlParams, Out> = {}
+) {
+    return async (req: NextRequest, context: { params?: UrlParams }): Promise<NextResponse<ApiResponse<z.infer<Out>>>> => {
+        try {
+            // add other middlewares that can't run on the edge here
+            // parse the request when
+            let body = (requestSchema?.parse(await req.json()) ?? await req.json()) as z.infer<In>;
+            // parse the route params
+            let parsedParams = (urlParamsSchema?.parse(context.params) ?? context.params) as z.infer<UrlParams>;
+
+            // manually calls the wrapped handler
+            return await handler(body, parsedParams);
+            // TODO: parse the response with the responseSchema?
+        } catch (err: unknown) {
+            return handleRequestValidationError(err);
         }
-        wrappedHandler[method] = async (req: NextRequest, ...args) => {
-            try {
-                // add other middlewares that can't run on the edge here
-
-                // manually calls the wrapped handler
-                return await route(req, ...args);
-            } catch (err: unknown) {
-                return handleRequestValidationError(err);
-            }
-        };
-    });
-
-    return wrappedHandler;
+    };
 }
 
 function handleRequestValidationError(e: unknown): NextResponse {

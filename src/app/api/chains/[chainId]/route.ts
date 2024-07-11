@@ -1,19 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { CHAINS_PUBLIC } from "~/app/config/chains";
-import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import { requestSchema } from "./schema";
-import { z } from "zod";
+import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { responseSchema, urlParamsSchema } from "./schema";
 
-type Params = z.infer<typeof requestSchema>;
-
-async function GET(_: NextRequest, context: { params: Params }): Promise<NextResponse> {
-  const { chainId } = requestSchema.parse(context.params);
-
+export const GET = apiHandlerWrapper(async (_, { chainId }) => {
   const chain = CHAINS_PUBLIC[chainId];
 
   return NextResponse.json(chain);
-}
-
-module.exports = apiHandler({
-  GET
+}, {
+  responseSchema,
+  urlParamsSchema,
 });

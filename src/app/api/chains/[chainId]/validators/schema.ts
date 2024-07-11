@@ -1,23 +1,21 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema } from "~/app/api/schemaCommon";
-import { paginationSchema } from "~/app/api/schemaCommon";
+import { chainIdSchema, paginationSchema } from "~/app/api/schemaCommon";
 
-// FIXME: chainId is already defined in the URL as a path parameter, use it instead
-const requestSchema = z.object({
+const urlParamsSchema = z.object({
   chainId: chainIdSchema,
+});
+
+const requestSchema = z.object({
   pagination: paginationSchema.optional(),
 });
 
 const responseSchema = z.object({
-  chainId: chainIdSchema,
-  validators: z
-    .object({
-      address: z.string(),
-      name: z.string(),
-      commission: z.number().optional(),
-    })
-    .array(),
+  validators: z.object({
+    address: z.string(),
+    name: z.string(),
+    commission: z.number().optional(), // TODO: maybe we want a default value rather than an optional?
+  }).array(),
 });
 
 const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
@@ -30,6 +28,9 @@ const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
         content: {
           "application/json": { schema: requestSchema },
         },
+      },
+      requestParams: {
+        path: urlParamsSchema,
       },
       responses: {
         "200": {
@@ -44,4 +45,5 @@ const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, chainsChainIdValidatorsOpenAPIPath };
+export { chainsChainIdValidatorsOpenAPIPath, requestSchema, responseSchema, urlParamsSchema };
+

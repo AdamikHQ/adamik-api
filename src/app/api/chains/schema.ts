@@ -24,4 +24,4 @@ const chainsOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { chainsOpenAPIPath };
+export { chainsOpenAPIPath, responseSchema };

@@ -1,18 +1,15 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { requestSchema } from "./schema";
-import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { requestSchema, responseSchema } from "./schema";
 
-async function POST(request: NextRequest): Promise<NextResponse> {
-  const { chainId, pubkey } = requestSchema.parse(await request.json());
-
+export const POST = apiHandlerWrapper(async ({ chainId, pubkey }) => {
   const service = getService(chainId);
 
   const address = await service.pubkeyToAddress(pubkey);
 
   return NextResponse.json(address);
-}
-
-module.exports = apiHandler({
-  POST
+}, {
+  requestSchema,
+  responseSchema
 });

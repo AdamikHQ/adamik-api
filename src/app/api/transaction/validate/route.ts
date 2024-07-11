@@ -1,13 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
-import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
-import { stringToBigint } from "~/app/model/serialization";
+import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { requestSchema } from "./schema";
-import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { stringToBigint } from "~/app/model/serialization";
+import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
+import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { requestSchema, responseSchema } from "./schema";
 
-async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = requestSchema.parse(await request.json());
-
+export const POST = apiHandlerWrapper(async (body) => {
   const plainTransaction: PlainTransaction = stringToBigint(body.transaction.plain);
 
   const service = getService(plainTransaction.chainId);
@@ -24,8 +22,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
   } else {
     return NextResponse.json(transaction.status);
   }
-}
-
-module.exports = apiHandler({
-  POST
+}, {
+  requestSchema,
+  responseSchema
 });

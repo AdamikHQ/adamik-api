@@ -15,6 +15,12 @@ const responseSchema = z.object({
   }),
 });
 
+const errorResponseSchema = z.object({
+  transaction: z.object({
+    plain: plainTransactionSchema,
+  }),
+});
+
 const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/encode": {
     post: {
@@ -34,9 +40,16 @@ const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
             "application/json": { schema: responseSchema },
           },
         },
+        "400": {
+          description:
+            "400 Bad Request - The transaction data is invalid",
+          content: {
+            "application/json": { schema: errorResponseSchema },
+          },
+        },
       },
     },
   },
 };
 
-export { requestSchema, responseSchema, transactionEncodeOpenAPIPath };
+export { requestSchema, responseSchema, errorResponseSchema, transactionEncodeOpenAPIPath };

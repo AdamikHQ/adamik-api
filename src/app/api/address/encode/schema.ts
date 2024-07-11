@@ -1,6 +1,5 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { ChainId } from "~/app/model/types_WIP";
 import { chainIdSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
@@ -8,7 +7,7 @@ const requestSchema = z.object({
   pubkey: z.string(),
 });
 
-const responseSchema = z.boolean();
+const responseSchema = z.string();
 
 const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/encode": {
@@ -23,7 +22,7 @@ const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description: "200 OK - Returns true if the encoding is successful, otherwise false.",
+          description: "200 OK - Returns true if the encoded result",
           content: {
             "application/json": { schema: responseSchema },
           },
@@ -33,4 +32,5 @@ const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, addressEncodeOpenAPIPath };
+export { addressEncodeOpenAPIPath, requestSchema, responseSchema };
+

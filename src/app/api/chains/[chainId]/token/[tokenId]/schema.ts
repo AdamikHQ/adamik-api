@@ -5,7 +5,7 @@ import { TokenType } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
-const requestSchema = z.object({
+const urlParamsSchema = z.object({
   chainId: chainIdSchema,
   tokenId: z.string().openapi({
     description: "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
@@ -19,7 +19,7 @@ const responseSchema = z.object({
   id: z.string(),
   name: z.string(),
   ticker: z.string(),
-  decimals: z.string(),
+  decimals: z.number(),
   contractAddress: z.string().optional(),
 });
 
@@ -30,7 +30,7 @@ const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
       description:
         "Retrieves detailed information about a specific token for a blockchain network, identified by chain ID and token ID.",
       requestParams: {
-        path: requestSchema,
+        path: urlParamsSchema,
       },
       responses: {
         "200": {
@@ -45,4 +45,5 @@ const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, chainsChainIdTokenTokenIdOpenAPIPath };
+export { chainsChainIdTokenTokenIdOpenAPIPath, urlParamsSchema, responseSchema };
+
