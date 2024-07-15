@@ -110,6 +110,7 @@ type Validator = {
   address: string;
   name: string;
   commission?: number;
+  stakedAmount?: bigint;
 };
 
 type StakingPosition = {
