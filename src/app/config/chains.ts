@@ -1,5 +1,8 @@
 import { ChainId, Chain, ChainFamily, ChainFeature } from "../model/types_WIP";
 
+// Define features specific to Mantle
+const MINIMUM_FEATURES: ChainFeature[] = [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE];
+
 const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
   [ChainFamily.ALGORAND]: [
     ChainFeature.BALANCES_NATIVE,
@@ -598,7 +601,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/mantle/REDACTED",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: MINIMUM_FEATURES,
   },
 } as const;
 
