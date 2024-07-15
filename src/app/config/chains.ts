@@ -598,7 +598,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/mantle/REDACTED",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE],
+    supportedFeatures: FEATURES[ChainFamily.EVM],
   },
 } as const;
 
