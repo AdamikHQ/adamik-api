@@ -591,7 +591,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.EVM,
     id: ChainId.MANTLE,
     nativeId: "5000",
-    name: "Mantle Network ",
+    name: "Mantle Network",
     ticker: "MNT",
     decimals: 18,
     backends: {
