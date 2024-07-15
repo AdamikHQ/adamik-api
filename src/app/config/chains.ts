@@ -1,6 +1,6 @@
 import { ChainId, Chain, ChainFamily, ChainFeature } from "../model/types_WIP";
 
-// Define features specific to Mantle
+// Very basic level of features to be considered as supported in Adamik
 const MINIMUM_FEATURES: ChainFeature[] = [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE];
 
 const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
