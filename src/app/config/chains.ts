@@ -587,6 +587,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
+  mantle: {
+    family: ChainFamily.EVM,
+    id: ChainId.MANTLE,
+    nativeId: "5000",
+    name: "Mantle Network",
+    ticker: "MNT",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
 } as const;
 
 // FIXME Trick to filter-out private 'backends' field from response

@@ -30,6 +30,8 @@ const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.MOONBASE, "moonbase"],
   [ChainId.FANTOM, "fantom"],
   [ChainId.PALM, "palm"],
+  //Mantle may not be supported yet (marked as coming soon by Moralis)
+  //[ChainId.MANTLE, "mantle"],
 ]);
 
 async function getERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
