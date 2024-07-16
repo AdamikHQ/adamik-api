@@ -132,7 +132,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "TIA",
     decimals: 6,
     backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27",
+      nodeURL: "https://lcd-celestia.imperator.co",
+      //nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27",
     },
     params: {
       prefix: "celestia",
@@ -182,7 +183,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       denom: "adydx",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
-      minGasPrice: 0.025,
+      minGasPrice: 12500000000,
     },
     supportedFeatures: FEATURES[ChainFamily.COSMOS],
   },
