@@ -20,7 +20,6 @@ import {
 import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
 import { MsgSend as ProtoMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 //import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
-
 import {
   ChainId,
   EncodedTransactionFormat,
@@ -28,11 +27,12 @@ import {
   Transaction,
   TransactionMode,
 } from "~/app/model/types_WIP";
-import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
-import { CosmosChainParams } from "./types";
-import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY } from "./constants";
+import { fetchNetworkId, simulateTransaction } from "./backend/node";
+import { CosmosChainParams, CosmosTransactionParams } from "./types";
+import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
 import { CHAINS } from "~/app/config/chains";
-import { MsgBeginRedelegate, MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { CosmosAccount } from "./backend/types";
 
 // TODO Keep this file as a fourre-tout or split it?
 
@@ -62,8 +62,32 @@ function isValidAddress(address: string, chainId: ChainId): boolean {
   return true;
 }
 
+// Returns the provided CosmosAccount with updated pubKeyType and pubKey,
+// depending on account and transaction data
+function resolvePubKey(account: CosmosAccount, transaction: Transaction): CosmosAccount {
+  const chainParams = CHAINS[transaction.plain.chainId].params as CosmosChainParams;
+  const transactionParams = transaction.plain.params as CosmosTransactionParams;
+
+  // pubKeyType and pubKey are provided by the blockchain only when the address has already done some transaction(s)
+  const pubKeyType = account.pubKeyType || chainParams.defaultPubKeyType;
+  const pubKey = account.pubKey || transactionParams?.pubKey;
+  if (!pubKey) {
+    transaction.status.errors.push({
+      message: "Public key of the sender address not found on the blockchain, it must be provided manually",
+    });
+    return account;
+  }
+
+  return {
+    ...account,
+    pubKey: isBase64(pubKey) ? pubKey : Buffer.from(pubKey, "hex").toString("base64"),
+    pubKeyType,
+  };
+}
+
 async function getEstimatedFees(
   chainId: ChainId,
+  account: CosmosAccount,
   transaction: PlainTransaction
 ): Promise<{
   gasWanted: bigint;
@@ -73,19 +97,15 @@ async function getEstimatedFees(
 
   const { protoMsgs } = getMessages(transaction);
 
-  const dummySignature = new Uint8Array(Buffer.from(COSMOS_MOCK_PUBKEY, "hex"));
-
-  const dummyPubKey = "0000"; // Pubkey length must be a multiple of 4
-
   const txBytes = buildBroadcastPayload({
     protoMsgs,
     memo: transaction.memo || "",
     pubKeyType: chainParams.defaultPubKeyType,
-    pubKey: dummyPubKey,
+    pubKey: COSMOS_MOCK_PUBKEY,
     feeAmount: undefined,
-    sequence: 0n,
+    sequence: account.sequence,
     gasLimit: undefined,
-    signature: dummySignature,
+    signature: COSMOS_MOCK_SIGNATURE,
   });
 
   const gasUsed = await (async (): Promise<bigint> => {
@@ -310,7 +330,11 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
   return { aminoMsgs, protoMsgs };
 }
 
-async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction): Promise<StdSignDoc> {
+async function buildSignPayload(
+  chainId: ChainId,
+  account: CosmosAccount,
+  transaction: PlainTransaction
+): Promise<StdSignDoc> {
   if (!transaction.fees) {
     throw new Error("Missing fees data in transaction");
   } else if (!transaction.gas) {
@@ -331,15 +355,14 @@ async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction)
 
   const { aminoMsgs } = getMessages(transaction);
   const networkId = await fetchNetworkId(chainId);
-  const { accountNumber, sequence } = await fetchAccount(chainId, transaction.senders[0]);
 
   return makeSignDoc(
     aminoMsgs,
     feeToEncode,
     networkId,
     transaction.memo || "",
-    accountNumber.toString(),
-    sequence.toString()
+    account.accountNumber.toString(),
+    account.sequence.toString()
   );
 }
 
@@ -378,7 +401,7 @@ function buildBroadcastPayload({
           publicKey: {
             typeUrl: pubKeyType,
             value: PubKey.encode({
-              key: fromBase64(pubKey),
+              key: Buffer.from(pubKey, isBase64(pubKey) ? "base64" : "hex"),
             }).finish(),
           },
           modeInfo: {
@@ -403,12 +426,13 @@ function buildBroadcastPayload({
 
 async function encodeToSign(
   chainId: ChainId,
+  account: CosmosAccount,
   transaction: PlainTransaction,
   format?: EncodedTransactionFormat
 ): Promise<string> {
   // NOTE Providing payload for an Amino signer (like Ledger)
   // Need to provide payload for Protobuf signer as well?...
-  const signDoc = await buildSignPayload(chainId, transaction);
+  const signDoc = await buildSignPayload(chainId, account, transaction);
 
   if (format === EncodedTransactionFormat.JSON) {
     // FIXME we will need to redefine type here.
@@ -419,9 +443,8 @@ async function encodeToSign(
 
 async function encodeToBroadcast(
   chainId: ChainId,
-  signedTransaction: Transaction,
-  pubKeyType: string,
-  pubKey: string
+  account: CosmosAccount,
+  signedTransaction: Transaction
 ): Promise<string> {
   if (!signedTransaction.signature) {
     throw new Error("Missing signature in transaction");
@@ -437,13 +460,15 @@ async function encodeToBroadcast(
 
   const { protoMsgs } = getMessages(plainTransation);
 
-  const signDoc = await buildSignPayload(chainId, plainTransation);
+  // NOTE Already built by encodeToSign()
+  // Could be retrieved from transaction instead of building again?
+  const signDoc = await buildSignPayload(chainId, account, plainTransation);
 
   const txBytes = buildBroadcastPayload({
     protoMsgs,
     memo: plainTransation.memo || "",
-    pubKeyType,
-    pubKey,
+    pubKeyType: account.pubKeyType,
+    pubKey: account.pubKey,
     feeAmount: signDoc.fee.amount as any,
     gasLimit: BigInt(signDoc.fee.gas),
     sequence: BigInt(signDoc.sequence),
@@ -453,4 +478,4 @@ async function encodeToBroadcast(
   return Buffer.from(txBytes).toString("hex");
 }
 
-export { isValidAddress, getEstimatedFees, encodeToSign, encodeToBroadcast };
+export { isValidAddress, resolvePubKey, getEstimatedFees, encodeToSign, encodeToBroadcast };
