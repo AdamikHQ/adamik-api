@@ -1,3 +1,4 @@
+import { Xpub } from "../families/bitcoin/logic";
 import { BtcParams } from "../families/bitcoin/types";
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
@@ -61,6 +62,7 @@ enum ChainFeature {
   TRANSACTIONS_TOKENS = "transactions.tokens",
   //TRANSACTIONS_NFT = "transactions.nft",
   TRANSACTIONS_STAKING = "transactions.staking",
+  TRANSACTIONS_TO_MANY = "transactions.to_many",
   MEMO = "memo",
 }
 
@@ -202,7 +204,7 @@ type TransactionParams = CosmosTransactionParams;
 type BaseTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
-}
+};
 
 type CommonTransaction = {
   senders: string[];
@@ -217,25 +219,32 @@ type CommonTransaction = {
   params?: TransactionParams;
 };
 
-type TransferTransaction = BaseTransaction & CommonTransaction & {
-  mode: TransactionMode.TRANSFER;
-};
+type TransferTransaction = BaseTransaction &
+  CommonTransaction & {
+    mode: TransactionMode.TRANSFER;
+  };
 
-type TransferTokenTransaction = BaseTransaction & CommonTransaction & {
-  mode: TransactionMode.TRANSFER_TOKEN;
-  tokenId: string;
-};
+type TransferTokenTransaction = BaseTransaction &
+  CommonTransaction & {
+    mode: TransactionMode.TRANSFER_TOKEN;
+    tokenId: string;
+  };
 
-type DelegateTransaction = BaseTransaction & CommonTransaction & {
-  mode: TransactionMode.DELEGATE;
-  validatorAddress: string;
-};
+type DelegateTransaction = BaseTransaction &
+  CommonTransaction & {
+    mode: TransactionMode.DELEGATE;
+    validatorAddress: string;
+  };
 
 type MultiRecipientTransaction = BaseTransaction & {
   mode: TransactionMode.TRANSFER_TO_MANY;
-  sender: string;
+  sender: Xpub;
   recipients: Recipient[];
   fees: bigint;
+};
+
+function isMultiRecipientTransaction(transaction: TransactionData): transaction is MultiRecipientTransaction {
+  return transaction.mode === TransactionMode.TRANSFER_TO_MANY;
 }
 
 // type UndelegateTransaction = CommonTransaction & {
@@ -253,7 +262,6 @@ type MultiRecipientTransaction = BaseTransaction & {
 //   mode: TransactionMode.CLAIM_REWARD;
 //   validatorAddress: string;
 // };
-
 
 /**
  * @deprecated You should use {@link TransactionData}
@@ -281,8 +289,7 @@ type TransactionWrapper = {
   encoded?: string;
   signature?: string;
   status: TransactionStatus;
-
-}
+};
 
 /*
 type TransactionMetadata = {
@@ -333,14 +340,27 @@ export {
   EncodedTransactionFormat,
   TokenType,
   StakingStatus,
+  isMultiRecipientTransaction,
 };
 
 export type {
-  AddressesState, AddressState, BroadcastStatus, Chain,
-  ChainParams, ErrorMsg,
-  Pagination, PlainTransaction, StakingPosition,
-  StakingReward, Token,
-  TokenAmount, TokenStakingReward, Transaction, TransactionData, TransactionSpendableAmounts,
-  TransactionStatus, TransactionWrapper, Validator
+  AddressesState,
+  AddressState,
+  BroadcastStatus,
+  Chain,
+  ChainParams,
+  ErrorMsg,
+  Pagination,
+  PlainTransaction,
+  StakingPosition,
+  StakingReward,
+  Token,
+  TokenAmount,
+  TokenStakingReward,
+  Transaction,
+  TransactionData,
+  TransactionSpendableAmounts,
+  TransactionStatus,
+  TransactionWrapper,
+  Validator,
 };
-

@@ -1,22 +1,13 @@
 import { TransactionWrapper } from "~/app/model/types_WIP";
 import { BtcService } from ".";
-import { prevalidateTransactionCommon } from "../../common";
-import { isValidAddress } from "../logic";
-
-
 
 async function prevalidateTransaction(this: BtcService, transaction: TransactionWrapper): Promise<void> {
-  transaction.status = await prevalidateTransactionCommon(transaction.data, async (address: string) =>
-    isValidAddress(address, this.chainId)
-  );
+  // does nothing, everything is already done by zod schema before even reaching the controller
 }
 
-async function validateTransaction(
-  this: BtcService,
-  transaction: TransactionWrapper
-): Promise<void> {
-  throw new Error("Not implemented");
+async function validateTransaction(this: BtcService, transaction: TransactionWrapper): Promise<void> {
+  // TODO: call testmempoolaccept on BTC-core node
+  return;
 }
 
-export { validateTransaction };
-
+export { prevalidateTransaction, validateTransaction };

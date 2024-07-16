@@ -1,5 +1,6 @@
 import { ErrorMsg, TransactionData, TransactionMode, TransactionStatus } from "../model/types_WIP";
 
+// TODO: Deprecate this whole function in favor of using directly Zod ?
 async function prevalidateTransactionCommon(
   transaction: TransactionData,
   addressValidationFn: (address: string) => Promise<boolean>
@@ -8,16 +9,18 @@ async function prevalidateTransactionCommon(
   const warnings: ErrorMsg[] = [];
   let validSender;
   // TODO: deprecate multiple senders?
-  if ('senders' in transaction) {
+  if ("senders" in transaction) {
     validSender = transaction.senders?.length && (await addressValidationFn(transaction.senders[0]));
-  } else {
-    validSender = await addressValidationFn(transaction.sender);
-  }
-  if (!validSender) {
-    errors.push({ message: "Sender address is invalid" });
+    if (!validSender) {
+      errors.push({ message: "Sender address is invalid" });
+    }
   }
 
-  if (transaction.mode === TransactionMode.DELEGATE || transaction.mode === TransactionMode.TRANSFER || transaction.mode === TransactionMode.TRANSFER_TOKEN) {
+  if (
+    transaction.mode === TransactionMode.DELEGATE ||
+    transaction.mode === TransactionMode.TRANSFER ||
+    transaction.mode === TransactionMode.TRANSFER_TOKEN
+  ) {
     if (transaction.nonce && transaction.nonce < 0) {
       errors.push({ message: "Nonce cannot be negative" });
     }

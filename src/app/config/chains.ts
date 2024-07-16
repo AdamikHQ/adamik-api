@@ -25,6 +25,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
   ],
   [ChainFamily.BITCOIN]: [
     ChainFeature.BALANCES_NATIVE,
+    ChainFeature.TRANSACTIONS_TO_MANY,
   ],
 };
 

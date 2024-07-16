@@ -1,27 +1,13 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { transactionDataSchema } from "~/app/api/schemaCommon";
+import { transactionSchema } from "../txSchemaCommon";
 
 const requestSchema = z.object({
-  transaction: z.object({
-    encoded: z.string().or(z.object({})),
-    signature: z.string(),
-  }).and(
-    // TODO: should be remove in farvor of data field
+  transaction: transactionSchema.and(
     z.object({
-      plain: transactionDataSchema,
-    }).openapi({
-      deprecated: true,
-    }).or(z.object({
-      data: transactionDataSchema
-    })).transform((object) => {
-      if ('plain' in object) {
-        return {
-          data: object.plain,
-          ...object
-        }
-      }
-    }),
+      encoded: z.string().or(z.object({})),
+      signature: z.string(),
+    })
   ),
 });
 
