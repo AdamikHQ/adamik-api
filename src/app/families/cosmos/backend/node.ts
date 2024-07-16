@@ -39,7 +39,7 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
     response = await fetch(url.toString()).then((response) => response.json());
 
     if (!response || !Array.isArray(response[dataKey])) {
-      console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}`);
+      console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
       break;
     }
 
@@ -134,7 +134,7 @@ async function fetchRewards(
   // (Note: this endpoint is not paginated)
   const data: CosmosRewards = await fetch(url).then((response) => response.json());
   if (!data?.rewards) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
     return { native: [], tokens: [] };
   }
 
@@ -206,9 +206,9 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
 
   const url = `${getRootUrl(chainId)}/cosmos/auth/v1beta1/accounts/${address}`;
 
-  try {
-    const data = await fetch(url).then((response) => response.json());
+  const data = await fetch(url).then((response) => response.json());
 
+  try {
     // We use base_account for Ethermint chains and account for the rest
     const accountData = data.account.base_account || data.account;
 
@@ -225,7 +225,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
       account.pubKeyType = accountData.pub_key["@type"];
     }
   } catch (e) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
     throw new Error(`Error while fetching ${chainId} account info from the node`);
   }
 
@@ -238,7 +238,7 @@ async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promis
 
   const data = await fetch(url).then((response) => response.json());
   if (!data?.denom_trace?.base_denom) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
     return "";
   }
 
@@ -249,7 +249,7 @@ async function fetchNetworkId(chainId: ChainId): Promise<string> {
   const url = `${getRootUrl(chainId)}/cosmos/base/tendermint/v1beta1/node_info`;
   const data = await fetch(url).then((response) => response.json());
   if (!data?.default_node_info?.network) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
     return "";
   }
 
@@ -264,8 +264,9 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
   };
 
   const data = await fetch(url, options).then((response) => response.json());
+
   if (!data?.gas_info?.gas_used) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
     throw new Error("Error while getting gas estimate from the node");
   }
 
