@@ -31,7 +31,7 @@
 
 ## dydx
 
-| nodeURL | https://community.nuxian-node.ch:6797/dydx/crpc |
+| nodeURL | https://dydx-dao-api.polkachu.com |
 
 ## axelar
 
