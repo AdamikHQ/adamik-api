@@ -1,5 +1,6 @@
 import { BigNumber } from "bignumber.js";
 import { bech32 } from "bech32";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
 import { AuthInfo, TxRaw, TxBody, Fee } from "cosmjs-types/cosmos/tx/v1beta1/tx";
@@ -19,6 +20,7 @@ import {
 } from "@cosmjs/stargate";
 import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
 import { MsgSend as ProtoMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 //import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import {
   ChainId,
@@ -31,7 +33,6 @@ import { fetchNetworkId, simulateTransaction } from "./backend/node";
 import { CosmosChainParams, CosmosTransactionParams } from "./types";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
 import { CHAINS } from "~/app/config/chains";
-import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { CosmosAccount } from "./backend/types";
 
 // TODO Keep this file as a fourre-tout or split it?
@@ -99,12 +100,17 @@ async function getEstimatedFees(
 
   const txBytes = buildBroadcastPayload({
     protoMsgs,
-    memo: transaction.memo || "",
     pubKeyType: chainParams.defaultPubKeyType,
     pubKey: COSMOS_MOCK_PUBKEY,
-    feeAmount: undefined,
     sequence: account.sequence,
     gasLimit: undefined,
+    feeAmount: [
+      {
+        denom: chainParams.denom,
+        amount: "1", // Amount should just not be 0 as it would impact the simulation by requiring less gas
+      },
+    ],
+    memo: transaction.memo || "",
     signature: COSMOS_MOCK_SIGNATURE,
   });
 
@@ -380,7 +386,7 @@ function buildBroadcastPayload({
   memo: string;
   pubKeyType: string;
   pubKey: string;
-  feeAmount: { amount: bigint; denom: string } | undefined;
+  feeAmount: Coin[];
   gasLimit: bigint | undefined;
   sequence: bigint;
   signature: Uint8Array;
@@ -414,7 +420,7 @@ function buildBroadcastPayload({
         },
       ],
       fee: Fee.fromPartial({
-        amount: feeAmount as any,
+        amount: feeAmount,
         gasLimit,
       }),
     }).finish(),
@@ -469,7 +475,7 @@ async function encodeToBroadcast(
     memo: plainTransation.memo || "",
     pubKeyType: account.pubKeyType,
     pubKey: account.pubKey,
-    feeAmount: signDoc.fee.amount as any,
+    feeAmount: signDoc.fee.amount as Coin[],
     gasLimit: BigInt(signDoc.fee.gas),
     sequence: BigInt(signDoc.sequence),
     signature,
