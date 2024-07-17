@@ -60,7 +60,10 @@ const positiveBigintSchema = z
   .bigint()
   .positive()
   .or(toNumber)
-  .transform((data) => BigInt(data));
+  .transform((data) => BigInt(data))
+  .openapi({
+    type: "string"
+  });
 
 const recipientSchema = z.object({
   amount: positiveBigintSchema,
