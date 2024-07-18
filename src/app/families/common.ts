@@ -1,68 +1,61 @@
-import { ErrorMsg, PlainTransaction, TransactionMode, TransactionStatus } from "../model/types_WIP";
+import { ErrorMsg, TransactionData, TransactionMode, TransactionStatus } from "../model/types_WIP";
 
+// TODO: Deprecate this whole function in favor of using directly Zod ?
 async function prevalidateTransactionCommon(
-  transaction: PlainTransaction,
+  transaction: TransactionData,
   addressValidationFn: (address: string) => Promise<boolean>
 ): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];
   const warnings: ErrorMsg[] = [];
 
-  const validSender = transaction.senders?.length && (await addressValidationFn(transaction.senders[0]));
+  // Logic validation
+  const validSender = await addressValidationFn(transaction.sender);
   if (!validSender) {
     errors.push({ message: "Sender address is invalid" });
-  }
-
-  if (transaction.nonce && transaction.nonce < 0) {
-    errors.push({ message: "Nonce cannot be negative" });
-  }
-
-  if (transaction.amount === undefined && !transaction.useMaxAmount) {
-    errors.push({ message: "Missing amount or useMaxAmount" });
-  } else if (!!transaction.amount && transaction.useMaxAmount) {
-    errors.push({
-      message: "Amount and useMaxAmount cannot be used together",
-    });
-  } else if (!!transaction.amount && transaction.amount < 0n) {
-    errors.push({ message: "Amount cannot be negative" });
-  } else if (!!transaction.amount && typeof transaction.amount !== "bigint") {
-    errors.push({ message: "Amount must be an integer" });
   }
 
   switch (transaction.mode) {
     case TransactionMode.TRANSFER:
     case TransactionMode.TRANSFER_TOKEN:
-      {
-        const validRecipient =
-          transaction.recipients?.length && (await addressValidationFn(transaction.recipients[0]));
-        if (!validRecipient) {
-          errors.push({ message: "Recipient address is invalid" });
-        }
+      const validRecipient = await addressValidationFn(transaction.recipient);
+      if (!validRecipient) {
+        errors.push({ message: "Recipient address is invalid" });
+      }
 
-        if (validSender && validRecipient && transaction.senders[0] === transaction.recipients[0]) {
-          warnings.push({ message: "Same sender and recipient address" });
-        }
+      if (validSender && validRecipient && transaction.sender === transaction.recipient) {
+        warnings.push({ message: "Same sender and recipient address" });
       }
       break;
-    case TransactionMode.DELEGATE: {
+    case TransactionMode.DELEGATE:
+    case TransactionMode.UNDELEGATE:
+    case TransactionMode.CLAIM_REWARDS:
       const validValidator =
         transaction.validatorAddress?.length && (await addressValidationFn(transaction.validatorAddress));
       if (!validValidator) {
         errors.push({ message: "Validator address is invalid" });
       }
       break;
-    }
-    default: {
-      // TODO Fine-tune this test by comparing with supported features of the chain (when implemented)
-      // transaction mode need to be cast here because TS thing that transaction is never.
-      errors.push({
-        message: `Unsupported transaction mode ${(transaction as PlainTransaction).mode} for chain ID ${
-          (transaction as PlainTransaction).chainId
-        }`,
-      });
-      break;
-    }
-  }
+    case TransactionMode.REDELEGATE:
+      const validSourceValidator =
+        transaction.sourceValidatorAddress?.length &&
+        (await addressValidationFn(transaction.sourceValidatorAddress));
+      if (!validSourceValidator) {
+        errors.push({ message: "Source validator address is invalid" });
+      }
 
+      const validTargetValidator =
+        transaction.targetValidatorAddress?.length &&
+        (await addressValidationFn(transaction.targetValidatorAddress));
+      if (!validTargetValidator) {
+        errors.push({ message: "Target validator address is invalid" });
+      }
+      break;
+    default: // ensure exhaustive check, both at compile time and runtime: https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
+      const assertNever = (x: never): never => {
+        throw new Error(`Encountered unexpected/unknown transaction mode: ${(transaction as any).mode}`);
+      };
+      assertNever(transaction);
+  }
   return {
     errors,
     warnings,

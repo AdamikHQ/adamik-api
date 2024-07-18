@@ -1,24 +1,26 @@
-import { ChainId, PlainTransaction, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { getTransactionFees, getTransactionAmount, getTransactionGas } from "../logic";
-import { EvmService } from ".";
 import { BaseError as ViemError } from "viem";
-import { getNonce } from "../backend/node";
+import { ChainId, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
+import { EvmService } from ".";
+import { fetchNonce } from "../backend/node";
+import { getTransactionAmount, getTransactionFees, getTransactionGas } from "../logic";
 import { EvmAddress } from "../types";
 
 async function completeTransaction(this: EvmService, transaction: Transaction): Promise<void> {
   try {
-    transaction.plain.nonce = await getNonce(this.chainId, transaction.plain.senders[0] as EvmAddress);
+    const nonce = await fetchNonce(this.chainId, transaction.data.sender as EvmAddress);
+    transaction.data.nonce = BigInt(nonce);
 
-    switch (transaction.plain.mode) {
+    switch (transaction.data.mode) {
       case TransactionMode.TRANSFER:
-        await completeNativeTransaction(this.chainId, transaction.plain);
+        await completeNativeTransaction(this.chainId, transaction.data);
         break;
       case TransactionMode.TRANSFER_TOKEN:
-        await completeTokenTransaction(this.chainId, transaction.plain);
+        await completeTokenTransaction(this.chainId, transaction.data);
         break;
       default:
+        // should never happen, zod already validated the mode per chain
         throw new Error(
-          `Unsupported transaction mode ${transaction.plain.mode} for chain ID ${transaction.plain.chainId}`
+          `Unsupported transaction mode ${transaction.data.mode} for EVM chain ${this.chainId}`
         );
     }
   } catch (e: any) {
@@ -28,23 +30,19 @@ async function completeTransaction(this: EvmService, transaction: Transaction): 
   }
 }
 
-async function completeNativeTransaction(chainId: ChainId, transaction: PlainTransaction): Promise<void> {
+async function completeNativeTransaction(chainId: ChainId, transaction: TransactionData): Promise<void> {
   // Since a gas estimation is done by simulating the transaction,
   // we can't know in advance how much we should put in the simulation.
   // But as a native transaction (no smart contract) should always consume the same amount of gas,
   // no matter the amount of coin transfered, we can infer the gas with any amount
   transaction.gas = await getTransactionGas(chainId, transaction);
-
   transaction.fees = await getTransactionFees(chainId, transaction);
-
   transaction.amount = await getTransactionAmount(chainId, transaction);
 }
 
-async function completeTokenTransaction(chainId: ChainId, transaction: PlainTransaction): Promise<void> {
+async function completeTokenTransaction(chainId: ChainId, transaction: TransactionData): Promise<void> {
   transaction.amount = await getTransactionAmount(chainId, transaction);
-
   transaction.gas = await getTransactionGas(chainId, transaction);
-
   transaction.fees = await getTransactionFees(chainId, transaction);
 }
 

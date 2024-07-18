@@ -1,23 +1,26 @@
 import TTLCache from "@isaacs/ttlcache";
 import { CHAINS } from "~/app/config/chains";
+import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
+import {
+  ChainId,
+  Pagination,
+  StakingPosition,
+  StakingReward,
+  StakingStatus,
+  TokenStakingReward,
+  TokenType,
+} from "~/app/model/types_WIP";
+import { CosmosChainParams, IBCToken } from "../types";
 import {
   CosmosAccount,
   CosmosBalance,
   CosmosDelegation,
   CosmosRedelegation,
   CosmosRewards,
+  CosmosTransaction,
   CosmosUnbondingDelegation,
   CosmosValidator,
 } from "./types";
-import {
-  ChainId,
-  Pagination,
-  StakingPosition,
-  StakingReward,
-  TokenStakingReward,
-  StakingStatus,
-} from "~/app/model/types_WIP";
-import { CosmosChainParams } from "../types";
 
 const VALIDATORS_CACHE = new TTLCache<string, CosmosValidator[]>({
   max: 1, // Only need one item
@@ -39,7 +42,7 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
     response = await fetch(url.toString()).then((response) => response.json());
 
     if (!response || !Array.isArray(response[dataKey])) {
-      console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}`);
+      console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
       break;
     }
 
@@ -47,6 +50,18 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
   } while (response?.pagination?.next_key);
 
   return data;
+}
+
+async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<CosmosTransaction | null> {
+  const url = `${getRootUrl(chainId)}/cosmos/tx/v1beta1/txs/${transactionId}`;
+
+  const response = await fetch(url).then((response) => response.json());
+
+  if ("message" in response) {
+    return null;
+  }
+
+  return response.tx_response;
 }
 
 async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosBalance[]> {
@@ -134,7 +149,7 @@ async function fetchRewards(
   // (Note: this endpoint is not paginated)
   const data: CosmosRewards = await fetch(url).then((response) => response.json());
   if (!data?.rewards) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
     return { native: [], tokens: [] };
   }
 
@@ -160,11 +175,23 @@ async function fetchRewards(
           amount,
         });
       } else if (denom.startsWith("ibc/")) {
-        tokenRewards.push({
-          tokenId: denom,
-          validatorAddress,
-          amount,
-        });
+        const token = COSMOS_TOKENS.find((token) => token.denom === denom) as IBCToken;
+        if (token) {
+          tokenRewards.push({
+            validatorAddress,
+            amount,
+            token: {
+              chainId: chainId,
+              type: TokenType.IBC,
+              id: denom,
+              name: token.symbol,
+              ticker: token.symbol,
+              decimals: token.decimals,
+            },
+          });
+        } else {
+          console.warn(`/!\\ Missing info about IBC token '${denom}':`);
+        }
       }
     }
   }
@@ -206,9 +233,9 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
 
   const url = `${getRootUrl(chainId)}/cosmos/auth/v1beta1/accounts/${address}`;
 
-  try {
-    const data = await fetch(url).then((response) => response.json());
+  const data = await fetch(url).then((response) => response.json());
 
+  try {
     // We use base_account for Ethermint chains and account for the rest
     const accountData = data.account.base_account || data.account;
 
@@ -225,7 +252,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
       account.pubKeyType = accountData.pub_key["@type"];
     }
   } catch (e) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
     throw new Error(`Error while fetching ${chainId} account info from the node`);
   }
 
@@ -238,7 +265,7 @@ async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promis
 
   const data = await fetch(url).then((response) => response.json());
   if (!data?.denom_trace?.base_denom) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
     return "";
   }
 
@@ -249,7 +276,7 @@ async function fetchNetworkId(chainId: ChainId): Promise<string> {
   const url = `${getRootUrl(chainId)}/cosmos/base/tendermint/v1beta1/node_info`;
   const data = await fetch(url).then((response) => response.json());
   if (!data?.default_node_info?.network) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
     return "";
   }
 
@@ -264,8 +291,9 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
   };
 
   const data = await fetch(url, options).then((response) => response.json());
+
   if (!data?.gas_info?.gas_used) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}`);
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
     throw new Error("Error while getting gas estimate from the node");
   }
 
@@ -295,13 +323,14 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
 }
 
 export {
-  fetchBalances,
-  fetchAccount,
-  fetchDelegations,
-  fetchUnbondingDelegations,
-  fetchRewards,
-  fetchNetworkId,
-  simulateTransaction,
   broadcastTransaction,
+  fetchAccount,
+  fetchBalances,
+  fetchDelegations,
+  fetchNetworkId,
+  fetchRewards,
+  fetchTransaction,
+  fetchUnbondingDelegations,
   getValidatorsCached,
+  simulateTransaction,
 };

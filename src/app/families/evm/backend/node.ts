@@ -1,38 +1,41 @@
-import { FeeValuesEIP1559, createPublicClient, erc20Abi, http } from "viem";
-import { publicActionsL2 } from "viem/op-stack";
+import { FeeValuesEIP1559, Transaction, TransactionReceipt, createPublicClient, erc20Abi, http } from "viem";
 import {
-  sepolia,
-  mainnet,
-  holesky,
-  zkSync,
-  zkSyncSepoliaTestnet,
-  base,
-  baseSepolia,
-  optimism,
-  optimismSepolia,
   arbitrum,
   arbitrumSepolia,
-  polygon,
-  polygonAmoy,
-  bscTestnet,
-  bsc,
-  lineaSepolia,
-  linea,
   avalanche,
+  base,
+  baseSepolia,
+  bsc,
+  bscTestnet,
+  chiliz,
+  fantom,
   gnosis,
   gnosisChiado,
+  holesky,
+  linea,
+  lineaSepolia,
+  mainnet,
+  mantle,
   moonbeam,
-  moonriver,
   moonbeamDev,
-  fantom,
+  moonriver,
+  optimism,
+  optimismSepolia,
   palm,
+  polygon,
+  polygonAmoy,
+  sepolia,
+  zkSync,
+  zkSyncSepoliaTestnet,
 } from "viem/chains";
+import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
+import { chilizTesnet } from "../chains/chiliz-testnet";
 import { injectiveTestnet } from "../chains/injective-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
 
-// Couldn't find a proper type that works besides 'any'
+// FIXME Couldn't find a proper type that works besides 'any'
 const CLIENTS = new Map<ChainId, any>();
 
 function getClientConfig(chainId: ChainId) {
@@ -91,6 +94,12 @@ function getClientConfig(chainId: ChainId) {
       return { chain: fantom, transport };
     case ChainId.PALM:
       return { chain: palm, transport };
+    case ChainId.MANTLE:
+      return { chain: mantle, transport };
+    case ChainId.CHILIZ:
+      return { chain: chiliz, transport };
+    case ChainId.CHILIZ_TESTNET:
+      return { chain: chilizTesnet, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }
@@ -217,19 +226,19 @@ async function makeERC20ContractCall(
   return value;
 }
 
-async function getERC20name(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
+async function fetchERC20name(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
   return (await makeERC20ContractCall(chainId, contractAdress, "name")) as string;
 }
 
-async function getERC20Decimals(chainId: ChainId, contractAdress: EvmAddress): Promise<number> {
+async function fetchERC20Decimals(chainId: ChainId, contractAdress: EvmAddress): Promise<number> {
   return (await makeERC20ContractCall(chainId, contractAdress, "decimals")) as number;
 }
 
-async function getERC20Ticker(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
+async function fetchERC20Ticker(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
   return (await makeERC20ContractCall(chainId, contractAdress, "symbol")) as string;
 }
 
-async function getERC20Balance({
+async function fetchERC20Balance({
   chainId,
   contractAddress,
   senderAddress,
@@ -241,29 +250,50 @@ async function getERC20Balance({
   return (await makeERC20ContractCall(chainId, contractAddress, "balanceOf", [senderAddress])) as bigint;
 }
 
-async function getBalance(chainId: ChainId, address: EvmAddress): Promise<bigint> {
-  return getClient(chainId).getBalance({ address });
+async function fetchBalance(chainId: ChainId, address: EvmAddress): Promise<bigint> {
+  return await getClient(chainId).getBalance({ address });
 }
 
-async function getNonce(chainId: ChainId, address: EvmAddress): Promise<number> {
-  return getClient(chainId).getTransactionCount({ address });
+async function fetchNonce(chainId: ChainId, address: EvmAddress): Promise<number> {
+  return await getClient(chainId).getTransactionCount({ address });
+}
+
+async function fetchTransaction(chainId: ChainId, transactionHash: string): Promise<Transaction | null> {
+  try {
+    return await getClient(chainId).getTransaction({ hash: transactionHash });
+  } catch {
+    return null;
+  }
+}
+
+async function fetchTransactionReceipt(
+  chainId: ChainId,
+  transactionHash: string
+): Promise<TransactionReceipt | null> {
+  try {
+    return await getClient(chainId).getTransactionReceipt({ hash: transactionHash });
+  } catch {
+    return null;
+  }
 }
 
 async function broadcast(chainId: ChainId, signedTransaction: string) {
-  return await getClient(chainId).sendRawTransaction(JSON.parse(signedTransaction));
+  return await getClient(chainId).sendRawTransaction({ serializedTransaction: signedTransaction });
 }
 
 export {
-  getNonce,
-  getBalance,
-  getERC20Balance,
-  getERC20name,
-  getERC20Decimals,
-  getERC20Ticker,
-  estimateGas,
-  estimateERC20Gas,
-  estimateFeesPerGas,
-  estimateFeesForL2,
-  estimateERC20FeesForL2,
   broadcast,
+  estimateERC20FeesForL2,
+  estimateERC20Gas,
+  estimateFeesForL2,
+  estimateFeesPerGas,
+  estimateGas,
+  fetchBalance,
+  fetchERC20Balance,
+  fetchERC20Decimals,
+  fetchERC20Ticker,
+  fetchERC20name,
+  fetchNonce,
+  fetchTransaction,
+  fetchTransactionReceipt,
 };

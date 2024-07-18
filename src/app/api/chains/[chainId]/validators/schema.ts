@@ -2,7 +2,7 @@ import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import { chainIdSchema, paginationSchema } from "~/app/api/schemaCommon";
 
-const urlParamsSchema = z.object({
+const pathParamsSchema = z.object({
   chainId: chainIdSchema,
 });
 
@@ -24,6 +24,7 @@ const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}/validators": {
     post: {
       tags: ["chains"],
+      summary: "Retrieve the list of existing validators",
       description:
         "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
       requestBody: {
@@ -32,7 +33,7 @@ const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
         },
       },
       requestParams: {
-        path: urlParamsSchema,
+        path: pathParamsSchema,
       },
       responses: {
         "200": {
@@ -47,5 +48,4 @@ const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { chainsChainIdValidatorsOpenAPIPath, requestSchema, responseSchema, urlParamsSchema };
-
+export { chainsChainIdValidatorsOpenAPIPath, pathParamsSchema, requestSchema, responseSchema };

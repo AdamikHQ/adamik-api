@@ -1,15 +1,16 @@
 import { EncodedTransactionFormat, Transaction } from "~/app/model/types_WIP";
-import { encodeToSign, encodeToBroadcast } from "../logic";
 import { CosmosService } from ".";
 import { fetchAccount } from "../backend/node";
-import { CHAINS } from "~/app/config/chains";
-import { CosmosChainParams, CosmosTransactionParams } from "../types";
+import { encodeToBroadcast, encodeToSign, resolvePubKey } from "../logic";
 
 async function encodeTransactionToSign(this: CosmosService, transaction: Transaction): Promise<void> {
+  const account = await fetchAccount(this.chainId, transaction.data.sender);
+
   transaction.encoded = await encodeToSign(
     this.chainId,
-    transaction.plain,
-    transaction.plain.format ?? EncodedTransactionFormat.HEX
+    account,
+    transaction.data,
+    transaction.data.format ?? EncodedTransactionFormat.HEX
   );
 }
 
@@ -25,27 +26,14 @@ async function encodeTransactionToBroadcast(
       throw new Error("Missing transaction signature");
     }
 
-    const plainTransation = signedTransaction.plain;
+    const account = await fetchAccount(this.chainId, signedTransaction.data.sender);
+    const updatedAccount = resolvePubKey(account, signedTransaction);
 
-    const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
-    const transactionParams = signedTransaction.plain.params as CosmosTransactionParams;
-
-    const account = await fetchAccount(this.chainId, plainTransation.senders[0]);
-
-    const pubKeyType = account.pubKeyType || chainParams.defaultPubKeyType;
-    const pubKey = account.pubKey || transactionParams?.pubKey;
-    if (!pubKey) {
-      signedTransaction.status.errors.push({
-        message: "Public key of the sender address not found on the blockchain, it must be provided manually",
-      });
-      return "";
-    }
-
-    return await encodeToBroadcast(this.chainId, signedTransaction, pubKeyType, pubKey);
+    return await encodeToBroadcast(this.chainId, updatedAccount, signedTransaction);
   } catch (e: any) {
     signedTransaction.status.errors.push({ message: `Error while encoding to broadcast: ${e.message}` });
     return "";
   }
 }
 
-export { encodeTransactionToSign, encodeTransactionToBroadcast };
+export { encodeTransactionToBroadcast, encodeTransactionToSign };

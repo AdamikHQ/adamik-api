@@ -1,36 +1,27 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema } from "~/app/api/schemaCommon";
-import { TokenType } from "~/app/model/types_WIP";
+import { chainIdSchema, tokenSchema } from "~/app/api/schemaCommon";
 
 extendZodWithOpenApi(z);
 
-const urlParamsSchema = z.object({
+const pathParamsSchema = z.object({
   chainId: chainIdSchema,
   tokenId: z.string().openapi({
     description: "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
-    example: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    examples: ["0xdAC17F958D2ee523a2206206994597C13D831ec7"],
   }),
 });
-
-const responseSchema = z.object({
-  chainId: chainIdSchema,
-  type: z.nativeEnum(TokenType),
-  id: z.string(),
-  name: z.string(),
-  ticker: z.string(),
-  decimals: z.number(),
-  contractAddress: z.string().optional(),
-});
+const responseSchema = tokenSchema;
 
 const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}/token/{tokenId}": {
     get: {
       tags: ["chains"],
+      summary: "Retrieve details of one token",
       description:
         "Retrieves detailed information about a specific token for a blockchain network, identified by chain ID and token ID.",
       requestParams: {
-        path: urlParamsSchema,
+        path: pathParamsSchema,
       },
       responses: {
         "200": {
@@ -45,5 +36,4 @@ const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { chainsChainIdTokenTokenIdOpenAPIPath, urlParamsSchema, responseSchema };
-
+export { chainsChainIdTokenTokenIdOpenAPIPath, pathParamsSchema, responseSchema };

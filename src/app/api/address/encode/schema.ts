@@ -7,14 +7,21 @@ const requestSchema = z.object({
   pubkey: z.string(),
 });
 
-const responseSchema = z.string();
+const responseSchema = z
+  .object({
+    type: z.string(),
+    address: z.string(),
+  })
+  .array();
 
 const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/encode": {
     post: {
       tags: ["address"],
+      summary: "Get addresses from a public key",
       description:
-        "Encodes the public key based on the specified chain ID and returns true if the operation is successful, otherwise false.",
+        'Encodes the provided public key to one or multiple addresses, for the given chain ID. \
+      Each address is labeled with a type, which may be "default" when there is only one address.',
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -33,4 +40,3 @@ const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
 };
 
 export { addressEncodeOpenAPIPath, requestSchema, responseSchema };
-

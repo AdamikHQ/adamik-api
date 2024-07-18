@@ -13,6 +13,7 @@ const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/validate": {
     post: {
       tags: ["address"],
+      summary: "Validate an address",
       description:
         "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
       requestBody: {
@@ -34,4 +35,3 @@ const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
 };
 
 export { addressValidateOpenAPIPath, requestSchema, responseSchema };
-

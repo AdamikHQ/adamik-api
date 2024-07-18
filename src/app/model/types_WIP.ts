@@ -1,5 +1,7 @@
-import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
-import { EvmChainParams } from "../families/evm/types";
+import { CosmosChainParams, CosmosTransactionParams } from "~/app/families/cosmos/types";
+import { EvmChainParams } from "~/app/families/evm/types";
+import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
+import { TonTransactionParams } from "../families/ton/types";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -37,27 +39,49 @@ enum ChainId {
   MOONBASE = "moonbase",
   FANTOM = "fantom",
   PALM = "palm",
+  MANTLE = "mantle",
+  CHILIZ = "chiliz",
+  CHILIZ_TESTNET = "chiliz-testnet",
+  TON = "ton",
+  // BTC family
+  BITCOIN = "bitcoin",
+  BITCOIN_TESTNET = "bitcoin-testnet",
+  LITECOIN = "litecoin",
 }
 
 enum ChainFamily {
   ALGORAND = "algorand",
   COSMOS = "cosmos",
   EVM = "evm",
+  BITCOIN = "bitcoin",
+  TON = "ton",
 }
 
-type ChainParams = CosmosChainParams | EvmChainParams;
+type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
 
 enum ChainFeature {
-  BALANCES_NATIVE = "balances.native",
-  BALANCES_TOKENS = "balances.tokens",
-  //BALANCES_NFT = "balances.nft",
-  BALANCES_STAKING = "balances.staking",
-  TRANSACTIONS_NATIVE = "transactions.native",
-  TRANSACTIONS_TOKENS = "transactions.tokens",
-  //TRANSACTIONS_NFT = "transactions.nft",
-  TRANSACTIONS_STAKING = "transactions.staking",
-  MEMO = "memo",
+  READ_ACCOUNT_BALANCES_NATIVE = "read.account.balances.native",
+  READ_ACCOUNT_BALANCES_TOKENS = "read.account.balances.tokens",
+  //READ_ACCOUNT_BALANCES_NFT = "read.account.balances.nft",
+  READ_ACCOUNT_BALANCES_STAKING = "read.account.balances.staking",
+
+  //READ_ACCOUNT_TRANSACTIONS_NATIVE = "read.account.transactions.native",
+  //READ_ACCOUNT_TRANSACTIONS_TOKENS = "read.account.transactions.tokens",
+  //READ_ACCOUNT_TRANSACTIONS_STAKING = "read.account.transactions.staking",
+
+  READ_TRANSACTION_NATIVE = "read.transaction.native",
+  READ_TRANSACTION_TOKENS = "read.transaction.tokens",
+  READ_TRANSACTION_STAKING = "read.transaction.staking",
+
+  WRITE_TRANSACTION_TYPE_NATIVE = "write.transaction.type.native",
+  WRITE_TRANSACTION_TYPE_TOKENS = "write.transaction.type.tokens",
+  WRITE_TRANSACTION_TYPE_STAKING = "write.transaction.type.staking",
+
+  WRITE_TRANSACTION_FIELD_MEMO = "write.transaction.field.memo",
 }
+
+// Define filters as flags: anything put in the object is true to flag that the filter is "ON"
+type ApiRequestFilters = Record<string, true>;
 
 type Backends = {
   nodeURL: string;
@@ -74,7 +98,7 @@ type Chain = {
   backends: Backends;
   isTestNet?: boolean;
   params?: ChainParams;
-  supportedFeatures: ChainFeature[];
+  supportedFeatures: readonly ChainFeature[];
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
@@ -82,6 +106,7 @@ enum TokenType {
   ASA = "ASA",
   ERC20 = "ERC20",
   IBC = "IBC",
+  JETTON = "JETTON",
 }
 
 type Token = {
@@ -92,6 +117,7 @@ type Token = {
   ticker: string;
   decimals: number;
   contractAddress?: string;
+  logo?: string;
 };
 
 type TokenAmount = {
@@ -110,6 +136,7 @@ type Validator = {
   address: string;
   name: string;
   commission?: number;
+  stakedAmount?: bigint;
 };
 
 type StakingPosition = {
@@ -126,15 +153,15 @@ type StakingReward = {
 };
 
 type TokenStakingReward = StakingReward & {
-  tokenId: string;
+  token: Token;
 };
 
-type AddressState = {
+type CommonState = {
   chainId: ChainId;
-  address: string;
   balances: {
-    native: {
-      available: bigint; // Cosmos, Polkadot, Solana : all provide available, so need to deduce total from staking
+    native?: {
+      available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
+      unconfirmed?: bigint; // available + pending (for chains with long confirmation time)
       total: bigint; // May include staking balances, or be equal to available
     };
     tokens?: TokenAmount[];
@@ -153,32 +180,93 @@ type AddressState = {
   };
 };
 
+type AccountState = CommonState & {
+  accountId: string;
+};
+
+type AddressesAggregatedState = CommonState & {
+  accountId: string;
+};
+
+type TypedAddress = {
+  type: string;
+  address: string;
+};
+
 enum TransactionMode {
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
+  REDELEGATE = "redelegate",
+  UNDELEGATE = "undelegate",
+  CLAIM_REWARDS = "claimRewards",
 }
 
-type TransactionParams = CosmosTransactionParams;
+enum TransactionState {
+  PENDING = "pending", // In mempool or equivalent
+  UNCONFIRMED = "unconfirmed", // In at least 1 block, but not enough for confirmation
+  CONFIRMED = "confirmed", // In enough blocks to be considered confirmed
+  FAILED = "failed", // Some chains keep record of failed transactions
+  UNKNOWN = "unknown",
+}
+
+type FinalizedTransaction = {
+  parsed?: {
+    chainId: ChainId;
+    id: string;
+    mode: TransactionMode;
+    tokenId?: string;
+    state: TransactionState;
+    blockHeight?: bigint;
+    timestamp?: number;
+    senders: {
+      address: string;
+    }[];
+    recipients?: {
+      address: string;
+      amount: bigint;
+    }[];
+    validators?: {
+      source?: {
+        address: string;
+      };
+      target?: {
+        address: string;
+        amount: bigint;
+      };
+    };
+    fees: bigint;
+    gas?: bigint;
+    nonce?: bigint;
+    memo?: string;
+  };
+  raw: unknown; // The raw transaction as returned from the node (or explorer when necessary)
+  //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
+};
+
+type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams | TonTransactionParams;
 
 // TODO WIP
 // FIXME de/serialization types <> string
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
-// FIXME one 'PlainTransaction' type with everything in it, or composition of specific types
+// FIXME one 'TransactionData' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
+// FIXME Does the 'params' field make sense? It allows chain-specific data into the model...
+// - alternative: all data could be flat?
+// - alternative: an explicit field for each chain? or family? = 'cosmosParams', 'evmParams', etc
 type CommonTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
-  senders: string[];
-  recipients: string[];
-  amount: bigint;
-  useMaxAmount?: boolean;
-  fees: bigint;
+  sender: string;
+  recipient: string;
+  useMaxAmount: boolean;
+  amount?: bigint;
+  fees?: bigint;
   gas?: bigint;
-  nonce?: number;
+  nonce?: bigint;
   memo?: string;
-  format?: EncodedTransactionFormat;
-  params?: TransactionParams;
+  format?: EncodedTransactionFormat; // FIXME: really required for all transactions?
+  params?: TransactionParams; // FIXME: really required for all transactions?
 };
 
 type TransferTransaction = CommonTransaction & {
@@ -195,38 +283,37 @@ type DelegateTransaction = CommonTransaction & {
   validatorAddress: string;
 };
 
-// type UndelegateTransaction = CommonTransaction & {
-//   mode: TransactionMode.UNDELEGATE;
-//   validatorAddress: string;
-// };
+type UndelegateTransaction = CommonTransaction & {
+  mode: TransactionMode.UNDELEGATE;
+  validatorAddress: string;
+};
 
-// type RedelegateTransaction = CommonTransaction & {
-//   mode: TransactionMode.REDELEGATE;
-//   sourceValidatorAddress: string;
-//   targetValidatorAddress: string;
-// };
+type RedelegateTransaction = CommonTransaction & {
+  mode: TransactionMode.REDELEGATE;
+  sourceValidatorAddress: string;
+  targetValidatorAddress: string;
+};
 
-// type ClaimRewardTransaction = CommonTransaction & {
-//   mode: TransactionMode.CLAIM_REWARD;
-//   validatorAddress: string;
-// };
+type ClaimRewardsTransaction = CommonTransaction & {
+  mode: TransactionMode.CLAIM_REWARDS;
+  validatorAddress: string;
+  compound?: boolean;
+};
 
-type PlainTransaction = TransferTransaction | TransferTokenTransaction | DelegateTransaction;
+type TransactionData =
+  | TransferTransaction
+  | TransferTokenTransaction
+  | DelegateTransaction
+  | UndelegateTransaction
+  | RedelegateTransaction
+  | ClaimRewardsTransaction;
 
 type Transaction = {
-  //metadata: TransactionMetadata // good idea or not ?
-  plain: PlainTransaction;
+  data: TransactionData;
   encoded?: string;
   signature?: string;
   status: TransactionStatus;
 };
-
-/*
-type TransactionMetadata = {
-  chain: ChainId;
-  useMaxAmount: boolean;
-};
-*/
 
 // Used to list spendable amounts, in native currency and one optional token currency
 type TransactionSpendableAmounts = {
@@ -260,30 +347,35 @@ type Pagination = {
 };
 
 export {
-  ChainId,
   ChainFamily,
   ChainFeature,
-  TransactionMode,
+  ChainId,
   EncodedTransactionFormat,
-  TokenType,
   StakingStatus,
+  TokenType,
+  TransactionMode,
+  TransactionState,
 };
+
 export type {
+  AccountState,
+  AddressesAggregatedState,
+  ApiRequestFilters,
+  BroadcastStatus,
   Chain,
   ChainParams,
-  Token,
-  TokenAmount,
-  Validator,
+  ErrorMsg,
+  FinalizedTransaction,
+  Pagination,
   StakingPosition,
   StakingReward,
+  Token,
+  TokenAmount,
   TokenStakingReward,
-  AddressState,
-  TransactionParams,
-  PlainTransaction,
   Transaction,
+  TransactionData,
   TransactionSpendableAmounts,
   TransactionStatus,
-  BroadcastStatus,
-  ErrorMsg,
-  Pagination,
+  TypedAddress,
+  Validator,
 };

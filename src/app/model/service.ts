@@ -1,10 +1,12 @@
 import {
-  AddressState,
+  AccountState,
   BroadcastStatus,
   ChainId,
+  FinalizedTransaction,
   Pagination,
   Token,
   Transaction,
+  TypedAddress,
   Validator,
 } from "./types_WIP";
 
@@ -18,16 +20,17 @@ abstract class BaseChainService {
   constructor(chainId: ChainId) {
     this.chainId = chainId;
   }
-
   // Chain
   //abstract getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
 
   // Address
-  abstract pubkeyToAddress(pubkey: string): Promise<string>;
+  abstract pubkeyToAddresses(pubkey: string): Promise<TypedAddress[]>;
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data
-  abstract getAddressState(address: string): Promise<AddressState>;
+  abstract getTransaction(transactionId: string): Promise<FinalizedTransaction | null>;
+  abstract getAccountState(accountId: string): Promise<AccountState>;
+  //abstract getAddressesState(addresses: string[]): Promise<AccountState[]>;
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
   // Crafting
@@ -80,5 +83,5 @@ function isTokenService(object: BaseChainService | TokenService): object is Toke
   return keys.reduce((valid, key) => valid && key in object, true);
 }
 
-export type { StakingService, TokenService };
 export { BaseChainService, isStakingService, isTokenService };
+export type { StakingService, TokenService };

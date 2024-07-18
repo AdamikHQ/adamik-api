@@ -1,32 +1,31 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { plainTransactionSchema } from "~/app/api/schemaCommon";
+import { inputTransactionSchema, outputTransactionSchema, transactionStatusSchema } from "../../schemaCommon";
 
 const requestSchema = z.object({
-  transaction: z.object({
-    plain: plainTransactionSchema,
-  }),
+  transaction: inputTransactionSchema.omit({ encoded: true, signature: true }),
 });
 
 const responseSchema = z.object({
-  transaction: z.object({
-    plain: plainTransactionSchema,
-    encoded: z.string(),
-  }),
+  transaction: outputTransactionSchema.omit({ signature: true }).and(
+    z.object({
+      status: transactionStatusSchema,
+    })
+  ),
 });
 
-const errorResponseSchema = z.object({
-  transaction: z.object({
-    plain: plainTransactionSchema,
-  }),
+const errorResponseSchema = responseSchema.extend({
+  transaction: outputTransactionSchema.omit({ encoded: true, signature: true }),
 });
 
 const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/encode": {
     post: {
       tags: ["transaction"],
+      summary: "Complete, validate and encode a transaction to sign",
       description:
-        "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.",
+        "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.\
+        It also completes the input transaction with computed data, such as fees and max spendable amount, and performs some chain-specific validation checks on the transaction.",
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -41,10 +40,9 @@ const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
           },
         },
         "400": {
-          description:
-            "400 Bad Request - The transaction data is invalid",
+          description: "400 Bad Request - The transaction data is invalid",
           content: {
-            "application/json": { schema: errorResponseSchema },
+            "application/json": { schema: responseSchema },
           },
         },
       },
@@ -52,4 +50,4 @@ const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, errorResponseSchema, transactionEncodeOpenAPIPath };
+export { requestSchema, responseSchema, transactionEncodeOpenAPIPath };

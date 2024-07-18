@@ -1,13 +1,17 @@
 import { NextResponse } from "next/server";
-import { CHAINS_PUBLIC } from "~/app/config/chains";
+import { CHAINS } from "~/app/config/chains";
+import { deepBigintOrNumToString } from "~/app/tools/convertors/deepBigintToString";
 import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
-import { responseSchema, urlParamsSchema } from "./schema";
+import { pathParamsSchema, responseSchema } from "./schema";
 
-export const GET = apiHandlerWrapper(async (_, { chainId }) => {
-  const chain = CHAINS_PUBLIC[chainId];
+export const GET = apiHandlerWrapper(
+  async (_, { chainId }) => {
+    const chain = CHAINS[chainId];
 
-  return NextResponse.json(chain);
-}, {
-  responseSchema,
-  urlParamsSchema,
-});
+    return NextResponse.json(deepBigintOrNumToString(chain)); // FIXME: backends should be filtered out
+  },
+  {
+    responseSchema,
+    pathParamsSchema,
+  }
+);

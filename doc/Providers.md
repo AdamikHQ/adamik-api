@@ -23,7 +23,7 @@
 
 ## celestia
 
-| nodeURL | https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27 |
+| nodeURL | https://lcd-celestia.imperator.co |
 
 ## celestia-testnet
 
@@ -31,7 +31,7 @@
 
 ## dydx
 
-| nodeURL | https://community.nuxian-node.ch:6797/dydx/crpc |
+| nodeURL | https://dydx-rest.publicnode.com |
 
 ## axelar
 
@@ -96,6 +96,16 @@
 
 | nodeURL | https://site1.moralis-nodes.com/arbitrum-sepolia/50db3911bb294983a8701b9c0930d80c |
 | explorerURL | https://deep-index.moralis.io/api |
+
+## bitcoin
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/bitcoin |
+
+## bitcoin-testnet
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/bitcoin/testnet |
 
 ## polygon
 
@@ -165,4 +175,29 @@
 ## palm
 
 | nodeURL | https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b |
+| explorerURL | https://deep-index.moralis.io/api |
+
+## mantle
+
+| nodeURL | https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf |
+| explorerURL | https://deep-index.moralis.io/api |
+
+## litecoin
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/litecoin |
+
+## ton
+
+| nodeURL | https://toncenter.com/api/ |
+| explorerURL | https://tonapi.io |
+
+## chiliz
+
+| nodeURL | https://chiliz-rpc.publicnode.com |
+| explorerURL | https://deep-index.moralis.io/api |
+
+## chiliz-testnet
+
+| nodeURL | https://chiliz-spicy.publicnode.com |
 | explorerURL | https://deep-index.moralis.io/api |

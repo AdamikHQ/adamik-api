@@ -1,27 +1,48 @@
-import { ChainId, Chain, ChainFamily, ChainFeature } from "../model/types_WIP";
+import { Chain, ChainFamily, ChainFeature, ChainId, TransactionMode } from "../model/types_WIP";
 
 const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
   [ChainFamily.ALGORAND]: [
-    ChainFeature.BALANCES_NATIVE,
-    ChainFeature.BALANCES_TOKENS,
-    ChainFeature.TRANSACTIONS_NATIVE,
-    ChainFeature.TRANSACTIONS_TOKENS,
-    ChainFeature.MEMO,
+    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
+    ChainFeature.READ_TRANSACTION_NATIVE,
+    ChainFeature.READ_TRANSACTION_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
   ],
   [ChainFamily.COSMOS]: [
-    ChainFeature.BALANCES_NATIVE,
-    ChainFeature.BALANCES_TOKENS,
-    ChainFeature.BALANCES_STAKING,
-    ChainFeature.TRANSACTIONS_NATIVE,
-    //ChainFeature.TRANSACTIONS_TOKENS,
-    //ChainFeature.TRANSACTIONS_STAKING,
-    ChainFeature.MEMO,
+    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
+    ChainFeature.READ_ACCOUNT_BALANCES_STAKING,
+    ChainFeature.READ_TRANSACTION_NATIVE,
+    //ChainFeature.READ_TRANSACTION_TOKENS,
+    ChainFeature.READ_TRANSACTION_STAKING,
+    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    //ChainFeature.WRITE_TRANSACTION_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_TYPE_STAKING,
+    ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
   ],
   [ChainFamily.EVM]: [
-    ChainFeature.BALANCES_NATIVE,
-    ChainFeature.BALANCES_TOKENS,
-    ChainFeature.TRANSACTIONS_NATIVE,
-    ChainFeature.TRANSACTIONS_TOKENS,
+    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
+    ChainFeature.READ_TRANSACTION_NATIVE,
+    ChainFeature.READ_TRANSACTION_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
+  ],
+  [ChainFamily.BITCOIN]: [
+    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+    ChainFeature.READ_TRANSACTION_NATIVE,
+    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+  ],
+  [ChainFamily.TON]: [
+    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
+    ChainFeature.READ_TRANSACTION_NATIVE,
+    ChainFeature.READ_TRANSACTION_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
   ],
 };
 
@@ -129,7 +150,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "TIA",
     decimals: 6,
     backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27",
+      nodeURL: "https://lcd-celestia.imperator.co",
+      //nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27",
     },
     params: {
       prefix: "celestia",
@@ -170,8 +192,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "DYDX",
     decimals: 18,
     backends: {
-      //TODO update the nodeURL with a stable node provider
-      nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc",
+      // (configs can be checked with [nodeURL]/cosmos/base/node/v1beta1/config )
+      nodeURL: "https://dydx-rest.publicnode.com",
+      // nodeURL: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live, but we've been blacklisted...
+      //nodeURL: "https://lcd-dydx.imperator.co", // Should be the best one, but only accepts fees in IBC token USDC at the moment...
+      //nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands twice the standard minimum gas fees, for some reason
     },
     params: {
       prefix: "dydx",
@@ -179,7 +204,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       denom: "adydx",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
-      minGasPrice: 0.025,
+      minGasPrice: 12500000000,
     },
     supportedFeatures: FEATURES[ChainFamily.COSMOS],
   },
@@ -400,12 +425,45 @@ const CHAINS: { [key in ChainId]: Chain } = {
     isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
+  [ChainId.BITCOIN]: {
+    id: ChainId.BITCOIN,
+    name: "Bitcoin",
+    family: ChainFamily.BITCOIN,
+    ticker: "BTC",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/bitcoin",
+    },
+    params: {
+      confirmations: 6,
+    },
+    nativeId: "bitcoin",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+  },
+  [ChainId.BITCOIN_TESTNET]: {
+    id: ChainId.BITCOIN_TESTNET,
+    name: "Bitcoin testnet",
+    family: ChainFamily.BITCOIN,
+    ticker: "BTC",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/bitcoin/testnet",
+    },
+    isTestNet: true,
+    params: {
+      confirmations: 6,
+    },
+    nativeId: "bitcoin-testnet",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+  },
   polygon: {
     family: ChainFamily.EVM,
     id: ChainId.POLYGON,
     nativeId: "137",
     name: "Polygon",
-    ticker: "MATIC",
+    ticker: "POL",
     decimals: 18,
     backends: {
       nodeURL: "https://site1.moralis-nodes.com/polygon/70eb3a5858dc4f0d8ca0e1a1cf8d375f",
@@ -587,16 +645,98 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
+  mantle: {
+    family: ChainFamily.EVM,
+    id: ChainId.MANTLE,
+    nativeId: "5000",
+    name: "Mantle Network",
+    ticker: "MNT",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: [
+      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ],
+  },
+  [ChainId.LITECOIN]: {
+    id: ChainId.LITECOIN,
+    name: "Litecoin",
+    family: ChainFamily.BITCOIN,
+    ticker: "LTC",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/litecoin",
+    },
+    params: {
+      confirmations: 6,
+    },
+    nativeId: "litecoin",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+  },
+  ton: {
+    family: ChainFamily.TON,
+    id: ChainId.TON,
+    nativeId: "ton",
+    name: "TON",
+    ticker: "TON",
+    decimals: 9,
+    backends: {
+      nodeURL: "https://toncenter.com/api/",
+      explorerURL: "https://tonapi.io",
+    },
+    supportedFeatures: FEATURES[ChainFamily.TON],
+  },
+  chiliz: {
+    family: ChainFamily.EVM,
+    id: ChainId.CHILIZ,
+    nativeId: "88888",
+    name: "Chiliz Chain",
+    ticker: "CHZ",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://chiliz-rpc.publicnode.com",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
+  "chiliz-testnet": {
+    family: ChainFamily.EVM,
+    id: ChainId.CHILIZ_TESTNET,
+    nativeId: "88882",
+    name: "Chiliz Spicy Tesnet",
+    ticker: "CHZ",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://chiliz-spicy.publicnode.com",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    isTestNet: true,
+    supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
 } as const;
 
-// FIXME Trick to filter-out private 'backends' field from response
-// Needs to be handled with DTO instead
-// https://adamik.atlassian.net/browse/ADV-13
-const CHAINS_PUBLIC = Object.fromEntries(
-  Object.entries(CHAINS).map(([key, value]) => {
-    const { backends, ...rest } = value;
-    return [key, rest];
-  })
-);
+function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
+  return CHAINS[chainId].supportedFeatures.flatMap((feature) => {
+    switch (feature) {
+      case ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE:
+        return [TransactionMode.TRANSFER];
+      case ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS:
+        return [TransactionMode.TRANSFER_TOKEN];
+      case ChainFeature.WRITE_TRANSACTION_TYPE_STAKING:
+        return [
+          TransactionMode.DELEGATE,
+          TransactionMode.REDELEGATE,
+          TransactionMode.UNDELEGATE,
+          TransactionMode.CLAIM_REWARDS,
+        ];
+      default:
+        return [];
+    }
+  });
+}
 
-export { CHAINS, CHAINS_PUBLIC };
+export { CHAINS, getSupportedTransactionModes };
