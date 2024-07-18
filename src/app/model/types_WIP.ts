@@ -245,6 +245,10 @@ type MultiRecipientTransaction = BaseTransaction & {
   fees: bigint;
 };
 
+function isMultiRecipientTransaction(transaction: TransactionData): transaction is MultiRecipientTransaction {
+  return transaction.mode === TransactionMode.TRANSFER_TO_MANY;
+}
+
 // type UndelegateTransaction = CommonTransaction & {
 //   mode: TransactionMode.UNDELEGATE;
 //   validatorAddress: string;
@@ -338,6 +342,7 @@ export {
   EncodedTransactionFormat,
   TokenType,
   StakingStatus,
+  isMultiRecipientTransaction,
 };
 
 export type {
