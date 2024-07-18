@@ -37,7 +37,7 @@ abstract class BaseChainService {
   // NOTE All of these functions will mutate the input 'TransactionWrapper' with additional info!
   abstract prevalidateTransaction(transaction: TransactionWrapper): Promise<void>;
   abstract completeTransaction(transaction: TransactionWrapper): Promise<void>;
-  // TODO: should be a type guard: 
+  // TODO: should be a type guard:
   abstract validateTransaction(transaction: TransactionWrapper): Promise<void>;
   abstract encodeTransactionToSign(transaction: TransactionWrapper): Promise<void>;
   abstract encodeTransactionToBroadcast(signedTransaction: TransactionWrapper): Promise<string>;

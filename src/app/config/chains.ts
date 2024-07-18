@@ -1,5 +1,8 @@
 import { ChainId, Chain, ChainFamily, ChainFeature } from "../model/types_WIP";
 
+// Very basic level of features to be considered as supported in Adamik
+const MINIMUM_FEATURES: ChainFeature[] = [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE];
+
 const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
   [ChainFamily.ALGORAND]: [
     ChainFeature.BALANCES_NATIVE,
@@ -25,6 +28,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
   ],
   [ChainFamily.BITCOIN]: [
     ChainFeature.BALANCES_NATIVE,
+    ChainFeature.TRANSACTIONS_TO_MANY,
   ],
 };
 
@@ -173,8 +177,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "DYDX",
     decimals: 18,
     backends: {
-      //TODO update the nodeURL with a stable node provider
-      nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc",
+      // (configs can be checked with [nodeURL]/cosmos/base/node/v1beta1/config )
+      nodeURL: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live
+      //nodeURL: "https://lcd-dydx.imperator.co", // Should be the best one, but only accepts fees in IBC token USDC at the moment...
+      //nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands double the usual minimum gas fees, for some reason
     },
     params: {
       prefix: "dydx",
@@ -182,7 +188,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       denom: "adydx",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
-      minGasPrice: 0.025,
+      minGasPrice: 12500000000,
     },
     supportedFeatures: FEATURES[ChainFamily.COSMOS],
   },
@@ -619,6 +625,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
+  mantle: {
+    family: ChainFamily.EVM,
+    id: ChainId.MANTLE,
+    nativeId: "5000",
+    name: "Mantle Network",
+    ticker: "MNT",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: MINIMUM_FEATURES,
   },
 } as const;
 
