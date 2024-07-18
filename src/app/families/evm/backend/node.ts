@@ -26,6 +26,7 @@ import {
   moonbeamDev,
   fantom,
   palm,
+  mantle,
 } from "viem/chains";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
@@ -91,6 +92,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: fantom, transport };
     case ChainId.PALM:
       return { chain: palm, transport };
+    case ChainId.MANTLE:
+      return { chain: mantle, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }

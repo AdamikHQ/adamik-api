@@ -38,6 +38,7 @@ enum ChainId {
   MOONBASE = "moonbase",
   FANTOM = "fantom",
   PALM = "palm",
+  MANTLE = "mantle",
   // BTC family
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
@@ -115,6 +116,7 @@ type Validator = {
   address: string;
   name: string;
   commission?: number;
+  stakedAmount?: bigint;
 };
 
 type StakingPosition = {
@@ -202,7 +204,7 @@ type TransactionParams = CosmosTransactionParams;
 type BaseTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
-}
+};
 
 type CommonTransaction = {
   senders: string[];
@@ -217,26 +219,29 @@ type CommonTransaction = {
   params?: TransactionParams;
 };
 
-type TransferTransaction = BaseTransaction & CommonTransaction & {
-  mode: TransactionMode.TRANSFER;
-};
+type TransferTransaction = BaseTransaction &
+  CommonTransaction & {
+    mode: TransactionMode.TRANSFER;
+  };
 
-type TransferTokenTransaction = BaseTransaction & CommonTransaction & {
-  mode: TransactionMode.TRANSFER_TOKEN;
-  tokenId: string;
-};
+type TransferTokenTransaction = BaseTransaction &
+  CommonTransaction & {
+    mode: TransactionMode.TRANSFER_TOKEN;
+    tokenId: string;
+  };
 
-type DelegateTransaction = BaseTransaction & CommonTransaction & {
-  mode: TransactionMode.DELEGATE;
-  validatorAddress: string;
-};
+type DelegateTransaction = BaseTransaction &
+  CommonTransaction & {
+    mode: TransactionMode.DELEGATE;
+    validatorAddress: string;
+  };
 
 type MultiRecipientTransaction = BaseTransaction & {
   mode: TransactionMode.TRANSFER_TO_MANY;
   sender: string;
   recipients: Recipient[];
   fees: bigint;
-}
+};
 
 // type UndelegateTransaction = CommonTransaction & {
 //   mode: TransactionMode.UNDELEGATE;
@@ -253,7 +258,6 @@ type MultiRecipientTransaction = BaseTransaction & {
 //   mode: TransactionMode.CLAIM_REWARD;
 //   validatorAddress: string;
 // };
-
 
 /**
  * @deprecated You should use {@link TransactionData}
@@ -281,8 +285,7 @@ type TransactionWrapper = {
   encoded?: string;
   signature?: string;
   status: TransactionStatus;
-
-}
+};
 
 /*
 type TransactionMetadata = {
@@ -336,11 +339,23 @@ export {
 };
 
 export type {
-  AddressesState, AddressState, BroadcastStatus, Chain,
-  ChainParams, ErrorMsg,
-  Pagination, PlainTransaction, StakingPosition,
-  StakingReward, Token,
-  TokenAmount, TokenStakingReward, Transaction, TransactionData, TransactionSpendableAmounts,
-  TransactionStatus, TransactionWrapper, Validator
+  AddressesState,
+  AddressState,
+  BroadcastStatus,
+  Chain,
+  ChainParams,
+  ErrorMsg,
+  Pagination,
+  PlainTransaction,
+  StakingPosition,
+  StakingReward,
+  Token,
+  TokenAmount,
+  TokenStakingReward,
+  Transaction,
+  TransactionData,
+  TransactionSpendableAmounts,
+  TransactionStatus,
+  TransactionWrapper,
+  Validator,
 };
-

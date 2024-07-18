@@ -54,6 +54,7 @@ const responseSchema = z.object({
   balances: z.object({
     native: z.object({
       available: z.string(),
+      total: z.string(),
     }),
     tokens: z
       .object({
