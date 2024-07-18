@@ -39,6 +39,7 @@ enum ChainId {
   MOONBASE = "moonbase",
   FANTOM = "fantom",
   PALM = "palm",
+  MANTLE = "mantle",
   // BTC family
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
@@ -117,6 +118,7 @@ type Validator = {
   address: string;
   name: string;
   commission?: number;
+  stakedAmount?: bigint;
 };
 
 type StakingPosition = {

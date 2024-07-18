@@ -21,6 +21,8 @@
     decimals: xxx, // "exponent" for the ticker, in assetlist.json
     backends: {
       // Public nodes are listed in "apis.rest.*" in chain.json
+      // Configs can be checked at: [nodeURL]/cosmos/base/node/v1beta1/config
+      // Make sure that the node's config matches the "params" set below
       nodeURL: xxx,
     },
     // Refer to CosmosChainParams in https://github.com/AdamikHQ/adamik/blob/main/src/app/families/cosmos/types.ts

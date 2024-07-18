@@ -14,6 +14,10 @@ async function getValidators(this: CosmosService, pagination?: Pagination): Prom
       validator.commission = Number(validatorData.commission?.commission_rates?.rate) * 100;
     }
 
+    if (validatorData.tokens !== undefined) {
+      validator.stakedAmount = BigInt(validatorData.tokens);
+    }
+
     return validator;
   });
 }
