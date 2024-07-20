@@ -23,7 +23,7 @@
 
 ## celestia
 
-| nodeURL | https://g.w.lavanet.xyz:443/gateway/celestia/rest/REDACTED |
+| nodeURL | https://lcd-celestia.imperator.co |
 
 ## celestia-testnet
 
