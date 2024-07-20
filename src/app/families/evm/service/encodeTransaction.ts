@@ -10,12 +10,12 @@ import {
   TransactionSerializable,
   TransactionSerialized,
 } from "viem";
+import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 import { Transaction, TransactionMode, EncodedTransactionFormat, ChainId } from "~/app/model/types_WIP";
 import { estimateFeesPerGas } from "../backend/node";
 import { EvmService } from ".";
 import { EvmAddress, EvmChainParams } from "../types";
 import { CHAINS } from "~/app/config/chains";
-import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 
 async function encodeTransactionToSign(this: EvmService, transaction: Transaction): Promise<void> {
   try {
@@ -106,7 +106,7 @@ async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Trans
     maxFeePerGas,
     maxPriorityFeePerGas,
     gas: transaction.plain.gas,
-    nonce: transaction.plain.nonce,
+    nonce: Number(transaction.plain.nonce),
     to: recipient,
     value: transaction.plain.amount,
     data,
@@ -129,10 +129,9 @@ async function encodeTransactionToBroadcast(
     // TODO Make sure this is documented...
     // NOTE signedTransaction.signature is assumed to be built that way, r,s,v being correct hexadecimal strings:
     //
-    // signedTransaction.signature = r + s.slice(2) + v.slice(2)
-    //
     // 1) Remove the front "0x" from s and v strings
     // 2) Concatenate them all in a single string
+    // signedTransaction.signature = r + s.slice(2) + v.slice(2)
     const signature: Signature = parseSignature(signedTransaction.signature as `0x${string}`);
 
     const transaction: TransactionSerializable = parseTransaction(

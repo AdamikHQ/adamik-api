@@ -12,8 +12,8 @@ dependencies:
     specifier: ^0.32.2
     version: 0.32.2
   '@cosmjs/encoding':
-    specifier: ^0.32.3
-    version: 0.32.3
+    specifier: ^0.32.2
+    version: 0.32.4
   '@cosmjs/proto-signing':
     specifier: ^0.32.2
     version: 0.32.2
@@ -473,7 +473,7 @@ packages:
     resolution: {integrity: sha512-lcK5RCVm4OfdAooxKcF2+NwaDVVpghOq6o/A40c2mHXDUzUoRZ33VAHjVJ9Me6vOFxshrw/XEFn1f4KObntjYA==}
     dependencies:
       '@cosmjs/crypto': 0.32.2
-      '@cosmjs/encoding': 0.32.3
+      '@cosmjs/encoding': 0.32.4
       '@cosmjs/math': 0.32.2
       '@cosmjs/utils': 0.32.2
     dev: false
@@ -481,7 +481,7 @@ packages:
   /@cosmjs/crypto@0.32.2:
     resolution: {integrity: sha512-RuxrYKzhrPF9g6NmU7VEq++Hn1vZJjqqJpZ9Tmw9lOYOV8BUsv+j/0BE86kmWi7xVJ7EwxiuxYsKuM8IR18CIA==}
     dependencies:
-      '@cosmjs/encoding': 0.32.3
+      '@cosmjs/encoding': 0.32.4
       '@cosmjs/math': 0.32.2
       '@cosmjs/utils': 0.32.2
       '@noble/hashes': 1.3.3
@@ -490,8 +490,8 @@ packages:
       libsodium-wrappers-sumo: 0.7.13
     dev: false
 
-  /@cosmjs/encoding@0.32.3:
-    resolution: {integrity: sha512-p4KF7hhv8jBQX3MkB3Defuhz/W0l3PwWVYU2vkVuBJ13bJcXyhU9nJjiMkaIv+XP+W2QgRceqNNgFUC5chNR7w==}
+  /@cosmjs/encoding@0.32.4:
+    resolution: {integrity: sha512-tjvaEy6ZGxJchiizzTn7HVRiyTg1i4CObRRaTRPknm5EalE13SV+TCHq38gIDfyUeden4fCuaBVEdBR5+ti7Hw==}
     dependencies:
       base64-js: 1.5.1
       bech32: 1.1.4
@@ -516,7 +516,7 @@ packages:
     dependencies:
       '@cosmjs/amino': 0.32.2
       '@cosmjs/crypto': 0.32.2
-      '@cosmjs/encoding': 0.32.3
+      '@cosmjs/encoding': 0.32.4
       '@cosmjs/math': 0.32.2
       '@cosmjs/utils': 0.32.2
       cosmjs-types: 0.9.0
@@ -539,7 +539,7 @@ packages:
     dependencies:
       '@confio/ics23': 0.6.8
       '@cosmjs/amino': 0.32.2
-      '@cosmjs/encoding': 0.32.3
+      '@cosmjs/encoding': 0.32.4
       '@cosmjs/math': 0.32.2
       '@cosmjs/proto-signing': 0.32.2
       '@cosmjs/stream': 0.32.2
@@ -563,7 +563,7 @@ packages:
     resolution: {integrity: sha512-DXyJHDmcAfCix4H/7/dKR0UMdshP01KxJOXHdHxBCbLIpck94BsWD3B2ZTXwfA6sv98so9wOzhp7qGQa5malxg==}
     dependencies:
       '@cosmjs/crypto': 0.32.2
-      '@cosmjs/encoding': 0.32.3
+      '@cosmjs/encoding': 0.32.4
       '@cosmjs/json-rpc': 0.32.2
       '@cosmjs/math': 0.32.2
       '@cosmjs/socket': 0.32.2

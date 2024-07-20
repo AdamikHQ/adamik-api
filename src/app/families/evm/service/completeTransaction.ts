@@ -7,7 +7,8 @@ import { EvmAddress } from "../types";
 
 async function completeTransaction(this: EvmService, transaction: Transaction): Promise<void> {
   try {
-    transaction.plain.nonce = await getNonce(this.chainId, transaction.plain.senders[0] as EvmAddress);
+    const nonce = await getNonce(this.chainId, transaction.plain.senders[0] as EvmAddress);
+    transaction.plain.nonce = BigInt(nonce);
 
     switch (transaction.plain.mode) {
       case TransactionMode.TRANSFER:
