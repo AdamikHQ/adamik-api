@@ -177,7 +177,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       // (configs can be checked with [nodeURL]/cosmos/base/node/v1beta1/config )
       nodeURL: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live
       //nodeURL: "https://lcd-dydx.imperator.co", // Should be the best one, but only accepts fees in IBC token USDC at the moment...
-      //nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands double the standard minimum gas fees, for some reason
+      //nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands twice the standard minimum gas fees, for some reason
     },
     params: {
       prefix: "dydx",
