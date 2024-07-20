@@ -168,6 +168,9 @@ type TransactionParams = CosmosTransactionParams;
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
 // FIXME one 'PlainTransaction' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
+// FIXME Does the 'params' field make sense? It allows chain-specific data into the model...
+// - alternative: all data could be flat?
+// - alternative: an explicit field for each chain? or family? = 'cosmosParams', 'evmParams', etc
 type CommonTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
@@ -177,7 +180,7 @@ type CommonTransaction = {
   useMaxAmount?: boolean;
   fees: bigint;
   gas?: bigint;
-  nonce?: number;
+  nonce?: bigint;
   memo?: string;
   format?: EncodedTransactionFormat;
   params?: TransactionParams;
