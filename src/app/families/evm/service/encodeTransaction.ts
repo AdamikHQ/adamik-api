@@ -106,7 +106,7 @@ async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Trans
     maxFeePerGas,
     maxPriorityFeePerGas,
     gas: transaction.plain.gas,
-    nonce: transaction.plain.nonce,
+    nonce: Number(transaction.plain.nonce),
     to: recipient,
     value: transaction.plain.amount,
     data,

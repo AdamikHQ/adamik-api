@@ -170,7 +170,7 @@ type TransactionParams = CosmosTransactionParams;
 // (TransactionWithMemo TransactionWithGas, etc...) ?
 // FIXME Does the 'params' field make sense? It allows chain-specific data into the model...
 // - alternative: all data could be flat?
-// - alternative: an explicit field for each chain?... family?... 'cosmos', 'evm', etc
+// - alternative: an explicit field for each chain? or family? = 'cosmosParams', 'evmParams', etc
 type CommonTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
@@ -180,7 +180,7 @@ type CommonTransaction = {
   useMaxAmount?: boolean;
   fees: bigint;
   gas?: bigint;
-  nonce?: number;
+  nonce?: bigint;
   memo?: string;
   format?: EncodedTransactionFormat;
   params?: TransactionParams;

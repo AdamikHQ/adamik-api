@@ -24,14 +24,16 @@ async function completeTransaction(this: CosmosService, transaction: Transaction
 
   const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.plain);
 
+  transaction.plain.fees = gasWantedFees;
+  transaction.plain.gas = gasWanted;
+
   if (transaction.plain.useMaxAmount) {
     transaction.plain.amount = balanceAmount > gasWantedFees ? balanceAmount - gasWantedFees : 0n;
   }
 
-  transaction.plain.fees = gasWantedFees;
-  transaction.plain.gas = gasWanted;
-
   const updatedAccount = resolvePubKey(account, transaction);
+
+  transaction.plain.nonce = account.sequence;
 
   transaction.plain.params = {
     pubKey: updatedAccount.pubKey,
