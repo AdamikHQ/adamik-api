@@ -20,13 +20,14 @@ import { CHAINS } from "~/app/config/chains";
 async function encodeTransactionToSign(this: EvmService, transaction: Transaction): Promise<void> {
   try {
     switch (transaction.plain.format) {
-      // JSON is the current default, when format is not explicitely provided
+      // HEX is the proper format and current default, when format is not explicitely provided
       case undefined:
-      case EncodedTransactionFormat.JSON:
-        await encodeTransactionToSignAsJSON(this.chainId, transaction);
-        break;
       case EncodedTransactionFormat.HEX:
         await encodeTransactionToSignAsHex(this.chainId, transaction);
+        break;
+      // JSON doesn't really make sense, it's only for Metamask and signers that actually do the encoding themselves...
+      case EncodedTransactionFormat.JSON:
+        await encodeTransactionToSignAsJSON(this.chainId, transaction);
         break;
       default:
         throw new Error(
