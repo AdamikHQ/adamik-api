@@ -30,21 +30,18 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
   const url = new URL(urlString);
 
   let data: T[] = [];
-  let response;
+  let response: any;
   do {
     if (response?.pagination?.next_key) {
       url.searchParams.set("pagination.key", response.pagination.next_key);
     }
 
     // DEBUG, TO BE REMOVED
-    try {
-      response = await fetch(url.toString()).then((response) => response.json());
-    } catch (e) {
-      console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
-      const htmlResponse = await response.text();
-      console.log("HTML RESPONSE:", htmlResponse);
-      break;
-    }
+    response = await fetch(url.toString()).then((response) => response.text());
+    console.log("HTML RESPONSE:", response);
+    break;
+
+    //response = await fetch(url.toString()).then((response) => response.json());
 
     if (!response || !Array.isArray(response[dataKey])) {
       console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
