@@ -36,7 +36,15 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
       url.searchParams.set("pagination.key", response.pagination.next_key);
     }
 
-    response = await fetch(url.toString()).then((response) => response.json());
+    // DEBUG, TO BE REMOVED
+    try {
+      response = await fetch(url.toString()).then((response) => response.json());
+    } catch (e) {
+      console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
+      const htmlResponse = await response.text();
+      console.log("HTML RESPONSE:", htmlResponse);
+      break;
+    }
 
     if (!response || !Array.isArray(response[dataKey])) {
       console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
