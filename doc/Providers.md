@@ -31,7 +31,7 @@
 
 ## dydx
 
-| nodeURL | https://dydx-dao-api.polkachu.com |
+| nodeURL | https://dydx-rest.publicnode.com |
 
 ## axelar
 
