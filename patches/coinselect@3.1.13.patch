@@ -1,0 +1,43 @@
+diff --git a/index.d.ts b/index.d.ts
+new file mode 100644
+index 0000000..20cc98a
+--- /dev/null
++++ b/index.d.ts
+@@ -0,0 +1,25 @@
++export interface UTXO {
++  txid: string | Buffer;
++  vout: number;
++  value: number;
++  nonWitnessUtxo?: Buffer;
++  witnessUtxo?: {
++    script: Buffer;
++    value: number;
++  };
++}
++export interface Target {
++  address?: string;
++  value: number;
++}
++export interface SelectedUTXO {
++  inputs?: UTXO[];
++  outputs?: Target[];
++  fee: number;
++}
++
++export default function coinSelect(
++  utxos: UTXO[],
++  outputs: Target[],
++  feeRate: number
++): SelectedUTXO;
+diff --git a/package.json b/package.json
+index 6cdef00..337bf4f 100644
+--- a/package.json
++++ b/package.json
+@@ -31,6 +31,7 @@
+     "utils.js"
+   ],
+   "main": "index.js",
++  "types": "index.d.ts",
+   "repository": {
+     "type": "git",
+     "url": "https://github.com/bitcoinjs/coinselect.git"

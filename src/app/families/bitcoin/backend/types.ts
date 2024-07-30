@@ -1,13 +1,27 @@
+import { UTXO } from "coinselect";
 import z from "zod";
 
 // Blockchair responses SUB-MODELS
-const UtxosSchema = z.object({
-  block_id: z.number(),
-  transaction_hash: z.string(),
-  index: z.number(),
-  value: z.number(),
-  address: z.string(),
-});
+const UtxosSchema = z
+  .object({
+    block_id: z.number(),
+    transaction_hash: z.string(),
+    index: z.number(),
+    value: z.number(),
+    address: z.string(),
+  })
+  .transform((data) => {
+    return {
+      /**
+       * add fields for compatibility with coinselect @see {@link UTXO}
+       */
+      txid: data.transaction_hash,
+      vout: data.index,
+      ...data,
+    };
+  });
+
+export type UtxoWithMetadata = z.infer<typeof UtxosSchema>;
 
 const AddressSchema = z.object({
   type: z.string(),
@@ -69,17 +83,21 @@ export const requestContextSchema = z.object({
   rows: z.number().optional(),
   market_price_usd: z.number().optional(),
   total_rows: z.number().optional(),
-  api: z.object({
-    version: z.string(),
-    last_major_update: z.string().optional(),
-    next_major_update: z.string().optional(),
-    documentation: z.string().optional(),
-    notice: z.string().optional(),
-  }).optional(),
-  cache: z.object({
-    live: z.boolean(),
-    until: z.string().optional(),
-  }).optional(),
+  api: z
+    .object({
+      version: z.string(),
+      last_major_update: z.string().optional(),
+      next_major_update: z.string().optional(),
+      documentation: z.string().optional(),
+      notice: z.string().optional(),
+    })
+    .optional(),
+  cache: z
+    .object({
+      live: z.boolean(),
+      until: z.string().optional(),
+    })
+    .optional(),
   request_cost: z.number(),
 });
 
@@ -185,7 +203,8 @@ export const requestContextSchema = z.object({
 }
  */
 export const XpubDashboardData = z.record(
-  z.string(), z.object({
+  z.string(),
+  z.object({
     xpub: z.object({
       address_count: z.number(),
       balance: z.number().pipe(z.coerce.bigint()),
@@ -203,9 +222,12 @@ export const XpubDashboardData = z.record(
       transaction_count: z.number(),
     }),
     addresses: z.record(
-      z.string(), AddressSchema.and(z.object({
-        path: z.string(),
-      }))
+      z.string(),
+      AddressSchema.and(
+        z.object({
+          path: z.string(),
+        })
+      )
     ),
     transactions: z.array(z.string()),
     utxo: UtxosSchema.array(),
@@ -219,7 +241,7 @@ export const XpubDashboardResponse = z.object({
     z.object({
       checked: z.array(z.string()),
     })
-  )
+  ),
 });
 
 export const AddressesDashboardResponse = z.object({
@@ -230,13 +252,13 @@ export const AddressesDashboardResponse = z.object({
       received_usd: true,
       spent_usd: true,
     }),
-    addresses: z.record(
-      z.string(), AddressSchema
-    ),
+    addresses: z.record(z.string(), AddressSchema),
     transactions: z.array(z.string()),
-    utxo: UtxosSchema.and(z.object({
-      address: z.string(),
-    })).array(),
+    utxo: UtxosSchema.and(
+      z.object({
+        address: z.string(),
+      })
+    ).array(),
   }),
-  context: requestContextSchema
+  context: requestContextSchema,
 });

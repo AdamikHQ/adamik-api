@@ -2,6 +2,7 @@ import { Xpub } from "../families/bitcoin/logic";
 import { BtcParams } from "../families/bitcoin/types";
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
+import { UtxoWithMetadata } from "../families/bitcoin/backend/types";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -242,6 +243,7 @@ type MultiRecipientTransaction = BaseTransaction & {
   mode: TransactionMode.TRANSFER_TO_MANY;
   sender: Xpub;
   recipients: Recipient[];
+  inputs?: UtxoWithMetadata[];
   fees: bigint;
 };
 

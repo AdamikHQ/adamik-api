@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  coinselect@3.1.13:
+    hash: ie6jkdrzsnrnre4uzyahtuvjte
+    path: patches/coinselect@3.1.13.patch
+
 dependencies:
   '@cosmjs/amino':
     specifier: ^0.32.2
@@ -56,6 +61,9 @@ dependencies:
   bitcoinjs-lib:
     specifier: ^6.1.6
     version: 6.1.6
+  coinselect:
+    specifier: ^3.1.13
+    version: 3.1.13(patch_hash=ie6jkdrzsnrnre4uzyahtuvjte)
   cosmjs-types:
     specifier: ^0.9.0
     version: 0.9.0
@@ -3575,6 +3583,11 @@ packages:
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
     dev: true
 
+  /coinselect@3.1.13(patch_hash=ie6jkdrzsnrnre4uzyahtuvjte):
+    resolution: {integrity: sha512-iJOrKH/7N9gX0jRkxgOHuGjvzvoxUMSeylDhH1sHn+CjLjdin5R0Hz2WEBu/jrZV5OrHcm+6DMzxwu9zb5mSZg==}
+    dev: false
+    patched: true
+
   /collect-v8-coverage@1.0.2:
     resolution: {integrity: sha512-lHl4d5/ONEbLlJvaJNtsF/Lz+WvB07u2ycqTYbdrq7UypDXailES4valYb2eWiJFxZlVmpGekfqoxQhzyFdT4Q==}
     dev: true
@@ -5374,6 +5387,7 @@ packages:
 
   /glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
@@ -8263,6 +8277,7 @@ packages:
 
   /rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
     dependencies:
       glob: 7.2.3

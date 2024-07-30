@@ -62,7 +62,7 @@ const positiveBigintSchema = z
   .or(toNumber)
   .transform((data) => BigInt(data))
   .openapi({
-    type: "string"
+    type: "string",
   });
 
 const recipientSchema = z.object({
@@ -204,7 +204,7 @@ const transactionDataSchema = z
           case ChainFeature.TRANSACTIONS_TO_MANY:
             return [TransactionMode.TRANSFER_TO_MANY];
           default:
-            return []; // filter out features that don't concern transac
+            return []; // filter out features that don't concern transactions
         }
       });
       // idea of how we could have generic errors for features, for all chains
@@ -220,15 +220,6 @@ const transactionDataSchema = z
   // async validation of addresses
   .superRefine(async (data, ctx) => {
     if (data.mode === TransactionMode.TRANSFER_TO_MANY) {
-      if (data.chainId != ChainId.BITCOIN && data.chainId != ChainId.BITCOIN_TESTNET) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: `TransferToMany is not supported for ${data.chainId}`,
-          fatal: true,
-        });
-        return z.NEVER;
-      }
-
       const validSender = await getService(data.chainId).validateAddress(data.sender);
       if (!validSender) {
         ctx.addIssue({
