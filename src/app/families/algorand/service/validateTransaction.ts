@@ -49,7 +49,7 @@ async function validateTransaction(this: AlgorandService, transaction: Transacti
     case TransactionMode.TRANSFER_TOKEN: {
       if (transaction.plain.fees > maxSpendable.native) {
         transaction.status.errors.push({
-          message: `The ${transaction.plain.chainId} balance is too low to cover the fees.`,
+          message: "Balance is too low to cover the fees",
         });
       }
 

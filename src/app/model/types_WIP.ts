@@ -159,6 +159,9 @@ enum TransactionMode {
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
+  REDELEGATE = "redelegate",
+  UNDELEGATE = "undelegate",
+  CLAIM_REWARDS = "claimRewards",
 }
 
 type TransactionParams = CosmosTransactionParams;
@@ -200,23 +203,30 @@ type DelegateTransaction = CommonTransaction & {
   validatorAddress: string;
 };
 
-// type UndelegateTransaction = CommonTransaction & {
-//   mode: TransactionMode.UNDELEGATE;
-//   validatorAddress: string;
-// };
+type UndelegateTransaction = CommonTransaction & {
+  mode: TransactionMode.UNDELEGATE;
+  validatorAddress: string;
+};
 
-// type RedelegateTransaction = CommonTransaction & {
-//   mode: TransactionMode.REDELEGATE;
-//   sourceValidatorAddress: string;
-//   targetValidatorAddress: string;
-// };
+type RedelegateTransaction = CommonTransaction & {
+  mode: TransactionMode.REDELEGATE;
+  sourceValidatorAddress: string;
+  targetValidatorAddress: string;
+};
 
-// type ClaimRewardTransaction = CommonTransaction & {
-//   mode: TransactionMode.CLAIM_REWARD;
-//   validatorAddress: string;
-// };
+type ClaimRewardsTransaction = CommonTransaction & {
+  mode: TransactionMode.CLAIM_REWARDS;
+  validatorAddress: string;
+  compound?: boolean;
+};
 
-type PlainTransaction = TransferTransaction | TransferTokenTransaction | DelegateTransaction;
+type PlainTransaction =
+  | TransferTransaction
+  | TransferTokenTransaction
+  | DelegateTransaction
+  | UndelegateTransaction
+  | RedelegateTransaction
+  | ClaimRewardsTransaction;
 
 type Transaction = {
   //metadata: TransactionMetadata // good idea or not ?

@@ -65,6 +65,10 @@ const plainTransactionSchema = z.object({
   format: z.nativeEnum(EncodedTransactionFormat).optional(),
   tokenId: z.string().optional(),
   validatorAddress: z.string().optional(),
+  // TODO
+  //sourceValidatorAddress: string;
+  //targetValidatorAddress: string;
+
   params: cosmosTransactionParamsSchema.optional(), // For more than 1 family z.union() should be used
 });
 
