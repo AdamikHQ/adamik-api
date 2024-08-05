@@ -4458,7 +4458,10 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate"
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimRewards"
                             ]
                           },
                           "senders": {
@@ -4526,9 +4529,7 @@
                           {
                             "type": "string"
                           },
-                          {
-                            "type": "object"
-                          }
+                          {}
                         ]
                       },
                       "signature": {
@@ -4537,7 +4538,6 @@
                     },
                     "required": [
                       "plain",
-                      "encoded",
                       "signature"
                     ]
                   }
@@ -4658,7 +4658,10 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate"
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimRewards"
                             ]
                           },
                           "senders": {
@@ -4794,7 +4797,10 @@
                               "enum": [
                                 "transfer",
                                 "transferToken",
-                                "delegate"
+                                "delegate",
+                                "redelegate",
+                                "undelegate",
+                                "claimRewards"
                               ]
                             },
                             "senders": {
@@ -4941,7 +4947,10 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate"
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimRewards"
                             ]
                           },
                           "senders": {
