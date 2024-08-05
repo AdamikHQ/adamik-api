@@ -4508,6 +4508,15 @@
                           "validatorAddress": {
                             "type": "string"
                           },
+                          "sourceValidatorAddress": {
+                            "type": "string"
+                          },
+                          "targetValidatorAddress": {
+                            "type": "string"
+                          },
+                          "compound": {
+                            "type": "boolean"
+                          },
                           "params": {
                             "type": "object",
                             "properties": {
@@ -4708,6 +4717,15 @@
                           "validatorAddress": {
                             "type": "string"
                           },
+                          "sourceValidatorAddress": {
+                            "type": "string"
+                          },
+                          "targetValidatorAddress": {
+                            "type": "string"
+                          },
+                          "compound": {
+                            "type": "boolean"
+                          },
                           "params": {
                             "type": "object",
                             "properties": {
@@ -4846,6 +4864,15 @@
                             },
                             "validatorAddress": {
                               "type": "string"
+                            },
+                            "sourceValidatorAddress": {
+                              "type": "string"
+                            },
+                            "targetValidatorAddress": {
+                              "type": "string"
+                            },
+                            "compound": {
+                              "type": "boolean"
                             },
                             "params": {
                               "type": "object",
@@ -4996,6 +5023,15 @@
                           },
                           "validatorAddress": {
                             "type": "string"
+                          },
+                          "sourceValidatorAddress": {
+                            "type": "string"
+                          },
+                          "targetValidatorAddress": {
+                            "type": "string"
+                          },
+                          "compound": {
+                            "type": "boolean"
                           },
                           "params": {
                             "type": "object",
