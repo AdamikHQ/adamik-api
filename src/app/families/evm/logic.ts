@@ -1,3 +1,4 @@
+import { BaseError as ViemError } from "viem";
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
@@ -89,18 +90,25 @@ async function getMaxSpendable(
   const ethBalance = await getBalance(chainId, transaction.senders[0] as EvmAddress);
 
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
-    const erc20Balance = await getERC20Balance({
-      chainId,
-      contractAddress: transaction.tokenId as EvmAddress,
-      senderAddress: transaction.senders[0] as EvmAddress,
-    });
-    return {
-      native: ethBalance,
-      token: erc20Balance,
-    };
-  } else {
-    return { native: ethBalance };
+    try {
+      const erc20Balance = await getERC20Balance({
+        chainId,
+        contractAddress: transaction.tokenId as EvmAddress,
+        senderAddress: transaction.senders[0] as EvmAddress,
+      });
+      return {
+        native: ethBalance,
+        token: erc20Balance,
+      };
+    } catch (e) {
+      // An error from Viem here likely just means the address doesn't hold the token
+      if (!(e instanceof ViemError)) {
+        throw e;
+      }
+    }
   }
+
+  return { native: ethBalance };
 }
 
 // For each unique contract address in the list of events,

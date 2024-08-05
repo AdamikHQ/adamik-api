@@ -28,7 +28,7 @@ async function validateTransaction(this: EvmService, transaction: Transaction): 
           message: "Balance is too low to cover the fees",
         });
       }
-      if (maxSpendable.token !== undefined && transaction.plain.amount > maxSpendable.token) {
+      if (maxSpendable.token === undefined || transaction.plain.amount > maxSpendable.token) {
         transaction.status.errors.push({ message: "Token balance is too low" });
       }
 

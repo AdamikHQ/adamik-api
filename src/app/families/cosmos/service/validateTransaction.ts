@@ -42,7 +42,7 @@ async function validateTransaction(this: CosmosService, transaction: Transaction
       const tokenBalance = balances.find((balance) => balance.denom === plainTransaction.tokenId)?.amount;
 
       // - amount < tokenBalance
-      if (tokenBalance && plainTransaction.amount > BigInt(tokenBalance)) {
+      if (!tokenBalance || plainTransaction.amount > BigInt(tokenBalance)) {
         transaction.status.errors.push({ message: "Token balance is too low" });
       }
 

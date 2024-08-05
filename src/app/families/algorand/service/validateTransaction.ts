@@ -53,7 +53,7 @@ async function validateTransaction(this: AlgorandService, transaction: Transacti
         });
       }
 
-      if (maxSpendable.token !== undefined && transaction.plain.amount > maxSpendable.token) {
+      if (maxSpendable.token === undefined || transaction.plain.amount > maxSpendable.token) {
         transaction.status.errors.push({ message: "Token balance is too low" });
       }
 
