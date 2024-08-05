@@ -17,10 +17,6 @@ async function completeTransaction(this: EvmService, transaction: Transaction): 
       case TransactionMode.TRANSFER_TOKEN:
         await completeTokenTransaction(this.chainId, transaction.plain);
         break;
-      default:
-        throw new Error(
-          `Unsupported transaction mode ${transaction.plain.mode} for chain ID ${transaction.plain.chainId}`
-        );
     }
   } catch (e: any) {
     const message =

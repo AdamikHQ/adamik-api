@@ -73,10 +73,6 @@ async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Tran
       } as any;
       break;
     }
-    default:
-      throw new Error(
-        `Unsupported transaction mode ${transaction.plain.mode} for chain ID ${transaction.plain.chainId}`
-      );
   }
 }
 

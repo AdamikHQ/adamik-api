@@ -174,7 +174,7 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
       };
       aminoMsgs.push(aminoTransferMsg);
 
-      const protoMsg = {
+      const protoTransferMsg: ProtoMsg = {
         typeUrl: "/cosmos.bank.v1beta1.MsgSend",
         value: MsgSend.encode({
           fromAddress: transaction.senders[0],
@@ -187,7 +187,7 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
           ],
         }).finish(),
       };
-      protoMsgs.push(protoMsg);
+      protoMsgs.push(protoTransferMsg);
       break;
 
     case TransactionMode.DELEGATE:
@@ -204,7 +204,7 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
       };
       aminoMsgs.push(aminoDelegateMsg);
 
-      protoMsgs.push({
+      const protoDelegateMsg: ProtoMsg = {
         typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: MsgDelegate.encode({
           delegatorAddress: transaction.senders[0],
@@ -214,10 +214,11 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
             amount: transaction.amount.toString(),
           },
         }).finish(),
-      });
+      };
+      protoMsgs.push(protoDelegateMsg);
       break;
 
-    case "redelegate":
+    case TransactionMode.REDELEGATE:
       const aminoRedelegateMsg: AminoMsgBeginRedelegate = {
         type: "cosmos-sdk/MsgBeginRedelegate",
         value: {
@@ -232,7 +233,7 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
       };
       aminoMsgs.push(aminoRedelegateMsg);
 
-      protoMsgs.push({
+      const protoRedelegateMsg: ProtoMsg = {
         typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
         value: MsgBeginRedelegate.encode({
           delegatorAddress: transaction.senders[0],
@@ -243,10 +244,11 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
             amount: transaction.amount.toString(),
           },
         }).finish(),
-      });
+      };
+      protoMsgs.push(protoRedelegateMsg);
       break;
 
-    case "undelegate":
+    case TransactionMode.UNDELEGATE:
       {
         const aminoUndelegateMsg: AminoMsgUndelegate = {
           type: "cosmos-sdk/MsgUndelegate",
@@ -261,7 +263,7 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
         };
         aminoMsgs.push(aminoUndelegateMsg);
 
-        protoMsgs.push({
+        const protoUndelegateMsg: ProtoMsg = {
           typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
           value: MsgUndelegate.encode({
             delegatorAddress: transaction.senders[0],
@@ -271,11 +273,12 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
               amount: transaction.amount.toString(),
             },
           }).finish(),
-        });
+        };
+        protoMsgs.push(protoUndelegateMsg);
       }
       break;
 
-    case "claimRewards":
+    case TransactionMode.CLAIM_REWARDS:
       {
         const aminoClaimRewardsMsg: AminoMsgWithdrawDelegatorReward = {
           type: "cosmos-sdk/MsgWithdrawDelegationReward",
@@ -286,13 +289,14 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
         };
         aminoMsgs.push(aminoClaimRewardsMsg);
 
-        protoMsgs.push({
+        const protoClaimRewardsMsg: ProtoMsg = {
           typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
           value: MsgWithdrawDelegatorReward.encode({
             delegatorAddress: transaction.senders[0],
             validatorAddress: transaction.validatorAddress,
           }).finish(),
-        });
+        };
+        protoMsgs.push(protoClaimRewardsMsg);
 
         if (transaction.compound) {
           const aminoDelegateMsg: AminoMsgDelegate = {
@@ -308,7 +312,7 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
           };
           aminoMsgs.push(aminoDelegateMsg);
 
-          protoMsgs.push({
+          const protoDelegateMsg: ProtoMsg = {
             typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
             value: MsgDelegate.encode({
               delegatorAddress: transaction.senders[0],
@@ -318,7 +322,8 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
                 amount: transaction.amount.toString(),
               },
             }).finish(),
-          });
+          };
+          protoMsgs.push(protoDelegateMsg);
         }
       }
       break;

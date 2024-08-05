@@ -1,4 +1,11 @@
-import { ErrorMsg, PlainTransaction, TransactionMode, TransactionStatus } from "../model/types_WIP";
+import { CHAINS } from "../config/chains";
+import {
+  ChainFeature,
+  ErrorMsg,
+  PlainTransaction,
+  TransactionMode,
+  TransactionStatus,
+} from "../model/types_WIP";
 
 async function prevalidateTransactionCommon(
   transaction: PlainTransaction,
@@ -6,6 +13,41 @@ async function prevalidateTransactionCommon(
 ): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];
   const warnings: ErrorMsg[] = [];
+
+  // Validation of feature support
+
+  const chain = CHAINS[transaction.chainId];
+  try {
+    switch (transaction.mode) {
+      case TransactionMode.TRANSFER:
+        if (!chain.supportedFeatures.includes(ChainFeature.TRANSACTIONS_NATIVE)) {
+          throw new Error();
+        }
+        break;
+      case TransactionMode.TRANSFER_TOKEN:
+        if (!chain.supportedFeatures.includes(ChainFeature.TRANSACTIONS_TOKENS)) {
+          throw new Error();
+        }
+        break;
+      case TransactionMode.DELEGATE:
+      case TransactionMode.UNDELEGATE:
+      case TransactionMode.CLAIM_REWARDS:
+      case TransactionMode.REDELEGATE:
+        if (!chain.supportedFeatures.includes(ChainFeature.TRANSACTIONS_STAKING)) {
+          throw new Error();
+        }
+        break;
+      default: {
+        throw new Error();
+      }
+    }
+  } catch (e) {
+    errors.push({
+      message: `Unsupported transaction mode ${transaction.mode} for chain ID ${transaction.chainId}`,
+    });
+  }
+
+  // Logic validation
 
   const validSender = transaction.senders?.length && (await addressValidationFn(transaction.senders[0]));
   if (!validSender) {
@@ -73,16 +115,6 @@ async function prevalidateTransactionCommon(
         }
       }
       break;
-    default: {
-      // TODO Fine-tune this test by comparing with supported features of the chain (when implemented)
-      // transaction mode need to be cast here because TS thing that transaction is never.
-      errors.push({
-        message: `Unsupported transaction mode ${(transaction as PlainTransaction).mode} for chain ID ${
-          (transaction as PlainTransaction).chainId
-        }`,
-      });
-      break;
-    }
   }
 
   return {
