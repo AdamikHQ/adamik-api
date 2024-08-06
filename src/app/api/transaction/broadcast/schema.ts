@@ -5,7 +5,7 @@ import { plainTransactionSchema } from "~/app/api/schemaCommon";
 const requestSchema = z.object({
   transaction: z.object({
     plain: plainTransactionSchema,
-    encoded: z.string().or(z.object({})),
+    encoded: z.string().or(z.any()),
     signature: z.string(),
   }),
 });
