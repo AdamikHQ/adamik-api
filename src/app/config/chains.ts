@@ -17,7 +17,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
     ChainFeature.BALANCES_STAKING,
     ChainFeature.TRANSACTIONS_NATIVE,
     //ChainFeature.TRANSACTIONS_TOKENS,
-    //ChainFeature.TRANSACTIONS_STAKING,
+    ChainFeature.TRANSACTIONS_STAKING,
     ChainFeature.MEMO,
   ],
   [ChainFamily.EVM]: [

@@ -4458,7 +4458,10 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate"
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimRewards"
                             ]
                           },
                           "senders": {
@@ -4505,6 +4508,15 @@
                           "validatorAddress": {
                             "type": "string"
                           },
+                          "sourceValidatorAddress": {
+                            "type": "string"
+                          },
+                          "targetValidatorAddress": {
+                            "type": "string"
+                          },
+                          "compound": {
+                            "type": "boolean"
+                          },
                           "params": {
                             "type": "object",
                             "properties": {
@@ -4526,9 +4538,7 @@
                           {
                             "type": "string"
                           },
-                          {
-                            "type": "object"
-                          }
+                          {}
                         ]
                       },
                       "signature": {
@@ -4537,7 +4547,6 @@
                     },
                     "required": [
                       "plain",
-                      "encoded",
                       "signature"
                     ]
                   }
@@ -4658,7 +4667,10 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate"
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimRewards"
                             ]
                           },
                           "senders": {
@@ -4704,6 +4716,15 @@
                           },
                           "validatorAddress": {
                             "type": "string"
+                          },
+                          "sourceValidatorAddress": {
+                            "type": "string"
+                          },
+                          "targetValidatorAddress": {
+                            "type": "string"
+                          },
+                          "compound": {
+                            "type": "boolean"
                           },
                           "params": {
                             "type": "object",
@@ -4794,7 +4815,10 @@
                               "enum": [
                                 "transfer",
                                 "transferToken",
-                                "delegate"
+                                "delegate",
+                                "redelegate",
+                                "undelegate",
+                                "claimRewards"
                               ]
                             },
                             "senders": {
@@ -4840,6 +4864,15 @@
                             },
                             "validatorAddress": {
                               "type": "string"
+                            },
+                            "sourceValidatorAddress": {
+                              "type": "string"
+                            },
+                            "targetValidatorAddress": {
+                              "type": "string"
+                            },
+                            "compound": {
+                              "type": "boolean"
                             },
                             "params": {
                               "type": "object",
@@ -4941,7 +4974,10 @@
                             "enum": [
                               "transfer",
                               "transferToken",
-                              "delegate"
+                              "delegate",
+                              "redelegate",
+                              "undelegate",
+                              "claimRewards"
                             ]
                           },
                           "senders": {
@@ -4987,6 +5023,15 @@
                           },
                           "validatorAddress": {
                             "type": "string"
+                          },
+                          "sourceValidatorAddress": {
+                            "type": "string"
+                          },
+                          "targetValidatorAddress": {
+                            "type": "string"
+                          },
+                          "compound": {
+                            "type": "boolean"
                           },
                           "params": {
                             "type": "object",
