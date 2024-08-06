@@ -133,7 +133,10 @@ async function encodeTransactionToBroadcast(
     // 1) Remove the front "0x" from s and v strings
     // 2) Concatenate them all in a single string
     // signedTransaction.signature = r + s.slice(2) + v.slice(2)
-    const signature: Signature = parseSignature(signedTransaction.signature as `0x${string}`);
+    const signature: Signature = parseSignature(
+      ((!signedTransaction.signature.startsWith("0x") ? "0x" : "") +
+        signedTransaction.signature) as `0x${string}`
+    );
 
     const transaction: TransactionSerializable = parseTransaction(
       signedTransaction.encoded as TransactionSerialized

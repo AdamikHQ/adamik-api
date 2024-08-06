@@ -253,7 +253,7 @@ async function getNonce(chainId: ChainId, address: EvmAddress): Promise<number> 
 }
 
 async function broadcast(chainId: ChainId, signedTransaction: string) {
-  return await getClient(chainId).sendRawTransaction(JSON.parse(signedTransaction));
+  return await getClient(chainId).sendRawTransaction({ serializedTransaction: signedTransaction });
 }
 
 export {
