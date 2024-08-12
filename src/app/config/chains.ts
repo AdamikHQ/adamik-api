@@ -216,14 +216,14 @@ const CHAINS: { [key in ChainId]: Chain } = {
     nativeId: "thorchain-mainnet-v1",
     name: "THORChain",
     ticker: "RUNE",
-    decimals: 6,
+    decimals: 0,
     backends: {
       nodeURL: "https://thornode.ninerealms.com",
     },
     params: {
       prefix: "thor",
       validatorPrefix: "thor",
-      denom: "urune",
+      denom: "rune",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
       minGasPrice: 0.025,

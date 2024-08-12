@@ -22,7 +22,8 @@ import { CosmosChainParams } from "../types";
 // Cache to store validators with a TTL (time-to-live) of 1 hour
 const VALIDATORS_CACHE = new TTLCache<string, CosmosValidator[]>({
   max: 1, // Only need one item
-  ttl: 1000 * 60 * 60, // Cache expiration = 1 hour
+  ttl: 1000 * 1 * 1, // Cache expiration = 1 hour
+  //  ttl: 1000 * 60 * 60, // Cache expiration = 1 hour
 });
 
 const getRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
@@ -149,15 +150,19 @@ async function fetchRewards(
   try {
     // Fetch the rewards data, no pagination needed here
     const data: CosmosRewards = await fetch(url).then((response) => response.json());
+
+    const nativeRewards: StakingReward[] = [];
+    const tokenRewards: TokenStakingReward[] = [];
+    const chainParams = CHAINS[chainId].params as CosmosChainParams;
+
     if (!data?.rewards) {
       console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
+      // Log the empty rewards even if the response is invalid
+      console.log(`Rewards for chainID ${chainId}:`, { native: nativeRewards, tokens: tokenRewards });
       return { native: [], tokens: [] };
     }
 
     const rewardsData = data.rewards;
-    const nativeRewards: StakingReward[] = [];
-    const tokenRewards: TokenStakingReward[] = [];
-    const chainParams = CHAINS[chainId].params as CosmosChainParams;
 
     for (const { reward: rewardData, validator_address: validatorAddress } of rewardsData) {
       for (const { denom, amount: amountWithDecimals } of rewardData) {
@@ -187,6 +192,8 @@ async function fetchRewards(
     };
   } catch (error) {
     console.error(`Error fetching rewards for chainID ${chainId}:`, error);
+    // Log the empty rewards even if an error occurs
+    console.log(`Rewards for chainID ${chainId}:`, { native: [], tokens: [] });
     return { native: [], tokens: [] }; // Return an empty result for rewards
   }
 }
