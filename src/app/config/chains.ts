@@ -218,6 +218,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "RUNE",
     decimals: 8,
     backends: {
+      //TODO: UPDATE WITH OUR OWN NODE LATER ON
       nodeURL: "https://thornode.ninerealms.com",
     },
     params: {
@@ -228,7 +229,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: [ChainFeature.BALANCES_NATIVE],
   },
   ethereum: {
     family: ChainFamily.EVM,
