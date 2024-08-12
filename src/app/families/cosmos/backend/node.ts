@@ -55,7 +55,6 @@ async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosB
   const url = `${getRootUrl(chainId)}/cosmos/bank/v1beta1/balances/${address}`;
   try {
     const balances = await fetchWithPagination<CosmosBalance>(chainId, url, "balances");
-    console.log(`Balances for chainID ${chainId}:`, balances);
     return balances;
   } catch (error) {
     console.error(`Error fetching balances for chainID ${chainId}:`, error);
@@ -74,7 +73,6 @@ async function fetchDelegations(chainId: ChainId, address: string): Promise<Stak
         status: StakingStatus.LOCKED,
       };
     });
-    console.log(`Delegations for chainID ${chainId}:`, delegations);
     return delegations;
   } catch (error) {
     console.error(`Error fetching delegations for chainID ${chainId}:`, error);
@@ -106,7 +104,6 @@ async function fetchRedelegations(chainId: ChainId, address: string): Promise<St
         });
       }
     }
-    console.log(`Redelegations for chainID ${chainId}:`, redelegations);
     return redelegations;
   } catch (error) {
     console.error(`Error fetching redelegations for chainID ${chainId}:`, error);
@@ -134,7 +131,6 @@ async function fetchUnbondingDelegations(chainId: ChainId, address: string): Pro
         });
       }
     }
-    console.log(`Unbonding Delegations for chainID ${chainId}:`, unbondings);
     return unbondings;
   } catch (error) {
     console.error(`Error fetching unbonding delegations for chainID ${chainId}:`, error);
@@ -158,7 +154,6 @@ async function fetchRewards(
     if (!data?.rewards) {
       console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
       // Log the empty rewards even if the response is invalid
-      console.log(`Rewards for chainID ${chainId}:`, { native: nativeRewards, tokens: tokenRewards });
       return { native: [], tokens: [] };
     }
 
@@ -185,7 +180,6 @@ async function fetchRewards(
         }
       }
     }
-    console.log(`Rewards for chainID ${chainId}:`, { native: nativeRewards, tokens: tokenRewards });
     return {
       native: nativeRewards,
       tokens: tokenRewards,
@@ -193,7 +187,6 @@ async function fetchRewards(
   } catch (error) {
     console.error(`Error fetching rewards for chainID ${chainId}:`, error);
     // Log the empty rewards even if an error occurs
-    console.log(`Rewards for chainID ${chainId}:`, { native: [], tokens: [] });
     return { native: [], tokens: [] }; // Return an empty result for rewards
   }
 }
@@ -202,7 +195,6 @@ async function fetchAllValidators(chainId: ChainId): Promise<CosmosValidator[]> 
   const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/validators`;
   try {
     const validators = await fetchWithPagination<CosmosValidator>(chainId, url, "validators");
-    console.log(`Validators for chainID ${chainId}:`, validators);
     return validators;
   } catch (error) {
     console.error(`Error fetching validators for chainID ${chainId}:`, error);
@@ -223,7 +215,6 @@ async function getValidatorsCached(chainId: ChainId, pagination?: Pagination): P
     const paginatedValidators = pagination
       ? validators.slice(pagination.offset, pagination.offset + pagination.limit)
       : validators;
-    console.log(`Cached validators for chainID ${chainId}:`, paginatedValidators);
     return paginatedValidators;
   } catch (error) {
     console.error(`Error fetching cached validators for chainID ${chainId}:`, error);
@@ -261,7 +252,6 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
       }
 
       // Log the fetched account data
-      console.log(`Account data for chainID ${chainId}:`, account);
     } catch (e) {
       console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
       throw new Error(`Error while fetching ${chainId} account info from the node`);
@@ -288,7 +278,6 @@ async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promis
     }
     const baseDenom = data.denom_trace.base_denom;
     // Log the IBC token ticker information
-    console.log(`IBC Token Ticker for chainID ${chainId}, tokenId ${ibcTokenId}:`, baseDenom);
     return baseDenom;
   } catch (error) {
     console.error(`Error fetching IBC token ticker for chainID ${chainId}, tokenId ${ibcTokenId}:`, error);
@@ -306,7 +295,6 @@ async function fetchNetworkId(chainId: ChainId): Promise<string> {
     }
     const networkId = data.default_node_info.network;
     // Log the fetched network ID
-    console.log(`Network ID for chainID ${chainId}:`, networkId);
     return networkId;
   } catch (error) {
     console.error(`Error fetching network ID for chainID ${chainId}:`, error);
@@ -331,7 +319,6 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
 
     const gasUsed = BigInt(data.gas_info.gas_used);
     // Log the gas estimate
-    console.log(`Gas estimate for chainID ${chainId}:`, gasUsed);
     return gasUsed;
   } catch (error) {
     console.error(`Error simulating transaction for chainID ${chainId}:`, error);
@@ -360,7 +347,6 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
 
     const txHash = data.tx_response.txhash;
     // Log the transaction hash after broadcasting
-    console.log(`Transaction broadcast for chainID ${chainId}, txHash:`, txHash);
     return txHash;
   } catch (error) {
     console.error(`Error broadcasting transaction for chainID ${chainId}:`, error);
