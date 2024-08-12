@@ -1,8 +1,5 @@
 import { ChainId, Chain, ChainFamily, ChainFeature } from "../model/types_WIP";
 
-// Very basic level of features to be considered as supported in Adamik
-const MINIMUM_FEATURES: ChainFeature[] = [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE];
-
 const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
   [ChainFamily.ALGORAND]: [
     ChainFeature.BALANCES_NATIVE,
@@ -626,7 +623,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: MINIMUM_FEATURES,
+    supportedFeatures: [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE] as ChainFeature[],
   },
 } as const;
 
