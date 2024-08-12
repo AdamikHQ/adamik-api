@@ -58,7 +58,7 @@ async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosB
     return balances;
   } catch (error) {
     console.error(`Error fetching balances for chainID ${chainId}:`, error);
-    throw error;
+    return []; // Return an empty array for balances
   }
 }
 
@@ -77,7 +77,7 @@ async function fetchDelegations(chainId: ChainId, address: string): Promise<Stak
     return delegations;
   } catch (error) {
     console.error(`Error fetching delegations for chainID ${chainId}:`, error);
-    throw error;
+    return []; // Return an empty array for delegations
   }
 }
 
@@ -109,7 +109,7 @@ async function fetchRedelegations(chainId: ChainId, address: string): Promise<St
     return redelegations;
   } catch (error) {
     console.error(`Error fetching redelegations for chainID ${chainId}:`, error);
-    throw error;
+    return []; // Return an empty array for redelegations
   }
 }
 
@@ -137,7 +137,7 @@ async function fetchUnbondingDelegations(chainId: ChainId, address: string): Pro
     return unbondings;
   } catch (error) {
     console.error(`Error fetching unbonding delegations for chainID ${chainId}:`, error);
-    throw error;
+    return []; // Return an empty array for unbonding delegations
   }
 }
 
@@ -187,7 +187,7 @@ async function fetchRewards(
     };
   } catch (error) {
     console.error(`Error fetching rewards for chainID ${chainId}:`, error);
-    throw error;
+    return { native: [], tokens: [] }; // Return an empty result for rewards
   }
 }
 
@@ -199,7 +199,7 @@ async function fetchAllValidators(chainId: ChainId): Promise<CosmosValidator[]> 
     return validators;
   } catch (error) {
     console.error(`Error fetching validators for chainID ${chainId}:`, error);
-    throw error;
+    return []; // Return an empty array for validators
   }
 }
 
@@ -220,9 +220,10 @@ async function getValidatorsCached(chainId: ChainId, pagination?: Pagination): P
     return paginatedValidators;
   } catch (error) {
     console.error(`Error fetching cached validators for chainID ${chainId}:`, error);
-    throw error;
+    return []; // Return an empty array for cached validators
   }
 }
+
 async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAccount> {
   const chainParams = CHAINS[chainId].params as CosmosChainParams;
   const account: CosmosAccount = {
@@ -261,7 +262,12 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
     return account;
   } catch (error) {
     console.error(`Error fetching account for chainID ${chainId}:`, error);
-    throw error;
+    return {
+      accountNumber: 0n,
+      sequence: 0n,
+      pubKeyType: chainParams?.defaultPubKeyType || "",
+      pubKey: "",
+    }; // Return an empty account object
   }
 }
 
@@ -279,7 +285,7 @@ async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promis
     return baseDenom;
   } catch (error) {
     console.error(`Error fetching IBC token ticker for chainID ${chainId}, tokenId ${ibcTokenId}:`, error);
-    throw error;
+    return ""; // Return an empty string
   }
 }
 
@@ -297,7 +303,7 @@ async function fetchNetworkId(chainId: ChainId): Promise<string> {
     return networkId;
   } catch (error) {
     console.error(`Error fetching network ID for chainID ${chainId}:`, error);
-    throw error;
+    return ""; // Return an empty string
   }
 }
 
@@ -322,7 +328,7 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
     return gasUsed;
   } catch (error) {
     console.error(`Error simulating transaction for chainID ${chainId}:`, error);
-    throw error;
+    return 0n; // Return zero gas used
   }
 }
 
@@ -351,7 +357,7 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
     return txHash;
   } catch (error) {
     console.error(`Error broadcasting transaction for chainID ${chainId}:`, error);
-    throw error;
+    return ""; // Return an empty string for txHash
   }
 }
 
