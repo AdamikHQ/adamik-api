@@ -218,7 +218,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "RUNE",
     decimals: 6,
     backends: {
-      nodeURL: "https://thornode-v1.ninerealms.com",
+      nodeURL: "https://thornode.ninerealms.com",
     },
     params: {
       prefix: "thor",
