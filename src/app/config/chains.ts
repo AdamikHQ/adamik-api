@@ -216,7 +216,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     nativeId: "thorchain-mainnet-v1",
     name: "THORChain",
     ticker: "RUNE",
-    decimals: 0,
+    decimals: 8,
     backends: {
       nodeURL: "https://thornode.ninerealms.com",
     },
