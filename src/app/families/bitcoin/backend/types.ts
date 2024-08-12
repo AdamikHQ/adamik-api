@@ -1,4 +1,3 @@
-import { UTXO } from "coinselect";
 import z from "zod";
 
 // Blockchair responses SUB-MODELS
@@ -12,9 +11,7 @@ const UtxosSchema = z
   })
   .transform((data) => {
     return {
-      /**
-       * add fields for compatibility with coinselect @see {@link UTXO}
-       */
+      /** add fields for compatibility with coinselect @see {@link UTXO} */
       txid: data.transaction_hash,
       vout: data.index,
       ...data,
