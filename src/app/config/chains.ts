@@ -210,6 +210,26 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: FEATURES[ChainFamily.COSMOS],
   },
+  thorchain: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.THORCHAIN,
+    nativeId: "thorchain-mainnet-v1",
+    name: "THORChain",
+    ticker: "RUNE",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://thornode-v1.ninerealms.com",
+    },
+    params: {
+      prefix: "thor",
+      validatorPrefix: "thor",
+      denom: "urune",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+  },
   ethereum: {
     family: ChainFamily.EVM,
     id: ChainId.ETHEREUM,

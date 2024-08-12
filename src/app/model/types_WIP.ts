@@ -38,6 +38,7 @@ enum ChainId {
   FANTOM = "fantom",
   PALM = "palm",
   MANTLE = "mantle",
+  THORCHAIN = "thorchain",
 }
 
 enum ChainFamily {
