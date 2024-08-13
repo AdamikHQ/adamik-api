@@ -1,23 +1,24 @@
-import { BigNumber } from "bignumber.js";
-import { bech32 } from "bech32";
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
-import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
-import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { AuthInfo, TxRaw, TxBody, Fee } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { AminoMsg, makeSignDoc, serializeSignDoc, StdSignDoc } from "@cosmjs/amino";
 import { Secp256k1Signature } from "@cosmjs/crypto";
-import { fromBase64 } from "@cosmjs/encoding";
-import { AminoMsg, StdSignDoc, makeSignDoc, serializeSignDoc } from "@cosmjs/amino";
+import { fromBase64, fromHex } from "@cosmjs/encoding";
+import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
 import {
-  AminoMsgSend,
-  AminoMsgDelegate,
   AminoMsgBeginRedelegate,
+  AminoMsgDelegate,
+  AminoMsgSend,
   AminoMsgUndelegate,
   AminoMsgWithdrawDelegatorReward,
 } from "@cosmjs/stargate";
-import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
+import { bech32 } from "bech32";
+import { BigNumber } from "bignumber.js";
 import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
-import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
+import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
 import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
+import { MsgBeginRedelegate, MsgDelegate, MsgUndelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { AuthInfo, Fee, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
   EncodedTransactionFormat,
@@ -27,16 +28,16 @@ import {
   TransactionMode,
 } from "~/app/model/types_WIP";
 import { fetchNetworkId, simulateTransaction } from "./backend/node";
-import { CosmosChainParams, CosmosTransactionParams } from "./types";
-import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
-import { CHAINS } from "~/app/config/chains";
 import { CosmosAccount } from "./backend/types";
+import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
+import { CosmosChainParams, CosmosTransactionParams } from "./types";
 
 // TODO Keep this file as a fourre-tout or split it?
 
-function isBase64(str: string): boolean {
-  const base64Regex = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
-  return base64Regex.test(str);
+function isHex(str: string): boolean {
+  // Regex to match hexadecimal characters
+  const hexRegex = /^[0-9A-Fa-f]+$/;
+  return hexRegex.test(str);
 }
 
 function getDelegation(
@@ -98,7 +99,7 @@ function resolvePubKey(account: CosmosAccount, transaction: Transaction): Cosmos
 
   return {
     ...account,
-    pubKey: isBase64(pubKey) ? pubKey : Buffer.from(pubKey, "hex").toString("base64"),
+    pubKey: isHex(pubKey) ? Buffer.from(pubKey, "hex").toString("base64") : pubKey,
     pubKeyType,
   };
 }
@@ -399,7 +400,7 @@ function buildBroadcastPayload({
           publicKey: {
             typeUrl: pubKeyType,
             value: PubKey.encode({
-              key: Buffer.from(pubKey, isBase64(pubKey) ? "base64" : "hex"),
+              key: Buffer.from(pubKey, isHex(pubKey) ? "hex" : "base64"),
             }).finish(),
           },
           modeInfo: {
@@ -445,21 +446,20 @@ async function encodeToBroadcast(
   signedTransaction: Transaction
 ): Promise<string> {
   const plainTransation = signedTransaction.plain;
-  if (!plainTransation.nonce) {
+
+  // We don't want plainTransaction.nonce === 0 to be falsy
+  if (plainTransation.nonce === undefined) {
     throw new Error("Missing transaction nonce");
   }
   if (!signedTransaction.signature) {
     throw new Error("Missing signature in transaction");
   }
 
-  const signature = isBase64(signedTransaction.signature)
-    ? fromBase64(signedTransaction.signature)
-    : Buffer.from(
-        Secp256k1Signature.fromDer(Buffer.from(signedTransaction.signature, "hex")).toFixedLength()
-      );
+  const signature = isHex(signedTransaction.signature)
+    ? Buffer.from(Secp256k1Signature.fromDer(fromHex(signedTransaction.signature)).toFixedLength())
+    : Buffer.from(fromBase64(signedTransaction.signature));
 
   const { protoMsgs } = buildMessages(plainTransation);
-
   const chainParams = chainId && (CHAINS[chainId].params as CosmosChainParams);
   const txBytes = buildBroadcastPayload({
     pubKeyType: account.pubKeyType,
@@ -475,4 +475,4 @@ async function encodeToBroadcast(
   return Buffer.from(txBytes).toString("hex");
 }
 
-export { getDelegation, isValidAddress, resolvePubKey, getEstimatedFees, encodeToSign, encodeToBroadcast };
+export { encodeToBroadcast, encodeToSign, getDelegation, getEstimatedFees, isValidAddress, resolvePubKey };
