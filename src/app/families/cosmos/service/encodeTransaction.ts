@@ -1,9 +1,7 @@
 import { EncodedTransactionFormat, Transaction } from "~/app/model/types_WIP";
-import { encodeToSign, encodeToBroadcast, resolvePubKey } from "../logic";
 import { CosmosService } from ".";
 import { fetchAccount } from "../backend/node";
-import { CHAINS } from "~/app/config/chains";
-import { CosmosChainParams, CosmosTransactionParams } from "../types";
+import { encodeToBroadcast, encodeToSign, resolvePubKey } from "../logic";
 
 async function encodeTransactionToSign(this: CosmosService, transaction: Transaction): Promise<void> {
   const account = await fetchAccount(this.chainId, transaction.plain.senders[0]);
@@ -40,4 +38,4 @@ async function encodeTransactionToBroadcast(
   }
 }
 
-export { encodeTransactionToSign, encodeTransactionToBroadcast };
+export { encodeTransactionToBroadcast, encodeTransactionToSign };
