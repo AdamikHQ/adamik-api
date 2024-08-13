@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   coinselect@3.1.13:
-    hash: mmeocno3l62ocyscymf6svprmm
+    hash: rgmirwghbjfxxpvt2uxigomtpq
     path: patches/coinselect@3.1.13.patch
 
 dependencies:
@@ -63,7 +63,7 @@ dependencies:
     version: 6.1.6
   coinselect:
     specifier: ^3.1.13
-    version: 3.1.13(patch_hash=mmeocno3l62ocyscymf6svprmm)
+    version: 3.1.13(patch_hash=rgmirwghbjfxxpvt2uxigomtpq)
   cosmjs-types:
     specifier: ^0.9.0
     version: 0.9.0
@@ -3583,7 +3583,7 @@ packages:
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
     dev: true
 
-  /coinselect@3.1.13(patch_hash=mmeocno3l62ocyscymf6svprmm):
+  /coinselect@3.1.13(patch_hash=rgmirwghbjfxxpvt2uxigomtpq):
     resolution: {integrity: sha512-iJOrKH/7N9gX0jRkxgOHuGjvzvoxUMSeylDhH1sHn+CjLjdin5R0Hz2WEBu/jrZV5OrHcm+6DMzxwu9zb5mSZg==}
     dev: false
     patched: true
