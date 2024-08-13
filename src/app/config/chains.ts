@@ -29,6 +29,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
   [ChainFamily.BITCOIN]: [
     ChainFeature.BALANCES_NATIVE,
     ChainFeature.TRANSACTIONS_TO_MANY,
+    ChainFeature.TRANSACTIONS_NATIVE,
   ],
 };
 
@@ -419,11 +420,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "",
       explorerURL: "https://api.blockchair.com/bitcoin",
     },
-    nativeId: "something", // FIXME
+    nativeId: "something", // FIXME: what does this correspond to?
     supportedFeatures: FEATURES[ChainFamily.BITCOIN],
     params: {
-      confirmations: 280,
-    }
+      confirmations: 6,
+    },
   },
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,
@@ -433,7 +434,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 8,
     backends: {
       nodeURL: "",
-      explorerURL: "https://api.blockchair.com/bitcoin/testnet"
+      explorerURL: "https://api.blockchair.com/bitcoin/testnet",
     },
     params: undefined,
     nativeId: "something", // FIXME

@@ -216,31 +216,7 @@ const transactionDataSchema = z
         options: supportedTransactionModes,
       };
     }
-  )
-  // async validation of addresses
-  .superRefine(async (data, ctx) => {
-    if (data.mode === TransactionMode.TRANSFER_TO_MANY) {
-      const validSender = await getService(data.chainId).validateAddress(data.sender);
-      if (!validSender) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: `Sender address ${data.sender} is invalid for ${data.chainId}`,
-          path: ["sender"],
-        });
-      }
-      for (const recipient of data.recipients) {
-        const validRecipient = await getService(data.chainId).validateAddress(recipient.address);
-        if (!validRecipient) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: `Recipient address ${recipient.address} is invalid for ${data.chainId}`,
-            path: ["recipients", "address"],
-          });
-        }
-      }
-    }
-    // TODO: add all of prevalidateTransactionCommon here?
-  });
+  );
 
 const errorMsgSchema = z.object({
   message: z.string(),

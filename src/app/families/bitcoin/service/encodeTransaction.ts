@@ -21,37 +21,36 @@ async function encodeTransactionToSign(this: BtcService, transaction: Transactio
   let psbt = new Psbt();
 
   // Enrich inputs from the explorer
-  await Promise.all(
-    transaction.data.inputs.map(async (input, inputIndex) => {
-      const txMetadata = await fetchTxMetadata(this.chainId, input.transaction_hash);
+  for (let inputIndex = 0; inputIndex < transaction.data.inputs.length; inputIndex++) {
+    const input = transaction.data.inputs[inputIndex];
+    const txMetadata = await fetchTxMetadata(this.chainId, input.transaction_hash);
 
-      // FIXME: did I missunderstood the has_witness field?
-      // TODO: Add link to documentation here
-      if (!txMetadata[input.transaction_hash].has_witness) {
-        psbt.addInput({
-          hash: input.transaction_hash,
-          witnessUtxo: {
-            script: Buffer.from(txMetadata[input.transaction_hash].outputs[input.index].script_hex, "hex"),
-            value: input.value,
-          },
-          ...input,
-        });
-      } else {
-        const nonWitnessUtxo = (await fetchRawTxMetadata(this.chainId, input.transaction_hash))[
-          input.transaction_hash
-        ].raw_transaction;
+    // FIXME: did I missunderstood the has_witness field?
+    // TODO: Add link to documentation here
+    if (!txMetadata[input.transaction_hash].has_witness) {
+      psbt.addInput({
+        ...input,
+        hash: input.transaction_hash,
+        witnessUtxo: {
+          script: Buffer.from(txMetadata[input.transaction_hash].outputs[input.index].script_hex, "hex"),
+          value: input.value,
+        },
+      });
+    } else {
+      const nonWitnessUtxo = (await fetchRawTxMetadata(this.chainId, input.transaction_hash))[
+        input.transaction_hash
+      ].raw_transaction;
 
-        psbt.addInput({
-          hash: input.transaction_hash,
-          nonWitnessUtxo: Buffer.from(nonWitnessUtxo, "hex"),
-          ...input,
-        });
-      }
-      // activates RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
-      // 0xfffffffd is stricly smaller than 0xffffffff - 1
-      psbt.setInputSequence(inputIndex, 0xfffffffd);
-    })
-  );
+      psbt.addInput({
+        ...input,
+        hash: input.transaction_hash,
+        nonWitnessUtxo: Buffer.from(nonWitnessUtxo, "hex"),
+      });
+    }
+    // activates RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
+    // 0xfffffffd is stricly smaller than 0xffffffff - 1
+    psbt.setInputSequence(inputIndex, 0xfffffffd);
+  }
 
   for (const recipient of transaction.data.recipients) {
     psbt.addOutput({

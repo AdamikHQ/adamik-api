@@ -193,7 +193,7 @@ enum TransactionMode {
 }
 
 type Recipient = {
-  amount: bigint;
+  amount?: bigint;
   address: string;
 };
 
@@ -220,6 +220,7 @@ type CommonTransaction = {
   memo?: string;
   format?: EncodedTransactionFormat;
   params?: TransactionParams;
+  inputs?: UtxoWithMetadata[]; // for internal BTC use only
 };
 
 type TransferTransaction = BaseTransaction &

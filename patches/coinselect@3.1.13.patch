@@ -3,32 +3,55 @@ new file mode 100644
 index 0000000..20cc98a
 --- /dev/null
 +++ b/index.d.ts
-@@ -0,0 +1,25 @@
-+export interface UTXO {
-+  txid: string | Buffer;
-+  vout: number;
-+  value: number;
-+  nonWitnessUtxo?: Buffer;
-+  witnessUtxo?: {
-+    script: Buffer;
+@@ -0,0 +1,48 @@
++// Declare the main coinselect module
++declare module "coinselect" {
++  export interface UTXO {
++    txid: string | Buffer;
++    vout: number;
 +    value: number;
-+  };
-+}
-+export interface Target {
-+  address?: string;
-+  value: number;
-+}
-+export interface SelectedUTXO {
-+  inputs?: UTXO[];
-+  outputs?: Target[];
-+  fee: number;
++    nonWitnessUtxo?: Buffer;
++    witnessUtxo?: {
++      script: Buffer;
++      value: number;
++    };
++  }
++
++  export type Target =
++    | {
++        address: string;
++        value: number;
++      }
++    | {
++        address: string;
++      }
++    | {
++        value: number;
++      };
++
++  export interface SelectedUTXO {
++    inputs?: UTXO[];
++    outputs?: Target[];
++    fee: number;
++  }
++
++  export default function coinSelect(
++    utxos: UTXO[],
++    outputs: Target[],
++    feeRate: number
++  ): SelectedUTXO;
 +}
 +
-+export default function coinSelect(
-+  utxos: UTXO[],
-+  outputs: Target[],
-+  feeRate: number
-+): SelectedUTXO;
++// Declare the coinselect/split module
++declare module "coinselect/split.js" {
++  import { UTXO, Target, SelectedUTXO } from "coinselect";
++
++  export default function split(
++    utxos: UTXO[],
++    outputs: Target[],
++    feeRate: number
++  ): SelectedUTXO;
++}
 diff --git a/package.json b/package.json
 index 6cdef00..337bf4f 100644
 --- a/package.json

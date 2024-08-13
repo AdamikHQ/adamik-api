@@ -1,18 +1,43 @@
 import coinSelect from "coinselect";
-import { transactionDataSchema } from "~/app/api/schemaCommon";
-import { isMultiRecipientTransaction, TransactionWrapper } from "~/app/model/types_WIP";
+import split from "coinselect/split.js";
+import { isMultiRecipientTransaction, TransactionMode, TransactionWrapper } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchFeePerByte, fetchXpubData } from "../backend/explorer";
 import { UtxoWithMetadata } from "../backend/types";
+import { Xpub } from "../logic";
 
 async function completeTransaction(this: BtcService, transaction: TransactionWrapper): Promise<void> {
-  /**
-   * This should never happen because the transaction is already validated by zod
-   * @see {@link transactionDataSchema.refine} at the {@link transactionDataSchema} definition
-   * TODO: maybe we could make sure that completeTransaction directly receives a multi-recipient transaction ?
-   */
+  let selectionAlgorithm = coinSelect;
+
   if (!isMultiRecipientTransaction(transaction.data)) {
-    throw new Error(`Something went wrong, the transaction is not a multi-recipient transaction.`);
+    if (transaction.data.mode !== TransactionMode.TRANSFER) {
+      transaction.status.errors.push({
+        message: `Invalid transaction mode: ${transaction.data.mode} for chainId ${transaction.data.chainId}`,
+      });
+      return;
+    }
+
+    if (!transaction.data.useMaxAmount === !transaction.data.amount) {
+      transaction.status.errors.push({
+        message: `Either one of the field "amount" or "userMaxAmount" is missing, or both are mistakenly set together for ${transaction.data.chainId}`,
+      });
+      return;
+    }
+
+    transaction.data = {
+      chainId: transaction.data.chainId,
+      mode: TransactionMode.TRANSFER_TO_MANY,
+      sender: transaction.data.senders[0] as Xpub,
+      recipients: [
+        {
+          address: transaction.data.recipients[0],
+          amount: transaction.data.useMaxAmount ? undefined : transaction.data.amount,
+        },
+      ],
+      inputs: [],
+      fees: 0n,
+    };
+    selectionAlgorithm = split;
   }
 
   const feeRate = await fetchFeePerByte(this.chainId);
@@ -20,12 +45,12 @@ async function completeTransaction(this: BtcService, transaction: TransactionWra
   const allUtxos = (await fetchXpubData(this.chainId, transaction.data.sender)).data[transaction.data.sender]
     .utxo;
 
-  const { inputs, outputs, fee } = coinSelect(
+  const { inputs, outputs, fee } = selectionAlgorithm(
     allUtxos,
     transaction.data.recipients.map((recipient) => {
       return {
         address: recipient.address,
-        value: Number(recipient.amount),
+        value: recipient.amount ? Number(recipient.amount) : undefined,
       };
     }),
     feeRate
@@ -45,16 +70,24 @@ async function completeTransaction(this: BtcService, transaction: TransactionWra
     transaction.data.inputs.push(input as UtxoWithMetadata);
   }
 
-  // if change is required, add the change address of the sender as the latest recipient
   for (const out of outputs) {
-    // if address is not defined, it's a newly added change by coinselect
-    if (!out.address) {
+    // if address is not defined, it means it's a newly added recipient by coinselect (the change) that we need to reflect in the transaction
+    if (!("address" in out)) {
       transaction.data.recipients.push({
         // Take the address of the first input, its as good as any other one
-        // FIXME: terrible pratice, we should derive a new change address.
+        // FIXME: terrible pratice, we should derive a new change address from the Xpub
         address: (inputs[0] as UtxoWithMetadata).address,
         amount: BigInt(out.value),
       });
+    } else {
+      // if there is a value in the output, and there was no amount in the original recipient
+      // => it means we are doing a spendAll transfer and should copy the calculated amount to the recipient
+      const recipientNeedingAmount = transaction.data.recipients.find(
+        (r) => r.address === out.address && !r.amount
+      );
+      if (recipientNeedingAmount && "value" in out) {
+        recipientNeedingAmount.amount = BigInt(out.value);
+      }
     }
   }
   transaction.data.fees = BigInt(fee);
