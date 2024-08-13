@@ -226,7 +226,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: [ChainFeature.BALANCES_NATIVE] as ChainFeature[],
+    supportedFeatures: [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE] as ChainFeature[],
   },
   ethereum: {
     family: ChainFamily.EVM,
