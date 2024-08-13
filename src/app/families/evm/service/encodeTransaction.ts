@@ -129,14 +129,35 @@ async function encodeTransactionToBroadcast(
     // 1) Remove the front "0x" from s and v strings
     // 2) Concatenate them all in a single string
     // signedTransaction.signature = r + s.slice(2) + v.slice(2)
-    const signature: Signature = parseSignature(
-      ((!signedTransaction.signature.startsWith("0x") ? "0x" : "") +
-        signedTransaction.signature) as `0x${string}`
-    );
+    const hex = signedTransaction.signature.startsWith("0x")
+      ? signedTransaction.signature
+      : `0x${signedTransaction.signature}`;
 
     const transaction: TransactionSerializable = parseTransaction(
       signedTransaction.encoded as TransactionSerialized
     );
+
+    let signature: Signature;
+    try {
+      signature = parseSignature(hex as `0x${string}`);
+    } catch (e: any) {
+      const transactionSignature: TransactionSerializable = parseTransaction(hex as `0x${string}`);
+
+      if (
+        transactionSignature.v === undefined ||
+        transactionSignature.r === undefined ||
+        transactionSignature.s === undefined
+      ) {
+        throw new Error("Invalid signature format");
+      }
+
+      signature = {
+        v: transactionSignature.v,
+        r: transactionSignature.r,
+        s: transactionSignature.s,
+        yParity: transactionSignature.yParity,
+      };
+    }
 
     const chainParams = CHAINS[this.chainId].params as EvmChainParams;
     const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
