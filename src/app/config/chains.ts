@@ -422,8 +422,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     nativeId: "something", // FIXME
     supportedFeatures: FEATURES[ChainFamily.BITCOIN],
     params: {
-      confirmations: 280,
-    }
+      confirmations: 6,
+    },
   },
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,
@@ -433,9 +433,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 8,
     backends: {
       nodeURL: "",
-      explorerURL: "https://api.blockchair.com/bitcoin/testnet"
+      explorerURL: "https://api.blockchair.com/bitcoin/testnet",
     },
-    params: undefined,
+    params: {
+      confirmations: 6,
+    },,
     nativeId: "something", // FIXME
     supportedFeatures: FEATURES[ChainFamily.BITCOIN],
   },
