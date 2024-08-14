@@ -89,6 +89,13 @@ const plainTransactionSchema = z.object({
   format: z.nativeEnum(EncodedTransactionFormat).optional(),
   tokenId: z.string().optional(),
   validatorAddress: z.string().optional(),
+  // FIXME The following are for staking but specific to cosmos...
+  // will be reworked with the actual staking API abstraction
+  sourceValidatorAddress: z.string().optional(),
+  targetValidatorAddress: z.string().optional(),
+  compound: z.boolean().optional(),
+  // ~~
+
   params: cosmosTransactionParamsSchema.optional(), // For more than 1 family z.union() should be used
 });
 

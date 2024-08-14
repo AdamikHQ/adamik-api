@@ -93,7 +93,7 @@ async function computeMaxSpendable(transaction: PlainTransaction): Promise<Trans
 
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     const token = assetAmounts.find((assetAmount) => assetAmount.assetId === transaction.tokenId);
-    const asaBalance = token?.amount || 0n;
+    const asaBalance = token?.amount;
     return {
       native: algoBalance,
       token: asaBalance,
