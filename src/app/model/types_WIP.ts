@@ -1,5 +1,4 @@
-import { Xpub } from "../families/bitcoin/logic";
-import { BtcParams } from "../families/bitcoin/types";
+import { BtcParams, Xpub } from "../families/bitcoin/types";
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
 
@@ -331,13 +330,13 @@ type Pagination = {
 };
 
 export {
-  ChainId,
   ChainFamily,
   ChainFeature,
-  TransactionMode,
+  ChainId,
   EncodedTransactionFormat,
-  TokenType,
   StakingStatus,
+  TokenType,
+  TransactionMode,
 };
 
 export type {

@@ -3,7 +3,7 @@ import { AddressState, AddressesState } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
 import { isValidXpub } from "../logic";
-import { BtcParams } from "../types";
+import { BtcParams, Xpub } from "../types";
 
 async function getAddressesState(this: BtcService, addresses: string[]): Promise<AddressesState> {
   const addressesResult = await fetchAddressesDashboard(this.chainId, addresses);

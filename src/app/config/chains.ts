@@ -437,7 +437,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     params: {
       confirmations: 6,
-    },,
+    },
     nativeId: "something", // FIXME
     supportedFeatures: FEATURES[ChainFamily.BITCOIN],
   },
