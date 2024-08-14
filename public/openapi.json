@@ -4965,9 +4965,7 @@
                               {
                                 "type": "string"
                               },
-                              {
-                                "type": "object"
-                              }
+                              {}
                             ]
                           },
                           "signature": {
@@ -4975,7 +4973,6 @@
                           }
                         },
                         "required": [
-                          "encoded",
                           "signature"
                         ]
                       },

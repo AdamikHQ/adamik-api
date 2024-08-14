@@ -10,23 +10,24 @@ import {
   TransactionSerializable,
   TransactionSerialized,
 } from "viem";
+import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 import { Transaction, TransactionMode, EncodedTransactionFormat, ChainId } from "~/app/model/types_WIP";
 import { estimateFeesPerGas } from "../backend/node";
 import { EvmService } from ".";
 import { EvmAddress, EvmChainParams } from "../types";
 import { CHAINS } from "~/app/config/chains";
-import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 
 async function encodeTransactionToSign(this: EvmService, transaction: Transaction): Promise<void> {
   try {
     switch (transaction.plain.format) {
-      // JSON is the current default, when format is not explicitely provided
+      // HEX is the proper format and current default, when format is not explicitely provided
       case undefined:
-      case EncodedTransactionFormat.JSON:
-        await encodeTransactionToSignAsJSON(this.chainId, transaction);
-        break;
       case EncodedTransactionFormat.HEX:
         await encodeTransactionToSignAsHex(this.chainId, transaction);
+        break;
+      // JSON doesn't really make sense, it's only for Metamask and signers that actually do the encoding themselves...
+      case EncodedTransactionFormat.JSON:
+        await encodeTransactionToSignAsJSON(this.chainId, transaction);
         break;
       default:
         throw new Error(
@@ -72,10 +73,6 @@ async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Tran
       } as any;
       break;
     }
-    default:
-      throw new Error(
-        `Unsupported transaction mode ${transaction.plain.mode} for chain ID ${transaction.plain.chainId}`
-      );
   }
 }
 
@@ -106,7 +103,7 @@ async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Trans
     maxFeePerGas,
     maxPriorityFeePerGas,
     gas: transaction.plain.gas,
-    nonce: transaction.plain.nonce,
+    nonce: Number(transaction.plain.nonce),
     to: recipient,
     value: transaction.plain.amount,
     data,
@@ -129,11 +126,13 @@ async function encodeTransactionToBroadcast(
     // TODO Make sure this is documented...
     // NOTE signedTransaction.signature is assumed to be built that way, r,s,v being correct hexadecimal strings:
     //
-    // signedTransaction.signature = r + s.slice(2) + v.slice(2)
-    //
     // 1) Remove the front "0x" from s and v strings
     // 2) Concatenate them all in a single string
-    const signature: Signature = parseSignature(signedTransaction.signature as `0x${string}`);
+    // signedTransaction.signature = r + s.slice(2) + v.slice(2)
+    const signature: Signature = parseSignature(
+      ((!signedTransaction.signature.startsWith("0x") ? "0x" : "") +
+        signedTransaction.signature) as `0x${string}`
+    );
 
     const transaction: TransactionSerializable = parseTransaction(
       signedTransaction.encoded as TransactionSerialized

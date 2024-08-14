@@ -17,7 +17,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
     ChainFeature.BALANCES_STAKING,
     ChainFeature.TRANSACTIONS_NATIVE,
     //ChainFeature.TRANSACTIONS_TOKENS,
-    //ChainFeature.TRANSACTIONS_STAKING,
+    ChainFeature.TRANSACTIONS_STAKING,
     ChainFeature.MEMO,
   ],
   [ChainFamily.EVM]: [
@@ -135,7 +135,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "TIA",
     decimals: 6,
     backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27",
+      nodeURL: "https://lcd-celestia.imperator.co",
+      //nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27",
     },
     params: {
       prefix: "celestia",
@@ -177,9 +178,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: {
       // (configs can be checked with [nodeURL]/cosmos/base/node/v1beta1/config )
-      nodeURL: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live
+      nodeURL: "https://dydx-rest.publicnode.com",
+      // nodeURL: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live, but we've been blacklisted...
       //nodeURL: "https://lcd-dydx.imperator.co", // Should be the best one, but only accepts fees in IBC token USDC at the moment...
-      //nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands double the usual minimum gas fees, for some reason
+      //nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands twice the standard minimum gas fees, for some reason
     },
     params: {
       prefix: "dydx",

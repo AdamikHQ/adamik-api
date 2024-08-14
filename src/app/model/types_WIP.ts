@@ -187,6 +187,9 @@ enum TransactionMode {
   TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
   TRANSFER_TO_MANY = "transferToMany",
+  REDELEGATE = "redelegate",
+  UNDELEGATE = "undelegate",
+  CLAIM_REWARDS = "claimRewards",
 }
 
 type Recipient = {
@@ -200,7 +203,10 @@ type TransactionParams = CosmosTransactionParams;
 // FIXME de/serialization types <> string
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
 // FIXME one 'PlainTransaction' type with everything in it, or composition of specific types
-// (TransactionWithMemo TransactionWithGas, etc...) ? <-- yes
+// (TransactionWithMemo TransactionWithGas, etc...) ?
+// FIXME Does the 'params' field make sense? It allows chain-specific data into the model...
+// - alternative: all data could be flat?
+// - alternative: an explicit field for each chain? or family? = 'cosmosParams', 'evmParams', etc
 type BaseTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
@@ -213,7 +219,7 @@ type CommonTransaction = {
   useMaxAmount?: boolean;
   fees: bigint;
   gas?: bigint;
-  nonce?: number;
+  nonce?: bigint;
   memo?: string;
   format?: EncodedTransactionFormat;
   params?: TransactionParams;
@@ -243,26 +249,36 @@ type MultiRecipientTransaction = BaseTransaction & {
   fees: bigint;
 };
 
-// type UndelegateTransaction = CommonTransaction & {
-//   mode: TransactionMode.UNDELEGATE;
-//   validatorAddress: string;
-// };
+type UndelegateTransaction = BaseTransaction &
+  CommonTransaction & {
+    mode: TransactionMode.UNDELEGATE;
+    validatorAddress: string;
+  };
 
-// type RedelegateTransaction = CommonTransaction & {
-//   mode: TransactionMode.REDELEGATE;
-//   sourceValidatorAddress: string;
-//   targetValidatorAddress: string;
-// };
+type RedelegateTransaction = BaseTransaction &
+  CommonTransaction & {
+    mode: TransactionMode.REDELEGATE;
+    sourceValidatorAddress: string;
+    targetValidatorAddress: string;
+  };
 
-// type ClaimRewardTransaction = CommonTransaction & {
-//   mode: TransactionMode.CLAIM_REWARD;
-//   validatorAddress: string;
-// };
+type ClaimRewardsTransaction = BaseTransaction &
+  CommonTransaction & {
+    mode: TransactionMode.CLAIM_REWARDS;
+    validatorAddress: string;
+    compound?: boolean;
+  };
 
 /**
  * @deprecated You should use {@link TransactionData}
  */
-type PlainTransaction = TransferTransaction | TransferTokenTransaction | DelegateTransaction;
+type PlainTransaction =
+  | TransferTransaction
+  | TransferTokenTransaction
+  | DelegateTransaction
+  | UndelegateTransaction
+  | RedelegateTransaction
+  | ClaimRewardsTransaction;
 
 // TODO: remove PlainTransaction and replace it with all other types
 type TransactionData = PlainTransaction | MultiRecipientTransaction;
