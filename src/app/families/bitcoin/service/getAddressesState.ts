@@ -1,12 +1,12 @@
 import { CHAINS } from "~/app/config/chains";
 import { AddressState, AddressesState } from "~/app/model/types_WIP";
 import { BtcService } from ".";
-import { fetchAddressesBalances, fetchXpubBalances } from "../backend/explorer";
-import { Xpub, isXpub } from "../logic";
+import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
+import { isValidXpub } from "../logic";
 import { BtcParams } from "../types";
 
 async function getAddressesState(this: BtcService, addresses: string[]): Promise<AddressesState> {
-  const addressesResult = await fetchAddressesBalances(this.chainId, addresses);
+  const addressesResult = await fetchAddressesDashboard(this.chainId, addresses);
 
   const confirmations_required = (CHAINS[this.chainId].params as BtcParams).confirmations;
   const addressesData: Record<string, AddressesState["addresses"][string]> = {};
@@ -15,8 +15,8 @@ async function getAddressesState(this: BtcService, addresses: string[]): Promise
     // extract unconfirmed balance from UTXOs
     const unconfirmedBalance = addressesResult.data.utxo
       .filter((utxo) => utxo.address === address)
-      .filter((utxo) => (addressesResult.context.state - utxo.block_id + 1) < confirmations_required)
-      .reduce((total, utxo) => total + (BigInt(utxo.value)), 0n);
+      .filter((utxo) => addressesResult.context.state - utxo.block_id + 1 < confirmations_required)
+      .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
 
     const balance = BigInt(addressesResult.data.addresses[address].balance);
     addressesData[address] = {
@@ -36,27 +36,25 @@ async function getAddressesState(this: BtcService, addresses: string[]): Promise
 }
 
 async function getAddressState(this: BtcService, addressOrXpub: string): Promise<AddressState> {
-  if (isXpub(addressOrXpub)) {
-    return this.getXpubState(addressOrXpub);
-  }
-
-  return this.getAddressesState([addressOrXpub]).then((addressesState): AddressState => {
-    return {
-      chainId: this.chainId,
-      address: addressOrXpub,
-      balances: addressesState.addresses[addressOrXpub].balances,
-    }
-  });
+  return isValidXpub(addressOrXpub)
+    ? this.getXpubState(addressOrXpub)
+    : this.getAddressesState([addressOrXpub]).then((addressesState): AddressState => {
+        return {
+          chainId: this.chainId,
+          address: addressOrXpub,
+          balances: addressesState.addresses[addressOrXpub].balances,
+        };
+      });
 }
 
 async function getXpubState(this: BtcService, xpub: Xpub): Promise<AddressState> {
-  const xpubResponse = await fetchXpubBalances(this.chainId, xpub);
+  const xpubResponse = await fetchXpubDashboard(this.chainId, xpub);
 
   // extract unconfirmed balance from UTXOs
   const confirmations_required = (CHAINS[this.chainId].params as BtcParams).confirmations;
   const unconfirmedBalance = xpubResponse.data[xpub].utxo
-    .filter((utxo) => (xpubResponse.context.state - utxo.block_id + 1) < confirmations_required)
-    .reduce((total, utxo) => total + (BigInt(utxo.value)), 0n);
+    .filter((utxo) => xpubResponse.context.state - utxo.block_id + 1 < confirmations_required)
+    .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
 
   return {
     chainId: this.chainId,
@@ -68,7 +66,7 @@ async function getXpubState(this: BtcService, xpub: Xpub): Promise<AddressState>
       },
     },
     address: xpub,
-  }
+  };
 }
 
 export { getAddressState, getAddressesState, getXpubState };

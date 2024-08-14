@@ -1,51 +1,56 @@
-import { CHAINS } from "~/app/config/chains";
-import { Xpub } from "../logic";
-import { ChainId } from "~/app/model/types_WIP";
 import { BLOCKCHAIR_API_KEY } from "~/app/config/apiKeys";
-import { AddressesDashboardResponse, XpubDashboardResponse } from "./types";
+import { CHAINS } from "~/app/config/chains";
+import { ChainId } from "~/app/model/types_WIP";
+import { Xpub } from "../types";
+import {
+  BlockchairAddressesResponse,
+  TransactionBroadcastStatusSchema,
+  BlockchairXpubResponse,
+} from "./types";
 
 const queryParams = new URLSearchParams({
   key: BLOCKCHAIR_API_KEY,
 });
 
-export async function fetchXpubBalances(chainId: ChainId, xpub: Xpub) {
+export async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub) {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
 
   const url = `/dashboards/xpub/${xpub}?${queryParams.toString()}`;
   const response = await fetch(explorerURL + url).then((response) => response.json());
-  const result = XpubDashboardResponse.safeParse(response);
+  const result = BlockchairXpubResponse.safeParse(response);
 
-  if (!result.success) {
-    // FIXME: discuss standard way to handle errors within backends (tell the user or not? give default empty values or not?)
-    throw new Error(
+  if (!result.success || result.data.context.code != 200) {
+    console.warn(
       `getXpubState - received invalid response ${JSON.stringify(response)}\n\tbackend parsing error: ${
         result.error
       }`
     );
+    throw new Error(`Error while fetching ${chainId} xpub dashboard from blockchair explorer`);
   }
   return result.data;
 }
 
-export async function fetchAddressesBalances(chainId: ChainId, addresses: string[]) {
+export async function fetchAddressesDashboard(chainId: ChainId, addresses: string[]) {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   // FIXME: use POST instead of GET and put addresses in the body
   const url = `/dashboards/addresses/${addresses.join(",")}?${queryParams.toString()}`;
 
   const response = await fetch(explorerURL + url).then((res) => res.json());
-  const result = AddressesDashboardResponse.safeParse(response);
+  const result = BlockchairAddressesResponse.safeParse(response);
 
-  if (!result.success) {
+  if (!result.success || result.data.context.code != 200) {
     // FIXME: discuss standard way to handle errors within backends (tell the user or not? give default empty values or not?)
-    throw new Error(
+    console.warn(
       `getAddressState - received invalid response ${JSON.stringify(response)}\n\tbackend parsing error: ${
         result.error
       }`
     );
+    throw new Error(`Error while fetching ${chainId} addresses dashboard from blockchair explorer`);
   }
   return result.data;
 }
 
-export async function pushTransaction(chaindId: ChainId, signedTransaction: string): Promise<string> {
+export async function postTransaction(chaindId: ChainId, signedTransaction: string) {
   const explorerURL = CHAINS[chaindId].backends.explorerURL;
 
   queryParams.set("data", signedTransaction);
@@ -53,15 +58,14 @@ export async function pushTransaction(chaindId: ChainId, signedTransaction: stri
 
   const response = await fetch(`${explorerURL + url}`, {
     method: "POST",
-  });
+  }).then((res) => res.json());
 
-  const responseBody = await response.json();
+  const result = TransactionBroadcastStatusSchema.safeParse(response);
 
-  if (responseBody.context.code !== 200) {
-    throw new Error(`broadcastTransaction - received invalid response: ${responseBody.context.error}`);
+  if (!result.success || !result.data.data || result.data.context.code != 200) {
+    console.warn(`broadcastTransaction - received invalid response: ${result.error}`);
+    throw new Error(`Error while broadcasting transaction on ${chaindId} from blockchair explorer`);
   }
 
-  return responseBody.data.transaction_hash;
+  return result.data.data.transaction_hash;
 }
-
-export function fetchAccountAddresses(pubKey: string) {}

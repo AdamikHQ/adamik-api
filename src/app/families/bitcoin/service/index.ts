@@ -14,13 +14,13 @@ class BtcService extends BaseChainService implements MultiBalancesService {
   validateAddress = validateAddress;
   getAddressState = getAddressState;
   getAddressesState = getAddressesState;
+  getXpubState = getXpubState;
   //getAddressHistory = getAddressHistoryFn;
   completeTransaction = completeTransaction;
   validateTransaction = validateTransaction;
   encodeTransactionToSign = encodeTransactionToSign;
   encodeTransactionToBroadcast = encodeTransactionToBroadcast;
   broadcastTransaction = broadcastTransaction;
-  getXpubState = getXpubState;
 }
 
 export { BtcService };

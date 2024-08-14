@@ -184,8 +184,9 @@ export const requestContextSchema = z.object({
   }
 }
  */
-export const XpubDashboardData = z.record(
-  z.string(), z.object({
+export const BlockchairXpubData = z.record(
+  z.string(),
+  z.object({
     xpub: z.object({
       address_count: z.number(),
       balance: z.number().pipe(z.coerce.bigint()),
@@ -203,26 +204,29 @@ export const XpubDashboardData = z.record(
       transaction_count: z.number(),
     }),
     addresses: z.record(
-      z.string(), AddressSchema.and(z.object({
-        path: z.string(),
-      }))
+      z.string(),
+      AddressSchema.and(
+        z.object({
+          path: z.string(),
+        })
+      )
     ),
     transactions: z.array(z.string()),
     utxo: UtxosSchema.array(),
   })
 );
 
-export const XpubDashboardResponse = z.object({
-  data: XpubDashboardData,
+export const BlockchairXpubResponse = z.object({
+  data: BlockchairXpubData,
   context: requestContextSchema.and(
     // not part of the typical context answer, only happens in the xpub dashboard
     z.object({
       checked: z.array(z.string()),
     })
-  )
+  ),
 });
 
-export const AddressesDashboardResponse = z.object({
+export const BlockchairAddressesResponse = z.object({
   data: z.object({
     set: AddressSchema.omit({
       type: true,
@@ -230,13 +234,42 @@ export const AddressesDashboardResponse = z.object({
       received_usd: true,
       spent_usd: true,
     }),
-    addresses: z.record(
-      z.string(), AddressSchema
-    ),
+    addresses: z.record(z.string(), AddressSchema),
     transactions: z.array(z.string()),
-    utxo: UtxosSchema.and(z.object({
-      address: z.string(),
-    })).array(),
+    utxo: UtxosSchema.and(
+      z.object({
+        address: z.string(),
+      })
+    ).array(),
   }),
-  context: requestContextSchema
+  context: requestContextSchema,
 });
+
+/**
+ * Dynamic body schema for the POST /push/transaction endpoint
+ * https://api.blockchair.com/{:chain}/push/transaction
+ *  *
+ *  @param chain chain on which the transaction should be broadcasted
+ *
+ *  @link https://blockchair.com/api/docs#link_202
+ *
+ *  @example
+    ```json
+    {
+      "data": {
+        "transaction_hash": "0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098"
+      },
+      "context": {
+        "code": 200,
+        ...
+      }
+    }
+    ```
+ * 
+ */
+export const TransactionBroadcastStatusSchema = z.object({
+  data: z.object({
+    transaction_hash: z.string(),
+  }).optional(),
+  context: requestContextSchema,
+})

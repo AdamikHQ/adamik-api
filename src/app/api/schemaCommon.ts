@@ -124,7 +124,7 @@ const transferTokenSchema = z
     title: "TransferToken",
   });
 
-const transferDelegateSchema = z
+const transferNativeSchema = z
   .object({
     mode: z.literal(TransactionMode.TRANSFER),
     senders: z.array(z.string()),
@@ -143,7 +143,7 @@ const transferDelegateSchema = z
     title: "Transfer",
   });
 
-const transferNative = z
+const transferDelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.DELEGATE),
     senders: z.array(z.string()),
@@ -169,7 +169,7 @@ const transactionDataSchema = z
   })
   .and(
     z.discriminatedUnion("mode", [
-      transferNative,
+      transferNativeSchema,
       transferDelegateSchema,
       transferTokenSchema,
       transferToManySchema,
