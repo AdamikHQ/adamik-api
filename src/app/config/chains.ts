@@ -422,11 +422,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "",
       explorerURL: "https://api.blockchair.com/bitcoin",
     },
-    nativeId: "something", // FIXME: what does this correspond to?
-    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
     params: {
       confirmations: 6,
     },
+    nativeId: "bitcoin",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
   },
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,
@@ -441,7 +441,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     params: {
       confirmations: 6,
     },
-    nativeId: "something", // FIXME
+    nativeId: "bitcoin-testnet",
     supportedFeatures: FEATURES[ChainFamily.BITCOIN],
   },
   polygon: {
