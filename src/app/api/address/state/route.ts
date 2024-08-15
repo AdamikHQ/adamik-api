@@ -17,7 +17,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
       { status: 400, statusText: "Invalid or missing fields" }
     );
   }
-  const state = await service.getAddressState(origin);
+  const state = await service.getAddressState(accountId);
 
   return NextResponse.json(state);
 }

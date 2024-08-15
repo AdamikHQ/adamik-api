@@ -1,33 +1,30 @@
+import { CHAINS } from "~/app/config/chains";
 import { AddressState, AddressesState } from "~/app/model/types_WIP";
 import { BtcService } from ".";
-import { CHAINS } from "~/app/config/chains";
-import { addressBalancesDataSchema } from "../backend/types";
-import { z } from "zod";
-
-const xpubRegex =
-  /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!.*&c=)c=\d{10}|(?!.*&h=)h=bip\d{2,3})(?:(?=(?:&c=|&h=))&(c=\d{10}|h=bip\d{2,3}))?)?$/;
+import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
+import { isValidXpub } from "../logic";
+import { BtcParams, Xpub } from "../types";
 
 async function getAddressesState(this: BtcService, addresses: string[]): Promise<AddressesState> {
-  const explorerURL = CHAINS[this.chainId].backends.explorerURL;
-  // FIXME: use POST instead of GET and put addresses in the body
-  const url = `/addresses/balances?addresses=${addresses.join(",")}`;
+  const addressesResult = await fetchAddressesDashboard(this.chainId, addresses);
 
-  const response = await fetch(explorerURL + url).then((response) => response.json());
-  const result = addressBalancesDataSchema(addresses).safeParse(response);
-
-  if (!result.success) {
-    console.warn(`Invalid response from ${this.chainId} node endpoint: ${url.toString()}:`, result.error);
-    throw new Error(`Error while fetching ${this.chainId} accounts infos from the node`);
-  }
-
+  const confirmations_required = (CHAINS[this.chainId].params as BtcParams).confirmations;
   const addressesData: Record<string, AddressesState["addresses"][string]> = {};
+
   for (const address of addresses) {
-    const balance = result.data?.data[address] ? result.data.data[address] : 0n;
+    // extract unconfirmed balance from UTXOs
+    const unconfirmedBalance = addressesResult.data.utxo
+      .filter((utxo) => utxo.address === address)
+      .filter((utxo) => addressesResult.context.state - utxo.block_id + 1 < confirmations_required)
+      .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
+
+    const balance = BigInt(addressesResult.data.addresses[address].balance);
     addressesData[address] = {
       balances: {
         native: {
-          available: balance,
+          available: balance - unconfirmedBalance,
           total: balance,
+          unconfirmed: unconfirmedBalance,
         },
       },
     };
@@ -38,18 +35,38 @@ async function getAddressesState(this: BtcService, addresses: string[]): Promise
   };
 }
 
-async function getAddressState(this: BtcService, address: string): Promise<AddressState> {
-  if (z.string().regex(xpubRegex).safeParse(address).success) {
-    throw new Error("Not implemented");
-  }
-
-  return this.getAddressesState([address]).then((addressesState): AddressState => {
-    return {
-      chainId: this.chainId,
-      address: address,
-      balances: addressesState.addresses[address].balances,
-    };
-  });
+async function getAddressState(this: BtcService, addressOrXpub: string): Promise<AddressState> {
+  return isValidXpub(addressOrXpub)
+    ? this.getXpubState(addressOrXpub)
+    : this.getAddressesState([addressOrXpub]).then((addressesState): AddressState => {
+        return {
+          chainId: this.chainId,
+          address: addressOrXpub,
+          balances: addressesState.addresses[addressOrXpub].balances,
+        };
+      });
 }
 
-export { getAddressesState, getAddressState };
+async function getXpubState(this: BtcService, xpub: Xpub): Promise<AddressState> {
+  const xpubResponse = await fetchXpubDashboard(this.chainId, xpub);
+
+  // extract unconfirmed balance from UTXOs
+  const confirmations_required = (CHAINS[this.chainId].params as BtcParams).confirmations;
+  const unconfirmedBalance = xpubResponse.data[xpub].utxo
+    .filter((utxo) => xpubResponse.context.state - utxo.block_id + 1 < confirmations_required)
+    .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
+
+  return {
+    chainId: this.chainId,
+    balances: {
+      native: {
+        available: xpubResponse.data[xpub].xpub.balance - unconfirmedBalance,
+        total: xpubResponse.data[xpub].xpub.balance,
+        unconfirmed: unconfirmedBalance,
+      },
+    },
+    address: xpub,
+  };
+}
+
+export { getAddressState, getAddressesState, getXpubState };

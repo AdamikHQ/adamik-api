@@ -46,7 +46,6 @@ const requestSchema = z.object({
     },
   ]
 });
-type Request = z.infer<typeof requestSchema>;
 
 const responseSchema = z.object({
   chainId: chainIdSchema,

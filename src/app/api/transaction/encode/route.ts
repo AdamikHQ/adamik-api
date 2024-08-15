@@ -7,7 +7,7 @@ import { requestSchema } from "./schema";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = requestSchema.parse(await request.json());
+  const body = await requestSchema.parseAsync(await request.json());
 
   const transactionData: TransactionData = stringToBigint(body.transaction.data);
 

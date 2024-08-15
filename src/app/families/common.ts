@@ -7,6 +7,7 @@ import {
   TransactionStatus,
 } from "../model/types_WIP";
 
+// TODO: Deprecate this whole function in favor of using directly Zod ?
 async function prevalidateTransactionCommon(
   transaction: TransactionData,
   addressValidationFn: (address: string) => Promise<boolean>
@@ -53,11 +54,9 @@ async function prevalidateTransactionCommon(
   // TODO: deprecate multiple senders?
   if ("senders" in transaction) {
     validSender = transaction.senders?.length && (await addressValidationFn(transaction.senders[0]));
-  } else {
-    validSender = await addressValidationFn(transaction.sender);
-  }
-  if (!validSender) {
-    errors.push({ message: "Sender address is invalid" });
+    if (!validSender) {
+      errors.push({ message: "Sender address is invalid" });
+    }
   }
 
   if (

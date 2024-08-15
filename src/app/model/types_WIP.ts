@@ -1,6 +1,7 @@
-import { BtcParams } from "../families/bitcoin/types";
+import { BtcParams, Xpub } from "../families/bitcoin/types";
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
+import { UtxoWithMetadata } from "../families/bitcoin/backend/types";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -62,6 +63,7 @@ enum ChainFeature {
   TRANSACTIONS_TOKENS = "transactions.tokens",
   //TRANSACTIONS_NFT = "transactions.nft",
   TRANSACTIONS_STAKING = "transactions.staking",
+  TRANSACTIONS_TO_MANY = "transactions.to_many",
   MEMO = "memo",
 }
 
@@ -193,7 +195,7 @@ enum TransactionMode {
 }
 
 type Recipient = {
-  amount: bigint;
+  amount?: bigint;
   address: string;
 };
 
@@ -223,6 +225,7 @@ type CommonTransaction = {
   memo?: string;
   format?: EncodedTransactionFormat;
   params?: TransactionParams;
+  inputs?: UtxoWithMetadata[]; // for internal BTC use only
 };
 
 type TransferTransaction = BaseTransaction &
@@ -244,10 +247,15 @@ type DelegateTransaction = BaseTransaction &
 
 type MultiRecipientTransaction = BaseTransaction & {
   mode: TransactionMode.TRANSFER_TO_MANY;
-  sender: string;
+  sender: Xpub;
   recipients: Recipient[];
+  inputs?: UtxoWithMetadata[];
   fees: bigint;
 };
+
+function isMultiRecipientTransaction(transaction: TransactionData): transaction is MultiRecipientTransaction {
+  return transaction.mode === TransactionMode.TRANSFER_TO_MANY;
+}
 
 type UndelegateTransaction = BaseTransaction &
   CommonTransaction & {
@@ -345,13 +353,14 @@ type Pagination = {
 };
 
 export {
-  ChainId,
   ChainFamily,
   ChainFeature,
-  TransactionMode,
+  ChainId,
   EncodedTransactionFormat,
-  TokenType,
   StakingStatus,
+  TokenType,
+  TransactionMode,
+  isMultiRecipientTransaction,
 };
 
 export type {

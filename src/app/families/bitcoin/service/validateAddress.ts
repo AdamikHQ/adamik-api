@@ -1,8 +1,8 @@
 import { BtcService } from ".";
-import { isValidAddress } from "../logic";
+import { isValidAddress, isValidXpub } from "../logic";
 
 async function validateAddress(this: BtcService, address: string): Promise<boolean> {
-    return isValidAddress(address, this.chainId);
+  return isValidXpub(address) || isValidAddress(address, this.chainId);
 }
 
 export { validateAddress };
