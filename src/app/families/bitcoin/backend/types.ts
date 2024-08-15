@@ -33,28 +33,32 @@ import z from "zod";
  }
  */
 export const requestContextSchema = z.object({
-    code: z.number(),
-    error: z.string().optional(),
-    state: z.number().optional(),
-    state_layer_2: z.number().optional(),
-    results: z.number().optional(),
-    limit: z.number().optional(),
-    offset: z.number().optional(),
-    rows: z.number().optional(),
-    market_price_usd: z.number().optional(),
-    total_rows: z.number().optional(),
-    api: z.object({
-        version: z.string(),
-        last_major_update: z.string().optional(),
-        next_major_update: z.string().optional(),
-        documentation: z.string().optional(),
-        notice: z.string().optional(),
-    }).optional(),
-    cache: z.object({
-        live: z.boolean(),
-        until: z.string().optional(),
-    }).optional(),
-    request_cost: z.number(),
+  code: z.number(),
+  error: z.string().optional(),
+  state: z.number().optional(),
+  state_layer_2: z.number().optional(),
+  results: z.number().optional(),
+  limit: z.number().optional(),
+  offset: z.number().optional(),
+  rows: z.number().optional(),
+  market_price_usd: z.number().optional(),
+  total_rows: z.number().optional(),
+  api: z
+    .object({
+      version: z.string(),
+      last_major_update: z.string().optional(),
+      next_major_update: z.string().optional(),
+      documentation: z.string().optional(),
+      notice: z.string().optional(),
+    })
+    .optional(),
+  cache: z
+    .object({
+      live: z.boolean(),
+      until: z.string().optional(),
+    })
+    .optional(),
+  request_cost: z.number(),
 });
 
 /**
@@ -83,20 +87,21 @@ export const requestContextSchema = z.object({
  * ```
  */
 export const addressBalancesDataSchema = (addresses: string[]) => {
-    const toNumber = z.number().or(z.string()).pipe(z.coerce.number());
-    const toBigInt = z.bigint().or(toNumber).pipe(z.coerce.bigint());
-    const addressesData: z.ZodType<Record<string, bigint>> = addresses.reduce((object, address) => {
-        return object.setKey(address, toBigInt);
-    }, z.object({}));
-    return z.object({
-        data: addressesData.or(z.tuple([])).nullable(),
-        context: requestContextSchema,
-    }).transform((body) => {
-        // if no data is returned, set it to an empty object
-        return {
-            data: !body.data || Array.isArray(body.data) ? {} : body.data ?? {},
-            context: body.context,
-        }
+  const toNumber = z.number().or(z.string()).pipe(z.coerce.number());
+  const toBigInt = z.bigint().or(toNumber).pipe(z.coerce.bigint());
+  const addressesData: z.ZodType<Record<string, bigint>> = addresses.reduce((object, address) => {
+    return object.setKey(address, toBigInt);
+  }, z.object({}));
+  return z
+    .object({
+      data: addressesData.or(z.tuple([])).nullable(),
+      context: requestContextSchema,
+    })
+    .transform((body) => {
+      // if no data is returned, set it to an empty object
+      return {
+        data: !body.data || Array.isArray(body.data) ? {} : body.data ?? {},
+        context: body.context,
+      };
     });
 };
-

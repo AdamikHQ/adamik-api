@@ -19,7 +19,7 @@ async function getAddressState(this: AlgorandService, address: string): Promise<
 
   return {
     chainId: this.chainId,
-    address: address,
+    address,
     balances: {
       native: {
         available: nativeBalance,

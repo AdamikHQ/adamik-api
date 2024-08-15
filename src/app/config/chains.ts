@@ -26,9 +26,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
     ChainFeature.TRANSACTIONS_NATIVE,
     ChainFeature.TRANSACTIONS_TOKENS,
   ],
-  [ChainFamily.BITCOIN]: [
-    ChainFeature.BALANCES_NATIVE,
-  ],
+  [ChainFamily.BITCOIN]: [ChainFeature.BALANCES_NATIVE],
 };
 
 const CHAINS: { [key in ChainId]: Chain } = {
@@ -421,8 +419,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://api.blockchair.com/bitcoin",
     },
     params: undefined,
-    nativeId: "something", // FIXME
-    supportedFeatures: FEATURES[ChainFamily.BITCOIN]
+    nativeId: "bitcoin",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
   },
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,
@@ -432,10 +430,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 8,
     backends: {
       nodeURL: "",
-      explorerURL: "https://api.blockchair.com/bitcoin/testnet"
+      explorerURL: "https://api.blockchair.com/bitcoin/testnet",
     },
     params: undefined,
-    nativeId: "something", // FIXME
+    nativeId: "bitcoin-testnet",
     supportedFeatures: FEATURES[ChainFamily.BITCOIN],
   },
   polygon: {

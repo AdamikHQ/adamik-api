@@ -8,14 +8,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const { chainId, addresses } = requestSchema.parse(await request.json());
 
   const service = getService(chainId);
-  if (!service || !isMultiBalancesService(service)) {
+  if (!isMultiBalancesService(service)) {
     return NextResponse.json(
-      { message: `Chain ID ${chainId} is not supported` },
+      { message: `Endpoint /addresses not available for Chain ID ${chainId}` },
       { status: 400, statusText: `Unsupported chainId` }
     );
   }
 
-  // TODO: move origin as parameter of getAddressesState
   for (const address of addresses) {
     const isAddressValid = await service.validateAddress(address);
     if (!isAddressValid) {

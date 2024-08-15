@@ -4,7 +4,8 @@ import { CHAINS } from "~/app/config/chains";
 import { addressBalancesDataSchema } from "../backend/types";
 import { z } from "zod";
 
-const xpubRegex = /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!.*&c=)c=\d{10}|(?!.*&h=)h=bip\d{2,3})(?:(?=(?:&c=|&h=))&(c=\d{10}|h=bip\d{2,3}))?)?$/;
+const xpubRegex =
+  /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!.*&c=)c=\d{10}|(?!.*&h=)h=bip\d{2,3})(?:(?=(?:&c=|&h=))&(c=\d{10}|h=bip\d{2,3}))?)?$/;
 
 async function getAddressesState(this: BtcService, addresses: string[]): Promise<AddressesState> {
   const explorerURL = CHAINS[this.chainId].backends.explorerURL;
@@ -15,8 +16,8 @@ async function getAddressesState(this: BtcService, addresses: string[]): Promise
   const result = addressBalancesDataSchema(addresses).safeParse(response);
 
   if (!result.success) {
-    // FIXME: discuss standard way to handle errors within backends (tell the user or not? give default empty values or not?)
-    throw new Error(`getAddressState - received invalid response ${JSON.stringify(response)}\n\tbackend parsing error: ${result.error}`);
+    console.warn(`Invalid response from ${this.chainId} node endpoint: ${url.toString()}:`, result.error);
+    throw new Error(`Error while fetching ${this.chainId} accounts infos from the node`);
   }
 
   const addressesData: Record<string, AddressesState["addresses"][string]> = {};
@@ -47,7 +48,7 @@ async function getAddressState(this: BtcService, address: string): Promise<Addre
       chainId: this.chainId,
       address: address,
       balances: addressesState.addresses[address].balances,
-    }
+    };
   });
 }
 

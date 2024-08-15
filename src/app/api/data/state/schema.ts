@@ -1,13 +1,13 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 
-const ACCOUNT_ORIGIN_VALUES = ["Address", "Xpub"] as const;
-const AccountOriginEnums = z.enum(ACCOUNT_ORIGIN_VALUES);
+const ACCOUNT_ID_VALUES = ["Address", "Xpub"] as const;
+const AccountIdEnum = z.enum(ACCOUNT_ID_VALUES);
 
 const requestSchema = z.object({
   chainId: z.string().min(1),
   account: z.object({
-    origin: AccountOriginEnums,
+    accountId: AccountIdEnum,
     value: z.string().min(1),
   }),
 });
