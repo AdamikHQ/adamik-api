@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { transactionDataSchema } from "../schemaCommon";
-import { SchemaObject } from "node_modules/zod-openapi/lib-types/openapi3-ts/dist/oas31";
 
 const newTransactionSchema = z
   .object({

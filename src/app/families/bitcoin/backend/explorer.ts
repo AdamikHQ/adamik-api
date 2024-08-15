@@ -4,8 +4,8 @@ import { ChainId } from "~/app/model/types_WIP";
 import { Xpub } from "../types";
 import {
   BlockchairAddressesResponse,
-  TransactionBroadcastStatusSchema,
   BlockchairXpubResponse,
+  TransactionBroadcastStatusSchema,
 } from "./types";
 
 const queryParams = new URLSearchParams({
@@ -50,7 +50,7 @@ export async function fetchAddressesDashboard(chainId: ChainId, addresses: strin
   return result.data;
 }
 
-export async function postTransaction(chaindId: ChainId, signedTransaction: string) {
+export async function postTransaction(chaindId: ChainId, signedTransaction: string): Promise<string> {
   const explorerURL = CHAINS[chaindId].backends.explorerURL;
 
   queryParams.set("data", signedTransaction);
@@ -68,4 +68,75 @@ export async function postTransaction(chaindId: ChainId, signedTransaction: stri
   }
 
   return result.data.data.transaction_hash;
+}
+
+export async function fetchFeePerByte(chainId: ChainId): Promise<number> {
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+
+  const url = `/stats?${queryParams.toString()}`;
+
+  const response = await fetch(explorerURL + url);
+
+  // TODO: add zod validation
+  const responseBody = await response.json();
+
+  if (responseBody.context.code !== 200) {
+    throw new Error(`fetchNetworkInformations - received invalid response: ${responseBody.context.error}`);
+  }
+
+  return responseBody.data.suggested_transaction_fee_per_byte_sat;
+}
+
+export async function fetchTxMetadata(
+  chainId: ChainId,
+  txHash: string
+): Promise<{
+  [key: string]: {
+    has_witness: boolean;
+    outputs: [
+      {
+        index: number;
+        script_hex: string;
+        // ... other fields are not used for now
+      }
+    ];
+    // ... other fields are not used for now
+  };
+}> {
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const url = `/dashboards/transaction/${txHash}?${queryParams.toString()}`;
+
+  const response = await fetch(explorerURL + url);
+
+  const responseBody = await response.json();
+
+  if (responseBody.context.code !== 200) {
+    throw new Error(`fetchRawTxMetadata - received invalid response: ${responseBody.context.error}`);
+  }
+
+  return responseBody.data;
+}
+
+export async function fetchRawTxMetadata(
+  chainId: ChainId,
+  txHash: string
+): Promise<{
+  [key: string]: {
+    // key is tx_hash
+    raw_transaction: string;
+    /// ... other fields are not used for now
+  };
+}> {
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const url = `/raw/transaction/${txHash}?${queryParams.toString()}`;
+
+  const response = await fetch(explorerURL + url);
+
+  const responseBody = await response.json();
+
+  if (responseBody.context.code !== 200) {
+    throw new Error(`fetchRawTxMetadata - received invalid response: ${responseBody.context.error}`);
+  }
+
+  return responseBody.data;
 }

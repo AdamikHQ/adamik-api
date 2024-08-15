@@ -1,15 +1,26 @@
+import { UTXO } from "coinselect";
 import z from "zod";
 
-// Blockchair responses SUB-MODELS
-const UtxosSchema = z.object({
-  block_id: z.number(),
-  transaction_hash: z.string(),
-  index: z.number(),
-  value: z.number(),
-  address: z.string(),
-});
+const BlockchairUtxoData = z
+  .object({
+    block_id: z.number(),
+    transaction_hash: z.string(),
+    index: z.number(),
+    value: z.number(),
+    address: z.string(),
+  })
+  .transform((data) => {
+    return {
+      /** add fields for compatibility with coinselect @see {@link UTXO} */
+      txid: data.transaction_hash,
+      vout: data.index,
+      ...data,
+    };
+  });
 
-const AddressSchema = z.object({
+export type UtxoWithMetadata = z.infer<typeof BlockchairUtxoData>;
+
+const BlockchairAddressData = z.object({
   type: z.string(),
   script_hex: z.string(),
   balance: z.number(),
@@ -209,14 +220,14 @@ export const BlockchairXpubData = z.record(
     }),
     addresses: z.record(
       z.string(),
-      AddressSchema.and(
+      BlockchairAddressData.and(
         z.object({
           path: z.string(),
         })
       )
     ),
     transactions: z.array(z.string()),
-    utxo: UtxosSchema.array(),
+    utxo: BlockchairUtxoData.array(),
   })
 );
 
@@ -232,15 +243,15 @@ export const BlockchairXpubResponse = z.object({
 
 export const BlockchairAddressesResponse = z.object({
   data: z.object({
-    set: AddressSchema.omit({
+    set: BlockchairAddressData.omit({
       type: true,
       script_hex: true,
       received_usd: true,
       spent_usd: true,
     }),
-    addresses: z.record(z.string(), AddressSchema),
+    addresses: z.record(z.string(), BlockchairAddressData),
     transactions: z.array(z.string()),
-    utxo: UtxosSchema.and(
+    utxo: BlockchairUtxoData.and(
       z.object({
         address: z.string(),
       })
@@ -272,8 +283,10 @@ export const BlockchairAddressesResponse = z.object({
  * 
  */
 export const TransactionBroadcastStatusSchema = z.object({
-  data: z.object({
-    transaction_hash: z.string(),
-  }).optional(),
+  data: z
+    .object({
+      transaction_hash: z.string(),
+    })
+    .optional(),
   context: requestContextSchema,
-})
+});

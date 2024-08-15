@@ -29,6 +29,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
   [ChainFamily.BITCOIN]: [
     ChainFeature.BALANCES_NATIVE,
     ChainFeature.TRANSACTIONS_TO_MANY,
+    ChainFeature.TRANSACTIONS_NATIVE,
   ],
 };
 
@@ -421,10 +422,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "",
       explorerURL: "https://api.blockchair.com/bitcoin",
     },
-params: {
-  confirmations: 6,
-},
-nativeId: "bitcoin",
+    params: {
+      confirmations: 6,
+    },
+    nativeId: "bitcoin",
     supportedFeatures: FEATURES[ChainFamily.BITCOIN],
   },
   [ChainId.BITCOIN_TESTNET]: {
