@@ -438,7 +438,9 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "",
       explorerURL: "https://api.blockchair.com/bitcoin/testnet",
     },
-    params: undefined,
+    params: {
+      confirmations: 6,
+    },
     nativeId: "something", // FIXME
     supportedFeatures: FEATURES[ChainFamily.BITCOIN],
   },

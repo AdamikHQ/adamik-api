@@ -1,7 +1,7 @@
+import { UTXO } from "coinselect";
 import z from "zod";
 
-// Blockchair responses SUB-MODELS
-const UtxosSchema = z
+const BlockchairUtxoData = z
   .object({
     block_id: z.number(),
     transaction_hash: z.string(),
@@ -18,9 +18,9 @@ const UtxosSchema = z
     };
   });
 
-export type UtxoWithMetadata = z.infer<typeof UtxosSchema>;
+export type UtxoWithMetadata = z.infer<typeof BlockchairUtxoData>;
 
-const AddressSchema = z.object({
+const BlockchairAddressData = z.object({
   type: z.string(),
   script_hex: z.string(),
   balance: z.number(),
@@ -199,7 +199,7 @@ export const requestContextSchema = z.object({
   }
 }
  */
-export const XpubDashboardData = z.record(
+export const BlockchairXpubData = z.record(
   z.string(),
   z.object({
     xpub: z.object({
@@ -220,19 +220,19 @@ export const XpubDashboardData = z.record(
     }),
     addresses: z.record(
       z.string(),
-      AddressSchema.and(
+      BlockchairAddressData.and(
         z.object({
           path: z.string(),
         })
       )
     ),
     transactions: z.array(z.string()),
-    utxo: UtxosSchema.array(),
+    utxo: BlockchairUtxoData.array(),
   })
 );
 
-export const XpubDashboardResponse = z.object({
-  data: XpubDashboardData,
+export const BlockchairXpubResponse = z.object({
+  data: BlockchairXpubData,
   context: requestContextSchema.and(
     // not part of the typical context answer, only happens in the xpub dashboard
     z.object({
@@ -241,21 +241,52 @@ export const XpubDashboardResponse = z.object({
   ),
 });
 
-export const AddressesDashboardResponse = z.object({
+export const BlockchairAddressesResponse = z.object({
   data: z.object({
-    set: AddressSchema.omit({
+    set: BlockchairAddressData.omit({
       type: true,
       script_hex: true,
       received_usd: true,
       spent_usd: true,
     }),
-    addresses: z.record(z.string(), AddressSchema),
+    addresses: z.record(z.string(), BlockchairAddressData),
     transactions: z.array(z.string()),
-    utxo: UtxosSchema.and(
+    utxo: BlockchairUtxoData.and(
       z.object({
         address: z.string(),
       })
     ).array(),
   }),
+  context: requestContextSchema,
+});
+
+/**
+ * Dynamic body schema for the POST /push/transaction endpoint
+ * https://api.blockchair.com/{:chain}/push/transaction
+ *  *
+ *  @param chain chain on which the transaction should be broadcasted
+ *
+ *  @link https://blockchair.com/api/docs#link_202
+ *
+ *  @example
+    ```json
+    {
+      "data": {
+        "transaction_hash": "0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098"
+      },
+      "context": {
+        "code": 200,
+        ...
+      }
+    }
+    ```
+ * 
+ */
+export const TransactionBroadcastStatusSchema = z.object({
+  data: z
+    .object({
+      transaction_hash: z.string(),
+    })
+    .optional(),
   context: requestContextSchema,
 });

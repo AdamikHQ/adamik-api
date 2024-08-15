@@ -2,9 +2,9 @@ import coinSelect from "coinselect";
 import split from "coinselect/split.js";
 import { isMultiRecipientTransaction, TransactionMode, TransactionWrapper } from "~/app/model/types_WIP";
 import { BtcService } from ".";
-import { fetchFeePerByte, fetchXpubData } from "../backend/explorer";
+import { fetchFeePerByte, fetchXpubDashboard } from "../backend/explorer";
 import { UtxoWithMetadata } from "../backend/types";
-import { Xpub } from "../logic";
+import { Xpub } from "../types";
 
 async function completeTransaction(this: BtcService, transaction: TransactionWrapper): Promise<void> {
   let selectionAlgorithm = coinSelect;
@@ -42,8 +42,9 @@ async function completeTransaction(this: BtcService, transaction: TransactionWra
 
   const feeRate = await fetchFeePerByte(this.chainId);
 
-  const allUtxos = (await fetchXpubData(this.chainId, transaction.data.sender)).data[transaction.data.sender]
-    .utxo;
+  const allUtxos = (await fetchXpubDashboard(this.chainId, transaction.data.sender)).data[
+    transaction.data.sender
+  ].utxo;
 
   const { inputs, outputs, fee } = selectionAlgorithm(
     allUtxos,

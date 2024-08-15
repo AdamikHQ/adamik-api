@@ -1,12 +1,12 @@
 import { CHAINS } from "~/app/config/chains";
 import { AddressState, AddressesState } from "~/app/model/types_WIP";
 import { BtcService } from ".";
-import { fetchAddressesBalances, fetchXpubData } from "../backend/explorer";
-import { Xpub, isXpub } from "../logic";
-import { BtcParams } from "../types";
+import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
+import { isValidXpub } from "../logic";
+import { BtcParams, Xpub } from "../types";
 
 async function getAddressesState(this: BtcService, addresses: string[]): Promise<AddressesState> {
-  const addressesResult = await fetchAddressesBalances(this.chainId, addresses);
+  const addressesResult = await fetchAddressesDashboard(this.chainId, addresses);
 
   const confirmations_required = (CHAINS[this.chainId].params as BtcParams).confirmations;
   const addressesData: Record<string, AddressesState["addresses"][string]> = {};
@@ -36,21 +36,19 @@ async function getAddressesState(this: BtcService, addresses: string[]): Promise
 }
 
 async function getAddressState(this: BtcService, addressOrXpub: string): Promise<AddressState> {
-  if (isXpub(addressOrXpub)) {
-    return this.getXpubState(addressOrXpub);
-  }
-
-  return this.getAddressesState([addressOrXpub]).then((addressesState): AddressState => {
-    return {
-      chainId: this.chainId,
-      address: addressOrXpub,
-      balances: addressesState.addresses[addressOrXpub].balances,
-    };
-  });
+  return isValidXpub(addressOrXpub)
+    ? this.getXpubState(addressOrXpub)
+    : this.getAddressesState([addressOrXpub]).then((addressesState): AddressState => {
+        return {
+          chainId: this.chainId,
+          address: addressOrXpub,
+          balances: addressesState.addresses[addressOrXpub].balances,
+        };
+      });
 }
 
 async function getXpubState(this: BtcService, xpub: Xpub): Promise<AddressState> {
-  const xpubResponse = await fetchXpubData(this.chainId, xpub);
+  const xpubResponse = await fetchXpubDashboard(this.chainId, xpub);
 
   // extract unconfirmed balance from UTXOs
   const confirmations_required = (CHAINS[this.chainId].params as BtcParams).confirmations;

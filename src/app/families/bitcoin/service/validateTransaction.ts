@@ -1,11 +1,11 @@
 import { TransactionMode, TransactionWrapper } from "~/app/model/types_WIP";
 import { BtcService } from ".";
-import { isValidAddress, isXpub } from "../logic";
+import { isValidAddress, isValidXpub } from "../logic";
 
 async function prevalidateTransaction(this: BtcService, transaction: TransactionWrapper): Promise<void> {
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
-      if (!isXpub(transaction.data.senders[0])) {
+      if (!isValidXpub(transaction.data.senders[0])) {
         transaction.status.errors.push({
           message: `Sender address ${transaction.data.senders[0]} is invalid for ${transaction.data.chainId}`,
         });
@@ -23,7 +23,7 @@ async function prevalidateTransaction(this: BtcService, transaction: Transaction
       }
       break;
     case TransactionMode.TRANSFER_TO_MANY:
-      if (!isXpub(transaction.data.sender)) {
+      if (!isValidXpub(transaction.data.sender)) {
         transaction.status.errors.push({
           message: `Sender address ${transaction.data.sender} is invalid for ${transaction.data.chainId}`,
         });
