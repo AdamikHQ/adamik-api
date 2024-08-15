@@ -4709,8 +4709,8 @@
                   {
                     "chainId": "bitcoin",
                     "addresses": [
-                      "sample_address1",
-                      "sample_address2"
+                      "138nA3y5QD7F8rx6o48WByvgfsLi8j27ke",
+                      "bc1qgzrva028eym96uax90j28qj3aqhh3dy8gk6qvp"
                     ]
                   }
                 ]
@@ -5072,6 +5072,60 @@
                                           "mode": {
                                             "type": "string",
                                             "enum": [
+                                              "transfer"
+                                            ]
+                                          },
+                                          "senders": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "recipients": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "amount": {
+                                            "type": "string"
+                                          },
+                                          "useMaxAmount": {
+                                            "type": "boolean"
+                                          },
+                                          "fees": {
+                                            "type": "string"
+                                          },
+                                          "gas": {
+                                            "type": "string"
+                                          },
+                                          "nonce": {
+                                            "type": "string"
+                                          },
+                                          "memo": {
+                                            "type": "string"
+                                          },
+                                          "format": {
+                                            "type": "string",
+                                            "enum": [
+                                              "json",
+                                              "hex"
+                                            ]
+                                          }
+                                        },
+                                        "required": [
+                                          "mode",
+                                          "senders",
+                                          "recipients"
+                                        ],
+                                        "title": "Transfer"
+                                      },
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "mode": {
+                                            "type": "string",
+                                            "enum": [
                                               "delegate"
                                             ]
                                           },
@@ -5122,60 +5176,6 @@
                                           "recipients"
                                         ],
                                         "title": "Delegate"
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "mode": {
-                                            "type": "string",
-                                            "enum": [
-                                              "transfer"
-                                            ]
-                                          },
-                                          "senders": {
-                                            "type": "array",
-                                            "items": {
-                                              "type": "string"
-                                            }
-                                          },
-                                          "recipients": {
-                                            "type": "array",
-                                            "items": {
-                                              "type": "string"
-                                            }
-                                          },
-                                          "amount": {
-                                            "type": "string"
-                                          },
-                                          "useMaxAmount": {
-                                            "type": "boolean"
-                                          },
-                                          "fees": {
-                                            "type": "string"
-                                          },
-                                          "gas": {
-                                            "type": "string"
-                                          },
-                                          "nonce": {
-                                            "type": "string"
-                                          },
-                                          "memo": {
-                                            "type": "string"
-                                          },
-                                          "format": {
-                                            "type": "string",
-                                            "enum": [
-                                              "json",
-                                              "hex"
-                                            ]
-                                          }
-                                        },
-                                        "required": [
-                                          "mode",
-                                          "senders",
-                                          "recipients"
-                                        ],
-                                        "title": "Transfer"
                                       },
                                       {
                                         "type": "object",
@@ -5350,6 +5350,60 @@
                                           "mode": {
                                             "type": "string",
                                             "enum": [
+                                              "transfer"
+                                            ]
+                                          },
+                                          "senders": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "recipients": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "amount": {
+                                            "type": "string"
+                                          },
+                                          "useMaxAmount": {
+                                            "type": "boolean"
+                                          },
+                                          "fees": {
+                                            "type": "string"
+                                          },
+                                          "gas": {
+                                            "type": "string"
+                                          },
+                                          "nonce": {
+                                            "type": "string"
+                                          },
+                                          "memo": {
+                                            "type": "string"
+                                          },
+                                          "format": {
+                                            "type": "string",
+                                            "enum": [
+                                              "json",
+                                              "hex"
+                                            ]
+                                          }
+                                        },
+                                        "required": [
+                                          "mode",
+                                          "senders",
+                                          "recipients"
+                                        ],
+                                        "title": "Transfer"
+                                      },
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "mode": {
+                                            "type": "string",
+                                            "enum": [
                                               "delegate"
                                             ]
                                           },
@@ -5400,60 +5454,6 @@
                                           "recipients"
                                         ],
                                         "title": "Delegate"
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "mode": {
-                                            "type": "string",
-                                            "enum": [
-                                              "transfer"
-                                            ]
-                                          },
-                                          "senders": {
-                                            "type": "array",
-                                            "items": {
-                                              "type": "string"
-                                            }
-                                          },
-                                          "recipients": {
-                                            "type": "array",
-                                            "items": {
-                                              "type": "string"
-                                            }
-                                          },
-                                          "amount": {
-                                            "type": "string"
-                                          },
-                                          "useMaxAmount": {
-                                            "type": "boolean"
-                                          },
-                                          "fees": {
-                                            "type": "string"
-                                          },
-                                          "gas": {
-                                            "type": "string"
-                                          },
-                                          "nonce": {
-                                            "type": "string"
-                                          },
-                                          "memo": {
-                                            "type": "string"
-                                          },
-                                          "format": {
-                                            "type": "string",
-                                            "enum": [
-                                              "json",
-                                              "hex"
-                                            ]
-                                          }
-                                        },
-                                        "required": [
-                                          "mode",
-                                          "senders",
-                                          "recipients"
-                                        ],
-                                        "title": "Transfer"
                                       },
                                       {
                                         "type": "object",
@@ -5719,6 +5719,60 @@
                                       "mode": {
                                         "type": "string",
                                         "enum": [
+                                          "transfer"
+                                        ]
+                                      },
+                                      "senders": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "recipients": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      },
+                                      "useMaxAmount": {
+                                        "type": "boolean"
+                                      },
+                                      "fees": {
+                                        "type": "string"
+                                      },
+                                      "gas": {
+                                        "type": "string"
+                                      },
+                                      "nonce": {
+                                        "type": "string"
+                                      },
+                                      "memo": {
+                                        "type": "string"
+                                      },
+                                      "format": {
+                                        "type": "string",
+                                        "enum": [
+                                          "json",
+                                          "hex"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "senders",
+                                      "recipients"
+                                    ],
+                                    "title": "Transfer"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
                                           "delegate"
                                         ]
                                       },
@@ -5769,60 +5823,6 @@
                                       "recipients"
                                     ],
                                     "title": "Delegate"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "enum": [
-                                          "transfer"
-                                        ]
-                                      },
-                                      "senders": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "recipients": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "amount": {
-                                        "type": "string"
-                                      },
-                                      "useMaxAmount": {
-                                        "type": "boolean"
-                                      },
-                                      "fees": {
-                                        "type": "string"
-                                      },
-                                      "gas": {
-                                        "type": "string"
-                                      },
-                                      "nonce": {
-                                        "type": "string"
-                                      },
-                                      "memo": {
-                                        "type": "string"
-                                      },
-                                      "format": {
-                                        "type": "string",
-                                        "enum": [
-                                          "json",
-                                          "hex"
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "senders",
-                                      "recipients"
-                                    ],
-                                    "title": "Transfer"
                                   },
                                   {
                                     "type": "object",
@@ -5997,6 +5997,60 @@
                                       "mode": {
                                         "type": "string",
                                         "enum": [
+                                          "transfer"
+                                        ]
+                                      },
+                                      "senders": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "recipients": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      },
+                                      "useMaxAmount": {
+                                        "type": "boolean"
+                                      },
+                                      "fees": {
+                                        "type": "string"
+                                      },
+                                      "gas": {
+                                        "type": "string"
+                                      },
+                                      "nonce": {
+                                        "type": "string"
+                                      },
+                                      "memo": {
+                                        "type": "string"
+                                      },
+                                      "format": {
+                                        "type": "string",
+                                        "enum": [
+                                          "json",
+                                          "hex"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "senders",
+                                      "recipients"
+                                    ],
+                                    "title": "Transfer"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
                                           "delegate"
                                         ]
                                       },
@@ -6047,60 +6101,6 @@
                                       "recipients"
                                     ],
                                     "title": "Delegate"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "enum": [
-                                          "transfer"
-                                        ]
-                                      },
-                                      "senders": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "recipients": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "amount": {
-                                        "type": "string"
-                                      },
-                                      "useMaxAmount": {
-                                        "type": "boolean"
-                                      },
-                                      "fees": {
-                                        "type": "string"
-                                      },
-                                      "gas": {
-                                        "type": "string"
-                                      },
-                                      "nonce": {
-                                        "type": "string"
-                                      },
-                                      "memo": {
-                                        "type": "string"
-                                      },
-                                      "format": {
-                                        "type": "string",
-                                        "enum": [
-                                          "json",
-                                          "hex"
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "senders",
-                                      "recipients"
-                                    ],
-                                    "title": "Transfer"
                                   },
                                   {
                                     "type": "object",
@@ -6296,6 +6296,60 @@
                                         "mode": {
                                           "type": "string",
                                           "enum": [
+                                            "transfer"
+                                          ]
+                                        },
+                                        "senders": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "recipients": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "amount": {
+                                          "type": "string"
+                                        },
+                                        "useMaxAmount": {
+                                          "type": "boolean"
+                                        },
+                                        "fees": {
+                                          "type": "string"
+                                        },
+                                        "gas": {
+                                          "type": "string"
+                                        },
+                                        "nonce": {
+                                          "type": "string"
+                                        },
+                                        "memo": {
+                                          "type": "string"
+                                        },
+                                        "format": {
+                                          "type": "string",
+                                          "enum": [
+                                            "json",
+                                            "hex"
+                                          ]
+                                        }
+                                      },
+                                      "required": [
+                                        "mode",
+                                        "senders",
+                                        "recipients"
+                                      ],
+                                      "title": "Transfer"
+                                    },
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "mode": {
+                                          "type": "string",
+                                          "enum": [
                                             "delegate"
                                           ]
                                         },
@@ -6346,60 +6400,6 @@
                                         "recipients"
                                       ],
                                       "title": "Delegate"
-                                    },
-                                    {
-                                      "type": "object",
-                                      "properties": {
-                                        "mode": {
-                                          "type": "string",
-                                          "enum": [
-                                            "transfer"
-                                          ]
-                                        },
-                                        "senders": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "recipients": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "amount": {
-                                          "type": "string"
-                                        },
-                                        "useMaxAmount": {
-                                          "type": "boolean"
-                                        },
-                                        "fees": {
-                                          "type": "string"
-                                        },
-                                        "gas": {
-                                          "type": "string"
-                                        },
-                                        "nonce": {
-                                          "type": "string"
-                                        },
-                                        "memo": {
-                                          "type": "string"
-                                        },
-                                        "format": {
-                                          "type": "string",
-                                          "enum": [
-                                            "json",
-                                            "hex"
-                                          ]
-                                        }
-                                      },
-                                      "required": [
-                                        "mode",
-                                        "senders",
-                                        "recipients"
-                                      ],
-                                      "title": "Transfer"
                                     },
                                     {
                                       "type": "object",
@@ -6612,6 +6612,60 @@
                                       "mode": {
                                         "type": "string",
                                         "enum": [
+                                          "transfer"
+                                        ]
+                                      },
+                                      "senders": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "recipients": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      },
+                                      "useMaxAmount": {
+                                        "type": "boolean"
+                                      },
+                                      "fees": {
+                                        "type": "string"
+                                      },
+                                      "gas": {
+                                        "type": "string"
+                                      },
+                                      "nonce": {
+                                        "type": "string"
+                                      },
+                                      "memo": {
+                                        "type": "string"
+                                      },
+                                      "format": {
+                                        "type": "string",
+                                        "enum": [
+                                          "json",
+                                          "hex"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "senders",
+                                      "recipients"
+                                    ],
+                                    "title": "Transfer"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
                                           "delegate"
                                         ]
                                       },
@@ -6662,60 +6716,6 @@
                                       "recipients"
                                     ],
                                     "title": "Delegate"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "enum": [
-                                          "transfer"
-                                        ]
-                                      },
-                                      "senders": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "recipients": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "amount": {
-                                        "type": "string"
-                                      },
-                                      "useMaxAmount": {
-                                        "type": "boolean"
-                                      },
-                                      "fees": {
-                                        "type": "string"
-                                      },
-                                      "gas": {
-                                        "type": "string"
-                                      },
-                                      "nonce": {
-                                        "type": "string"
-                                      },
-                                      "memo": {
-                                        "type": "string"
-                                      },
-                                      "format": {
-                                        "type": "string",
-                                        "enum": [
-                                          "json",
-                                          "hex"
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "senders",
-                                      "recipients"
-                                    ],
-                                    "title": "Transfer"
                                   },
                                   {
                                     "type": "object",
@@ -6890,6 +6890,60 @@
                                       "mode": {
                                         "type": "string",
                                         "enum": [
+                                          "transfer"
+                                        ]
+                                      },
+                                      "senders": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "recipients": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      },
+                                      "useMaxAmount": {
+                                        "type": "boolean"
+                                      },
+                                      "fees": {
+                                        "type": "string"
+                                      },
+                                      "gas": {
+                                        "type": "string"
+                                      },
+                                      "nonce": {
+                                        "type": "string"
+                                      },
+                                      "memo": {
+                                        "type": "string"
+                                      },
+                                      "format": {
+                                        "type": "string",
+                                        "enum": [
+                                          "json",
+                                          "hex"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "senders",
+                                      "recipients"
+                                    ],
+                                    "title": "Transfer"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
                                           "delegate"
                                         ]
                                       },
@@ -6940,60 +6994,6 @@
                                       "recipients"
                                     ],
                                     "title": "Delegate"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "enum": [
-                                          "transfer"
-                                        ]
-                                      },
-                                      "senders": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "recipients": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "amount": {
-                                        "type": "string"
-                                      },
-                                      "useMaxAmount": {
-                                        "type": "boolean"
-                                      },
-                                      "fees": {
-                                        "type": "string"
-                                      },
-                                      "gas": {
-                                        "type": "string"
-                                      },
-                                      "nonce": {
-                                        "type": "string"
-                                      },
-                                      "memo": {
-                                        "type": "string"
-                                      },
-                                      "format": {
-                                        "type": "string",
-                                        "enum": [
-                                          "json",
-                                          "hex"
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "senders",
-                                      "recipients"
-                                    ],
-                                    "title": "Transfer"
                                   },
                                   {
                                     "type": "object",
