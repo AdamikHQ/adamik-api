@@ -5,7 +5,7 @@ import { transactionSchema } from "../txSchemaCommon";
 const requestSchema = z.object({
   transaction: transactionSchema.and(
     z.object({
-      encoded: z.string().or(z.object({})),
+      encoded: z.string().or(z.any()),
       signature: z.string(),
     })
   ),

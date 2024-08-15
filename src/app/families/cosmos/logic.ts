@@ -1,5 +1,6 @@
 import { BigNumber } from "bignumber.js";
 import { bech32 } from "bech32";
+import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
 import { AuthInfo, TxRaw, TxBody, Fee } from "cosmjs-types/cosmos/tx/v1beta1/tx";
@@ -7,38 +8,55 @@ import { Secp256k1Signature } from "@cosmjs/crypto";
 import { fromBase64 } from "@cosmjs/encoding";
 import { AminoMsg, StdSignDoc, makeSignDoc, serializeSignDoc } from "@cosmjs/amino";
 import {
-  AminoMsgDelegate,
   AminoMsgSend,
-  /*
-  AminoMsgBeginRedelegate,
   AminoMsgDelegate,
-  AminoMsgUndelegate,
   AminoMsgBeginRedelegate,
+  AminoMsgUndelegate,
   AminoMsgWithdrawDelegatorReward,
-  */
 } from "@cosmjs/stargate";
 import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
-import { MsgSend as ProtoMsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
-//import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
-
+import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { MsgDelegate, MsgUndelegate, MsgBeginRedelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
 import {
   ChainId,
   EncodedTransactionFormat,
   PlainTransaction,
+  StakingPosition,
   Transaction,
   TransactionMode,
 } from "~/app/model/types_WIP";
-import { fetchAccount, fetchNetworkId, simulateTransaction } from "./backend/node";
-import { CosmosChainParams } from "./types";
-import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY } from "./constants";
+import { fetchNetworkId, simulateTransaction } from "./backend/node";
+import { CosmosChainParams, CosmosTransactionParams } from "./types";
+import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
 import { CHAINS } from "~/app/config/chains";
-import { MsgBeginRedelegate, MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { CosmosAccount } from "./backend/types";
 
 // TODO Keep this file as a fourre-tout or split it?
 
 function isBase64(str: string): boolean {
   const base64Regex = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
   return base64Regex.test(str);
+}
+
+function getDelegation(
+  delegations: StakingPosition[],
+  plainTransaction: PlainTransaction
+): StakingPosition | undefined {
+  if (
+    plainTransaction.mode === TransactionMode.REDELEGATE ||
+    plainTransaction.mode === TransactionMode.UNDELEGATE ||
+    plainTransaction.mode === TransactionMode.CLAIM_REWARDS
+  ) {
+    return delegations.find(
+      (delegation) =>
+        delegation.validatorAddresses?.length &&
+        delegation.validatorAddresses[0] ===
+          (plainTransaction.mode === TransactionMode.REDELEGATE
+            ? plainTransaction.sourceValidatorAddress
+            : plainTransaction.validatorAddress)
+    );
+  }
 }
 
 function isValidAddress(address: string, chainId: ChainId): boolean {
@@ -62,8 +80,32 @@ function isValidAddress(address: string, chainId: ChainId): boolean {
   return true;
 }
 
+// Returns the provided CosmosAccount with updated pubKeyType and pubKey,
+// depending on account and transaction data
+function resolvePubKey(account: CosmosAccount, transaction: Transaction): CosmosAccount {
+  const chainParams = CHAINS[transaction.plain.chainId].params as CosmosChainParams;
+  const transactionParams = transaction.plain.params as CosmosTransactionParams;
+
+  // pubKeyType and pubKey are provided by the blockchain only when the address has already done some transaction(s)
+  const pubKeyType = account.pubKeyType || chainParams.defaultPubKeyType;
+  const pubKey = account.pubKey || transactionParams?.pubKey;
+  if (!pubKey) {
+    transaction.status.errors.push({
+      message: "Public key of the sender address not found on the blockchain, it must be provided manually",
+    });
+    return account;
+  }
+
+  return {
+    ...account,
+    pubKey: isBase64(pubKey) ? pubKey : Buffer.from(pubKey, "hex").toString("base64"),
+    pubKeyType,
+  };
+}
+
 async function getEstimatedFees(
   chainId: ChainId,
+  account: CosmosAccount,
   transaction: PlainTransaction
 ): Promise<{
   gasWanted: bigint;
@@ -71,53 +113,53 @@ async function getEstimatedFees(
 }> {
   const chainParams = CHAINS[chainId].params as CosmosChainParams;
 
-  const { protoMsgs } = getMessages(transaction);
-
-  const dummySignature = new Uint8Array(Buffer.from(COSMOS_MOCK_PUBKEY, "hex"));
-
-  const dummyPubKey = "0000"; // Pubkey length must be a multiple of 4
+  const { protoMsgs } = buildMessages(transaction);
 
   const txBytes = buildBroadcastPayload({
     protoMsgs,
-    memo: transaction.memo || "",
     pubKeyType: chainParams.defaultPubKeyType,
-    pubKey: dummyPubKey,
-    feeAmount: undefined,
-    sequence: 0n,
+    pubKey: COSMOS_MOCK_PUBKEY,
+    sequence: account.sequence,
     gasLimit: undefined,
-    signature: dummySignature,
+    feeAmount: [
+      {
+        denom: chainParams.denom,
+        amount: "1", // Amount should just not be 0 as it would impact the simulation by requiring less gas
+      },
+    ],
+    memo: transaction.memo || "",
+    signature: COSMOS_MOCK_SIGNATURE,
   });
 
-  const gasUsed = await (async (): Promise<bigint> => {
+  const gasWanted = await (async (): Promise<BigNumber> => {
     try {
       const payload = JSON.stringify({
-        tx_bytes: Array.from(txBytes),
+        tx_bytes: Buffer.from(txBytes).toString("base64"),
       });
-      return await simulateTransaction(chainId, payload);
+
+      const gasUsed = await simulateTransaction(chainId, payload);
+
+      // Need to use the BigNumber lib to multiply bigints and floats...
+      return new BigNumber(gasUsed.toString()).times(COSMOS_GAS_AMPLIFIER).integerValue(BigNumber.ROUND_CEIL);
     } catch (e) {
       console.warn("/!\\ Failed to estimate gas usage during tx simulation, using default value. Error:", e);
+      return new BigNumber(chainParams?.defaultGas);
     }
-
-    return BigInt(chainParams?.defaultGas);
   })();
 
-  // Need to use the BigNumber lib to multiply bigints and floats...
-  const gasWanted = new BigNumber(gasUsed.toString())
-    .times(COSMOS_GAS_AMPLIFIER)
-    .integerValue(BigNumber.ROUND_CEIL);
   const gasWantedFees = gasWanted.times(chainParams?.minGasPrice).integerValue(BigNumber.ROUND_CEIL);
 
   return { gasWanted: BigInt(gasWanted.toFixed()), gasWantedFees: BigInt(gasWantedFees.toFixed()) };
 }
 
-function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; protoMsgs: ProtoMsg[] } {
+function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; protoMsgs: ProtoMsg[] } {
   const chainParams = CHAINS[transaction.chainId].params as CosmosChainParams;
 
   const aminoMsgs: Array<AminoMsg> = [];
   const protoMsgs: Array<ProtoMsg> = [];
   switch (transaction.mode) {
     case TransactionMode.TRANSFER:
-      const aminoMsg: AminoMsgSend = {
+      const aminoTransferMsg: AminoMsgSend = {
         type: "cosmos-sdk/MsgSend",
         value: {
           from_address: transaction.senders[0],
@@ -130,12 +172,11 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           ],
         },
       };
-      aminoMsgs.push(aminoMsg);
+      aminoMsgs.push(aminoTransferMsg);
 
-      // PROTO MESSAGE
-      const protoMsg = {
+      const protoTransferMsg: ProtoMsg = {
         typeUrl: "/cosmos.bank.v1beta1.MsgSend",
-        value: ProtoMsgSend.encode({
+        value: MsgSend.encode({
           fromAddress: transaction.senders[0],
           toAddress: transaction.recipients[0],
           amount: [
@@ -146,8 +187,9 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
           ],
         }).finish(),
       };
-      protoMsgs.push(protoMsg);
+      protoMsgs.push(protoTransferMsg);
       break;
+
     case TransactionMode.DELEGATE:
       const aminoDelegateMsg: AminoMsgDelegate = {
         type: "cosmos-sdk/MsgDelegate",
@@ -162,8 +204,7 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
       };
       aminoMsgs.push(aminoDelegateMsg);
 
-      // PROTO MESSAGE
-      protoMsgs.push({
+      const protoDelegateMsg: ProtoMsg = {
         typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: MsgDelegate.encode({
           delegatorAddress: transaction.senders[0],
@@ -173,144 +214,128 @@ function getMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; pr
             amount: transaction.amount.toString(),
           },
         }).finish(),
-      });
+      };
+      protoMsgs.push(protoDelegateMsg);
       break;
 
-    // case "redelegate":
-    //   aminoMsgs.push({
-    //     type: "cosmos-sdk/MsgBeginRedelegate",
-    //     value: {
-    //       delegator_address: transaction.senders[0],
-    //       validator_src_address: transaction.sourceValidator,
-    //       validator_dst_address: transaction.targetValidator,
-    //       amount: {
-    //         denom: chainParams?.denom,
-    //         amount: transaction.amount.toString(),
-    //       },
-    //     },
-    //   });
+    case TransactionMode.REDELEGATE:
+      const aminoRedelegateMsg: AminoMsgBeginRedelegate = {
+        type: "cosmos-sdk/MsgBeginRedelegate",
+        value: {
+          delegator_address: transaction.senders[0],
+          validator_src_address: transaction.sourceValidatorAddress,
+          validator_dst_address: transaction.targetValidatorAddress,
+          amount: {
+            denom: chainParams?.denom,
+            amount: transaction.amount.toString(),
+          },
+        },
+      };
+      aminoMsgs.push(aminoRedelegateMsg);
 
-    //   // PROTO MESSAGE
-    //   protoMsgs.push({
-    //     typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
-    //     value: MsgBeginRedelegate.encode({
-    //       delegatorAddress: transaction.senders[0],
-    //       validatorSrcAddress: transaction.sourceValidator,
-    //       validatorDstAddress: transaction.targetValidator,
-    //       amount: {
-    //         denom: chainParams?.denom,
-    //         amount: transaction.amount.toString(),
-    //       },
-    //     }).finish(),
-    //   });
-    //   break;
-    /*
+      const protoRedelegateMsg: ProtoMsg = {
+        typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+        value: MsgBeginRedelegate.encode({
+          delegatorAddress: transaction.senders[0],
+          validatorSrcAddress: transaction.sourceValidatorAddress,
+          validatorDstAddress: transaction.targetValidatorAddress,
+          amount: {
+            denom: chainParams?.denom,
+            amount: transaction.amount.toString(),
+          },
+        }).finish(),
+      };
+      protoMsgs.push(protoRedelegateMsg);
+      break;
 
-    case "undelegate":
-      //if (transaction.validators && transaction.validators.length > 0) {
-        const validator = transaction.validators[0];
-        //if (validator && validator.address && validator.amount.gt(0)) {
-          const aminoMsg: AminoMsgUndelegate = {
-            type: "cosmos-sdk/MsgUndelegate",
+    case TransactionMode.UNDELEGATE:
+      {
+        const aminoUndelegateMsg: AminoMsgUndelegate = {
+          type: "cosmos-sdk/MsgUndelegate",
+          value: {
+            delegator_address: transaction.senders[0],
+            validator_address: transaction.validatorAddress,
+            amount: {
+              denom: chainParams?.denom,
+              amount: transaction.amount.toString(),
+            },
+          },
+        };
+        aminoMsgs.push(aminoUndelegateMsg);
+
+        const protoUndelegateMsg: ProtoMsg = {
+          typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
+          value: MsgUndelegate.encode({
+            delegatorAddress: transaction.senders[0],
+            validatorAddress: transaction.validatorAddress,
+            amount: {
+              denom: chainParams?.denom,
+              amount: transaction.amount.toString(),
+            },
+          }).finish(),
+        };
+        protoMsgs.push(protoUndelegateMsg);
+      }
+      break;
+
+    case TransactionMode.CLAIM_REWARDS:
+      {
+        const aminoClaimRewardsMsg: AminoMsgWithdrawDelegatorReward = {
+          type: "cosmos-sdk/MsgWithdrawDelegationReward",
+          value: {
+            delegator_address: transaction.senders[0],
+            validator_address: transaction.validatorAddress,
+          },
+        };
+        aminoMsgs.push(aminoClaimRewardsMsg);
+
+        const protoClaimRewardsMsg: ProtoMsg = {
+          typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+          value: MsgWithdrawDelegatorReward.encode({
+            delegatorAddress: transaction.senders[0],
+            validatorAddress: transaction.validatorAddress,
+          }).finish(),
+        };
+        protoMsgs.push(protoClaimRewardsMsg);
+
+        if (transaction.compound) {
+          const aminoDelegateMsg: AminoMsgDelegate = {
+            type: "cosmos-sdk/MsgDelegate",
             value: {
-              delegator_address: account.freshAddress,
-              validator_address: validator.address,
+              delegator_address: transaction.senders[0],
+              validator_address: transaction.validatorAddress,
               amount: {
-                denom: account.currency.units[1].code,
-                amount: validator.amount.toFixed(),
+                denom: chainParams?.denom,
+                amount: transaction.amount.toString(),
               },
             },
           };
-          aminoMsgs.push(aminoMsg);
+          aminoMsgs.push(aminoDelegateMsg);
 
-          // PROTO MESSAGE
-          protoMsgs.push({
-            typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
-            value: MsgUndelegate.encode({
-              delegatorAddress: account.freshAddress,
-              validatorAddress: validator.address,
+          const protoDelegateMsg: ProtoMsg = {
+            typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+            value: MsgDelegate.encode({
+              delegatorAddress: transaction.senders[0],
+              validatorAddress: transaction.validatorAddress,
               amount: {
-                denom: account.currency.units[1].code,
-                amount: validator.amount.toFixed(),
+                denom: chainParams?.denom,
+                amount: transaction.amount.toString(),
               },
             }).finish(),
-          });
-        //}
-      //}
+          };
+          protoMsgs.push(protoDelegateMsg);
+        }
+      }
       break;
-    case "claimReward":
-      //if (transaction.validators && transaction.validators.length > 0 && transaction.validators[0].address) {
-        const validator = transaction.validators[0];
-        const aminoMsg: AminoMsgWithdrawDelegatorReward = {
-          type: "cosmos-sdk/MsgWithdrawDelegationReward",
-          value: {
-            delegator_address: account.freshAddress,
-            validator_address: validator.address,
-          },
-        };
-        aminoMsgs.push(aminoMsg);
-
-        // PROTO MESSAGE
-        protoMsgs.push({
-          typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-          value: MsgWithdrawDelegatorReward.encode({
-            delegatorAddress: account.freshAddress,
-            validatorAddress: validator.address,
-          }).finish(),
-        });
-      //}
-      break;
-    case "claimRewardCompound":
-      //if (transaction.validators && transaction.validators.length > 0 && transaction.validators[0].address && transaction.validators[0].amount.gt(0)) {
-        const validator = transaction.validators[0];
-        // AMINO MESSAGES
-        const aminoWithdrawRewardMsg: AminoMsgWithdrawDelegatorReward = {
-          type: "cosmos-sdk/MsgWithdrawDelegationReward",
-          value: {
-            delegator_address: account.freshAddress,
-            validator_address: validator.address,
-          },
-        };
-        const aminoDelegateMsg: AminoMsgDelegate = {
-          type: "cosmos-sdk/MsgDelegate",
-          value: {
-            delegator_address: account.freshAddress,
-            validator_address: validator.address,
-            amount: {
-              denom: account.currency.units[1].code,
-              amount: validator.amount.toFixed(),
-            },
-          },
-        };
-        aminoMsgs.push(aminoWithdrawRewardMsg, aminoDelegateMsg);
-
-        // PROTO MESSAGES
-        protoMsgs.push({
-          typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-          value: MsgWithdrawDelegatorReward.encode({
-            delegatorAddress: account.freshAddress,
-            validatorAddress: validator.address,
-          }).finish(),
-        });
-        protoMsgs.push({
-          typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
-          value: MsgDelegate.encode({
-            delegatorAddress: account.freshAddress,
-            validatorAddress: validator.address,
-            amount: {
-              denom: account.currency.units[1].code,
-              amount: validator.amount.toFixed(),
-            },
-          }).finish(),
-        });
-      //}
-      break;
-      */
   }
   return { aminoMsgs, protoMsgs };
 }
 
-async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction): Promise<StdSignDoc> {
+async function buildSignPayload(
+  chainId: ChainId,
+  account: CosmosAccount,
+  transaction: PlainTransaction
+): Promise<StdSignDoc> {
   if (!transaction.fees) {
     throw new Error("Missing fees data in transaction");
   } else if (!transaction.gas) {
@@ -329,17 +354,16 @@ async function buildSignPayload(chainId: ChainId, transaction: PlainTransaction)
     gas: transaction.gas.toString(),
   };
 
-  const { aminoMsgs } = getMessages(transaction);
+  const { aminoMsgs } = buildMessages(transaction);
   const networkId = await fetchNetworkId(chainId);
-  const { accountNumber, sequence } = await fetchAccount(chainId, transaction.senders[0]);
 
   return makeSignDoc(
     aminoMsgs,
     feeToEncode,
     networkId,
     transaction.memo || "",
-    accountNumber.toString(),
-    sequence.toString()
+    account.accountNumber.toString(),
+    account.sequence.toString()
   );
 }
 
@@ -357,7 +381,7 @@ function buildBroadcastPayload({
   memo: string;
   pubKeyType: string;
   pubKey: string;
-  feeAmount: { amount: bigint; denom: string } | undefined;
+  feeAmount: Coin[];
   gasLimit: bigint | undefined;
   sequence: bigint;
   signature: Uint8Array;
@@ -367,9 +391,6 @@ function buildBroadcastPayload({
       TxBody.fromPartial({
         messages: protoMsgs,
         memo,
-        timeoutHeight: undefined,
-        extensionOptions: [],
-        nonCriticalExtensionOptions: [],
       })
     ).finish(),
     authInfoBytes: AuthInfo.encode({
@@ -378,7 +399,7 @@ function buildBroadcastPayload({
           publicKey: {
             typeUrl: pubKeyType,
             value: PubKey.encode({
-              key: fromBase64(pubKey),
+              key: Buffer.from(pubKey, isBase64(pubKey) ? "base64" : "hex"),
             }).finish(),
           },
           modeInfo: {
@@ -391,7 +412,7 @@ function buildBroadcastPayload({
         },
       ],
       fee: Fee.fromPartial({
-        amount: feeAmount as any,
+        amount: feeAmount,
         gasLimit,
       }),
     }).finish(),
@@ -403,12 +424,13 @@ function buildBroadcastPayload({
 
 async function encodeToSign(
   chainId: ChainId,
+  account: CosmosAccount,
   transaction: PlainTransaction,
   format?: EncodedTransactionFormat
 ): Promise<string> {
   // NOTE Providing payload for an Amino signer (like Ledger)
   // Need to provide payload for Protobuf signer as well?...
-  const signDoc = await buildSignPayload(chainId, transaction);
+  const signDoc = await buildSignPayload(chainId, account, transaction);
 
   if (format === EncodedTransactionFormat.JSON) {
     // FIXME we will need to redefine type here.
@@ -419,10 +441,13 @@ async function encodeToSign(
 
 async function encodeToBroadcast(
   chainId: ChainId,
-  signedTransaction: Transaction,
-  pubKeyType: string,
-  pubKey: string
+  account: CosmosAccount,
+  signedTransaction: Transaction
 ): Promise<string> {
+  const plainTransation = signedTransaction.plain;
+  if (!plainTransation.nonce) {
+    throw new Error("Missing transaction nonce");
+  }
   if (!signedTransaction.signature) {
     throw new Error("Missing signature in transaction");
   }
@@ -433,24 +458,21 @@ async function encodeToBroadcast(
         Secp256k1Signature.fromDer(Buffer.from(signedTransaction.signature, "hex")).toFixedLength()
       );
 
-  const plainTransation = signedTransaction.plain;
+  const { protoMsgs } = buildMessages(plainTransation);
 
-  const { protoMsgs } = getMessages(plainTransation);
-
-  const signDoc = await buildSignPayload(chainId, plainTransation);
-
+  const chainParams = chainId && (CHAINS[chainId].params as CosmosChainParams);
   const txBytes = buildBroadcastPayload({
-    protoMsgs,
+    pubKeyType: account.pubKeyType,
+    pubKey: account.pubKey,
+    feeAmount: [{ amount: plainTransation.fees.toString(), denom: chainParams.denom }] as Coin[],
+    gasLimit: plainTransation.gas,
+    sequence: plainTransation.nonce,
     memo: plainTransation.memo || "",
-    pubKeyType,
-    pubKey,
-    feeAmount: signDoc.fee.amount as any,
-    gasLimit: BigInt(signDoc.fee.gas),
-    sequence: BigInt(signDoc.sequence),
+    protoMsgs,
     signature,
   });
 
   return Buffer.from(txBytes).toString("hex");
 }
 
-export { isValidAddress, getEstimatedFees, encodeToSign, encodeToBroadcast };
+export { getDelegation, isValidAddress, resolvePubKey, getEstimatedFees, encodeToSign, encodeToBroadcast };

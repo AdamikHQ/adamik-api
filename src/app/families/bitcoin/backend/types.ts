@@ -64,22 +64,26 @@ export const requestContextSchema = z.object({
   state: z.number(),
   state_layer_2: z.number().optional(),
   results: z.number().optional(),
-  limit: z.string().optional(),
-  offset: z.string().optional(),
+  limit: z.number().optional(),
+  offset: z.number().optional(),
   rows: z.number().optional(),
   market_price_usd: z.number().optional(),
   total_rows: z.number().optional(),
-  api: z.object({
-    version: z.string(),
-    last_major_update: z.string().optional(),
-    next_major_update: z.string().optional(),
-    documentation: z.string().optional(),
-    notice: z.string().optional(),
-  }).optional(),
-  cache: z.object({
-    live: z.boolean(),
-    until: z.string().optional(),
-  }).optional(),
+  api: z
+    .object({
+      version: z.string(),
+      last_major_update: z.string().optional(),
+      next_major_update: z.string().optional(),
+      documentation: z.string().optional(),
+      notice: z.string().optional(),
+    })
+    .optional(),
+  cache: z
+    .object({
+      live: z.boolean(),
+      until: z.string().optional(),
+    })
+    .optional(),
   request_cost: z.number(),
 });
 

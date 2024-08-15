@@ -2,7 +2,7 @@ import { BaseChainService, MultiBalancesService } from "~/app/model/service";
 import { broadcastTransaction } from "./broadcastTransaction";
 import { completeTransaction } from "./completeTransaction";
 import { encodeTransactionToBroadcast, encodeTransactionToSign } from "./encodeTransaction";
-import { getAddressState, getAddressesState, getXpubState } from "./getAddressesState";
+import { getAddressesState, getAddressState, getXpubState } from "./getAddressesState";
 import { pubkeyToAddress } from "./pubkeyToAddress";
 import { validateAddress } from "./validateAddress";
 import { prevalidateTransaction, validateTransaction } from "./validateTransaction";
