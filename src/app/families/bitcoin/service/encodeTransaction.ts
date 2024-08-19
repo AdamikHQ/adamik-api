@@ -1,18 +1,9 @@
 import { Psbt } from "bitcoinjs-lib";
-import { isMultiRecipientTransaction, TransactionWrapper } from "~/app/model/types_WIP";
+import { CompleteTransaction } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchRawTxMetadata, fetchTxMetadata } from "../backend/explorer";
 
-async function encodeTransactionToSign(this: BtcService, transaction: TransactionWrapper): Promise<void> {
-  /**
-   * This should never happen because the transaction is already validated by zod
-   * @see {@link transactionDataSchema.refine} at the {@link transactionDataSchema} definition
-   * TODO: maybe we could make sure that completeTransaction directly receives a multi-recipient transaction ?
-   */
-  if (!isMultiRecipientTransaction(transaction.data)) {
-    throw new Error(`Something went wrong, the transaction is not a multi-recipient transaction.`);
-  }
-
+async function encodeTransactionToSign(this: BtcService, transaction: CompleteTransaction): Promise<void> {
   if (!transaction.data.inputs || transaction.data.inputs.length === 0) {
     // should not happen as the transaction is already passed through completeTransaction
     throw new Error(`Something went wrong, the transaction has no inputs.`);
@@ -64,7 +55,7 @@ async function encodeTransactionToSign(this: BtcService, transaction: Transactio
 
 async function encodeTransactionToBroadcast(
   this: BtcService,
-  signedTransaction: TransactionWrapper
+  signedTransaction: CompleteTransaction
 ): Promise<string> {
   if (!signedTransaction.signature) {
     throw new Error("missing transaction signature");

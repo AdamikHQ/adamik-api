@@ -1,51 +1,30 @@
-import z, { ZodIssueCode, ZodIssueOptionalMessage } from "zod";
+import z from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
-import { ChainId, StakingStatus, TokenType } from "~/app/model/types_WIP";
 import { chainIdSchema } from "~/app/api/schemaCommon";
+import { ChainId, StakingStatus, TokenType } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
 const addressSchema = z.string().min(1);
 
-const requestSchema = z.object({
-  chainId: chainIdSchema,
-  // default is address, but allow for explicit address or xpub
-}).and(
-  z.object({
-    address: addressSchema,
-  }).openapi({
-    title: "address",
-    deprecated: true,
-  }).or(
-    z.object({
-      accountId: z.string(),
-    }).openapi({
-      title: "account id (either an address or an xpub)",
-    })
-  ).transform((object) => {
-    if ('address' in object) {
-      return {
-        accountId: object.address
-      };
-    }
-    return object;
+const requestSchema = z
+  .object({
+    chainId: chainIdSchema,
+    accountId: z.string(),
+    // default is address, but allow for explicit address or xpub
   })
-).openapi({
-  examples: [
-    {
-      chainId: ChainId.ETHEREUM,
-      address: "0x0000000000000000000000000000000000000000"
-    },
-    {
-      chainId: ChainId.ETHEREUM,
-      accountId: "0x0000000000000000000000000000000000000000",
-    },
-    {
-      chainId: ChainId.BITCOIN,
-      accountId: "xpub",
-    },
-  ]
-});
+  .openapi({
+    examples: [
+      {
+        chainId: ChainId.ETHEREUM,
+        accountId: "0x0000000000000000000000000000000000000000",
+      },
+      {
+        chainId: ChainId.BITCOIN,
+        accountId: "xpub",
+      },
+    ],
+  });
 
 const responseSchema = z.object({
   chainId: chainIdSchema,
@@ -131,4 +110,3 @@ const addressStateOpenAPIPath: ZodOpenApiPathsObject = {
 };
 
 export { addressStateOpenAPIPath, requestSchema, responseSchema };
-

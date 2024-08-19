@@ -1,7 +1,7 @@
-import { BtcParams, Xpub } from "../families/bitcoin/types";
+import { UtxoWithMetadata } from "../families/bitcoin/backend/types";
+import { BtcParams } from "../families/bitcoin/types";
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
-import { UtxoWithMetadata } from "../families/bitcoin/backend/types";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -63,7 +63,6 @@ enum ChainFeature {
   TRANSACTIONS_TOKENS = "transactions.tokens",
   //TRANSACTIONS_NFT = "transactions.nft",
   TRANSACTIONS_STAKING = "transactions.staking",
-  TRANSACTIONS_TO_MANY = "transactions.to_many",
   MEMO = "memo",
 }
 
@@ -138,9 +137,9 @@ type TokenStakingReward = StakingReward & {
   tokenId: string;
 };
 
-type AddressState = {
+type AccountState = {
   chainId: ChainId;
-  address: string;
+  accountId: string;
   balances: {
     native: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
@@ -163,41 +162,14 @@ type AddressState = {
   };
 };
 
-type AddressesState = {
-  chainId: ChainId;
-  addresses: {
-    [key: string]: {
-      balances: AddressState["balances"];
-    };
-  };
-};
-
-// FIXME: Should fully replace AddressState?
-type AccountState = {
-  chainId: ChainId;
-  balances: {
-    native: {
-      available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
-      unconfirmed?: bigint; // Bitcoin: available + pending
-    };
-    tokens?: TokenAmount[];
-  };
-};
-
 enum TransactionMode {
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
-  TRANSFER_TO_MANY = "transferToMany",
   REDELEGATE = "redelegate",
   UNDELEGATE = "undelegate",
   CLAIM_REWARDS = "claimRewards",
 }
-
-type Recipient = {
-  amount?: bigint;
-  address: string;
-};
 
 type TransactionParams = CosmosTransactionParams;
 
@@ -209,114 +181,72 @@ type TransactionParams = CosmosTransactionParams;
 // FIXME Does the 'params' field make sense? It allows chain-specific data into the model...
 // - alternative: all data could be flat?
 // - alternative: an explicit field for each chain? or family? = 'cosmosParams', 'evmParams', etc
-type BaseTransaction = {
+type CommonTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
-};
-
-type CommonTransaction = {
-  senders: string[];
-  recipients: string[];
-  amount: bigint;
-  useMaxAmount?: boolean;
+  sender: string;
+  recipients: { address: string; amount?: bigint }[];
+  useMaxAmount: boolean;
   fees: bigint;
   gas?: bigint;
   nonce?: bigint;
   memo?: string;
-  format?: EncodedTransactionFormat;
-  params?: TransactionParams;
-  inputs?: UtxoWithMetadata[]; // for internal BTC use only
+  format?: EncodedTransactionFormat; // FIXME: really required for all transactions?
+  params?: TransactionParams; // FIXME: really required for all transactions?
 };
 
-type TransferTransaction = BaseTransaction &
-  CommonTransaction & {
-    mode: TransactionMode.TRANSFER;
-  };
-
-type TransferTokenTransaction = BaseTransaction &
-  CommonTransaction & {
-    mode: TransactionMode.TRANSFER_TOKEN;
-    tokenId: string;
-  };
-
-type DelegateTransaction = BaseTransaction &
-  CommonTransaction & {
-    mode: TransactionMode.DELEGATE;
-    validatorAddress: string;
-  };
-
-type MultiRecipientTransaction = BaseTransaction & {
-  mode: TransactionMode.TRANSFER_TO_MANY;
-  sender: Xpub;
-  recipients: Recipient[];
-  inputs?: UtxoWithMetadata[];
-  fees: bigint;
+type TransferTransaction = CommonTransaction & {
+  mode: TransactionMode.TRANSFER;
 };
 
-function isMultiRecipientTransaction(transaction: TransactionData): transaction is MultiRecipientTransaction {
-  return transaction.mode === TransactionMode.TRANSFER_TO_MANY;
-}
+type TransferTokenTransaction = CommonTransaction & {
+  mode: TransactionMode.TRANSFER_TOKEN;
+  tokenId: string;
+};
 
-type UndelegateTransaction = BaseTransaction &
-  CommonTransaction & {
-    mode: TransactionMode.UNDELEGATE;
-    validatorAddress: string;
-  };
+type DelegateTransaction = CommonTransaction & {
+  mode: TransactionMode.DELEGATE;
+  validatorAddress: string;
+};
 
-type RedelegateTransaction = BaseTransaction &
-  CommonTransaction & {
-    mode: TransactionMode.REDELEGATE;
-    sourceValidatorAddress: string;
-    targetValidatorAddress: string;
-  };
+type UndelegateTransaction = CommonTransaction & {
+  mode: TransactionMode.UNDELEGATE;
+  validatorAddress: string;
+};
 
-type ClaimRewardsTransaction = BaseTransaction &
-  CommonTransaction & {
-    mode: TransactionMode.CLAIM_REWARDS;
-    validatorAddress: string;
-    compound?: boolean;
-  };
+type RedelegateTransaction = CommonTransaction & {
+  mode: TransactionMode.REDELEGATE;
+  sourceValidatorAddress: string;
+  targetValidatorAddress: string;
+};
 
-/**
- * @deprecated You should use {@link TransactionData}
- */
-type PlainTransaction =
-  | TransferTransaction
-  | TransferTokenTransaction
-  | DelegateTransaction
-  | UndelegateTransaction
-  | RedelegateTransaction
-  | ClaimRewardsTransaction;
+type ClaimRewardsTransaction = CommonTransaction & {
+  mode: TransactionMode.CLAIM_REWARDS;
+  validatorAddress: string;
+  compound?: boolean;
+};
 
-// TODO: remove PlainTransaction and replace it with all other types
-type TransactionData = PlainTransaction | MultiRecipientTransaction;
-
-/**
- * @deprecated You should use {@link TransactionWrapper}
- *
- * FIXME: refacto EVM + COSMOS + ALGORAND families to stop using Transaction
- */
 type Transaction = {
-  // plain: PlainTransaction;
-  plain: PlainTransaction;
+  data:
+    | TransferTransaction
+    | TransferTokenTransaction
+    | DelegateTransaction
+    | UndelegateTransaction
+    | RedelegateTransaction
+    | ClaimRewardsTransaction;
   encoded?: string;
   signature?: string;
   status: TransactionStatus;
 };
 
-type TransactionWrapper = {
-  data: TransactionData;
-  encoded?: string;
-  signature?: string;
-  status: TransactionStatus;
-};
-
-/*
-type TransactionMetadata = {
-  chain: ChainId;
-  useMaxAmount: boolean;
-};
-*/
+// CompleteTransaction is the first transformation of the Transaction
+// in case UseMaxAmount is true, the amount will be the max spendable and hence the amount field is now always set
+type CompleteTransaction = {
+  data: {
+    recipients: { address: string; amount: bigint }[];
+    inputs?: UtxoWithMetadata[]; // FIXME: for internal BTC use only
+  };
+} & Transaction;
 
 // Used to list spendable amounts, in native currency and one optional token currency
 type TransactionSpendableAmounts = {
@@ -360,27 +290,23 @@ export {
   StakingStatus,
   TokenType,
   TransactionMode,
-  isMultiRecipientTransaction,
 };
 
 export type {
-  AddressesState,
-  AddressState,
+  AccountState,
   BroadcastStatus,
   Chain,
   ChainParams,
+  CompleteTransaction,
   ErrorMsg,
   Pagination,
-  PlainTransaction,
   StakingPosition,
   StakingReward,
   Token,
   TokenAmount,
   TokenStakingReward,
   Transaction,
-  TransactionData,
   TransactionSpendableAmounts,
   TransactionStatus,
-  TransactionWrapper,
   Validator,
 };

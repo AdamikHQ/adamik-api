@@ -1,12 +1,10 @@
-import { AddressState, TokenAmount, TokenType } from "~/app/model/types_WIP";
-import { EvmAddress } from "../types";
-import { getOneEventPerContractAddress } from "../logic";
-import { getBalance, getERC20Balance } from "../backend/node";
-import { getERC20TransferEvents } from "../backend/etherscan";
-import { getERC20TokenAmounts } from "../backend/moralis";
+import { AccountState, TokenAmount } from "~/app/model/types_WIP";
 import { EvmService } from ".";
+import { getERC20TokenAmounts } from "../backend/moralis";
+import { getBalance } from "../backend/node";
+import { EvmAddress } from "../types";
 
-async function getAddressState(this: EvmService, address: EvmAddress): Promise<AddressState> {
+async function getAddressState(this: EvmService, address: EvmAddress): Promise<AccountState> {
   // Native
   const nativeBalance = await getBalance(this.chainId, address);
 
@@ -55,7 +53,7 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
 
   return {
     chainId: this.chainId,
-    address,
+    accountId: address,
     balances: {
       native: {
         available: nativeBalance,

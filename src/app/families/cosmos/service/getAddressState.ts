@@ -1,4 +1,4 @@
-import { AddressState, StakingPosition, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import { AccountState, StakingPosition, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { CHAINS } from "~/app/config/chains";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 import { CosmosBalance } from "../backend/types";
@@ -6,7 +6,7 @@ import { fetchBalances, fetchDelegations, fetchRewards, fetchUnbondingDelegation
 import { CosmosService } from ".";
 import { CosmosChainParams, IBCToken } from "../types";
 
-async function getAddressState(this: CosmosService, address: string): Promise<AddressState> {
+async function getAddressState(this: CosmosService, address: string): Promise<AccountState> {
   const balances: CosmosBalance[] = await fetchBalances(this.chainId, address);
 
   const chain = CHAINS[this.chainId];
@@ -60,7 +60,7 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
 
   return {
     chainId: this.chainId,
-    address,
+    accountId: address,
     balances: {
       native: {
         available: nativeBalance,

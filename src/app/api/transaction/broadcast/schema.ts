@@ -1,6 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { transactionSchema } from "../txSchemaCommon";
+import { transactionSchema } from "../../schemaCommon";
 
 const requestSchema = z.object({
   transaction: transactionSchema.and(

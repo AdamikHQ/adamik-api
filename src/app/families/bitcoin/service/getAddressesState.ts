@@ -1,15 +1,21 @@
 import { CHAINS } from "~/app/config/chains";
-import { AddressState, AddressesState } from "~/app/model/types_WIP";
+import { AccountState } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
 import { isValidXpub } from "../logic";
 import { BtcParams, Xpub } from "../types";
 
-async function getAddressesState(this: BtcService, addresses: string[]): Promise<AddressesState> {
+async function getAddressesState(this: BtcService, addresses: string[]): Promise<AccountState> {
   const addressesResult = await fetchAddressesDashboard(this.chainId, addresses);
 
   const confirmations_required = (CHAINS[this.chainId].params as BtcParams).confirmations;
-  const addressesData: Record<string, AddressesState["addresses"][string]> = {};
+  const aggregatedBalances = {
+    native: {
+      available: 0n,
+      total: 0n,
+      unconfirmed: 0n,
+    },
+  };
 
   for (const address of addresses) {
     // extract unconfirmed balance from UTXOs
@@ -19,35 +25,24 @@ async function getAddressesState(this: BtcService, addresses: string[]): Promise
       .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
 
     const balance = BigInt(addressesResult.data.addresses[address].balance);
-    addressesData[address] = {
-      balances: {
-        native: {
-          available: balance - unconfirmedBalance,
-          total: balance,
-          unconfirmed: unconfirmedBalance,
-        },
-      },
-    };
+    aggregatedBalances.native.available += balance - unconfirmedBalance;
+    aggregatedBalances.native.total += balance;
+    aggregatedBalances.native.unconfirmed += unconfirmedBalance;
   }
   return {
     chainId: this.chainId,
-    addresses: addressesData,
+    accountId: addresses.join(","),
+    balances: aggregatedBalances,
   };
 }
 
-async function getAddressState(this: BtcService, addressOrXpub: string): Promise<AddressState> {
+async function getAddressState(this: BtcService, addressOrXpub: string): Promise<AccountState> {
   return isValidXpub(addressOrXpub)
     ? this.getXpubState(addressOrXpub)
-    : this.getAddressesState([addressOrXpub]).then((addressesState): AddressState => {
-        return {
-          chainId: this.chainId,
-          address: addressOrXpub,
-          balances: addressesState.addresses[addressOrXpub].balances,
-        };
-      });
+    : this.getAddressesState([addressOrXpub]);
 }
 
-async function getXpubState(this: BtcService, xpub: Xpub): Promise<AddressState> {
+async function getXpubState(this: BtcService, xpub: Xpub): Promise<AccountState> {
   const xpubResponse = await fetchXpubDashboard(this.chainId, xpub);
 
   // extract unconfirmed balance from UTXOs
@@ -65,8 +60,8 @@ async function getXpubState(this: BtcService, xpub: Xpub): Promise<AddressState>
         unconfirmed: unconfirmedBalance,
       },
     },
-    address: xpub,
+    accountId: xpub,
   };
 }
 
-export { getAddressState, getAddressesState, getXpubState };
+export { getAddressesState, getAddressState, getXpubState };

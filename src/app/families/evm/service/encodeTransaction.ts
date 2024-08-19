@@ -1,25 +1,31 @@
 import {
   encodeFunctionData,
-  parseSignature,
-  serializeTransaction as serializeL1Transaction,
   erc20Abi,
-  toHex,
-  BaseError as ViemError,
-  Signature,
+  parseSignature,
   parseTransaction,
+  serializeTransaction as serializeL1Transaction,
+  Signature,
+  toHex,
   TransactionSerializable,
   TransactionSerialized,
+  BaseError as ViemError,
 } from "viem";
 import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
-import { Transaction, TransactionMode, EncodedTransactionFormat, ChainId } from "~/app/model/types_WIP";
-import { estimateFeesPerGas } from "../backend/node";
-import { EvmService } from ".";
-import { EvmAddress, EvmChainParams } from "../types";
 import { CHAINS } from "~/app/config/chains";
+import {
+  ChainId,
+  CompleteTransaction,
+  EncodedTransactionFormat,
+  Transaction,
+  TransactionMode,
+} from "~/app/model/types_WIP";
+import { EvmService } from ".";
+import { estimateFeesPerGas } from "../backend/node";
+import { EvmAddress, EvmChainParams } from "../types";
 
-async function encodeTransactionToSign(this: EvmService, transaction: Transaction): Promise<void> {
+async function encodeTransactionToSign(this: EvmService, transaction: CompleteTransaction): Promise<void> {
   try {
-    switch (transaction.plain.format) {
+    switch (transaction.data.format) {
       // HEX is the proper format and current default, when format is not explicitely provided
       case undefined:
       case EncodedTransactionFormat.HEX:
@@ -31,7 +37,7 @@ async function encodeTransactionToSign(this: EvmService, transaction: Transactio
         break;
       default:
         throw new Error(
-          `Unsupported encoding format '${transaction.plain.format}' for chain ID ${transaction.plain.chainId}`
+          `Unsupported encoding format '${transaction.data.format}' for chain ID ${transaction.data.chainId}`
         );
     }
   } catch (e: any) {
@@ -41,19 +47,19 @@ async function encodeTransactionToSign(this: EvmService, transaction: Transactio
   }
 }
 
-async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Transaction) {
+async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: CompleteTransaction) {
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
-  switch (transaction.plain.mode) {
+  switch (transaction.data.mode) {
     case TransactionMode.TRANSFER: {
       // NOTE These parameters are specific to Metamask-like signers
       // Will need a more precise format than "JSON" if other signers require other parameters
       transaction.encoded = {
         maxPriorityFeePerGas: toHex(maxPriorityFeePerGas as bigint),
         maxFeePerGas: toHex(maxFeePerGas as bigint),
-        value: toHex(transaction.plain.amount),
-        from: transaction.plain.senders[0],
-        to: transaction.plain.recipients[0],
+        value: toHex(transaction.data.recipients[0].amount),
+        from: transaction.data.sender,
+        to: transaction.data.recipients[0],
       } as any;
       break;
     }
@@ -61,14 +67,14 @@ async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Tran
       const data = encodeFunctionData({
         abi: erc20Abi,
         functionName: "transfer",
-        args: [transaction.plain.recipients[0] as EvmAddress, transaction.plain.amount],
+        args: [transaction.data.recipients[0].address as EvmAddress, transaction.data.recipients[0].amount],
       });
 
       transaction.encoded = {
         maxPriorityFeePerGas: toHex(maxPriorityFeePerGas as bigint),
         maxFeePerGas: toHex(maxFeePerGas as bigint),
-        from: transaction.plain.senders[0],
-        to: transaction.plain.tokenId,
+        from: transaction.data.sender,
+        to: transaction.data.tokenId,
         data,
       } as any;
       break;
@@ -76,25 +82,25 @@ async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Tran
   }
 }
 
-async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Transaction) {
+async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: CompleteTransaction) {
   const chain = CHAINS[chainId];
   const chainParams = chain.params as EvmChainParams;
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
   const data =
-    transaction.plain.mode === TransactionMode.TRANSFER_TOKEN
+    transaction.data.mode === TransactionMode.TRANSFER_TOKEN
       ? encodeFunctionData({
           abi: erc20Abi,
           functionName: "transfer",
-          args: [transaction.plain.recipients[0] as EvmAddress, transaction.plain.amount],
+          args: [transaction.data.recipients[0].address as EvmAddress, transaction.data.recipients[0].amount],
         })
       : undefined;
 
   const recipient =
-    transaction.plain.mode === TransactionMode.TRANSFER_TOKEN
-      ? (transaction.plain.tokenId as EvmAddress)
-      : (transaction.plain.recipients[0] as EvmAddress);
+    transaction.data.mode === TransactionMode.TRANSFER_TOKEN
+      ? (transaction.data.tokenId as EvmAddress)
+      : (transaction.data.recipients[0].address as EvmAddress);
 
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
@@ -102,10 +108,10 @@ async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Trans
     chainId: Number(chain.nativeId),
     maxFeePerGas,
     maxPriorityFeePerGas,
-    gas: transaction.plain.gas,
-    nonce: Number(transaction.plain.nonce),
+    gas: transaction.data.gas,
+    nonce: Number(transaction.data.nonce),
     to: recipient,
-    value: transaction.plain.amount,
+    value: transaction.data.recipients[0].amount,
     data,
   }) as TransactionSerialized;
 }

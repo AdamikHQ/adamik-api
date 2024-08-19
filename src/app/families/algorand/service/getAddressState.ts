@@ -1,8 +1,8 @@
-import { AddressState, TokenAmount } from "~/app/model/types_WIP";
+import { AccountState, TokenAmount } from "~/app/model/types_WIP";
 import { fetchAccount } from "../backend/node";
 import { AlgorandService } from ".";
 
-async function getAddressState(this: AlgorandService, address: string): Promise<AddressState> {
+async function getAddressState(this: AlgorandService, address: string): Promise<AccountState> {
   const { balance: nativeBalance, assetAmounts } = await fetchAccount(address);
 
   const tokenAmounts: TokenAmount[] = [];
@@ -19,7 +19,7 @@ async function getAddressState(this: AlgorandService, address: string): Promise<
 
   return {
     chainId: this.chainId,
-    address,
+    accountId: address,
     balances: {
       native: {
         available: nativeBalance,

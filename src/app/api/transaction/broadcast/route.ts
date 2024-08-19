@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
-import { BroadcastStatus, TransactionWrapper } from "~/app/model/types_WIP";
+import { BroadcastStatus, CompleteTransaction, Transaction } from "~/app/model/types_WIP";
 import { requestSchema } from "./schema";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await requestSchema.parseAsync(await request.json());
 
-  let transaction: TransactionWrapper = {
+  let transaction: CompleteTransaction = {
     data: stringToBigint(body.transaction.data),
     // FIXME: better schema for encoded required
     encoded: body.transaction.encoded as any,

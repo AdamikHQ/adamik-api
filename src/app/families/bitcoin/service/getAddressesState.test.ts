@@ -1,22 +1,19 @@
 import { getAddressesState } from "./getAddressesState";
 import { BtcService } from ".";
-import { AddressesState, ChainId } from "~/app/model/types_WIP";
+import { AccountState, ChainId } from "~/app/model/types_WIP";
 
 const CHAIN_ID = ChainId.BITCOIN;
 
 describe("getAddressesState", () => {
   it("should fetch address state successfully", async () => {
     const btcService = new BtcService(CHAIN_ID);
-    const expectedAddressState: AddressesState = {
+    const expectedAddressState: AccountState = {
       chainId: btcService.chainId,
-      addresses: {
-        sample_address: {
-          balances: {
-            native: {
-              available: 25550215769897n,
-              total: 25550215769897n,
-            },
-          },
+      accountId: "sample_address",
+      balances: {
+        native: {
+          available: 25550215769897n,
+          total: 25550215769897n,
         },
       },
     };
@@ -46,16 +43,13 @@ describe("getAddressesState", () => {
 
   it("should have balance at 0n if blockchair returns invalid response", async () => {
     const btcService = new BtcService(CHAIN_ID);
-    const expectedAddressState: AddressesState = {
+    const expectedAddressState: AccountState = {
       chainId: btcService.chainId,
-      addresses: {
-        sample_address: {
-          balances: {
-            native: {
-              available: 0n,
-              total: 0n,
-            },
-          },
+      accountId: "sample_address",
+      balances: {
+        native: {
+          available: 0n,
+          total: 0n,
         },
       },
     };
@@ -68,16 +62,13 @@ describe("getAddressesState", () => {
 
   it("should have balance at 0n if blockchair returns response with error code 400", async () => {
     const btcService = new BtcService(CHAIN_ID);
-    const expectedAddressState: AddressesState = {
+    const expectedAddressState: AccountState = {
       chainId: btcService.chainId,
-      addresses: {
-        sample_address: {
-          balances: {
-            native: {
-              available: 0n,
-              total: 0n,
-            },
-          },
+      accountId: "sample_address",
+      balances: {
+        native: {
+          available: 0n,
+          total: 0n,
         },
       },
     };

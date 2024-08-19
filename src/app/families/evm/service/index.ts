@@ -22,11 +22,11 @@ class EvmService extends BaseChainService implements TokenService {
   pubkeyToAddress = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
   getAddressState = getAddressStateFn;
-  prevalidateTransaction = this.transactionMethodAdaptator(prevalidateTransactionFn);
-  completeTransaction = this.transactionMethodAdaptator(completeTransactionFn);
-  validateTransaction = this.transactionMethodAdaptator(validateTransactionFn);
-  encodeTransactionToSign = this.transactionMethodAdaptator(encodeTransactionToSignFn);
-  encodeTransactionToBroadcast = this.transactionMethodAdaptator(encodeTransactionToBroadcastFn);
+  prevalidateTransaction = prevalidateTransactionFn;
+  completeTransaction = completeTransactionFn;
+  validateTransaction = validateTransactionFn;
+  encodeTransactionToSign = encodeTransactionToSignFn;
+  encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
   broadcastTransaction = broadcastTransactionFn;
 }
 
