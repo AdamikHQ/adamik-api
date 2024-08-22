@@ -5048,8 +5048,7 @@
                                   "chainId",
                                   "mode",
                                   "sender",
-                                  "recipients",
-                                  "fees"
+                                  "recipients"
                                 ]
                               },
                               {
@@ -5110,10 +5109,7 @@
                                   }
                                 ]
                               }
-                            ],
-                            "discriminator": {
-                              "propertyName": "mode"
-                            }
+                            ]
                           }
                         },
                         "required": [
@@ -5321,8 +5317,7 @@
                               "chainId",
                               "mode",
                               "sender",
-                              "recipients",
-                              "fees"
+                              "recipients"
                             ]
                           },
                           {
@@ -5383,10 +5378,7 @@
                               }
                             ]
                           }
-                        ],
-                        "discriminator": {
-                          "propertyName": "mode"
-                        }
+                        ]
                       }
                     },
                     "required": [
@@ -5529,8 +5521,7 @@
                                         "mode",
                                         "sender",
                                         "recipients",
-                                        "useMaxAmount",
-                                        "fees"
+                                        "useMaxAmount"
                                       ]
                                     },
                                     {
@@ -5591,10 +5582,7 @@
                                         }
                                       ]
                                     }
-                                  ],
-                                  "discriminator": {
-                                    "propertyName": "mode"
-                                  }
+                                  ]
                                 }
                               },
                               "required": [
@@ -5799,8 +5787,7 @@
                               "chainId",
                               "mode",
                               "sender",
-                              "recipients",
-                              "fees"
+                              "recipients"
                             ]
                           },
                           {
@@ -5861,10 +5848,7 @@
                               }
                             ]
                           }
-                        ],
-                        "discriminator": {
-                          "propertyName": "mode"
-                        }
+                        ]
                       }
                     },
                     "required": [
