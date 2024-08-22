@@ -12,40 +12,66 @@ const queryParams = new URLSearchParams({
   key: BLOCKCHAIR_API_KEY,
 });
 
-export async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub) {
+// FIXME: add correct fetch parsing + validation + error handling
+
+export async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<BlockchairXpubResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
 
   const url = `/dashboards/xpub/${xpub}?${queryParams.toString()}`;
-  const response = await fetch(explorerURL + url).then((response) => response.json());
-  const result = BlockchairXpubResponse.safeParse(response);
+  const response = await fetch(explorerURL + url);
 
-  if (!result.success || result.data.context.code != 200) {
-    console.warn(
-      `getXpubState - received invalid response ${JSON.stringify(response)}\n\tbackend parsing error: ${
-        result.error
-      }`
+  if (response.status >= 500) {
+    console.warn(`fetchXpubDashboard - received invalid response ${await response.text()}`);
+    throw new Error(`fetchNetworkInformations - provider error: ${response.statusText}`);
+  }
+  const result = BlockchairXpubResponse.safeParse(await response.json());
+
+  if (!result.success) {
+    console.warn(`fetchXpubDashboard - received invalid response ${result.error}`);
+    throw new Error(
+      `fetchNetworkInformations - encoundetered an issue parsing provider's response: ${result.error}`
     );
-    throw new Error(`Error while fetching ${chainId} xpub dashboard from blockchair explorer`);
+  }
+
+  if (result.data.context.code != 200) {
+    console.warn(`fetchXpubDashboard - provider error: ${result.data.context.error}`);
+    throw new Error(`fetchNetworkInformations - provider error: ${result.data.context.error}`);
   }
   return result.data;
 }
 
-export async function fetchAddressesDashboard(chainId: ChainId, addresses: string[]) {
+export async function fetchAddressesDashboard(
+  chainId: ChainId,
+  addresses: string[]
+): Promise<BlockchairAddressesResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   // FIXME: use POST instead of GET and put addresses in the body
   const url = `/dashboards/addresses/${addresses.join(",")}?${queryParams.toString()}`;
 
-  const response = await fetch(explorerURL + url).then((res) => res.json());
-  const result = BlockchairAddressesResponse.safeParse(response);
+  const response = await fetch(explorerURL + url);
 
-  if (!result.success || result.data.context.code != 200) {
-    // FIXME: discuss standard way to handle errors within backends (tell the user or not? give default empty values or not?)
-    console.warn(
-      `getAddressState - received invalid response ${JSON.stringify(response)}\n\tbackend parsing error: ${
-        result.error
-      }`
+  if (response.status >= 500) {
+    console.warn(`getAddressState - received invalid response ${await response.text()}`);
+    throw new Error(`fetchNetworkInformations - provider error: ${response.statusText}`);
+  }
+
+  const result = BlockchairAddressesResponse.safeParse(await response.json());
+
+  if (!result.success) {
+    console.warn(`getAddressState - received invalid response ${result.error}`);
+    throw new Error(
+      `fetchNetworkInformations - encoundetered an issue parsing provider's response: ${result.error}`
     );
-    throw new Error(`Error while fetching ${chainId} addresses dashboard from blockchair explorer`);
+  }
+
+  if (result.data.context.code == 404) {
+    return {
+      context: result.data.context,
+      data: null,
+    };
+  } else if (result.data.context.code != 200) {
+    console.warn(`getAddressState - provider error: ${result.data.context.error}`);
+    throw new Error(`fetchNetworkInformations - provider error: ${result.data.context.error}`);
   }
   return result.data;
 }
@@ -58,13 +84,24 @@ export async function postTransaction(chaindId: ChainId, signedTransaction: stri
 
   const response = await fetch(`${explorerURL + url}`, {
     method: "POST",
-  }).then((res) => res.json());
+  });
 
-  const result = TransactionBroadcastStatusSchema.safeParse(response);
+  if (response.status >= 500) {
+    console.warn(`fetchXpubDashboard - received invalid response ${await response.text()}`);
+    throw new Error(`fetchNetworkInformations - provider error: ${response.statusText}`);
+  }
+  const result = TransactionBroadcastStatusSchema.safeParse(await response.json());
 
-  if (!result.success || !result.data.data || result.data.context.code != 200) {
-    console.warn(`broadcastTransaction - received invalid response: ${result.error}`);
-    throw new Error(`Error while broadcasting transaction on ${chaindId} from blockchair explorer`);
+  if (!result.success) {
+    console.warn(`fetchXpubDashboard - received invalid response ${result.error}`);
+    throw new Error(
+      `fetchNetworkInformations - encoundetered an issue parsing provider's response: ${result.error}`
+    );
+  }
+
+  if (result.data.context.code != 200 || !result.data.data?.transaction_hash) {
+    console.warn(`fetchXpubDashboard - provider error: ${result.data.context.error}`);
+    throw new Error(`fetchNetworkInformations - provider error: ${result.data.context.error}`);
   }
 
   return result.data.data.transaction_hash;
@@ -77,10 +114,16 @@ export async function fetchFeePerByte(chainId: ChainId): Promise<number> {
 
   const response = await fetch(explorerURL + url);
 
+  if (!response.ok) {
+    console.warn(`fetchNetworkInformations - received invalid response ${response.text()}`);
+    throw new Error(`Error while fetching ${chainId} from blockchair explorer`);
+  }
+
   // TODO: add zod validation
   const responseBody = await response.json();
 
   if (responseBody.context.code !== 200) {
+    console.warn(`fetchNetworkInformations - received invalid response ${JSON.stringify(responseBody)}`);
     throw new Error(`fetchNetworkInformations - received invalid response: ${responseBody.context.error}`);
   }
 
@@ -108,9 +151,14 @@ export async function fetchTxMetadata(
 
   const response = await fetch(explorerURL + url);
 
+  if (!response.ok) {
+    console.warn(`fetchTxMetadata - received invalid response ${response.text()}`);
+    throw new Error(`Error while fetching ${chainId} from blockchair explorer`);
+  }
   const responseBody = await response.json();
 
   if (responseBody.context.code !== 200) {
+    console.warn(`fetchNetworkInformations - received invalid response ${JSON.stringify(responseBody)}`);
     throw new Error(`fetchRawTxMetadata - received invalid response: ${responseBody.context.error}`);
   }
 
@@ -132,9 +180,15 @@ export async function fetchRawTxMetadata(
 
   const response = await fetch(explorerURL + url);
 
+  if (!response.ok) {
+    console.warn(`fetchRawTxMetadata - received invalid response ${response.text()}`);
+    throw new Error(`Error while fetching ${chainId} from blockchair explorer`);
+  }
+
   const responseBody = await response.json();
 
   if (responseBody.context.code !== 200) {
+    console.warn(`fetchNetworkInformations - received invalid response ${JSON.stringify(responseBody)}`);
     throw new Error(`fetchRawTxMetadata - received invalid response: ${responseBody.context.error}`);
   }
 

@@ -53,7 +53,7 @@ async function completeTransaction(this: BtcService, transaction: Transaction): 
     completeInputs.push(input as UtxoWithMetadata);
   }
 
-  const completeRecipients = [];
+  const completeRecipients: { address: string; amount: bigint }[] = [];
   for (const out of outputs) {
     // if address is not defined, it means it's a newly added recipient by coinselect (the change) that we need to reflect in the transaction
     if (!("address" in out)) {
@@ -63,13 +63,11 @@ async function completeTransaction(this: BtcService, transaction: Transaction): 
         address: (inputs[0] as UtxoWithMetadata).address,
         amount: BigInt(out.value),
       });
-    } else {
-      // if there is a value in the output, and there was no amount in the original recipient
-      // => it means we are doing a spendAll transfer and should copy the calculated amount to the recipient
-      const recipientNeedingAmount = transaction.data.recipients.find(
-        (r) => r.address === out.address && !r.amount
-      );
-      if (recipientNeedingAmount && "value" in out) {
+    } else if ("value" in out) {
+      // if there is a value in the output, find the recipient that needs it (in case of calculated max amount) and reflect it in the transaction
+      const recipientNeedingAmount = transaction.data.recipients.find((r) => r.address === out.address);
+
+      if (recipientNeedingAmount) {
         completeRecipients.push({
           address: recipientNeedingAmount.address,
           amount: BigInt(out.value),

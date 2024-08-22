@@ -80,7 +80,7 @@ const transactionDataSchema = z
     sender: z.string(),
     recipients: z.array(recipientSchema).nonempty(),
     useMaxAmount: z.boolean().default(false),
-    fees: positiveBigintSchema,
+    fees: positiveBigintSchema.optional(),
     gas: z.string().optional(),
     nonce: z.string().optional(),
     memo: z.string().optional(),
@@ -103,39 +103,33 @@ const transactionDataSchema = z
   // validation of recipients amount & useMaxAmount
   // -> only one recipient without an amount allowed when using useMaxAmount
   // -> all recipients must have an amount when not using useMaxAmount
-  .superRefine((data) => {
+  .superRefine((data, ctx) => {
     if (data.useMaxAmount) {
       if (data.recipients.length > 1) {
-        return {
+        ctx.addIssue({
           message: "Too many recipients. Only one recipient allowed when using useMaxAmount.",
-          code: z.ZodIssueCode.too_big,
+          code: z.ZodIssueCode.custom,
           path: ["recipients"],
-        };
+        });
       }
       if (data.recipients[0].amount) {
-        return {
+        ctx.addIssue({
           message: "Cannot specify amount when using useMaxAmount.",
-          code: z.ZodIssueCode.invalid_type,
+          code: z.ZodIssueCode.custom,
           path: ["recipients", 0, "amount"],
-        };
+        });
       }
     } else {
       for (const recipient of data.recipients) {
         if (!recipient.amount) {
-          return {
+          ctx.addIssue({
             message: "Missing amount for recipient with address " + recipient.address,
             code: z.ZodIssueCode.custom,
             path: ["recipients"],
-          };
+          });
         }
       }
     }
-  })
-  .openapi({
-    // ref: "Transaction",
-    discriminator: {
-      propertyName: "mode",
-    },
   });
 
 const errorMsgSchema = z.object({

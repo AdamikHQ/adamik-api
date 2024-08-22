@@ -5,8 +5,6 @@ import { ChainId, StakingStatus, TokenType } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
-const addressSchema = z.string().min(1);
-
 const requestSchema = z
   .object({
     chainId: chainIdSchema,

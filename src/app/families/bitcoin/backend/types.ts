@@ -72,11 +72,11 @@ const BlockchairAddressData = z.object({
 export const requestContextSchema = z.object({
   code: z.number(),
   error: z.string().optional(),
-  state: z.number(),
+  state: z.number().optional(),
   state_layer_2: z.number().optional(),
   results: z.number().optional(),
-  limit: z.number().optional(),
-  offset: z.number().optional(),
+  limit: z.string().optional(),
+  offset: z.string().optional(),
   rows: z.number().optional(),
   market_price_usd: z.number().optional(),
   total_rows: z.number().optional(),
@@ -241,24 +241,30 @@ export const BlockchairXpubResponse = z.object({
   ),
 });
 
+export type BlockchairXpubResponse = z.infer<typeof BlockchairXpubResponse>;
+
 export const BlockchairAddressesResponse = z.object({
-  data: z.object({
-    set: BlockchairAddressData.omit({
-      type: true,
-      script_hex: true,
-      received_usd: true,
-      spent_usd: true,
-    }),
-    addresses: z.record(z.string(), BlockchairAddressData),
-    transactions: z.array(z.string()),
-    utxo: BlockchairUtxoData.and(
-      z.object({
-        address: z.string(),
-      })
-    ).array(),
-  }),
+  data: z
+    .object({
+      set: BlockchairAddressData.omit({
+        type: true,
+        script_hex: true,
+        received_usd: true,
+        spent_usd: true,
+      }),
+      addresses: z.record(z.string(), BlockchairAddressData),
+      transactions: z.array(z.string()),
+      utxo: BlockchairUtxoData.and(
+        z.object({
+          address: z.string(),
+        })
+      ).array(),
+    })
+    .nullable(),
   context: requestContextSchema,
 });
+
+export type BlockchairAddressesResponse = z.infer<typeof BlockchairAddressesResponse>;
 
 /**
  * Dynamic body schema for the POST /push/transaction endpoint

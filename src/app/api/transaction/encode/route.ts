@@ -27,20 +27,29 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   let completeTransaction = await service.completeTransaction(transaction);
   if (completeTransaction.status.errors.length) {
-    return NextResponse.json({ completeTransaction }, { status: 400, statusText: `Invalid transaction` });
+    return NextResponse.json(
+      { transaction: completeTransaction },
+      { status: 400, statusText: `Invalid transaction` }
+    );
   }
 
   await service.validateTransaction(completeTransaction);
   if (completeTransaction.status.errors.length) {
-    return NextResponse.json({ completeTransaction }, { status: 400, statusText: `Invalid transaction` });
+    return NextResponse.json(
+      { transaction: completeTransaction },
+      { status: 400, statusText: `Invalid transaction` }
+    );
   }
 
   await service.encodeTransactionToSign(completeTransaction);
 
   if (completeTransaction.status.errors.length) {
-    return NextResponse.json({ completeTransaction }, { status: 400, statusText: `Invalid transaction` });
+    return NextResponse.json(
+      { transaction: completeTransaction },
+      { status: 400, statusText: `Invalid transaction` }
+    );
   } else {
-    return NextResponse.json({ completeTransaction });
+    return NextResponse.json({ transaction: completeTransaction });
   }
 }
 
