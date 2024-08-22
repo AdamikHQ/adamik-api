@@ -652,27 +652,24 @@ const CHAINS_PUBLIC = Object.fromEntries(
   })
 );
 
-function convertTransactionFeatureToMode(feature: ChainFeature) {
-  switch (feature) {
-    case ChainFeature.TRANSACTIONS_NATIVE:
-      return TransactionMode.TRANSFER;
-    case ChainFeature.TRANSACTIONS_TOKENS:
-      return TransactionMode.TRANSFER_TOKEN;
-    case ChainFeature.TRANSACTIONS_STAKING:
-      return TransactionMode.DELEGATE;
-    default:
-      return undefined;
-  }
-}
-
-function getSupportedTransactionModes(chainId: ChainId) {
+function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
   return CHAINS[chainId].supportedFeatures.flatMap((feature) => {
-    const transactionMode = convertTransactionFeatureToMode(feature);
-    if (transactionMode) {
-      return [transactionMode];
+    switch (feature) {
+      case ChainFeature.TRANSACTIONS_NATIVE:
+        return [TransactionMode.TRANSFER];
+      case ChainFeature.TRANSACTIONS_TOKENS:
+        return [TransactionMode.TRANSFER_TOKEN];
+      case ChainFeature.TRANSACTIONS_STAKING:
+        return [
+          TransactionMode.DELEGATE,
+          TransactionMode.REDELEGATE,
+          TransactionMode.UNDELEGATE,
+          TransactionMode.CLAIM_REWARDS,
+        ];
+      default:
+        return [];
     }
-    return []; // filter out features that don't concern transactions
   });
 }
 
-export { CHAINS, CHAINS_PUBLIC, getSupportedTransactionModes, convertTransactionFeatureToMode };
+export { CHAINS, CHAINS_PUBLIC, getSupportedTransactionModes };
