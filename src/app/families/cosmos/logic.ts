@@ -21,10 +21,10 @@ import { AuthInfo, Fee, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx"
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
-  CompleteTransaction,
   EncodedTransactionFormat,
   StakingPosition,
   Transaction,
+  TransactionData,
   TransactionMode,
 } from "~/app/model/types_WIP";
 import { fetchNetworkId, simulateTransaction } from "./backend/node";
@@ -41,7 +41,7 @@ function isBase64(str: string): boolean {
 
 function getDelegation(
   delegations: StakingPosition[],
-  plainTransaction: Transaction["data"]
+  plainTransaction: TransactionData
 ): StakingPosition | undefined {
   if (
     plainTransaction.mode === TransactionMode.REDELEGATE ||
@@ -106,7 +106,7 @@ function resolvePubKey(account: CosmosAccount, transaction: Transaction): Cosmos
 async function getEstimatedFees(
   chainId: ChainId,
   account: CosmosAccount,
-  transaction: CompleteTransaction["data"]
+  transaction: TransactionData
 ): Promise<{
   gasWanted: bigint;
   gasWantedFees: bigint;
@@ -152,11 +152,16 @@ async function getEstimatedFees(
   return { gasWanted: BigInt(gasWanted.toFixed()), gasWantedFees: BigInt(gasWantedFees.toFixed()) };
 }
 
-function buildMessages(transaction: CompleteTransaction["data"]): {
+function buildMessages(transaction: TransactionData): {
   aminoMsgs: AminoMsg[];
   protoMsgs: ProtoMsg[];
 } {
   const chainParams = CHAINS[transaction.chainId].params as CosmosChainParams;
+
+  if (!transaction.recipients[0].amount) {
+    // should never happen in practice as completeTransaction should have been called first
+    throw new Error("Must specify an amount for the recipient");
+  }
 
   const aminoMsgs: Array<AminoMsg> = [];
   const protoMsgs: Array<ProtoMsg> = [];
@@ -337,7 +342,7 @@ function buildMessages(transaction: CompleteTransaction["data"]): {
 async function buildSignPayload(
   chainId: ChainId,
   account: CosmosAccount,
-  transaction: CompleteTransaction["data"]
+  transaction: TransactionData
 ): Promise<StdSignDoc> {
   if (!transaction.fees) {
     throw new Error("Missing fees data in transaction");
@@ -428,7 +433,7 @@ function buildBroadcastPayload({
 async function encodeToSign(
   chainId: ChainId,
   account: CosmosAccount,
-  transaction: CompleteTransaction["data"],
+  transaction: TransactionData,
   format?: EncodedTransactionFormat
 ): Promise<string> {
   // NOTE Providing payload for an Amino signer (like Ledger)
@@ -445,7 +450,7 @@ async function encodeToSign(
 async function encodeToBroadcast(
   chainId: ChainId,
   account: CosmosAccount,
-  signedTransaction: CompleteTransaction
+  signedTransaction: Transaction
 ): Promise<string> {
   const plainTransation = signedTransaction.data;
   if (!plainTransation.nonce) {

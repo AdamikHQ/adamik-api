@@ -11,12 +11,7 @@ import base32 from "hi-base32";
 import sha512 from "js-sha512";
 import nacl from "tweetnacl";
 import { fetchAccount, fetchTransactionParams } from "~/app/families/algorand/backend/node";
-import {
-  CompleteTransaction,
-  Transaction,
-  TransactionMode,
-  TransactionSpendableAmounts,
-} from "~/app/model/types_WIP";
+import { TransactionMode, TransactionSpendableAmounts, TransactionData } from "~/app/model/types_WIP";
 
 // TODO Keep this file as a fourre-tout or split it?
 
@@ -85,7 +80,7 @@ const addressHasAsset = async (address: string, assetId: string): Promise<boolea
   return recipientAccount.assetAmounts.map((a) => a.assetId).includes(assetId);
 };
 
-async function computeMaxSpendable(transaction: Transaction["data"]): Promise<TransactionSpendableAmounts> {
+async function computeMaxSpendable(transaction: TransactionData): Promise<TransactionSpendableAmounts> {
   const { balance, assetAmounts } = await fetchAccount(transaction.sender);
 
   const maxSpendable = computeAlgoMaxSpendable({
@@ -108,7 +103,7 @@ async function computeMaxSpendable(transaction: Transaction["data"]): Promise<Tr
   }
 }
 
-async function computeFees(transaction: CompleteTransaction["data"]): Promise<bigint> {
+async function computeFees(transaction: TransactionData): Promise<bigint> {
   const params = await fetchTransactionParams();
 
   let suggestedFees = 0;
@@ -121,14 +116,17 @@ async function computeFees(transaction: CompleteTransaction["data"]): Promise<bi
   return BigInt(Math.max(suggestedFees, params.minFee));
 }
 
-async function buildRawTransaction(
-  transaction: CompleteTransaction["data"]
-): Promise<AlgoEncodedTransaction> {
+async function buildRawTransaction(transaction: TransactionData): Promise<AlgoEncodedTransaction> {
   const { sender, recipients, mode, memo } = transaction;
 
   const note = memo ? new TextEncoder().encode(memo) : undefined;
 
   const params = await fetchTransactionParams();
+
+  if (!recipients[0].amount) {
+    // should never happen in practice as completeTransaction should have been called first
+    throw new Error("Must specify an amount for the recipient");
+  }
 
   const algoTxn: AlgoTransaction =
     mode !== TransactionMode.TRANSFER_TOKEN

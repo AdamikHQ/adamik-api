@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Transaction } from "~/app/model/types_WIP";
-import { stringToBigint } from "~/app/model/serialization";
 import { getService } from "~/app/families/services";
-import { requestSchema } from "./schema";
+import { stringToBigint } from "~/app/model/serialization";
+import { Transaction, TransactionData } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { requestSchema } from "./schema";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await requestSchema.parseAsync(await request.json());
 
-  const plainTransaction: Transaction["data"] = stringToBigint(body.transaction.data);
+  const transactionData: TransactionData = stringToBigint(body.transaction.data);
 
-  const service = getService(plainTransaction.chainId);
+  const service = getService(transactionData.chainId);
 
   let transaction: Transaction = {
-    data: plainTransaction,
+    data: transactionData,
     status: { errors: [], warnings: [] },
   };
 

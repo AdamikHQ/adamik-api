@@ -1,7 +1,7 @@
 import { isValidAddress } from "algosdk";
-import { CompleteTransaction, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { prevalidateTransactionCommon } from "../../common";
+import { Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { AlgorandService } from ".";
+import { prevalidateTransactionCommon } from "../../common";
 import {
   ALGORAND_MAX_MEMO_SIZE,
   addressHasAsset,
@@ -21,24 +21,30 @@ async function prevalidateTransaction(this: AlgorandService, transaction: Transa
   }
 }
 
-async function validateTransaction(this: AlgorandService, transaction: CompleteTransaction): Promise<void> {
+async function validateTransaction(this: AlgorandService, transaction: Transaction): Promise<void> {
   if (transaction.data.memo && transaction.data.memo.length > ALGORAND_MAX_MEMO_SIZE) {
     transaction.status.errors.push({ message: "Memo is too long" });
   }
 
-  // FIXME Already called by completeTransaction,
+  if (!transaction.data.recipients[0].amount) {
+    // should never happen in practice as completeTransaction should have been called first
+    throw new Error("Must specify an amount for the recipient");
+  }
+  const recipient = transaction.data.recipients[0] as { address: string; amount: bigint };
+
+  // FIXME Already called by transaction,
   // should ideally be put in some common context, or at least some cache
   const maxSpendable = await computeMaxSpendable(transaction.data);
 
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER: {
-      if (transaction.data.recipients[0].amount + transaction.data.fees > maxSpendable.native) {
+      if (recipient.amount + transaction.data.fees > maxSpendable.native) {
         transaction.status.errors.push({ message: "Balance is too low" });
-      } else if (transaction.data.recipients[0].amount < transaction.data.fees * 10n) {
+      } else if (recipient.amount < transaction.data.fees * 10n) {
         transaction.status.warnings.push({ message: "Network fees are above 10% of the amount" });
       }
 
-      if (!(await isAmountValidForRecipient(transaction.data.recipients[0]))) {
+      if (!(await isAmountValidForRecipient(recipient))) {
         transaction.status.errors.push({
           message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
         });
@@ -53,17 +59,17 @@ async function validateTransaction(this: AlgorandService, transaction: CompleteT
         });
       }
 
-      if (maxSpendable.token === undefined || transaction.data.recipients[0].amount > maxSpendable.token) {
+      if (maxSpendable.token === undefined || recipient.amount > maxSpendable.token) {
         transaction.status.errors.push({ message: "Token balance is too low" });
       }
 
-      if (!(await isAmountValidForRecipient(transaction.data.recipients[0]))) {
+      if (!(await isAmountValidForRecipient(recipient))) {
         transaction.status.errors.push({
           message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
         });
       }
 
-      if (!(await addressHasAsset(transaction.data.recipients[0].address, transaction.data.tokenId))) {
+      if (!(await addressHasAsset(recipient.address, transaction.data.tokenId))) {
         transaction.status.errors.push({
           message: "Recipient address has not opted in for the selected ASA",
         });

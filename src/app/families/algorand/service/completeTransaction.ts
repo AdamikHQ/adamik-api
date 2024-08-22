@@ -1,7 +1,7 @@
-import { CompleteTransaction, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { computeMaxSpendable, computeFees } from "../logic";
+import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { computeFees, computeMaxSpendable } from "../logic";
 
-async function completeTransaction(transaction: Transaction): Promise<CompleteTransaction> {
+async function completeTransaction(transaction: Transaction): Promise<void> {
   const maxSpendable = await computeMaxSpendable(transaction.data);
 
   let calculatedAmount = transaction.data.recipients[0].amount;
@@ -15,20 +15,8 @@ async function completeTransaction(transaction: Transaction): Promise<CompleteTr
 
     calculatedAmount = amount && amount >= 0n ? amount : 0n;
   }
-  const completeTransaction: CompleteTransaction = {
-    ...transaction,
-    data: {
-      ...transaction.data,
-      recipients: [
-        {
-          ...transaction.data.recipients[0],
-          amount: calculatedAmount as bigint, // safe to cast, amount is never undefined when useMaxAmount is false
-        },
-      ],
-    },
-  };
-  completeTransaction.data.fees = await computeFees(completeTransaction.data);
-  return completeTransaction;
+  transaction.data.recipients[0].amount = calculatedAmount as bigint;
+  transaction.data.fees = await computeFees(transaction.data);
 }
 
 export { completeTransaction };

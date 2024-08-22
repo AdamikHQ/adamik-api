@@ -1,4 +1,4 @@
-import { CompleteTransaction, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { getDelegation, getEstimatedFees, resolvePubKey } from "../logic";
 import { fetchAccount, fetchBalances, fetchDelegations } from "../backend/node";
 import { CosmosService } from ".";
@@ -7,10 +7,7 @@ import { CosmosChainParams } from "../types";
 import { COSMOS_MOCK_FEES } from "../constants";
 import { bigint } from "zod";
 
-async function completeTransaction(
-  this: CosmosService,
-  transaction: Transaction
-): Promise<CompleteTransaction> {
+async function completeTransaction(this: CosmosService, transaction: Transaction): Promise<void> {
   const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
 
   const senderAddress = transaction.data.sender;
@@ -50,11 +47,7 @@ async function completeTransaction(
     amount = spendableBalance > COSMOS_MOCK_FEES ? spendableBalance - COSMOS_MOCK_FEES : 1n;
   }
 
-  const { gasWanted, gasWantedFees } = await getEstimatedFees(
-    this.chainId,
-    account,
-    transaction.data as CompleteTransaction["data"] // safe to cast, amount is always set if useMaxAmount is false
-  );
+  const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data);
 
   let fees = gasWantedFees;
   let gas = gasWanted;
@@ -75,28 +68,13 @@ async function completeTransaction(
 
   const updatedAccount = resolvePubKey(account, transaction);
 
-  let nonce = account.sequence;
-
-  let params = {
+  transaction.data.nonce = account.sequence;
+  transaction.data.params = {
     pubKey: updatedAccount.pubKey,
   };
-
-  return {
-    ...transaction,
-    data: {
-      ...transaction.data,
-      nonce,
-      params,
-      fees,
-      gas,
-      recipients: [
-        {
-          ...transaction.data.recipients[0],
-          amount: amount as bigint, // safe to cast, amount is always set if useMaxAmount is false
-        },
-      ],
-    },
-  };
+  transaction.data.fees = fees;
+  transaction.data.gas = gas;
+  transaction.data.recipients[0].amount = amount as bigint; // safe to cast, amount is always set if useMaxAmount is false
 }
 
 export { completeTransaction };

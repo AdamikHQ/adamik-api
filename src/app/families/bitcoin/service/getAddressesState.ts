@@ -3,12 +3,12 @@ import { AccountState } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
 import { isValidXpub } from "../logic";
-import { BtcParams, Xpub } from "../types";
+import { BtcChainParams, Xpub } from "../types";
 
 async function getAddressesState(this: BtcService, addresses: string[]): Promise<AccountState> {
   const addressesResult = await fetchAddressesDashboard(this.chainId, addresses);
 
-  const confirmations_required = (CHAINS[this.chainId].params as BtcParams).confirmations;
+  const confirmations_required = (CHAINS[this.chainId].params as BtcChainParams).confirmations;
   const aggregatedBalances = {
     native: {
       available: 0n,
@@ -61,7 +61,7 @@ async function getXpubState(this: BtcService, xpub: Xpub): Promise<AccountState>
   const currentBlockHeight = xpubResponse.context.state;
 
   // extract unconfirmed balance from UTXOs
-  const confirmations_required = (CHAINS[this.chainId].params as BtcParams).confirmations;
+  const confirmations_required = (CHAINS[this.chainId].params as BtcChainParams).confirmations;
   const unconfirmedBalance = xpubResponse.data[xpub].utxo
     .filter((utxo) => currentBlockHeight - utxo.block_id + 1 < confirmations_required)
     .reduce((total, utxo) => total + BigInt(utxo.value), 0n);

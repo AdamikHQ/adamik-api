@@ -1,9 +1,8 @@
-import { CHAINS } from "../config/chains";
-import { ChainFeature, ErrorMsg, Transaction, TransactionMode, TransactionStatus } from "../model/types_WIP";
+import { ErrorMsg, TransactionData, TransactionMode, TransactionStatus } from "../model/types_WIP";
 
 // TODO: Deprecate this whole function in favor of using directly Zod ?
 async function prevalidateTransactionCommon(
-  transaction: Transaction["data"],
+  transaction: TransactionData,
   addressValidationFn: (address: string) => Promise<boolean>
 ): Promise<TransactionStatus> {
   const errors: ErrorMsg[] = [];

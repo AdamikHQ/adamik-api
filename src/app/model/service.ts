@@ -2,7 +2,6 @@ import {
   AccountState,
   BroadcastStatus,
   ChainId,
-  CompleteTransaction,
   Pagination,
   Token,
   Transaction,
@@ -33,14 +32,12 @@ abstract class BaseChainService {
 
   // Crafting
   // NOTE All of these functions will mutate the input 'Transaction' with additional info!
-  // except for completeTransaction which will return a 'CompleteTransaction'
-  // TODO: make new types ValidatedTransaction, EncodedTransaction... etc
   abstract prevalidateTransaction(transaction: Transaction): Promise<void>;
-  abstract completeTransaction(transaction: Transaction): Promise<CompleteTransaction>;
+  abstract completeTransaction(transaction: Transaction): Promise<void>;
   // TODO: should be a type guard:
-  abstract validateTransaction(transaction: CompleteTransaction): Promise<void>;
-  abstract encodeTransactionToSign(transaction: CompleteTransaction): Promise<void>;
-  abstract encodeTransactionToBroadcast(signedTransaction: CompleteTransaction): Promise<string>;
+  abstract validateTransaction(transaction: Transaction): Promise<void>;
+  abstract encodeTransactionToSign(transaction: Transaction): Promise<void>;
+  abstract encodeTransactionToBroadcast(signedTransaction: Transaction): Promise<string>;
 
   // Broadcast
   abstract broadcastTransaction(payload: string): Promise<BroadcastStatus>;

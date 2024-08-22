@@ -1,5 +1,4 @@
-import { UtxoWithMetadata } from "../families/bitcoin/backend/types";
-import { BtcParams } from "../families/bitcoin/types";
+import { BtcChainParams } from "../families/bitcoin/types";
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
 
@@ -52,7 +51,7 @@ enum ChainFamily {
   BITCOIN = "bitcoin",
 }
 
-type ChainParams = CosmosChainParams | EvmChainParams | BtcParams;
+type ChainParams = CosmosChainParams | EvmChainParams | BtcChainParams;
 
 enum ChainFeature {
   BALANCES_NATIVE = "balances.native",
@@ -226,27 +225,20 @@ type ClaimRewardsTransaction = CommonTransaction & {
   compound?: boolean;
 };
 
+type TransactionData =
+  | TransferTransaction
+  | TransferTokenTransaction
+  | DelegateTransaction
+  | UndelegateTransaction
+  | RedelegateTransaction
+  | ClaimRewardsTransaction;
+
 type Transaction = {
-  data:
-    | TransferTransaction
-    | TransferTokenTransaction
-    | DelegateTransaction
-    | UndelegateTransaction
-    | RedelegateTransaction
-    | ClaimRewardsTransaction;
+  data: TransactionData;
   encoded?: string;
   signature?: string;
   status: TransactionStatus;
 };
-
-// CompleteTransaction is the first transformation of the Transaction
-// in case UseMaxAmount is true, the amount will be the max spendable and hence the amount field is now always set
-type CompleteTransaction = {
-  data: {
-    recipients: { address: string; amount: bigint }[];
-    inputs?: UtxoWithMetadata[]; // FIXME: for internal BTC use only
-  };
-} & Transaction;
 
 // Used to list spendable amounts, in native currency and one optional token currency
 type TransactionSpendableAmounts = {
@@ -297,7 +289,6 @@ export type {
   BroadcastStatus,
   Chain,
   ChainParams,
-  CompleteTransaction,
   ErrorMsg,
   Pagination,
   StakingPosition,
@@ -306,6 +297,7 @@ export type {
   TokenAmount,
   TokenStakingReward,
   Transaction,
+  TransactionData,
   TransactionSpendableAmounts,
   TransactionStatus,
   Validator,

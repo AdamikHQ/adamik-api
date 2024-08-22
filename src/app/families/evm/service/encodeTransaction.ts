@@ -12,18 +12,12 @@ import {
 } from "viem";
 import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
-import {
-  ChainId,
-  CompleteTransaction,
-  EncodedTransactionFormat,
-  Transaction,
-  TransactionMode,
-} from "~/app/model/types_WIP";
+import { ChainId, EncodedTransactionFormat, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { EvmService } from ".";
 import { estimateFeesPerGas } from "../backend/node";
 import { EvmAddress, EvmChainParams } from "../types";
 
-async function encodeTransactionToSign(this: EvmService, transaction: CompleteTransaction): Promise<void> {
+async function encodeTransactionToSign(this: EvmService, transaction: Transaction): Promise<void> {
   try {
     switch (transaction.data.format) {
       // HEX is the proper format and current default, when format is not explicitely provided
@@ -47,7 +41,12 @@ async function encodeTransactionToSign(this: EvmService, transaction: CompleteTr
   }
 }
 
-async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: CompleteTransaction) {
+async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Transaction) {
+  if (!transaction.data.recipients[0].amount) {
+    // should never happen in practice as completeTransaction should have been called first
+    throw new Error("Must specify an amount for the recipient");
+  }
+
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
   switch (transaction.data.mode) {
@@ -82,9 +81,14 @@ async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Comp
   }
 }
 
-async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: CompleteTransaction) {
+async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Transaction) {
   const chain = CHAINS[chainId];
   const chainParams = chain.params as EvmChainParams;
+
+  if (!transaction.data.recipients[0].amount) {
+    // should never happen in practice as completeTransaction should have been called first
+    throw new Error("Must specify an amount for the recipient");
+  }
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 

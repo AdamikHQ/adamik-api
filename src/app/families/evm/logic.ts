@@ -1,7 +1,11 @@
 import { BaseError as ViemError } from "viem";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, Transaction, TransactionMode, TransactionSpendableAmounts } from "~/app/model/types_WIP";
-import { EvmAddress, EvmChainParams } from "./types";
+import {
+  ChainId,
+  TransactionData,
+  TransactionMode,
+  TransactionSpendableAmounts,
+} from "~/app/model/types_WIP";
 import {
   estimateERC20FeesForL2,
   estimateERC20Gas,
@@ -12,8 +16,9 @@ import {
   getERC20Balance,
 } from "./backend/node";
 import { EtherscanERC20Event } from "./backend/types";
+import { EvmAddress, EvmChainParams } from "./types";
 
-async function getTransactionGas(chainId: ChainId, transaction: Transaction["data"]): Promise<bigint> {
+async function getTransactionGas(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     return await estimateERC20Gas({
       chainId,
@@ -32,7 +37,7 @@ async function getTransactionGas(chainId: ChainId, transaction: Transaction["dat
   }
 }
 
-async function getTransactionFees(chainId: ChainId, transaction: Transaction["data"]): Promise<bigint> {
+async function getTransactionFees(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
   const chainParams = CHAINS[chainId].params as EvmChainParams;
 
   if (chainParams?.isL2Fees) {
@@ -64,7 +69,7 @@ async function getTransactionFees(chainId: ChainId, transaction: Transaction["da
   return transaction.gas * maxFeePerGas;
 }
 
-async function getTransactionAmount(chainId: ChainId, transaction: Transaction["data"]): Promise<bigint> {
+async function getTransactionAmount(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
   if (!transaction.useMaxAmount) {
     if (!transaction.recipients[0].amount) {
       // should never happen, zod should have validated that we have an amount when useMaxAmount is false
@@ -85,7 +90,7 @@ async function getTransactionAmount(chainId: ChainId, transaction: Transaction["
 
 async function getMaxSpendable(
   chainId: ChainId,
-  transaction: Transaction["data"]
+  transaction: TransactionData
 ): Promise<TransactionSpendableAmounts> {
   const ethBalance = await getBalance(chainId, transaction.sender as EvmAddress);
 
@@ -125,9 +130,9 @@ function getOneEventPerContractAddress(events: EtherscanERC20Event[]): Map<EvmAd
 }
 
 export {
-  getTransactionGas,
-  getTransactionFees,
-  getTransactionAmount,
   getMaxSpendable,
   getOneEventPerContractAddress,
+  getTransactionAmount,
+  getTransactionFees,
+  getTransactionGas,
 };

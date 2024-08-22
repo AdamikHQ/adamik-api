@@ -1,7 +1,7 @@
 import { isAddress as isValidAddress } from "viem";
-import { CompleteTransaction, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { prevalidateTransactionCommon } from "../../common";
+import { Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { EvmService } from ".";
+import { prevalidateTransactionCommon } from "../../common";
 import { getMaxSpendable } from "../logic";
 
 async function prevalidateTransaction(this: EvmService, transaction: Transaction): Promise<void> {
@@ -10,7 +10,12 @@ async function prevalidateTransaction(this: EvmService, transaction: Transaction
   );
 }
 
-async function validateTransaction(this: EvmService, transaction: CompleteTransaction): Promise<void> {
+async function validateTransaction(this: EvmService, transaction: Transaction): Promise<void> {
+  if (!transaction.data.recipients[0].amount) {
+    // should never happen in practice as completeTransaction should have been called first
+    throw new Error("Must specify an amount for the recipient");
+  }
+
   const maxSpendable = await getMaxSpendable(this.chainId, transaction.data);
 
   switch (transaction.data.mode) {

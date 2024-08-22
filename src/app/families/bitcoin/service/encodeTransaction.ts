@@ -1,19 +1,17 @@
 import { Psbt } from "bitcoinjs-lib";
-import { CompleteTransaction } from "~/app/model/types_WIP";
+import { Transaction } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchRawTxMetadata, fetchTxMetadata } from "../backend/explorer";
+import { BtcTransactionParams } from "../types";
 
-async function encodeTransactionToSign(this: BtcService, transaction: CompleteTransaction): Promise<void> {
-  if (!transaction.data.inputs || transaction.data.inputs.length === 0) {
-    // should not happen as the transaction is already passed through completeTransaction
-    throw new Error(`Something went wrong, the transaction has no inputs.`);
-  }
+async function encodeTransactionToSign(this: BtcService, transaction: Transaction): Promise<void> {
+  const params = transaction.data.params as BtcTransactionParams;
 
   let psbt = new Psbt();
 
   // Enrich inputs from the explorer
-  for (let inputIndex = 0; inputIndex < transaction.data.inputs.length; inputIndex++) {
-    const input = transaction.data.inputs[inputIndex];
+  for (let inputIndex = 0; inputIndex < params.inputs.length; inputIndex++) {
+    const input = params.inputs[inputIndex];
     const txMetadata = await fetchTxMetadata(this.chainId, input.transaction_hash);
 
     // FIXME: did I missunderstood the has_witness field?
@@ -55,7 +53,7 @@ async function encodeTransactionToSign(this: BtcService, transaction: CompleteTr
 
 async function encodeTransactionToBroadcast(
   this: BtcService,
-  signedTransaction: CompleteTransaction
+  signedTransaction: Transaction
 ): Promise<string> {
   if (!signedTransaction.signature) {
     throw new Error("missing transaction signature");
