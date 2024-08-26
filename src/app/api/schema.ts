@@ -6,7 +6,6 @@ const responseSchema = z.object({});
 const apiOpenAPIPath: ZodOpenApiPathsObject = {
   "/api": {
     get: {
-      tags: ["chains"],
       description: "Provides the OpenAPI spec of the Adamik API",
       responses: {
         "200": {
