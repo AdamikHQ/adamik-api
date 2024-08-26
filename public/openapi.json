@@ -4985,39 +4985,16 @@
                                       "bitcoin-testnet"
                                     ]
                                   },
-                                  "mode": {
-                                    "type": "string",
-                                    "enum": [
-                                      "transfer",
-                                      "transferToken",
-                                      "delegate",
-                                      "redelegate",
-                                      "undelegate",
-                                      "claimRewards"
-                                    ]
-                                  },
                                   "sender": {
                                     "type": "string"
                                   },
-                                  "recipients": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "address": {
-                                          "type": "string"
-                                        },
-                                        "amount": {
-                                          "type": [
-                                            "string"
-                                          ]
-                                        }
-                                      },
-                                      "required": [
-                                        "address"
-                                      ]
-                                    },
-                                    "minItems": 1
+                                  "recipient": {
+                                    "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
@@ -5032,7 +5009,9 @@
                                     "type": "string"
                                   },
                                   "nonce": {
-                                    "type": "string"
+                                    "type": [
+                                      "string"
+                                    ]
                                   },
                                   "memo": {
                                     "type": "string"
@@ -5047,9 +5026,8 @@
                                 },
                                 "required": [
                                   "chainId",
-                                  "mode",
                                   "sender",
-                                  "recipients"
+                                  "recipient"
                                 ]
                               },
                               {
@@ -5079,12 +5057,13 @@
                                           "delegate"
                                         ]
                                       },
-                                      "validateAddress": {
+                                      "validatorAddress": {
                                         "type": "string"
                                       }
                                     },
                                     "required": [
-                                      "mode"
+                                      "mode",
+                                      "validatorAddress"
                                     ],
                                     "title": "Delegate"
                                   },
@@ -5107,6 +5086,70 @@
                                     ],
                                     "title": "TransferToken",
                                     "description": "Transfer chain tokens"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                          "undelegate"
+                                        ]
+                                      },
+                                      "validatorAddress": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "validatorAddress"
+                                    ],
+                                    "title": "Undelegate"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                          "redelegate"
+                                        ]
+                                      },
+                                      "sourceValidatorAddress": {
+                                        "type": "string"
+                                      },
+                                      "targetValidatorAddress": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "sourceValidatorAddress",
+                                      "targetValidatorAddress"
+                                    ],
+                                    "title": "Redelegate"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                          "claimRewards"
+                                        ]
+                                      },
+                                      "validatorAddress": {
+                                        "type": "string"
+                                      },
+                                      "compound": {
+                                        "type": "boolean"
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "validatorAddress"
+                                    ],
+                                    "title": "ClaimRewards"
                                   }
                                 ]
                               }
@@ -5254,39 +5297,16 @@
                                   "bitcoin-testnet"
                                 ]
                               },
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "transfer",
-                                  "transferToken",
-                                  "delegate",
-                                  "redelegate",
-                                  "undelegate",
-                                  "claimRewards"
-                                ]
-                              },
                               "sender": {
                                 "type": "string"
                               },
-                              "recipients": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "address": {
-                                      "type": "string"
-                                    },
-                                    "amount": {
-                                      "type": [
-                                        "string"
-                                      ]
-                                    }
-                                  },
-                                  "required": [
-                                    "address"
-                                  ]
-                                },
-                                "minItems": 1
+                              "recipient": {
+                                "type": "string"
+                              },
+                              "amount": {
+                                "type": [
+                                  "string"
+                                ]
                               },
                               "useMaxAmount": {
                                 "type": "boolean",
@@ -5301,7 +5321,9 @@
                                 "type": "string"
                               },
                               "nonce": {
-                                "type": "string"
+                                "type": [
+                                  "string"
+                                ]
                               },
                               "memo": {
                                 "type": "string"
@@ -5316,9 +5338,8 @@
                             },
                             "required": [
                               "chainId",
-                              "mode",
                               "sender",
-                              "recipients"
+                              "recipient"
                             ]
                           },
                           {
@@ -5348,12 +5369,13 @@
                                       "delegate"
                                     ]
                                   },
-                                  "validateAddress": {
+                                  "validatorAddress": {
                                     "type": "string"
                                   }
                                 },
                                 "required": [
-                                  "mode"
+                                  "mode",
+                                  "validatorAddress"
                                 ],
                                 "title": "Delegate"
                               },
@@ -5376,6 +5398,70 @@
                                 ],
                                 "title": "TransferToken",
                                 "description": "Transfer chain tokens"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "undelegate"
+                                    ]
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
+                                "title": "Undelegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "redelegate"
+                                    ]
+                                  },
+                                  "sourceValidatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "targetValidatorAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "sourceValidatorAddress",
+                                  "targetValidatorAddress"
+                                ],
+                                "title": "Redelegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "claimRewards"
+                                    ]
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "compound": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
+                                "title": "ClaimRewards"
                               }
                             ]
                           }
@@ -5457,39 +5543,16 @@
                                             "bitcoin-testnet"
                                           ]
                                         },
-                                        "mode": {
-                                          "type": "string",
-                                          "enum": [
-                                            "transfer",
-                                            "transferToken",
-                                            "delegate",
-                                            "redelegate",
-                                            "undelegate",
-                                            "claimRewards"
-                                          ]
-                                        },
                                         "sender": {
                                           "type": "string"
                                         },
-                                        "recipients": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "address": {
-                                                "type": "string"
-                                              },
-                                              "amount": {
-                                                "type": [
-                                                  "string"
-                                                ]
-                                              }
-                                            },
-                                            "required": [
-                                              "address"
-                                            ]
-                                          },
-                                          "minItems": 1
+                                        "recipient": {
+                                          "type": "string"
+                                        },
+                                        "amount": {
+                                          "type": [
+                                            "string"
+                                          ]
                                         },
                                         "useMaxAmount": {
                                           "type": "boolean",
@@ -5504,7 +5567,9 @@
                                           "type": "string"
                                         },
                                         "nonce": {
-                                          "type": "string"
+                                          "type": [
+                                            "string"
+                                          ]
                                         },
                                         "memo": {
                                           "type": "string"
@@ -5519,9 +5584,8 @@
                                       },
                                       "required": [
                                         "chainId",
-                                        "mode",
                                         "sender",
-                                        "recipients",
+                                        "recipient",
                                         "useMaxAmount"
                                       ]
                                     },
@@ -5552,12 +5616,13 @@
                                                 "delegate"
                                               ]
                                             },
-                                            "validateAddress": {
+                                            "validatorAddress": {
                                               "type": "string"
                                             }
                                           },
                                           "required": [
-                                            "mode"
+                                            "mode",
+                                            "validatorAddress"
                                           ],
                                           "title": "Delegate"
                                         },
@@ -5580,6 +5645,70 @@
                                           ],
                                           "title": "TransferToken",
                                           "description": "Transfer chain tokens"
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "mode": {
+                                              "type": "string",
+                                              "enum": [
+                                                "undelegate"
+                                              ]
+                                            },
+                                            "validatorAddress": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "mode",
+                                            "validatorAddress"
+                                          ],
+                                          "title": "Undelegate"
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "mode": {
+                                              "type": "string",
+                                              "enum": [
+                                                "redelegate"
+                                              ]
+                                            },
+                                            "sourceValidatorAddress": {
+                                              "type": "string"
+                                            },
+                                            "targetValidatorAddress": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "mode",
+                                            "sourceValidatorAddress",
+                                            "targetValidatorAddress"
+                                          ],
+                                          "title": "Redelegate"
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "mode": {
+                                              "type": "string",
+                                              "enum": [
+                                                "claimRewards"
+                                              ]
+                                            },
+                                            "validatorAddress": {
+                                              "type": "string"
+                                            },
+                                            "compound": {
+                                              "type": "boolean"
+                                            }
+                                          },
+                                          "required": [
+                                            "mode",
+                                            "validatorAddress"
+                                          ],
+                                          "title": "ClaimRewards"
                                         }
                                       ]
                                     }
@@ -5724,39 +5853,16 @@
                                   "bitcoin-testnet"
                                 ]
                               },
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "transfer",
-                                  "transferToken",
-                                  "delegate",
-                                  "redelegate",
-                                  "undelegate",
-                                  "claimRewards"
-                                ]
-                              },
                               "sender": {
                                 "type": "string"
                               },
-                              "recipients": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "address": {
-                                      "type": "string"
-                                    },
-                                    "amount": {
-                                      "type": [
-                                        "string"
-                                      ]
-                                    }
-                                  },
-                                  "required": [
-                                    "address"
-                                  ]
-                                },
-                                "minItems": 1
+                              "recipient": {
+                                "type": "string"
+                              },
+                              "amount": {
+                                "type": [
+                                  "string"
+                                ]
                               },
                               "useMaxAmount": {
                                 "type": "boolean",
@@ -5771,7 +5877,9 @@
                                 "type": "string"
                               },
                               "nonce": {
-                                "type": "string"
+                                "type": [
+                                  "string"
+                                ]
                               },
                               "memo": {
                                 "type": "string"
@@ -5786,9 +5894,8 @@
                             },
                             "required": [
                               "chainId",
-                              "mode",
                               "sender",
-                              "recipients"
+                              "recipient"
                             ]
                           },
                           {
@@ -5818,12 +5925,13 @@
                                       "delegate"
                                     ]
                                   },
-                                  "validateAddress": {
+                                  "validatorAddress": {
                                     "type": "string"
                                   }
                                 },
                                 "required": [
-                                  "mode"
+                                  "mode",
+                                  "validatorAddress"
                                 ],
                                 "title": "Delegate"
                               },
@@ -5846,6 +5954,70 @@
                                 ],
                                 "title": "TransferToken",
                                 "description": "Transfer chain tokens"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "undelegate"
+                                    ]
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
+                                "title": "Undelegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "redelegate"
+                                    ]
+                                  },
+                                  "sourceValidatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "targetValidatorAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "sourceValidatorAddress",
+                                  "targetValidatorAddress"
+                                ],
+                                "title": "Redelegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "claimRewards"
+                                    ]
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "compound": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
+                                "title": "ClaimRewards"
                               }
                             ]
                           }
