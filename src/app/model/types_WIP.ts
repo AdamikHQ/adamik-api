@@ -1,4 +1,4 @@
-import { BtcChainParams } from "../families/bitcoin/types";
+import { BtcChainParams, BtcTransactionParams } from "../families/bitcoin/types";
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
 
@@ -136,9 +136,10 @@ type TokenStakingReward = StakingReward & {
   tokenId: string;
 };
 
+type AccountOrigin = { accountId: string } | { addresses: string[] };
+
 type AccountState = {
   chainId: ChainId;
-  accountId: string;
   balances: {
     native: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
@@ -159,7 +160,7 @@ type AccountState = {
       };
     };
   };
-};
+} & AccountOrigin;
 
 enum TransactionMode {
   TRANSFER = "transfer",
@@ -170,7 +171,7 @@ enum TransactionMode {
   CLAIM_REWARDS = "claimRewards",
 }
 
-type TransactionParams = CosmosTransactionParams;
+type TransactionParams = CosmosTransactionParams | BtcTransactionParams;
 
 // TODO WIP
 // FIXME de/serialization types <> string
@@ -184,9 +185,10 @@ type CommonTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
   sender: string;
-  recipients: { address: string; amount?: bigint }[];
+  recipient: string;
   useMaxAmount: boolean;
-  fees: bigint;
+  amount?: bigint;
+  fees?: bigint;
   gas?: bigint;
   nonce?: bigint;
   memo?: string;

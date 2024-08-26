@@ -42,10 +42,8 @@ async function encodeTransactionToSign(this: EvmService, transaction: Transactio
 }
 
 async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Transaction) {
-  if (!transaction.data.recipients[0].amount) {
-    // should never happen in practice as completeTransaction should have been called first
-    throw new Error("Must specify an amount for the recipient");
-  }
+  // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
+  const amount = transaction.data.amount as bigint;
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
@@ -56,9 +54,9 @@ async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Tran
       transaction.encoded = {
         maxPriorityFeePerGas: toHex(maxPriorityFeePerGas as bigint),
         maxFeePerGas: toHex(maxFeePerGas as bigint),
-        value: toHex(transaction.data.recipients[0].amount),
+        value: toHex(amount),
         from: transaction.data.sender,
-        to: transaction.data.recipients[0],
+        to: transaction.data.recipient,
       } as any;
       break;
     }
@@ -66,7 +64,7 @@ async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Tran
       const data = encodeFunctionData({
         abi: erc20Abi,
         functionName: "transfer",
-        args: [transaction.data.recipients[0].address as EvmAddress, transaction.data.recipients[0].amount],
+        args: [transaction.data.recipient as EvmAddress, amount],
       });
 
       transaction.encoded = {
@@ -84,11 +82,8 @@ async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Tran
 async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Transaction) {
   const chain = CHAINS[chainId];
   const chainParams = chain.params as EvmChainParams;
-
-  if (!transaction.data.recipients[0].amount) {
-    // should never happen in practice as completeTransaction should have been called first
-    throw new Error("Must specify an amount for the recipient");
-  }
+  // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
+  const amount = transaction.data.amount as bigint;
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
@@ -97,14 +92,14 @@ async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Trans
       ? encodeFunctionData({
           abi: erc20Abi,
           functionName: "transfer",
-          args: [transaction.data.recipients[0].address as EvmAddress, transaction.data.recipients[0].amount],
+          args: [transaction.data.recipient as EvmAddress, amount],
         })
       : undefined;
 
   const recipient =
     transaction.data.mode === TransactionMode.TRANSFER_TOKEN
       ? (transaction.data.tokenId as EvmAddress)
-      : (transaction.data.recipients[0].address as EvmAddress);
+      : (transaction.data.recipient as EvmAddress);
 
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
@@ -115,7 +110,7 @@ async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Trans
     gas: transaction.data.gas,
     nonce: Number(transaction.data.nonce),
     to: recipient,
-    value: transaction.data.recipients[0].amount,
+    value: amount,
     data,
   }) as TransactionSerialized;
 }

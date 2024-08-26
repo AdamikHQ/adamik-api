@@ -1,10 +1,11 @@
-import { getAddressesState } from "./getAddressesState";
+import { getAccountState } from "./getAccountState";
 import { BtcService } from ".";
 import { AccountState, ChainId } from "~/app/model/types_WIP";
+import { address } from "bitcoinjs-lib";
 
 const CHAIN_ID = ChainId.BITCOIN;
 
-describe("getAddressesState", () => {
+describe("getAccountState", () => {
   it("should fetch address state successfully", async () => {
     const btcService = new BtcService(CHAIN_ID);
     const expectedAddressState: AccountState = {
@@ -37,7 +38,7 @@ describe("getAddressesState", () => {
       )
     );
 
-    const result = await getAddressesState.call(btcService, ["sample_address"]);
+    const result = await btcService.getAccountState({ addresses: ["sample_address"] });
     expect(result).toEqual(expectedAddressState);
   });
 
@@ -57,7 +58,7 @@ describe("getAddressesState", () => {
     jest.spyOn(global, "fetch").mockResolvedValueOnce(Promise.resolve(new Response(JSON.stringify({}))));
 
     // TODO: make this test more robust and test for specific error instead of generic Error
-    await expect(btcService.getAddressesState(["sample_address"])).rejects.toThrow();
+    await expect(btcService.getAccountState({ accountId: "sample_address" })).rejects.toThrow();
   });
 
   it("should have balance at 0n if blockchair returns response with error code 400", async () => {
@@ -83,7 +84,7 @@ describe("getAddressesState", () => {
     });
     jest.spyOn(global, "fetch").mockResolvedValueOnce(Promise.resolve(new Response(nullDataResponse)));
 
-    const result = await getAddressesState.call(btcService, ["sample_address"]);
+    const result = await btcService.getAccountState({ addresses: ["sample_address"] });
     expect(result).toEqual(expectedAddressState);
   });
 });

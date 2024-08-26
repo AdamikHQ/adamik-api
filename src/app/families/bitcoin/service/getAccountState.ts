@@ -1,14 +1,25 @@
 import { CHAINS } from "~/app/config/chains";
-import { AccountState } from "~/app/model/types_WIP";
+import { AccountState, ChainId } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
 import { isValidXpub } from "../logic";
 import { BtcChainParams, Xpub } from "../types";
 
-async function getAddressesState(this: BtcService, addresses: string[]): Promise<AccountState> {
-  const addressesResult = await fetchAddressesDashboard(this.chainId, addresses);
+async function getAccountState(
+  this: BtcService,
+  account: { addresses: string[] } | { accountId: string }
+): Promise<AccountState> {
+  return "addresses" in account
+    ? getAddressesState(this.chainId, account.addresses)
+    : isValidXpub(account.accountId)
+    ? getXpubState(this.chainId, account.accountId)
+    : getAddressesState(this.chainId, [account.accountId]);
+}
 
-  const confirmations_required = (CHAINS[this.chainId].params as BtcChainParams).confirmations;
+async function getAddressesState(chainId: ChainId, addresses: string[]): Promise<AccountState> {
+  const addressesResult = await fetchAddressesDashboard(chainId, addresses);
+
+  const confirmations_required = (CHAINS[chainId].params as BtcChainParams).confirmations;
   const aggregatedBalances = {
     native: {
       available: 0n,
@@ -39,20 +50,14 @@ async function getAddressesState(this: BtcService, addresses: string[]): Promise
   }
 
   return {
-    chainId: this.chainId,
-    accountId: addresses.join(","),
+    chainId,
+    addresses,
     balances: aggregatedBalances,
   };
 }
 
-async function getAddressState(this: BtcService, addressOrXpub: string): Promise<AccountState> {
-  return isValidXpub(addressOrXpub)
-    ? this.getXpubState(addressOrXpub)
-    : this.getAddressesState([addressOrXpub]);
-}
-
-async function getXpubState(this: BtcService, xpub: Xpub): Promise<AccountState> {
-  const xpubResponse = await fetchXpubDashboard(this.chainId, xpub);
+async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState> {
+  const xpubResponse = await fetchXpubDashboard(chainId, xpub);
 
   if (!xpubResponse.context.state) {
     console.warn(`getAddressesState - missing current block height: ${JSON.stringify(xpubResponse)}`);
@@ -61,13 +66,13 @@ async function getXpubState(this: BtcService, xpub: Xpub): Promise<AccountState>
   const currentBlockHeight = xpubResponse.context.state;
 
   // extract unconfirmed balance from UTXOs
-  const confirmations_required = (CHAINS[this.chainId].params as BtcChainParams).confirmations;
+  const confirmations_required = (CHAINS[chainId].params as BtcChainParams).confirmations;
   const unconfirmedBalance = xpubResponse.data[xpub].utxo
     .filter((utxo) => currentBlockHeight - utxo.block_id + 1 < confirmations_required)
     .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
 
   return {
-    chainId: this.chainId,
+    chainId: chainId,
     balances: {
       native: {
         available: xpubResponse.data[xpub].xpub.balance - unconfirmedBalance,
@@ -79,4 +84,4 @@ async function getXpubState(this: BtcService, xpub: Xpub): Promise<AccountState>
   };
 }
 
-export { getAddressesState, getAddressState, getXpubState };
+export { getAccountState };

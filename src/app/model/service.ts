@@ -26,7 +26,7 @@ abstract class BaseChainService {
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data
-  abstract getAddressState(accountId: string): Promise<AccountState>;
+  abstract getAccountState(account: { addresses: string[] } | { accountId: string }): Promise<AccountState>;
 
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
@@ -34,7 +34,6 @@ abstract class BaseChainService {
   // NOTE All of these functions will mutate the input 'Transaction' with additional info!
   abstract prevalidateTransaction(transaction: Transaction): Promise<void>;
   abstract completeTransaction(transaction: Transaction): Promise<void>;
-  // TODO: should be a type guard:
   abstract validateTransaction(transaction: Transaction): Promise<void>;
   abstract encodeTransactionToSign(transaction: Transaction): Promise<void>;
   abstract encodeTransactionToBroadcast(signedTransaction: Transaction): Promise<string>;
@@ -81,25 +80,5 @@ function isTokenService(object: BaseChainService | TokenService): object is Toke
   return keys.reduce((valid, key) => valid && key in object, true);
 }
 
-// BATCHED BALANCES //////////////////////////////////////////////////////////////////////////
-
-interface BatchedAccountStateService {
-  getAddressesState(accountIds: string[]): Promise<AccountState>;
-}
-
-function isMultiBalancesService(
-  object: BaseChainService | BatchedAccountStateService
-): object is BatchedAccountStateService {
-  // TS limitation: types don't exist at runtime, so this dummy
-  // instance is necessary to extract members of the interface
-  const dummy: BatchedAccountStateService = {
-    getAddressesState: (): never => {
-      throw new Error("Must not be used");
-    },
-  };
-  const keys = Object.keys(dummy);
-  return keys.reduce((valid, key) => valid && key in object, true);
-}
-
-export { BaseChainService, isMultiBalancesService, isStakingService, isTokenService };
-export type { BatchedAccountStateService as MultiBalancesService, StakingService, TokenService };
+export { BaseChainService, isStakingService, isTokenService };
+export type { StakingService, TokenService };

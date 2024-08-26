@@ -6,8 +6,15 @@ import { fetchBalances, fetchDelegations, fetchRewards, fetchUnbondingDelegation
 import { CosmosService } from ".";
 import { CosmosChainParams, IBCToken } from "../types";
 
-async function getAddressState(this: CosmosService, address: string): Promise<AccountState> {
-  const balances: CosmosBalance[] = await fetchBalances(this.chainId, address);
+async function getAccountState(
+  this: CosmosService,
+  account: { addresses: string[] } | { accountId: string }
+): Promise<AccountState> {
+  if ("addresses" in account) {
+    // FIXME: make it a better error message for the user
+    throw new Error("Not implemented");
+  }
+  const balances: CosmosBalance[] = await fetchBalances(this.chainId, account.accountId);
 
   const chain = CHAINS[this.chainId];
   const chainParams = chain.params as CosmosChainParams;
@@ -46,9 +53,9 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ac
   // Staking
 
   const [delegations, unbondings, rewards] = await Promise.all([
-    fetchDelegations(this.chainId, address),
-    fetchUnbondingDelegations(this.chainId, address),
-    fetchRewards(this.chainId, address),
+    fetchDelegations(this.chainId, account.accountId),
+    fetchUnbondingDelegations(this.chainId, account.accountId),
+    fetchRewards(this.chainId, account.accountId),
   ]);
 
   const lockedBalance = delegations.reduce((sum, delegation) => sum + delegation.amount, 0n);
@@ -60,7 +67,7 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ac
 
   return {
     chainId: this.chainId,
-    accountId: address,
+    accountId: account.accountId,
     balances: {
       native: {
         available: nativeBalance,
@@ -82,4 +89,4 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ac
   };
 }
 
-export { getAddressState };
+export { getAccountState };

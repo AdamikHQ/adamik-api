@@ -17,11 +17,13 @@ async function POST(request: NextRequest): Promise<NextResponse> {
       { status: 400, statusText: "Invalid or missing fields" }
     );
   }
-  const state = await service.getAddressState(accountId);
+  const state = await service.getAccountState({
+    accountId,
+  });
 
   return NextResponse.json(state);
 }
 
 module.exports = apiHandler({
-  POST
+  POST,
 });

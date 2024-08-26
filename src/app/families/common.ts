@@ -14,53 +14,28 @@ async function prevalidateTransactionCommon(
     errors.push({ message: "Sender address is invalid" });
   }
 
-  if (transaction.nonce && transaction.nonce < 0) {
-    errors.push({ message: "Nonce cannot be negative" });
-  }
-
-  // TODO: remove this? it's already checked by zod
-  if (transaction.mode !== TransactionMode.CLAIM_REWARDS) {
-    if (transaction.recipients[0].amount === undefined && !transaction.useMaxAmount) {
-      errors.push({ message: "Missing amount or useMaxAmount" });
-    } else if (!!transaction.recipients[0].amount && transaction.useMaxAmount) {
-      errors.push({
-        message: "Amount and useMaxAmount cannot be used together",
-      });
-    } else if (!!transaction.recipients[0].amount && transaction.recipients[0].amount < 0n) {
-      errors.push({ message: "Amount cannot be negative" });
-    } else if (!!transaction.recipients[0].amount && typeof transaction.recipients[0].amount !== "bigint") {
-      errors.push({ message: "Amount must be an integer" });
-    }
-  }
-
   switch (transaction.mode) {
     case TransactionMode.TRANSFER:
     case TransactionMode.TRANSFER_TOKEN:
-      {
-        const validRecipient =
-          transaction.recipients?.length && (await addressValidationFn(transaction.recipients[0].address));
-        if (!validRecipient) {
-          errors.push({ message: "Recipient address is invalid" });
-        }
+      const validRecipient = await addressValidationFn(transaction.recipient);
+      if (!validRecipient) {
+        errors.push({ message: "Recipient address is invalid" });
+      }
 
-        if (validSender && validRecipient && transaction.sender === transaction.recipients[0].address) {
-          warnings.push({ message: "Same sender and recipient address" });
-        }
+      if (validSender && validRecipient && transaction.sender === transaction.recipient) {
+        warnings.push({ message: "Same sender and recipient address" });
       }
       break;
     case TransactionMode.DELEGATE:
     case TransactionMode.UNDELEGATE:
     case TransactionMode.CLAIM_REWARDS:
-      {
-        const validValidator =
-          transaction.validatorAddress?.length && (await addressValidationFn(transaction.validatorAddress));
-        if (!validValidator) {
-          errors.push({ message: "Validator address is invalid" });
-        }
+      const validValidator =
+        transaction.validatorAddress?.length && (await addressValidationFn(transaction.validatorAddress));
+      if (!validValidator) {
+        errors.push({ message: "Validator address is invalid" });
       }
       break;
-
-    case TransactionMode.REDELEGATE: {
+    case TransactionMode.REDELEGATE:
       const validSourceValidator =
         transaction.sourceValidatorAddress?.length &&
         (await addressValidationFn(transaction.sourceValidatorAddress));
@@ -74,15 +49,12 @@ async function prevalidateTransactionCommon(
       if (!validTargetValidator) {
         errors.push({ message: "Target validator address is invalid" });
       }
-    }
-    default: {
-      // TODO Fine-tune this test by comparing with supported features of the chain (when implemented)
-      // transaction mode need to be cast here because TS thing that transaction is never.
-      errors.push({
-        message: `Unsupported transaction mode ${transaction.mode} for chain ID ${transaction.chainId}`,
-      });
       break;
-    }
+    default: // ensure exhaustive check, both at compile time and runtime: https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
+      const assertNever = (x: never): never => {
+        throw new Error(`Encountered unexpected/unknown transaction mode: ${(transaction as any).mode}`);
+      };
+      assertNever(transaction);
   }
   return {
     errors,

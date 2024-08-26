@@ -2,8 +2,15 @@ import { AccountState, TokenAmount } from "~/app/model/types_WIP";
 import { fetchAccount } from "../backend/node";
 import { AlgorandService } from ".";
 
-async function getAddressState(this: AlgorandService, address: string): Promise<AccountState> {
-  const { balance: nativeBalance, assetAmounts } = await fetchAccount(address);
+async function getAccountState(
+  this: AlgorandService,
+  account: { addresses: string[] } | { accountId: string }
+): Promise<AccountState> {
+  if ("addresses" in account) {
+    // FIXME: make it a better error message for the user
+    throw new Error("Not implemented");
+  }
+  const { balance: nativeBalance, assetAmounts } = await fetchAccount(account.accountId);
 
   const tokenAmounts: TokenAmount[] = [];
 
@@ -19,7 +26,7 @@ async function getAddressState(this: AlgorandService, address: string): Promise<
 
   return {
     chainId: this.chainId,
-    accountId: address,
+    accountId: account.accountId,
     balances: {
       native: {
         available: nativeBalance,
@@ -30,4 +37,4 @@ async function getAddressState(this: AlgorandService, address: string): Promise<
   };
 }
 
-export { getAddressState };
+export { getAccountState as getAddressState };

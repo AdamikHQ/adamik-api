@@ -36,7 +36,7 @@
         }
       }
     },
-    "/api/address/encode": {
+    "/api/addresses/encode": {
       "post": {
         "tags": [
           "address"
@@ -117,7 +117,7 @@
         }
       }
     },
-    "/api/address/validate": {
+    "/api/account/validate": {
       "post": {
         "tags": [
           "address"
@@ -4236,12 +4236,13 @@
         }
       }
     },
-    "/api/address/state": {
+    "/api/account/state": {
       "post": {
         "tags": [
-          "address"
+          "account"
         ],
-        "description": "Returns the account state for a specified address and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
+        "summary": "Retrieve account state",
+        "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
         "requestBody": {
           "content": {
             "application/json": {

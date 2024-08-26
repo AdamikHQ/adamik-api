@@ -11,7 +11,7 @@ import base32 from "hi-base32";
 import sha512 from "js-sha512";
 import nacl from "tweetnacl";
 import { fetchAccount, fetchTransactionParams } from "~/app/families/algorand/backend/node";
-import { TransactionMode, TransactionSpendableAmounts, TransactionData } from "~/app/model/types_WIP";
+import { TransactionData, TransactionMode, TransactionSpendableAmounts } from "~/app/model/types_WIP";
 
 // TODO Keep this file as a fourre-tout or split it?
 
@@ -117,33 +117,22 @@ async function computeFees(transaction: TransactionData): Promise<bigint> {
 }
 
 async function buildRawTransaction(transaction: TransactionData): Promise<AlgoEncodedTransaction> {
-  const { sender, recipients, mode, memo } = transaction;
+  const { sender, amount, recipient, mode, memo } = transaction;
 
   const note = memo ? new TextEncoder().encode(memo) : undefined;
 
   const params = await fetchTransactionParams();
 
-  if (!recipients[0].amount) {
-    // should never happen in practice as completeTransaction should have been called first
-    throw new Error("Must specify an amount for the recipient");
-  }
-
+  // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
   const algoTxn: AlgoTransaction =
     mode !== TransactionMode.TRANSFER_TOKEN
-      ? makePaymentTxnWithSuggestedParams(
-          sender,
-          recipients[0].address,
-          recipients[0].amount,
-          undefined,
-          note,
-          params
-        )
+      ? makePaymentTxnWithSuggestedParams(sender, recipient, amount as bigint, undefined, note, params)
       : makeAssetTransferTxnWithSuggestedParams(
           sender,
-          recipients[0].address,
+          recipient,
           undefined,
           undefined,
-          recipients[0].amount,
+          amount as bigint,
           note,
           Number(transaction.tokenId),
           params,

@@ -1,4 +1,4 @@
-import { TransactionMode, Transaction } from "~/app/model/types_WIP";
+import { Transaction } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { isValidAddress, isValidXpub } from "../logic";
 
@@ -8,9 +8,9 @@ async function prevalidateTransaction(this: BtcService, transaction: Transaction
       message: `Sender address ${transaction.data.sender} is invalid for ${transaction.data.chainId}`,
     });
   }
-  if (!isValidAddress(transaction.data.recipients[0].address, this.chainId)) {
+  if (!isValidAddress(transaction.data.recipient, this.chainId)) {
     transaction.status.errors.push({
-      message: `Recipient address ${transaction.data.recipients[0]} is invalid for ${transaction.data.chainId}`,
+      message: `Recipient address ${transaction.data.recipient} is invalid for ${transaction.data.chainId}`,
     });
   }
 }

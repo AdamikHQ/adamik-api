@@ -41,12 +41,7 @@ async function encodeTransactionToSign(this: BtcService, transaction: Transactio
     psbt.setInputSequence(inputIndex, 0xfffffffd);
   }
 
-  for (const recipient of transaction.data.recipients) {
-    psbt.addOutput({
-      address: recipient.address,
-      value: Number(recipient.amount),
-    });
-  }
+  psbt.addOutputs(params.outputs);
 
   transaction.encoded = psbt.toHex();
 }

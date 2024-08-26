@@ -4,9 +4,16 @@ import { getERC20TokenAmounts } from "../backend/moralis";
 import { getBalance } from "../backend/node";
 import { EvmAddress } from "../types";
 
-async function getAddressState(this: EvmService, address: EvmAddress): Promise<AccountState> {
+async function getAccountState(
+  this: EvmService,
+  account: { addresses: string[] } | { accountId: EvmAddress }
+): Promise<AccountState> {
+  if ("addresses" in account) {
+    // FIXME: make it a better error message for the user
+    throw new Error("Not implemented");
+  }
   // Native
-  const nativeBalance = await getBalance(this.chainId, address);
+  const nativeBalance = await getBalance(this.chainId, account.accountId);
 
   // Tokens
 
@@ -15,7 +22,7 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
   //*
   // Moralis implementation
 
-  const tokenAmounts: TokenAmount[] = await getERC20TokenAmounts(this.chainId, address);
+  const tokenAmounts: TokenAmount[] = await getERC20TokenAmounts(this.chainId, account.accountId);
 
   /*/
   // Etherscan implementation
@@ -53,7 +60,7 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
 
   return {
     chainId: this.chainId,
-    accountId: address,
+    accountId: account.accountId,
     balances: {
       native: {
         available: nativeBalance,
@@ -64,4 +71,4 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
   };
 }
 
-export { getAddressState };
+export { getAccountState };

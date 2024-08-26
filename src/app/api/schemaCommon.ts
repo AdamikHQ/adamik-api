@@ -66,27 +66,68 @@ const transferTokenSchema = z
 const transferDelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.DELEGATE),
-    validateAddress: z.string().optional(), // TODO: rename to validatorAddress?
+    validatorAddress: z.string(),
   })
   .openapi({
     // ref: "Delegate",
     title: "Delegate",
   });
 
+const transferUndelegateSchema = z
+  .object({
+    mode: z.literal(TransactionMode.UNDELEGATE),
+    validatorAddress: z.string(),
+  })
+  .openapi({
+    // ref: "Undelegate",
+    title: "Undelegate",
+  });
+
+const transferRedelegateSchema = z
+  .object({
+    mode: z.literal(TransactionMode.REDELEGATE),
+    sourceValidatorAddress: z.string(),
+    targetValidatorAddress: z.string(),
+  })
+  .openapi({
+    // ref: "Redelegate",
+    title: "Redelegate",
+  });
+
+const transferClaimRewardsSchema = z
+  .object({
+    mode: z.literal(TransactionMode.CLAIM_REWARDS),
+    validatorAddress: z.string(),
+    compound: z.boolean().optional(),
+  })
+  .openapi({
+    // ref: "ClaimRewards",
+    title: "ClaimRewards",
+  });
+
 const transactionDataSchema = z
   .object({
     chainId: chainIdSchema,
-    mode: z.nativeEnum(TransactionMode),
     sender: z.string(),
-    recipients: z.array(recipientSchema).nonempty(),
+    recipient: z.string(),
+    amount: positiveBigintSchema.optional(),
     useMaxAmount: z.boolean().default(false),
     fees: positiveBigintSchema.optional(),
     gas: z.string().optional(),
-    nonce: z.string().optional(),
+    nonce: positiveBigintSchema.optional(),
     memo: z.string().optional(),
     format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
   })
-  .and(z.discriminatedUnion("mode", [transferNativeSchema, transferDelegateSchema, transferTokenSchema]))
+  .and(
+    z.discriminatedUnion("mode", [
+      transferNativeSchema,
+      transferDelegateSchema,
+      transferTokenSchema,
+      transferUndelegateSchema,
+      transferRedelegateSchema,
+      transferClaimRewardsSchema,
+    ])
+  )
   // validation of transaction mode VS chain features
   .refine(
     (data) => getSupportedTransactionModes(data.chainId).includes(data.mode),
@@ -104,31 +145,18 @@ const transactionDataSchema = z
   // -> only one recipient without an amount allowed when using useMaxAmount
   // -> all recipients must have an amount when not using useMaxAmount
   .superRefine((data, ctx) => {
-    if (data.useMaxAmount) {
-      if (data.recipients.length > 1) {
-        ctx.addIssue({
-          message: "Too many recipients. Only one recipient allowed when using useMaxAmount.",
-          code: z.ZodIssueCode.custom,
-          path: ["recipients"],
-        });
-      }
-      if (data.recipients[0].amount) {
-        ctx.addIssue({
-          message: "Cannot specify amount when using useMaxAmount.",
-          code: z.ZodIssueCode.custom,
-          path: ["recipients", 0, "amount"],
-        });
-      }
-    } else {
-      for (const recipient of data.recipients) {
-        if (!recipient.amount) {
-          ctx.addIssue({
-            message: "Missing amount for recipient with address " + recipient.address,
-            code: z.ZodIssueCode.custom,
-            path: ["recipients"],
-          });
-        }
-      }
+    if (data.useMaxAmount && data.amount) {
+      ctx.addIssue({
+        message: "Cannot specify amount when using useMaxAmount and vice versa.",
+        code: z.ZodIssueCode.custom,
+        path: ["recipients", 0, "amount"],
+      });
+    } else if (!data.useMaxAmount && !data.amount) {
+      ctx.addIssue({
+        message: "Missing transaction amount (or set `useMaxAmount: true`).",
+        code: z.ZodIssueCode.custom,
+        path: ["recipients"],
+      });
     }
   });
 

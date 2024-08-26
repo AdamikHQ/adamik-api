@@ -37,11 +37,11 @@ async function completeNativeTransaction(chainId: ChainId, transaction: Transact
   // no matter the amount of coin transfered, we can infer the gas with any amount
   transaction.gas = await getTransactionGas(chainId, transaction);
   transaction.fees = await getTransactionFees(chainId, transaction);
-  transaction.recipients[0].amount = await getTransactionAmount(chainId, transaction);
+  transaction.amount = await getTransactionAmount(chainId, transaction);
 }
 
 async function completeTokenTransaction(chainId: ChainId, transaction: TransactionData): Promise<void> {
-  transaction.recipients[0].amount = await getTransactionAmount(chainId, transaction);
+  transaction.amount = await getTransactionAmount(chainId, transaction);
   transaction.gas = await getTransactionGas(chainId, transaction);
   transaction.fees = await getTransactionFees(chainId, transaction);
 }

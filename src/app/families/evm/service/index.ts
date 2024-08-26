@@ -5,7 +5,7 @@ import {
   encodeTransactionToBroadcast as encodeTransactionToBroadcastFn,
   encodeTransactionToSign as encodeTransactionToSignFn,
 } from "./encodeTransaction";
-import { getAddressState as getAddressStateFn } from "./getAddressState";
+import { getAccountState as getAccountStateFn } from "./getAccountState";
 import { getTokenInfo as getTokenInfoFn } from "./getTokenInfo";
 import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
 import { validateAddress as validateAddressFn } from "./validateAddress";
@@ -21,7 +21,7 @@ class EvmService extends BaseChainService implements TokenService {
   getTokenInfo = getTokenInfoFn;
   pubkeyToAddress = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
-  getAddressState = getAddressStateFn;
+  getAccountState = getAccountStateFn;
   prevalidateTransaction = prevalidateTransactionFn;
   completeTransaction = completeTransactionFn;
   validateTransaction = validateTransactionFn;

@@ -11,29 +11,27 @@ async function prevalidateTransaction(this: EvmService, transaction: Transaction
 }
 
 async function validateTransaction(this: EvmService, transaction: Transaction): Promise<void> {
-  if (!transaction.data.recipients[0].amount) {
-    // should never happen in practice as completeTransaction should have been called first
-    throw new Error("Must specify an amount for the recipient");
-  }
-
   const maxSpendable = await getMaxSpendable(this.chainId, transaction.data);
+  // amount & fees are safe to cast as they're guaranteed to be filed in by completeTransaction
+  const amount = transaction.data.amount as bigint;
+  const fees = transaction.data.fees as bigint;
 
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER: {
-      if (transaction.data.recipients[0].amount + transaction.data.fees > maxSpendable.native) {
+      if (amount + fees > maxSpendable.native) {
         transaction.status.errors.push({ message: "Balance is too low" });
-      } else if (transaction.data.recipients[0].amount < transaction.data.fees * 10n) {
+      } else if (amount < fees * 10n) {
         transaction.status.warnings.push({ message: "Network fees are above 10% of the amount" });
       }
       break;
     }
     case TransactionMode.TRANSFER_TOKEN: {
-      if (transaction.data.fees > maxSpendable.native) {
+      if (fees > maxSpendable.native) {
         transaction.status.errors.push({
           message: "Balance is too low to cover the fees",
         });
       }
-      if (maxSpendable.token === undefined || transaction.data.recipients[0].amount > maxSpendable.token) {
+      if (maxSpendable.token === undefined || amount > maxSpendable.token) {
         transaction.status.errors.push({ message: "Token balance is too low" });
       }
 

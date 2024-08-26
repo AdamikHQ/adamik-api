@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { Psbt } from "bitcoinjs-lib";
 import { UtxoWithMetadata } from "./backend/types";
 
 // Params that differ for each bitcoin-like chain
@@ -6,10 +6,14 @@ type BtcChainParams = {
   confirmations: number;
 };
 
+// extract type from Psbt.addOutput as it's not exported by bitcoinjs
+type PsbtOutputExtended = Parameters<typeof Psbt.prototype.addOutput>[0];
+
 // Bitcoin-specific fields used internaly by the chains transactions
 type BtcTransactionParams = {
   // Public key of the sender address, necessary when it never made a transaction yet
   inputs: UtxoWithMetadata[];
+  outputs: PsbtOutputExtended[];
 };
 
 // TODO: move to shared lib?
@@ -22,4 +26,4 @@ type Branded<T, B> = T & Brand<B>;
  */
 type Xpub = Branded<string, "Xpub">;
 
-export type { BtcChainParams, BtcTransactionParams, Xpub, Branded };
+export type { Branded, BtcChainParams, BtcTransactionParams, Xpub };

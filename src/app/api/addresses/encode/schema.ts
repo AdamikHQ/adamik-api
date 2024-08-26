@@ -10,7 +10,7 @@ const requestSchema = z.object({
 const responseSchema = z.boolean();
 
 const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/address/encode": {
+  "/api/addresses/encode": {
     post: {
       tags: ["address"],
       description:

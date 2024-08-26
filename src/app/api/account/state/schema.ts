@@ -9,7 +9,6 @@ const requestSchema = z
   .object({
     chainId: chainIdSchema,
     accountId: z.string(),
-    // default is address, but allow for explicit address or xpub
   })
   .openapi({
     examples: [
@@ -83,12 +82,13 @@ const responseSchema = z.object({
     .optional(),
 });
 
-const addressStateOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/address/state": {
+const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
+  "/api/account/state": {
     post: {
-      tags: ["address"],
+      tags: ["account"],
+      summary: "Retrieve account state",
       description:
-        "Returns the account state for a specified address and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
+        "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -107,4 +107,4 @@ const addressStateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { addressStateOpenAPIPath, requestSchema, responseSchema };
+export { accountStateOpenAPIPath, requestSchema, responseSchema };

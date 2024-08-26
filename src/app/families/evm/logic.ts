@@ -24,15 +24,15 @@ async function getTransactionGas(chainId: ChainId, transaction: TransactionData)
       chainId,
       contractAddress: transaction.tokenId as EvmAddress,
       senderAddress: transaction.sender as EvmAddress,
-      recipientAddress: transaction.recipients[0].address as EvmAddress,
-      amount: transaction.recipients[0].amount ?? 0n, // TODO: check if this is ok to have an empty amount
+      recipientAddress: transaction.recipient as EvmAddress,
+      amount: transaction.amount ?? 0n,
     });
   } else {
     return await estimateGas({
       chainId,
       senderAddress: transaction.sender as EvmAddress,
-      recipientAddress: transaction.recipients[0].address as EvmAddress,
-      amount: transaction.recipients[0].amount ?? 0n, // TODO: check if this is ok to have an empty amount
+      recipientAddress: transaction.recipient as EvmAddress,
+      amount: transaction.amount ?? 0n,
     });
   }
 }
@@ -46,14 +46,14 @@ async function getTransactionFees(chainId: ChainId, transaction: TransactionData
           chainId,
           contractAddress: transaction.tokenId as EvmAddress,
           senderAddress: transaction.sender as EvmAddress,
-          recipientAddress: transaction.recipients[0].address as EvmAddress,
-          amount: transaction.recipients[0].amount ?? 0n, // TODO: check if this is ok to have an empty amount
+          recipientAddress: transaction.recipient as EvmAddress,
+          amount: transaction.amount ?? 0n,
         })
       : await estimateFeesForL2({
           chainId,
           senderAddress: transaction.sender as EvmAddress,
-          recipientAddress: transaction.recipients[0].address as EvmAddress,
-          amount: transaction.recipients[0].amount ?? 0n, // TODO: check if this is ok to have an empty amount
+          recipientAddress: transaction.recipient as EvmAddress,
+          amount: transaction.amount ?? 0n,
         });
   }
 
@@ -71,12 +71,8 @@ async function getTransactionFees(chainId: ChainId, transaction: TransactionData
 
 async function getTransactionAmount(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
   if (!transaction.useMaxAmount) {
-    if (!transaction.recipients[0].amount) {
-      // should never happen, zod should have validated that we have an amount when useMaxAmount is false
-      // TODO: make it more explicit through the type system
-      throw new Error("Missing amount in recipient");
-    }
-    return transaction.recipients[0].amount;
+    // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
+    return transaction.amount as bigint;
   }
 
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
@@ -84,7 +80,9 @@ async function getTransactionAmount(chainId: ChainId, transaction: TransactionDa
     return maxSpendable.token!;
   } else {
     const maxSpendable = await getMaxSpendable(chainId, transaction);
-    return maxSpendable.native - transaction.fees >= 0n ? maxSpendable.native - transaction.fees : 0n;
+    // fees is safe to cast as it's guaranteed to be filed in by completeTransaction
+    const fees = transaction.fees as bigint;
+    return maxSpendable.native - fees >= 0n ? maxSpendable.native - fees : 0n;
   }
 }
 

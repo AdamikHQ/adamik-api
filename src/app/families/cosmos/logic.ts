@@ -157,11 +157,8 @@ function buildMessages(transaction: TransactionData): {
   protoMsgs: ProtoMsg[];
 } {
   const chainParams = CHAINS[transaction.chainId].params as CosmosChainParams;
-
-  if (!transaction.recipients[0].amount) {
-    // should never happen in practice as completeTransaction should have been called first
-    throw new Error("Must specify an amount for the recipient");
-  }
+  // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
+  const amount = transaction.amount as bigint;
 
   const aminoMsgs: Array<AminoMsg> = [];
   const protoMsgs: Array<ProtoMsg> = [];
@@ -171,11 +168,11 @@ function buildMessages(transaction: TransactionData): {
         type: "cosmos-sdk/MsgSend",
         value: {
           from_address: transaction.sender,
-          to_address: transaction.recipients[0].address,
+          to_address: transaction.recipient,
           amount: [
             {
               denom: chainParams?.denom,
-              amount: transaction.recipients[0].amount.toString(),
+              amount: amount.toString(),
             },
           ],
         },
@@ -186,11 +183,11 @@ function buildMessages(transaction: TransactionData): {
         typeUrl: "/cosmos.bank.v1beta1.MsgSend",
         value: MsgSend.encode({
           fromAddress: transaction.sender,
-          toAddress: transaction.recipients[0].address,
+          toAddress: transaction.recipient,
           amount: [
             {
               denom: chainParams?.denom,
-              amount: transaction.recipients[0].amount.toString(),
+              amount: amount.toString(),
             },
           ],
         }).finish(),
@@ -206,7 +203,7 @@ function buildMessages(transaction: TransactionData): {
           validator_address: transaction.validatorAddress,
           amount: {
             denom: chainParams?.denom,
-            amount: transaction.recipients[0].amount.toString(),
+            amount: amount.toString(),
           },
         },
       };
@@ -219,7 +216,7 @@ function buildMessages(transaction: TransactionData): {
           validatorAddress: transaction.validatorAddress,
           amount: {
             denom: chainParams?.denom,
-            amount: transaction.recipients[0].amount.toString(),
+            amount: amount.toString(),
           },
         }).finish(),
       };
@@ -235,7 +232,7 @@ function buildMessages(transaction: TransactionData): {
           validator_dst_address: transaction.targetValidatorAddress,
           amount: {
             denom: chainParams?.denom,
-            amount: transaction.recipients[0].amount.toString(),
+            amount: amount.toString(),
           },
         },
       };
@@ -249,7 +246,7 @@ function buildMessages(transaction: TransactionData): {
           validatorDstAddress: transaction.targetValidatorAddress,
           amount: {
             denom: chainParams?.denom,
-            amount: transaction.recipients[0].amount.toString(),
+            amount: amount.toString(),
           },
         }).finish(),
       };
@@ -265,7 +262,7 @@ function buildMessages(transaction: TransactionData): {
             validator_address: transaction.validatorAddress,
             amount: {
               denom: chainParams?.denom,
-              amount: transaction.recipients[0].amount.toString(),
+              amount: amount.toString(),
             },
           },
         };
@@ -278,7 +275,7 @@ function buildMessages(transaction: TransactionData): {
             validatorAddress: transaction.validatorAddress,
             amount: {
               denom: chainParams?.denom,
-              amount: transaction.recipients[0].amount.toString(),
+              amount: amount.toString(),
             },
           }).finish(),
         };
@@ -314,7 +311,7 @@ function buildMessages(transaction: TransactionData): {
               validator_address: transaction.validatorAddress,
               amount: {
                 denom: chainParams?.denom,
-                amount: transaction.recipients[0].amount.toString(),
+                amount: amount.toString(),
               },
             },
           };
@@ -327,7 +324,7 @@ function buildMessages(transaction: TransactionData): {
               validatorAddress: transaction.validatorAddress,
               amount: {
                 denom: chainParams?.denom,
-                amount: transaction.recipients[0].amount.toString(),
+                amount: amount.toString(),
               },
             }).finish(),
           };
@@ -452,8 +449,8 @@ async function encodeToBroadcast(
   account: CosmosAccount,
   signedTransaction: Transaction
 ): Promise<string> {
-  const plainTransation = signedTransaction.data;
-  if (!plainTransation.nonce) {
+  const trnsactionData = signedTransaction.data;
+  if (!trnsactionData.nonce) {
     throw new Error("Missing transaction nonce");
   }
   if (!signedTransaction.signature) {
@@ -466,16 +463,18 @@ async function encodeToBroadcast(
         Secp256k1Signature.fromDer(Buffer.from(signedTransaction.signature, "hex")).toFixedLength()
       );
 
-  const { protoMsgs } = buildMessages(plainTransation);
+  const { protoMsgs } = buildMessages(trnsactionData);
 
   const chainParams = chainId && (CHAINS[chainId].params as CosmosChainParams);
+  // fees is safe to cast as it's guaranteed to be filed in by completeTransaction
+  const fees = trnsactionData.fees as bigint;
   const txBytes = buildBroadcastPayload({
     pubKeyType: account.pubKeyType,
     pubKey: account.pubKey,
-    feeAmount: [{ amount: plainTransation.fees.toString(), denom: chainParams.denom }] as Coin[],
-    gasLimit: plainTransation.gas,
-    sequence: plainTransation.nonce,
-    memo: plainTransation.memo || "",
+    feeAmount: [{ amount: fees.toString(), denom: chainParams.denom }] as Coin[],
+    gasLimit: trnsactionData.gas,
+    sequence: trnsactionData.nonce,
+    memo: trnsactionData.memo || "",
     protoMsgs,
     signature,
   });

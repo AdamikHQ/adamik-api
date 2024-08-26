@@ -12,7 +12,7 @@ async function prevalidateTransaction(this: CosmosService, transaction: Transact
   );
 
   // Amount can't be 0 on cosmos chains
-  if (transaction.data.recipients[0].amount === 0n) {
+  if (transaction.data.amount === 0n) {
     transaction.status.errors.push({
       message: `Amount cannot be 0 on chain ${this.chainId}`,
     });
@@ -22,11 +22,9 @@ async function prevalidateTransaction(this: CosmosService, transaction: Transact
 async function validateTransaction(this: CosmosService, transaction: Transaction): Promise<void> {
   const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
   const transactionData = transaction.data;
-
-  if (!transactionData.recipients[0].amount) {
-    // should never happen in practice as completeTransaction should have been called first
-    throw new Error("Must specify an amount for the recipient");
-  }
+  // amount & fees are safe to cast as they're guaranteed to be filed in by completeTransaction
+  const amount = transactionData.amount as bigint;
+  const fees = transactionData.fees as bigint;
 
   // FIXME Already called by transaction,
   // should ideally be put in some common context, or at least some cache
@@ -38,10 +36,7 @@ async function validateTransaction(this: CosmosService, transaction: Transaction
     case TransactionMode.TRANSFER:
     case TransactionMode.DELEGATE:
       // - amount + fees < nativeBalance
-      if (
-        availableBalance &&
-        transactionData.recipients[0].amount + transactionData.fees > BigInt(availableBalance)
-      ) {
+      if (availableBalance && amount + fees > BigInt(availableBalance)) {
         transaction.status.errors.push({ message: "Balance is too low" });
       }
 
@@ -50,7 +45,7 @@ async function validateTransaction(this: CosmosService, transaction: Transaction
       const tokenBalance = balances.find((balance) => balance.denom === transactionData.tokenId)?.amount;
 
       // - amount < tokenBalance
-      if (!tokenBalance || transactionData.recipients[0].amount > BigInt(tokenBalance)) {
+      if (!tokenBalance || amount > BigInt(tokenBalance)) {
         transaction.status.errors.push({ message: "Token balance is too low" });
       }
 
@@ -64,18 +59,18 @@ async function validateTransaction(this: CosmosService, transaction: Transaction
       const delegationBalance = getDelegation(delegations, transactionData)?.amount;
 
       // - amount < delegationBalance
-      if (delegationBalance && transactionData.recipients[0].amount > delegationBalance) {
+      if (delegationBalance && amount > delegationBalance) {
         transaction.status.errors.push({ message: "Staked balance is too low" });
       }
       break;
   }
 
   // - fees < nativeBalance
-  if (availableBalance && transactionData.fees > BigInt(availableBalance)) {
+  if (availableBalance && fees > BigInt(availableBalance)) {
     transaction.status.errors.push({ message: "Balance is too low to cover the fees" });
   }
 
-  if (transactionData.recipients[0].amount < transactionData.fees * 10n) {
+  if (amount < fees * 10n) {
     transaction.status.warnings.push({ message: "Network fees are above 10% of the amount" });
   }
 }

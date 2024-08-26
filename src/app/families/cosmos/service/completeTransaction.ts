@@ -1,11 +1,10 @@
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { getDelegation, getEstimatedFees, resolvePubKey } from "../logic";
-import { fetchAccount, fetchBalances, fetchDelegations } from "../backend/node";
-import { CosmosService } from ".";
 import { CHAINS } from "~/app/config/chains";
-import { CosmosChainParams } from "../types";
+import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { CosmosService } from ".";
+import { fetchAccount, fetchBalances, fetchDelegations } from "../backend/node";
 import { COSMOS_MOCK_FEES } from "../constants";
-import { bigint } from "zod";
+import { getDelegation, getEstimatedFees, resolvePubKey } from "../logic";
+import { CosmosChainParams } from "../types";
 
 async function completeTransaction(this: CosmosService, transaction: Transaction): Promise<void> {
   const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
@@ -39,29 +38,27 @@ async function completeTransaction(this: CosmosService, transaction: Transaction
     }
   })();
 
-  let amount = transaction.data.recipients[0].amount;
-
   if (transaction.data.useMaxAmount) {
     // Simulated amount, just for estimating fees
     // Must be: 0 > amount > max spendable, otherwise the simulation endpoint refuses to cooperate
-    amount = spendableBalance > COSMOS_MOCK_FEES ? spendableBalance - COSMOS_MOCK_FEES : 1n;
+    transaction.data.amount = spendableBalance > COSMOS_MOCK_FEES ? spendableBalance - COSMOS_MOCK_FEES : 1n;
   }
 
   const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data);
 
-  let fees = gasWantedFees;
-  let gas = gasWanted;
+  transaction.data.fees = gasWantedFees;
+  transaction.data.gas = gasWanted;
 
   if (transaction.data.useMaxAmount) {
     switch (transaction.data.mode) {
       case TransactionMode.TRANSFER:
       case TransactionMode.DELEGATE:
-        amount = spendableBalance > gasWantedFees ? spendableBalance - gasWantedFees : 0n;
+        transaction.data.amount = spendableBalance > gasWantedFees ? spendableBalance - gasWantedFees : 0n;
         break;
 
       case TransactionMode.UNDELEGATE:
       case TransactionMode.REDELEGATE:
-        amount = spendableBalance;
+        transaction.data.amount = spendableBalance;
         break;
     }
   }
@@ -72,9 +69,6 @@ async function completeTransaction(this: CosmosService, transaction: Transaction
   transaction.data.params = {
     pubKey: updatedAccount.pubKey,
   };
-  transaction.data.fees = fees;
-  transaction.data.gas = gas;
-  transaction.data.recipients[0].amount = amount as bigint; // safe to cast, amount is always set if useMaxAmount is false
 }
 
 export { completeTransaction };
