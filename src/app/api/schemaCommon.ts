@@ -149,13 +149,13 @@ const transactionDataSchema = z
       ctx.addIssue({
         message: "Cannot specify amount when using useMaxAmount and vice versa.",
         code: z.ZodIssueCode.custom,
-        path: ["recipients", 0, "amount"],
+        path: ["amount"],
       });
     } else if (!data.useMaxAmount && !data.amount) {
       ctx.addIssue({
         message: "Missing transaction amount (or set `useMaxAmount: true`).",
         code: z.ZodIssueCode.custom,
-        path: ["recipients"],
+        path: ["amount"],
       });
     }
   });
