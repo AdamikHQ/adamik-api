@@ -1,4 +1,4 @@
-import { BaseError as ViemError } from "viem";
+import { Hex, BaseError as ViemError } from "viem";
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
@@ -17,6 +17,8 @@ import {
   getERC20Balance,
 } from "./backend/node";
 import { EtherscanERC20Event } from "./backend/types";
+
+const isHexString = (val: string): val is Hex => val.startsWith("0x") && /^[0-9a-fA-F]+$/i.test(val.slice(2));
 
 async function getTransactionGas(chainId: ChainId, transaction: PlainTransaction): Promise<bigint> {
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
@@ -125,6 +127,7 @@ function getOneEventPerContractAddress(events: EtherscanERC20Event[]): Map<EvmAd
 }
 
 export {
+  isHexString,
   getTransactionGas,
   getTransactionFees,
   getTransactionAmount,
