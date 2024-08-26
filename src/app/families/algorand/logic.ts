@@ -125,9 +125,8 @@ async function buildRawTransaction(transaction: TransactionData): Promise<AlgoEn
 
   // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
   const algoTxn: AlgoTransaction =
-    mode !== TransactionMode.TRANSFER_TOKEN
-      ? makePaymentTxnWithSuggestedParams(sender, recipient, amount as bigint, undefined, note, params)
-      : makeAssetTransferTxnWithSuggestedParams(
+    mode === TransactionMode.TRANSFER_TOKEN
+      ? makeAssetTransferTxnWithSuggestedParams(
           sender,
           recipient,
           undefined,
@@ -137,7 +136,8 @@ async function buildRawTransaction(transaction: TransactionData): Promise<AlgoEn
           Number(transaction.tokenId),
           params,
           undefined
-        );
+        )
+      : makePaymentTxnWithSuggestedParams(sender, recipient, amount as bigint, undefined, note, params);
 
   // Bit of safety: set tx validity to the next 1000 blocks
   algoTxn.firstRound = params.lastRound;
