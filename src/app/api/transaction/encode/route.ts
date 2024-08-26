@@ -27,29 +27,20 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   await service.completeTransaction(transaction);
   if (transaction.status.errors.length) {
-    return NextResponse.json(
-      { transaction: transaction },
-      { status: 400, statusText: `Invalid transaction` }
-    );
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
   }
 
   await service.validateTransaction(transaction);
   if (transaction.status.errors.length) {
-    return NextResponse.json(
-      { transaction: transaction },
-      { status: 400, statusText: `Invalid transaction` }
-    );
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
   }
 
   await service.encodeTransactionToSign(transaction);
 
   if (transaction.status.errors.length) {
-    return NextResponse.json(
-      { transaction: transaction },
-      { status: 400, statusText: `Invalid transaction` }
-    );
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
   } else {
-    return NextResponse.json({ transaction: transaction });
+    return NextResponse.json({ transaction });
   }
 }
 
