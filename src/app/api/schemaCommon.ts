@@ -5,6 +5,7 @@ import {
   ChainId,
   EncodedTransactionFormat,
   TransactionMode,
+  TokenType,
 } from "~/app/model/types_WIP";
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 
@@ -96,4 +97,21 @@ const chainSchema = z.object({
   supportedFeatures: z.nativeEnum(ChainFeature).array(),
 });
 
-export { paginationSchema, plainTransactionSchema, transactionStatusSchema, chainIdSchema, chainSchema };
+const tokenSchema = z.object({
+  chainId: z.string(),
+  type: z.nativeEnum(TokenType),
+  id: z.string(),
+  name: z.string(),
+  ticker: z.string(),
+  decimals: z.number(),
+  contractAddress: z.string().optional(),
+});
+
+export {
+  paginationSchema,
+  plainTransactionSchema,
+  transactionStatusSchema,
+  chainIdSchema,
+  chainSchema,
+  tokenSchema,
+};

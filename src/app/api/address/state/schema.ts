@@ -1,7 +1,7 @@
 import z, { ZodIssueCode, ZodIssueOptionalMessage } from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { StakingStatus, TokenType } from "~/app/model/types_WIP";
-import { chainIdSchema } from "~/app/api/schemaCommon";
+import { StakingStatus } from "~/app/model/types_WIP";
+import { chainIdSchema, tokenSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
   chainId: chainIdSchema,
@@ -18,15 +18,7 @@ const responseSchema = z.object({
     }),
     tokens: z
       .object({
-        token: z.object({
-          chainId: z.string(),
-          type: z.nativeEnum(TokenType),
-          id: z.string(),
-          name: z.string(),
-          ticker: z.string(),
-          decimals: z.number(),
-          contractAddress: z.string().optional(),
-        }),
+        token: tokenSchema,
         amount: z.string(),
       })
       .array()
@@ -56,15 +48,7 @@ const responseSchema = z.object({
             .array(),
           tokens: z
             .object({
-              token: z.object({
-                chainId: z.string(),
-                type: z.nativeEnum(TokenType),
-                id: z.string(),
-                name: z.string(),
-                ticker: z.string(),
-                decimals: z.number(),
-                contractAddress: z.string().optional(),
-              }),
+              token: tokenSchema,
               validatorAddress: z.string().optional(),
               amount: z.string(),
             })

@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema } from "~/app/api/schemaCommon";
-import { TokenType } from "~/app/model/types_WIP";
+import { chainIdSchema, tokenSchema } from "~/app/api/schemaCommon";
 
 extendZodWithOpenApi(z);
 
@@ -13,15 +12,7 @@ const requestSchema = z.object({
   }),
 });
 
-const responseSchema = z.object({
-  chainId: chainIdSchema,
-  type: z.nativeEnum(TokenType),
-  id: z.string(),
-  name: z.string(),
-  ticker: z.string(),
-  decimals: z.string(),
-  contractAddress: z.string().optional(),
-});
+const responseSchema = tokenSchema;
 
 const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}/token/{tokenId}": {
