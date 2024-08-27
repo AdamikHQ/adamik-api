@@ -3839,45 +3839,7 @@
                   "type": "object",
                   "properties": {
                     "chainId": {
-                      "type": "string",
-                      "enum": [
-                        "algorand",
-                        "cosmoshub",
-                        "osmosis",
-                        "osmosis-testnet",
-                        "celestia",
-                        "celestia-testnet",
-                        "dydx",
-                        "cosmoshub-testnet",
-                        "axelar",
-                        "ethereum",
-                        "sepolia",
-                        "holesky",
-                        "zksync",
-                        "zksync-sepolia",
-                        "injective-testnet",
-                        "base",
-                        "base-sepolia",
-                        "optimism",
-                        "optimism-sepolia",
-                        "arbitrum",
-                        "arbitrum-sepolia",
-                        "polygon",
-                        "polygon-amoy",
-                        "bsc",
-                        "bsc-testnet",
-                        "linea",
-                        "linea-sepolia",
-                        "avalanche",
-                        "gnosis",
-                        "gnosis-chiado",
-                        "moonbeam",
-                        "moonriver",
-                        "moonbase",
-                        "fantom",
-                        "palm",
-                        "mantle"
-                      ]
+                      "type": "string"
                     },
                     "type": {
                       "type": "string",
@@ -3897,7 +3859,7 @@
                       "type": "string"
                     },
                     "decimals": {
-                      "type": "string"
+                      "type": "number"
                     },
                     "contractAddress": {
                       "type": "string"
