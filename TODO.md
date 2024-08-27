@@ -67,7 +67,7 @@
 - [x] ChainId as path param
 - [ ] merge path '/data/' into '/address/' and '/chains/'?
 #### ADVANCED
-- [ ] pubkeyToAddresses: endpoint should take more param to set the key type to return (algorithm?, multisig?...)
+- [ ] pubkeyToAddress: endpoint should take more param to set the key type to return (algorithm?, multisig?...)
 
 ## MAINTENANCE
 - [ ] Update dependencies versions
