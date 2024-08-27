@@ -7,9 +7,7 @@ import {
   EncodedTransactionFormat,
   TransactionMode,
 } from "~/app/model/types_WIP";
-import { CHAINS } from "../config/chains";
-import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
-import { getService } from "../families/services";
+import { getSupportedTransactionModes } from "../config/chains";
 
 extendZodWithOpenApi(z);
 
@@ -17,32 +15,6 @@ const paginationSchema = z.object({
   limit: z.number(),
   offset: z.number(),
 });
-
-// TODO Experiment with modular zod schemas:
-/*
-const commonTransactionSchema = z.object({
-  senders: z.array(z.string()),
-  recipients: z.array(z.string()),
-  amount: z.string(),
-  useMaxAmount: z.boolean(),
-  fees: z.string().optional(),
-  gas: z.string().optional(),
-  nonce: z.string().optional(),
-  memo: z.string().optional(),
-  format: z.string().optional(),
-})
-
-const transferTransactionSchema = z.object({
-  mode: z.literal("transfer"),
-});
-
-const delegateTransactionSchema = z.object({
-  mode: z.literal("delegate"),
-  validatorAddress: z.string()
-})
-
-const plainTransactionSchema = commonTransactionSchema.and(z.union([transferTransactionSchema, delegateTransactionSchema,]));
-//*/
 
 // DOMAIN TYPES //////////////////////////////////////////////////////////////
 
@@ -55,175 +27,138 @@ const chainIdSchema = z.nativeEnum(ChainId, {
   },
 });
 
-const toNumber = z.number().or(z.string()).pipe(z.coerce.number().positive());
 const positiveBigintSchema = z
-  .bigint()
-  .positive()
-  .or(toNumber)
+  .number()
+  .or(z.string())
+  .or(z.bigint())
   .transform((data) => BigInt(data))
+  .pipe(z.bigint().positive())
   .openapi({
-    type: "string",
+    type: ["string"], // TODO: also document API for integers but only on input
   });
 
 const recipientSchema = z.object({
-  amount: positiveBigintSchema,
   address: z.string(),
+  amount: positiveBigintSchema.optional(),
 });
 
-/**
- * @deprecated
- * TODO: remove
- */
-const plainTransactionSchema = z.object({
-  chainId: chainIdSchema,
-  mode: z.nativeEnum(TransactionMode),
-  senders: z.array(z.string()),
-  recipients: z.array(z.string()),
-  // TODO should be only one of [amount, useMaxAmount]
-  amount: z.string().min(1).optional(),
-  useMaxAmount: z.boolean().optional(),
-  fees: z.string().optional(),
-  gas: z.string().optional(),
-  nonce: z.string().optional(),
-  memo: z.string().optional(),
-  format: z.nativeEnum(EncodedTransactionFormat).optional(),
-  tokenId: z.string().optional(),
-  validatorAddress: z.string().optional(),
-  // FIXME The following are for staking but specific to cosmos...
-  // will be reworked with the actual staking API abstraction
-  sourceValidatorAddress: z.string().optional(),
-  targetValidatorAddress: z.string().optional(),
-  compound: z.boolean().optional(),
-  // ~~
-
-  params: cosmosTransactionParamsSchema.optional(), // For more than 1 family z.union() should be used
-});
-
-const transferToManySchema = z
+const transferNativeSchema = z
   .object({
-    mode: z.literal(TransactionMode.TRANSFER_TO_MANY),
-    sender: z.string(),
-    recipients: z.array(recipientSchema),
-    fees: positiveBigintSchema.optional(),
+    mode: z.literal(TransactionMode.TRANSFER),
   })
   .openapi({
-    // ref: "TransferToMany",
-    title: "TransferToMany",
+    // ref: "Transfer",
+    title: "Transfer",
+    description: "Transfer chain native coins",
   });
 
 const transferTokenSchema = z
   .object({
     mode: z.literal(TransactionMode.TRANSFER_TOKEN),
-    senders: z.array(z.string()),
-    recipients: z.array(z.string()),
-    // TODO should be only one of [amount, useMaxAmount]
-    amount: z.string().optional(),
-    useMaxAmount: z.boolean().optional(),
-    fees: z.string().optional(),
-    gas: z.string().optional(),
-    nonce: z.string().optional(),
-    memo: z.string().optional(),
-    format: z.nativeEnum(EncodedTransactionFormat).optional(),
     tokenId: z.string(),
   })
   .openapi({
     // ref: "TransferToken",
     title: "TransferToken",
-  });
-
-const transferNativeSchema = z
-  .object({
-    mode: z.literal(TransactionMode.TRANSFER),
-    senders: z.array(z.string()),
-    recipients: z.array(z.string()),
-    // TODO should be only one of [amount, useMaxAmount]
-    amount: z.string().optional(),
-    useMaxAmount: z.boolean().optional(),
-    fees: z.string().optional(),
-    gas: z.string().optional(),
-    nonce: z.string().optional(),
-    memo: z.string().optional(),
-    format: z.nativeEnum(EncodedTransactionFormat).optional(),
-  })
-  .openapi({
-    // ref: "Transfer",
-    title: "Transfer",
+    description: "Transfer chain tokens",
   });
 
 const transferDelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.DELEGATE),
-    senders: z.array(z.string()),
-    recipients: z.array(z.string()),
-    // TODO should be only one of [amount, useMaxAmount]
-    amount: z.string().optional(),
-    useMaxAmount: z.boolean().optional(),
-    fees: z.string().optional(),
-    gas: z.string().optional(),
-    nonce: z.string().optional(),
-    memo: z.string().optional(),
-    validateAddress: z.string().optional(),
-    format: z.nativeEnum(EncodedTransactionFormat).optional(),
+    validatorAddress: z.string(),
   })
   .openapi({
     // ref: "Delegate",
     title: "Delegate",
   });
 
+const transferUndelegateSchema = z
+  .object({
+    mode: z.literal(TransactionMode.UNDELEGATE),
+    validatorAddress: z.string(),
+  })
+  .openapi({
+    // ref: "Undelegate",
+    title: "Undelegate",
+  });
+
+const transferRedelegateSchema = z
+  .object({
+    mode: z.literal(TransactionMode.REDELEGATE),
+    sourceValidatorAddress: z.string(),
+    targetValidatorAddress: z.string(),
+  })
+  .openapi({
+    // ref: "Redelegate",
+    title: "Redelegate",
+  });
+
+const transferClaimRewardsSchema = z
+  .object({
+    mode: z.literal(TransactionMode.CLAIM_REWARDS),
+    validatorAddress: z.string(),
+    compound: z.boolean().optional(),
+  })
+  .openapi({
+    // ref: "ClaimRewards",
+    title: "ClaimRewards",
+  });
+
 const transactionDataSchema = z
   .object({
     chainId: chainIdSchema,
+    sender: z.string(),
+    recipient: z.string(),
+    amount: positiveBigintSchema.optional(),
+    useMaxAmount: z.boolean().default(false),
+    fees: positiveBigintSchema.optional(),
+    gas: z.string().optional(),
+    nonce: positiveBigintSchema.optional(),
+    memo: z.string().optional(),
+    format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
   })
   .and(
     z.discriminatedUnion("mode", [
       transferNativeSchema,
       transferDelegateSchema,
       transferTokenSchema,
-      transferToManySchema,
+      transferUndelegateSchema,
+      transferRedelegateSchema,
+      transferClaimRewardsSchema,
     ])
   )
   // validation of transaction mode VS chain features
   .refine(
+    (data) => getSupportedTransactionModes(data.chainId).includes(data.mode),
     (data) => {
-      // TODO: Maybe standardize naming and/or usage? (transfer vs transaction / transaction mode vs supported features)
-      switch (data.mode) {
-        case TransactionMode.TRANSFER:
-          return CHAINS[data.chainId].supportedFeatures.includes(ChainFeature.TRANSACTIONS_NATIVE);
-        case TransactionMode.TRANSFER_TOKEN:
-          return CHAINS[data.chainId].supportedFeatures.includes(ChainFeature.TRANSACTIONS_TOKENS);
-        case TransactionMode.DELEGATE:
-          return CHAINS[data.chainId].supportedFeatures.includes(ChainFeature.TRANSACTIONS_STAKING);
-        case TransactionMode.TRANSFER_TO_MANY:
-          return CHAINS[data.chainId].supportedFeatures.includes(ChainFeature.TRANSACTIONS_TO_MANY);
-        default:
-          return false;
-      }
-    },
-    (data) => {
-      const supportedTransactionModes = CHAINS[data.chainId].supportedFeatures.flatMap((feature) => {
-        switch (feature) {
-          case ChainFeature.TRANSACTIONS_NATIVE:
-            return [TransactionMode.TRANSFER];
-          case ChainFeature.TRANSACTIONS_TOKENS:
-            return [TransactionMode.TRANSFER_TOKEN];
-          case ChainFeature.TRANSACTIONS_STAKING:
-            return [TransactionMode.DELEGATE];
-          case ChainFeature.TRANSACTIONS_TO_MANY:
-            return [TransactionMode.TRANSFER_TO_MANY];
-          default:
-            return []; // filter out features that don't concern transactions
-        }
-      });
-      // idea of how we could have generic errors for features, for all chains
       return {
         message: `Transaction mode ${data.mode} is not supported for ${data.chainId}`,
         fatal: true,
         code: z.ZodIssueCode.invalid_enum_value,
         path: ["mode"],
-        options: supportedTransactionModes,
+        options: getSupportedTransactionModes(data.chainId),
       };
     }
-  );
+  )
+  // validation of recipients amount & useMaxAmount
+  // -> only one recipient without an amount allowed when using useMaxAmount
+  // -> all recipients must have an amount when not using useMaxAmount
+  .superRefine((data, ctx) => {
+    if (data.useMaxAmount && data.amount) {
+      ctx.addIssue({
+        message: "Cannot specify amount when using useMaxAmount and vice versa.",
+        code: z.ZodIssueCode.custom,
+        path: ["amount"],
+      });
+    } else if (!data.useMaxAmount && !data.amount) {
+      ctx.addIssue({
+        message: "Missing transaction amount (or set `useMaxAmount: true`).",
+        code: z.ZodIssueCode.custom,
+        path: ["amount"],
+      });
+    }
+  });
 
 const errorMsgSchema = z.object({
   message: z.string(),
@@ -232,6 +167,10 @@ const errorMsgSchema = z.object({
 const transactionStatusSchema = z.object({
   errors: z.array(errorMsgSchema),
   warnings: z.array(errorMsgSchema),
+});
+
+const transactionSchema = z.object({
+  data: transactionDataSchema,
 });
 
 const chainSchema = z.object({
@@ -250,7 +189,7 @@ export {
   chainIdSchema,
   chainSchema,
   paginationSchema,
-  plainTransactionSchema,
   transactionDataSchema,
+  transactionSchema,
   transactionStatusSchema,
 };

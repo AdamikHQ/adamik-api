@@ -1,19 +1,19 @@
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { getDelegation, getEstimatedFees, resolvePubKey } from "../logic";
-import { fetchAccount, fetchBalances, fetchDelegations } from "../backend/node";
-import { CosmosService } from ".";
 import { CHAINS } from "~/app/config/chains";
-import { CosmosChainParams } from "../types";
+import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { CosmosService } from ".";
+import { fetchAccount, fetchBalances, fetchDelegations } from "../backend/node";
 import { COSMOS_MOCK_FEES } from "../constants";
+import { getDelegation, getEstimatedFees, resolvePubKey } from "../logic";
+import { CosmosChainParams } from "../types";
 
 async function completeTransaction(this: CosmosService, transaction: Transaction): Promise<void> {
   const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
 
-  const senderAddress = transaction.plain.senders[0];
+  const senderAddress = transaction.data.sender;
   const account = await fetchAccount(this.chainId, senderAddress);
 
   const spendableBalance = await (async () => {
-    switch (transaction.plain.mode) {
+    switch (transaction.data.mode) {
       case TransactionMode.TRANSFER:
       case TransactionMode.DELEGATE:
         const balances = await fetchBalances(this.chainId, senderAddress);
@@ -26,7 +26,7 @@ async function completeTransaction(this: CosmosService, transaction: Transaction
       case TransactionMode.UNDELEGATE:
       case TransactionMode.REDELEGATE:
         const delegations = await fetchDelegations(this.chainId, senderAddress);
-        const stakedBalance = getDelegation(delegations, transaction.plain);
+        const stakedBalance = getDelegation(delegations, transaction.data);
         if (!stakedBalance) {
           throw new Error(`Failed to retrieve staking balance for ${this.chainId} address ${senderAddress}`);
         }
@@ -38,36 +38,35 @@ async function completeTransaction(this: CosmosService, transaction: Transaction
     }
   })();
 
-  if (transaction.plain.useMaxAmount) {
+  if (transaction.data.useMaxAmount) {
     // Simulated amount, just for estimating fees
     // Must be: 0 > amount > max spendable, otherwise the simulation endpoint refuses to cooperate
-    transaction.plain.amount = spendableBalance > COSMOS_MOCK_FEES ? spendableBalance - COSMOS_MOCK_FEES : 1n;
+    transaction.data.amount = spendableBalance > COSMOS_MOCK_FEES ? spendableBalance - COSMOS_MOCK_FEES : 1n;
   }
 
-  const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.plain);
+  const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data);
 
-  transaction.plain.fees = gasWantedFees;
-  transaction.plain.gas = gasWanted;
+  transaction.data.fees = gasWantedFees;
+  transaction.data.gas = gasWanted;
 
-  if (transaction.plain.useMaxAmount) {
-    switch (transaction.plain.mode) {
+  if (transaction.data.useMaxAmount) {
+    switch (transaction.data.mode) {
       case TransactionMode.TRANSFER:
       case TransactionMode.DELEGATE:
-        transaction.plain.amount = spendableBalance > gasWantedFees ? spendableBalance - gasWantedFees : 0n;
+        transaction.data.amount = spendableBalance > gasWantedFees ? spendableBalance - gasWantedFees : 0n;
         break;
 
       case TransactionMode.UNDELEGATE:
       case TransactionMode.REDELEGATE:
-        transaction.plain.amount = spendableBalance;
+        transaction.data.amount = spendableBalance;
         break;
     }
   }
 
   const updatedAccount = resolvePubKey(account, transaction);
 
-  transaction.plain.nonce = account.sequence;
-
-  transaction.plain.params = {
+  transaction.data.nonce = account.sequence;
+  transaction.data.params = {
     pubKey: updatedAccount.pubKey,
   };
 }

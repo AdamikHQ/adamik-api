@@ -63,7 +63,7 @@ jobs:
           revision: head/public/openapi.json
 
       - name: Comment on PR
-        if: steps.check_changes.outputs.openapi_changed == 'true'
+        if: steps.check_changes.outputs.openapi_changed == 'true' && github.event_name == 'pull_request'
         working-directory: head
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

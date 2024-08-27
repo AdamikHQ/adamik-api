@@ -1,28 +1,17 @@
 import { Psbt } from "bitcoinjs-lib";
-import { isMultiRecipientTransaction, TransactionWrapper } from "~/app/model/types_WIP";
+import { Transaction } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchRawTxMetadata, fetchTxMetadata } from "../backend/explorer";
+import { BitcoinTransactionParams } from "../types";
 
-async function encodeTransactionToSign(this: BtcService, transaction: TransactionWrapper): Promise<void> {
-  /**
-   * This should never happen because the transaction is already validated by zod
-   * @see {@link transactionDataSchema.refine} at the {@link transactionDataSchema} definition
-   * TODO: maybe we could make sure that completeTransaction directly receives a multi-recipient transaction ?
-   */
-  if (!isMultiRecipientTransaction(transaction.data)) {
-    throw new Error(`Something went wrong, the transaction is not a multi-recipient transaction.`);
-  }
-
-  if (!transaction.data.inputs || transaction.data.inputs.length === 0) {
-    // should not happen as the transaction is already passed through completeTransaction
-    throw new Error(`Something went wrong, the transaction has no inputs.`);
-  }
+async function encodeTransactionToSign(this: BtcService, transaction: Transaction): Promise<void> {
+  const params = transaction.data.params as BitcoinTransactionParams;
 
   let psbt = new Psbt();
 
   // Enrich inputs from the explorer
-  for (let inputIndex = 0; inputIndex < transaction.data.inputs.length; inputIndex++) {
-    const input = transaction.data.inputs[inputIndex];
+  for (let inputIndex = 0; inputIndex < params.inputs.length; inputIndex++) {
+    const input = params.inputs[inputIndex];
     const txMetadata = await fetchTxMetadata(this.chainId, input.transaction_hash);
 
     // FIXME: did I missunderstood the has_witness field?
@@ -52,19 +41,14 @@ async function encodeTransactionToSign(this: BtcService, transaction: Transactio
     psbt.setInputSequence(inputIndex, 0xfffffffd);
   }
 
-  for (const recipient of transaction.data.recipients) {
-    psbt.addOutput({
-      address: recipient.address,
-      value: Number(recipient.amount),
-    });
-  }
+  psbt.addOutputs(params.outputs);
 
   transaction.encoded = psbt.toHex();
 }
 
 async function encodeTransactionToBroadcast(
   this: BtcService,
-  signedTransaction: TransactionWrapper
+  signedTransaction: Transaction
 ): Promise<string> {
   if (!signedTransaction.signature) {
     throw new Error("missing transaction signature");

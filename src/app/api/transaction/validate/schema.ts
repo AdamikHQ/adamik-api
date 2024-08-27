@@ -1,7 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { transactionStatusSchema } from "~/app/api/schemaCommon";
-import { transactionSchema } from "../txSchemaCommon";
+import { transactionSchema, transactionStatusSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
   transaction: transactionSchema,
@@ -13,6 +12,7 @@ const transactionValidateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/validate": {
     post: {
       tags: ["transaction"],
+      summary: "Validate a transaction",
       description:
         "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
       requestBody: {

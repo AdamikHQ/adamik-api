@@ -1,19 +1,19 @@
 import { BaseChainService, StakingService, TokenService } from "~/app/model/service";
+import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTransaction";
+import { completeTransaction as completeTransactionFn } from "./completeTransaction";
+import {
+  encodeTransactionToBroadcast as encodeTransactionToBroadcastFn,
+  encodeTransactionToSign as encodeTransactionToSignFn,
+} from "./encodeTransaction";
+import { getAccountState as getAccountStateFn } from "./getAccountState";
+import { getTokenInfo as getTokenInfoFn } from "./getTokenInfo";
+import { getValidators as getValidatorsFn } from "./getValidators";
 import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
 import { validateAddress as validateAddressFn } from "./validateAddress";
-import { getAddressState as getAddressStateFn } from "./getAddressState";
-import { getTokenInfo as getTokenInfoFn } from "./getTokenInfo";
 import {
   prevalidateTransaction as prevalidateTransactionFn,
   validateTransaction as validateTransactionFn,
 } from "./validateTransaction";
-import { completeTransaction as completeTransactionFn } from "./completeTransaction";
-import {
-  encodeTransactionToSign as encodeTransactionToSignFn,
-  encodeTransactionToBroadcast as encodeTransactionToBroadcastFn,
-} from "./encodeTransaction";
-import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTransaction";
-import { getValidators as getValidatorsFn } from "./getValidators";
 
 // TODO Make sure heavy functions aren't called multiple times / unnecessarily
 // (buildTransaction, network calls, etc...)
@@ -21,14 +21,14 @@ import { getValidators as getValidatorsFn } from "./getValidators";
 class CosmosService extends BaseChainService implements TokenService, StakingService {
   pubkeyToAddress = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
-  getAddressState = getAddressStateFn;
+  getAccountState = getAccountStateFn;
   getTokenInfo = getTokenInfoFn;
   getValidators = getValidatorsFn;
-  prevalidateTransaction = this.transactionMethodAdaptator(prevalidateTransactionFn);
-  completeTransaction = this.transactionMethodAdaptator(completeTransactionFn);
-  validateTransaction = this.transactionMethodAdaptator(validateTransactionFn);
-  encodeTransactionToSign = this.transactionMethodAdaptator(encodeTransactionToSignFn);
-  encodeTransactionToBroadcast = this.transactionMethodAdaptator(encodeTransactionToBroadcastFn);
+  prevalidateTransaction = prevalidateTransactionFn;
+  completeTransaction = completeTransactionFn;
+  validateTransaction = validateTransactionFn;
+  encodeTransactionToSign = encodeTransactionToSignFn;
+  encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
   broadcastTransaction = broadcastTransactionFn;
 }
 

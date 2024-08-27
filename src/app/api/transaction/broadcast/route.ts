@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
-import { BroadcastStatus, TransactionWrapper } from "~/app/model/types_WIP";
-import { requestSchema } from "./schema";
+import { BroadcastStatus, Transaction } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { requestSchema } from "./schema";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await requestSchema.parseAsync(await request.json());
 
-  let transaction: TransactionWrapper = {
+  let transaction: Transaction = {
     data: stringToBigint(body.transaction.data),
     // FIXME: better schema for encoded required
     encoded: body.transaction.encoded as any,
@@ -19,7 +19,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
   const chainId = transaction.data.chainId;
   const service = getService(chainId);
 
-  const signedTransaction = await service.encodeTransactionToBroadcast(transaction);
+  const broadcastPayload = await service.encodeTransactionToBroadcast(transaction);
   if (transaction.status.errors.length) {
     return NextResponse.json({ error: transaction.status.errors[0] } as BroadcastStatus, {
       status: 400,
@@ -27,7 +27,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const broadcastStatus = await service.broadcastTransaction(signedTransaction);
+  const broadcastStatus = await service.broadcastTransaction(broadcastPayload);
 
   if (broadcastStatus.error) {
     return NextResponse.json(broadcastStatus, { status: 400, statusText: `Invalid transaction` });

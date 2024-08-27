@@ -1,59 +1,33 @@
 import coinSelect from "coinselect";
 import split from "coinselect/split.js";
-import { isMultiRecipientTransaction, TransactionMode, TransactionWrapper } from "~/app/model/types_WIP";
+import { Transaction } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchFeePerByte, fetchXpubDashboard } from "../backend/explorer";
 import { UtxoWithMetadata } from "../backend/types";
-import { Xpub } from "../types";
+import { BitcoinTransactionParams, Xpub } from "../types";
 
-async function completeTransaction(this: BtcService, transaction: TransactionWrapper): Promise<void> {
+async function completeTransaction(this: BtcService, transaction: Transaction): Promise<void> {
   let selectionAlgorithm = coinSelect;
 
-  if (!isMultiRecipientTransaction(transaction.data)) {
-    if (transaction.data.mode !== TransactionMode.TRANSFER) {
-      transaction.status.errors.push({
-        message: `Invalid transaction mode: ${transaction.data.mode} for chainId ${transaction.data.chainId}`,
-      });
-      return;
-    }
-
-    if (!transaction.data.useMaxAmount === !transaction.data.amount) {
-      transaction.status.errors.push({
-        message: `Either one of the field "amount" or "userMaxAmount" is missing, or both are mistakenly set together for ${transaction.data.chainId}`,
-      });
-      return;
-    }
-
-    transaction.data = {
-      chainId: transaction.data.chainId,
-      mode: TransactionMode.TRANSFER_TO_MANY,
-      sender: transaction.data.senders[0] as Xpub,
-      recipients: [
-        {
-          address: transaction.data.recipients[0],
-          amount: transaction.data.useMaxAmount ? undefined : transaction.data.amount,
-        },
-      ],
-      inputs: [],
-      fees: 0n,
-    };
+  if (transaction.data.useMaxAmount) {
     selectionAlgorithm = split;
   }
 
   const feeRate = await fetchFeePerByte(this.chainId);
 
-  const allUtxos = (await fetchXpubDashboard(this.chainId, transaction.data.sender)).data[
+  // safe to cast here as we already validated sender in prevalidateTransaction
+  const allUtxos = (await fetchXpubDashboard(this.chainId, transaction.data.sender as Xpub)).data[
     transaction.data.sender
   ].utxo;
 
   const { inputs, outputs, fee } = selectionAlgorithm(
     allUtxos,
-    transaction.data.recipients.map((recipient) => {
-      return {
-        address: recipient.address,
-        value: recipient.amount ? Number(recipient.amount) : undefined,
-      };
-    }),
+    [
+      {
+        address: transaction.data.recipient,
+        value: transaction.data.amount ? Number(transaction.data.amount) : undefined,
+      },
+    ],
     feeRate
   );
 
@@ -66,32 +40,40 @@ async function completeTransaction(this: BtcService, transaction: TransactionWra
     return;
   }
 
-  transaction.data.inputs = [];
+  // write the inputs in the transaction for later encoding
+  (transaction.data.params as BitcoinTransactionParams) = {
+    inputs: [],
+    outputs: [],
+  };
   for (const input of inputs) {
-    transaction.data.inputs.push(input as UtxoWithMetadata);
+    (transaction.data.params as BitcoinTransactionParams).inputs.push(input as UtxoWithMetadata);
   }
 
   for (const out of outputs) {
-    // if address is not defined, it means it's a newly added recipient by coinselect (the change) that we need to reflect in the transaction
-    if (!("address" in out)) {
-      transaction.data.recipients.push({
+    // value in out is always defined after calling selectionAlgorithm
+    if ("value" in out) {
+      // in case useMaxAmount is true, we need to overwrite the amount in the transaction with the amount selected by the algorithm
+      if ("address" in out) {
+        if (transaction.data.useMaxAmount && out.address === transaction.data.recipient) {
+          transaction.data.amount = BigInt(out.value);
+        }
+        (transaction.data.params as BitcoinTransactionParams).outputs.push(out);
+      }
+      // no address in the output, this is the change
+      else {
         // Take the address of the first input, its as good as any other one
         // FIXME: terrible pratice, we should derive a new change address from the Xpub
-        address: (inputs[0] as UtxoWithMetadata).address,
-        amount: BigInt(out.value),
-      });
-    } else {
-      // if there is a value in the output, and there was no amount in the original recipient
-      // => it means we are doing a spendAll transfer and should copy the calculated amount to the recipient
-      const recipientNeedingAmount = transaction.data.recipients.find(
-        (r) => r.address === out.address && !r.amount
-      );
-      if (recipientNeedingAmount && "value" in out) {
-        recipientNeedingAmount.amount = BigInt(out.value);
+        (transaction.data.params as BitcoinTransactionParams).outputs.push({
+          value: out.value,
+          address: (inputs[0] as UtxoWithMetadata).address,
+        });
       }
     }
   }
+
   transaction.data.fees = BigInt(fee);
+  transaction.data.params;
+  // transaction.data.inputs = completeInputs; <== make it a params
 }
 
 export { completeTransaction };

@@ -1,22 +1,18 @@
-import { getAddressesState } from "./getAddressesState";
 import { BtcService } from ".";
-import { AddressesState, ChainId } from "~/app/model/types_WIP";
+import { AccountState, ChainId } from "~/app/model/types_WIP";
 
 const CHAIN_ID = ChainId.BITCOIN;
 
-describe("getAddressesState", () => {
+describe("getAccountState", () => {
   it("should fetch address state successfully", async () => {
     const btcService = new BtcService(CHAIN_ID);
-    const expectedAddressState: AddressesState = {
+    const expectedAddressState: AccountState = {
       chainId: btcService.chainId,
-      addresses: {
-        sample_address: {
-          balances: {
-            native: {
-              available: 25550215769897n,
-              total: 25550215769897n,
-            },
-          },
+      accountId: "sample_address",
+      balances: {
+        native: {
+          available: 25550215769897n,
+          total: 25550215769897n,
         },
       },
     };
@@ -40,22 +36,19 @@ describe("getAddressesState", () => {
       )
     );
 
-    const result = await getAddressesState.call(btcService, ["sample_address"]);
+    const result = await btcService.getAccountState({ addresses: ["sample_address"] });
     expect(result).toEqual(expectedAddressState);
   });
 
   it("should have balance at 0n if blockchair returns invalid response", async () => {
     const btcService = new BtcService(CHAIN_ID);
-    const expectedAddressState: AddressesState = {
+    const expectedAddressState: AccountState = {
       chainId: btcService.chainId,
-      addresses: {
-        sample_address: {
-          balances: {
-            native: {
-              available: 0n,
-              total: 0n,
-            },
-          },
+      accountId: "sample_address",
+      balances: {
+        native: {
+          available: 0n,
+          total: 0n,
         },
       },
     };
@@ -63,21 +56,18 @@ describe("getAddressesState", () => {
     jest.spyOn(global, "fetch").mockResolvedValueOnce(Promise.resolve(new Response(JSON.stringify({}))));
 
     // TODO: make this test more robust and test for specific error instead of generic Error
-    await expect(btcService.getAddressesState(["sample_address"])).rejects.toThrow();
+    await expect(btcService.getAccountState({ accountId: "sample_address" })).rejects.toThrow();
   });
 
   it("should have balance at 0n if blockchair returns response with error code 400", async () => {
     const btcService = new BtcService(CHAIN_ID);
-    const expectedAddressState: AddressesState = {
+    const expectedAddressState: AccountState = {
       chainId: btcService.chainId,
-      addresses: {
-        sample_address: {
-          balances: {
-            native: {
-              available: 0n,
-              total: 0n,
-            },
-          },
+      accountId: "sample_address",
+      balances: {
+        native: {
+          available: 0n,
+          total: 0n,
         },
       },
     };
@@ -92,7 +82,7 @@ describe("getAddressesState", () => {
     });
     jest.spyOn(global, "fetch").mockResolvedValueOnce(Promise.resolve(new Response(nullDataResponse)));
 
-    const result = await getAddressesState.call(btcService, ["sample_address"]);
+    const result = await btcService.getAccountState({ addresses: ["sample_address"] });
     expect(result).toEqual(expectedAddressState);
   });
 });

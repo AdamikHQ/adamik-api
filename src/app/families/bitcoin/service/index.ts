@@ -1,20 +1,18 @@
-import { BaseChainService, MultiBalancesService } from "~/app/model/service";
+import { BaseChainService } from "~/app/model/service";
 import { broadcastTransaction } from "./broadcastTransaction";
 import { completeTransaction } from "./completeTransaction";
 import { encodeTransactionToBroadcast, encodeTransactionToSign } from "./encodeTransaction";
-import { getAddressesState, getAddressState, getXpubState } from "./getAddressesState";
+import { getAccountState } from "./getAccountState";
 import { pubkeyToAddress } from "./pubkeyToAddress";
 import { validateAddress } from "./validateAddress";
 import { prevalidateTransaction, validateTransaction } from "./validateTransaction";
 
-class BtcService extends BaseChainService implements MultiBalancesService {
+class BtcService extends BaseChainService {
   prevalidateTransaction = prevalidateTransaction;
   // FIXME: does this method makes any sense for BTC?
   pubkeyToAddress = pubkeyToAddress;
   validateAddress = validateAddress;
-  getAddressState = getAddressState;
-  getAddressesState = getAddressesState;
-  getXpubState = getXpubState;
+  getAccountState = getAccountState;
   //getAddressHistory = getAddressHistoryFn;
   completeTransaction = completeTransaction;
   validateTransaction = validateTransaction;

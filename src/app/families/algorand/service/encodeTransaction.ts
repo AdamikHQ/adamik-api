@@ -1,11 +1,11 @@
 import { decode as msgpackDecode } from "algo-msgpack-with-bigint";
 import { EncodedTransaction as AlgoEncodedTransaction } from "algosdk";
+import { buildRawTransaction, encodeToBroadcast, encodeToSign } from "~/app/families/algorand/logic";
 import { Transaction } from "~/app/model/types_WIP";
-import { buildRawTransaction, encodeToSign, encodeToBroadcast } from "~/app/families/algorand/logic";
 import { AlgorandService } from ".";
 
 async function encodeTransactionToSign(this: AlgorandService, transaction: Transaction): Promise<void> {
-  const rawTransaction = await buildRawTransaction(transaction.plain);
+  const rawTransaction = await buildRawTransaction(transaction.data);
 
   transaction.encoded = encodeToSign(rawTransaction);
 }
@@ -35,4 +35,4 @@ async function encodeTransactionToBroadcast(
   }
 }
 
-export { encodeTransactionToSign, encodeTransactionToBroadcast };
+export { encodeTransactionToBroadcast, encodeTransactionToSign };
