@@ -56,7 +56,15 @@ const responseSchema = z.object({
             .array(),
           tokens: z
             .object({
-              tokenId: z.string(),
+              token: z.object({
+                chainId: z.string(),
+                type: z.nativeEnum(TokenType),
+                id: z.string(),
+                name: z.string(),
+                ticker: z.string(),
+                decimals: z.number(),
+                contractAddress: z.string().optional(),
+              }),
               validatorAddress: z.string().optional(),
               amount: z.string(),
             })
