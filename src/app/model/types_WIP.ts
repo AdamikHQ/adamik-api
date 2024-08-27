@@ -1,4 +1,4 @@
-import { BtcChainParams, BtcTransactionParams } from "../families/bitcoin/types";
+import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
 
@@ -51,7 +51,7 @@ enum ChainFamily {
   BITCOIN = "bitcoin",
 }
 
-type ChainParams = CosmosChainParams | EvmChainParams | BtcChainParams;
+type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
 
 enum ChainFeature {
   BALANCES_NATIVE = "balances.native",
@@ -136,9 +136,7 @@ type TokenStakingReward = StakingReward & {
   tokenId: string;
 };
 
-type AccountOrigin = { accountId: string } | { addresses: string[] };
-
-type AccountState = {
+type CommonState = {
   chainId: ChainId;
   balances: {
     native: {
@@ -160,7 +158,15 @@ type AccountState = {
       };
     };
   };
-} & AccountOrigin;
+};
+
+type AccountState = CommonState & {
+  accountId: string;
+};
+
+type AddressesAggregatedState = CommonState & {
+  addresses: string[];
+};
 
 enum TransactionMode {
   TRANSFER = "transfer",
@@ -171,7 +177,7 @@ enum TransactionMode {
   CLAIM_REWARDS = "claimRewards",
 }
 
-type TransactionParams = CosmosTransactionParams | BtcTransactionParams;
+type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams;
 
 // TODO WIP
 // FIXME de/serialization types <> string
@@ -288,6 +294,7 @@ export {
 
 export type {
   AccountState,
+  AddressesAggregatedState,
   BroadcastStatus,
   Chain,
   ChainParams,

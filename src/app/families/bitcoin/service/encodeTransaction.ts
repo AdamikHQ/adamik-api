@@ -2,10 +2,10 @@ import { Psbt } from "bitcoinjs-lib";
 import { Transaction } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchRawTxMetadata, fetchTxMetadata } from "../backend/explorer";
-import { BtcTransactionParams } from "../types";
+import { BitcoinTransactionParams } from "../types";
 
 async function encodeTransactionToSign(this: BtcService, transaction: Transaction): Promise<void> {
-  const params = transaction.data.params as BtcTransactionParams;
+  const params = transaction.data.params as BitcoinTransactionParams;
 
   let psbt = new Psbt();
 

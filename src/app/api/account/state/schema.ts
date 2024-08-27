@@ -8,7 +8,9 @@ extendZodWithOpenApi(z);
 const requestSchema = z
   .object({
     chainId: chainIdSchema,
-    accountId: z.string(),
+    accountId: z.string().openapi({
+      description: "Account identifier (address, xpub, etc) for the specified chain ID",
+    }),
   })
   .openapi({
     examples: [
@@ -86,7 +88,7 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/account/state": {
     post: {
       tags: ["account"],
-      summary: "Retrieve account state",
+      summary: "Retrieve an account's state",
       description:
         "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
       requestBody: {

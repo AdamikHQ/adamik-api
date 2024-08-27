@@ -1,21 +1,21 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { ChainId } from "~/app/model/types_WIP";
 import { chainIdSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
   chainId: chainIdSchema,
-  address: z.string(),
+  pubkey: z.string(),
 });
 
 const responseSchema = z.boolean();
 
-const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/account/validate": {
+const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
+  "/api/address/encode": {
     post: {
       tags: ["address"],
+      summary: "Get an address from a public key",
       description:
-        "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
+        "Encodes the public key based on the specified chain ID and returns true if the operation is successful, otherwise false.",
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -23,8 +23,7 @@ const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description:
-            "200 OK - Returns true if the address is valid for the specified chain ID, otherwise false.",
+          description: "200 OK - Returns true if the encoding is successful, otherwise false.",
           content: {
             "application/json": { schema: responseSchema },
           },
@@ -34,4 +33,4 @@ const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, addressValidateOpenAPIPath };
+export { requestSchema, responseSchema, addressEncodeOpenAPIPath };

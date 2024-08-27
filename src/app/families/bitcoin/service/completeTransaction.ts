@@ -4,7 +4,7 @@ import { Transaction } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchFeePerByte, fetchXpubDashboard } from "../backend/explorer";
 import { UtxoWithMetadata } from "../backend/types";
-import { BtcTransactionParams, Xpub } from "../types";
+import { BitcoinTransactionParams, Xpub } from "../types";
 
 async function completeTransaction(this: BtcService, transaction: Transaction): Promise<void> {
   let selectionAlgorithm = coinSelect;
@@ -41,12 +41,12 @@ async function completeTransaction(this: BtcService, transaction: Transaction): 
   }
 
   // write the inputs in the transaction for later encoding
-  (transaction.data.params as BtcTransactionParams) = {
+  (transaction.data.params as BitcoinTransactionParams) = {
     inputs: [],
     outputs: [],
   };
   for (const input of inputs) {
-    (transaction.data.params as BtcTransactionParams).inputs.push(input as UtxoWithMetadata);
+    (transaction.data.params as BitcoinTransactionParams).inputs.push(input as UtxoWithMetadata);
   }
 
   for (const out of outputs) {
@@ -57,13 +57,13 @@ async function completeTransaction(this: BtcService, transaction: Transaction): 
         if (transaction.data.useMaxAmount && out.address === transaction.data.recipient) {
           transaction.data.amount = BigInt(out.value);
         }
-        (transaction.data.params as BtcTransactionParams).outputs.push(out);
+        (transaction.data.params as BitcoinTransactionParams).outputs.push(out);
       }
       // no address in the output, this is the change
       else {
         // Take the address of the first input, its as good as any other one
         // FIXME: terrible pratice, we should derive a new change address from the Xpub
-        (transaction.data.params as BtcTransactionParams).outputs.push({
+        (transaction.data.params as BitcoinTransactionParams).outputs.push({
           value: out.value,
           address: (inputs[0] as UtxoWithMetadata).address,
         });

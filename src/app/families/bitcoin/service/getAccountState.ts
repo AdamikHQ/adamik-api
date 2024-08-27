@@ -1,14 +1,14 @@
 import { CHAINS } from "~/app/config/chains";
-import { AccountState, ChainId } from "~/app/model/types_WIP";
+import { AccountState, AddressesAggregatedState, ChainId } from "~/app/model/types_WIP";
 import { BtcService } from ".";
 import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
 import { isValidXpub } from "../logic";
-import { BtcChainParams, Xpub } from "../types";
+import { BitcoinChainParams, Xpub } from "../types";
 
 async function getAccountState(
   this: BtcService,
   account: { addresses: string[] } | { accountId: string }
-): Promise<AccountState> {
+): Promise<AccountState | AddressesAggregatedState> {
   return "addresses" in account
     ? getAddressesState(this.chainId, account.addresses)
     : isValidXpub(account.accountId)
@@ -16,10 +16,10 @@ async function getAccountState(
     : getAddressesState(this.chainId, [account.accountId]);
 }
 
-async function getAddressesState(chainId: ChainId, addresses: string[]): Promise<AccountState> {
+async function getAddressesState(chainId: ChainId, addresses: string[]): Promise<AddressesAggregatedState> {
   const addressesResult = await fetchAddressesDashboard(chainId, addresses);
 
-  const confirmations_required = (CHAINS[chainId].params as BtcChainParams).confirmations;
+  const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
   const aggregatedBalances = {
     native: {
       available: 0n,
@@ -66,7 +66,7 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
   const currentBlockHeight = xpubResponse.context.state;
 
   // extract unconfirmed balance from UTXOs
-  const confirmations_required = (CHAINS[chainId].params as BtcChainParams).confirmations;
+  const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
   const unconfirmedBalance = xpubResponse.data[xpub].utxo
     .filter((utxo) => currentBlockHeight - utxo.block_id + 1 < confirmations_required)
     .reduce((total, utxo) => total + BigInt(utxo.value), 0n);

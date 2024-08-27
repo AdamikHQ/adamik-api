@@ -19,9 +19,10 @@
     "/api": {
       "get": {
         "tags": [
-          "chains"
+          ""
         ],
-        "description": "Provides the OpenAPI spec of the Adamik API",
+        "summary": "OpenAPI spec",
+        "description": "Provides the OpenAPI specification of the Adamik API",
         "responses": {
           "200": {
             "description": "200 OK - Returns the OpenAPI spec of the Adamik API, in JSON format",
@@ -36,11 +37,12 @@
         }
       }
     },
-    "/api/addresses/encode": {
+    "/api/address/encode": {
       "post": {
         "tags": [
           "address"
         ],
+        "summary": "Get an address from a public key",
         "description": "Encodes the public key based on the specified chain ID and returns true if the operation is successful, otherwise false.",
         "requestBody": {
           "content": {
@@ -117,11 +119,12 @@
         }
       }
     },
-    "/api/account/validate": {
+    "/api/address/validate": {
       "post": {
         "tags": [
           "address"
         ],
+        "summary": "Validate an address",
         "description": "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
         "requestBody": {
           "content": {
@@ -198,11 +201,536 @@
         }
       }
     },
+    "/api/addresses/state": {
+      "post": {
+        "tags": [
+          "addresses"
+        ],
+        "summary": "Retrieve an account's state from a list of addresses",
+        "description": "Returns the addresses state for a specified list of addresses and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chainId": {
+                    "type": "string",
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "cosmoshub-testnet",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "palm",
+                      "mantle",
+                      "bitcoin",
+                      "bitcoin-testnet"
+                    ]
+                  },
+                  "addresses": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "description": "A list of addresses for the specified chain ID.         The addresses must all belong to the same account, as their individual balances will be aggregated in the response"
+                  }
+                },
+                "required": [
+                  "chainId",
+                  "addresses"
+                ],
+                "examples": [
+                  {
+                    "chainId": "bitcoin",
+                    "addresses": [
+                      "bc1pv8g4dn4kn5ad5ja7xd6wukahak5rq9nphmj6qz9x0kccp0plze7sc607qc",
+                      "bc1p8m0x92feq3kvhr2np0dmk6eft3cm25pcvxqx0yqy0uskqvx9jmrs6skn84"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns the current balance information for the specified addresses and chain ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "type": "string"
+                    },
+                    "addresses": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "balances": {
+                            "type": "object",
+                            "properties": {
+                              "native": {
+                                "type": "object",
+                                "properties": {
+                                  "available": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "available"
+                                ]
+                              },
+                              "tokens": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "token": {
+                                      "type": "object",
+                                      "properties": {
+                                        "chainId": {
+                                          "type": "string"
+                                        },
+                                        "type": {
+                                          "type": "string",
+                                          "enum": [
+                                            "ASA",
+                                            "ERC20",
+                                            "IBC"
+                                          ]
+                                        },
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "ticker": {
+                                          "type": "string"
+                                        },
+                                        "decimals": {
+                                          "type": "number"
+                                        },
+                                        "contractAddress": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "chainId",
+                                        "type",
+                                        "id",
+                                        "name",
+                                        "ticker",
+                                        "decimals"
+                                      ]
+                                    },
+                                    "value": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "token",
+                                    "value"
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "native"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "balances"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "addresses"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/account/state": {
+      "post": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Retrieve an account's state",
+        "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chainId": {
+                    "type": "string",
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "cosmoshub-testnet",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "palm",
+                      "mantle",
+                      "bitcoin",
+                      "bitcoin-testnet"
+                    ]
+                  },
+                  "accountId": {
+                    "type": "string",
+                    "description": "Account identifier (address, xpub, etc) for the specified chain ID"
+                  }
+                },
+                "required": [
+                  "chainId",
+                  "accountId"
+                ],
+                "examples": [
+                  {
+                    "chainId": "ethereum",
+                    "accountId": "0x0000000000000000000000000000000000000000"
+                  },
+                  {
+                    "chainId": "bitcoin",
+                    "accountId": "xpub"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns the current balance information for the specified address and chain ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "cosmoshub-testnet",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "palm",
+                        "mantle",
+                        "bitcoin",
+                        "bitcoin-testnet"
+                      ]
+                    },
+                    "address": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "balances": {
+                      "type": "object",
+                      "properties": {
+                        "native": {
+                          "type": "object",
+                          "properties": {
+                            "available": {
+                              "type": "string"
+                            },
+                            "total": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "available",
+                            "total"
+                          ]
+                        },
+                        "tokens": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "token": {
+                                "type": "object",
+                                "properties": {
+                                  "chainId": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "enum": [
+                                      "ASA",
+                                      "ERC20",
+                                      "IBC"
+                                    ]
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string"
+                                  },
+                                  "decimals": {
+                                    "type": "number"
+                                  },
+                                  "contractAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "chainId",
+                                  "type",
+                                  "id",
+                                  "name",
+                                  "ticker",
+                                  "decimals"
+                                ]
+                              },
+                              "amount": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "token",
+                              "amount"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "native"
+                      ]
+                    },
+                    "staking": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "string"
+                        },
+                        "locked": {
+                          "type": "string"
+                        },
+                        "unlocking": {
+                          "type": "string"
+                        },
+                        "unlocked": {
+                          "type": "string"
+                        },
+                        "positions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "validatorAddresses": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "amount": {
+                                "type": "string"
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "free",
+                                  "locked",
+                                  "unlocking",
+                                  "unlocked"
+                                ]
+                              },
+                              "completionDate": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "validatorAddresses",
+                              "amount",
+                              "status"
+                            ]
+                          }
+                        },
+                        "rewards": {
+                          "type": "object",
+                          "properties": {
+                            "native": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "validatorAddress",
+                                  "amount"
+                                ]
+                              }
+                            },
+                            "tokens": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "tokenId": {
+                                    "type": "string"
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "tokenId",
+                                  "amount"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "native",
+                            "tokens"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "locked",
+                        "unlocking",
+                        "unlocked",
+                        "positions"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "address",
+                    "balances"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/chains": {
       "get": {
         "tags": [
           "chains"
         ],
+        "summary": "Retrieve details for all supported chains",
         "description": "Retrieves a list of all supported blockchain networks with their detailed information.",
         "responses": {
           "200": {
@@ -3920,6 +4448,7 @@
         "tags": [
           "chains"
         ],
+        "summary": "Retrieve details of one chain",
         "description": "Retrieves detailed information about a specific blockchain network identified by chain ID.",
         "parameters": [
           {
@@ -4084,6 +4613,7 @@
         "tags": [
           "chains"
         ],
+        "summary": "Retrieve details of one token",
         "description": "Retrieves detailed information about a specific token for a blockchain network, identified by chain ID and token ID.",
         "parameters": [
           {
@@ -4236,533 +4766,12 @@
         }
       }
     },
-    "/api/account/state": {
-      "post": {
-        "tags": [
-          "account"
-        ],
-        "summary": "Retrieve account state",
-        "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "chainId": {
-                    "type": "string",
-                    "enum": [
-                      "algorand",
-                      "cosmoshub",
-                      "osmosis",
-                      "osmosis-testnet",
-                      "celestia",
-                      "celestia-testnet",
-                      "dydx",
-                      "cosmoshub-testnet",
-                      "axelar",
-                      "ethereum",
-                      "sepolia",
-                      "holesky",
-                      "zksync",
-                      "zksync-sepolia",
-                      "injective-testnet",
-                      "base",
-                      "base-sepolia",
-                      "optimism",
-                      "optimism-sepolia",
-                      "arbitrum",
-                      "arbitrum-sepolia",
-                      "polygon",
-                      "polygon-amoy",
-                      "bsc",
-                      "bsc-testnet",
-                      "linea",
-                      "linea-sepolia",
-                      "avalanche",
-                      "gnosis",
-                      "gnosis-chiado",
-                      "moonbeam",
-                      "moonriver",
-                      "moonbase",
-                      "fantom",
-                      "palm",
-                      "mantle",
-                      "bitcoin",
-                      "bitcoin-testnet"
-                    ]
-                  },
-                  "accountId": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "chainId",
-                  "accountId"
-                ],
-                "examples": [
-                  {
-                    "chainId": "ethereum",
-                    "accountId": "0x0000000000000000000000000000000000000000"
-                  },
-                  {
-                    "chainId": "bitcoin",
-                    "accountId": "xpub"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200 OK - Returns the current balance information for the specified address and chain ID.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "chainId": {
-                      "type": "string",
-                      "enum": [
-                        "algorand",
-                        "cosmoshub",
-                        "osmosis",
-                        "osmosis-testnet",
-                        "celestia",
-                        "celestia-testnet",
-                        "dydx",
-                        "cosmoshub-testnet",
-                        "axelar",
-                        "ethereum",
-                        "sepolia",
-                        "holesky",
-                        "zksync",
-                        "zksync-sepolia",
-                        "injective-testnet",
-                        "base",
-                        "base-sepolia",
-                        "optimism",
-                        "optimism-sepolia",
-                        "arbitrum",
-                        "arbitrum-sepolia",
-                        "polygon",
-                        "polygon-amoy",
-                        "bsc",
-                        "bsc-testnet",
-                        "linea",
-                        "linea-sepolia",
-                        "avalanche",
-                        "gnosis",
-                        "gnosis-chiado",
-                        "moonbeam",
-                        "moonriver",
-                        "moonbase",
-                        "fantom",
-                        "palm",
-                        "mantle",
-                        "bitcoin",
-                        "bitcoin-testnet"
-                      ]
-                    },
-                    "address": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "balances": {
-                      "type": "object",
-                      "properties": {
-                        "native": {
-                          "type": "object",
-                          "properties": {
-                            "available": {
-                              "type": "string"
-                            },
-                            "total": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "available",
-                            "total"
-                          ]
-                        },
-                        "tokens": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "token": {
-                                "type": "object",
-                                "properties": {
-                                  "chainId": {
-                                    "type": "string"
-                                  },
-                                  "type": {
-                                    "type": "string",
-                                    "enum": [
-                                      "ASA",
-                                      "ERC20",
-                                      "IBC"
-                                    ]
-                                  },
-                                  "id": {
-                                    "type": "string"
-                                  },
-                                  "name": {
-                                    "type": "string"
-                                  },
-                                  "ticker": {
-                                    "type": "string"
-                                  },
-                                  "decimals": {
-                                    "type": "number"
-                                  },
-                                  "contractAddress": {
-                                    "type": "string"
-                                  }
-                                },
-                                "required": [
-                                  "chainId",
-                                  "type",
-                                  "id",
-                                  "name",
-                                  "ticker",
-                                  "decimals"
-                                ]
-                              },
-                              "amount": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "token",
-                              "amount"
-                            ]
-                          }
-                        }
-                      },
-                      "required": [
-                        "native"
-                      ]
-                    },
-                    "staking": {
-                      "type": "object",
-                      "properties": {
-                        "total": {
-                          "type": "string"
-                        },
-                        "locked": {
-                          "type": "string"
-                        },
-                        "unlocking": {
-                          "type": "string"
-                        },
-                        "unlocked": {
-                          "type": "string"
-                        },
-                        "positions": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "validatorAddresses": {
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                }
-                              },
-                              "amount": {
-                                "type": "string"
-                              },
-                              "status": {
-                                "type": "string",
-                                "enum": [
-                                  "free",
-                                  "locked",
-                                  "unlocking",
-                                  "unlocked"
-                                ]
-                              },
-                              "completionDate": {
-                                "type": "number"
-                              }
-                            },
-                            "required": [
-                              "validatorAddresses",
-                              "amount",
-                              "status"
-                            ]
-                          }
-                        },
-                        "rewards": {
-                          "type": "object",
-                          "properties": {
-                            "native": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "validatorAddress": {
-                                    "type": "string"
-                                  },
-                                  "amount": {
-                                    "type": "string"
-                                  }
-                                },
-                                "required": [
-                                  "validatorAddress",
-                                  "amount"
-                                ]
-                              }
-                            },
-                            "tokens": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "tokenId": {
-                                    "type": "string"
-                                  },
-                                  "validatorAddress": {
-                                    "type": "string"
-                                  },
-                                  "amount": {
-                                    "type": "string"
-                                  }
-                                },
-                                "required": [
-                                  "tokenId",
-                                  "amount"
-                                ]
-                              }
-                            }
-                          },
-                          "required": [
-                            "native",
-                            "tokens"
-                          ]
-                        }
-                      },
-                      "required": [
-                        "total",
-                        "locked",
-                        "unlocking",
-                        "unlocked",
-                        "positions"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "chainId",
-                    "address",
-                    "balances"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/addresses/state": {
-      "post": {
-        "tags": [
-          "address"
-        ],
-        "description": "Returns the addresses state for a specified list of addresses and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "chainId": {
-                    "type": "string",
-                    "enum": [
-                      "algorand",
-                      "cosmoshub",
-                      "osmosis",
-                      "osmosis-testnet",
-                      "celestia",
-                      "celestia-testnet",
-                      "dydx",
-                      "cosmoshub-testnet",
-                      "axelar",
-                      "ethereum",
-                      "sepolia",
-                      "holesky",
-                      "zksync",
-                      "zksync-sepolia",
-                      "injective-testnet",
-                      "base",
-                      "base-sepolia",
-                      "optimism",
-                      "optimism-sepolia",
-                      "arbitrum",
-                      "arbitrum-sepolia",
-                      "polygon",
-                      "polygon-amoy",
-                      "bsc",
-                      "bsc-testnet",
-                      "linea",
-                      "linea-sepolia",
-                      "avalanche",
-                      "gnosis",
-                      "gnosis-chiado",
-                      "moonbeam",
-                      "moonriver",
-                      "moonbase",
-                      "fantom",
-                      "palm",
-                      "mantle",
-                      "bitcoin",
-                      "bitcoin-testnet"
-                    ]
-                  },
-                  "addresses": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  }
-                },
-                "required": [
-                  "chainId",
-                  "addresses"
-                ],
-                "description": "List of addresses for the specified chain ID",
-                "examples": [
-                  {
-                    "chainId": "bitcoin",
-                    "addresses": [
-                      "138nA3y5QD7F8rx6o48WByvgfsLi8j27ke",
-                      "bc1qgzrva028eym96uax90j28qj3aqhh3dy8gk6qvp"
-                    ]
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200 OK - Returns the current balance information for the specified addresses and chain ID.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "chainId": {
-                      "type": "string"
-                    },
-                    "addresses": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "address": {
-                            "type": "string",
-                            "minLength": 1
-                          },
-                          "balances": {
-                            "type": "object",
-                            "properties": {
-                              "native": {
-                                "type": "object",
-                                "properties": {
-                                  "available": {
-                                    "type": "string"
-                                  }
-                                },
-                                "required": [
-                                  "available"
-                                ]
-                              },
-                              "tokens": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "token": {
-                                      "type": "object",
-                                      "properties": {
-                                        "chainId": {
-                                          "type": "string"
-                                        },
-                                        "type": {
-                                          "type": "string",
-                                          "enum": [
-                                            "ASA",
-                                            "ERC20",
-                                            "IBC"
-                                          ]
-                                        },
-                                        "id": {
-                                          "type": "string"
-                                        },
-                                        "name": {
-                                          "type": "string"
-                                        },
-                                        "ticker": {
-                                          "type": "string"
-                                        },
-                                        "decimals": {
-                                          "type": "number"
-                                        },
-                                        "contractAddress": {
-                                          "type": "string"
-                                        }
-                                      },
-                                      "required": [
-                                        "chainId",
-                                        "type",
-                                        "id",
-                                        "name",
-                                        "ticker",
-                                        "decimals"
-                                      ]
-                                    },
-                                    "value": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "required": [
-                                    "token",
-                                    "value"
-                                  ]
-                                }
-                              }
-                            },
-                            "required": [
-                              "native"
-                            ]
-                          }
-                        },
-                        "required": [
-                          "address",
-                          "balances"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "chainId",
-                    "addresses"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/chains/{chainId}/validators": {
       "post": {
         "tags": [
           "chains"
         ],
+        "summary": "Retrieve the list of existing validators",
         "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
         "requestBody": {
           "content": {
@@ -4925,6 +4934,7 @@
         "tags": [
           "transaction"
         ],
+        "summary": "Broadcast a signed transaction",
         "description": "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
         "requestBody": {
           "content": {
@@ -5239,6 +5249,7 @@
         "tags": [
           "transaction"
         ],
+        "summary": "Complete, validate and encode a transaction to sign",
         "description": "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.",
         "requestBody": {
           "content": {
@@ -5795,6 +5806,7 @@
         "tags": [
           "transaction"
         ],
+        "summary": "Validate a transaction",
         "description": "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
         "requestBody": {
           "content": {

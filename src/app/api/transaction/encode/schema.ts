@@ -24,6 +24,7 @@ const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/encode": {
     post: {
       tags: ["transaction"],
+      summary: "Complete, validate and encode a transaction to sign",
       description:
         "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.",
       requestBody: {

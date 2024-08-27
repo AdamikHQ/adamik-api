@@ -1,7 +1,5 @@
-import { getAccountState } from "./getAccountState";
 import { BtcService } from ".";
 import { AccountState, ChainId } from "~/app/model/types_WIP";
-import { address } from "bitcoinjs-lib";
 
 const CHAIN_ID = ChainId.BITCOIN;
 

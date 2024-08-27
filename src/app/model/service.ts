@@ -1,5 +1,6 @@
 import {
   AccountState,
+  AddressesAggregatedState,
   BroadcastStatus,
   ChainId,
   Pagination,
@@ -26,7 +27,9 @@ abstract class BaseChainService {
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data
-  abstract getAccountState(account: { addresses: string[] } | { accountId: string }): Promise<AccountState>;
+  abstract getAccountState(
+    account: { accountId: string } | { addresses: string[] }
+  ): Promise<AccountState | AddressesAggregatedState>;
 
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
