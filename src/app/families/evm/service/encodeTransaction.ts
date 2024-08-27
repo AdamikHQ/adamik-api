@@ -46,6 +46,9 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
   const chain = CHAINS[chainId];
   const chainParams = chain.params as EvmChainParams;
 
+  // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
+  const amount = transaction.data.amount as bigint;
+
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
   const data =
@@ -53,7 +56,7 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
       ? encodeFunctionData({
           abi: erc20Abi,
           functionName: "transfer",
-          args: [transaction.data.recipient as EvmAddress, transaction.data.amount],
+          args: [transaction.data.recipient as EvmAddress, amount],
         })
       : undefined;
 
@@ -71,7 +74,7 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
     gas: transaction.data.gas,
     nonce: Number(transaction.data.nonce),
     to: recipient,
-    value: transaction.data.amount,
+    value: amount,
     data,
   }) as TransactionSerialized;
 }
