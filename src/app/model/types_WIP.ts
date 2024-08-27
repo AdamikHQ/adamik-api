@@ -128,7 +128,7 @@ type StakingReward = {
 };
 
 type TokenStakingReward = StakingReward & {
-  tokenId: string;
+  token: Token;
 };
 
 type AddressState = {

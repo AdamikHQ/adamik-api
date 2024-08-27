@@ -56,13 +56,13 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
   const positions: StakingPosition[] = delegations.concat(unbondings);
 
   const tokenRewards = rewards.tokens.map((reward) => {
-    const token = COSMOS_TOKENS.find((token) => token.denom === reward.tokenId) as IBCToken;
+    const token = COSMOS_TOKENS.find((t) => t.denom === reward.token.id) as IBCToken;
     return {
       ...reward,
       token: {
         chainId: this.chainId,
         type: TokenType.IBC,
-        id: reward.tokenId,
+        id: reward.token.id,
         name: token.symbol,
         ticker: token.symbol,
         decimals: token.decimals,
