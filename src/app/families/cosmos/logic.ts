@@ -1,6 +1,6 @@
 import { AminoMsg, StdSignDoc, makeSignDoc, serializeSignDoc } from "@cosmjs/amino";
 import { Secp256k1Signature } from "@cosmjs/crypto";
-import { fromBase64 } from "@cosmjs/encoding";
+import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
 import {
   AminoMsgBeginRedelegate,
@@ -34,9 +34,10 @@ import { CosmosChainParams, CosmosTransactionParams } from "./types";
 
 // TODO Keep this file as a fourre-tout or split it?
 
-function isBase64(str: string): boolean {
-  const base64Regex = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
-  return base64Regex.test(str);
+function isHex(str: string): boolean {
+  // Regex to match hexadecimal characters
+  const hexRegex = /^[0-9A-Fa-f]+$/;
+  return hexRegex.test(str);
 }
 
 function getDelegation(
@@ -98,7 +99,7 @@ function resolvePubKey(account: CosmosAccount, transaction: Transaction): Cosmos
 
   return {
     ...account,
-    pubKey: isBase64(pubKey) ? pubKey : Buffer.from(pubKey, "hex").toString("base64"),
+    pubKey: isHex(pubKey) ? Buffer.from(pubKey, "hex").toString("base64") : pubKey,
     pubKeyType,
   };
 }
@@ -404,7 +405,7 @@ function buildBroadcastPayload({
           publicKey: {
             typeUrl: pubKeyType,
             value: PubKey.encode({
-              key: Buffer.from(pubKey, isBase64(pubKey) ? "base64" : "hex"),
+              key: Buffer.from(pubKey, isHex(pubKey) ? "hex" : "base64"),
             }).finish(),
           },
           modeInfo: {
@@ -449,32 +450,31 @@ async function encodeToBroadcast(
   account: CosmosAccount,
   signedTransaction: Transaction
 ): Promise<string> {
-  const trnsactionData = signedTransaction.data;
-  if (!trnsactionData.nonce) {
+  const transactionData = signedTransaction.data;
+  if (!transactionData.nonce) {
     throw new Error("Missing transaction nonce");
   }
   if (!signedTransaction.signature) {
     throw new Error("Missing signature in transaction");
   }
 
-  const signature = isBase64(signedTransaction.signature)
-    ? fromBase64(signedTransaction.signature)
-    : Buffer.from(
-        Secp256k1Signature.fromDer(Buffer.from(signedTransaction.signature, "hex")).toFixedLength()
-      );
+  const signature = isHex(signedTransaction.signature)
+    ? Buffer.from(Secp256k1Signature.fromDer(fromHex(signedTransaction.signature)).toFixedLength())
+    : Buffer.from(fromBase64(signedTransaction.signature));
 
-  const { protoMsgs } = buildMessages(trnsactionData);
+  const { protoMsgs } = buildMessages(transactionData);
 
   const chainParams = chainId && (CHAINS[chainId].params as CosmosChainParams);
-  // fees is safe to cast as it's guaranteed to be filed in by completeTransaction
-  const fees = trnsactionData.fees as bigint;
+
+  // fees is safe to cast as it's guaranteed to be filled in by completeTransaction
+  const fees = transactionData.fees as bigint;
   const txBytes = buildBroadcastPayload({
     pubKeyType: account.pubKeyType,
     pubKey: account.pubKey,
     feeAmount: [{ amount: fees.toString(), denom: chainParams.denom }] as Coin[],
-    gasLimit: trnsactionData.gas,
-    sequence: trnsactionData.nonce,
-    memo: trnsactionData.memo || "",
+    gasLimit: transactionData.gas,
+    sequence: transactionData.nonce,
+    memo: transactionData.memo || "",
     protoMsgs,
     signature,
   });

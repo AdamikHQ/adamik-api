@@ -16,6 +16,7 @@ import { ChainId, EncodedTransactionFormat, Transaction, TransactionMode } from 
 import { EvmService } from ".";
 import { estimateFeesPerGas } from "../backend/node";
 import { EvmAddress, EvmChainParams } from "../types";
+import { isHexString } from "../logic";
 
 async function encodeTransactionToSign(this: EvmService, transaction: Transaction): Promise<void> {
   try {
@@ -23,11 +24,11 @@ async function encodeTransactionToSign(this: EvmService, transaction: Transactio
       // HEX is the proper format and current default, when format is not explicitely provided
       case undefined:
       case EncodedTransactionFormat.HEX:
-        await encodeTransactionToSignAsHex(this.chainId, transaction);
+        await encodeTransactionAsHex(this.chainId, transaction);
         break;
       // JSON doesn't really make sense, it's only for Metamask and signers that actually do the encoding themselves...
       case EncodedTransactionFormat.JSON:
-        await encodeTransactionToSignAsJSON(this.chainId, transaction);
+        await encodeTransactionAsJSON(this.chainId, transaction);
         break;
       default:
         throw new Error(
@@ -41,11 +42,45 @@ async function encodeTransactionToSign(this: EvmService, transaction: Transactio
   }
 }
 
-async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Transaction) {
-  // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
-  const amount = transaction.data.amount as bigint;
+async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction): Promise<void> {
+  const chain = CHAINS[chainId];
+  const chainParams = chain.params as EvmChainParams;
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
+
+  const data =
+    transaction.data.mode === TransactionMode.TRANSFER_TOKEN
+      ? encodeFunctionData({
+          abi: erc20Abi,
+          functionName: "transfer",
+          args: [transaction.data.recipient as EvmAddress, transaction.data.amount],
+        })
+      : undefined;
+
+  const recipient =
+    transaction.data.mode === TransactionMode.TRANSFER_TOKEN
+      ? (transaction.data.tokenId as EvmAddress)
+      : (transaction.data.recipient as EvmAddress);
+
+  const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
+
+  transaction.encoded = serializeTransactionFn({
+    chainId: Number(chain.nativeId),
+    maxFeePerGas,
+    maxPriorityFeePerGas,
+    gas: transaction.data.gas,
+    nonce: Number(transaction.data.nonce),
+    to: recipient,
+    value: transaction.data.amount,
+    data,
+  }) as TransactionSerialized;
+}
+
+async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transaction): Promise<void> {
+  const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
+
+  // amount is safe to cast as it's guaranteed to be filled in by completeTransaction
+  const amount = transaction.data.amount as bigint;
 
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER: {
@@ -79,78 +114,70 @@ async function encodeTransactionToSignAsJSON(chainId: ChainId, transaction: Tran
   }
 }
 
-async function encodeTransactionToSignAsHex(chainId: ChainId, transaction: Transaction) {
-  const chain = CHAINS[chainId];
-  const chainParams = chain.params as EvmChainParams;
-  // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
-  const amount = transaction.data.amount as bigint;
-
-  const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
-
-  const data =
-    transaction.data.mode === TransactionMode.TRANSFER_TOKEN
-      ? encodeFunctionData({
-          abi: erc20Abi,
-          functionName: "transfer",
-          args: [transaction.data.recipient as EvmAddress, amount],
-        })
-      : undefined;
-
-  const recipient =
-    transaction.data.mode === TransactionMode.TRANSFER_TOKEN
-      ? (transaction.data.tokenId as EvmAddress)
-      : (transaction.data.recipient as EvmAddress);
-
-  const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
-
-  transaction.encoded = serializeTransactionFn({
-    chainId: Number(chain.nativeId),
-    maxFeePerGas,
-    maxPriorityFeePerGas,
-    gas: transaction.data.gas,
-    nonce: Number(transaction.data.nonce),
-    to: recipient,
-    value: amount,
-    data,
-  }) as TransactionSerialized;
-}
-
-// FIXME Untestable at the moment since all supported EVM signers want to do the broadcast themselves
 async function encodeTransactionToBroadcast(
   this: EvmService,
   signedTransaction: Transaction
 ): Promise<string> {
   try {
-    if (!signedTransaction.encoded) {
-      throw new Error("missing encoded transaction");
-    }
+    // TODO Could be done with zod at route level
     if (!signedTransaction.signature) {
-      throw new Error("missing transaction signature");
+      throw new Error("Missing transaction signature");
+    } else if (!isHexString(signedTransaction.signature)) {
+      throw new Error("Transaction signature must be in valid hex format");
+    }
+
+    // TODO Could be done with zod at route level
+    if (!signedTransaction.encoded) {
+      throw new Error("Missing encoded transaction");
+    } else if (!isHexString(signedTransaction.encoded)) {
+      throw new Error("Encoded transaction must be in valid hex format");
     }
 
     // TODO Make sure this is documented...
     // NOTE signedTransaction.signature is assumed to be built that way, r,s,v being correct hexadecimal strings:
     //
     // 1) Remove the front "0x" from s and v strings
-    // 2) Concatenate them all in a single string
-    // signedTransaction.signature = r + s.slice(2) + v.slice(2)
-    const signature: Signature = parseSignature(
-      ((!signedTransaction.signature.startsWith("0x") ? "0x" : "") +
-        signedTransaction.signature) as `0x${string}`
-    );
+    // 2) Concatenate them all in a single string : signedTransaction.signature = r + s.slice(2) + v.slice(2)
 
-    const transaction: TransactionSerializable = parseTransaction(
+    const parsedSignature: Signature = (() => {
+      try {
+        return parseSignature(signedTransaction.signature);
+      } catch (e) {
+        const parsedSignatureFromTransaction: TransactionSerializable = parseTransaction(
+          signedTransaction.signature
+        );
+
+        if (parsedSignatureFromTransaction.r === undefined) {
+          throw new Error("Invalid signature: missing r parameter");
+        }
+        if (parsedSignatureFromTransaction.s === undefined) {
+          throw new Error("Invalid signature: missing s parameter");
+        }
+        if (parsedSignatureFromTransaction.v === undefined) {
+          throw new Error("Invalid signature: missing v parameter");
+        }
+
+        return {
+          v: parsedSignatureFromTransaction.v,
+          r: parsedSignatureFromTransaction.r,
+          s: parsedSignatureFromTransaction.s,
+          yParity: parsedSignatureFromTransaction.yParity,
+        };
+      }
+    })();
+
+    const parsedTansaction: TransactionSerializable = parseTransaction(
       signedTransaction.encoded as TransactionSerialized
     );
 
     const chainParams = CHAINS[this.chainId].params as EvmChainParams;
     const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
-    return serializeTransactionFn(transaction, signature);
+    return serializeTransactionFn(parsedTansaction, parsedSignature);
   } catch (e: any) {
     signedTransaction.status.errors.push({ message: `Error while encoding to broadcast: ${e.message}` });
     return "";
   }
 }
 
-export { encodeTransactionToBroadcast, encodeTransactionToSign };
+export { encodeTransactionToSign, encodeTransactionToBroadcast };

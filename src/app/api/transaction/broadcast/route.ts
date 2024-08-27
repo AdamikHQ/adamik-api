@@ -19,7 +19,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
   const chainId = transaction.data.chainId;
   const service = getService(chainId);
 
-  const signedTransaction = await service.encodeTransactionToBroadcast(transaction);
+  const broadcastPayload = await service.encodeTransactionToBroadcast(transaction);
   if (transaction.status.errors.length) {
     return NextResponse.json({ error: transaction.status.errors[0] } as BroadcastStatus, {
       status: 400,
@@ -27,7 +27,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
     });
   }
 
-  const broadcastStatus = await service.broadcastTransaction(signedTransaction);
+  const broadcastStatus = await service.broadcastTransaction(broadcastPayload);
 
   if (broadcastStatus.error) {
     return NextResponse.json(broadcastStatus, { status: 400, statusText: `Invalid transaction` });

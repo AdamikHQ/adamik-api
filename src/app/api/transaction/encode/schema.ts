@@ -26,7 +26,8 @@ const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
       tags: ["transaction"],
       summary: "Complete, validate and encode a transaction to sign",
       description:
-        "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.",
+        "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.\
+        It also completes the input transaction with computed data, such as fees and max spendable amount, and performs some chain-specific validation checks on the transaction.",
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },

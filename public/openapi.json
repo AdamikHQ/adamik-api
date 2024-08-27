@@ -43,7 +43,7 @@
           "address"
         ],
         "summary": "Get an address from a public key",
-        "description": "Encodes the public key based on the specified chain ID and returns true if the operation is successful, otherwise false.",
+        "description": "Encodes the provided public key to an address for the given chain ID",
         "requestBody": {
           "content": {
             "application/json": {
@@ -111,7 +111,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "type": "string"
                 }
               }
             }
@@ -5250,7 +5250,7 @@
           "transaction"
         ],
         "summary": "Complete, validate and encode a transaction to sign",
-        "description": "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.",
+        "description": "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.        It also completes the input transaction with computed data, such as fees and max spendable amount, and performs some chain-specific validation checks on the transaction.",
         "requestBody": {
           "content": {
             "application/json": {
