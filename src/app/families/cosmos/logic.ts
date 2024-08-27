@@ -1,4 +1,4 @@
-import { AminoMsg, StdSignDoc, makeSignDoc, serializeSignDoc } from "@cosmjs/amino";
+import { AminoMsg, makeSignDoc, serializeSignDoc, StdSignDoc } from "@cosmjs/amino";
 import { Secp256k1Signature } from "@cosmjs/crypto";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
@@ -451,7 +451,8 @@ async function encodeToBroadcast(
   signedTransaction: Transaction
 ): Promise<string> {
   const transactionData = signedTransaction.data;
-  if (!transactionData.nonce) {
+  // We don't want plainTransaction.nonce === 0 to be falsy
+  if (transactionData.nonce === undefined) {
     throw new Error("Missing transaction nonce");
   }
   if (!signedTransaction.signature) {

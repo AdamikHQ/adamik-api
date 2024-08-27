@@ -130,10 +130,10 @@ function getOneEventPerContractAddress(events: EtherscanERC20Event[]): Map<EvmAd
 }
 
 export {
-  isHexString,
   getMaxSpendable,
   getOneEventPerContractAddress,
   getTransactionAmount,
   getTransactionFees,
   getTransactionGas,
+  isHexString,
 };

@@ -15,8 +15,8 @@ import { CHAINS } from "~/app/config/chains";
 import { ChainId, EncodedTransactionFormat, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { EvmService } from ".";
 import { estimateFeesPerGas } from "../backend/node";
-import { EvmAddress, EvmChainParams } from "../types";
 import { isHexString } from "../logic";
+import { EvmAddress, EvmChainParams } from "../types";
 
 async function encodeTransactionToSign(this: EvmService, transaction: Transaction): Promise<void> {
   try {
@@ -183,4 +183,4 @@ async function encodeTransactionToBroadcast(
   }
 }
 
-export { encodeTransactionToSign, encodeTransactionToBroadcast };
+export { encodeTransactionToBroadcast, encodeTransactionToSign };
