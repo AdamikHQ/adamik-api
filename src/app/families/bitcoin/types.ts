@@ -1,5 +1,6 @@
 import { Psbt } from "bitcoinjs-lib";
 import { UtxoWithMetadata } from "./backend/types";
+import { isValidXpub } from "./logic";
 
 // Params that differ for each bitcoin-like chain
 type BitcoinChainParams = {
@@ -16,12 +17,16 @@ type BitcoinTransactionParams = {
 // extract type from Psbt.addOutput as it's not exported by bitcoinjs
 type PsbtOutputExtended = Parameters<typeof Psbt.prototype.addOutput>[0];
 
+/**
+ * Branding allows us to prevent asigning any non-parsed value to a branded one.
+ * @see {@link https://egghead.io/blog/using-branded-types-in-typescript} or {@link https://prosopo.io/articles/typescript-branding/}
+ * */
 // TODO: move to shared lib?
 declare const __brand: unique symbol;
 type Brand<B> = { [__brand]: B };
 type Branded<T, B> = T & Brand<B>;
 
-// Defines Xpub as a branded string to prevent casting any invalid string to Xpub, `isXpub` has to be used
+/**  Defines Xpub as a branded string, {@link isValidXpub} has to be used to check if a string is an Xpub */
 type Xpub = Branded<string, "Xpub">;
 
-export type { Branded, BitcoinChainParams, BitcoinTransactionParams, Xpub };
+export type { BitcoinChainParams, BitcoinTransactionParams, Branded, Xpub };

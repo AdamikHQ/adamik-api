@@ -1,6 +1,6 @@
 import { address as addressSerde, initEccLib, networks } from "bitcoinjs-lib";
 import { ChainId } from "~/app/model/types_WIP";
-import * as ecc from 'tiny-secp256k1';
+import * as ecc from "tiny-secp256k1";
 import { Xpub } from "./types";
 
 // Allows support for Taproot addresses validation: https://github.com/bitcoinjs/bitcoinjs-lib/issues/1919
@@ -24,7 +24,7 @@ export function isValidAddress(address: string, _chainId: ChainId): boolean {
 const xpubRegex =
   /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!.*&c=)c=\d{10}|(?!.*&h=)h=bip\d{2,3})(?:(?=(?:&c=|&h=))&(c=\d{10}|h=bip\d{2,3}))?)?$/;
 
-// FIXME: well want to validate also the xpub prefix with chainId (make sure that lpub are not used for BTC for example)n
+// FIXME: well want to validate also the xpub prefix with chainId (make sure that lpub are not used for BTC for example)
 export function isValidXpub(str: string): str is Xpub {
   return xpubRegex.test(str);
 }
