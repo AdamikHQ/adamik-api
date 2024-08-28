@@ -97,6 +97,16 @@
 | nodeURL | https://site1.moralis-nodes.com/arbitrum-sepolia/REDACTED |
 | explorerURL | https://deep-index.moralis.io/api |
 
+## bitcoin
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/bitcoin |
+
+## bitcoin-testnet
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/bitcoin/testnet |
+
 ## polygon
 
 | nodeURL | https://site1.moralis-nodes.com/polygon/REDACTED |
