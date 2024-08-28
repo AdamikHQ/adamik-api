@@ -525,9 +525,8 @@
                         "bitcoin-testnet"
                       ]
                     },
-                    "address": {
-                      "type": "string",
-                      "minLength": 1
+                    "accountId": {
+                      "type": "string"
                     },
                     "balances": {
                       "type": "object",
@@ -715,7 +714,7 @@
                   },
                   "required": [
                     "chainId",
-                    "address",
+                    "accountId",
                     "balances"
                   ]
                 }
@@ -5247,221 +5246,229 @@
                 "type": "object",
                 "properties": {
                   "transaction": {
-                    "allOf": [
-                      {
-                        "type": "object",
-                        "properties": {
-                          "chainId": {
-                            "type": "string",
-                            "enum": [
-                              "algorand",
-                              "cosmoshub",
-                              "osmosis",
-                              "osmosis-testnet",
-                              "celestia",
-                              "celestia-testnet",
-                              "dydx",
-                              "cosmoshub-testnet",
-                              "axelar",
-                              "ethereum",
-                              "sepolia",
-                              "holesky",
-                              "zksync",
-                              "zksync-sepolia",
-                              "injective-testnet",
-                              "base",
-                              "base-sepolia",
-                              "optimism",
-                              "optimism-sepolia",
-                              "arbitrum",
-                              "arbitrum-sepolia",
-                              "polygon",
-                              "polygon-amoy",
-                              "bsc",
-                              "bsc-testnet",
-                              "linea",
-                              "linea-sepolia",
-                              "avalanche",
-                              "gnosis",
-                              "gnosis-chiado",
-                              "moonbeam",
-                              "moonriver",
-                              "moonbase",
-                              "fantom",
-                              "palm",
-                              "mantle",
-                              "bitcoin",
-                              "bitcoin-testnet"
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "chainId": {
+                                "type": "string",
+                                "enum": [
+                                  "algorand",
+                                  "cosmoshub",
+                                  "osmosis",
+                                  "osmosis-testnet",
+                                  "celestia",
+                                  "celestia-testnet",
+                                  "dydx",
+                                  "cosmoshub-testnet",
+                                  "axelar",
+                                  "ethereum",
+                                  "sepolia",
+                                  "holesky",
+                                  "zksync",
+                                  "zksync-sepolia",
+                                  "injective-testnet",
+                                  "base",
+                                  "base-sepolia",
+                                  "optimism",
+                                  "optimism-sepolia",
+                                  "arbitrum",
+                                  "arbitrum-sepolia",
+                                  "polygon",
+                                  "polygon-amoy",
+                                  "bsc",
+                                  "bsc-testnet",
+                                  "linea",
+                                  "linea-sepolia",
+                                  "avalanche",
+                                  "gnosis",
+                                  "gnosis-chiado",
+                                  "moonbeam",
+                                  "moonriver",
+                                  "moonbase",
+                                  "fantom",
+                                  "palm",
+                                  "mantle",
+                                  "bitcoin",
+                                  "bitcoin-testnet"
+                                ]
+                              },
+                              "sender": {
+                                "type": "string"
+                              },
+                              "recipient": {
+                                "type": "string"
+                              },
+                              "amount": {
+                                "type": [
+                                  "string"
+                                ]
+                              },
+                              "useMaxAmount": {
+                                "type": "boolean",
+                                "default": false
+                              },
+                              "fees": {
+                                "type": [
+                                  "string"
+                                ]
+                              },
+                              "gas": {
+                                "type": "string"
+                              },
+                              "nonce": {
+                                "type": [
+                                  "string"
+                                ]
+                              },
+                              "memo": {
+                                "type": "string"
+                              },
+                              "format": {
+                                "type": "string",
+                                "enum": [
+                                  "json",
+                                  "hex"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "chainId",
+                              "sender",
+                              "recipient"
                             ]
                           },
-                          "sender": {
-                            "type": "string"
-                          },
-                          "recipient": {
-                            "type": "string"
-                          },
-                          "amount": {
-                            "type": [
-                              "string"
+                          {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transfer"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode"
+                                ],
+                                "title": "Transfer",
+                                "description": "Transfer chain native coins"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "delegate"
+                                    ]
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
+                                "title": "Delegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transferToken"
+                                    ]
+                                  },
+                                  "tokenId": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "tokenId"
+                                ],
+                                "title": "TransferToken",
+                                "description": "Transfer chain tokens"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "undelegate"
+                                    ]
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
+                                "title": "Undelegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "redelegate"
+                                    ]
+                                  },
+                                  "sourceValidatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "targetValidatorAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "sourceValidatorAddress",
+                                  "targetValidatorAddress"
+                                ],
+                                "title": "Redelegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "claimRewards"
+                                    ]
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "compound": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
+                                "title": "ClaimRewards"
+                              }
                             ]
-                          },
-                          "useMaxAmount": {
-                            "type": "boolean",
-                            "default": false
-                          },
-                          "fees": {
-                            "type": [
-                              "string"
-                            ]
-                          },
-                          "gas": {
-                            "type": "string"
-                          },
-                          "nonce": {
-                            "type": [
-                              "string"
-                            ]
-                          },
-                          "memo": {
-                            "type": "string"
-                          },
-                          "format": {
-                            "type": "string",
-                            "enum": [
-                              "json",
-                              "hex"
-                            ]
-                          }
-                        },
-                        "required": [
-                          "chainId",
-                          "sender",
-                          "recipient"
-                        ]
-                      },
-                      {
-                        "oneOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "transfer"
-                                ]
-                              }
-                            },
-                            "required": [
-                              "mode"
-                            ],
-                            "title": "Transfer",
-                            "description": "Transfer chain native coins"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "delegate"
-                                ]
-                              },
-                              "validatorAddress": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "mode",
-                              "validatorAddress"
-                            ],
-                            "title": "Delegate"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "transferToken"
-                                ]
-                              },
-                              "tokenId": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "mode",
-                              "tokenId"
-                            ],
-                            "title": "TransferToken",
-                            "description": "Transfer chain tokens"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "undelegate"
-                                ]
-                              },
-                              "validatorAddress": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "mode",
-                              "validatorAddress"
-                            ],
-                            "title": "Undelegate"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "redelegate"
-                                ]
-                              },
-                              "sourceValidatorAddress": {
-                                "type": "string"
-                              },
-                              "targetValidatorAddress": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "mode",
-                              "sourceValidatorAddress",
-                              "targetValidatorAddress"
-                            ],
-                            "title": "Redelegate"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "claimRewards"
-                                ]
-                              },
-                              "validatorAddress": {
-                                "type": "string"
-                              },
-                              "compound": {
-                                "type": "boolean"
-                              }
-                            },
-                            "required": [
-                              "mode",
-                              "validatorAddress"
-                            ],
-                            "title": "ClaimRewards"
                           }
                         ]
                       }
+                    },
+                    "required": [
+                      "data"
                     ]
                   }
                 },
@@ -5793,221 +5800,229 @@
                 "type": "object",
                 "properties": {
                   "transaction": {
-                    "allOf": [
-                      {
-                        "type": "object",
-                        "properties": {
-                          "chainId": {
-                            "type": "string",
-                            "enum": [
-                              "algorand",
-                              "cosmoshub",
-                              "osmosis",
-                              "osmosis-testnet",
-                              "celestia",
-                              "celestia-testnet",
-                              "dydx",
-                              "cosmoshub-testnet",
-                              "axelar",
-                              "ethereum",
-                              "sepolia",
-                              "holesky",
-                              "zksync",
-                              "zksync-sepolia",
-                              "injective-testnet",
-                              "base",
-                              "base-sepolia",
-                              "optimism",
-                              "optimism-sepolia",
-                              "arbitrum",
-                              "arbitrum-sepolia",
-                              "polygon",
-                              "polygon-amoy",
-                              "bsc",
-                              "bsc-testnet",
-                              "linea",
-                              "linea-sepolia",
-                              "avalanche",
-                              "gnosis",
-                              "gnosis-chiado",
-                              "moonbeam",
-                              "moonriver",
-                              "moonbase",
-                              "fantom",
-                              "palm",
-                              "mantle",
-                              "bitcoin",
-                              "bitcoin-testnet"
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "chainId": {
+                                "type": "string",
+                                "enum": [
+                                  "algorand",
+                                  "cosmoshub",
+                                  "osmosis",
+                                  "osmosis-testnet",
+                                  "celestia",
+                                  "celestia-testnet",
+                                  "dydx",
+                                  "cosmoshub-testnet",
+                                  "axelar",
+                                  "ethereum",
+                                  "sepolia",
+                                  "holesky",
+                                  "zksync",
+                                  "zksync-sepolia",
+                                  "injective-testnet",
+                                  "base",
+                                  "base-sepolia",
+                                  "optimism",
+                                  "optimism-sepolia",
+                                  "arbitrum",
+                                  "arbitrum-sepolia",
+                                  "polygon",
+                                  "polygon-amoy",
+                                  "bsc",
+                                  "bsc-testnet",
+                                  "linea",
+                                  "linea-sepolia",
+                                  "avalanche",
+                                  "gnosis",
+                                  "gnosis-chiado",
+                                  "moonbeam",
+                                  "moonriver",
+                                  "moonbase",
+                                  "fantom",
+                                  "palm",
+                                  "mantle",
+                                  "bitcoin",
+                                  "bitcoin-testnet"
+                                ]
+                              },
+                              "sender": {
+                                "type": "string"
+                              },
+                              "recipient": {
+                                "type": "string"
+                              },
+                              "amount": {
+                                "type": [
+                                  "string"
+                                ]
+                              },
+                              "useMaxAmount": {
+                                "type": "boolean",
+                                "default": false
+                              },
+                              "fees": {
+                                "type": [
+                                  "string"
+                                ]
+                              },
+                              "gas": {
+                                "type": "string"
+                              },
+                              "nonce": {
+                                "type": [
+                                  "string"
+                                ]
+                              },
+                              "memo": {
+                                "type": "string"
+                              },
+                              "format": {
+                                "type": "string",
+                                "enum": [
+                                  "json",
+                                  "hex"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "chainId",
+                              "sender",
+                              "recipient"
                             ]
                           },
-                          "sender": {
-                            "type": "string"
-                          },
-                          "recipient": {
-                            "type": "string"
-                          },
-                          "amount": {
-                            "type": [
-                              "string"
+                          {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transfer"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "mode"
+                                ],
+                                "title": "Transfer",
+                                "description": "Transfer chain native coins"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "delegate"
+                                    ]
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
+                                "title": "Delegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "transferToken"
+                                    ]
+                                  },
+                                  "tokenId": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "tokenId"
+                                ],
+                                "title": "TransferToken",
+                                "description": "Transfer chain tokens"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "undelegate"
+                                    ]
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
+                                "title": "Undelegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "redelegate"
+                                    ]
+                                  },
+                                  "sourceValidatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "targetValidatorAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "sourceValidatorAddress",
+                                  "targetValidatorAddress"
+                                ],
+                                "title": "Redelegate"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "enum": [
+                                      "claimRewards"
+                                    ]
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string"
+                                  },
+                                  "compound": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
+                                "title": "ClaimRewards"
+                              }
                             ]
-                          },
-                          "useMaxAmount": {
-                            "type": "boolean",
-                            "default": false
-                          },
-                          "fees": {
-                            "type": [
-                              "string"
-                            ]
-                          },
-                          "gas": {
-                            "type": "string"
-                          },
-                          "nonce": {
-                            "type": [
-                              "string"
-                            ]
-                          },
-                          "memo": {
-                            "type": "string"
-                          },
-                          "format": {
-                            "type": "string",
-                            "enum": [
-                              "json",
-                              "hex"
-                            ]
-                          }
-                        },
-                        "required": [
-                          "chainId",
-                          "sender",
-                          "recipient"
-                        ]
-                      },
-                      {
-                        "oneOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "transfer"
-                                ]
-                              }
-                            },
-                            "required": [
-                              "mode"
-                            ],
-                            "title": "Transfer",
-                            "description": "Transfer chain native coins"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "delegate"
-                                ]
-                              },
-                              "validatorAddress": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "mode",
-                              "validatorAddress"
-                            ],
-                            "title": "Delegate"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "transferToken"
-                                ]
-                              },
-                              "tokenId": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "mode",
-                              "tokenId"
-                            ],
-                            "title": "TransferToken",
-                            "description": "Transfer chain tokens"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "undelegate"
-                                ]
-                              },
-                              "validatorAddress": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "mode",
-                              "validatorAddress"
-                            ],
-                            "title": "Undelegate"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "redelegate"
-                                ]
-                              },
-                              "sourceValidatorAddress": {
-                                "type": "string"
-                              },
-                              "targetValidatorAddress": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "mode",
-                              "sourceValidatorAddress",
-                              "targetValidatorAddress"
-                            ],
-                            "title": "Redelegate"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "claimRewards"
-                                ]
-                              },
-                              "validatorAddress": {
-                                "type": "string"
-                              },
-                              "compound": {
-                                "type": "boolean"
-                              }
-                            },
-                            "required": [
-                              "mode",
-                              "validatorAddress"
-                            ],
-                            "title": "ClaimRewards"
                           }
                         ]
                       }
+                    },
+                    "required": [
+                      "data"
                     ]
                   }
                 },
