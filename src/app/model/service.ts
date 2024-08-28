@@ -25,6 +25,7 @@ abstract class BaseChainService {
   // Address
   abstract pubkeyToAddress(pubkey: string): Promise<string>;
   abstract validateAddress(address: string): Promise<boolean>;
+  abstract pubkeyToAddresses(pubkey: string): Promise<Record<string, string>>;
 
   // Data
   abstract getTransaction(transactionId: string): Promise<FinalizedTransaction | null>;

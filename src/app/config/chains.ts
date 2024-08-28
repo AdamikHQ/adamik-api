@@ -35,6 +35,13 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
     ChainFeature.READ_TRANSACTION_NATIVE,
     ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
   ],
+  [ChainFamily.TON]: [
+    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
+    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
+    ChainFeature.READ_TRANSACTION_TOKENS,
+  ],
 };
 
 const CHAINS: { [key in ChainId]: Chain } = {
@@ -652,6 +659,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
       ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
     ],
   },
+  ton: {
+    family: ChainFamily.TON,
+    id: ChainId.TON,
+    nativeId: "ton",
+    name: "TON",
+    ticker: "TON",
+    decimals: 9,
+    backends: {
+      nodeURL: "https://toncenter.com/api/",
+      explorerURL: "https://tonapi.io",
+    },
+    supportedFeatures: FEATURES[ChainFamily.TON],
+  },
 } as const;
 
 // FIXME Trick to filter-out private 'backends' field from response
@@ -685,3 +705,4 @@ function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
 }
 
 export { CHAINS, CHAINS_PUBLIC, getSupportedTransactionModes };
+

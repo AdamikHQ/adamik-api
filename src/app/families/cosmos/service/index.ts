@@ -10,6 +10,7 @@ import { getTokenInfo as getTokenInfoFn } from "./getTokenInfo";
 import { getTransaction as getTransactionFn } from "./getTransaction";
 import { getValidators as getValidatorsFn } from "./getValidators";
 import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
+import { pubkeyToAddresses as pubkeyToAddressesFn } from "./pubkeyToAddresses";
 import { validateAddress as validateAddressFn } from "./validateAddress";
 import {
   prevalidateTransaction as prevalidateTransactionFn,
@@ -33,6 +34,8 @@ class CosmosService extends BaseChainService implements TokenService, StakingSer
 
   getTokenInfo = getTokenInfoFn;
   getValidators = getValidatorsFn;
+  pubkeyToAddresses = pubkeyToAddressesFn;
 }
 
 export { CosmosService };
+

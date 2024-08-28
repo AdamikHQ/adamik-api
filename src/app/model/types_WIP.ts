@@ -1,6 +1,7 @@
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
+import { TonTransactionParams } from "../families/ton/types";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -42,6 +43,7 @@ enum ChainId {
   // BTC family
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
+  TON = "ton",
 }
 
 enum ChainFamily {
@@ -49,6 +51,7 @@ enum ChainFamily {
   COSMOS = "cosmos",
   EVM = "evm",
   BITCOIN = "bitcoin",
+  TON = "ton",
 }
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
@@ -100,6 +103,7 @@ enum TokenType {
   ASA = "ASA",
   ERC20 = "ERC20",
   IBC = "IBC",
+  JETTON = "JETTON",
 }
 
 type Token = {
@@ -110,6 +114,7 @@ type Token = {
   ticker: string;
   decimals: number;
   contractAddress?: string;
+  logo?: string;
 };
 
 type TokenAmount = {
@@ -231,7 +236,7 @@ type FinalizedTransaction = {
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
-type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams;
+type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams | TonTransactionParams;
 
 // TODO WIP
 // FIXME de/serialization types <> string
@@ -343,8 +348,9 @@ export {
   EncodedTransactionFormat,
   StakingStatus,
   TokenType,
+
   TransactionMode,
-  TransactionState,
+  TransactionState
 };
 
 export type {
@@ -366,5 +372,6 @@ export type {
   TransactionData,
   TransactionSpendableAmounts,
   TransactionStatus,
-  Validator,
+  Validator
 };
+

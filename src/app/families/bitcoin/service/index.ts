@@ -8,6 +8,7 @@ import {
 import { getAccountState as getAccountStateFn } from "./getAccountState";
 import { getTransaction as getTransactionFn } from "./getTransaction";
 import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
+import { pubkeyToAddresses as pubkeyToAddressesFn } from "./pubkeyToAddresses";
 import { validateAddress as validateAddressFn } from "./validateAddress";
 import {
   prevalidateTransaction as prevalidateTransactionFn,
@@ -27,6 +28,8 @@ class BitcoinService extends BaseChainService {
   override encodeTransactionToSign = encodeTransactionToSignFn;
   override encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
   override broadcastTransaction = broadcastTransactionFn;
+  pubkeyToAddresses = pubkeyToAddressesFn;
 }
 
 export { BitcoinService };
+
