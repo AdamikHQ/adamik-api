@@ -149,7 +149,9 @@ async function fetchRewards(
   for (const { reward: rewardData, validator_address: validatorAddress } of rewardsData) {
     for (const { denom, amount: amountWithDecimals } of rewardData) {
       const amount = BigInt(amountWithDecimals.split(".")[0]);
-      if (amount === 0n) continue; // Filter-out dust amounts should rather be controlled with a request param ,TODO https://adamik.atlassian.net/browse/ADV-150
+      if (amount === 0n) {
+        continue;
+      } // Filter-out dust amounts should rather be controlled with a request param ,TODO https://adamik.atlassian.net/browse/ADV-150
 
       if (denom === chainParams.denom) {
         nativeRewards.push({
