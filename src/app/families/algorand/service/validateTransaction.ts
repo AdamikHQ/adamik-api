@@ -78,13 +78,13 @@ async function validateTransaction(this: AlgorandService, transaction: Transacti
 
     /*
     case "optIn": {
-      if (!transaction.plain.fees || !transaction.plain.fees.gt(0)) {
+      if (!transaction.data.fees || !transaction.data.fees.gt(0)) {
         errors.fees = new FeeNotLoaded();
       }
 
       // This error doesn't need to be translate,
       // it will use to block until the user choose an assetId
-      if (!transaction.plain.assetId) {
+      if (!transaction.data.assetId) {
         errors.assetId = new Error("Asset Id is not set");
       }
 

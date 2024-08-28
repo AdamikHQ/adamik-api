@@ -20,12 +20,12 @@ const errorMsgSchema = z.object({
   message: z.string(),
 });
 
-const positiveBigintSchema = z
+const bigintSchema = z
   .number()
   .or(z.string())
   .or(z.bigint())
   .transform((data) => BigInt(data))
-  .pipe(z.bigint().positive())
+  .pipe(z.bigint())
   .openapi({
     type: ["string"], // TODO: also document API for integers but only on input
   });
@@ -116,11 +116,11 @@ const transactionDataSchema = z
     chainId: chainIdSchema,
     sender: z.string(),
     recipient: z.string(),
-    amount: positiveBigintSchema.optional(),
+    amount: bigintSchema.optional(),
     useMaxAmount: z.boolean().default(false),
-    fees: positiveBigintSchema.optional(),
+    fees: bigintSchema.optional(),
     gas: z.string().optional(),
-    nonce: positiveBigintSchema.optional(),
+    nonce: bigintSchema.optional(),
     memo: z.string().optional(),
     format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
   })
@@ -153,13 +153,13 @@ const transactionDataSchema = z
   .superRefine((data, ctx) => {
     if (data.useMaxAmount && data.amount) {
       ctx.addIssue({
-        message: "Cannot specify amount when using useMaxAmount and vice versa.",
+        message: "amount and useMaxAmount cannot be used together",
         code: z.ZodIssueCode.custom,
         path: ["amount"],
       });
-    } else if (!data.useMaxAmount && !data.amount) {
+    } else if (!data.useMaxAmount && data.amount === undefined) {
       ctx.addIssue({
-        message: "Missing transaction amount (or set `useMaxAmount: true`).",
+        message: "Missing amount or useMaxAmount",
         code: z.ZodIssueCode.custom,
         path: ["amount"],
       });
@@ -173,7 +173,7 @@ const transactionStatusSchema = z.object({
 
 const transactionSchema = z.object({
   data: transactionDataSchema,
-  // NOTE: 'any' here because encoded can also be JSON
+  // NOTE: 'any' here because 'encoded' can also be JSON
   // Improvement could be to properly type all possible encoded formats for every family
   encoded: z.string().or(z.any()),
   signature: z.string(),

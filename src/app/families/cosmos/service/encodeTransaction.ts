@@ -26,9 +26,7 @@ async function encodeTransactionToBroadcast(
       throw new Error("Missing transaction signature");
     }
 
-    const plainTransation = signedTransaction.data;
-
-    const account = await fetchAccount(this.chainId, plainTransation.sender);
+    const account = await fetchAccount(this.chainId, signedTransaction.data.sender);
     const updatedAccount = resolvePubKey(account, signedTransaction);
 
     return await encodeToBroadcast(this.chainId, updatedAccount, signedTransaction);

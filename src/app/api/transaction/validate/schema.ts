@@ -3,7 +3,9 @@ import { ZodOpenApiPathsObject } from "zod-openapi";
 import { transactionDataSchema, transactionStatusSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
-  transaction: transactionDataSchema,
+  transaction: z.object({
+    data: transactionDataSchema,
+  }),
 });
 
 const responseSchema = transactionStatusSchema;

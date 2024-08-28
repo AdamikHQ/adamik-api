@@ -19,7 +19,10 @@ async function completeTransaction(this: CosmosService, transaction: Transaction
         const balances = await fetchBalances(this.chainId, senderAddress);
         const balance = balances.find((balance) => balance.denom === chainParams?.denom);
         if (!balance) {
-          throw new Error(`Failed to retrieve balance for ${this.chainId} address ${senderAddress}`);
+          transaction.status.errors.push({
+            message: `No balance found for ${this.chainId} address ${senderAddress}`,
+          });
+          return 0n;
         }
         return BigInt(balance.amount);
 
@@ -28,7 +31,10 @@ async function completeTransaction(this: CosmosService, transaction: Transaction
         const delegations = await fetchDelegations(this.chainId, senderAddress);
         const stakedBalance = getDelegation(delegations, transaction.data);
         if (!stakedBalance) {
-          throw new Error(`Failed to retrieve staking balance for ${this.chainId} address ${senderAddress}`);
+          transaction.status.errors.push({
+            message: `No staking balance found for ${this.chainId} address ${senderAddress}`,
+          });
+          return 0n;
         }
 
         return stakedBalance.amount;

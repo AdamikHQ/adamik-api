@@ -121,7 +121,7 @@ async function computeFees(transaction: TransactionData): Promise<bigint> {
 
 async function buildRawTransaction(transaction: TransactionData): Promise<AlgoEncodedTransaction> {
   const { sender, recipient, amount, mode, memo } = transaction;
-  if (!amount) {
+  if (amount === undefined) {
     // Should never happen
     // TODO Proper error management should handle this kind of error as an HTTP 500 at API level
     throw new Error("amount required to build raw transaction");

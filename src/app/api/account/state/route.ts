@@ -13,15 +13,25 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   if (!isAccountIdValid) {
     return NextResponse.json(
-      { message: `accountId is invalid for chainId ${chainId}` },
+      { message: `Invalid accountId ${accountId} for chainId ${chainId}` },
       { status: 400, statusText: "Invalid or missing fields" }
     );
   }
-  const state = await service.getAccountState({
-    accountId,
-  });
 
-  return NextResponse.json(state);
+  try {
+    const state = await service.getAccountState({
+      accountId,
+    });
+
+    return NextResponse.json(state);
+  } catch (e: any) {
+    // FIXME Weak error management...
+    // We should maybe propagate a status instead, same as for transaction/encode
+    return NextResponse.json(
+      { message: e.toString() },
+      { status: 400, statusText: "Invalid or missing fields" }
+    );
+  }
 }
 
 module.exports = apiHandler({

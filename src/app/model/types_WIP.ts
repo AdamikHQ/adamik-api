@@ -182,7 +182,7 @@ type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams;
 // TODO WIP
 // FIXME de/serialization types <> string
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
-// FIXME one 'PlainTransaction' type with everything in it, or composition of specific types
+// FIXME one 'TransactionData' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
 // FIXME Does the 'params' field make sense? It allows chain-specific data into the model...
 // - alternative: all data could be flat?

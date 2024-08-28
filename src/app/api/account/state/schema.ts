@@ -27,7 +27,7 @@ const requestSchema = z
 
 const responseSchema = z.object({
   chainId: chainIdSchema,
-  address: z.string().min(1),
+  accountId: z.string(),
   balances: z.object({
     native: z.object({
       available: z.string(),

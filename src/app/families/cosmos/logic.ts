@@ -42,20 +42,20 @@ function isHex(str: string): boolean {
 
 function getDelegation(
   delegations: StakingPosition[],
-  plainTransaction: TransactionData
+  transactionData: TransactionData
 ): StakingPosition | undefined {
   if (
-    plainTransaction.mode === TransactionMode.REDELEGATE ||
-    plainTransaction.mode === TransactionMode.UNDELEGATE ||
-    plainTransaction.mode === TransactionMode.CLAIM_REWARDS
+    transactionData.mode === TransactionMode.REDELEGATE ||
+    transactionData.mode === TransactionMode.UNDELEGATE ||
+    transactionData.mode === TransactionMode.CLAIM_REWARDS
   ) {
     return delegations.find(
       (delegation) =>
         delegation.validatorAddresses?.length &&
         delegation.validatorAddresses[0] ===
-          (plainTransaction.mode === TransactionMode.REDELEGATE
-            ? plainTransaction.sourceValidatorAddress
-            : plainTransaction.validatorAddress)
+          (transactionData.mode === TransactionMode.REDELEGATE
+            ? transactionData.sourceValidatorAddress
+            : transactionData.validatorAddress)
     );
   }
 }
@@ -451,7 +451,7 @@ async function encodeToBroadcast(
   signedTransaction: Transaction
 ): Promise<string> {
   const transactionData = signedTransaction.data;
-  // We don't want plainTransaction.nonce === 0 to be falsy
+  // We don't want transactionData.nonce === 0 to be falsy
   if (transactionData.nonce === undefined) {
     throw new Error("Missing transaction nonce");
   }

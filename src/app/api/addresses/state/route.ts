@@ -24,9 +24,18 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const state = await service.getAccountState({ addresses });
+  try {
+    const state = await service.getAccountState({ addresses });
 
-  return NextResponse.json(state);
+    return NextResponse.json(state);
+  } catch (e: any) {
+    // FIXME Weak error management...
+    // We should maybe propagate a status instead, same as for transaction/encode
+    return NextResponse.json(
+      { message: e.toString() },
+      { status: 400, statusText: "Invalid or missing fields" }
+    );
+  }
 }
 
 module.exports = apiHandler({
