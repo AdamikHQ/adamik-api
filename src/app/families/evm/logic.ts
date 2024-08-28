@@ -73,7 +73,6 @@ async function getTransactionFees(chainId: ChainId, transaction: TransactionData
 
 async function getTransactionAmount(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
   if (!transaction.useMaxAmount) {
-    // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
     return transaction.amount as bigint;
   }
 
@@ -82,7 +81,6 @@ async function getTransactionAmount(chainId: ChainId, transaction: TransactionDa
     return maxSpendable.token!;
   } else {
     const maxSpendable = await getMaxSpendable(chainId, transaction);
-    // fees is safe to cast as it's guaranteed to be filed in by completeTransaction
     const fees = transaction.fees as bigint;
     return maxSpendable.native - fees >= 0n ? maxSpendable.native - fees : 0n;
   }

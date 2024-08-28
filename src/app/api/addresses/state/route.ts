@@ -9,14 +9,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const service = getService(chainId);
 
+  const invalidAddresses: string[] = [];
   for (const address of addresses) {
     const isAddressValid = await service.validateAddress(address);
     if (!isAddressValid) {
-      return NextResponse.json(
-        { message: `Address ${address} is invalid` },
-        { status: 400, statusText: "Invalid or missing fields" }
-      );
+      invalidAddresses.push(address);
     }
+  }
+
+  if (invalidAddresses.length) {
+    return NextResponse.json(
+      { message: `Invalid addresses for chainId ${chainId}: [${invalidAddresses.toString()}]` },
+      { status: 400, statusText: "Invalid or missing fields" }
+    );
   }
 
   const state = await service.getAccountState({ addresses });

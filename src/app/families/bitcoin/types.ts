@@ -4,6 +4,7 @@ import { isValidXpub } from "./logic";
 
 // Params that differ for each bitcoin-like chain
 type BitcoinChainParams = {
+  // Number of blocks required for a transaction to be confirmed
   confirmations: number;
 };
 

@@ -286,7 +286,7 @@ export type BlockchairAddressesResponse = z.infer<typeof BlockchairAddressesResp
       }
     }
     ```
- * 
+ *
  */
 export const TransactionBroadcastStatusSchema = z.object({
   data: z

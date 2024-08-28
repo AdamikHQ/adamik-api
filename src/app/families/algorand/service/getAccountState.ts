@@ -7,10 +7,14 @@ async function getAccountState(
   account: { addresses: string[] } | { accountId: string }
 ): Promise<AccountState> {
   if ("addresses" in account) {
-    // FIXME: make it a better error message for the user
-    throw new Error("Not implemented");
+    // TODO Maybe a specific MultiAddressesService would be a good idea after all...
+    // to handle this only once at route level
+    throw new Error(`Account state from multiple addresses is not supported for chainId ${this.chainId}`);
   }
-  const { balance: nativeBalance, assetAmounts } = await fetchAccount(account.accountId);
+
+  const { accountId } = account;
+
+  const { balance: nativeBalance, assetAmounts } = await fetchAccount(accountId);
 
   const tokenAmounts: TokenAmount[] = [];
 
@@ -26,7 +30,7 @@ async function getAccountState(
 
   return {
     chainId: this.chainId,
-    accountId: account.accountId,
+    accountId,
     balances: {
       native: {
         available: nativeBalance,
@@ -37,4 +41,4 @@ async function getAccountState(
   };
 }
 
-export { getAccountState as getAddressState };
+export { getAccountState };

@@ -11,10 +11,14 @@ async function getAccountState(
   account: { addresses: string[] } | { accountId: string }
 ): Promise<AccountState> {
   if ("addresses" in account) {
-    // FIXME: make it a better error message for the user
-    throw new Error("Not implemented");
+    // TODO Maybe a specific MultiAddressesService would be a good idea after all...
+    // to handle this only once at route level
+    throw new Error(`Account state from multiple addresses is not supported for chainId ${this.chainId}`);
   }
-  const balances: CosmosBalance[] = await fetchBalances(this.chainId, account.accountId);
+
+  const { accountId } = account;
+
+  const balances: CosmosBalance[] = await fetchBalances(this.chainId, accountId);
 
   const chain = CHAINS[this.chainId];
   const chainParams = chain.params as CosmosChainParams;
@@ -53,9 +57,9 @@ async function getAccountState(
   // Staking
 
   const [delegations, unbondings, rewards] = await Promise.all([
-    fetchDelegations(this.chainId, account.accountId),
-    fetchUnbondingDelegations(this.chainId, account.accountId),
-    fetchRewards(this.chainId, account.accountId),
+    fetchDelegations(this.chainId, accountId),
+    fetchUnbondingDelegations(this.chainId, accountId),
+    fetchRewards(this.chainId, accountId),
   ]);
 
   const lockedBalance = delegations.reduce((sum, delegation) => sum + delegation.amount, 0n);
@@ -67,7 +71,7 @@ async function getAccountState(
 
   return {
     chainId: this.chainId,
-    accountId: account.accountId,
+    accountId,
     balances: {
       native: {
         available: nativeBalance,

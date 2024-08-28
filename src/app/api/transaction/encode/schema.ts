@@ -1,23 +1,17 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { transactionSchema, transactionStatusSchema } from "../../schemaCommon";
+import { transactionSchema, transactionDataSchema, transactionStatusSchema } from "../../schemaCommon";
 
 const requestSchema = z.object({
-  transaction: transactionSchema,
+  transaction: transactionDataSchema,
 });
 
 const responseSchema = z.object({
-  transaction: transactionSchema
-    .and(
-      z.object({
-        encoded: z.string(),
-      })
-    )
-    .and(
-      z.object({
-        status: transactionStatusSchema,
-      })
-    ),
+  transaction: transactionSchema.and(
+    z.object({
+      status: transactionStatusSchema,
+    })
+  ),
 });
 
 const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {

@@ -8,7 +8,7 @@ import { requestSchema } from "./schema";
 async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await requestSchema.parseAsync(await request.json());
 
-  const transactionData: TransactionData = stringToBigint(body.transaction.data);
+  const transactionData: TransactionData = stringToBigint(body.transaction);
 
   const service = getService(transactionData.chainId);
 

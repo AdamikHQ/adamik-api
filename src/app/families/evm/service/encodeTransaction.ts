@@ -32,7 +32,7 @@ async function encodeTransactionToSign(this: EvmService, transaction: Transactio
         break;
       default:
         throw new Error(
-          `Unsupported encoding format '${transaction.data.format}' for chain ID ${transaction.data.chainId}`
+          `Unsupported encoding format '${transaction.data.format}' for chainId ${transaction.data.chainId}`
         );
     }
   } catch (e: any) {
@@ -46,7 +46,7 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
   const chain = CHAINS[chainId];
   const chainParams = chain.params as EvmChainParams;
 
-  // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
+  // amount is safe to cast as it's guaranteed to be filled in by completeTransaction
   const amount = transaction.data.amount as bigint;
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);

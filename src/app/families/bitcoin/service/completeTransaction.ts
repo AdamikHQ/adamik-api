@@ -40,13 +40,14 @@ async function completeTransaction(this: BtcService, transaction: Transaction): 
     return;
   }
 
-  // write the inputs in the transaction for later encoding
-  (transaction.data.params as BitcoinTransactionParams) = {
+  // Store inputs and outputs in the transaction, as they'll be needed later to encode it
+  const params = {
     inputs: [],
     outputs: [],
-  };
+  } as BitcoinTransactionParams;
+
   for (const input of inputs) {
-    (transaction.data.params as BitcoinTransactionParams).inputs.push(input as UtxoWithMetadata);
+    params.inputs.push(input as UtxoWithMetadata);
   }
 
   for (const out of outputs) {
@@ -57,13 +58,13 @@ async function completeTransaction(this: BtcService, transaction: Transaction): 
         if (transaction.data.useMaxAmount && out.address === transaction.data.recipient) {
           transaction.data.amount = BigInt(out.value);
         }
-        (transaction.data.params as BitcoinTransactionParams).outputs.push(out);
+        params.outputs.push(out);
       }
       // no address in the output, this is the change
       else {
         // Take the address of the first input, its as good as any other one
-        // FIXME: terrible pratice, we should derive a new change address from the Xpub
-        (transaction.data.params as BitcoinTransactionParams).outputs.push({
+        // FIXME Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
+        params.outputs.push({
           value: out.value,
           address: (inputs[0] as UtxoWithMetadata).address,
         });
@@ -72,8 +73,7 @@ async function completeTransaction(this: BtcService, transaction: Transaction): 
   }
 
   transaction.data.fees = BigInt(fee);
-  transaction.data.params;
-  // transaction.data.inputs = completeInputs; <== make it a params
+  transaction.data.params = params;
 }
 
 export { completeTransaction };

@@ -11,7 +11,7 @@ async function getAccountState(
 ): Promise<AccountState | AddressesAggregatedState> {
   return "addresses" in account
     ? getAddressesState(this.chainId, account.addresses)
-    : isValidXpub(account.accountId)
+    : isValidXpub(this.chainId, account.accountId)
     ? getXpubState(this.chainId, account.accountId)
     : getAddressesState(this.chainId, [account.accountId]);
 }
@@ -60,7 +60,7 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
   const xpubResponse = await fetchXpubDashboard(chainId, xpub);
 
   if (!xpubResponse.context.state) {
-    console.warn(`getAddressesState - missing current block height: ${JSON.stringify(xpubResponse)}`);
+    console.warn(`/!\\ getAddressesState - missing current block height: ${JSON.stringify(xpubResponse)}`);
     throw new Error(`fetchNetworkInformations - provider error: missing current block height`);
   }
   const currentBlockHeight = xpubResponse.context.state;

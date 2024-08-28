@@ -26,7 +26,7 @@ async function validateTransaction(this: CosmosService, transaction: Transaction
   const amount = transactionData.amount as bigint;
   const fees = transactionData.fees as bigint;
 
-  // FIXME Already called by transaction,
+  // FIXME Already called by completeTransaction,
   // should ideally be put in some common context, or at least some cache
   const balances = await fetchBalances(this.chainId, transactionData.sender);
 

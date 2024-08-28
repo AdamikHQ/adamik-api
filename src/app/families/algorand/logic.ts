@@ -70,9 +70,9 @@ function computeMinimumAlgoBalance(mode: TransactionMode, nbAccountAssets: numbe
   return base * (1 + currentAssets + newAsset);
 }
 
-async function isAmountValidForRecipient(recipient: { address: string; amount: bigint }): Promise<boolean> {
-  const recipientAccount = await fetchAccount(recipient.address);
-  return recipientAccount.balance === 0n ? recipient.amount >= ALGORAND_MIN_ACCOUNT_BALANCE : true;
+async function isAmountValidForRecipient(recipientAddress: string, amount: bigint): Promise<boolean> {
+  const recipientAccount = await fetchAccount(recipientAddress);
+  return recipientAccount.balance === 0n ? amount >= ALGORAND_MIN_ACCOUNT_BALANCE : true;
 }
 
 const addressHasAsset = async (address: string, assetId: string): Promise<boolean> => {
@@ -108,7 +108,10 @@ async function computeFees(transaction: TransactionData): Promise<bigint> {
 
   let suggestedFees = 0;
   if (params.fee) {
-    const rawTransaction = await buildRawTransaction(transaction);
+    const rawTransaction = await buildRawTransaction({
+      ...transaction,
+      amount: transaction.amount || 0n,
+    });
     const encoded = encodeToSign(rawTransaction);
     suggestedFees = params.fee * (Buffer.from(encoded, "hex").length + SINGLE_SIGNATURE_SIZE);
   }
@@ -117,13 +120,17 @@ async function computeFees(transaction: TransactionData): Promise<bigint> {
 }
 
 async function buildRawTransaction(transaction: TransactionData): Promise<AlgoEncodedTransaction> {
-  const { sender, amount, recipient, mode, memo } = transaction;
+  const { sender, recipient, amount, mode, memo } = transaction;
+  if (!amount) {
+    // Should never happen
+    // TODO Proper error management should handle this kind of error as an HTTP 500 at API level
+    throw new Error("amount required to build raw transaction");
+  }
 
   const note = memo ? new TextEncoder().encode(memo) : undefined;
 
   const params = await fetchTransactionParams();
 
-  // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
   const algoTxn: AlgoTransaction =
     mode === TransactionMode.TRANSFER_TOKEN
       ? makeAssetTransferTxnWithSuggestedParams(
@@ -131,13 +138,13 @@ async function buildRawTransaction(transaction: TransactionData): Promise<AlgoEn
           recipient,
           undefined,
           undefined,
-          amount as bigint,
+          amount,
           note,
           Number(transaction.tokenId),
           params,
           undefined
         )
-      : makePaymentTxnWithSuggestedParams(sender, recipient, amount as bigint, undefined, note, params);
+      : makePaymentTxnWithSuggestedParams(sender, recipient, amount, undefined, note, params);
 
   // Bit of safety: set tx validity to the next 1000 blocks
   algoTxn.firstRound = params.lastRound;

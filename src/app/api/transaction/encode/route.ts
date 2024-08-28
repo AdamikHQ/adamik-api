@@ -4,12 +4,12 @@ import { getService } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 import { requestSchema } from "./schema";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import { Transaction } from "~/app/model/types_WIP";
+import { Transaction, TransactionData } from "~/app/model/types_WIP";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await requestSchema.parseAsync(await request.json());
 
-  const transactionData = stringToBigint(body.transaction.data);
+  const transactionData: TransactionData = stringToBigint(body.transaction);
 
   const service = getService(transactionData.chainId);
 

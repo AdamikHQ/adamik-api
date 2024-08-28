@@ -3,12 +3,7 @@ import { ZodOpenApiPathsObject } from "zod-openapi";
 import { transactionSchema } from "../../schemaCommon";
 
 const requestSchema = z.object({
-  transaction: transactionSchema.and(
-    z.object({
-      encoded: z.string().or(z.any()),
-      signature: z.string(),
-    })
-  ),
+  transaction: transactionSchema,
 });
 
 const responseSchema = z.union([

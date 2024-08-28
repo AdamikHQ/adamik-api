@@ -16,7 +16,7 @@ async function prevalidateTransaction(this: AlgorandService, transaction: Transa
 
   if (transaction.data.format) {
     transaction.status.warnings.push({
-      message: `Field 'format' is not supported for chain ID ${this.chainId}`,
+      message: `Field 'format' is not supported for chainId ${this.chainId}`,
     });
   }
 }
@@ -26,7 +26,7 @@ async function validateTransaction(this: AlgorandService, transaction: Transacti
     transaction.status.errors.push({ message: "Memo is too long" });
   }
 
-  // amount & fees are safe to cast as they're guaranteed to be filed in by completeTransaction
+  // amount & fees are safe to cast as they're guaranteed to be filled in by completeTransaction
   const amount = transaction.data.amount as bigint;
   const fees = transaction.data.fees as bigint;
 
@@ -42,7 +42,7 @@ async function validateTransaction(this: AlgorandService, transaction: Transacti
         transaction.status.warnings.push({ message: "Network fees are above 10% of the amount" });
       }
 
-      if (!(await isAmountValidForRecipient({ address: transaction.data.recipient, amount }))) {
+      if (!(await isAmountValidForRecipient(transaction.data.recipient, amount))) {
         transaction.status.errors.push({
           message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
         });
@@ -61,7 +61,7 @@ async function validateTransaction(this: AlgorandService, transaction: Transacti
         transaction.status.errors.push({ message: "Token balance is too low" });
       }
 
-      if (!(await isAmountValidForRecipient({ address: transaction.data.recipient, amount }))) {
+      if (!(await isAmountValidForRecipient(transaction.data.recipient, amount))) {
         transaction.status.errors.push({
           message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
         });

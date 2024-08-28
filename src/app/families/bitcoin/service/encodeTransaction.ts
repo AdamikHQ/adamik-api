@@ -14,7 +14,7 @@ async function encodeTransactionToSign(this: BtcService, transaction: Transactio
     const input = params.inputs[inputIndex];
     const txMetadata = await fetchTxMetadata(this.chainId, input.transaction_hash);
 
-    // FIXME: did I missunderstood the has_witness field?
+    // FIXME: did I misunderstand the has_witness field?
     // TODO: Add link to documentation here
     if (!txMetadata[input.transaction_hash].has_witness) {
       psbt.addInput({
@@ -36,7 +36,7 @@ async function encodeTransactionToSign(this: BtcService, transaction: Transactio
         nonWitnessUtxo: Buffer.from(nonWitnessUtxo, "hex"),
       });
     }
-    // activates RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
+    // Enables RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
     // 0xfffffffd is stricly smaller than 0xffffffff - 1
     psbt.setInputSequence(inputIndex, 0xfffffffd);
   }

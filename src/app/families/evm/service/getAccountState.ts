@@ -9,11 +9,15 @@ async function getAccountState(
   account: { addresses: string[] } | { accountId: EvmAddress }
 ): Promise<AccountState> {
   if ("addresses" in account) {
-    // FIXME: make it a better error message for the user
-    throw new Error("Not implemented");
+    // TODO Maybe a specific MultiAddressesService would be a good idea after all...
+    // to handle this only once at route level
+    throw new Error(`Account state from multiple addresses is not supported for chainId ${this.chainId}`);
   }
+
+  const { accountId } = account;
+
   // Native
-  const nativeBalance = await getBalance(this.chainId, account.accountId);
+  const nativeBalance = await getBalance(this.chainId, accountId);
 
   // Tokens
 
@@ -22,7 +26,7 @@ async function getAccountState(
   //*
   // Moralis implementation
 
-  const tokenAmounts: TokenAmount[] = await getERC20TokenAmounts(this.chainId, account.accountId);
+  const tokenAmounts: TokenAmount[] = await getERC20TokenAmounts(this.chainId, accountId);
 
   /*/
   // Etherscan implementation
@@ -60,7 +64,7 @@ async function getAccountState(
 
   return {
     chainId: this.chainId,
-    accountId: account.accountId,
+    accountId,
     balances: {
       native: {
         available: nativeBalance,

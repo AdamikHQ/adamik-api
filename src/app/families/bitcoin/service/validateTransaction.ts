@@ -3,12 +3,12 @@ import { BtcService } from ".";
 import { isValidAddress, isValidXpub } from "../logic";
 
 async function prevalidateTransaction(this: BtcService, transaction: Transaction): Promise<void> {
-  if (!isValidXpub(transaction.data.sender)) {
+  if (!isValidXpub(this.chainId, transaction.data.sender)) {
     transaction.status.errors.push({
       message: `Sender address ${transaction.data.sender} is invalid for ${transaction.data.chainId}`,
     });
   }
-  if (!isValidAddress(transaction.data.recipient, this.chainId)) {
+  if (!isValidAddress(this.chainId, transaction.data.recipient)) {
     transaction.status.errors.push({
       message: `Recipient address ${transaction.data.recipient} is invalid for ${transaction.data.chainId}`,
     });

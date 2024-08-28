@@ -141,7 +141,7 @@ type CommonState = {
   balances: {
     native: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
-      unconfirmed?: bigint; // Bitcoin: available + pending
+      unconfirmed?: bigint; // available + pending (for chains with long confirmation time)
       total: bigint; // May include staking balances, or be equal to available
     };
     tokens?: TokenAmount[];

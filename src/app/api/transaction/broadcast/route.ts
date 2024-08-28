@@ -10,8 +10,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   let transaction: Transaction = {
     data: stringToBigint(body.transaction.data),
-    // FIXME: better schema for encoded required
-    encoded: body.transaction.encoded as any,
+    encoded: body.transaction.encoded,
     signature: body.transaction.signature,
     status: { errors: [], warnings: [] },
   };

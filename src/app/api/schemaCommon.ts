@@ -16,15 +16,8 @@ const paginationSchema = z.object({
   offset: z.number(),
 });
 
-// DOMAIN TYPES //////////////////////////////////////////////////////////////
-
-const chainIdSchema = z.nativeEnum(ChainId, {
-  errorMap: (issue, ctx) => {
-    if (issue.code === z.ZodIssueCode.invalid_enum_value) {
-      return { message: `unsupported value "${ctx.data}" encountered` };
-    }
-    return { message: ctx.defaultError };
-  },
+const errorMsgSchema = z.object({
+  message: z.string(),
 });
 
 const positiveBigintSchema = z
@@ -37,9 +30,28 @@ const positiveBigintSchema = z
     type: ["string"], // TODO: also document API for integers but only on input
   });
 
-const recipientSchema = z.object({
-  address: z.string(),
-  amount: positiveBigintSchema.optional(),
+const chainIdSchema = z.nativeEnum(ChainId, {
+  errorMap: (issue, ctx) => {
+    if (issue.code === z.ZodIssueCode.invalid_enum_value) {
+      return { message: `Unsupported chainId "${ctx.data}"` };
+    }
+    return { message: ctx.defaultError };
+  },
+});
+
+const chainSchema = z.object({
+  family: z.nativeEnum(ChainFamily),
+  // The following line causes all chainIds to be listed for all chains, in the generated OpenAPI spec
+  // TODO? Find how to generate swagger types, define a type for the ChainId enum,
+  // then only reference that type each time instead of listing all its values
+  id: chainIdSchema,
+  nativeId: z.string(),
+  name: z.string(),
+  ticker: z.string(),
+  decimals: z.string(),
+  isTestnet: z.boolean().optional(),
+  params: z.any().optional(),
+  supportedFeatures: z.nativeEnum(ChainFeature).array(),
 });
 
 const transferNativeSchema = z
@@ -47,7 +59,6 @@ const transferNativeSchema = z
     mode: z.literal(TransactionMode.TRANSFER),
   })
   .openapi({
-    // ref: "Transfer",
     title: "Transfer",
     description: "Transfer chain native coins",
   });
@@ -58,50 +69,45 @@ const transferTokenSchema = z
     tokenId: z.string(),
   })
   .openapi({
-    // ref: "TransferToken",
     title: "TransferToken",
     description: "Transfer chain tokens",
   });
 
-const transferDelegateSchema = z
+const stakingDelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.DELEGATE),
     validatorAddress: z.string(),
   })
   .openapi({
-    // ref: "Delegate",
     title: "Delegate",
   });
 
-const transferUndelegateSchema = z
+const stakingUndelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.UNDELEGATE),
     validatorAddress: z.string(),
   })
   .openapi({
-    // ref: "Undelegate",
     title: "Undelegate",
   });
 
-const transferRedelegateSchema = z
+const stakingRedelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.REDELEGATE),
     sourceValidatorAddress: z.string(),
     targetValidatorAddress: z.string(),
   })
   .openapi({
-    // ref: "Redelegate",
     title: "Redelegate",
   });
 
-const transferClaimRewardsSchema = z
+const stakingClaimRewardsSchema = z
   .object({
     mode: z.literal(TransactionMode.CLAIM_REWARDS),
     validatorAddress: z.string(),
     compound: z.boolean().optional(),
   })
   .openapi({
-    // ref: "ClaimRewards",
     title: "ClaimRewards",
   });
 
@@ -121,11 +127,11 @@ const transactionDataSchema = z
   .and(
     z.discriminatedUnion("mode", [
       transferNativeSchema,
-      transferDelegateSchema,
+      stakingDelegateSchema,
       transferTokenSchema,
-      transferUndelegateSchema,
-      transferRedelegateSchema,
-      transferClaimRewardsSchema,
+      stakingUndelegateSchema,
+      stakingRedelegateSchema,
+      stakingClaimRewardsSchema,
     ])
   )
   // validation of transaction mode VS chain features
@@ -160,10 +166,6 @@ const transactionDataSchema = z
     }
   });
 
-const errorMsgSchema = z.object({
-  message: z.string(),
-});
-
 const transactionStatusSchema = z.object({
   errors: z.array(errorMsgSchema),
   warnings: z.array(errorMsgSchema),
@@ -171,18 +173,10 @@ const transactionStatusSchema = z.object({
 
 const transactionSchema = z.object({
   data: transactionDataSchema,
-});
-
-const chainSchema = z.object({
-  family: z.nativeEnum(ChainFamily),
-  id: chainIdSchema,
-  nativeId: z.string(),
-  name: z.string(),
-  ticker: z.string(),
-  decimals: z.string(),
-  isTestnet: z.boolean().optional(),
-  params: z.any().optional(),
-  supportedFeatures: z.nativeEnum(ChainFeature).array(),
+  // NOTE: 'any' here because encoded can also be JSON
+  // Improvement could be to properly type all possible encoded formats for every family
+  encoded: z.string().or(z.any()),
+  signature: z.string(),
 });
 
 export {

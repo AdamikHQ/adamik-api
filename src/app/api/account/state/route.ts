@@ -9,11 +9,11 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   const service = getService(chainId);
 
-  const isAddressValid = await service.validateAddress(accountId);
+  const isAccountIdValid = await service.validateAddress(accountId);
 
-  if (!isAddressValid) {
+  if (!isAccountIdValid) {
     return NextResponse.json(
-      { message: "Address is invalid" },
+      { message: `accountId is invalid for chainId ${chainId}` },
       { status: 400, statusText: "Invalid or missing fields" }
     );
   }
