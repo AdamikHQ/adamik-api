@@ -1,46 +1,50 @@
 import "~/patch";
 import { NextRequest, NextResponse } from "next/server";
-import { PlainTransaction, Transaction } from "~/app/model/types_WIP";
 import { getService } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
 import { requestSchema } from "./schema";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { Transaction, TransactionData } from "~/app/model/types_WIP";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = requestSchema.parse(await request.json());
+  const body = await requestSchema.parseAsync(await request.json());
 
-  const plainTransaction: PlainTransaction = stringToBigint(body.transaction.plain);
+  const transactionData: TransactionData = stringToBigint(body.transaction.data);
 
-  const service = getService(plainTransaction.chainId);
+  const service = getService(transactionData.chainId);
 
   // Initialization of the full transaction that will be returned
   // NOTE It will traverse and be mutated by all the service functions below
   let transaction: Transaction = {
-    plain: plainTransaction,
+    data: transactionData,
     status: { errors: [], warnings: [] },
   };
 
-  await service.prevalidateTransaction(transaction);
-  if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
-  }
+  try {
+    await service.prevalidateTransaction(transaction);
+    if (transaction.status.errors.length) {
+      return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+    }
 
-  await service.completeTransaction(transaction);
-  if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
-  }
+    await service.completeTransaction(transaction);
+    if (transaction.status.errors.length) {
+      return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+    }
 
-  await service.validateTransaction(transaction);
-  if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
-  }
+    await service.validateTransaction(transaction);
+    if (transaction.status.errors.length) {
+      return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+    }
 
-  await service.encodeTransactionToSign(transaction);
+    await service.encodeTransactionToSign(transaction);
 
-  if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
-  } else {
-    return NextResponse.json({ transaction });
+    if (transaction.status.errors.length) {
+      return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+    } else {
+      return NextResponse.json({ transaction });
+    }
+  } catch (e: any) {
+    return NextResponse.json({ message: e.toString() }, { status: 500, statusText: "Internal error" });
   }
 }
 

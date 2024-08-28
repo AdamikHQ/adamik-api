@@ -1,6 +1,5 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { ChainId } from "~/app/model/types_WIP";
 import { chainIdSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
@@ -14,6 +13,7 @@ const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/encode": {
     post: {
       tags: ["address"],
+      summary: "Get an address from a public key",
       description: "Encodes the provided public key to an address for the given chain ID",
       requestBody: {
         content: {

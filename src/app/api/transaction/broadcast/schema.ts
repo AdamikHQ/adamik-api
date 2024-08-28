@@ -1,13 +1,9 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { plainTransactionSchema } from "~/app/api/schemaCommon";
+import { transactionSchema } from "../../schemaCommon";
 
 const requestSchema = z.object({
-  transaction: z.object({
-    plain: plainTransactionSchema,
-    encoded: z.string().or(z.any()),
-    signature: z.string(),
-  }),
+  transaction: transactionSchema,
 });
 
 const responseSchema = z.union([
@@ -23,6 +19,7 @@ const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/broadcast": {
     post: {
       tags: ["transaction"],
+      summary: "Broadcast a signed transaction",
       description:
         "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
       requestBody: {

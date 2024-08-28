@@ -1,16 +1,33 @@
-import z, { ZodIssueCode, ZodIssueOptionalMessage } from "zod";
-import { ZodOpenApiPathsObject } from "zod-openapi";
-import { StakingStatus, TokenType } from "~/app/model/types_WIP";
+import z from "zod";
+import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
 import { chainIdSchema } from "~/app/api/schemaCommon";
+import { ChainId, StakingStatus, TokenType } from "~/app/model/types_WIP";
 
-const requestSchema = z.object({
-  chainId: chainIdSchema,
-  address: z.string().min(1),
-});
+extendZodWithOpenApi(z);
+
+const requestSchema = z
+  .object({
+    chainId: chainIdSchema,
+    accountId: z.string().openapi({
+      description: "Account identifier (address, xpub, etc) for the specified chain ID",
+    }),
+  })
+  .openapi({
+    examples: [
+      {
+        chainId: ChainId.ETHEREUM,
+        accountId: "0x0000000000000000000000000000000000000000",
+      },
+      {
+        chainId: ChainId.BITCOIN,
+        accountId: "xpub",
+      },
+    ],
+  });
 
 const responseSchema = z.object({
   chainId: chainIdSchema,
-  address: z.string().min(1),
+  accountId: z.string(),
   balances: z.object({
     native: z.object({
       available: z.string(),
@@ -67,12 +84,13 @@ const responseSchema = z.object({
     .optional(),
 });
 
-const addressStateOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/address/state": {
+const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
+  "/api/account/state": {
     post: {
-      tags: ["address"],
+      tags: ["account"],
+      summary: "Retrieve an account's state",
       description:
-        "Returns the account state for a specified address and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
+        "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -91,4 +109,4 @@ const addressStateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, addressStateOpenAPIPath };
+export { accountStateOpenAPIPath, requestSchema, responseSchema };

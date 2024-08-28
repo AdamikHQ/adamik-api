@@ -4,13 +4,13 @@ import { fetchAccount } from "../backend/node";
 import { encodeToBroadcast, encodeToSign, resolvePubKey } from "../logic";
 
 async function encodeTransactionToSign(this: CosmosService, transaction: Transaction): Promise<void> {
-  const account = await fetchAccount(this.chainId, transaction.plain.senders[0]);
+  const account = await fetchAccount(this.chainId, transaction.data.sender);
 
   transaction.encoded = await encodeToSign(
     this.chainId,
     account,
-    transaction.plain,
-    transaction.plain.format ?? EncodedTransactionFormat.HEX
+    transaction.data,
+    transaction.data.format ?? EncodedTransactionFormat.HEX
   );
 }
 
@@ -26,9 +26,7 @@ async function encodeTransactionToBroadcast(
       throw new Error("Missing transaction signature");
     }
 
-    const plainTransation = signedTransaction.plain;
-
-    const account = await fetchAccount(this.chainId, plainTransation.senders[0]);
+    const account = await fetchAccount(this.chainId, signedTransaction.data.sender);
     const updatedAccount = resolvePubKey(account, signedTransaction);
 
     return await encodeToBroadcast(this.chainId, updatedAccount, signedTransaction);

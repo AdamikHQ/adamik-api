@@ -1,9 +1,20 @@
-import { AddressState, TokenAmount } from "~/app/model/types_WIP";
+import { AccountState, TokenAmount } from "~/app/model/types_WIP";
 import { fetchAccount } from "../backend/node";
 import { AlgorandService } from ".";
 
-async function getAddressState(this: AlgorandService, address: string): Promise<AddressState> {
-  const { balance: nativeBalance, assetAmounts } = await fetchAccount(address);
+async function getAccountState(
+  this: AlgorandService,
+  account: { addresses: string[] } | { accountId: string }
+): Promise<AccountState> {
+  if ("addresses" in account) {
+    // TODO Maybe a specific MultiAddressesService would be a good idea after all...
+    // to handle this only once at route level
+    throw new Error(`Account state from multiple addresses is not supported for chainId ${this.chainId}`);
+  }
+
+  const { accountId } = account;
+
+  const { balance: nativeBalance, assetAmounts } = await fetchAccount(accountId);
 
   const tokenAmounts: TokenAmount[] = [];
 
@@ -19,7 +30,7 @@ async function getAddressState(this: AlgorandService, address: string): Promise<
 
   return {
     chainId: this.chainId,
-    address,
+    accountId,
     balances: {
       native: {
         available: nativeBalance,
@@ -30,4 +41,4 @@ async function getAddressState(this: AlgorandService, address: string): Promise<
   };
 }
 
-export { getAddressState };
+export { getAccountState };
