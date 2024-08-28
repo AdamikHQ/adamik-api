@@ -55,21 +55,6 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
 
   const positions: StakingPosition[] = delegations.concat(unbondings);
 
-  const tokenRewards = rewards.tokens.map((reward) => {
-    const token = COSMOS_TOKENS.find((t) => t.denom === reward.token.id) as IBCToken;
-    return {
-      ...reward,
-      token: {
-        chainId: this.chainId,
-        type: TokenType.IBC,
-        id: reward.token.id,
-        name: token.symbol,
-        ticker: token.symbol,
-        decimals: token.decimals,
-      },
-    };
-  });
-
   return {
     chainId: this.chainId,
     address,
@@ -87,7 +72,7 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
         positions,
         rewards: {
           native: rewards.native,
-          tokens: tokenRewards,
+          tokens: rewards.tokens,
         },
       },
     },
