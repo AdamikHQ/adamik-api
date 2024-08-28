@@ -1,4 +1,4 @@
-import { ChainId, Chain, ChainFamily, ChainFeature } from "../model/types_WIP";
+import { ChainId, Chain, ChainFamily, ChainFeature, TransactionMode } from "../model/types_WIP";
 
 // Very basic level of features to be considered as supported in Adamik
 const MINIMUM_FEATURES: ChainFeature[] = [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE];
@@ -26,6 +26,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
     ChainFeature.TRANSACTIONS_NATIVE,
     ChainFeature.TRANSACTIONS_TOKENS,
   ],
+  [ChainFamily.BITCOIN]: [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE],
 };
 
 const CHAINS: { [key in ChainId]: Chain } = {
@@ -407,6 +408,38 @@ const CHAINS: { [key in ChainId]: Chain } = {
     isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
+  [ChainId.BITCOIN]: {
+    id: ChainId.BITCOIN,
+    name: "Bitcoin",
+    family: ChainFamily.BITCOIN,
+    ticker: "BTC",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/bitcoin",
+    },
+    params: {
+      confirmations: 6,
+    },
+    nativeId: "bitcoin",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+  },
+  [ChainId.BITCOIN_TESTNET]: {
+    id: ChainId.BITCOIN_TESTNET,
+    name: "Bitcoin testnet",
+    family: ChainFamily.BITCOIN,
+    ticker: "BTC",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/bitcoin/testnet",
+    },
+    params: {
+      confirmations: 6,
+    },
+    nativeId: "bitcoin-testnet",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+  },
   polygon: {
     family: ChainFamily.EVM,
     id: ChainId.POLYGON,
@@ -619,4 +652,24 @@ const CHAINS_PUBLIC = Object.fromEntries(
   })
 );
 
-export { CHAINS, CHAINS_PUBLIC };
+function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
+  return CHAINS[chainId].supportedFeatures.flatMap((feature) => {
+    switch (feature) {
+      case ChainFeature.TRANSACTIONS_NATIVE:
+        return [TransactionMode.TRANSFER];
+      case ChainFeature.TRANSACTIONS_TOKENS:
+        return [TransactionMode.TRANSFER_TOKEN];
+      case ChainFeature.TRANSACTIONS_STAKING:
+        return [
+          TransactionMode.DELEGATE,
+          TransactionMode.REDELEGATE,
+          TransactionMode.UNDELEGATE,
+          TransactionMode.CLAIM_REWARDS,
+        ];
+      default:
+        return [];
+    }
+  });
+}
+
+export { CHAINS, CHAINS_PUBLIC, getSupportedTransactionModes };

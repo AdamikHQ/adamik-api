@@ -1,6 +1,5 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { ChainId } from "~/app/model/types_WIP";
 import { chainIdSchema } from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
@@ -14,6 +13,7 @@ const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/validate": {
     post: {
       tags: ["address"],
+      summary: "Validate an address",
       description:
         "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
       requestBody: {
@@ -34,4 +34,4 @@ const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, addressValidateOpenAPIPath };
+export { addressValidateOpenAPIPath, requestSchema, responseSchema };

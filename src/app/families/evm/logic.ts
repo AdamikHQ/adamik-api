@@ -2,11 +2,10 @@ import { Hex, BaseError as ViemError } from "viem";
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
-  PlainTransaction,
+  TransactionData,
   TransactionMode,
   TransactionSpendableAmounts,
 } from "~/app/model/types_WIP";
-import { EvmAddress, EvmChainParams } from "./types";
 import {
   estimateERC20FeesForL2,
   estimateERC20Gas,
@@ -17,29 +16,30 @@ import {
   getERC20Balance,
 } from "./backend/node";
 import { EtherscanERC20Event } from "./backend/types";
+import { EvmAddress, EvmChainParams } from "./types";
 
 const isHexString = (val: string): val is Hex => val.startsWith("0x") && /^[0-9a-fA-F]+$/i.test(val.slice(2));
 
-async function getTransactionGas(chainId: ChainId, transaction: PlainTransaction): Promise<bigint> {
+async function getTransactionGas(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     return await estimateERC20Gas({
       chainId,
       contractAddress: transaction.tokenId as EvmAddress,
-      senderAddress: transaction.senders[0] as EvmAddress,
-      recipientAddress: transaction.recipients[0] as EvmAddress,
-      amount: transaction.amount,
+      senderAddress: transaction.sender as EvmAddress,
+      recipientAddress: transaction.recipient as EvmAddress,
+      amount: transaction.amount ?? 0n,
     });
   } else {
     return await estimateGas({
       chainId,
-      senderAddress: transaction.senders[0] as EvmAddress,
-      recipientAddress: transaction.recipients[0] as EvmAddress,
-      amount: transaction.amount,
+      senderAddress: transaction.sender as EvmAddress,
+      recipientAddress: transaction.recipient as EvmAddress,
+      amount: transaction.amount ?? 0n,
     });
   }
 }
 
-async function getTransactionFees(chainId: ChainId, transaction: PlainTransaction): Promise<bigint> {
+async function getTransactionFees(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
   const chainParams = CHAINS[chainId].params as EvmChainParams;
 
   if (chainParams?.isL2Fees) {
@@ -47,15 +47,15 @@ async function getTransactionFees(chainId: ChainId, transaction: PlainTransactio
       ? await estimateERC20FeesForL2({
           chainId,
           contractAddress: transaction.tokenId as EvmAddress,
-          senderAddress: transaction.senders[0] as EvmAddress,
-          recipientAddress: transaction.recipients[0] as EvmAddress,
-          amount: transaction.amount,
+          senderAddress: transaction.sender as EvmAddress,
+          recipientAddress: transaction.recipient as EvmAddress,
+          amount: transaction.amount ?? 0n,
         })
       : await estimateFeesForL2({
           chainId,
-          senderAddress: transaction.senders[0] as EvmAddress,
-          recipientAddress: transaction.recipients[0] as EvmAddress,
-          amount: transaction.amount,
+          senderAddress: transaction.sender as EvmAddress,
+          recipientAddress: transaction.recipient as EvmAddress,
+          amount: transaction.amount ?? 0n,
         });
   }
 
@@ -71,9 +71,9 @@ async function getTransactionFees(chainId: ChainId, transaction: PlainTransactio
   return transaction.gas * maxFeePerGas;
 }
 
-async function getTransactionAmount(chainId: ChainId, transaction: PlainTransaction): Promise<bigint> {
+async function getTransactionAmount(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
   if (!transaction.useMaxAmount) {
-    return transaction.amount;
+    return transaction.amount as bigint;
   }
 
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
@@ -81,22 +81,23 @@ async function getTransactionAmount(chainId: ChainId, transaction: PlainTransact
     return maxSpendable.token!;
   } else {
     const maxSpendable = await getMaxSpendable(chainId, transaction);
-    return maxSpendable.native - transaction.fees >= 0n ? maxSpendable.native - transaction.fees : 0n;
+    const fees = transaction.fees as bigint;
+    return maxSpendable.native - fees >= 0n ? maxSpendable.native - fees : 0n;
   }
 }
 
 async function getMaxSpendable(
   chainId: ChainId,
-  transaction: PlainTransaction
+  transaction: TransactionData
 ): Promise<TransactionSpendableAmounts> {
-  const ethBalance = await getBalance(chainId, transaction.senders[0] as EvmAddress);
+  const ethBalance = await getBalance(chainId, transaction.sender as EvmAddress);
 
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     try {
       const erc20Balance = await getERC20Balance({
         chainId,
         contractAddress: transaction.tokenId as EvmAddress,
-        senderAddress: transaction.senders[0] as EvmAddress,
+        senderAddress: transaction.sender as EvmAddress,
       });
       return {
         native: ethBalance,
@@ -127,10 +128,10 @@ function getOneEventPerContractAddress(events: EtherscanERC20Event[]): Map<EvmAd
 }
 
 export {
-  isHexString,
-  getTransactionGas,
-  getTransactionFees,
-  getTransactionAmount,
   getMaxSpendable,
   getOneEventPerContractAddress,
+  getTransactionAmount,
+  getTransactionFees,
+  getTransactionGas,
+  isHexString,
 };
