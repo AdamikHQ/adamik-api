@@ -27,7 +27,7 @@ async function getAccountState(
   let tokenBalances: TokenAmount[] = [];
   for (const balance of balances) {
     if (balance.denom === chainParams?.denom) {
-      // Native
+      //Native
       nativeBalance += BigInt(balance.amount);
 
       // FIXME Should maybe remove this additional condition?
@@ -35,7 +35,6 @@ async function getAccountState(
     } else if (balance.denom.startsWith("ibc/")) {
       // Tokens
       const token = COSMOS_TOKENS.find((token) => token.denom === balance.denom) as IBCToken;
-
       if (token) {
         tokenBalances.push({
           amount: BigInt(balance.amount),
@@ -54,7 +53,7 @@ async function getAccountState(
     }
   }
 
-  // Staking
+  //Staking
 
   const [delegations, unbondings, rewards] = await Promise.all([
     fetchDelegations(this.chainId, accountId),
@@ -66,8 +65,6 @@ async function getAccountState(
   const unlockingBalance = unbondings.reduce((sum, unbonding) => sum + unbonding.amount, 0n);
 
   const positions: StakingPosition[] = delegations.concat(unbondings);
-
-  const { native: nativeRewards, tokens: tokenRewards } = rewards;
 
   return {
     chainId: this.chainId,
@@ -82,11 +79,11 @@ async function getAccountState(
         total: lockedBalance + unlockingBalance,
         locked: lockedBalance,
         unlocking: unlockingBalance,
-        unlocked: 0n, // Meaningless for Cosmos
+        unlocked: 0n, // Not meaningful for Cosmos
         positions,
         rewards: {
-          native: nativeRewards,
-          tokens: tokenRewards,
+          native: rewards.native,
+          tokens: rewards.tokens,
         },
       },
     },

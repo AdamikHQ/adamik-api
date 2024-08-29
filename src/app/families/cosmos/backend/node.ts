@@ -16,8 +16,10 @@ import {
   StakingReward,
   TokenStakingReward,
   StakingStatus,
+  TokenType,
 } from "~/app/model/types_WIP";
-import { CosmosChainParams } from "../types";
+import { CosmosChainParams, IBCToken } from "../types";
+import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 
 const VALIDATORS_CACHE = new TTLCache<string, CosmosValidator[]>({
   max: 1, // Only need one item
@@ -160,11 +162,23 @@ async function fetchRewards(
           amount,
         });
       } else if (denom.startsWith("ibc/")) {
-        tokenRewards.push({
-          tokenId: denom,
-          validatorAddress,
-          amount,
-        });
+        const token = COSMOS_TOKENS.find((token) => token.denom === denom) as IBCToken;
+        if (token) {
+          tokenRewards.push({
+            validatorAddress,
+            amount,
+            token: {
+              chainId: chainId,
+              type: TokenType.IBC,
+              id: denom,
+              name: token.symbol,
+              ticker: token.symbol,
+              decimals: token.decimals,
+            },
+          });
+        } else {
+          console.warn(`/!\\ Missing info about IBC token '${denom}':`);
+        }
       }
     }
   }

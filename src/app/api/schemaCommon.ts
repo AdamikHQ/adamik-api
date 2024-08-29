@@ -6,6 +6,7 @@ import {
   ChainId,
   EncodedTransactionFormat,
   TransactionMode,
+  TokenType,
 } from "~/app/model/types_WIP";
 import { getSupportedTransactionModes } from "../config/chains";
 
@@ -52,6 +53,16 @@ const chainSchema = z.object({
   isTestnet: z.boolean().optional(),
   params: z.any().optional(),
   supportedFeatures: z.nativeEnum(ChainFeature).array(),
+});
+
+const tokenSchema = z.object({
+  chainId: chainIdSchema,
+  type: z.nativeEnum(TokenType),
+  id: z.string(),
+  name: z.string(),
+  ticker: z.string(),
+  decimals: z.number(),
+  contractAddress: z.string().optional(),
 });
 
 const transferNativeSchema = z
@@ -182,6 +193,7 @@ const transactionSchema = z.object({
 export {
   chainIdSchema,
   chainSchema,
+  tokenSchema,
   paginationSchema,
   transactionDataSchema,
   transactionSchema,

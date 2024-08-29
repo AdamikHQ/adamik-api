@@ -555,7 +555,47 @@
                                 "type": "object",
                                 "properties": {
                                   "chainId": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "enum": [
+                                      "algorand",
+                                      "cosmoshub",
+                                      "osmosis",
+                                      "osmosis-testnet",
+                                      "celestia",
+                                      "celestia-testnet",
+                                      "dydx",
+                                      "cosmoshub-testnet",
+                                      "axelar",
+                                      "ethereum",
+                                      "sepolia",
+                                      "holesky",
+                                      "zksync",
+                                      "zksync-sepolia",
+                                      "injective-testnet",
+                                      "base",
+                                      "base-sepolia",
+                                      "optimism",
+                                      "optimism-sepolia",
+                                      "arbitrum",
+                                      "arbitrum-sepolia",
+                                      "polygon",
+                                      "polygon-amoy",
+                                      "bsc",
+                                      "bsc-testnet",
+                                      "linea",
+                                      "linea-sepolia",
+                                      "avalanche",
+                                      "gnosis",
+                                      "gnosis-chiado",
+                                      "moonbeam",
+                                      "moonriver",
+                                      "moonbase",
+                                      "fantom",
+                                      "palm",
+                                      "mantle",
+                                      "bitcoin",
+                                      "bitcoin-testnet"
+                                    ]
                                   },
                                   "type": {
                                     "type": "string",
@@ -680,8 +720,84 @@
                               "items": {
                                 "type": "object",
                                 "properties": {
-                                  "tokenId": {
-                                    "type": "string"
+                                  "token": {
+                                    "type": "object",
+                                    "properties": {
+                                      "chainId": {
+                                        "type": "string",
+                                        "enum": [
+                                          "algorand",
+                                          "cosmoshub",
+                                          "osmosis",
+                                          "osmosis-testnet",
+                                          "celestia",
+                                          "celestia-testnet",
+                                          "dydx",
+                                          "cosmoshub-testnet",
+                                          "axelar",
+                                          "ethereum",
+                                          "sepolia",
+                                          "holesky",
+                                          "zksync",
+                                          "zksync-sepolia",
+                                          "injective-testnet",
+                                          "base",
+                                          "base-sepolia",
+                                          "optimism",
+                                          "optimism-sepolia",
+                                          "arbitrum",
+                                          "arbitrum-sepolia",
+                                          "polygon",
+                                          "polygon-amoy",
+                                          "bsc",
+                                          "bsc-testnet",
+                                          "linea",
+                                          "linea-sepolia",
+                                          "avalanche",
+                                          "gnosis",
+                                          "gnosis-chiado",
+                                          "moonbeam",
+                                          "moonriver",
+                                          "moonbase",
+                                          "fantom",
+                                          "palm",
+                                          "mantle",
+                                          "bitcoin",
+                                          "bitcoin-testnet"
+                                        ]
+                                      },
+                                      "type": {
+                                        "type": "string",
+                                        "enum": [
+                                          "ASA",
+                                          "ERC20",
+                                          "IBC"
+                                        ]
+                                      },
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "ticker": {
+                                        "type": "string"
+                                      },
+                                      "decimals": {
+                                        "type": "number"
+                                      },
+                                      "contractAddress": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "chainId",
+                                      "type",
+                                      "id",
+                                      "name",
+                                      "ticker",
+                                      "decimals"
+                                    ]
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -691,7 +807,7 @@
                                   }
                                 },
                                 "required": [
-                                  "tokenId",
+                                  "token",
                                   "amount"
                                 ]
                               }
@@ -4744,7 +4860,7 @@
                       "type": "string"
                     },
                     "decimals": {
-                      "type": "string"
+                      "type": "number"
                     },
                     "contractAddress": {
                       "type": "string"
