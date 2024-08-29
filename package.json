@@ -14,6 +14,7 @@
     "gen:cosmos-tokens": "ts-node src/scripts/generateCosmosIBCTokensDefinitions.ts"
   },
   "dependencies": {
+    "@bitcoinerlab/secp256k1": "^1.1.1",
     "@cosmjs/amino": "^0.32.2",
     "@cosmjs/crypto": "^0.32.2",
     "@cosmjs/encoding": "^0.32.2",
@@ -33,7 +34,6 @@
     "js-sha512": "^0.8.0",
     "next": "14.0.3",
     "react": "^18.2.0",
-    "tiny-secp256k1": "^2.2.3",
     "tsx": "^4.16.5",
     "tweetnacl": "^1.0.3",
     "viem": "^2.14.0",
