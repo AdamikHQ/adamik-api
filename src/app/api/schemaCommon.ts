@@ -98,7 +98,7 @@ const chainSchema = z.object({
 });
 
 const tokenSchema = z.object({
-  chainId: z.string(),
+  chainId: chainIdSchema,
   type: z.nativeEnum(TokenType),
   id: z.string(),
   name: z.string(),
