@@ -1,4 +1,4 @@
-import { ChainId, Chain, ChainFamily, ChainFeature, TransactionMode } from "../model/types_WIP";
+import { Chain, ChainFamily, ChainFeature, ChainId, TransactionMode } from "../model/types_WIP";
 
 // Very basic level of features to be considered as supported in Adamik
 const MINIMUM_FEATURES: ChainFeature[] = [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE];
@@ -434,6 +434,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "",
       explorerURL: "https://api.blockchair.com/bitcoin/testnet",
     },
+    isTestNet: true,
     params: {
       confirmations: 6,
     },
