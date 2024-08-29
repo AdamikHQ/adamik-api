@@ -1,6 +1,6 @@
+import ecc from "@bitcoinerlab/secp256k1";
 import { address as addressSerde, initEccLib, networks } from "bitcoinjs-lib";
 import { ChainId } from "~/app/model/types_WIP";
-import * as ecc from "tiny-secp256k1";
 import { Xpub } from "./types";
 
 // Allows support for Taproot addresses validation: https://github.com/bitcoinjs/bitcoinjs-lib/issues/1919
