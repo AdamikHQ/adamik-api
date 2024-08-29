@@ -1,17 +1,17 @@
-import nacl from "tweetnacl";
-import base32 from "hi-base32";
-import sha512 from "js-sha512";
 import { encode as msgpackEncode } from "algo-msgpack-with-bigint";
 import {
   EncodedSignedTransaction as AlgoEncodedSignedTransaction,
-  Transaction as AlgoTransaction,
   EncodedTransaction as AlgoEncodedTransaction,
-  makePaymentTxnWithSuggestedParams,
-  makeAssetTransferTxnWithSuggestedParams,
+  Transaction as AlgoTransaction,
   decodeSignedTransaction,
+  makeAssetTransferTxnWithSuggestedParams,
+  makePaymentTxnWithSuggestedParams,
 } from "algosdk";
-import { PlainTransaction, TransactionMode, TransactionSpendableAmounts } from "~/app/model/types_WIP";
+import base32 from "hi-base32";
+import sha512 from "js-sha512";
+import nacl from "tweetnacl";
 import { fetchAccount, fetchTransactionParams } from "~/app/families/algorand/backend/node";
+import { TransactionData, TransactionMode, TransactionSpendableAmounts } from "~/app/model/types_WIP";
 
 // TODO Keep this file as a fourre-tout or split it?
 
@@ -80,8 +80,8 @@ const addressHasAsset = async (address: string, assetId: string): Promise<boolea
   return recipientAccount.assetAmounts.map((a) => a.assetId).includes(assetId);
 };
 
-async function computeMaxSpendable(transaction: PlainTransaction): Promise<TransactionSpendableAmounts> {
-  const { balance, assetAmounts } = await fetchAccount(transaction.senders[0]);
+async function computeMaxSpendable(transaction: TransactionData): Promise<TransactionSpendableAmounts> {
+  const { balance, assetAmounts } = await fetchAccount(transaction.sender);
 
   const maxSpendable = computeAlgoMaxSpendable({
     accountBalance: balance,
@@ -103,12 +103,15 @@ async function computeMaxSpendable(transaction: PlainTransaction): Promise<Trans
   }
 }
 
-async function computeFees(transaction: PlainTransaction): Promise<bigint> {
+async function computeFees(transaction: TransactionData): Promise<bigint> {
   const params = await fetchTransactionParams();
 
   let suggestedFees = 0;
   if (params.fee) {
-    const rawTransaction = await buildRawTransaction(transaction);
+    const rawTransaction = await buildRawTransaction({
+      ...transaction,
+      amount: transaction.amount || 0n,
+    });
     const encoded = encodeToSign(rawTransaction);
     suggestedFees = params.fee * (Buffer.from(encoded, "hex").length + SINGLE_SIGNATURE_SIZE);
   }
@@ -116,28 +119,32 @@ async function computeFees(transaction: PlainTransaction): Promise<bigint> {
   return BigInt(Math.max(suggestedFees, params.minFee));
 }
 
-async function buildRawTransaction(transaction: PlainTransaction): Promise<AlgoEncodedTransaction> {
-  const { amount, senders, recipients, mode, memo } = transaction;
+async function buildRawTransaction(transaction: TransactionData): Promise<AlgoEncodedTransaction> {
+  const { sender, recipient, amount, mode, memo } = transaction;
+  if (amount === undefined) {
+    // Should never happen
+    // TODO Proper error management should handle this kind of error as an HTTP 500 at API level
+    throw new Error("amount required to build raw transaction");
+  }
 
   const note = memo ? new TextEncoder().encode(memo) : undefined;
 
   const params = await fetchTransactionParams();
 
-  const assetId = mode === TransactionMode.TRANSFER_TOKEN && transaction.tokenId;
-
-  const algoTxn: AlgoTransaction = !assetId
-    ? makePaymentTxnWithSuggestedParams(senders[0], recipients[0], amount, undefined, note, params)
-    : makeAssetTransferTxnWithSuggestedParams(
-        senders[0],
-        recipients[0],
-        undefined,
-        undefined,
-        amount,
-        note,
-        Number(assetId),
-        params,
-        undefined
-      );
+  const algoTxn: AlgoTransaction =
+    mode === TransactionMode.TRANSFER_TOKEN
+      ? makeAssetTransferTxnWithSuggestedParams(
+          sender,
+          recipient,
+          undefined,
+          undefined,
+          amount,
+          note,
+          Number(transaction.tokenId),
+          params,
+          undefined
+        )
+      : makePaymentTxnWithSuggestedParams(sender, recipient, amount, undefined, note, params);
 
   // Bit of safety: set tx validity to the next 1000 blocks
   algoTxn.firstRound = params.lastRound;
@@ -173,13 +180,13 @@ function encodeToBroadcast(payload: AlgoEncodedTransaction, signature: Buffer): 
 }
 
 export {
-  ALGORAND_MAX_MEMO_SIZE,
-  encodeAddress,
-  isAmountValidForRecipient,
   addressHasAsset,
-  computeMaxSpendable,
-  computeFees,
+  ALGORAND_MAX_MEMO_SIZE,
   buildRawTransaction,
-  encodeToSign,
+  computeFees,
+  computeMaxSpendable,
+  encodeAddress,
   encodeToBroadcast,
+  encodeToSign,
+  isAmountValidForRecipient,
 };

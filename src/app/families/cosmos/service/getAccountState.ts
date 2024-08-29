@@ -1,4 +1,4 @@
-import { AddressState, StakingPosition, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import { AccountState, StakingPosition, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { CHAINS } from "~/app/config/chains";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 import { CosmosBalance } from "../backend/types";
@@ -6,8 +6,19 @@ import { fetchBalances, fetchDelegations, fetchRewards, fetchUnbondingDelegation
 import { CosmosService } from ".";
 import { CosmosChainParams, IBCToken } from "../types";
 
-async function getAddressState(this: CosmosService, address: string): Promise<AddressState> {
-  const balances: CosmosBalance[] = await fetchBalances(this.chainId, address);
+async function getAccountState(
+  this: CosmosService,
+  account: { addresses: string[] } | { accountId: string }
+): Promise<AccountState> {
+  if ("addresses" in account) {
+    // TODO Maybe a specific MultiAddressesService would be a good idea after all...
+    // to handle this only once at route level
+    throw new Error(`Account state from multiple addresses is not supported for chainId ${this.chainId}`);
+  }
+
+  const { accountId } = account;
+
+  const balances: CosmosBalance[] = await fetchBalances(this.chainId, accountId);
 
   const chain = CHAINS[this.chainId];
   const chainParams = chain.params as CosmosChainParams;
@@ -45,9 +56,9 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
   //Staking
 
   const [delegations, unbondings, rewards] = await Promise.all([
-    fetchDelegations(this.chainId, address),
-    fetchUnbondingDelegations(this.chainId, address),
-    fetchRewards(this.chainId, address),
+    fetchDelegations(this.chainId, accountId),
+    fetchUnbondingDelegations(this.chainId, accountId),
+    fetchRewards(this.chainId, accountId),
   ]);
 
   const lockedBalance = delegations.reduce((sum, delegation) => sum + delegation.amount, 0n);
@@ -57,7 +68,7 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
 
   return {
     chainId: this.chainId,
-    address,
+    accountId,
     balances: {
       native: {
         available: nativeBalance,
@@ -79,4 +90,4 @@ async function getAddressState(this: CosmosService, address: string): Promise<Ad
   };
 }
 
-export { getAddressState };
+export { getAccountState };

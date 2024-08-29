@@ -1,5 +1,6 @@
 import {
-  AddressState,
+  AccountState,
+  AddressesAggregatedState,
   BroadcastStatus,
   ChainId,
   Pagination,
@@ -18,7 +19,6 @@ abstract class BaseChainService {
   constructor(chainId: ChainId) {
     this.chainId = chainId;
   }
-
   // Chain
   //abstract getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
 
@@ -27,7 +27,10 @@ abstract class BaseChainService {
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data
-  abstract getAddressState(address: string): Promise<AddressState>;
+  abstract getAccountState(
+    account: { accountId: string } | { addresses: string[] }
+  ): Promise<AccountState | AddressesAggregatedState>;
+
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
   // Crafting
@@ -80,5 +83,5 @@ function isTokenService(object: BaseChainService | TokenService): object is Toke
   return keys.reduce((valid, key) => valid && key in object, true);
 }
 
-export type { StakingService, TokenService };
 export { BaseChainService, isStakingService, isTokenService };
+export type { StakingService, TokenService };

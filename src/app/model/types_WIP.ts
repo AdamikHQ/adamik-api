@@ -1,3 +1,4 @@
+import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
 
@@ -38,15 +39,19 @@ enum ChainId {
   FANTOM = "fantom",
   PALM = "palm",
   MANTLE = "mantle",
+  // BTC family
+  BITCOIN = "bitcoin",
+  BITCOIN_TESTNET = "bitcoin-testnet",
 }
 
 enum ChainFamily {
   ALGORAND = "algorand",
   COSMOS = "cosmos",
   EVM = "evm",
+  BITCOIN = "bitcoin",
 }
 
-type ChainParams = CosmosChainParams | EvmChainParams;
+type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
 
 enum ChainFeature {
   BALANCES_NATIVE = "balances.native",
@@ -131,12 +136,12 @@ type TokenStakingReward = StakingReward & {
   token: Token;
 };
 
-type AddressState = {
+type CommonState = {
   chainId: ChainId;
-  address: string;
   balances: {
     native: {
-      available: bigint; // Cosmos, Polkadot, Solana : all provide available, so need to deduce total from staking
+      available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
+      unconfirmed?: bigint; // available + pending (for chains with long confirmation time)
       total: bigint; // May include staking balances, or be equal to available
     };
     tokens?: TokenAmount[];
@@ -155,6 +160,14 @@ type AddressState = {
   };
 };
 
+type AccountState = CommonState & {
+  accountId: string;
+};
+
+type AddressesAggregatedState = CommonState & {
+  addresses: string[];
+};
+
 enum TransactionMode {
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
@@ -164,12 +177,12 @@ enum TransactionMode {
   CLAIM_REWARDS = "claimRewards",
 }
 
-type TransactionParams = CosmosTransactionParams;
+type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams;
 
 // TODO WIP
 // FIXME de/serialization types <> string
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
-// FIXME one 'PlainTransaction' type with everything in it, or composition of specific types
+// FIXME one 'TransactionData' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
 // FIXME Does the 'params' field make sense? It allows chain-specific data into the model...
 // - alternative: all data could be flat?
@@ -177,16 +190,16 @@ type TransactionParams = CosmosTransactionParams;
 type CommonTransaction = {
   mode: TransactionMode;
   chainId: ChainId;
-  senders: string[];
-  recipients: string[];
-  amount: bigint;
-  useMaxAmount?: boolean;
-  fees: bigint;
+  sender: string;
+  recipient: string;
+  useMaxAmount: boolean;
+  amount?: bigint;
+  fees?: bigint;
   gas?: bigint;
   nonce?: bigint;
   memo?: string;
-  format?: EncodedTransactionFormat;
-  params?: TransactionParams;
+  format?: EncodedTransactionFormat; // FIXME: really required for all transactions?
+  params?: TransactionParams; // FIXME: really required for all transactions?
 };
 
 type TransferTransaction = CommonTransaction & {
@@ -220,7 +233,7 @@ type ClaimRewardsTransaction = CommonTransaction & {
   compound?: boolean;
 };
 
-type PlainTransaction =
+type TransactionData =
   | TransferTransaction
   | TransferTokenTransaction
   | DelegateTransaction
@@ -229,19 +242,11 @@ type PlainTransaction =
   | ClaimRewardsTransaction;
 
 type Transaction = {
-  //metadata: TransactionMetadata // good idea or not ?
-  plain: PlainTransaction;
+  data: TransactionData;
   encoded?: string;
   signature?: string;
   status: TransactionStatus;
 };
-
-/*
-type TransactionMetadata = {
-  chain: ChainId;
-  useMaxAmount: boolean;
-};
-*/
 
 // Used to list spendable amounts, in native currency and one optional token currency
 type TransactionSpendableAmounts = {
@@ -278,30 +283,31 @@ type Pagination = {
 };
 
 export {
-  ChainId,
   ChainFamily,
   ChainFeature,
-  TransactionMode,
+  ChainId,
   EncodedTransactionFormat,
-  TokenType,
   StakingStatus,
+  TokenType,
+  TransactionMode,
 };
+
 export type {
+  AccountState,
+  AddressesAggregatedState,
+  BroadcastStatus,
   Chain,
   ChainParams,
-  Token,
-  TokenAmount,
-  Validator,
-  StakingPosition,
-  StakingReward,
-  TokenStakingReward,
-  AddressState,
-  TransactionParams,
-  PlainTransaction,
-  Transaction,
-  TransactionSpendableAmounts,
-  TransactionStatus,
-  BroadcastStatus,
   ErrorMsg,
   Pagination,
+  StakingPosition,
+  StakingReward,
+  Token,
+  TokenAmount,
+  TokenStakingReward,
+  Transaction,
+  TransactionData,
+  TransactionSpendableAmounts,
+  TransactionStatus,
+  Validator,
 };

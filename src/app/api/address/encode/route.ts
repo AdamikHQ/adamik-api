@@ -8,11 +8,15 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   const service = getService(chainId);
 
-  const address = await service.pubkeyToAddress(pubkey);
+  try {
+    const address = await service.pubkeyToAddress(pubkey);
 
-  return NextResponse.json(address);
+    return NextResponse.json(address);
+  } catch (e: any) {
+    return NextResponse.json({ message: e.toString() }, { status: 500, statusText: "Internal error" });
+  }
 }
 
 module.exports = apiHandler({
-  POST
+  POST,
 });

@@ -22,9 +22,9 @@ import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
   EncodedTransactionFormat,
-  PlainTransaction,
   StakingPosition,
   Transaction,
+  TransactionData,
   TransactionMode,
 } from "~/app/model/types_WIP";
 import { fetchNetworkId, simulateTransaction } from "./backend/node";
@@ -42,20 +42,20 @@ function isHex(str: string): boolean {
 
 function getDelegation(
   delegations: StakingPosition[],
-  plainTransaction: PlainTransaction
+  transactionData: TransactionData
 ): StakingPosition | undefined {
   if (
-    plainTransaction.mode === TransactionMode.REDELEGATE ||
-    plainTransaction.mode === TransactionMode.UNDELEGATE ||
-    plainTransaction.mode === TransactionMode.CLAIM_REWARDS
+    transactionData.mode === TransactionMode.REDELEGATE ||
+    transactionData.mode === TransactionMode.UNDELEGATE ||
+    transactionData.mode === TransactionMode.CLAIM_REWARDS
   ) {
     return delegations.find(
       (delegation) =>
         delegation.validatorAddresses?.length &&
         delegation.validatorAddresses[0] ===
-          (plainTransaction.mode === TransactionMode.REDELEGATE
-            ? plainTransaction.sourceValidatorAddress
-            : plainTransaction.validatorAddress)
+          (transactionData.mode === TransactionMode.REDELEGATE
+            ? transactionData.sourceValidatorAddress
+            : transactionData.validatorAddress)
     );
   }
 }
@@ -84,8 +84,8 @@ function isValidAddress(address: string, chainId: ChainId): boolean {
 // Returns the provided CosmosAccount with updated pubKeyType and pubKey,
 // depending on account and transaction data
 function resolvePubKey(account: CosmosAccount, transaction: Transaction): CosmosAccount {
-  const chainParams = CHAINS[transaction.plain.chainId].params as CosmosChainParams;
-  const transactionParams = transaction.plain.params as CosmosTransactionParams;
+  const chainParams = CHAINS[transaction.data.chainId].params as CosmosChainParams;
+  const transactionParams = transaction.data.params as CosmosTransactionParams;
 
   // pubKeyType and pubKey are provided by the blockchain only when the address has already done some transaction(s)
   const pubKeyType = account.pubKeyType || chainParams.defaultPubKeyType;
@@ -107,7 +107,7 @@ function resolvePubKey(account: CosmosAccount, transaction: Transaction): Cosmos
 async function getEstimatedFees(
   chainId: ChainId,
   account: CosmosAccount,
-  transaction: PlainTransaction
+  transaction: TransactionData
 ): Promise<{
   gasWanted: bigint;
   gasWantedFees: bigint;
@@ -153,8 +153,13 @@ async function getEstimatedFees(
   return { gasWanted: BigInt(gasWanted.toFixed()), gasWantedFees: BigInt(gasWantedFees.toFixed()) };
 }
 
-function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; protoMsgs: ProtoMsg[] } {
+function buildMessages(transaction: TransactionData): {
+  aminoMsgs: AminoMsg[];
+  protoMsgs: ProtoMsg[];
+} {
   const chainParams = CHAINS[transaction.chainId].params as CosmosChainParams;
+  // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
+  const amount = transaction.amount as bigint;
 
   const aminoMsgs: Array<AminoMsg> = [];
   const protoMsgs: Array<ProtoMsg> = [];
@@ -163,12 +168,12 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
       const aminoTransferMsg: AminoMsgSend = {
         type: "cosmos-sdk/MsgSend",
         value: {
-          from_address: transaction.senders[0],
-          to_address: transaction.recipients[0],
+          from_address: transaction.sender,
+          to_address: transaction.recipient,
           amount: [
             {
               denom: chainParams?.denom,
-              amount: transaction.amount.toString(),
+              amount: amount.toString(),
             },
           ],
         },
@@ -178,12 +183,12 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
       const protoTransferMsg: ProtoMsg = {
         typeUrl: "/cosmos.bank.v1beta1.MsgSend",
         value: MsgSend.encode({
-          fromAddress: transaction.senders[0],
-          toAddress: transaction.recipients[0],
+          fromAddress: transaction.sender,
+          toAddress: transaction.recipient,
           amount: [
             {
               denom: chainParams?.denom,
-              amount: transaction.amount.toString(),
+              amount: amount.toString(),
             },
           ],
         }).finish(),
@@ -195,11 +200,11 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
       const aminoDelegateMsg: AminoMsgDelegate = {
         type: "cosmos-sdk/MsgDelegate",
         value: {
-          delegator_address: transaction.senders[0],
+          delegator_address: transaction.sender,
           validator_address: transaction.validatorAddress,
           amount: {
             denom: chainParams?.denom,
-            amount: transaction.amount.toString(),
+            amount: amount.toString(),
           },
         },
       };
@@ -208,11 +213,11 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
       const protoDelegateMsg: ProtoMsg = {
         typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: MsgDelegate.encode({
-          delegatorAddress: transaction.senders[0],
+          delegatorAddress: transaction.sender,
           validatorAddress: transaction.validatorAddress,
           amount: {
             denom: chainParams?.denom,
-            amount: transaction.amount.toString(),
+            amount: amount.toString(),
           },
         }).finish(),
       };
@@ -223,12 +228,12 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
       const aminoRedelegateMsg: AminoMsgBeginRedelegate = {
         type: "cosmos-sdk/MsgBeginRedelegate",
         value: {
-          delegator_address: transaction.senders[0],
+          delegator_address: transaction.sender,
           validator_src_address: transaction.sourceValidatorAddress,
           validator_dst_address: transaction.targetValidatorAddress,
           amount: {
             denom: chainParams?.denom,
-            amount: transaction.amount.toString(),
+            amount: amount.toString(),
           },
         },
       };
@@ -237,12 +242,12 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
       const protoRedelegateMsg: ProtoMsg = {
         typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
         value: MsgBeginRedelegate.encode({
-          delegatorAddress: transaction.senders[0],
+          delegatorAddress: transaction.sender,
           validatorSrcAddress: transaction.sourceValidatorAddress,
           validatorDstAddress: transaction.targetValidatorAddress,
           amount: {
             denom: chainParams?.denom,
-            amount: transaction.amount.toString(),
+            amount: amount.toString(),
           },
         }).finish(),
       };
@@ -254,11 +259,11 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
         const aminoUndelegateMsg: AminoMsgUndelegate = {
           type: "cosmos-sdk/MsgUndelegate",
           value: {
-            delegator_address: transaction.senders[0],
+            delegator_address: transaction.sender,
             validator_address: transaction.validatorAddress,
             amount: {
               denom: chainParams?.denom,
-              amount: transaction.amount.toString(),
+              amount: amount.toString(),
             },
           },
         };
@@ -267,11 +272,11 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
         const protoUndelegateMsg: ProtoMsg = {
           typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
           value: MsgUndelegate.encode({
-            delegatorAddress: transaction.senders[0],
+            delegatorAddress: transaction.sender,
             validatorAddress: transaction.validatorAddress,
             amount: {
               denom: chainParams?.denom,
-              amount: transaction.amount.toString(),
+              amount: amount.toString(),
             },
           }).finish(),
         };
@@ -284,7 +289,7 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
         const aminoClaimRewardsMsg: AminoMsgWithdrawDelegatorReward = {
           type: "cosmos-sdk/MsgWithdrawDelegationReward",
           value: {
-            delegator_address: transaction.senders[0],
+            delegator_address: transaction.sender,
             validator_address: transaction.validatorAddress,
           },
         };
@@ -293,7 +298,7 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
         const protoClaimRewardsMsg: ProtoMsg = {
           typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
           value: MsgWithdrawDelegatorReward.encode({
-            delegatorAddress: transaction.senders[0],
+            delegatorAddress: transaction.sender,
             validatorAddress: transaction.validatorAddress,
           }).finish(),
         };
@@ -303,11 +308,11 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
           const aminoDelegateMsg: AminoMsgDelegate = {
             type: "cosmos-sdk/MsgDelegate",
             value: {
-              delegator_address: transaction.senders[0],
+              delegator_address: transaction.sender,
               validator_address: transaction.validatorAddress,
               amount: {
                 denom: chainParams?.denom,
-                amount: transaction.amount.toString(),
+                amount: amount.toString(),
               },
             },
           };
@@ -316,11 +321,11 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
           const protoDelegateMsg: ProtoMsg = {
             typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
             value: MsgDelegate.encode({
-              delegatorAddress: transaction.senders[0],
+              delegatorAddress: transaction.sender,
               validatorAddress: transaction.validatorAddress,
               amount: {
                 denom: chainParams?.denom,
-                amount: transaction.amount.toString(),
+                amount: amount.toString(),
               },
             }).finish(),
           };
@@ -335,7 +340,7 @@ function buildMessages(transaction: PlainTransaction): { aminoMsgs: AminoMsg[]; 
 async function buildSignPayload(
   chainId: ChainId,
   account: CosmosAccount,
-  transaction: PlainTransaction
+  transaction: TransactionData
 ): Promise<StdSignDoc> {
   if (!transaction.fees) {
     throw new Error("Missing fees data in transaction");
@@ -426,7 +431,7 @@ function buildBroadcastPayload({
 async function encodeToSign(
   chainId: ChainId,
   account: CosmosAccount,
-  transaction: PlainTransaction,
+  transaction: TransactionData,
   format?: EncodedTransactionFormat
 ): Promise<string> {
   // NOTE Providing payload for an Amino signer (like Ledger)
@@ -445,10 +450,9 @@ async function encodeToBroadcast(
   account: CosmosAccount,
   signedTransaction: Transaction
 ): Promise<string> {
-  const plainTransation = signedTransaction.plain;
-
-  // We don't want plainTransaction.nonce === 0 to be falsy
-  if (plainTransation.nonce === undefined) {
+  const transactionData = signedTransaction.data;
+  // We don't want transactionData.nonce === 0 to be falsy
+  if (transactionData.nonce === undefined) {
     throw new Error("Missing transaction nonce");
   }
   if (!signedTransaction.signature) {
@@ -459,15 +463,19 @@ async function encodeToBroadcast(
     ? Buffer.from(Secp256k1Signature.fromDer(fromHex(signedTransaction.signature)).toFixedLength())
     : Buffer.from(fromBase64(signedTransaction.signature));
 
-  const { protoMsgs } = buildMessages(plainTransation);
+  const { protoMsgs } = buildMessages(transactionData);
+
   const chainParams = chainId && (CHAINS[chainId].params as CosmosChainParams);
+
+  // fees is safe to cast as it's guaranteed to be filled in by completeTransaction
+  const fees = transactionData.fees as bigint;
   const txBytes = buildBroadcastPayload({
     pubKeyType: account.pubKeyType,
     pubKey: account.pubKey,
-    feeAmount: [{ amount: plainTransation.fees.toString(), denom: chainParams.denom }] as Coin[],
-    gasLimit: plainTransation.gas,
-    sequence: plainTransation.nonce,
-    memo: plainTransation.memo || "",
+    feeAmount: [{ amount: fees.toString(), denom: chainParams.denom }] as Coin[],
+    gasLimit: transactionData.gas,
+    sequence: transactionData.nonce,
+    memo: transactionData.memo || "",
     protoMsgs,
     signature,
   });

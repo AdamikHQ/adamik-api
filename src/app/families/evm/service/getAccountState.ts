@@ -1,14 +1,23 @@
-import { AddressState, TokenAmount, TokenType } from "~/app/model/types_WIP";
-import { EvmAddress } from "../types";
-import { getOneEventPerContractAddress } from "../logic";
-import { getBalance, getERC20Balance } from "../backend/node";
-import { getERC20TransferEvents } from "../backend/etherscan";
-import { getERC20TokenAmounts } from "../backend/moralis";
+import { AccountState, TokenAmount } from "~/app/model/types_WIP";
 import { EvmService } from ".";
+import { getERC20TokenAmounts } from "../backend/moralis";
+import { getBalance } from "../backend/node";
+import { EvmAddress } from "../types";
 
-async function getAddressState(this: EvmService, address: EvmAddress): Promise<AddressState> {
+async function getAccountState(
+  this: EvmService,
+  account: { addresses: string[] } | { accountId: EvmAddress }
+): Promise<AccountState> {
+  if ("addresses" in account) {
+    // TODO Maybe a specific MultiAddressesService would be a good idea after all...
+    // to handle this only once at route level
+    throw new Error(`Account state from multiple addresses is not supported for chainId ${this.chainId}`);
+  }
+
+  const { accountId } = account;
+
   // Native
-  const nativeBalance = await getBalance(this.chainId, address);
+  const nativeBalance = await getBalance(this.chainId, accountId);
 
   // Tokens
 
@@ -17,7 +26,7 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
   //*
   // Moralis implementation
 
-  const tokenAmounts: TokenAmount[] = await getERC20TokenAmounts(this.chainId, address);
+  const tokenAmounts: TokenAmount[] = await getERC20TokenAmounts(this.chainId, accountId);
 
   /*/
   // Etherscan implementation
@@ -55,7 +64,7 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
 
   return {
     chainId: this.chainId,
-    address,
+    accountId,
     balances: {
       native: {
         available: nativeBalance,
@@ -66,4 +75,4 @@ async function getAddressState(this: EvmService, address: EvmAddress): Promise<A
   };
 }
 
-export { getAddressState };
+export { getAccountState };
