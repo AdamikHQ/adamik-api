@@ -5,8 +5,8 @@ import {
   ChainFeature,
   ChainId,
   EncodedTransactionFormat,
-  TransactionMode,
   TokenType,
+  TransactionMode,
 } from "~/app/model/types_WIP";
 import { getSupportedTransactionModes } from "../config/chains";
 
@@ -25,8 +25,13 @@ const bigintSchema = z
   .number()
   .or(z.string())
   .or(z.bigint())
+  .refine(
+    (value) => !isNaN(Number(value)) && String(value) === String(BigInt(value)) && BigInt(value) >= 0n,
+    (value) => ({
+      message: `value "${value}" is not a positive integer`,
+    })
+  )
   .transform((data) => BigInt(data))
-  .pipe(z.bigint())
   .openapi({
     type: ["string"], // TODO: also document API for integers but only on input
   });
@@ -193,8 +198,8 @@ const transactionSchema = z.object({
 export {
   chainIdSchema,
   chainSchema,
-  tokenSchema,
   paginationSchema,
+  tokenSchema,
   transactionDataSchema,
   transactionSchema,
   transactionStatusSchema,
