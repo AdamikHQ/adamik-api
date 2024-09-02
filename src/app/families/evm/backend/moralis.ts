@@ -1,8 +1,8 @@
+import { MORALIS_API_KEY } from "~/app/config/apiKeys";
+import { CHAINS } from "~/app/config/chains";
 import { ChainId, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { EvmAddress } from "../types";
 import { MoralisERC20Token, MoralisERC20TokenBalance } from "./types";
-import { MORALIS_API_KEY } from "~/app/config/apiKeys";
-import { CHAINS } from "~/app/config/chains";
 
 const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth"],
@@ -34,7 +34,41 @@ const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   //[ChainId.MANTLE, "mantle"],
 ]);
 
-async function getERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
+// NOTE Unused at the moment, could serve as replacement for getting transactions from the node
+/*
+async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<MoralisDecodedTransaction | null> {
+  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  if (!moralisChainId) {
+    console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
+    return null;
+  }
+
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  if (!explorerURL) {
+    console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
+    return null;
+  }
+
+  const url = `${explorerURL}/v2.2/transaction/${transactionId}`;
+  const headers: RequestInit = {
+    headers: {
+      "X-API-Key": MORALIS_API_KEY,
+    },
+  };
+
+  const result: MoralisDecodedTransaction | { message: string } = await fetch(url, headers).then((response) =>
+    response.json()
+  );
+
+  if ("message" in result) {
+    return null;
+  }
+
+  return result;
+}
+*/
+
+async function fetchERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
@@ -98,7 +132,7 @@ async function getERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Prom
   return tokenAmounts;
 }
 
-async function getERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<Token | null> {
+async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<Token | null> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
@@ -138,4 +172,4 @@ async function getERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<Tok
   };
 }
 
-export { getERC20TokenAmounts, getERC20Token };
+export { fetchERC20Token, fetchERC20TokenAmounts };

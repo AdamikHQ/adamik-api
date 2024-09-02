@@ -1,12 +1,12 @@
 import { CHAINS } from "~/app/config/chains";
 import { AccountState, AddressesAggregatedState, ChainId } from "~/app/model/types_WIP";
-import { BtcService } from ".";
+import { BitcoinService } from ".";
 import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
 import { isValidXpub } from "../logic";
 import { BitcoinChainParams, Xpub } from "../types";
 
 async function getAccountState(
-  this: BtcService,
+  this: BitcoinService,
   account: { addresses: string[] } | { accountId: string }
 ): Promise<AccountState | AddressesAggregatedState> {
   return "addresses" in account

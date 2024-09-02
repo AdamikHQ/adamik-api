@@ -454,6 +454,12 @@
                   "accountId": {
                     "type": "string",
                     "description": "Account identifier (address, xpub, etc) for the specified chain ID"
+                  },
+                  "tokens": {
+                    "type": "boolean"
+                  },
+                  "staking": {
+                    "type": "boolean"
                   }
                 },
                 "required": [
@@ -4873,6 +4879,198 @@
                     "name",
                     "ticker",
                     "decimals"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chains/{chainId}/transaction/{transactionId}": {
+      "get": {
+        "tags": [
+          "chains"
+        ],
+        "summary": "Retrieve details of one transaction",
+        "description": "Retrieves detailed information about a specific transaction for a blockchain network, identified by chain ID and transaction ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "algorand",
+                "cosmoshub",
+                "osmosis",
+                "osmosis-testnet",
+                "celestia",
+                "celestia-testnet",
+                "dydx",
+                "cosmoshub-testnet",
+                "axelar",
+                "ethereum",
+                "sepolia",
+                "holesky",
+                "zksync",
+                "zksync-sepolia",
+                "injective-testnet",
+                "base",
+                "base-sepolia",
+                "optimism",
+                "optimism-sepolia",
+                "arbitrum",
+                "arbitrum-sepolia",
+                "polygon",
+                "polygon-amoy",
+                "bsc",
+                "bsc-testnet",
+                "linea",
+                "linea-sepolia",
+                "avalanche",
+                "gnosis",
+                "gnosis-chiado",
+                "moonbeam",
+                "moonriver",
+                "moonbase",
+                "fantom",
+                "palm",
+                "mantle",
+                "bitcoin",
+                "bitcoin-testnet"
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "transactionId",
+            "description": "Transaction ID. Usually a hash but can be different depending on the chain.",
+            "schema": {
+              "type": "string",
+              "description": "Transaction ID. Usually a hash but can be different depending on the chain.",
+              "example": "559c1be45865069c6070529e43c69752d73438cbb1d04e4f301e94cd68bf7422"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 OK - Successfully returns detailed data about the transaction on the specified blockchain.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "cosmoshub-testnet",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "palm",
+                        "mantle",
+                        "bitcoin",
+                        "bitcoin-testnet"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "tokenId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "unconfirmed",
+                        "confirmed",
+                        "failed",
+                        "unknown"
+                      ]
+                    },
+                    "blockHeight": {
+                      "type": "string"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    },
+                    "sender": {
+                      "type": "string"
+                    },
+                    "recipients": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string"
+                          },
+                          "amount": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "amount"
+                        ]
+                      }
+                    },
+                    "fees": {
+                      "type": "string"
+                    },
+                    "gas": {
+                      "type": "string"
+                    },
+                    "nonce": {
+                      "type": "string"
+                    },
+                    "memo": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "id",
+                    "status",
+                    "blockHeight",
+                    "timestamp",
+                    "sender",
+                    "recipients",
+                    "fees"
                   ]
                 }
               }

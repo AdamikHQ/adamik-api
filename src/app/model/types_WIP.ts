@@ -168,6 +168,36 @@ type AddressesAggregatedState = CommonState & {
   addresses: string[];
 };
 
+enum TransactionState {
+  PENDING = "pending", // In mempool or equivalent
+  UNCONFIRMED = "unconfirmed", // In at least 1 block, but not enough for confirmation
+  CONFIRMED = "confirmed", // In enough blocks to be considered confirmed
+  FAILED = "failed", // Some chains keep record of failed transactions
+  UNKNOWN = "unknown",
+}
+
+type PastTransaction = {
+  chainId: ChainId;
+  id: string;
+  mode: TransactionMode;
+  tokenId?: string;
+  state: TransactionState;
+  blockHeight?: bigint;
+  timestamp?: number;
+  senders: {
+    address: string;
+  }[];
+  recipients: {
+    address: string;
+    amount: bigint;
+  }[];
+  fees: bigint;
+  gas?: bigint;
+  nonce?: bigint;
+  memo?: string;
+  //params?: ExplorerTransactionParams;
+};
+
 enum TransactionMode {
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
@@ -290,6 +320,7 @@ export {
   StakingStatus,
   TokenType,
   TransactionMode,
+  TransactionState,
 };
 
 export type {
@@ -300,6 +331,7 @@ export type {
   ChainParams,
   ErrorMsg,
   Pagination,
+  PastTransaction,
   StakingPosition,
   StakingReward,
   Token,
