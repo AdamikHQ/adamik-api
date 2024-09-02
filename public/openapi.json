@@ -454,12 +454,6 @@
                   "accountId": {
                     "type": "string",
                     "description": "Account identifier (address, xpub, etc) for the specified chain ID"
-                  },
-                  "tokens": {
-                    "type": "boolean"
-                  },
-                  "staking": {
-                    "type": "boolean"
                   }
                 },
                 "required": [
@@ -4792,7 +4786,9 @@
             "schema": {
               "type": "string",
               "description": "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
-              "example": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+              "examples": [
+                "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+              ]
             },
             "required": true
           }
@@ -4950,7 +4946,9 @@
             "schema": {
               "type": "string",
               "description": "Transaction ID. Usually a hash but can be different depending on the chain.",
-              "example": "559c1be45865069c6070529e43c69752d73438cbb1d04e4f301e94cd68bf7422"
+              "examples": [
+                "559c1be45865069c6070529e43c69752d73438cbb1d04e4f301e94cd68bf7422"
+              ]
             },
             "required": true
           }
