@@ -5,8 +5,8 @@ import {
   ChainFeature,
   ChainId,
   EncodedTransactionFormat,
-  TransactionMode,
   TokenType,
+  TransactionMode,
 } from "~/app/model/types_WIP";
 import { getSupportedTransactionModes } from "../config/chains";
 
@@ -25,8 +25,13 @@ const bigintSchema = z
   .number()
   .or(z.string())
   .or(z.bigint())
+  .refine(
+    (value) => !isNaN(Number(value)) && String(value) === String(BigInt(value)) && BigInt(value) >= 0n,
+    (value) => ({
+      message: `value "${value}" must be a positive integer`,
+    })
+  )
   .transform((data) => BigInt(data))
-  .pipe(z.bigint())
   .openapi({
     type: ["string"], // TODO: also document API for integers but only on input
   });
@@ -65,10 +70,38 @@ const tokenSchema = z.object({
   contractAddress: z.string().optional(),
 });
 
+// validation of recipients amount & useMaxAmount
+// -> only one recipient without an amount allowed when using useMaxAmount
+// -> all recipients must have an amount when not using useMaxAmount
+function checkEitherAmountOrUseMaxAmount(
+  data: { useMaxAmount: boolean; amount?: bigint | undefined },
+  ctx: z.RefinementCtx
+) {
+  if (data.useMaxAmount && data.amount) {
+    ctx.addIssue({
+      message: "amount and useMaxAmount cannot be used together",
+      code: z.ZodIssueCode.custom,
+      path: ["amount"],
+    });
+  } else if (!data.useMaxAmount && data.amount === undefined) {
+    ctx.addIssue({
+      message: "Missing amount or useMaxAmount",
+      code: z.ZodIssueCode.custom,
+      path: ["amount"],
+    });
+  }
+}
+
+const amountFieldSchema = z.object({
+  amount: bigintSchema.optional(),
+  useMaxAmount: z.boolean().default(false),
+});
+
 const transferNativeSchema = z
   .object({
     mode: z.literal(TransactionMode.TRANSFER),
   })
+  .merge(amountFieldSchema)
   .openapi({
     title: "Transfer",
     description: "Transfer chain native coins",
@@ -79,6 +112,7 @@ const transferTokenSchema = z
     mode: z.literal(TransactionMode.TRANSFER_TOKEN),
     tokenId: z.string(),
   })
+  .merge(amountFieldSchema)
   .openapi({
     title: "TransferToken",
     description: "Transfer chain tokens",
@@ -89,6 +123,7 @@ const stakingDelegateSchema = z
     mode: z.literal(TransactionMode.DELEGATE),
     validatorAddress: z.string(),
   })
+  .merge(amountFieldSchema)
   .openapi({
     title: "Delegate",
   });
@@ -98,6 +133,7 @@ const stakingUndelegateSchema = z
     mode: z.literal(TransactionMode.UNDELEGATE),
     validatorAddress: z.string(),
   })
+  .merge(amountFieldSchema)
   .openapi({
     title: "Undelegate",
   });
@@ -108,6 +144,7 @@ const stakingRedelegateSchema = z
     sourceValidatorAddress: z.string(),
     targetValidatorAddress: z.string(),
   })
+  .merge(amountFieldSchema)
   .openapi({
     title: "Redelegate",
   });
@@ -127,8 +164,6 @@ const transactionDataSchema = z
     chainId: chainIdSchema,
     sender: z.string(),
     recipient: z.string(),
-    amount: bigintSchema.optional(),
-    useMaxAmount: z.boolean().default(false),
     fees: bigintSchema.optional(),
     gas: z.string().optional(),
     nonce: bigintSchema.optional(),
@@ -158,22 +193,10 @@ const transactionDataSchema = z
       };
     }
   )
-  // validation of recipients amount & useMaxAmount
-  // -> only one recipient without an amount allowed when using useMaxAmount
-  // -> all recipients must have an amount when not using useMaxAmount
+  // FIXME: once we use Zod 4, we can move the superRefine to the amountFieldSchema above (cf: https://github.com/colinhacks/zod/issues/2474#issuecomment-2101077363)
   .superRefine((data, ctx) => {
-    if (data.useMaxAmount && data.amount) {
-      ctx.addIssue({
-        message: "amount and useMaxAmount cannot be used together",
-        code: z.ZodIssueCode.custom,
-        path: ["amount"],
-      });
-    } else if (!data.useMaxAmount && data.amount === undefined) {
-      ctx.addIssue({
-        message: "Missing amount or useMaxAmount",
-        code: z.ZodIssueCode.custom,
-        path: ["amount"],
-      });
+    if ("amount" in data || "useMaxAmount" in data) {
+      checkEitherAmountOrUseMaxAmount(data, ctx);
     }
   });
 
@@ -193,8 +216,8 @@ const transactionSchema = z.object({
 export {
   chainIdSchema,
   chainSchema,
-  tokenSchema,
   paginationSchema,
+  tokenSchema,
   transactionDataSchema,
   transactionSchema,
   transactionStatusSchema,
