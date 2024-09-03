@@ -51,7 +51,7 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
 
   return {
     chainId,
-    accountId: addresses[0], // FIXME
+    accountId: addresses.join(","),
     balances: aggregatedBalances,
   };
 }
