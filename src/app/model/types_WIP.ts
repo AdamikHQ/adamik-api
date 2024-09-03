@@ -176,7 +176,7 @@ enum TransactionState {
   UNKNOWN = "unknown",
 }
 
-type PastTransaction = {
+type FinalizedTransaction = {
   chainId: ChainId;
   id: string;
   mode: TransactionMode;
@@ -330,8 +330,8 @@ export type {
   Chain,
   ChainParams,
   ErrorMsg,
+  FinalizedTransaction,
   Pagination,
-  PastTransaction,
   StakingPosition,
   StakingReward,
   Token,

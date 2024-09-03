@@ -17,8 +17,8 @@ export async function GET(_: NextRequest, context: { params: Params }): Promise<
   return transaction
     ? NextResponse.json(transaction)
     : NextResponse.json(
-        { message: `transactionId ${transactionId} not found for chainId ${chainId}` },
-        { status: 400, statusText: `Unsupported transactionId` }
+        { message: `Transaction ${transactionId} not found or not supported for chainId ${chainId}` },
+        { status: 400, statusText: `Transaction not found` }
       );
 }
 

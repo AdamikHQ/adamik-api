@@ -3,8 +3,8 @@ import {
   AddressesAggregatedState,
   BroadcastStatus,
   ChainId,
+  FinalizedTransaction,
   Pagination,
-  PastTransaction,
   Token,
   Transaction,
   Validator,
@@ -28,7 +28,7 @@ abstract class BaseChainService {
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data
-  abstract getTransaction(transactionId: string): Promise<PastTransaction | null>;
+  abstract getTransaction(transactionId: string): Promise<FinalizedTransaction | null>;
   abstract getAccountState(
     account: { accountId: string } | { addresses: string[] }
   ): Promise<AccountState | AddressesAggregatedState>;

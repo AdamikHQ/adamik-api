@@ -33,7 +33,7 @@ import { ChainId } from "~/app/model/types_WIP";
 import { injectiveTestnet } from "../chains/injective-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
 
-// Couldn't find a proper type that works besides 'any'
+// FIXME Couldn't find a proper type that works besides 'any'
 const CLIENTS = new Map<ChainId, any>();
 
 function getClientConfig(chainId: ChainId) {
@@ -245,22 +245,30 @@ async function fetchERC20Balance({
 }
 
 async function fetchBalance(chainId: ChainId, address: EvmAddress): Promise<bigint> {
-  return getClient(chainId).fetchBalance({ address });
+  return await getClient(chainId).fetchBalance({ address });
 }
 
 async function fetchNonce(chainId: ChainId, address: EvmAddress): Promise<number> {
-  return getClient(chainId).getTransactionCount({ address });
+  return await getClient(chainId).getTransactionCount({ address });
 }
 
-async function fetchTransaction(chainId: ChainId, transactionHash: string): Promise<Transaction> {
-  return getClient(chainId).getTransaction({ hash: transactionHash });
+async function fetchTransaction(chainId: ChainId, transactionHash: string): Promise<Transaction | null> {
+  try {
+    return await getClient(chainId).getTransaction({ hash: transactionHash });
+  } catch {
+    return null;
+  }
 }
 
 async function fetchTransactionReceipt(
   chainId: ChainId,
   transactionHash: string
-): Promise<TransactionReceipt> {
-  return getClient(chainId).getTransactionReceipt({ hash: transactionHash });
+): Promise<TransactionReceipt | null> {
+  try {
+    return await getClient(chainId).getTransactionReceipt({ hash: transactionHash });
+  } catch {
+    return null;
+  }
 }
 
 async function broadcast(chainId: ChainId, signedTransaction: string) {
