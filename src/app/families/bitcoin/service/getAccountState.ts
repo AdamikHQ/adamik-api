@@ -51,7 +51,7 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
 
   return {
     chainId,
-    addresses,
+    accountId: addresses.join(","),
     balances: aggregatedBalances,
   };
 }

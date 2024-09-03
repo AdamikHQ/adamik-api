@@ -167,7 +167,7 @@ type AccountState = CommonState & {
 };
 
 type AddressesAggregatedState = CommonState & {
-  addresses: string[];
+  accountId: string;
 };
 
 enum TransactionState {

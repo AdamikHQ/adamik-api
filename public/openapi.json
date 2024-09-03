@@ -5310,15 +5310,6 @@
                               "recipient": {
                                 "type": "string"
                               },
-                              "amount": {
-                                "type": [
-                                  "string"
-                                ]
-                              },
-                              "useMaxAmount": {
-                                "type": "boolean",
-                                "default": false
-                              },
                               "fees": {
                                 "type": [
                                   "string"
@@ -5359,6 +5350,15 @@
                                     "enum": [
                                       "transfer"
                                     ]
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -5378,6 +5378,15 @@
                                   },
                                   "validatorAddress": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -5397,6 +5406,15 @@
                                   },
                                   "tokenId": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -5417,6 +5435,15 @@
                                   },
                                   "validatorAddress": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -5439,6 +5466,15 @@
                                   },
                                   "targetValidatorAddress": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -5614,15 +5650,6 @@
                               "recipient": {
                                 "type": "string"
                               },
-                              "amount": {
-                                "type": [
-                                  "string"
-                                ]
-                              },
-                              "useMaxAmount": {
-                                "type": "boolean",
-                                "default": false
-                              },
                               "fees": {
                                 "type": [
                                   "string"
@@ -5663,6 +5690,15 @@
                                     "enum": [
                                       "transfer"
                                     ]
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -5682,6 +5718,15 @@
                                   },
                                   "validatorAddress": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -5701,6 +5746,15 @@
                                   },
                                   "tokenId": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -5721,6 +5775,15 @@
                                   },
                                   "validatorAddress": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -5743,6 +5806,15 @@
                                   },
                                   "targetValidatorAddress": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -5858,15 +5930,6 @@
                                     "recipient": {
                                       "type": "string"
                                     },
-                                    "amount": {
-                                      "type": [
-                                        "string"
-                                      ]
-                                    },
-                                    "useMaxAmount": {
-                                      "type": "boolean",
-                                      "default": false
-                                    },
                                     "fees": {
                                       "type": [
                                         "string"
@@ -5894,8 +5957,7 @@
                                   "required": [
                                     "chainId",
                                     "sender",
-                                    "recipient",
-                                    "useMaxAmount"
+                                    "recipient"
                                   ]
                                 },
                                 {
@@ -5908,10 +5970,20 @@
                                           "enum": [
                                             "transfer"
                                           ]
+                                        },
+                                        "amount": {
+                                          "type": [
+                                            "string"
+                                          ]
+                                        },
+                                        "useMaxAmount": {
+                                          "type": "boolean",
+                                          "default": false
                                         }
                                       },
                                       "required": [
-                                        "mode"
+                                        "mode",
+                                        "useMaxAmount"
                                       ],
                                       "title": "Transfer",
                                       "description": "Transfer chain native coins"
@@ -5927,11 +5999,21 @@
                                         },
                                         "validatorAddress": {
                                           "type": "string"
+                                        },
+                                        "amount": {
+                                          "type": [
+                                            "string"
+                                          ]
+                                        },
+                                        "useMaxAmount": {
+                                          "type": "boolean",
+                                          "default": false
                                         }
                                       },
                                       "required": [
                                         "mode",
-                                        "validatorAddress"
+                                        "validatorAddress",
+                                        "useMaxAmount"
                                       ],
                                       "title": "Delegate"
                                     },
@@ -5946,11 +6028,21 @@
                                         },
                                         "tokenId": {
                                           "type": "string"
+                                        },
+                                        "amount": {
+                                          "type": [
+                                            "string"
+                                          ]
+                                        },
+                                        "useMaxAmount": {
+                                          "type": "boolean",
+                                          "default": false
                                         }
                                       },
                                       "required": [
                                         "mode",
-                                        "tokenId"
+                                        "tokenId",
+                                        "useMaxAmount"
                                       ],
                                       "title": "TransferToken",
                                       "description": "Transfer chain tokens"
@@ -5966,11 +6058,21 @@
                                         },
                                         "validatorAddress": {
                                           "type": "string"
+                                        },
+                                        "amount": {
+                                          "type": [
+                                            "string"
+                                          ]
+                                        },
+                                        "useMaxAmount": {
+                                          "type": "boolean",
+                                          "default": false
                                         }
                                       },
                                       "required": [
                                         "mode",
-                                        "validatorAddress"
+                                        "validatorAddress",
+                                        "useMaxAmount"
                                       ],
                                       "title": "Undelegate"
                                     },
@@ -5988,12 +6090,22 @@
                                         },
                                         "targetValidatorAddress": {
                                           "type": "string"
+                                        },
+                                        "amount": {
+                                          "type": [
+                                            "string"
+                                          ]
+                                        },
+                                        "useMaxAmount": {
+                                          "type": "boolean",
+                                          "default": false
                                         }
                                       },
                                       "required": [
                                         "mode",
                                         "sourceValidatorAddress",
-                                        "targetValidatorAddress"
+                                        "targetValidatorAddress",
+                                        "useMaxAmount"
                                       ],
                                       "title": "Redelegate"
                                     },
@@ -6168,15 +6280,6 @@
                               "recipient": {
                                 "type": "string"
                               },
-                              "amount": {
-                                "type": [
-                                  "string"
-                                ]
-                              },
-                              "useMaxAmount": {
-                                "type": "boolean",
-                                "default": false
-                              },
                               "fees": {
                                 "type": [
                                   "string"
@@ -6217,6 +6320,15 @@
                                     "enum": [
                                       "transfer"
                                     ]
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -6236,6 +6348,15 @@
                                   },
                                   "validatorAddress": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -6255,6 +6376,15 @@
                                   },
                                   "tokenId": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -6275,6 +6405,15 @@
                                   },
                                   "validatorAddress": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
@@ -6297,6 +6436,15 @@
                                   },
                                   "targetValidatorAddress": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": [
+                                      "string"
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
                                   }
                                 },
                                 "required": [
