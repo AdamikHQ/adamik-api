@@ -11,7 +11,7 @@ import { postTransaction } from "../backend/explorer";
 async function broadcastTransaction(this: BtcService, signedTransaction: string): Promise<BroadcastStatus> {
   let transactionToBroadcast;
 
-  // 70736274ff means that it's a raw PSBT instead of raw hex transaction
+  // 70736274ff means that it's a raw PSBT instead of raw hex transaction: https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki#specification
   if (signedTransaction.startsWith("70736274ff")) {
     const psbt = Psbt.fromHex(signedTransaction);
     transactionToBroadcast = psbt.extractTransaction().toHex();
