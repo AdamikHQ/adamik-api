@@ -2,9 +2,10 @@ import coinSelect from "coinselect";
 import split from "coinselect/split.js";
 import { Transaction } from "~/app/model/types_WIP";
 import { BtcService } from ".";
-import { fetchFeePerByte, fetchXpubDashboard } from "../backend/explorer";
+import { fetchAddressesDashboard, fetchFeePerByte, fetchXpubDashboard } from "../backend/explorer";
 import { UtxoWithMetadata } from "../backend/types";
-import { BitcoinTransactionParams, Xpub } from "../types";
+import { isValidXpub } from "../logic";
+import { BitcoinTransactionParams } from "../types";
 
 async function completeTransaction(this: BtcService, transaction: Transaction): Promise<void> {
   let selectionAlgorithm = coinSelect;
@@ -16,12 +17,12 @@ async function completeTransaction(this: BtcService, transaction: Transaction): 
   const feeRate = await fetchFeePerByte(this.chainId);
 
   // safe to cast here as we already validated sender in prevalidateTransaction
-  const allUtxos = (await fetchXpubDashboard(this.chainId, transaction.data.sender as Xpub)).data[
-    transaction.data.sender
-  ].utxo;
+  const allUtxos = isValidXpub(this.chainId, transaction.data.sender)
+    ? (await fetchXpubDashboard(this.chainId, transaction.data.sender)).data[transaction.data.sender].utxo
+    : (await fetchAddressesDashboard(this.chainId, [transaction.data.sender])).data?.utxo;
 
   const { inputs, outputs, fee } = selectionAlgorithm(
-    allUtxos,
+    allUtxos ?? [],
     [
       {
         address: transaction.data.recipient,

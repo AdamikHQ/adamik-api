@@ -293,6 +293,6 @@ export const TransactionBroadcastStatusSchema = z.object({
     .object({
       transaction_hash: z.string(),
     })
-    .optional(),
+    .nullish(),
   context: requestContextSchema,
 });
