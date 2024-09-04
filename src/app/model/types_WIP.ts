@@ -170,6 +170,15 @@ type AddressesAggregatedState = CommonState & {
   accountId: string;
 };
 
+enum TransactionMode {
+  TRANSFER = "transfer",
+  TRANSFER_TOKEN = "transferToken",
+  DELEGATE = "delegate",
+  REDELEGATE = "redelegate",
+  UNDELEGATE = "undelegate",
+  CLAIM_REWARDS = "claimRewards",
+}
+
 enum TransactionState {
   PENDING = "pending", // In mempool or equivalent
   UNCONFIRMED = "unconfirmed", // In at least 1 block, but not enough for confirmation
@@ -211,15 +220,6 @@ type FinalizedTransaction = {
   raw: unknown; // The raw transaction as returned from the node (or explorer when necessary)
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
-
-enum TransactionMode {
-  TRANSFER = "transfer",
-  TRANSFER_TOKEN = "transferToken",
-  DELEGATE = "delegate",
-  REDELEGATE = "redelegate",
-  UNDELEGATE = "undelegate",
-  CLAIM_REWARDS = "claimRewards",
-}
 
 type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams;
 
