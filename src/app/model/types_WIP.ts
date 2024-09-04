@@ -82,7 +82,7 @@ type Chain = {
   backends: Backends;
   isTestNet?: boolean;
   params?: ChainParams;
-  supportedFeatures: ChainFeature[];
+  supportedFeatures: readonly ChainFeature[];
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
