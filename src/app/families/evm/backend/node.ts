@@ -245,7 +245,7 @@ async function fetchERC20Balance({
 }
 
 async function fetchBalance(chainId: ChainId, address: EvmAddress): Promise<bigint> {
-  return await getClient(chainId).fetchBalance({ address });
+  return await getClient(chainId).getBalance({ address });
 }
 
 async function fetchNonce(chainId: ChainId, address: EvmAddress): Promise<number> {

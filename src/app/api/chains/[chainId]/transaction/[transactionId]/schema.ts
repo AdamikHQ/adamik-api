@@ -14,23 +14,28 @@ const requestSchema = z.object({
 });
 
 const responseSchema = z.object({
-  chainId: chainIdSchema,
-  id: z.string(),
-  tokenId: z.string().optional(),
-  status: z.nativeEnum(TransactionState),
-  blockHeight: z.string(),
-  timestamp: z.string(),
-  sender: z.string(),
-  recipients: z
+  raw: z.unknown(),
+  parsed: z
     .object({
-      address: z.string(),
-      amount: z.string(),
+      chainId: chainIdSchema,
+      id: z.string(),
+      tokenId: z.string().optional(),
+      status: z.nativeEnum(TransactionState),
+      blockHeight: z.string(),
+      timestamp: z.string(),
+      sender: z.string(),
+      recipients: z
+        .object({
+          address: z.string(),
+          amount: z.string(),
+        })
+        .array(),
+      fees: z.string(),
+      gas: z.string().optional(),
+      nonce: z.string().optional(),
+      memo: z.string().optional(),
     })
-    .array(),
-  fees: z.string(),
-  gas: z.string().optional(),
-  nonce: z.string().optional(),
-  memo: z.string().optional(),
+    .optional(),
 });
 
 const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = {

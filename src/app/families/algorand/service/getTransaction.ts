@@ -11,7 +11,7 @@ async function getTransaction(
     return null;
   }
 
-  const finalizedTransaction: FinalizedTransaction = {
+  const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId: this.chainId,
     id: algoTransaction.id,
     senders: [{ address: algoTransaction.sender }],
@@ -23,38 +23,44 @@ async function getTransaction(
   };
 
   if ("confirmedRound" in algoTransaction) {
-    finalizedTransaction.state = TransactionState.CONFIRMED;
-    finalizedTransaction.timestamp = algoTransaction.roundTime;
-    finalizedTransaction.blockHeight = BigInt(algoTransaction.confirmedRound);
+    parsedTransaction.state = TransactionState.CONFIRMED;
+    parsedTransaction.timestamp = algoTransaction.roundTime;
+    parsedTransaction.blockHeight = BigInt(algoTransaction.confirmedRound);
   }
 
   if (algoTransaction.txType === "pay") {
-    finalizedTransaction.mode = TransactionMode.TRANSFER;
-    finalizedTransaction.recipients = [
+    parsedTransaction.mode = TransactionMode.TRANSFER;
+    parsedTransaction.recipients = [
       {
         address: algoTransaction.paymentTransaction.receiver,
         amount: algoTransaction.paymentTransaction.amount,
       },
     ];
   } else if (algoTransaction.txType === "axfer") {
-    finalizedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
-    finalizedTransaction.tokenId = algoTransaction.assetTransferTransaction.assetId.toString();
-    finalizedTransaction.recipients = [
+    parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
+    parsedTransaction.tokenId = algoTransaction.assetTransferTransaction.assetId.toString();
+    parsedTransaction.recipients = [
       {
         address: algoTransaction.assetTransferTransaction.receiver,
         amount: algoTransaction.assetTransferTransaction.amount,
       },
     ];
   } else {
-    console.warn(`/!\\ Unsupported ${this.chainId} transaction with transactionId ${transactionId}`);
-    return null;
+    // Not supported (yet?)
+    console.warn(`/!\\ Unsupported parsing of transaction ${transactionId} for chainId ${this.chainId}`);
+    return {
+      raw: algoTransaction,
+    };
   }
 
   if (algoTransaction.note !== undefined) {
-    finalizedTransaction.memo = atob(algoTransaction.note); // Algorand notes are provided as Base64 strings
+    parsedTransaction.memo = atob(algoTransaction.note); // Algorand notes are provided as Base64 strings
   }
 
-  return finalizedTransaction;
+  return {
+    parsed: parsedTransaction,
+    raw: algoTransaction,
+  };
 }
 
 export { getTransaction };

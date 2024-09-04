@@ -13,7 +13,7 @@ async function getTransaction(this: EvmService, transactionId: string): Promise<
     return null;
   }
 
-  const finalizedTransaction: FinalizedTransaction = {
+  const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId: this.chainId,
     id: evmTransaction.hash,
     senders: [
@@ -30,7 +30,7 @@ async function getTransaction(this: EvmService, transactionId: string): Promise<
     recipients: [],
   };
 
-  if (evmTransaction.input) {
+  if (evmTransaction.input && evmTransaction.input !== "0x") {
     const { functionName, args } = decodeFunctionData({
       abi: erc20Abi,
       data: evmTransaction.input,
@@ -40,20 +40,23 @@ async function getTransaction(this: EvmService, transactionId: string): Promise<
     // which indicates a token transfer not a native transfer
     // See https://ethereum.org/en/developers/docs/standards/tokens/erc-20/#methods
     if (functionName === "transfer") {
-      finalizedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
-      finalizedTransaction.recipients = [
+      parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
+      parsedTransaction.recipients = [
         {
           address: args[0],
           amount: args[1],
         },
       ];
     } else {
-      // TODO Handle transactions that interact with other things than ERC20 contracts
-      return null;
+      // Not supported (yet?)
+      console.warn(`/!\\ Unsupported parsing of transaction ${transactionId} for chainId ${this.chainId}`);
+      return {
+        raw: evmTransactionReceipt,
+      };
     }
   } else {
-    finalizedTransaction.mode = TransactionMode.TRANSFER;
-    finalizedTransaction.recipients = [
+    parsedTransaction.mode = TransactionMode.TRANSFER;
+    parsedTransaction.recipients = [
       {
         address: evmTransaction.to || "",
         amount: evmTransaction.value,
@@ -63,15 +66,25 @@ async function getTransaction(this: EvmService, transactionId: string): Promise<
 
   const log = evmTransactionReceipt.logs[0];
   if (log) {
-    finalizedTransaction.state = TransactionState.CONFIRMED;
-    finalizedTransaction.blockHeight = log.blockNumber;
-    // @ts-expect-error - apparently Viem doesn't type the blockTimestamp field properly
-    finalizedTransaction.timestamp = log.blockTimestamp;
+    parsedTransaction.state = TransactionState.CONFIRMED;
+    parsedTransaction.blockHeight = log.blockNumber;
+    // FIXME Apparently there are no logs for simple transfer transactions,
+    // so blockTimestamp isn't avaialble for these :/
+    // Skipped for now, but could be retrieved with an additional getBlock call to the node...
+    // or by relying on the explorer instead
+    // @ts-expect-error (looks like Viem doesn't type the blockTimestamp field properly)
+    parsedTransaction.timestamp = log.blockTimestamp;
+  } else if (evmTransaction.blockNumber !== null) {
+    parsedTransaction.state = TransactionState.CONFIRMED;
+    parsedTransaction.blockHeight = BigInt(evmTransaction.blockNumber);
   } else {
-    finalizedTransaction.state = TransactionState.UNCONFIRMED;
+    parsedTransaction.state = TransactionState.UNCONFIRMED;
   }
 
-  return finalizedTransaction;
+  return {
+    parsed: parsedTransaction,
+    raw: evmTransactionReceipt,
+  };
 }
 
 export { getTransaction };

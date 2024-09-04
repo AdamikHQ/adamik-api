@@ -54,15 +54,17 @@ enum ChainFamily {
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
 
 enum ChainFeature {
-  BALANCES_NATIVE = "balances.native",
-  BALANCES_TOKENS = "balances.tokens",
-  //BALANCES_NFT = "balances.nft",
-  BALANCES_STAKING = "balances.staking",
-  TRANSACTIONS_NATIVE = "transactions.native",
-  TRANSACTIONS_TOKENS = "transactions.tokens",
-  //TRANSACTIONS_NFT = "transactions.nft",
-  TRANSACTIONS_STAKING = "transactions.staking",
-  MEMO = "memo",
+  READ_BALANCES_NATIVE = "read.balances.native",
+  READ_BALANCES_TOKENS = "read.balances.tokens",
+  //READ_BALANCES_NFT = "read.balances.nft",
+  READ_BALANCES_STAKING = "read.balances.staking",
+  READ_TRANSACTIONS_NATIVE = "read.transactions.native",
+  READ_TRANSACTIONS_TOKENS = "read.transactions.tokens",
+  READ_TRANSACTIONS_STAKING = "read.transactions.staking",
+  WRITE_TRANSACTIONS_NATIVE = "write.transactions.native",
+  WRITE_TRANSACTIONS_TOKENS = "write.transactions.tokens",
+  WRITE_TRANSACTIONS_STAKING = "write.transactions.staking",
+  WRITE_MEMO = "write.memo",
 }
 
 type Backends = {
@@ -177,25 +179,37 @@ enum TransactionState {
 }
 
 type FinalizedTransaction = {
-  chainId: ChainId;
-  id: string;
-  mode: TransactionMode;
-  tokenId?: string;
-  state: TransactionState;
-  blockHeight?: bigint;
-  timestamp?: number;
-  senders: {
-    address: string;
-  }[];
-  recipients: {
-    address: string;
-    amount: bigint;
-  }[];
-  fees: bigint;
-  gas?: bigint;
-  nonce?: bigint;
-  memo?: string;
-  //params?: ExplorerTransactionParams;
+  parsed?: {
+    chainId: ChainId;
+    id: string;
+    mode: TransactionMode;
+    tokenId?: string;
+    state: TransactionState;
+    blockHeight?: bigint;
+    timestamp?: number;
+    senders: {
+      address: string;
+    }[];
+    recipients: {
+      address: string;
+      amount: bigint;
+    }[];
+    validators?: {
+      source?: {
+        address: string;
+      };
+      target?: {
+        address: string;
+        amount: bigint;
+      };
+    };
+    fees: bigint;
+    gas?: bigint;
+    nonce?: bigint;
+    memo?: string;
+  };
+  raw: unknown; // The raw transaction as returned from the node (or explorer when necessary)
+  //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
 enum TransactionMode {

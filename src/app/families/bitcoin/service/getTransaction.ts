@@ -10,17 +10,15 @@ async function getTransaction(
   try {
     bitcoinTransaction = await fetchTransaction(this.chainId, transactionId);
   } catch (e) {
-    console.warn(`/!\\ Unsupported ${this.chainId} transaction with transactionId ${transactionId}`);
     return null;
   }
 
   if (!bitcoinTransaction.data || Array.isArray(bitcoinTransaction.data)) {
-    console.warn(`/!\\ Unsupported ${this.chainId} transaction with transactionId ${transactionId}`);
     return null;
   }
 
   const transactionData = bitcoinTransaction.data[transactionId];
-  const finalizedTransaction: FinalizedTransaction = {
+  const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId: this.chainId,
     id: transactionId,
     mode: TransactionMode.TRANSFER,
@@ -32,26 +30,29 @@ async function getTransaction(
   };
 
   if (transactionData.transaction.block_id !== undefined) {
-    finalizedTransaction.state = TransactionState.CONFIRMED;
-    finalizedTransaction.timestamp = new Date(transactionData.transaction.time).getTime();
-    finalizedTransaction.blockHeight = BigInt(transactionData.transaction.block_id);
+    parsedTransaction.state = TransactionState.CONFIRMED;
+    parsedTransaction.timestamp = new Date(transactionData.transaction.time).getTime();
+    parsedTransaction.blockHeight = BigInt(transactionData.transaction.block_id);
   }
 
   if (transactionData.inputs.length) {
     for (const input of transactionData.inputs) {
-      finalizedTransaction.senders.push({ address: input.recipient });
+      parsedTransaction.senders.push({ address: input.recipient });
     }
   }
 
   if (transactionData.outputs.length) {
     for (const output of transactionData.outputs)
-      finalizedTransaction.recipients.push({
+      parsedTransaction.recipients.push({
         address: output.recipient,
         amount: output.value,
       });
   }
 
-  return finalizedTransaction;
+  return {
+    parsed: parsedTransaction,
+    raw: transactionData,
+  };
 }
 
 export { getTransaction };

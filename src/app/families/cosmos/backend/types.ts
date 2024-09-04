@@ -1,3 +1,99 @@
+type CosmosMessage = {
+  type: string;
+  attributes: { key: string; value: string; index?: boolean }[];
+};
+
+/*
+{
+    "txhash": "9C96915060C952D4D3ACF7A0621287AA9FF26D044DC5B7E150152A30D7F41DDB",
+    "height": "21965173",
+    "timestamp": "2024-08-30T16:13:25Z",
+    "codespace": "",
+    "code": 0,
+    "data": "12E1060A3F2F636F736D6F732E646973747269627574696F6E2E763162657461312E4D7367576974686472617744656C656761746F72526577617264526573706F6E7365129D060A4A0A446962632F30303235463841383734363441343731453636423233344334463933414543354234444133443432443739383634353141303539323733343236323930444435120231300A4A0A446962632F30353438393244364242343341463842393341414332384141354644373031394432433539413135444146443646343543314641324246394244413232343534120234380A4B0A446962632F3642384133463543324144353143443631373146413431413745384333354144353934414236393232363433384442393434353034333645413537423341383912033137320A4A0A446962632F37313542443633344346344439313443334545393342304638413944323531344237343346364645333642433830323633443142433545453442334335443430120239320A490A446962632F383844434141343341394344303939453146394242423830423941393046363437383245424131313541383442324344383339383735374144413446344234301201390A530A446962632F42303131433141304144354537313746363734424135394644384530354232463934364534464434314339434233333131433935463745443442383135363230120B37383135373232353035390A4A0A446962632F42303535333942363642373245323733394239383642383633393145354430384631324238443544324332413746384638434639414446363734444641323331120231320A560A446962632F42333841414130463741334543344437433845313244464133334646393332303546453741343237333841344230353930453246463135424336304136313242120E31303737323938353931343734330A4B0A446962632F4434314543433846454631423745394334424343353842313336323538383432303835334139443042383938454444353133443942373941464641313935433812033130340A490A446962632F453932453037453638373035464144313333303545453943373336383442333041374236364135324635344339383930333237453041344330463144323245331201350A0E0A057561746F6D12053834303437",
+    "raw_log": "",
+    "logs": [],
+    "info": "",
+    "gas_wanted": "856806",
+    "gas_used": "630193",
+    "tx": {
+      "@type": "/cosmos.tx.v1beta1.Tx",
+      "body": {
+        "messages": [
+          {
+            "@type": "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+            "delegator_address": "cosmos1wvvmjg54sn0a3nuw7rh0g9k2z3s3fdhhdx7c3p",
+            "validator_address": "cosmosvaloper1hmd535f69t3x262m6s9wc6jd0dmel2zevhyuhm"
+          }
+        ],
+        "memo": "",
+        "timeout_height": "0",
+        "extension_options": [],
+        "non_critical_extension_options": []
+      },
+      "auth_info": {
+        "signer_infos": [
+          {
+            "public_key": {
+              "@type": "/cosmos.crypto.secp256k1.PubKey",
+              "key": "A99r9rWqTUKm/XlmmGZa/MkqSJ2mSr6sVOop+TaJ45cg"
+            },
+            "mode_info": {
+              "single": {
+                "mode": "SIGN_MODE_LEGACY_AMINO_JSON"
+              }
+            },
+            "sequence": "76"
+          }
+        ],
+        "fee": {
+          "amount": [
+            {
+              "denom": "uatom",
+              "amount": "5141"
+            }
+          ],
+          "gas_limit": "856806",
+          "payer": "",
+          "granter": ""
+        },
+        "tip": null
+      },
+      "signatures": [
+        "QndMQVcZMSt7MWpMj1oFi6HjtqBek/ja0lV0wIIuMlEwUSbcnDBetFH49CzepZEYm0dhfuege8f7zE5tsD5NIw=="
+      ]
+    },
+    "events": [...]
+  }
+}
+*/
+type CosmosTransaction = {
+  txhash: string;
+  height: string;
+  timestamp: string;
+  gas_used: string;
+  gas_wanted: string;
+  data: string;
+  tx: {
+    "@type": string;
+    body: {
+      messages: ({ "@type": string } & any)[];
+      memo: string;
+    };
+    auth_info: {
+      signer_infos: {
+        sequence: string;
+      }[];
+      fee: {
+        amount: {
+          denom: string;
+          amount: string;
+        }[];
+      };
+    };
+  };
+};
+
 type CosmosAccount = {
   accountNumber: bigint;
   sequence: bigint;
@@ -108,7 +204,8 @@ export type {
   CosmosBalance,
   CosmosDelegation,
   CosmosRedelegation,
-  CosmosUnbondingDelegation,
   CosmosRewards,
+  CosmosTransaction,
+  CosmosUnbondingDelegation,
   CosmosValidator,
 };
