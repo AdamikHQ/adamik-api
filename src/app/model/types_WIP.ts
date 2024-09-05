@@ -54,18 +54,28 @@ enum ChainFamily {
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
 
 enum ChainFeature {
-  READ_BALANCES_NATIVE = "read.balances.native",
-  READ_BALANCES_TOKENS = "read.balances.tokens",
-  //READ_BALANCES_NFT = "read.balances.nft",
-  READ_BALANCES_STAKING = "read.balances.staking",
-  READ_TRANSACTIONS_NATIVE = "read.transactions.native",
-  READ_TRANSACTIONS_TOKENS = "read.transactions.tokens",
-  READ_TRANSACTIONS_STAKING = "read.transactions.staking",
-  WRITE_TRANSACTIONS_NATIVE = "write.transactions.native",
-  WRITE_TRANSACTIONS_TOKENS = "write.transactions.tokens",
-  WRITE_TRANSACTIONS_STAKING = "write.transactions.staking",
-  WRITE_MEMO = "write.memo",
+  READ_ACCOUNT_BALANCES_NATIVE = "read.account.balances.native",
+  READ_ACCOUNT_BALANCES_TOKENS = "read.account.balances.tokens",
+  //READ_ACCOUNT_BALANCES_NFT = "read.account.balances.nft",
+  READ_ACCOUNT_BALANCES_STAKING = "read.account.balances.staking",
+
+  //READ_ACCOUNT_TRANSACTIONS_NATIVE = "read.account.transactions.native",
+  //READ_ACCOUNT_TRANSACTIONS_TOKENS = "read.account.transactions.tokens",
+  //READ_ACCOUNT_TRANSACTIONS_STAKING = "read.account.transactions.staking",
+
+  READ_TRANSACTION_NATIVE = "read.transaction.native",
+  READ_TRANSACTION_TOKENS = "read.transaction.tokens",
+  READ_TRANSACTION_STAKING = "read.transaction.staking",
+
+  WRITE_TRANSACTION_TYPE_NATIVE = "write.transaction.type.native",
+  WRITE_TRANSACTION_TYPE_TOKENS = "write.transaction.type.tokens",
+  WRITE_TRANSACTION_TYPE_STAKING = "write.transaction.type.staking",
+
+  WRITE_TRANSACTION_FIELD_MEMO = "write.transaction.field.memo",
 }
+
+// Define filters as flags: anything put in the object is true to flag that the filter is "ON"
+type ApiRequestFilters = Record<string, true>;
 
 type Backends = {
   nodeURL: string;
@@ -340,6 +350,7 @@ export {
 export type {
   AccountState,
   AddressesAggregatedState,
+  ApiRequestFilters,
   BroadcastStatus,
   Chain,
   ChainParams,

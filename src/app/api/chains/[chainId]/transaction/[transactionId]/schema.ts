@@ -13,6 +13,10 @@ const requestSchema = z.object({
   }),
 });
 
+const requestParamsSchema = z.object({
+  include: z.literal("parsed").or(z.literal("raw")).optional(),
+});
+
 const responseSchema = z.object({
   raw: z.unknown(),
   parsed: z
@@ -47,6 +51,7 @@ const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = 
         "Retrieves detailed information about a specific transaction for a blockchain network, identified by chain ID and transaction ID.",
       requestParams: {
         path: requestSchema,
+        query: requestParamsSchema,
       },
       responses: {
         "200": {
