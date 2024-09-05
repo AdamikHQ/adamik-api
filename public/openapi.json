@@ -934,16 +934,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -1034,16 +1034,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -1134,16 +1134,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -1234,16 +1234,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -1334,16 +1334,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -1434,16 +1434,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -1534,16 +1534,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -1634,16 +1634,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -1734,16 +1734,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -1834,16 +1834,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -1934,16 +1934,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -2034,16 +2034,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -2134,16 +2134,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -2234,16 +2234,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -2334,16 +2334,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -2434,16 +2434,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -2534,16 +2534,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -2634,16 +2634,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -2734,16 +2734,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -2834,16 +2834,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -2934,16 +2934,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -3034,16 +3034,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -3134,16 +3134,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -3234,16 +3234,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -3334,16 +3334,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -3434,16 +3434,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -3534,16 +3534,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -3634,16 +3634,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -3734,16 +3734,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -3834,16 +3834,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -3934,16 +3934,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -4034,16 +4034,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -4134,16 +4134,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -4234,16 +4234,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -4334,16 +4334,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -4434,16 +4434,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -4534,16 +4534,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -4634,16 +4634,16 @@
                               "items": {
                                 "type": "string",
                                 "enum": [
-                                  "read.balances.native",
-                                  "read.balances.tokens",
-                                  "read.balances.staking",
-                                  "read.transactions.native",
-                                  "read.transactions.tokens",
-                                  "read.transactions.staking",
-                                  "write.transactions.native",
-                                  "write.transactions.tokens",
-                                  "write.transactions.staking",
-                                  "write.memo"
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
                                 ]
                               }
                             }
@@ -4810,16 +4810,16 @@
                       "items": {
                         "type": "string",
                         "enum": [
-                          "read.balances.native",
-                          "read.balances.tokens",
-                          "read.balances.staking",
-                          "read.transactions.native",
-                          "read.transactions.tokens",
-                          "read.transactions.staking",
-                          "write.transactions.native",
-                          "write.transactions.tokens",
-                          "write.transactions.staking",
-                          "write.memo"
+                          "read.account.balances.native",
+                          "read.account.balances.tokens",
+                          "read.account.balances.staking",
+                          "read.transaction.native",
+                          "read.transaction.tokens",
+                          "read.transaction.staking",
+                          "write.transaction.type.native",
+                          "write.transaction.type.tokens",
+                          "write.transaction.type.staking",
+                          "write.transaction.field.memo"
                         ]
                       }
                     }
@@ -5068,6 +5068,26 @@
               ]
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "parsed"
+                  ]
+                },
+                {
+                  "type": "string",
+                  "enum": [
+                    "raw"
+                  ]
+                }
+              ]
+            }
           }
         ],
         "responses": {
