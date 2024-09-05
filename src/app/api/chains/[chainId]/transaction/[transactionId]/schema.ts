@@ -14,7 +14,17 @@ const requestSchema = z.object({
 });
 
 const requestParamsSchema = z.object({
-  include: z.literal("parsed").or(z.literal("raw")).optional(),
+  include: z
+    .union([
+      z.literal("parsed").openapi({
+        description:
+          "Include parsed fields in the standard Adamik format. Note that all transactions types may not be available for this option.",
+      }),
+      z.literal("raw").openapi({
+        description: "Include the raw transaction as provided in native format by the blockchain.",
+      }),
+    ])
+    .optional(),
 });
 
 const responseSchema = z.object({
