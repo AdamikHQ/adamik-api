@@ -1,10 +1,10 @@
 import { Psbt } from "bitcoinjs-lib";
 import { Transaction } from "~/app/model/types_WIP";
-import { BtcService } from ".";
-import { fetchRawTxMetadata, fetchTxMetadata } from "../backend/explorer";
+import { BitcoinService } from ".";
+import { fetchRawTransactionMetadata, fetchTransactionMetadata } from "../backend/explorer";
 import { BitcoinTransactionParams } from "../types";
 
-async function encodeTransactionToSign(this: BtcService, transaction: Transaction): Promise<void> {
+async function encodeTransactionToSign(this: BitcoinService, transaction: Transaction): Promise<void> {
   const params = transaction.data.params as BitcoinTransactionParams;
 
   let psbt = new Psbt();
@@ -12,7 +12,7 @@ async function encodeTransactionToSign(this: BtcService, transaction: Transactio
   // Enrich inputs from the explorer
   for (let inputIndex = 0; inputIndex < params.inputs.length; inputIndex++) {
     const input = params.inputs[inputIndex];
-    const txMetadata = await fetchTxMetadata(this.chainId, input.transaction_hash);
+    const txMetadata = await fetchTransactionMetadata(this.chainId, input.transaction_hash);
 
     // FIXME: did I misunderstand the has_witness field?
     // TODO: Add link to documentation here
@@ -26,7 +26,7 @@ async function encodeTransactionToSign(this: BtcService, transaction: Transactio
         },
       });
     } else {
-      const nonWitnessUtxo = (await fetchRawTxMetadata(this.chainId, input.transaction_hash))[
+      const nonWitnessUtxo = (await fetchRawTransactionMetadata(this.chainId, input.transaction_hash))[
         input.transaction_hash
       ].raw_transaction;
 
@@ -47,7 +47,7 @@ async function encodeTransactionToSign(this: BtcService, transaction: Transactio
 }
 
 async function encodeTransactionToBroadcast(
-  this: BtcService,
+  this: BitcoinService,
   signedTransaction: Transaction
 ): Promise<string> {
   if (!signedTransaction.signature) {

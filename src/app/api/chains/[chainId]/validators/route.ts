@@ -1,13 +1,9 @@
-import "~/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { requestSchema } from "./schema";
 import { isStakingService } from "~/app/model/service";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
-
-// TODO Make sure to document this implicit limit in the doc / swagger description
-// We could also add something in the response to help user know what to fetch next (next limit, next URL...)
-const VALIDATORS_LIMIT = 100;
+import "~/bigintPatch";
+import { requestSchema } from "./schema";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
   const { chainId, pagination } = requestSchema.parse(await request.json());

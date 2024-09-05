@@ -1,11 +1,11 @@
-import { BtcService } from ".";
 import { AccountState, ChainId } from "~/app/model/types_WIP";
+import { BitcoinService } from ".";
 
 const CHAIN_ID = ChainId.BITCOIN;
 
 describe("getAccountState", () => {
   it("should fetch address state successfully", async () => {
-    const btcService = new BtcService(CHAIN_ID);
+    const btcService = new BitcoinService(CHAIN_ID);
     const expectedAddressState: AccountState = {
       chainId: btcService.chainId,
       accountId: "sample_address",
@@ -41,7 +41,7 @@ describe("getAccountState", () => {
   });
 
   it("should have balance at 0n if blockchair returns invalid response", async () => {
-    const btcService = new BtcService(CHAIN_ID);
+    const btcService = new BitcoinService(CHAIN_ID);
     const expectedAddressState: AccountState = {
       chainId: btcService.chainId,
       accountId: "sample_address",
@@ -60,7 +60,7 @@ describe("getAccountState", () => {
   });
 
   it("should have balance at 0n if blockchair returns response with error code 400", async () => {
-    const btcService = new BtcService(CHAIN_ID);
+    const btcService = new BitcoinService(CHAIN_ID);
     const expectedAddressState: AccountState = {
       chainId: btcService.chainId,
       accountId: "sample_address",

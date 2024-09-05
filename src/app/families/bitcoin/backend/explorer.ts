@@ -4,17 +4,20 @@ import { ChainId } from "~/app/model/types_WIP";
 import { Xpub } from "../types";
 import {
   BlockchairAddressesResponse,
+  BlockchairTransactionResponse,
   BlockchairXpubResponse,
-  TransactionBroadcastStatusSchema,
+  TransactionBroadcastStatus,
 } from "./types";
 
 const queryParams = new URLSearchParams({
   key: BLOCKCHAIR_API_KEY,
 });
 
+// TODO Need proper mapping between Adamik ChainID <> Blockchair ChainID (to support more than bitcoin)
+
 // FIXME: add correct fetch parsing + validation + error handling
 
-export async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<BlockchairXpubResponse> {
+async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<BlockchairXpubResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
 
   const url = `/dashboards/xpub/${xpub}?${queryParams.toString()}`;
@@ -49,7 +52,7 @@ export async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<
   return result.data;
 }
 
-export async function fetchAddressesDashboard(
+async function fetchAddressesDashboard(
   chainId: ChainId,
   addresses: string[]
 ): Promise<BlockchairAddressesResponse> {
@@ -93,7 +96,7 @@ export async function fetchAddressesDashboard(
   return result.data;
 }
 
-export async function postTransaction(chainId: ChainId, signedTransaction: string): Promise<string> {
+async function postTransaction(chainId: ChainId, signedTransaction: string): Promise<string> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
 
   queryParams.set("data", signedTransaction);
@@ -111,7 +114,7 @@ export async function postTransaction(chainId: ChainId, signedTransaction: strin
     throw new Error("Error during transaction broadcast to the node");
   }
 
-  const result = TransactionBroadcastStatusSchema.safeParse(await response.json());
+  const result = TransactionBroadcastStatus.safeParse(await response.json());
 
   if (!result.success) {
     console.warn(
@@ -132,7 +135,7 @@ export async function postTransaction(chainId: ChainId, signedTransaction: strin
   return result.data.data.transaction_hash;
 }
 
-export async function fetchFeePerByte(chainId: ChainId): Promise<number> {
+async function fetchFeePerByte(chainId: ChainId): Promise<number> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
 
   const url = `/stats?${queryParams.toString()}`;
@@ -160,7 +163,47 @@ export async function fetchFeePerByte(chainId: ChainId): Promise<number> {
   return responseBody.data.suggested_transaction_fee_per_byte_sat;
 }
 
-export async function fetchTxMetadata(
+async function fetchTransaction(chainId: ChainId, txHash: string): Promise<BlockchairTransactionResponse> {
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const url = `/dashboards/transaction/${txHash}?${queryParams.toString()}`;
+
+  const response = await fetch(explorerURL + url);
+
+  if (response.status >= 500) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} node endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new Error("Error while fetching transaction data from the explorer");
+  }
+
+  const result = BlockchairTransactionResponse.safeParse(await response.json());
+
+  if (!result.success) {
+    console.warn(
+      `/!\\ Error while parsing response from ${chainId} node endpoint ${url.toString()}:`,
+      result.error
+    );
+    throw new Error("Error while parsing transaction data from the explorer");
+  }
+
+  if (result.data.context.code == 404 || result.data.context.results === 0) {
+    return {
+      context: result.data.context,
+      data: null,
+    };
+  } else if (result.data.context.code != 200) {
+    console.warn(
+      `/!\\ Error in data received from ${chainId} node endpoint ${url.toString()}:`,
+      result.data.context.error
+    );
+    throw new Error("Error in transaction data received from the explorer");
+  }
+
+  return result.data;
+}
+
+async function fetchTransactionMetadata(
   chainId: ChainId,
   txHash: string
 ): Promise<{
@@ -202,7 +245,7 @@ export async function fetchTxMetadata(
   return responseBody.data;
 }
 
-export async function fetchRawTxMetadata(
+async function fetchRawTransactionMetadata(
   chainId: ChainId,
   txHash: string
 ): Promise<{
@@ -237,3 +280,13 @@ export async function fetchRawTxMetadata(
 
   return responseBody.data;
 }
+
+export {
+  fetchAddressesDashboard,
+  fetchFeePerByte,
+  fetchRawTransactionMetadata,
+  fetchTransaction,
+  fetchTransactionMetadata,
+  fetchXpubDashboard,
+  postTransaction,
+};

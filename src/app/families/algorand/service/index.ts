@@ -7,6 +7,7 @@ import {
 } from "./encodeTransaction";
 import { getAccountState as getAccountStateFn } from "./getAccountState";
 import { getTokenInfo as getTokenInfoFn } from "./getTokenInfo";
+import { getTransaction as getTransactionFn } from "./getTransaction";
 import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
 import { validateAddress as validateAddressFn } from "./validateAddress";
 import {
@@ -22,6 +23,7 @@ class AlgorandService extends BaseChainService implements TokenService {
   pubkeyToAddress = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
   getAccountState = getAccountStateFn;
+  getTransaction = getTransactionFn;
   prevalidateTransaction = prevalidateTransactionFn;
   completeTransaction = completeTransactionFn;
   validateTransaction = validateTransactionFn;

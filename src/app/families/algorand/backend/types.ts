@@ -1,3 +1,5 @@
+// TODO zod schemas to also validate response payloads
+
 type AlgoAsset = {
   assetId: string;
   name: string;
@@ -33,10 +35,37 @@ type AlgoTransactionBroadcastResponse = {
   message?: string;
 };
 
+type AlgoTransaction = {
+  id: string;
+  currentRound: bigint;
+  confirmedRound: number;
+  roundTime: number;
+  sender: string;
+  fee: bigint;
+  note?: string;
+} & (
+  | {
+      txType: "pay";
+      paymentTransaction: {
+        amount: bigint;
+        receiver: string;
+      };
+    }
+  | {
+      txType: "axfer";
+      assetTransferTransaction: {
+        amount: bigint;
+        assetId: number;
+        receiver: string;
+      };
+    }
+);
+
 export type {
+  AlgoAccount,
   AlgoAsset,
   AlgoAssetAmount,
-  AlgoAccount,
-  AlgoTransactionParams,
+  AlgoTransaction,
   AlgoTransactionBroadcastResponse,
+  AlgoTransactionParams,
 };

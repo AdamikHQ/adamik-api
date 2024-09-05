@@ -16,7 +16,7 @@ type CosmosChainParams = {
   minGasPrice: number;
 };
 
-// Cosmos-specific fields to provide with Cosmos chains transactions
+// Cosmos-specific fields to provide when creating Cosmos chains transactions
 type CosmosTransactionParams =
   | {
       // Public key of the sender address, necessary when it never made a transaction yet
@@ -35,5 +35,5 @@ type IBCToken = {
   decimals: number;
 };
 
-export type { CosmosChainParams, CosmosTransactionParams, IBCToken };
 export { cosmosTransactionParamsSchema };
+export type { CosmosChainParams, CosmosTransactionParams, IBCToken };

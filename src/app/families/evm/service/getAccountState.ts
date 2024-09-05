@@ -1,7 +1,7 @@
 import { AccountState, TokenAmount } from "~/app/model/types_WIP";
 import { EvmService } from ".";
-import { getERC20TokenAmounts } from "../backend/moralis";
-import { getBalance } from "../backend/node";
+import { fetchERC20TokenAmounts } from "../backend/moralis";
+import { fetchBalance } from "../backend/node";
 import { EvmAddress } from "../types";
 
 async function getAccountState(
@@ -17,7 +17,7 @@ async function getAccountState(
   const { accountId } = account;
 
   // Native
-  const nativeBalance = await getBalance(this.chainId, accountId);
+  const nativeBalance = await fetchBalance(this.chainId, accountId);
 
   // Tokens
 
@@ -26,7 +26,7 @@ async function getAccountState(
   //*
   // Moralis implementation
 
-  const tokenAmounts: TokenAmount[] = await getERC20TokenAmounts(this.chainId, accountId);
+  const tokenAmounts: TokenAmount[] = await fetchERC20TokenAmounts(this.chainId, accountId);
 
   /*/
   // Etherscan implementation
@@ -39,7 +39,7 @@ async function getAccountState(
 
   for (const { contractAddress } of eventPerContractAddress.values()) {
     tokenBalancePromises.push(
-      getERC20Balance({
+      fetchERC20Balance({
         chainId: this.chainId,
         contractAddress,
         senderAddress: address,

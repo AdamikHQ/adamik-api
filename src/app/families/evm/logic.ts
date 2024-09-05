@@ -12,8 +12,8 @@ import {
   estimateFeesForL2,
   estimateFeesPerGas,
   estimateGas,
-  getBalance,
-  getERC20Balance,
+  fetchBalance,
+  fetchERC20Balance,
 } from "./backend/node";
 import { EtherscanERC20Event } from "./backend/types";
 import { EvmAddress, EvmChainParams } from "./types";
@@ -90,11 +90,11 @@ async function getMaxSpendable(
   chainId: ChainId,
   transaction: TransactionData
 ): Promise<TransactionSpendableAmounts> {
-  const ethBalance = await getBalance(chainId, transaction.sender as EvmAddress);
+  const ethBalance = await fetchBalance(chainId, transaction.sender as EvmAddress);
 
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     try {
-      const erc20Balance = await getERC20Balance({
+      const erc20Balance = await fetchERC20Balance({
         chainId,
         contractAddress: transaction.tokenId as EvmAddress,
         senderAddress: transaction.sender as EvmAddress,
