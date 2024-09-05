@@ -1,18 +1,12 @@
 import coinSelect from "coinselect";
 import split from "coinselect/split.js";
 import { Transaction } from "~/app/model/types_WIP";
-import { BtcService } from ".";
+import { BitcoinService } from ".";
 import { fetchFeePerByte, fetchXpubDashboard } from "../backend/explorer";
 import { UtxoWithMetadata } from "../backend/types";
 import { BitcoinTransactionParams, Xpub } from "../types";
 
-async function completeTransaction(this: BtcService, transaction: Transaction): Promise<void> {
-  let selectionAlgorithm = coinSelect;
-
-  if (transaction.data.useMaxAmount) {
-    selectionAlgorithm = split;
-  }
-
+async function completeTransaction(this: BitcoinService, transaction: Transaction): Promise<void> {
   const feeRate = await fetchFeePerByte(this.chainId);
 
   // safe to cast here as we already validated sender in prevalidateTransaction
@@ -20,6 +14,7 @@ async function completeTransaction(this: BtcService, transaction: Transaction): 
     transaction.data.sender
   ].utxo;
 
+  const selectionAlgorithm = transaction.data.useMaxAmount ? split : coinSelect;
   const { inputs, outputs, fee } = selectionAlgorithm(
     allUtxos,
     [

@@ -1,14 +1,15 @@
 import { createDocument, oas31 } from "zod-openapi";
 
-import { apiOpenAPIPath } from "~/app/api/schema";
+import { accountStateOpenAPIPath } from "~/app/api/account/state/schema";
 import { addressEncodeOpenAPIPath } from "~/app/api/address/encode/schema";
 import { addressValidateOpenAPIPath } from "~/app/api/address/validate/schema";
 import { addressesStateOpenAPIPath } from "~/app/api/addresses/state/schema";
-import { accountStateOpenAPIPath } from "~/app/api/account/state/schema";
 import { chainsChainIdOpenAPIPath } from "~/app/api/chains/[chainId]/schema";
 import { chainsChainIdTokenTokenIdOpenAPIPath } from "~/app/api/chains/[chainId]/token/[tokenId]/schema";
+import { chainsChainIdTransactionTransactionIdOpenAPIPath } from "~/app/api/chains/[chainId]/transaction/[transactionId]/schema";
 import { chainsChainIdValidatorsOpenAPIPath } from "~/app/api/chains/[chainId]/validators/schema";
 import { chainsOpenAPIPath } from "~/app/api/chains/schema";
+import { apiOpenAPIPath } from "~/app/api/schema";
 import { transactionBroadcastOpenAPIPath } from "~/app/api/transaction/broadcast/schema";
 import { transactionEncodeOpenAPIPath } from "~/app/api/transaction/encode/schema";
 import { transactionValidateOpenAPIPath } from "~/app/api/transaction/validate/schema";
@@ -55,6 +56,7 @@ function generateOpenAPISpec(): oas31.OpenAPIObject {
       ...chainsOpenAPIPath,
       ...chainsChainIdOpenAPIPath,
       ...chainsChainIdTokenTokenIdOpenAPIPath,
+      ...chainsChainIdTransactionTransactionIdOpenAPIPath,
       ...chainsChainIdValidatorsOpenAPIPath,
       ...transactionBroadcastOpenAPIPath,
       ...transactionEncodeOpenAPIPath,

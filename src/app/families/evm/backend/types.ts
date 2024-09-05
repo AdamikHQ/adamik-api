@@ -22,6 +22,36 @@ type EtherscanERC20Event = {
   // confirmations: string;
 };
 
+// NOTE Unused at the moment
+/*
+type MoralisDecodedTransaction = {
+  hash: string;
+  nonce: bigint;
+  from_address: string;
+  to_address: string;
+  value: string;
+  transaction_fee: string;
+  gas: string;
+  gas_price: string;
+  input: string;
+  receipt_gas_used: string;
+  receipt_contract_address: string;
+  block_timestamp: string;
+  block_number: string;
+  decoded_call: {
+    type: string;
+    label: string;
+    signature: string;
+    params: {
+      name: string;
+      type: string;
+      value: string;
+      params: [];
+    }[];
+  };
+};
+*/
+
 type MoralisERC20Token = {
   address: EvmAddress;
   //address_label: null,

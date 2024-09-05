@@ -1,32 +1,40 @@
 import { Chain, ChainFamily, ChainFeature, ChainId, TransactionMode } from "../model/types_WIP";
 
-// Very basic level of features to be considered as supported in Adamik
-const MINIMUM_FEATURES: ChainFeature[] = [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE];
-
 const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
   [ChainFamily.ALGORAND]: [
-    ChainFeature.BALANCES_NATIVE,
-    ChainFeature.BALANCES_TOKENS,
-    ChainFeature.TRANSACTIONS_NATIVE,
-    ChainFeature.TRANSACTIONS_TOKENS,
-    ChainFeature.MEMO,
+    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
+    ChainFeature.READ_TRANSACTION_NATIVE,
+    ChainFeature.READ_TRANSACTION_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
   ],
   [ChainFamily.COSMOS]: [
-    ChainFeature.BALANCES_NATIVE,
-    ChainFeature.BALANCES_TOKENS,
-    ChainFeature.BALANCES_STAKING,
-    ChainFeature.TRANSACTIONS_NATIVE,
-    //ChainFeature.TRANSACTIONS_TOKENS,
-    ChainFeature.TRANSACTIONS_STAKING,
-    ChainFeature.MEMO,
+    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
+    ChainFeature.READ_ACCOUNT_BALANCES_STAKING,
+    ChainFeature.READ_TRANSACTION_NATIVE,
+    //ChainFeature.READ_TRANSACTION_TOKENS,
+    ChainFeature.READ_TRANSACTION_STAKING,
+    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    //ChainFeature.WRITE_TRANSACTION_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_TYPE_STAKING,
+    ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
   ],
   [ChainFamily.EVM]: [
-    ChainFeature.BALANCES_NATIVE,
-    ChainFeature.BALANCES_TOKENS,
-    ChainFeature.TRANSACTIONS_NATIVE,
-    ChainFeature.TRANSACTIONS_TOKENS,
+    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
+    ChainFeature.READ_TRANSACTION_NATIVE,
+    ChainFeature.READ_TRANSACTION_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
   ],
-  [ChainFamily.BITCOIN]: [ChainFeature.BALANCES_NATIVE, ChainFeature.TRANSACTIONS_NATIVE],
+  [ChainFamily.BITCOIN]: [
+    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+    ChainFeature.READ_TRANSACTION_NATIVE,
+    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+  ],
 };
 
 const CHAINS: { [key in ChainId]: Chain } = {
@@ -639,7 +647,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: MINIMUM_FEATURES,
+    supportedFeatures: [
+      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ],
   },
 } as const;
 
@@ -656,11 +667,11 @@ const CHAINS_PUBLIC = Object.fromEntries(
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
   return CHAINS[chainId].supportedFeatures.flatMap((feature) => {
     switch (feature) {
-      case ChainFeature.TRANSACTIONS_NATIVE:
+      case ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE:
         return [TransactionMode.TRANSFER];
-      case ChainFeature.TRANSACTIONS_TOKENS:
+      case ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS:
         return [TransactionMode.TRANSFER_TOKEN];
-      case ChainFeature.TRANSACTIONS_STAKING:
+      case ChainFeature.WRITE_TRANSACTION_TYPE_STAKING:
         return [
           TransactionMode.DELEGATE,
           TransactionMode.REDELEGATE,

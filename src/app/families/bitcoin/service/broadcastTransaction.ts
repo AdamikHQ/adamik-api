@@ -1,8 +1,11 @@
 import { BroadcastStatus } from "~/app/model/types_WIP";
-import { BtcService } from ".";
+import { BitcoinService } from ".";
 import { postTransaction } from "../backend/explorer";
 
-async function broadcastTransaction(this: BtcService, signedTransaction: string): Promise<BroadcastStatus> {
+async function broadcastTransaction(
+  this: BitcoinService,
+  signedTransaction: string
+): Promise<BroadcastStatus> {
   try {
     return {
       hash: await postTransaction(this.chainId, signedTransaction),

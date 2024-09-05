@@ -1,25 +1,26 @@
 import TTLCache from "@isaacs/ttlcache";
 import { CHAINS } from "~/app/config/chains";
+import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
+import {
+  ChainId,
+  Pagination,
+  StakingPosition,
+  StakingReward,
+  StakingStatus,
+  TokenStakingReward,
+  TokenType,
+} from "~/app/model/types_WIP";
+import { CosmosChainParams, IBCToken } from "../types";
 import {
   CosmosAccount,
   CosmosBalance,
   CosmosDelegation,
   CosmosRedelegation,
   CosmosRewards,
+  CosmosTransaction,
   CosmosUnbondingDelegation,
   CosmosValidator,
 } from "./types";
-import {
-  ChainId,
-  Pagination,
-  StakingPosition,
-  StakingReward,
-  TokenStakingReward,
-  StakingStatus,
-  TokenType,
-} from "~/app/model/types_WIP";
-import { CosmosChainParams, IBCToken } from "../types";
-import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 
 const VALIDATORS_CACHE = new TTLCache<string, CosmosValidator[]>({
   max: 1, // Only need one item
@@ -49,6 +50,18 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
   } while (response?.pagination?.next_key);
 
   return data;
+}
+
+async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<CosmosTransaction | null> {
+  const url = `${getRootUrl(chainId)}/cosmos/tx/v1beta1/txs/${transactionId}`;
+
+  const response = await fetch(url).then((response) => response.json());
+
+  if ("message" in response) {
+    return null;
+  }
+
+  return response.tx_response;
 }
 
 async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosBalance[]> {
@@ -310,13 +323,14 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
 }
 
 export {
-  fetchBalances,
-  fetchAccount,
-  fetchDelegations,
-  fetchUnbondingDelegations,
-  fetchRewards,
-  fetchNetworkId,
-  simulateTransaction,
   broadcastTransaction,
+  fetchAccount,
+  fetchBalances,
+  fetchDelegations,
+  fetchNetworkId,
+  fetchRewards,
+  fetchTransaction,
+  fetchUnbondingDelegations,
   getValidatorsCached,
+  simulateTransaction,
 };

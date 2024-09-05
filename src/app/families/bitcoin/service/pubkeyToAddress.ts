@@ -1,6 +1,6 @@
-import { BtcService } from ".";
+import { BitcoinService } from ".";
 
-async function pubkeyToAddress(this: BtcService, pubkey: string): Promise<string> {
+async function pubkeyToAddress(this: BitcoinService, pubkey: string): Promise<string> {
   throw new Error("Not implemented");
 }
 
