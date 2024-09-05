@@ -454,7 +454,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     id: ChainId.POLYGON,
     nativeId: "137",
     name: "Polygon",
-    ticker: "MATIC",
+    ticker: "POL",
     decimals: 18,
     backends: {
       nodeURL: "https://site1.moralis-nodes.com/polygon/70eb3a5858dc4f0d8ca0e1a1cf8d375f",
