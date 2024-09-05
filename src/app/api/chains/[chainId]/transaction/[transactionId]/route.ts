@@ -3,7 +3,7 @@ import { z } from "zod";
 import { getService } from "~/app/families/services";
 import { ApiRequestFilters } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import "~/patch";
+import "~/bigintPatch";
 import { requestSchema } from "./schema";
 
 type Params = z.infer<typeof requestSchema>;

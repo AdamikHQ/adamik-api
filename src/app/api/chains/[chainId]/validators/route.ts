@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { isStakingService } from "~/app/model/service";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import "~/patch";
+import "~/bigintPatch";
 import { requestSchema } from "./schema";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
