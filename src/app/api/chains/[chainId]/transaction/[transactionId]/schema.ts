@@ -36,7 +36,12 @@ const responseSchema = z.object({
       tokenId: z.string().optional(),
       status: z.nativeEnum(TransactionState),
       blockHeight: z.string(),
-      timestamp: z.string(),
+      timestamp: z
+        .string()
+        .openapi({
+          description: "Timestamp in milliseconds",
+        })
+        .optional(),
       sender: z.string(),
       recipients: z
         .object({

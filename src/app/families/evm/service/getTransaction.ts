@@ -27,7 +27,6 @@ async function getTransaction(this: EvmService, transactionId: string): Promise<
     // Placeholder values, actual values filled below
     mode: TransactionMode.TRANSFER,
     state: TransactionState.UNKNOWN,
-    recipients: [],
   };
 
   if (evmTransaction.input && evmTransaction.input !== "0x") {
