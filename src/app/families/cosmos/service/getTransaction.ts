@@ -22,11 +22,11 @@ async function getTransaction(
     chainId: this.chainId,
     id: cosmosTransaction.txhash,
     fees: BigInt(feesAmount || 0n),
+    gas: BigInt(cosmosTransaction.gas_used),
     // Placeholder values, actual values filled below
     mode: TransactionMode.TRANSFER,
     state: TransactionState.UNCONFIRMED,
     senders: [],
-    recipients: [],
   };
 
   if (cosmosTransaction.height !== "") {
@@ -35,11 +35,14 @@ async function getTransaction(
       (parsedTransaction.blockHeight = BigInt(cosmosTransaction.height));
   }
 
+  const signerInfos = cosmosTransaction.tx.auth_info.signer_infos;
+  if (signerInfos.length && signerInfos[0].sequence !== undefined) {
+    parsedTransaction.nonce = BigInt(signerInfos[0].sequence);
+  }
+
   // TODO We handle only the 1st message at the moment, which covers most (all?) cases,
   // but maybe need to figure out what to do if there are more than 1
   const message = cosmosTransaction.tx.body.messages[0];
-
-  const amount = BigInt(message.amount?.find((a: any) => a.denom === chainParams.denom)?.amount || 0n);
 
   switch (message["@type"]) {
     case "/cosmos.bank.v1beta1.MsgSend":
@@ -54,7 +57,9 @@ async function getTransaction(
       parsedTransaction.recipients = [
         {
           address: message.to_address,
-          amount,
+          amount: BigInt(
+            message.amount?.amount.find((a: any) => a.denom === chainParams.denom)?.amount || 0n
+          ),
         },
       ];
 
@@ -72,7 +77,7 @@ async function getTransaction(
       parsedTransaction.validators = {
         target: {
           address: message.validator_address,
-          amount,
+          amount: BigInt(message.amount.amount || 0n),
         },
       };
 
@@ -93,7 +98,7 @@ async function getTransaction(
         },
         target: {
           address: message.validator_dst_address,
-          amount,
+          amount: BigInt(message.amount.amount || 0n),
         },
       };
 
@@ -111,13 +116,25 @@ async function getTransaction(
       parsedTransaction.validators = {
         target: {
           address: message.validator_address,
-          amount,
+          amount: BigInt(message.amount.amount || 0n),
         },
       };
 
       break;
 
     case "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward":
+      // Multiple reward amounts will be crammed in the 'value' string, e.g:
+      // "value": "104ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8,5ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3,...,84047uatom"
+      const amounts = cosmosTransaction.events
+        .find((event) => event.type === "withdraw_rewards")
+        ?.attributes.find((attr) => attr.key === "amount")?.value;
+
+      // So we parse it to only get native rewards at the moment, IBC rewards are not supported for now
+      const amount = amounts
+        ?.split(",")
+        .find((amount) => amount.includes(chainParams.denom)) // --> "84047uatom" (keep only the native amount)
+        ?.slice(0, chainParams.denom.length); // -->"84047" (keep only its value)
+
       parsedTransaction.mode = TransactionMode.CLAIM_REWARDS;
 
       parsedTransaction.senders = [
@@ -129,7 +146,7 @@ async function getTransaction(
       parsedTransaction.validators = {
         target: {
           address: message.validator_address,
-          amount,
+          amount: BigInt(amount || 0n),
         },
       };
 

@@ -19,12 +19,11 @@ async function getTransaction(
     // Placeholder values, actual values filled below
     state: TransactionState.UNCONFIRMED,
     mode: TransactionMode.TRANSFER,
-    recipients: [],
   };
 
   if ("confirmedRound" in algoTransaction) {
     parsedTransaction.state = TransactionState.CONFIRMED;
-    parsedTransaction.timestamp = algoTransaction.roundTime;
+    parsedTransaction.timestamp = algoTransaction.roundTime * 1000;
     parsedTransaction.blockHeight = BigInt(algoTransaction.confirmedRound);
   }
 

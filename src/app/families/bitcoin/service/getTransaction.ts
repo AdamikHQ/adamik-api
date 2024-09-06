@@ -43,7 +43,7 @@ async function getTransaction(
 
   if (transactionData.outputs.length) {
     for (const output of transactionData.outputs)
-      parsedTransaction.recipients.push({
+      parsedTransaction.recipients?.push({
         address: output.recipient,
         amount: output.value,
       });

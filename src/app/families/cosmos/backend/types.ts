@@ -92,6 +92,14 @@ type CosmosTransaction = {
       };
     };
   };
+  events: {
+    type: string;
+    attributes: {
+      key: string;
+      value: string;
+      index: boolean;
+    }[];
+  }[];
 };
 
 type CosmosAccount = {

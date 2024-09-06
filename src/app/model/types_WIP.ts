@@ -209,7 +209,7 @@ type FinalizedTransaction = {
     senders: {
       address: string;
     }[];
-    recipients: {
+    recipients?: {
       address: string;
       amount: bigint;
     }[];
