@@ -26,7 +26,11 @@ const bigintSchema = z
   .or(z.string())
   .or(z.bigint())
   .refine(
-    (value) => !isNaN(Number(value)) && String(value) === String(BigInt(value)) && BigInt(value) >= 0n,
+    (value) =>
+      !isNaN(Number(value)) &&
+      Number.isInteger(value) &&
+      String(value) === String(BigInt(value)) &&
+      BigInt(value) >= 0n,
     (value) => ({
       message: `value "${value}" must be a positive integer`,
     })
