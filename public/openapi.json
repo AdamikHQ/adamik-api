@@ -5078,13 +5078,15 @@
                   "type": "string",
                   "enum": [
                     "parsed"
-                  ]
+                  ],
+                  "description": "Include parsed fields in the standard Adamik format. Note that all transactions types may not be available for this option."
                 },
                 {
                   "type": "string",
                   "enum": [
                     "raw"
-                  ]
+                  ],
+                  "description": "Include the raw transaction as provided in native format by the blockchain."
                 }
               ]
             }
@@ -5165,7 +5167,8 @@
                           "type": "string"
                         },
                         "timestamp": {
-                          "type": "string"
+                          "type": "string",
+                          "description": "Timestamp in milliseconds"
                         },
                         "sender": {
                           "type": "string"
@@ -5206,7 +5209,6 @@
                         "id",
                         "status",
                         "blockHeight",
-                        "timestamp",
                         "sender",
                         "recipients",
                         "fees"
