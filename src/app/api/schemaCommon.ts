@@ -28,7 +28,7 @@ const bigintSchema = z
   .refine(
     (value) =>
       !isNaN(Number(value)) &&
-      Number.isInteger(value) &&
+      Number.isInteger(Number(value)) &&
       String(value) === String(BigInt(value)) &&
       BigInt(value) >= 0n,
     (value) => ({
