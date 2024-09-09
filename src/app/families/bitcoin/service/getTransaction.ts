@@ -29,7 +29,7 @@ async function getTransaction(
     recipients: [],
   };
 
-  if (transactionData.transaction.block_id !== undefined) {
+  if (transactionData.transaction.block_id !== undefined && transactionData.transaction.block_id !== -1) {
     parsedTransaction.state = TransactionState.CONFIRMED;
     parsedTransaction.timestamp = new Date(transactionData.transaction.time).getTime();
     parsedTransaction.blockHeight = BigInt(transactionData.transaction.block_id);
