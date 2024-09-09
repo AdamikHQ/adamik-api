@@ -7,6 +7,7 @@ import {
 } from "./encodeTransaction";
 import { getAccountState as getAccountStateFn } from "./getAccountState";
 import { getTokenInfo as getTokenInfoFn } from "./getTokenInfo";
+import { getTransaction as getTransactionFn } from "./getTransaction";
 import { getValidators as getValidatorsFn } from "./getValidators";
 import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
 import { validateAddress as validateAddressFn } from "./validateAddress";
@@ -22,6 +23,7 @@ class CosmosService extends BaseChainService implements TokenService, StakingSer
   pubkeyToAddress = pubkeyToAddressFn;
   validateAddress = validateAddressFn;
   getAccountState = getAccountStateFn;
+  getTransaction = getTransactionFn;
   getTokenInfo = getTokenInfoFn;
   getValidators = getValidatorsFn;
   prevalidateTransaction = prevalidateTransactionFn;

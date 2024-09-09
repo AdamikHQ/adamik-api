@@ -14,5 +14,5 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 }
 
 module.exports = apiHandler({
-  POST
+  POST,
 });

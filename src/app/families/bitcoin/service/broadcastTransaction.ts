@@ -1,6 +1,6 @@
 import { Psbt } from "bitcoinjs-lib";
 import { BroadcastStatus } from "~/app/model/types_WIP";
-import { BtcService } from ".";
+import { BitcoinService } from ".";
 import { postTransaction } from "../backend/explorer";
 
 /**
@@ -8,7 +8,10 @@ import { postTransaction } from "../backend/explorer";
  *
  * TODO: make it explicit that it's a PSBT or raw hex?
  */
-async function broadcastTransaction(this: BtcService, signedTransaction: string): Promise<BroadcastStatus> {
+async function broadcastTransaction(
+  this: BitcoinService,
+  signedTransaction: string
+): Promise<BroadcastStatus> {
   let transactionToBroadcast;
 
   // 70736274ff means that it's a raw PSBT instead of raw hex transaction: https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki#specification

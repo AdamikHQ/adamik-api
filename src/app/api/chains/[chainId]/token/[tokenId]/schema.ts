@@ -8,7 +8,7 @@ const requestSchema = z.object({
   chainId: chainIdSchema,
   tokenId: z.string().openapi({
     description: "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
-    example: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    examples: ["0xdAC17F958D2ee523a2206206994597C13D831ec7"],
   }),
 });
 
@@ -37,4 +37,4 @@ const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, chainsChainIdTokenTokenIdOpenAPIPath };
+export { chainsChainIdTokenTokenIdOpenAPIPath, requestSchema, responseSchema };

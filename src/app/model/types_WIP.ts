@@ -54,16 +54,28 @@ enum ChainFamily {
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
 
 enum ChainFeature {
-  BALANCES_NATIVE = "balances.native",
-  BALANCES_TOKENS = "balances.tokens",
-  //BALANCES_NFT = "balances.nft",
-  BALANCES_STAKING = "balances.staking",
-  TRANSACTIONS_NATIVE = "transactions.native",
-  TRANSACTIONS_TOKENS = "transactions.tokens",
-  //TRANSACTIONS_NFT = "transactions.nft",
-  TRANSACTIONS_STAKING = "transactions.staking",
-  MEMO = "memo",
+  READ_ACCOUNT_BALANCES_NATIVE = "read.account.balances.native",
+  READ_ACCOUNT_BALANCES_TOKENS = "read.account.balances.tokens",
+  //READ_ACCOUNT_BALANCES_NFT = "read.account.balances.nft",
+  READ_ACCOUNT_BALANCES_STAKING = "read.account.balances.staking",
+
+  //READ_ACCOUNT_TRANSACTIONS_NATIVE = "read.account.transactions.native",
+  //READ_ACCOUNT_TRANSACTIONS_TOKENS = "read.account.transactions.tokens",
+  //READ_ACCOUNT_TRANSACTIONS_STAKING = "read.account.transactions.staking",
+
+  READ_TRANSACTION_NATIVE = "read.transaction.native",
+  READ_TRANSACTION_TOKENS = "read.transaction.tokens",
+  READ_TRANSACTION_STAKING = "read.transaction.staking",
+
+  WRITE_TRANSACTION_TYPE_NATIVE = "write.transaction.type.native",
+  WRITE_TRANSACTION_TYPE_TOKENS = "write.transaction.type.tokens",
+  WRITE_TRANSACTION_TYPE_STAKING = "write.transaction.type.staking",
+
+  WRITE_TRANSACTION_FIELD_MEMO = "write.transaction.field.memo",
 }
+
+// Define filters as flags: anything put in the object is true to flag that the filter is "ON"
+type ApiRequestFilters = Record<string, true>;
 
 type Backends = {
   nodeURL: string;
@@ -80,7 +92,7 @@ type Chain = {
   backends: Backends;
   isTestNet?: boolean;
   params?: ChainParams;
-  supportedFeatures: ChainFeature[];
+  supportedFeatures: readonly ChainFeature[];
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
@@ -176,6 +188,48 @@ enum TransactionMode {
   UNDELEGATE = "undelegate",
   CLAIM_REWARDS = "claimRewards",
 }
+
+enum TransactionState {
+  PENDING = "pending", // In mempool or equivalent
+  UNCONFIRMED = "unconfirmed", // In at least 1 block, but not enough for confirmation
+  CONFIRMED = "confirmed", // In enough blocks to be considered confirmed
+  FAILED = "failed", // Some chains keep record of failed transactions
+  UNKNOWN = "unknown",
+}
+
+type FinalizedTransaction = {
+  parsed?: {
+    chainId: ChainId;
+    id: string;
+    mode: TransactionMode;
+    tokenId?: string;
+    state: TransactionState;
+    blockHeight?: bigint;
+    timestamp?: number;
+    senders: {
+      address: string;
+    }[];
+    recipients?: {
+      address: string;
+      amount: bigint;
+    }[];
+    validators?: {
+      source?: {
+        address: string;
+      };
+      target?: {
+        address: string;
+        amount: bigint;
+      };
+    };
+    fees: bigint;
+    gas?: bigint;
+    nonce?: bigint;
+    memo?: string;
+  };
+  raw: unknown; // The raw transaction as returned from the node (or explorer when necessary)
+  //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
+};
 
 type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams;
 
@@ -290,15 +344,18 @@ export {
   StakingStatus,
   TokenType,
   TransactionMode,
+  TransactionState,
 };
 
 export type {
   AccountState,
   AddressesAggregatedState,
+  ApiRequestFilters,
   BroadcastStatus,
   Chain,
   ChainParams,
   ErrorMsg,
+  FinalizedTransaction,
   Pagination,
   StakingPosition,
   StakingReward,

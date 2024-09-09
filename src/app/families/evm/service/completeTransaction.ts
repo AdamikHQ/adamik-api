@@ -1,13 +1,13 @@
 import { BaseError as ViemError } from "viem";
 import { ChainId, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { EvmService } from ".";
-import { getNonce } from "../backend/node";
+import { fetchNonce } from "../backend/node";
 import { getTransactionAmount, getTransactionFees, getTransactionGas } from "../logic";
 import { EvmAddress } from "../types";
 
 async function completeTransaction(this: EvmService, transaction: Transaction): Promise<void> {
   try {
-    const nonce = await getNonce(this.chainId, transaction.data.sender as EvmAddress);
+    const nonce = await fetchNonce(this.chainId, transaction.data.sender as EvmAddress);
     transaction.data.nonce = BigInt(nonce);
 
     switch (transaction.data.mode) {

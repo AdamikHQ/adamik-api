@@ -1,8 +1,8 @@
 import { Transaction } from "~/app/model/types_WIP";
-import { BtcService } from ".";
+import { BitcoinService } from ".";
 import { isValidAddress, isValidXpub } from "../logic";
 
-async function prevalidateTransaction(this: BtcService, transaction: Transaction): Promise<void> {
+async function prevalidateTransaction(this: BitcoinService, transaction: Transaction): Promise<void> {
   if (
     !isValidXpub(this.chainId, transaction.data.sender) &&
     !isValidAddress(this.chainId, transaction.data.sender)
@@ -18,7 +18,7 @@ async function prevalidateTransaction(this: BtcService, transaction: Transaction
   }
 }
 
-async function validateTransaction(this: BtcService, transaction: Transaction): Promise<void> {
+async function validateTransaction(this: BitcoinService, transaction: Transaction): Promise<void> {
   // TODO: call testmempoolaccept on BTC-core node
   return;
 }

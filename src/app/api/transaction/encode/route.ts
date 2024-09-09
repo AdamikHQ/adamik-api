@@ -1,10 +1,10 @@
-import "~/patch";
 import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { stringToBigint } from "~/app/model/serialization";
-import { requestSchema } from "./schema";
-import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { Transaction, TransactionData } from "~/app/model/types_WIP";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import "~/bigintPatch";
+import { requestSchema } from "./schema";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await requestSchema.parseAsync(await request.json());
