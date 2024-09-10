@@ -1,6 +1,8 @@
+import { CHAINS } from "~/app/config/chains";
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { BitcoinService } from ".";
 import { fetchTransaction } from "../backend/explorer";
+import { BitcoinChainParams } from "../types";
 
 async function getTransaction(
   this: BitcoinService,
@@ -29,8 +31,12 @@ async function getTransaction(
     recipients: [],
   };
 
-  if (transactionData.transaction.block_id !== undefined && transactionData.transaction.block_id !== -1) {
-    parsedTransaction.state = TransactionState.CONFIRMED;
+  const blockHeight = transactionData.transaction.block_id;
+  if (blockHeight !== undefined && blockHeight !== -1) {
+    parsedTransaction.state =
+      blockHeight > (CHAINS[this.chainId].params as BitcoinChainParams)
+        ? TransactionState.CONFIRMED
+        : TransactionState.UNCONFIRMED;
     parsedTransaction.timestamp = new Date(transactionData.transaction.time).getTime();
     parsedTransaction.blockHeight = BigInt(transactionData.transaction.block_id);
   }

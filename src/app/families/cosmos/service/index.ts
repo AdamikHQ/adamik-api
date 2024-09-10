@@ -20,18 +20,19 @@ import {
 // (buildTransaction, network calls, etc...)
 
 class CosmosService extends BaseChainService implements TokenService, StakingService {
-  pubkeyToAddress = pubkeyToAddressFn;
-  validateAddress = validateAddressFn;
-  getAccountState = getAccountStateFn;
-  getTransaction = getTransactionFn;
+  override pubkeyToAddress = pubkeyToAddressFn;
+  override validateAddress = validateAddressFn;
+  override getAccountState = getAccountStateFn;
+  override getTransaction = getTransactionFn;
+  override prevalidateTransaction = prevalidateTransactionFn;
+  override completeTransaction = completeTransactionFn;
+  override validateTransaction = validateTransactionFn;
+  override encodeTransactionToSign = encodeTransactionToSignFn;
+  override encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
+  override broadcastTransaction = broadcastTransactionFn;
+
   getTokenInfo = getTokenInfoFn;
   getValidators = getValidatorsFn;
-  prevalidateTransaction = prevalidateTransactionFn;
-  completeTransaction = completeTransactionFn;
-  validateTransaction = validateTransactionFn;
-  encodeTransactionToSign = encodeTransactionToSignFn;
-  encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
-  broadcastTransaction = broadcastTransactionFn;
 }
 
 export { CosmosService };

@@ -7,13 +7,11 @@ import { BitcoinChainParams, Xpub } from "../types";
 
 async function getAccountState(
   this: BitcoinService,
-  account: { addresses: string[] } | { accountId: string }
+  accountId: string
 ): Promise<AccountState | AddressesAggregatedState> {
-  return "addresses" in account
-    ? getAddressesState(this.chainId, account.addresses)
-    : isValidXpub(this.chainId, account.accountId)
-    ? getXpubState(this.chainId, account.accountId)
-    : getAddressesState(this.chainId, [account.accountId]);
+  return isValidXpub(this.chainId, accountId)
+    ? getXpubState(this.chainId, accountId)
+    : getAddressesState(this.chainId, [accountId]);
 }
 
 async function getAddressesState(chainId: ChainId, addresses: string[]): Promise<AddressesAggregatedState> {

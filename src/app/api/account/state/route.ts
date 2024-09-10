@@ -19,9 +19,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const state = await service.getAccountState({
-      accountId,
-    });
+    const state = await service.getAccountState(accountId);
 
     return NextResponse.json(state);
   } catch (e: any) {
