@@ -15,18 +15,18 @@ import {
 } from "./validateTransaction";
 
 class BitcoinService extends BaseChainService {
-  prevalidateTransaction = prevalidateTransactionFn;
+  override prevalidateTransaction = prevalidateTransactionFn;
   // FIXME: does this method makes any sense for BTC?
-  pubkeyToAddress = pubkeyToAddressFn;
-  validateAddress = validateAddressFn;
-  getAccountState = getAccountStateFn;
-  getTransaction = getTransactionFn;
+  override pubkeyToAddress = pubkeyToAddressFn;
+  override validateAddress = validateAddressFn;
+  override getAccountState = getAccountStateFn;
+  override getTransaction = getTransactionFn;
   //getAddressHistory = getAddressHistoryFn;
-  completeTransaction = completeTransactionFn;
-  validateTransaction = validateTransactionFn;
-  encodeTransactionToSign = encodeTransactionToSignFn;
-  encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
-  broadcastTransaction = broadcastTransactionFn;
+  override completeTransaction = completeTransactionFn;
+  override validateTransaction = validateTransactionFn;
+  override encodeTransactionToSign = encodeTransactionToSignFn;
+  override encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
+  override broadcastTransaction = broadcastTransactionFn;
 }
 
 export { BitcoinService };

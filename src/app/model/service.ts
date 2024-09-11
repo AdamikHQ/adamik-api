@@ -1,6 +1,5 @@
 import {
   AccountState,
-  AddressesAggregatedState,
   BroadcastStatus,
   ChainId,
   FinalizedTransaction,
@@ -29,10 +28,8 @@ abstract class BaseChainService {
 
   // Data
   abstract getTransaction(transactionId: string): Promise<FinalizedTransaction | null>;
-  abstract getAccountState(
-    account: { accountId: string } | { addresses: string[] }
-  ): Promise<AccountState | AddressesAggregatedState>;
-
+  abstract getAccountState(accountId: string): Promise<AccountState>;
+  //abstract getAddressesState(addresses: string[]): Promise<AccountState[]>;
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
   // Crafting
