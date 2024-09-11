@@ -652,6 +652,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
       ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
     ],
   },
+  chiliz: {
+    family: ChainFamily.EVM,
+    id: ChainId.CHILIZ,
+    nativeId: "88888",
+    name: "Chiliz ",
+    ticker: "CHZ",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://chiliz-rpc.publicnode.com",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
 } as const;
 
 // FIXME Trick to filter-out private 'backends' field from response

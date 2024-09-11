@@ -7,6 +7,7 @@ import {
   baseSepolia,
   bsc,
   bscTestnet,
+  chiliz,
   fantom,
   gnosis,
   gnosisChiado,
@@ -94,6 +95,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: palm, transport };
     case ChainId.MANTLE:
       return { chain: mantle, transport };
+    case ChainId.CHILIZ:
+      return { chain: chiliz, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }
