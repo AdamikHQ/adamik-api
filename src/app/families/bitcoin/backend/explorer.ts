@@ -17,6 +17,25 @@ const queryParams = new URLSearchParams({
 
 // FIXME: add correct fetch parsing + validation + error handling
 
+async function fetchStats(chainId: ChainId) {
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const url = `/${chainId}/stats`;
+
+  const response = await fetch(explorerURL + url);
+
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} node endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new Error("Error while fetching transaction metadata from the explorer");
+  }
+
+  const result = await response.json();
+
+  return result.data;
+}
+
 async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<BlockchairXpubResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
 
@@ -150,17 +169,17 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
     throw new Error("Error while fetching fee per byte data from the explorer");
   }
 
-  const responseBody = await response.json();
+  const result = await response.json();
 
-  if (responseBody.context.code !== 200) {
+  if (result.context.code !== 200) {
     console.warn(
       `/!\\ Error in data received from ${chainId} node endpoint ${url.toString()}:`,
-      JSON.stringify(responseBody)
+      JSON.stringify(result)
     );
     throw new Error("Error in fee per byte data received from the explorer");
   }
 
-  return responseBody.data.suggested_transaction_fee_per_byte_sat;
+  return result.data.suggested_transaction_fee_per_byte_sat;
 }
 
 async function fetchTransaction(chainId: ChainId, txHash: string): Promise<BlockchairTransactionResponse> {
@@ -232,17 +251,17 @@ async function fetchTransactionMetadata(
     throw new Error("Error while fetching transaction metadata from the explorer");
   }
 
-  const responseBody = await response.json();
+  const result = await response.json();
 
-  if (responseBody.context.code !== 200) {
+  if (result.context.code !== 200) {
     console.warn(
       `/!\\ Error in data received from ${chainId} node endpoint ${url.toString()}:`,
-      JSON.stringify(responseBody)
+      JSON.stringify(result)
     );
     throw new Error("Error in transaction metadata received from the explorer");
   }
 
-  return responseBody.data;
+  return result.data;
 }
 
 async function fetchRawTransactionMetadata(
@@ -268,23 +287,24 @@ async function fetchRawTransactionMetadata(
     throw new Error("Error while fetching raw transaction metadata from the explorer");
   }
 
-  const responseBody = await response.json();
+  const result = await response.json();
 
-  if (responseBody.context.code !== 200) {
+  if (result.context.code !== 200) {
     console.warn(
       `/!\\ Error in data received from ${chainId} node endpoint ${url.toString()}:`,
-      JSON.stringify(responseBody)
+      JSON.stringify(result)
     );
     throw new Error("Error in raw transaction metadata received from the explorer");
   }
 
-  return responseBody.data;
+  return result.data;
 }
 
 export {
   fetchAddressesDashboard,
   fetchFeePerByte,
   fetchRawTransactionMetadata,
+  fetchStats,
   fetchTransaction,
   fetchTransactionMetadata,
   fetchXpubDashboard,

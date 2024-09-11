@@ -3,7 +3,6 @@ import { createDocument, oas31 } from "zod-openapi";
 import { accountStateOpenAPIPath } from "~/app/api/account/state/schema";
 import { addressEncodeOpenAPIPath } from "~/app/api/address/encode/schema";
 import { addressValidateOpenAPIPath } from "~/app/api/address/validate/schema";
-import { addressesStateOpenAPIPath } from "~/app/api/addresses/state/schema";
 import { chainsChainIdOpenAPIPath } from "~/app/api/chains/[chainId]/schema";
 import { chainsChainIdTokenTokenIdOpenAPIPath } from "~/app/api/chains/[chainId]/token/[tokenId]/schema";
 import { chainsChainIdTransactionTransactionIdOpenAPIPath } from "~/app/api/chains/[chainId]/transaction/[transactionId]/schema";
@@ -51,7 +50,6 @@ function generateOpenAPISpec(): oas31.OpenAPIObject {
       ...apiOpenAPIPath,
       ...addressEncodeOpenAPIPath,
       ...addressValidateOpenAPIPath,
-      ...addressesStateOpenAPIPath,
       ...accountStateOpenAPIPath,
       ...chainsOpenAPIPath,
       ...chainsChainIdOpenAPIPath,

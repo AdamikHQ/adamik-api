@@ -1,23 +1,12 @@
-import { AccountState, StakingPosition, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { CHAINS } from "~/app/config/chains";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
-import { CosmosBalance } from "../backend/types";
-import { fetchBalances, fetchDelegations, fetchRewards, fetchUnbondingDelegations } from "../backend/node";
+import { AccountState, StakingPosition, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { CosmosService } from ".";
+import { fetchBalances, fetchDelegations, fetchRewards, fetchUnbondingDelegations } from "../backend/node";
+import { CosmosBalance } from "../backend/types";
 import { CosmosChainParams, IBCToken } from "../types";
 
-async function getAccountState(
-  this: CosmosService,
-  account: { addresses: string[] } | { accountId: string }
-): Promise<AccountState> {
-  if ("addresses" in account) {
-    // TODO Maybe a specific MultiAddressesService would be a good idea after all...
-    // to handle this only once at route level
-    throw new Error(`Account state from multiple addresses is not supported for chainId ${this.chainId}`);
-  }
-
-  const { accountId } = account;
-
+async function getAccountState(this: CosmosService, accountId: string): Promise<AccountState> {
   const balances: CosmosBalance[] = await fetchBalances(this.chainId, accountId);
 
   const chain = CHAINS[this.chainId];
