@@ -1,6 +1,7 @@
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
+import { TonTransactionParams } from "../families/ton/types";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -39,6 +40,9 @@ enum ChainId {
   FANTOM = "fantom",
   PALM = "palm",
   MANTLE = "mantle",
+  CHILIZ = "chiliz",
+  CHILIZ_TESTNET = "chiliz-testnet",
+  TON = "ton",
   // BTC family
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
@@ -50,6 +54,7 @@ enum ChainFamily {
   COSMOS = "cosmos",
   EVM = "evm",
   BITCOIN = "bitcoin",
+  TON = "ton",
 }
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
@@ -101,6 +106,7 @@ enum TokenType {
   ASA = "ASA",
   ERC20 = "ERC20",
   IBC = "IBC",
+  JETTON = "JETTON",
 }
 
 type Token = {
@@ -111,6 +117,7 @@ type Token = {
   ticker: string;
   decimals: number;
   contractAddress?: string;
+  logo?: string;
 };
 
 type TokenAmount = {
@@ -152,7 +159,7 @@ type TokenStakingReward = StakingReward & {
 type CommonState = {
   chainId: ChainId;
   balances: {
-    native: {
+    native?: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
       unconfirmed?: bigint; // available + pending (for chains with long confirmation time)
       total: bigint; // May include staking balances, or be equal to available
@@ -179,6 +186,11 @@ type AccountState = CommonState & {
 
 type AddressesAggregatedState = CommonState & {
   accountId: string;
+};
+
+type TypedAddress = {
+  type: string;
+  address: string;
 };
 
 enum TransactionMode {
@@ -232,7 +244,7 @@ type FinalizedTransaction = {
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
-type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams;
+type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams | TonTransactionParams;
 
 // TODO WIP
 // FIXME de/serialization types <> string
@@ -367,5 +379,6 @@ export type {
   TransactionData,
   TransactionSpendableAmounts,
   TransactionStatus,
+  TypedAddress,
   Validator,
 };

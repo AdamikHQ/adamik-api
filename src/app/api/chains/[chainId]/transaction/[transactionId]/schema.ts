@@ -24,7 +24,10 @@ const requestParamsSchema = z.object({
         description: "Include the raw transaction as provided in native format by the blockchain.",
       }),
     ])
-    .optional(),
+    .optional()
+    .openapi({
+      description: "Optional filter, to let you request only the data that you need.",
+    }),
 });
 
 const responseSchema = z.object({

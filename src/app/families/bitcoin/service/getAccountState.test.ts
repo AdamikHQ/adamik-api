@@ -36,7 +36,7 @@ describe("getAccountState", () => {
       )
     );
 
-    const result = await btcService.getAccountState({ addresses: ["sample_address"] });
+    const result = await btcService.getAccountState("sample_address");
     expect(result).toEqual(expectedAddressState);
   });
 
@@ -56,7 +56,7 @@ describe("getAccountState", () => {
     jest.spyOn(global, "fetch").mockResolvedValueOnce(Promise.resolve(new Response(JSON.stringify({}))));
 
     // TODO: make this test more robust and test for specific error instead of generic Error
-    await expect(btcService.getAccountState({ accountId: "sample_address" })).rejects.toThrow();
+    await expect(btcService.getAccountState("sample_address")).rejects.toThrow();
   });
 
   it("should have balance at 0n if blockchair returns response with error code 400", async () => {
@@ -82,7 +82,7 @@ describe("getAccountState", () => {
     });
     jest.spyOn(global, "fetch").mockResolvedValueOnce(Promise.resolve(new Response(nullDataResponse)));
 
-    const result = await btcService.getAccountState({ addresses: ["sample_address"] });
+    const result = await btcService.getAccountState("sample_address");
     expect(result).toEqual(expectedAddressState);
   });
 });

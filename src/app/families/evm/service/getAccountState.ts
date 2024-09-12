@@ -6,16 +6,8 @@ import { EvmAddress } from "../types";
 
 async function getAccountState(
   this: EvmService,
-  account: { addresses: string[] } | { accountId: EvmAddress }
+  accountId: EvmAddress
 ): Promise<AccountState> {
-  if ("addresses" in account) {
-    // TODO Maybe a specific MultiAddressesService would be a good idea after all...
-    // to handle this only once at route level
-    throw new Error(`Account state from multiple addresses is not supported for chainId ${this.chainId}`);
-  }
-
-  const { accountId } = account;
-
   // Native
   const nativeBalance = await fetchBalance(this.chainId, accountId);
 

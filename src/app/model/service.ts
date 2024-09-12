@@ -1,12 +1,12 @@
 import {
   AccountState,
-  AddressesAggregatedState,
   BroadcastStatus,
   ChainId,
   FinalizedTransaction,
   Pagination,
   Token,
   Transaction,
+  TypedAddress,
   Validator,
 } from "./types_WIP";
 
@@ -24,15 +24,13 @@ abstract class BaseChainService {
   //abstract getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
 
   // Address
-  abstract pubkeyToAddress(pubkey: string): Promise<string>;
+  abstract pubkeyToAddresses(pubkey: string): Promise<TypedAddress[]>;
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data
   abstract getTransaction(transactionId: string): Promise<FinalizedTransaction | null>;
-  abstract getAccountState(
-    account: { accountId: string } | { addresses: string[] }
-  ): Promise<AccountState | AddressesAggregatedState>;
-
+  abstract getAccountState(accountId: string): Promise<AccountState>;
+  //abstract getAddressesState(addresses: string[]): Promise<AccountState[]>;
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
   // Crafting
