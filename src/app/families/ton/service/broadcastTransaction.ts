@@ -1,12 +1,8 @@
 import { BroadcastStatus } from "~/app/model/types_WIP";
 import { TonService } from ".";
-import { broadcast } from "../backend/api";
+import { broadcast } from "../backend/node";
 
-async function broadcastTransaction(
-  this: TonService,
-  signedTransaction: string,
-
-): Promise<BroadcastStatus> {
+async function broadcastTransaction(this: TonService, signedTransaction: string): Promise<BroadcastStatus> {
   const status: BroadcastStatus = {};
   try {
     status.hash = await broadcast(signedTransaction);
@@ -20,4 +16,3 @@ async function broadcastTransaction(
 }
 
 export { broadcastTransaction };
-

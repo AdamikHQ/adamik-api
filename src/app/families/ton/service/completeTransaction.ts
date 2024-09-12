@@ -1,5 +1,5 @@
 import { Transaction } from "~/app/model/types_WIP";
-import { getSeqno } from "../backend/api";
+import { getSeqno } from "../backend/explorer";
 import { computeFees, computeMaxSpendable } from "../logic";
 
 async function completeTransaction(transaction: Transaction): Promise<void> {
@@ -17,4 +17,3 @@ async function completeTransaction(transaction: Transaction): Promise<void> {
 }
 
 export { completeTransaction };
-

@@ -1,6 +1,5 @@
-import { Api, TonApiClient } from "@ton-api/client";
 import { Address, Cell, JettonMaster, TonClient } from "@ton/ton";
-import { TON_API_KEY, TON_CENTER_KEY } from "~/app/config/apiKeys";
+import { TON_CENTER_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 
 // Configure the HTTP client with your host and token
@@ -8,28 +7,6 @@ const nodeClient = new TonClient({
   endpoint: `${CHAINS.ton.backends.nodeURL}v2/jsonRPC`,
   apiKey: TON_CENTER_KEY,
 });
-
-const http = new TonApiClient({
-  baseUrl: `${CHAINS.ton.backends.explorerURL}`,
-  apiKey: TON_API_KEY,
-});
-
-const api = new Api(http);
-
-export const fetchAccount = async (accountId: string) => {
-  const tonAddress = Address.parse(accountId);
-
-  const info = await api.accounts.getAccount(tonAddress);
-  return info;
-};
-
-export const getSeqno = async (address: string) => {
-  const tonAddress = Address.parse(address);
-
-  const seqNo = await api.wallet.getAccountSeqno(tonAddress);
-
-  return BigInt(seqNo.seqno);
-};
 
 export const estimateFees = async (
   contractAddress: string,
@@ -60,22 +37,7 @@ export const getWalletJetonAddress = async (
   return await jettonMaster.getWalletAddress(userAddress);
 };
 
-export const getJettonsFromWallet = async (address: string) => {
-  const tonAddress = Address.parse(address);
-
-  const jettons = await api.accounts.getAccountJettonsBalances(tonAddress);
-
-  return jettons;
-};
-
-export const getJettonInfo = async (jettonAddress: string) => {
-  const tonAddress = Address.parse(jettonAddress);
-
-  const jetton = await api.jettons.getJettonInfo(tonAddress);
-
-  return jetton;
-};
-
+// This API is not used on client side SDK
 export const broadcast = async (transaction: string) => {
   const data = await fetch(`${CHAINS.ton.backends.nodeURL}v2/sendBocReturnHash`, {
     method: "POST",

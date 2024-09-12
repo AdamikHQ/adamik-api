@@ -8,6 +8,7 @@ import {
 } from "./encodeTransaction";
 import { getAccountState as getAccountStateFn } from "./getAccountState";
 import { getTokenInfo as getTokenInfoFn } from "./getTokenInfo";
+import { getTransaction as getTransactionFn } from "./getTransaction";
 import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
 import { validateAddress as validateAddressFn } from "./validateAddress";
 import {
@@ -19,15 +20,17 @@ import {
 // (buildTransaction, network calls, etc...)
 
 class TonService extends BaseChainService implements TokenService {
-  pubkeyToAddress = pubkeyToAddressFn;
-  validateAddress = validateAddressFn;
-  getAccountState = getAccountStateFn;
-  prevalidateTransaction = prevalidateTransactionFn;
-  completeTransaction = completeTransactionFn;
-  validateTransaction = validateTransactionFn;
-  encodeTransactionToSign = encodeTransactionToSignFn;
-  encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
-  broadcastTransaction = broadcastTransactionFn;
+  override getTransaction = getTransactionFn;
+  override pubkeyToAddress = pubkeyToAddressFn;
+  override validateAddress = validateAddressFn;
+  override getAccountState = getAccountStateFn;
+  override prevalidateTransaction = prevalidateTransactionFn;
+  override completeTransaction = completeTransactionFn;
+  override validateTransaction = validateTransactionFn;
+  override encodeTransactionToSign = encodeTransactionToSignFn;
+  override encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
+  override broadcastTransaction = broadcastTransactionFn;
+
   pubkeyToAddresses = pubkeyToAddressesFn;
   getTokenInfo = getTokenInfoFn;
 }

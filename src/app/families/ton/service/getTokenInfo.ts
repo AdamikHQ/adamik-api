@@ -1,6 +1,6 @@
 import { Token, TokenType } from "~/app/model/types_WIP";
 import { TonService } from ".";
-import { getJettonInfo } from "../backend/api";
+import { getJettonInfo } from "../backend/explorer";
 
 async function getTokenInfo(this: TonService, tokenId: string): Promise<Token | null> {
   try {
@@ -16,7 +16,7 @@ async function getTokenInfo(this: TonService, tokenId: string): Promise<Token | 
       name: jettonInfo.metadata.name,
       ticker: jettonInfo.metadata.symbol,
       decimals: Number(jettonInfo.metadata.decimals),
-      logo: jettonInfo.metadata.image
+      logo: jettonInfo.metadata.image,
     };
 
     return token;
@@ -26,4 +26,3 @@ async function getTokenInfo(this: TonService, tokenId: string): Promise<Token | 
 }
 
 export { getTokenInfo };
-

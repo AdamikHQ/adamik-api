@@ -1,19 +1,8 @@
 import { AccountState, TokenType } from "~/app/model/types_WIP";
 import { TonService } from ".";
-import { fetchAccount, getJettonsFromWallet } from "../backend/api";
+import { fetchAccount, getJettonsFromWallet } from "../backend/explorer";
 
-async function getAccountState(
-  this: TonService,
-  account: { addresses: string[] } | { accountId: string }
-): Promise<AccountState> {
-  if ("addresses" in account) {
-    // TODO Maybe a specific MultiAddressesService would be a good idea after all...
-    // to handle this only once at route level
-    throw new Error(`Account state from multiple addresses is not supported for chainId ${this.chainId}`);
-  }
-
-  const { accountId } = account;
-
+async function getAccountState(this: TonService, accountId: string): Promise<AccountState> {
   const accountInfo = await fetchAccount(accountId);
 
   const nativeBalance = BigInt(accountInfo.balance);
@@ -33,7 +22,7 @@ async function getAccountState(
       },
       amount: BigInt(balance.balance),
     };
-  })
+  });
 
   return {
     chainId: this.chainId,
@@ -49,4 +38,3 @@ async function getAccountState(
 }
 
 export { getAccountState };
-
