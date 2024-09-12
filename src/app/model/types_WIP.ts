@@ -39,6 +39,8 @@ enum ChainId {
   FANTOM = "fantom",
   PALM = "palm",
   MANTLE = "mantle",
+  CHILIZ = "chiliz",
+  CHILIZ_TESTNET = "chiliz-testnet",
   // BTC family
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",

@@ -7,6 +7,7 @@ import {
   baseSepolia,
   bsc,
   bscTestnet,
+  chiliz,
   fantom,
   gnosis,
   gnosisChiado,
@@ -30,6 +31,7 @@ import {
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
+import { chilizTesnet } from "../chains/chiliz-testnet";
 import { injectiveTestnet } from "../chains/injective-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
 
@@ -94,6 +96,10 @@ function getClientConfig(chainId: ChainId) {
       return { chain: palm, transport };
     case ChainId.MANTLE:
       return { chain: mantle, transport };
+    case ChainId.CHILIZ:
+      return { chain: chiliz, transport };
+    case ChainId.CHILIZ_TESTNET:
+      return { chain: chilizTesnet, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }
