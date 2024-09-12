@@ -656,13 +656,27 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.EVM,
     id: ChainId.CHILIZ,
     nativeId: "88888",
-    name: "Chiliz ",
+    name: "Chiliz Chain",
     ticker: "CHZ",
     decimals: 18,
     backends: {
       nodeURL: "https://chiliz-rpc.publicnode.com",
       explorerURL: "https://deep-index.moralis.io/api",
     },
+    supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
+  "chiliz-testnet": {
+    family: ChainFamily.EVM,
+    id: ChainId.CHILIZ_TESTNET,
+    nativeId: "88882",
+    name: "Chiliz Spicy Tesnet",
+    ticker: "CHZ",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://chiliz-spicy.publicnode.com",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
 } as const;
