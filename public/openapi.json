@@ -42,8 +42,8 @@
         "tags": [
           "address"
         ],
-        "summary": "Get an address from a public key",
-        "description": "Encodes the provided public key to an address for the given chain ID",
+        "summary": "Get addresses from a public key",
+        "description": "Encodes the provided public key to one or multiple addresses, for the given chain ID.       Each address is labeled with a type, which may be \"default\" when there is only one address.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -92,7 +92,8 @@
                       "chiliz",
                       "chiliz-testnet",
                       "bitcoin",
-                      "bitcoin-testnet"
+                      "bitcoin-testnet",
+                      "ton"
                     ]
                   },
                   "pubkey": {
@@ -113,7 +114,22 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "address": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "address"
+                    ]
+                  }
                 }
               }
             }
@@ -176,7 +192,8 @@
                       "chiliz",
                       "chiliz-testnet",
                       "bitcoin",
-                      "bitcoin-testnet"
+                      "bitcoin-testnet",
+                      "ton"
                     ]
                   },
                   "address": {
@@ -280,7 +297,8 @@
                       "chiliz",
                       "chiliz-testnet",
                       "bitcoin",
-                      "bitcoin-testnet"
+                      "bitcoin-testnet",
+                      "ton"
                     ]
                   },
                   "accountId": {
@@ -356,7 +374,8 @@
                         "chiliz",
                         "chiliz-testnet",
                         "bitcoin",
-                        "bitcoin-testnet"
+                        "bitcoin-testnet",
+                        "ton"
                       ]
                     },
                     "accountId": {
@@ -430,7 +449,8 @@
                                       "chiliz",
                                       "chiliz-testnet",
                                       "bitcoin",
-                                      "bitcoin-testnet"
+                                      "bitcoin-testnet",
+                                      "ton"
                                     ]
                                   },
                                   "type": {
@@ -438,7 +458,8 @@
                                     "enum": [
                                       "ASA",
                                       "ERC20",
-                                      "IBC"
+                                      "IBC",
+                                      "JETTON"
                                     ]
                                   },
                                   "id": {
@@ -601,7 +622,8 @@
                                           "chiliz",
                                           "chiliz-testnet",
                                           "bitcoin",
-                                          "bitcoin-testnet"
+                                          "bitcoin-testnet",
+                                          "ton"
                                         ]
                                       },
                                       "type": {
@@ -609,7 +631,8 @@
                                         "enum": [
                                           "ASA",
                                           "ERC20",
-                                          "IBC"
+                                          "IBC",
+                                          "JETTON"
                                         ]
                                       },
                                       "id": {
@@ -705,7 +728,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -750,7 +774,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -807,7 +832,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -852,7 +878,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -909,7 +936,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -954,7 +982,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -1011,7 +1040,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -1056,7 +1086,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -1113,7 +1144,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -1158,7 +1190,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -1215,7 +1248,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -1260,7 +1294,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -1317,7 +1352,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -1362,7 +1398,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -1419,7 +1456,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -1464,7 +1502,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -1521,7 +1560,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -1566,7 +1606,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -1623,7 +1664,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -1668,7 +1710,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -1725,7 +1768,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -1770,7 +1814,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -1827,7 +1872,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -1872,7 +1918,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -1929,7 +1976,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -1974,7 +2022,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -2031,7 +2080,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -2076,7 +2126,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -2133,7 +2184,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -2178,7 +2230,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -2235,7 +2288,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -2280,7 +2334,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -2337,7 +2392,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -2382,7 +2438,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -2439,7 +2496,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -2484,7 +2542,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -2541,7 +2600,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -2586,7 +2646,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -2643,7 +2704,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -2688,7 +2750,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -2745,7 +2808,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -2790,7 +2854,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -2847,7 +2912,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -2892,7 +2958,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -2949,7 +3016,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -2994,7 +3062,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -3051,7 +3120,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -3096,7 +3166,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -3153,7 +3224,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -3198,7 +3270,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -3255,7 +3328,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -3300,7 +3374,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -3357,7 +3432,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -3402,7 +3478,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -3459,7 +3536,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -3504,7 +3582,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -3561,7 +3640,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -3606,7 +3686,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -3663,7 +3744,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -3708,7 +3790,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -3765,7 +3848,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -3810,7 +3894,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -3867,7 +3952,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -3912,7 +3998,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -3969,7 +4056,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -4014,7 +4102,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -4071,7 +4160,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -4116,7 +4206,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -4173,7 +4264,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -4218,7 +4310,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -4275,7 +4368,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -4320,7 +4414,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -4377,7 +4472,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -4422,7 +4518,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -4479,7 +4576,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -4524,7 +4622,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -4581,7 +4680,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -4626,7 +4726,8 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -4683,7 +4784,8 @@
                                 "algorand",
                                 "cosmos",
                                 "evm",
-                                "bitcoin"
+                                "bitcoin",
+                                "ton"
                               ]
                             },
                             "id": {
@@ -4728,7 +4830,112 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "bitcoin",
-                                "bitcoin-testnet"
+                                "bitcoin-testnet",
+                                "ton"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "ton": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "ton"
                               ]
                             },
                             "nativeId": {
@@ -4843,7 +5050,8 @@
                 "chiliz",
                 "chiliz-testnet",
                 "bitcoin",
-                "bitcoin-testnet"
+                "bitcoin-testnet",
+                "ton"
               ]
             },
             "required": true
@@ -4863,7 +5071,8 @@
                         "algorand",
                         "cosmos",
                         "evm",
-                        "bitcoin"
+                        "bitcoin",
+                        "ton"
                       ]
                     },
                     "id": {
@@ -4908,7 +5117,8 @@
                         "chiliz",
                         "chiliz-testnet",
                         "bitcoin",
-                        "bitcoin-testnet"
+                        "bitcoin-testnet",
+                        "ton"
                       ]
                     },
                     "nativeId": {
@@ -5015,7 +5225,8 @@
                 "chiliz",
                 "chiliz-testnet",
                 "bitcoin",
-                "bitcoin-testnet"
+                "bitcoin-testnet",
+                "ton"
               ]
             },
             "required": true
@@ -5084,7 +5295,8 @@
                         "chiliz",
                         "chiliz-testnet",
                         "bitcoin",
-                        "bitcoin-testnet"
+                        "bitcoin-testnet",
+                        "ton"
                       ]
                     },
                     "type": {
@@ -5092,7 +5304,8 @@
                       "enum": [
                         "ASA",
                         "ERC20",
-                        "IBC"
+                        "IBC",
+                        "JETTON"
                       ]
                     },
                     "id": {
@@ -5179,7 +5392,8 @@
                 "chiliz",
                 "chiliz-testnet",
                 "bitcoin",
-                "bitcoin-testnet"
+                "bitcoin-testnet",
+                "ton"
               ]
             },
             "required": true
@@ -5276,7 +5490,8 @@
                             "chiliz",
                             "chiliz-testnet",
                             "bitcoin",
-                            "bitcoin-testnet"
+                            "bitcoin-testnet",
+                            "ton"
                           ]
                         },
                         "id": {
@@ -5409,7 +5624,8 @@
                       "chiliz",
                       "chiliz-testnet",
                       "bitcoin",
-                      "bitcoin-testnet"
+                      "bitcoin-testnet",
+                      "ton"
                     ]
                   },
                   "pagination": {
@@ -5485,7 +5701,8 @@
                         "chiliz",
                         "chiliz-testnet",
                         "bitcoin",
-                        "bitcoin-testnet"
+                        "bitcoin-testnet",
+                        "ton"
                       ]
                     },
                     "validators": {
@@ -5584,7 +5801,8 @@
                                   "chiliz",
                                   "chiliz-testnet",
                                   "bitcoin",
-                                  "bitcoin-testnet"
+                                  "bitcoin-testnet",
+                                  "ton"
                                 ]
                               },
                               "sender": {
@@ -5614,6 +5832,26 @@
                                 "enum": [
                                   "json",
                                   "hex"
+                                ]
+                              },
+                              "params": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "pubKey": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "pubKey": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
                                 ]
                               }
                             },
@@ -5926,7 +6164,8 @@
                                   "chiliz",
                                   "chiliz-testnet",
                                   "bitcoin",
-                                  "bitcoin-testnet"
+                                  "bitcoin-testnet",
+                                  "ton"
                                 ]
                               },
                               "sender": {
@@ -5956,6 +6195,26 @@
                                 "enum": [
                                   "json",
                                   "hex"
+                                ]
+                              },
+                              "params": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "pubKey": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "pubKey": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
                                 ]
                               }
                             },
@@ -6208,7 +6467,8 @@
                                         "chiliz",
                                         "chiliz-testnet",
                                         "bitcoin",
-                                        "bitcoin-testnet"
+                                        "bitcoin-testnet",
+                                        "ton"
                                       ]
                                     },
                                     "sender": {
@@ -6238,6 +6498,26 @@
                                       "enum": [
                                         "json",
                                         "hex"
+                                      ]
+                                    },
+                                    "params": {
+                                      "anyOf": [
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "pubKey": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "pubKey": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
                                       ]
                                     }
                                   },
@@ -6560,7 +6840,8 @@
                                   "chiliz",
                                   "chiliz-testnet",
                                   "bitcoin",
-                                  "bitcoin-testnet"
+                                  "bitcoin-testnet",
+                                  "ton"
                                 ]
                               },
                               "sender": {
@@ -6590,6 +6871,26 @@
                                 "enum": [
                                   "json",
                                   "hex"
+                                ]
+                              },
+                              "params": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "pubKey": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "pubKey": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
                                 ]
                               }
                             },
