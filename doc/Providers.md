@@ -181,3 +181,13 @@
 
 | nodeURL | https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf |
 | explorerURL | https://deep-index.moralis.io/api |
+
+## chiliz
+
+| nodeURL | https://chiliz-rpc.publicnode.com |
+| explorerURL | https://deep-index.moralis.io/api |
+
+## chiliz-testnet
+
+| nodeURL | https://chiliz-spicy.publicnode.com |
+| explorerURL | https://deep-index.moralis.io/api |

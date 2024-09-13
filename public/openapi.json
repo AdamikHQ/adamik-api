@@ -85,6 +85,8 @@
                       "fantom",
                       "palm",
                       "mantle",
+                      "chiliz",
+                      "chiliz-testnet",
                       "bitcoin",
                       "bitcoin-testnet",
                       "ton"
@@ -163,6 +165,8 @@
                       "fantom",
                       "palm",
                       "mantle",
+                      "chiliz",
+                      "chiliz-testnet",
                       "bitcoin",
                       "bitcoin-testnet",
                       "ton"
@@ -196,6 +200,26 @@
         "tags": ["account"],
         "summary": "Retrieve an account's state",
         "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "include",
+            "description": "Optional filter, to let you request only the data that you need.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "native",
+                  "tokens",
+                  "staking"
+                ]
+              },
+              "minItems": 1,
+              "description": "Optional filter, to let you request only the data that you need."
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -241,6 +265,8 @@
                       "fantom",
                       "palm",
                       "mantle",
+                      "chiliz",
+                      "chiliz-testnet",
                       "bitcoin",
                       "bitcoin-testnet",
                       "ton"
@@ -313,6 +339,8 @@
                         "fantom",
                         "palm",
                         "mantle",
+                        "chiliz",
+                        "chiliz-testnet",
                         "bitcoin",
                         "bitcoin-testnet",
                         "ton"
@@ -383,6 +411,8 @@
                                       "fantom",
                                       "palm",
                                       "mantle",
+                                      "chiliz",
+                                      "chiliz-testnet",
                                       "bitcoin",
                                       "bitcoin-testnet",
                                       "ton"
@@ -525,6 +555,8 @@
                                           "fantom",
                                           "palm",
                                           "mantle",
+                                          "chiliz",
+                                          "chiliz-testnet",
                                           "bitcoin",
                                           "bitcoin-testnet",
                                           "ton"
@@ -639,6 +671,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -735,6 +769,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -831,6 +867,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -927,6 +965,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -1023,6 +1063,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -1119,6 +1161,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -1215,6 +1259,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -1311,6 +1357,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -1407,6 +1455,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -1503,6 +1553,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -1599,6 +1651,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -1695,6 +1749,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -1791,6 +1847,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -1887,6 +1945,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -1983,6 +2043,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -2079,6 +2141,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -2175,6 +2239,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -2271,6 +2337,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -2367,6 +2435,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -2463,6 +2533,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -2559,6 +2631,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -2655,6 +2729,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -2751,6 +2827,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -2847,6 +2925,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -2943,6 +3023,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -3039,6 +3121,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -3135,6 +3219,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -3231,6 +3317,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -3327,6 +3415,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -3423,6 +3513,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -3519,6 +3611,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -3615,6 +3709,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -3711,6 +3807,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -3807,6 +3905,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -3903,6 +4003,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -3999,6 +4101,212 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "bitcoin",
+                                "bitcoin-testnet"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "chiliz": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "bitcoin",
+                                "bitcoin-testnet"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "chiliz-testnet": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -4095,6 +4403,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -4191,6 +4501,8 @@
                                 "fantom",
                                 "palm",
                                 "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "ton"
@@ -4394,6 +4706,8 @@
                 "fantom",
                 "palm",
                 "mantle",
+                "chiliz",
+                "chiliz-testnet",
                 "bitcoin",
                 "bitcoin-testnet",
                 "ton"
@@ -4453,6 +4767,8 @@
                         "fantom",
                         "palm",
                         "mantle",
+                        "chiliz",
+                        "chiliz-testnet",
                         "bitcoin",
                         "bitcoin-testnet",
                         "ton"
@@ -4549,6 +4865,8 @@
                 "fantom",
                 "palm",
                 "mantle",
+                "chiliz",
+                "chiliz-testnet",
                 "bitcoin",
                 "bitcoin-testnet",
                 "ton"
@@ -4615,6 +4933,8 @@
                         "fantom",
                         "palm",
                         "mantle",
+                        "chiliz",
+                        "chiliz-testnet",
                         "bitcoin",
                         "bitcoin-testnet",
                         "ton"
@@ -4696,6 +5016,8 @@
                 "fantom",
                 "palm",
                 "mantle",
+                "chiliz",
+                "chiliz-testnet",
                 "bitcoin",
                 "bitcoin-testnet"
               ]
@@ -4716,6 +5038,7 @@
           {
             "in": "query",
             "name": "include",
+            "description": "Optional filter, to let you request only the data that you need.",
             "schema": {
               "anyOf": [
                 {
@@ -4728,7 +5051,8 @@
                   "enum": ["raw"],
                   "description": "Include the raw transaction as provided in native format by the blockchain."
                 }
-              ]
+              ],
+              "description": "Optional filter, to let you request only the data that you need."
             }
           }
         ],
@@ -4783,6 +5107,8 @@
                             "fantom",
                             "palm",
                             "mantle",
+                            "chiliz",
+                            "chiliz-testnet",
                             "bitcoin",
                             "bitcoin-testnet"
                           ]
@@ -4895,6 +5221,8 @@
                       "fantom",
                       "palm",
                       "mantle",
+                      "chiliz",
+                      "chiliz-testnet",
                       "bitcoin",
                       "bitcoin-testnet",
                       "ton"
@@ -4965,6 +5293,8 @@
                         "fantom",
                         "palm",
                         "mantle",
+                        "chiliz",
+                        "chiliz-testnet",
                         "bitcoin",
                         "bitcoin-testnet",
                         "ton"
@@ -5055,6 +5385,8 @@
                                   "fantom",
                                   "palm",
                                   "mantle",
+                                  "chiliz",
+                                  "chiliz-testnet",
                                   "bitcoin",
                                   "bitcoin-testnet",
                                   "ton"
@@ -5352,6 +5684,8 @@
                                   "fantom",
                                   "palm",
                                   "mantle",
+                                  "chiliz",
+                                  "chiliz-testnet",
                                   "bitcoin",
                                   "bitcoin-testnet",
                                   "ton"
@@ -5598,6 +5932,8 @@
                                         "fantom",
                                         "palm",
                                         "mantle",
+                                        "chiliz",
+                                        "chiliz-testnet",
                                         "bitcoin",
                                         "bitcoin-testnet",
                                         "ton"
@@ -5902,6 +6238,8 @@
                                   "fantom",
                                   "palm",
                                   "mantle",
+                                  "chiliz",
+                                  "chiliz-testnet",
                                   "bitcoin",
                                   "bitcoin-testnet",
                                   "ton"
