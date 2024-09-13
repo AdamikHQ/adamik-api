@@ -25,6 +25,23 @@ const requestSchema = z
     ],
   });
 
+const requestParamsSchema = z.object({
+  include: z
+    .array(
+      z.enum([
+        // NOTE Need to manually add new modes here, when they start being supported
+        "native",
+        "tokens",
+        "staking",
+      ])
+    )
+    .nonempty()
+    .optional()
+    .openapi({
+      description: "Optional filter, to let you request only the data that you need.",
+    }),
+});
+
 const responseSchema = z.object({
   chainId: chainIdSchema,
   accountId: z.string(),
@@ -83,6 +100,9 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
       summary: "Retrieve an account's state",
       description:
         "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
+      requestParams: {
+        query: requestParamsSchema,
+      },
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
