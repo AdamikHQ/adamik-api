@@ -6,7 +6,7 @@ import { Xpub } from "./types";
 // Allows support for Taproot addresses validation: https://github.com/bitcoinjs/bitcoinjs-lib/issues/1919
 initEccLib(ecc);
 
-function selectNetworkForChainId(chainId: ChainId): networks.Network {
+export function selectNetworkForChainId(chainId: ChainId): networks.Network {
   switch (chainId) {
     case ChainId.BITCOIN:
     case ChainId.BITCOIN_TESTNET:

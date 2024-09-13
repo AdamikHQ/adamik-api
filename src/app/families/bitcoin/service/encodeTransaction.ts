@@ -2,12 +2,13 @@ import { Psbt } from "bitcoinjs-lib";
 import { Transaction } from "~/app/model/types_WIP";
 import { BitcoinService } from ".";
 import { fetchRawTransactionMetadata, fetchTransactionMetadata } from "../backend/explorer";
+import { selectNetworkForChainId } from "../logic";
 import { BitcoinTransactionParams } from "../types";
 
 async function encodeTransactionToSign(this: BitcoinService, transaction: Transaction): Promise<void> {
   const params = transaction.data.params as BitcoinTransactionParams;
 
-  let psbt = new Psbt();
+  let psbt = new Psbt({ network: selectNetworkForChainId(this.chainId) });
 
   // Enrich inputs from the explorer
   for (let inputIndex = 0; inputIndex < params.inputs.length; inputIndex++) {
