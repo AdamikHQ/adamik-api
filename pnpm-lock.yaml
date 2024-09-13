@@ -40,9 +40,6 @@ dependencies:
   '@ton/core':
     specifier: ^0.57.0
     version: 0.57.0(@ton/crypto@3.3.0)
-  '@ton/crypto':
-    specifier: ^3.3.0
-    version: 3.3.0
   '@ton/ton':
     specifier: ^15.0.0
     version: 15.0.0(@ton/core@0.57.0)(@ton/crypto@3.3.0)
