@@ -9,7 +9,6 @@ import { getAccountState as getAccountStateFn } from "./getAccountState";
 import { getTokenInfo as getTokenInfoFn } from "./getTokenInfo";
 import { getTransaction as getTransactionFn } from "./getTransaction";
 import { getValidators as getValidatorsFn } from "./getValidators";
-import { pubkeyToAddress as pubkeyToAddressFn } from "./pubkeyToAddress";
 import { pubkeyToAddresses as pubkeyToAddressesFn } from "./pubkeyToAddresses";
 import { validateAddress as validateAddressFn } from "./validateAddress";
 import {
@@ -21,7 +20,7 @@ import {
 // (buildTransaction, network calls, etc...)
 
 class CosmosService extends BaseChainService implements TokenService, StakingService {
-  override pubkeyToAddress = pubkeyToAddressFn;
+  override pubkeyToAddresses = pubkeyToAddressesFn;
   override validateAddress = validateAddressFn;
   override getAccountState = getAccountStateFn;
   override getTransaction = getTransactionFn;
@@ -34,8 +33,6 @@ class CosmosService extends BaseChainService implements TokenService, StakingSer
 
   getTokenInfo = getTokenInfoFn;
   getValidators = getValidatorsFn;
-  pubkeyToAddresses = pubkeyToAddressesFn;
 }
 
 export { CosmosService };
-

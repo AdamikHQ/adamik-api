@@ -185,6 +185,11 @@ type AddressesAggregatedState = CommonState & {
   accountId: string;
 };
 
+type TypedAddress = {
+  type: string;
+  address: string;
+};
+
 enum TransactionMode {
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
@@ -348,9 +353,8 @@ export {
   EncodedTransactionFormat,
   StakingStatus,
   TokenType,
-
   TransactionMode,
-  TransactionState
+  TransactionState,
 };
 
 export type {
@@ -372,6 +376,6 @@ export type {
   TransactionData,
   TransactionSpendableAmounts,
   TransactionStatus,
-  Validator
+  TypedAddress,
+  Validator,
 };
-

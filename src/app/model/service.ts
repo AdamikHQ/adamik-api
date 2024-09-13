@@ -6,6 +6,7 @@ import {
   Pagination,
   Token,
   Transaction,
+  TypedAddress,
   Validator,
 } from "./types_WIP";
 
@@ -23,9 +24,8 @@ abstract class BaseChainService {
   //abstract getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
 
   // Address
-  abstract pubkeyToAddress(pubkey: string): Promise<string>;
+  abstract pubkeyToAddresses(pubkey: string): Promise<TypedAddress[]>;
   abstract validateAddress(address: string): Promise<boolean>;
-  abstract pubkeyToAddresses(pubkey: string): Promise<Record<string, string>>;
 
   // Data
   abstract getTransaction(transactionId: string): Promise<FinalizedTransaction | null>;
