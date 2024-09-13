@@ -80,3 +80,4 @@ async function getAccountState(this: CosmosService, accountId: string): Promise<
 }
 
 export { getAccountState };
+

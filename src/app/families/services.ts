@@ -5,6 +5,7 @@ import { AlgorandService } from "./algorand/service";
 import { BitcoinService } from "./bitcoin/service";
 import { CosmosService } from "./cosmos/service";
 import { EvmService } from "./evm/service";
+import { TonService } from "./ton/service";
 
 function getService(chainId: ChainId): BaseChainService {
   const family = CHAINS[chainId]?.family;
@@ -17,6 +18,8 @@ function getService(chainId: ChainId): BaseChainService {
       return new EvmService(chainId);
     case ChainFamily.BITCOIN:
       return new BitcoinService(chainId);
+    case ChainFamily.TON:
+      return new TonService(chainId);
     default: // ensure exhaustive check, both at compile time and runtime: https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
       const assertNever = (x: never): never => {
         throw new Error(`No service defined for family ${family}`);
@@ -26,3 +29,4 @@ function getService(chainId: ChainId): BaseChainService {
 }
 
 export { getService };
+
