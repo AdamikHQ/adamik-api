@@ -212,6 +212,26 @@
         ],
         "summary": "Retrieve an account's state",
         "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "include",
+            "description": "Optional filter, to let you request only the data that you need.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "native",
+                  "tokens",
+                  "staking"
+                ]
+              },
+              "minItems": 1,
+              "description": "Optional filter, to let you request only the data that you need."
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -5180,6 +5200,7 @@
           {
             "in": "query",
             "name": "include",
+            "description": "Optional filter, to let you request only the data that you need.",
             "schema": {
               "anyOf": [
                 {
@@ -5196,7 +5217,8 @@
                   ],
                   "description": "Include the raw transaction as provided in native format by the blockchain."
                 }
-              ]
+              ],
+              "description": "Optional filter, to let you request only the data that you need."
             }
           }
         ],

@@ -12,11 +12,13 @@ export async function GET(request: NextRequest, context: { params: Params }): Pr
   const { chainId, transactionId } = requestSchema.parse(context.params);
 
   // Parse supported query params like : /.../...?include=parsed,raw
+  // to build an ApiRequestFilters object like : { parsed?: true, raw?: true }
   const filters: ApiRequestFilters = {};
   const params = request.nextUrl.searchParams;
   params
     .get("include")
     ?.split(",")
+    .filter(Boolean)
     .forEach((param) => {
       filters[param] = true;
     });
@@ -40,12 +42,12 @@ export async function GET(request: NextRequest, context: { params: Params }): Pr
   }
 
   // Each field is returned if (explicitely demanded OR nothing specific demanded)
-  const returnParsed = filters.parsed || !filters.raw;
-  const returnRaw = filters.raw || !filters.parsed;
+  const includeParsed = filters.parsed || !Object.keys(filters).length;
+  const includeRaw = filters.raw || !Object.keys(filters).length;
   return NextResponse.json({
     // Syntax trick to conditionally include fields
-    ...(returnParsed && { parsed: transaction.parsed }),
-    ...(returnRaw && { raw: transaction.raw }),
+    ...(includeParsed && { parsed: transaction.parsed }),
+    ...(includeRaw && { raw: transaction.raw }),
   });
 }
 
