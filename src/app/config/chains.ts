@@ -37,10 +37,12 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
   ],
   [ChainFamily.TON]: [
     ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
-    ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
     ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
+    ChainFeature.READ_TRANSACTION_NATIVE,
     ChainFeature.READ_TRANSACTION_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
+    ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
   ],
 };
 
@@ -705,4 +707,3 @@ function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
 }
 
 export { CHAINS, CHAINS_PUBLIC, getSupportedTransactionModes };
-

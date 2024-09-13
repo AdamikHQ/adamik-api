@@ -8,11 +8,7 @@ const nodeClient = new TonClient({
   apiKey: TON_CENTER_KEY,
 });
 
-export const estimateFees = async (
-  contractAddress: string,
-  body: Cell,
-  init?: { code: Cell; data: Cell }
-) => {
+async function estimateFees(contractAddress: string, body: Cell, init?: { code: Cell; data: Cell }) {
   const tonAddress = Address.parse(contractAddress);
 
   const fee = await nodeClient.estimateExternalMessageFee(tonAddress, {
@@ -23,22 +19,19 @@ export const estimateFees = async (
   });
 
   return fee;
-};
+}
 
 // https://docs.ton.org/develop/dapps/cookbook#how-to-calculate-users-jetton-wallet-address-offchain
-export const getWalletJetonAddress = async (
-  userWalletAddress: string,
-  jettonAddress: string
-): Promise<Address> => {
+async function getWalletJetonAddress(userWalletAddress: string, jettonAddress: string): Promise<Address> {
   const userAddress = Address.parse(userWalletAddress);
   const jettonMasterAddress = Address.parse(jettonAddress);
 
   const jettonMaster = nodeClient.open(JettonMaster.create(jettonMasterAddress));
   return await jettonMaster.getWalletAddress(userAddress);
-};
+}
 
-// This API is not used on client side SDK
-export const broadcast = async (transaction: string) => {
+// NOTE This API is not used by TON client-side SDK
+async function broadcast(transaction: string) {
   const data = await fetch(`${CHAINS.ton.backends.nodeURL}v2/sendBocReturnHash`, {
     method: "POST",
     headers: {
@@ -55,4 +48,6 @@ export const broadcast = async (transaction: string) => {
     throw new Error(data.error);
   }
   return data.result.hash;
-};
+}
+
+export { broadcast, estimateFees, getWalletJetonAddress };
