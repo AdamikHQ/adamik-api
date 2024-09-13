@@ -9,7 +9,7 @@ async function getAccountState(this: TonService, accountId: string): Promise<Acc
 
   const jettons = await getJettonsFromWallet(accountId);
 
-  const tokenAmounts = jettons.balances.map((balance) => {
+  const tokenAmounts = jettons?.balances.map((balance) => {
     return {
       token: {
         chainId: this.chainId,
@@ -32,7 +32,7 @@ async function getAccountState(this: TonService, accountId: string): Promise<Acc
         available: nativeBalance,
         total: nativeBalance,
       },
-      tokens: tokenAmounts,
+      ...(tokenAmounts && { tokens: tokenAmounts }),
     },
   };
 }

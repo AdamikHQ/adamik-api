@@ -64,9 +64,6 @@ dependencies:
   bitcoinjs-lib:
     specifier: ^6.1.6
     version: 6.1.6
-  buffer:
-    specifier: ^6.0.3
-    version: 6.0.3
   coinselect:
     specifier: ^3.1.13
     version: 3.1.13(patch_hash=rgmirwghbjfxxpvt2uxigomtpq)

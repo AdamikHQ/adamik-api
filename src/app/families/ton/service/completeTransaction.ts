@@ -5,7 +5,8 @@ import { computeFees, computeMaxSpendable } from "../logic";
 async function completeTransaction(transaction: Transaction): Promise<void> {
   const maxSpendable = await computeMaxSpendable(transaction.data);
 
-  transaction.data.nonce = await getSeqno(transaction.data.sender);
+  const seqNo = await getSeqno(transaction.data.sender);
+  transaction.data.nonce = seqNo || undefined;
 
   transaction.data.fees = await computeFees(transaction.data);
 

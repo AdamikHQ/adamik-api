@@ -1,18 +1,10 @@
-import { Address } from "@ton/core";
 import { Transaction } from "~/app/model/types_WIP";
 import { TonService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
+import { isAddressValid } from "../logic";
 
 async function prevalidateTransaction(this: TonService, transaction: Transaction): Promise<void> {
-
-  transaction.status = await prevalidateTransactionCommon(transaction.data, async (address: string) => {
-    try {
-      Address.parse(address);
-      return true;
-    }
-    catch (e) { return false; }
-  }
-  );
+  transaction.status = await prevalidateTransactionCommon(transaction.data, isAddressValid);
 
   if (transaction.data.format) {
     transaction.status.warnings.push({
@@ -22,8 +14,7 @@ async function prevalidateTransaction(this: TonService, transaction: Transaction
 }
 
 async function validateTransaction(this: TonService, transaction: Transaction): Promise<void> {
-
+  // TODO
 }
 
 export { prevalidateTransaction, validateTransaction };
-
