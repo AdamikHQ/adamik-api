@@ -182,6 +182,11 @@
 | nodeURL | https://site1.moralis-nodes.com/mantle/REDACTED |
 | explorerURL | https://deep-index.moralis.io/api |
 
+## ton
+
+| nodeURL | https://toncenter.com/api/ |
+| explorerURL | https://tonapi.io |
+
 ## chiliz
 
 | nodeURL | https://chiliz-rpc.publicnode.com |
