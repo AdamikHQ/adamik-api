@@ -91,9 +91,10 @@
                       "mantle",
                       "chiliz",
                       "chiliz-testnet",
+                      "ton",
                       "bitcoin",
                       "bitcoin-testnet",
-                      "ton"
+                      "litecoin"
                     ]
                   },
                   "pubkey": {
@@ -191,9 +192,10 @@
                       "mantle",
                       "chiliz",
                       "chiliz-testnet",
+                      "ton",
                       "bitcoin",
                       "bitcoin-testnet",
-                      "ton"
+                      "litecoin"
                     ]
                   },
                   "address": {
@@ -296,9 +298,10 @@
                       "mantle",
                       "chiliz",
                       "chiliz-testnet",
+                      "ton",
                       "bitcoin",
                       "bitcoin-testnet",
-                      "ton"
+                      "litecoin"
                     ]
                   },
                   "accountId": {
@@ -373,9 +376,10 @@
                         "mantle",
                         "chiliz",
                         "chiliz-testnet",
+                        "ton",
                         "bitcoin",
                         "bitcoin-testnet",
-                        "ton"
+                        "litecoin"
                       ]
                     },
                     "accountId": {
@@ -448,9 +452,10 @@
                                       "mantle",
                                       "chiliz",
                                       "chiliz-testnet",
+                                      "ton",
                                       "bitcoin",
                                       "bitcoin-testnet",
-                                      "ton"
+                                      "litecoin"
                                     ]
                                   },
                                   "type": {
@@ -621,9 +626,10 @@
                                           "mantle",
                                           "chiliz",
                                           "chiliz-testnet",
+                                          "ton",
                                           "bitcoin",
                                           "bitcoin-testnet",
-                                          "ton"
+                                          "litecoin"
                                         ]
                                       },
                                       "type": {
@@ -773,9 +779,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -877,9 +884,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -981,9 +989,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -1085,9 +1094,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -1189,9 +1199,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -1293,9 +1304,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -1397,9 +1409,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -1501,9 +1514,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -1605,9 +1619,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -1709,9 +1724,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -1813,9 +1829,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -1917,9 +1934,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -2021,9 +2039,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -2125,9 +2144,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -2229,9 +2249,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -2333,9 +2354,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -2437,9 +2459,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -2541,9 +2564,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -2645,9 +2669,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -2749,9 +2774,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -2853,9 +2879,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -2957,9 +2984,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -3061,9 +3089,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -3165,9 +3194,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -3269,9 +3299,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -3373,9 +3404,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -3477,9 +3509,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -3581,9 +3614,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -3685,9 +3719,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -3789,9 +3824,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -3893,9 +3929,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -3997,9 +4034,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -4101,9 +4139,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -4205,9 +4244,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -4309,9 +4349,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -4413,9 +4454,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -4517,9 +4559,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -4621,217 +4664,10 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
-                                "ton"
-                              ]
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "string"
-                            },
-                            "isTestnet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "enum": [
-                                  "read.account.balances.native",
-                                  "read.account.balances.tokens",
-                                  "read.account.balances.staking",
-                                  "read.transaction.native",
-                                  "read.transaction.tokens",
-                                  "read.transaction.staking",
-                                  "write.transaction.type.native",
-                                  "write.transaction.type.tokens",
-                                  "write.transaction.type.staking",
-                                  "write.transaction.field.memo"
-                                ]
-                              }
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "bitcoin": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmoshub",
-                                "osmosis",
-                                "osmosis-testnet",
-                                "celestia",
-                                "celestia-testnet",
-                                "dydx",
-                                "cosmoshub-testnet",
-                                "axelar",
-                                "ethereum",
-                                "sepolia",
-                                "holesky",
-                                "zksync",
-                                "zksync-sepolia",
-                                "injective-testnet",
-                                "base",
-                                "base-sepolia",
-                                "optimism",
-                                "optimism-sepolia",
-                                "arbitrum",
-                                "arbitrum-sepolia",
-                                "polygon",
-                                "polygon-amoy",
-                                "bsc",
-                                "bsc-testnet",
-                                "linea",
-                                "linea-sepolia",
-                                "avalanche",
-                                "gnosis",
-                                "gnosis-chiado",
-                                "moonbeam",
-                                "moonriver",
-                                "moonbase",
-                                "fantom",
-                                "palm",
-                                "mantle",
-                                "chiliz",
-                                "chiliz-testnet",
-                                "bitcoin",
-                                "bitcoin-testnet",
-                                "ton"
-                              ]
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "string"
-                            },
-                            "isTestnet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "enum": [
-                                  "read.account.balances.native",
-                                  "read.account.balances.tokens",
-                                  "read.account.balances.staking",
-                                  "read.transaction.native",
-                                  "read.transaction.tokens",
-                                  "read.transaction.staking",
-                                  "write.transaction.type.native",
-                                  "write.transaction.type.tokens",
-                                  "write.transaction.type.staking",
-                                  "write.transaction.field.memo"
-                                ]
-                              }
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "bitcoin-testnet": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmoshub",
-                                "osmosis",
-                                "osmosis-testnet",
-                                "celestia",
-                                "celestia-testnet",
-                                "dydx",
-                                "cosmoshub-testnet",
-                                "axelar",
-                                "ethereum",
-                                "sepolia",
-                                "holesky",
-                                "zksync",
-                                "zksync-sepolia",
-                                "injective-testnet",
-                                "base",
-                                "base-sepolia",
-                                "optimism",
-                                "optimism-sepolia",
-                                "arbitrum",
-                                "arbitrum-sepolia",
-                                "polygon",
-                                "polygon-amoy",
-                                "bsc",
-                                "bsc-testnet",
-                                "linea",
-                                "linea-sepolia",
-                                "avalanche",
-                                "gnosis",
-                                "gnosis-chiado",
-                                "moonbeam",
-                                "moonriver",
-                                "moonbase",
-                                "fantom",
-                                "palm",
-                                "mantle",
-                                "chiliz",
-                                "chiliz-testnet",
-                                "bitcoin",
-                                "bitcoin-testnet",
-                                "ton"
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -4933,9 +4769,325 @@
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
+                                "ton",
                                 "bitcoin",
                                 "bitcoin-testnet",
+                                "litecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "bitcoin": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
                                 "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "bitcoin-testnet": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "litecoin": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin"
                               ]
                             },
                             "nativeId": {
@@ -5049,9 +5201,10 @@
                 "mantle",
                 "chiliz",
                 "chiliz-testnet",
+                "ton",
                 "bitcoin",
                 "bitcoin-testnet",
-                "ton"
+                "litecoin"
               ]
             },
             "required": true
@@ -5116,9 +5269,10 @@
                         "mantle",
                         "chiliz",
                         "chiliz-testnet",
+                        "ton",
                         "bitcoin",
                         "bitcoin-testnet",
-                        "ton"
+                        "litecoin"
                       ]
                     },
                     "nativeId": {
@@ -5224,9 +5378,10 @@
                 "mantle",
                 "chiliz",
                 "chiliz-testnet",
+                "ton",
                 "bitcoin",
                 "bitcoin-testnet",
-                "ton"
+                "litecoin"
               ]
             },
             "required": true
@@ -5294,9 +5449,10 @@
                         "mantle",
                         "chiliz",
                         "chiliz-testnet",
+                        "ton",
                         "bitcoin",
                         "bitcoin-testnet",
-                        "ton"
+                        "litecoin"
                       ]
                     },
                     "type": {
@@ -5391,9 +5547,10 @@
                 "mantle",
                 "chiliz",
                 "chiliz-testnet",
+                "ton",
                 "bitcoin",
                 "bitcoin-testnet",
-                "ton"
+                "litecoin"
               ]
             },
             "required": true
@@ -5489,9 +5646,10 @@
                             "mantle",
                             "chiliz",
                             "chiliz-testnet",
+                            "ton",
                             "bitcoin",
                             "bitcoin-testnet",
-                            "ton"
+                            "litecoin"
                           ]
                         },
                         "id": {
@@ -5623,9 +5781,10 @@
                       "mantle",
                       "chiliz",
                       "chiliz-testnet",
+                      "ton",
                       "bitcoin",
                       "bitcoin-testnet",
-                      "ton"
+                      "litecoin"
                     ]
                   },
                   "pagination": {
@@ -5700,9 +5859,10 @@
                         "mantle",
                         "chiliz",
                         "chiliz-testnet",
+                        "ton",
                         "bitcoin",
                         "bitcoin-testnet",
-                        "ton"
+                        "litecoin"
                       ]
                     },
                     "validators": {
@@ -5800,9 +5960,10 @@
                                   "mantle",
                                   "chiliz",
                                   "chiliz-testnet",
+                                  "ton",
                                   "bitcoin",
                                   "bitcoin-testnet",
-                                  "ton"
+                                  "litecoin"
                                 ]
                               },
                               "sender": {
@@ -6163,9 +6324,10 @@
                                   "mantle",
                                   "chiliz",
                                   "chiliz-testnet",
+                                  "ton",
                                   "bitcoin",
                                   "bitcoin-testnet",
-                                  "ton"
+                                  "litecoin"
                                 ]
                               },
                               "sender": {
@@ -6466,9 +6628,10 @@
                                         "mantle",
                                         "chiliz",
                                         "chiliz-testnet",
+                                        "ton",
                                         "bitcoin",
                                         "bitcoin-testnet",
-                                        "ton"
+                                        "litecoin"
                                       ]
                                     },
                                     "sender": {
@@ -6839,9 +7002,10 @@
                                   "mantle",
                                   "chiliz",
                                   "chiliz-testnet",
+                                  "ton",
                                   "bitcoin",
                                   "bitcoin-testnet",
-                                  "ton"
+                                  "litecoin"
                                 ]
                               },
                               "sender": {
