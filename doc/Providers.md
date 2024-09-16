@@ -99,13 +99,18 @@
 
 ## bitcoin
 
-| nodeURL |  |
+| nodeURL | |
 | explorerURL | https://api.blockchair.com/bitcoin |
 
 ## bitcoin-testnet
 
-| nodeURL |  |
+| nodeURL | |
 | explorerURL | https://api.blockchair.com/bitcoin/testnet |
+
+## litecoin
+
+| nodeURL | |
+| explorerURL | https://api.blockchair.com/bitcoin |
 
 ## polygon
 

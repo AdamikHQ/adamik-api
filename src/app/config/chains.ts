@@ -661,6 +661,22 @@ const CHAINS: { [key in ChainId]: Chain } = {
       ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
     ],
   },
+  [ChainId.LITECOIN]: {
+    id: ChainId.LITECOIN,
+    name: "Litecoin",
+    family: ChainFamily.BITCOIN,
+    ticker: "LTC",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/litecoin",
+    },
+    params: {
+      confirmations: 6,
+    },
+    nativeId: "litecoin",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+  },
   ton: {
     family: ChainFamily.TON,
     id: ChainId.TON,

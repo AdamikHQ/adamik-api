@@ -452,7 +452,7 @@ const BlockchairTransactionData = z.record(
       fee_per_kwu: z.number(),
       fee_per_kwu_usd: z.number(),
       cdd_total: z.number(),
-      is_rbf: z.boolean(),
+      is_rbf: z.boolean().optional(),
     }),
     inputs: z
       .object({
