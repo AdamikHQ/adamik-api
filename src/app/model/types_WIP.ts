@@ -42,10 +42,11 @@ enum ChainId {
   MANTLE = "mantle",
   CHILIZ = "chiliz",
   CHILIZ_TESTNET = "chiliz-testnet",
+  TON = "ton",
   // BTC family
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
-  TON = "ton",
+  LITECOIN = "litecoin",
 }
 
 enum ChainFamily {

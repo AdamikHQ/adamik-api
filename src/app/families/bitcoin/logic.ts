@@ -6,12 +6,34 @@ import { Xpub } from "./types";
 // Allows support for Taproot addresses validation: https://github.com/bitcoinjs/bitcoinjs-lib/issues/1919
 initEccLib(ecc);
 
+export function selectNetworkForChainId(chainId: ChainId): networks.Network {
+  switch (chainId) {
+    case ChainId.BITCOIN:
+    case ChainId.BITCOIN_TESTNET:
+      return networks.bitcoin;
+    case ChainId.LITECOIN:
+      // from https://github.com/bitcoinjs/bitcoinjs-lib/blob/34e1644b5fb60055793ec3078f2e4f48b2648ca6/test/address.spec.ts#L14
+      return {
+        messagePrefix: "\x19Litecoin Signed Message:\n",
+        bech32: "ltc",
+        bip32: {
+          public: 0x019da462,
+          private: 0x019d9cfe,
+        },
+        pubKeyHash: 0x30,
+        scriptHash: 0x32,
+        wif: 0xb0,
+      };
+    default:
+      throw new Error("Not implemented");
+  }
+}
+
 // Looks like a hack but it's actually the best way to check if the address is valid
 // https://github.com/andcoisqu/bitcoinjs-lib/blob/d4b57292995f9233fc0b4ed9e4dfda3be85d3e19/test/integration/addresses.js#L100
-//    also could maybe use instead https://github.com/caravan-bitcoin/caravan/blob/3448d9569d8b657297205ea4b0b041beabbf3f94/packages/caravan-bitcoin/src/addresses.ts#L24
-export function isValidAddress(_chainId: ChainId, address: string): boolean {
-  // TODO: support other networks (i.e testnet, litecoin... etc)
-  const network = networks.bitcoin;
+
+export function isValidAddress(chainId: ChainId, address: string): boolean {
+  const network = selectNetworkForChainId(chainId);
   try {
     // this will throw an error if the address is invalid
     addressSerde.toOutputScript(address, network);
