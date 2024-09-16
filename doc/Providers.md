@@ -99,18 +99,13 @@
 
 ## bitcoin
 
-| nodeURL | |
+| nodeURL |  |
 | explorerURL | https://api.blockchair.com/bitcoin |
 
 ## bitcoin-testnet
 
-| nodeURL | |
+| nodeURL |  |
 | explorerURL | https://api.blockchair.com/bitcoin/testnet |
-
-## litecoin
-
-| nodeURL | |
-| explorerURL | https://api.blockchair.com/bitcoin |
 
 ## polygon
 
@@ -186,6 +181,11 @@
 
 | nodeURL | https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf |
 | explorerURL | https://deep-index.moralis.io/api |
+
+## litecoin
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/litecoin |
 
 ## ton
 
