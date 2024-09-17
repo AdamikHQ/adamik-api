@@ -769,6 +769,22 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: FEATURES[ChainFamily.COSMOS],
   },
+  [ChainId.DOGECOIN]: {
+    id: ChainId.DOGECOIN,
+    name: "Dogecoin",
+    family: ChainFamily.BITCOIN,
+    ticker: "DOGE",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/dogecoin",
+    },
+    params: {
+      confirmations: 60, // confirmations used by Coinbase or Binance
+    },
+    nativeId: "dogecoin",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+  },
 } as const;
 
 // FIXME Trick to filter-out private 'backends' field from response
