@@ -182,6 +182,16 @@
 | nodeURL | https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf |
 | explorerURL | https://deep-index.moralis.io/api |
 
+## rootstock
+
+| nodeURL | https://public-node.rsk.co |
+| explorerURL | https://deep-index.moralis.io/api |
+
+## rootstock-testnet
+
+| nodeURL | https://public-node.testnet.rsk.co |
+| explorerURL | https://deep-index.moralis.io/api |
+
 ## litecoin
 
 | nodeURL |  |
