@@ -688,6 +688,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://public-node.testnet.rsk.co",
       explorerURL: "https://deep-index.moralis.io/api",
     },
+    isTestNet: true,
     supportedFeatures: [
       ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
       ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
