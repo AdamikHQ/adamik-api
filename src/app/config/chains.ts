@@ -661,6 +661,38 @@ const CHAINS: { [key in ChainId]: Chain } = {
       ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
     ],
   },
+  rootstock: {
+    family: ChainFamily.EVM,
+    id: ChainId.ROOTSTOCK,
+    nativeId: "30",
+    name: "RootStock Mainnet",
+    ticker: "RBTC",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://public-node.rsk.co",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: [
+      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ],
+  },
+  "rootstock-testnet": {
+    family: ChainFamily.EVM,
+    id: ChainId.ROOTSTOCK_TESNET,
+    nativeId: "31",
+    name: "RootStock Testnet",
+    ticker: "tRBTC",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://public-node.testnet.rsk.co",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: [
+      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ],
+  },
   [ChainId.LITECOIN]: {
     id: ChainId.LITECOIN,
     name: "Litecoin",
