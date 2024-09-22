@@ -47,6 +47,8 @@ enum ChainId {
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
+  ROOTSTOCK = "rootstock",
+  ROOTSTOCK_TESNET = "rootstock-testnet",
 }
 
 enum ChainFamily {
