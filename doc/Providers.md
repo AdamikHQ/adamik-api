@@ -15,7 +15,7 @@
 
 ## osmosis
 
-| nodeURL | https://g.w.lavanet.xyz:443/gateway/osmosis/rest/REDACTED |
+| nodeURL | https://lcd-osmosis.imperator.co |
 
 ## osmosis-testnet
 
