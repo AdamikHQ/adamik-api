@@ -48,7 +48,8 @@ enum ChainId {
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
   ROOTSTOCK = "rootstock",
-  ROOTSTOCK_TESNET = "rootstock-testnet",
+  ROOTSTOCK_TESNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
+  INJECTIVE = "injective",
 }
 
 enum ChainFamily {

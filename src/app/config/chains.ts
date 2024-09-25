@@ -68,7 +68,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "ATOM",
     decimals: 6,
     backends: {
-      nodeURL: "https://cosmos-rest.publicnode.com",
+      nodeURL: "https://lcd-cosmos.imperator.co",
     },
     params: {
       prefix: "cosmos",
@@ -151,7 +151,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-celestia.imperator.co",
-      //nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27",
     },
     params: {
       prefix: "celestia",
@@ -216,7 +215,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "AXL",
     decimals: 6,
     backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/axelar/rest/bfdb617358bd786c30374c8799978c27",
+      nodeURL: "https://lcd-axelar.imperator.co",
     },
     params: {
       prefix: "axelar",
@@ -306,6 +305,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
+  //INJECTIVE-TESTNET EVM Version
   "injective-testnet": {
     family: ChainFamily.EVM,
     id: ChainId.INJECTIVE_TESTNET,
@@ -749,6 +749,27 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
+  //Injective Cosmos based version
+  injective: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.INJECTIVE,
+    nativeId: "injective-1",
+    name: "Injective",
+    ticker: "INJ",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://lcd-injective.imperator.co",
+    },
+    params: {
+      prefix: "inj",
+      validatorPrefix: "injvaloper",
+      denom: "inj",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey", // should be eth_secp256k1 instead of secp256k1 (see https://docs.injective.network/learn/basic-concepts/accounts/)
+      defaultGas: 100000,
+      minGasPrice: 700000000,
+    },
+    supportedFeatures: FEATURES[ChainFamily.COSMOS],
   },
 } as const;
 
