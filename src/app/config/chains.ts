@@ -68,7 +68,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "ATOM",
     decimals: 6,
     backends: {
-      nodeURL: "https://cosmos-rest.publicnode.com",
+      nodeURL: "https://lcd-cosmos.imperator.co",
     },
     params: {
       prefix: "cosmos",
@@ -151,7 +151,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-celestia.imperator.co",
-      //nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27",
     },
     params: {
       prefix: "celestia",
@@ -216,7 +215,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "AXL",
     decimals: 6,
     backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/axelar/rest/bfdb617358bd786c30374c8799978c27",
+      nodeURL: "https://lcd-axelar.imperator.co",
     },
     params: {
       prefix: "axelar",
