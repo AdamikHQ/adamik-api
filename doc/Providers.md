@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| nodeURL | https://cosmos-rest.publicnode.com |
+| nodeURL | https://lcd-cosmos.imperator.co |
 
 ## cosmoshub-testnet
 
@@ -35,7 +35,7 @@
 
 ## axelar
 
-| nodeURL | https://g.w.lavanet.xyz:443/gateway/axelar/rest/REDACTED |
+| nodeURL | https://lcd-axelar.imperator.co |
 
 ## ethereum
 
@@ -211,3 +211,7 @@
 
 | nodeURL | https://chiliz-spicy.publicnode.com |
 | explorerURL | https://deep-index.moralis.io/api |
+
+## injective
+
+| nodeURL | https://lcd-injective.imperator.co |
