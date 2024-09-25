@@ -1,4 +1,4 @@
-import { computeAddress } from "ethers"; // Import from ethers
+import { computeAddress } from "ethers";
 import { TypedAddress } from "~/app/model/types_WIP";
 import { EvmService } from ".";
 import { EvmAddress } from "../types";
