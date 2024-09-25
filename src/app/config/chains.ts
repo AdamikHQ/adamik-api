@@ -305,6 +305,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
+  //INJECTIVE-TESTNET EVM Version
   "injective-testnet": {
     family: ChainFamily.EVM,
     id: ChainId.INJECTIVE_TESTNET,
@@ -748,6 +749,27 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
+  //Injective Cosmos based version
+  injective: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.INJECTIVE,
+    nativeId: "injective-1",
+    name: "Injective",
+    ticker: "INJ",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://lcd-injective.imperator.co",
+    },
+    params: {
+      prefix: "inj",
+      validatorPrefix: "injvaloper",
+      denom: "inj",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 700000000,
+    },
+    supportedFeatures: FEATURES[ChainFamily.COSMOS],
   },
 } as const;
 
