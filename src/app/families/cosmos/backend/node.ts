@@ -34,7 +34,7 @@ async function fetchWithHeaders(url: string, options: RequestInit = {}) {
     ...options,
     headers: {
       ...options.headers,
-      adamik: "123456789",
+      adamik: "6aPJgGeL2jHcNG7PaW4y",
     },
   };
 
