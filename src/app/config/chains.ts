@@ -44,6 +44,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
     ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
     ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
   ],
+  [ChainFamily.TRON]: [ChainFeature.READ_ACCOUNT_BALANCES_NATIVE],
 };
 
 const CHAINS: { [key in ChainId]: Chain } = {
@@ -749,6 +750,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
+  tron: {
+    family: ChainFamily.TRON,
+    id: ChainId.TRON,
+    nativeId: "tron",
+    name: "Tron",
+    ticker: "TRX",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://api.trongrid.io",
+    },
+    supportedFeatures: FEATURES[ChainFamily.TRON],
   },
 } as const;
 

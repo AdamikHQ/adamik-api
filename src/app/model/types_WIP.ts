@@ -43,6 +43,7 @@ enum ChainId {
   CHILIZ = "chiliz",
   CHILIZ_TESTNET = "chiliz-testnet",
   TON = "ton",
+  TRON = "tron",
   // BTC family
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
@@ -56,6 +57,7 @@ enum ChainFamily {
   COSMOS = "cosmos",
   EVM = "evm",
   BITCOIN = "bitcoin",
+  TRON = "tron",
   TON = "ton",
 }
 
