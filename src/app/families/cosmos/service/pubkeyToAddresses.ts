@@ -1,12 +1,13 @@
 import { pubkeyToAddress as aminoPubkeyToAddress, encodeSecp256k1Pubkey } from "@cosmjs/amino";
 import { fromBase64 } from "@cosmjs/encoding";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, TypedAddress } from "~/app/model/types_WIP";
+import { CosmosChainParams } from "~/app/families/cosmos/types";
+import { ChainId, ChainParams, TypedAddress } from "~/app/model/types_WIP";
 import { CosmosService } from ".";
 
 // Type guard to check if the chain params include Cosmos-related fields
-function isCosmosChain(params: any): params is { prefix: string } {
-  return !!params && typeof params.prefix === "string";
+function isCosmosChain(params: ChainParams): params is CosmosChainParams {
+  return !!params && (params as CosmosChainParams).prefix !== undefined;
 }
 
 async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<TypedAddress[]> {
