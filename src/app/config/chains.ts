@@ -109,7 +109,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "OSMO",
     decimals: 6,
     backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/osmosis/rest/REDACTED",
+      nodeURL: "https://lcd-osmosis.imperator.co",
     },
     params: {
       prefix: "osmo",
