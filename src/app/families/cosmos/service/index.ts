@@ -16,11 +16,8 @@ import {
   validateTransaction as validateTransactionFn,
 } from "./validateTransaction";
 
-// TODO Make sure heavy functions aren't called multiple times / unnecessarily
-// (buildTransaction, network calls, etc...)
-
 class CosmosService extends BaseChainService implements TokenService, StakingService {
-  override pubkeyToAddresses = pubkeyToAddressesFn;
+  override pubkeyToAddresses = pubkeyToAddressesFn.bind(this);
   override validateAddress = validateAddressFn;
   override getAccountState = getAccountStateFn;
   override getTransaction = getTransactionFn;
