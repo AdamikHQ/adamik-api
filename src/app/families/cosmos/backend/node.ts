@@ -159,7 +159,6 @@ async function fetchRewards(
   const url = `${getRootUrl(chainId)}/cosmos/distribution/v1beta1/delegators/${address}/rewards`;
 
   // (Note: this endpoint is not paginated)
-  const data: CosmosRewards = await fetch(url).then((response) => response.json());
   const data: CosmosRewards = await fetchWithHeaders(url).then((response) => response.json());
   if (!data?.rewards) {
     console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
@@ -246,7 +245,6 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
 
   const url = `${getRootUrl(chainId)}/cosmos/auth/v1beta1/accounts/${address}`;
 
-  const data = await fetch(url).then((response) => response.json());
   const data = await fetchWithHeaders(url).then((response) => response.json());
 
   try {
