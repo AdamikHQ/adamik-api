@@ -670,7 +670,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: [
       ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+      //Issue with EIP-1559 tx on rootstock
+      //ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
     ],
   },
   "rootstock-testnet": {
@@ -687,7 +688,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     isTestNet: true,
     supportedFeatures: [
       ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+      //Issue with EIP-1559 tx on rootstock
+      //ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
     ],
   },
   [ChainId.LITECOIN]: {
