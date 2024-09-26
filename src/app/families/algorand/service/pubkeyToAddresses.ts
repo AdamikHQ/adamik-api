@@ -4,22 +4,40 @@ import { AlgorandService } from ".";
 
 /**
  * Converts a public key to an Algorand address.
- * @param {string} pubkey - The public key in hex or base64 format.
+ * @param {string} pubkey - The public key in various formats.
  * @returns {Promise<TypedAddress[]>} - The Algorand address.
  */
 async function pubkeyToAddresses(this: AlgorandService, pubkey: string): Promise<TypedAddress[]> {
   try {
     let pubkeyBuffer: Uint8Array;
 
-    // Check if the public key is hex encoded
-    if (/^[0-9A-Fa-f]{64}$/.test(pubkey)) {
-      pubkeyBuffer = new Uint8Array(Buffer.from(pubkey, "hex"));
+    // Remove '0x' prefix if present
+    const cleanPubkey = pubkey.startsWith("0x") ? pubkey.slice(2) : pubkey;
+
+    // Check if the input is already a valid Algorand address (Base32)
+    if (/^[A-Z2-7]{58}$/.test(cleanPubkey)) {
+      if (isValidAddress(cleanPubkey)) {
+        return [{ type: "default", address: cleanPubkey }];
+      } else {
+        throw new Error("Invalid Algorand address format.");
+      }
+    }
+
+    // Check if the public key is hex encoded (64 characters for 32 bytes)
+    if (/^[0-9A-Fa-f]{64}$/.test(cleanPubkey)) {
+      pubkeyBuffer = new Uint8Array(Buffer.from(cleanPubkey, "hex"));
     }
     // Check if the public key is base64 encoded
-    else if (/^[A-Za-z0-9+/=]+$/.test(pubkey) && pubkey.length % 4 === 0) {
-      pubkeyBuffer = Buffer.from(pubkey.trim(), "base64");
+    else if (/^[A-Za-z0-9+/=]{44}$/.test(cleanPubkey)) {
+      pubkeyBuffer = Buffer.from(cleanPubkey, "base64");
+    }
+    // Check if it's a raw 32-byte public key
+    else if (cleanPubkey.length === 32) {
+      pubkeyBuffer = new Uint8Array(Buffer.from(cleanPubkey, "binary"));
     } else {
-      throw new Error("Unsupported public key format. Provide a valid Base64 or hex encoded public key.");
+      throw new Error(
+        "Unsupported public key format. Provide a valid Base32, Base64, or hex encoded public key."
+      );
     }
 
     // Validate the length of the public key buffer
