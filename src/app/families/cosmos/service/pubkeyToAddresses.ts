@@ -1,4 +1,5 @@
 import { pubkeyToAddress as aminoPubkeyToAddress, encodeSecp256k1Pubkey } from "@cosmjs/amino";
+import { Secp256k1 } from "@cosmjs/crypto";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { CHAINS } from "~/app/config/chains";
 import { CosmosChainParams } from "~/app/families/cosmos/types";
@@ -27,32 +28,36 @@ async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<T
 
     const prefix = chain.params.prefix; // Get the Bech32 prefix for the Cosmos-based chain
 
-    const pubKeyBuffer: Uint8Array = /^[A-Za-z0-9+/=]+$/.test(pubkey)
-      ? fromBase64(pubkey)
-      : /^[0-9A-Fa-f]+$/.test(pubkey)
-      ? fromHex(pubkey)
-      : (() => {
-          throw new Error(
-            "Unsupported public key format. Please provide a base64 or hex encoded public key."
-          );
-        })();
+    const pubKeyBuffer: Uint8Array =
+      /^[A-Za-z0-9+/=]+$/.test(pubkey) && pubkey.length % 4 === 0
+        ? fromBase64(pubkey)
+        : /^(03)[0-9A-Fa-f]{64}$/.test(pubkey) || /^04[0-9A-Fa-f]{128}$/.test(pubkey)
+        ? fromHex(pubkey)
+        : (() => {
+            throw new Error(
+              "Unsupported public key format. Please provide a valid base64 or hex encoded public key (compressed or uncompressed)."
+            );
+          })();
 
-    // Create an Amino public key object
-    const aminoPubKey = encodeSecp256k1Pubkey(pubKeyBuffer);
+    // Compress the public key if it's uncompressed (65 bytes)
+    const compressedPubKey =
+      pubKeyBuffer.length === 65 ? Secp256k1.compressPubkey(pubKeyBuffer) : pubKeyBuffer;
 
-    // Use the pubkeyToAddress function to get the address with the correct prefix
+    // Ensure the public key is valid and compressed
+    if (compressedPubKey.length !== 33) {
+      throw new Error("Invalid public key: must be 33 bytes when compressed");
+    }
+
+    const aminoPubKey = encodeSecp256k1Pubkey(compressedPubKey);
     const address = aminoPubkeyToAddress(aminoPubKey, prefix);
 
     // Return the address in the expected format
     return [{ address, type: "default" }];
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(`Error in pubkeyToAddresses: ${error.message}`);
-      throw new Error(`Failed to convert public key to addresses: ${error.message}`);
-    } else {
-      console.error("An unknown error occurred in pubkeyToAddresses.");
-      throw new Error("An unknown error occurred while converting public key to addresses.");
-    }
+    console.error(`Error in pubkeyToAddresses: ${error instanceof Error ? error.message : "Unknown error"}`);
+    throw new Error(
+      `Failed to convert public key to addresses: ${error instanceof Error ? error.message : "Unknown error"}`
+    );
   }
 }
 
