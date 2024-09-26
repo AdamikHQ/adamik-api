@@ -1,5 +1,5 @@
 import { pubkeyToAddress as aminoPubkeyToAddress, encodeSecp256k1Pubkey } from "@cosmjs/amino";
-import { fromBase64 } from "@cosmjs/encoding";
+import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { CHAINS } from "~/app/config/chains";
 import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { ChainId, ChainParams, TypedAddress } from "~/app/model/types_WIP";
@@ -11,7 +11,6 @@ function isCosmosChain(params: ChainParams): params is CosmosChainParams {
 }
 
 async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<TypedAddress[]> {
-  // Now this is properly typed as CosmosService
   try {
     const chainId = this.chainId as ChainId;
 
@@ -28,8 +27,15 @@ async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<T
 
     const prefix = chain.params.prefix; // Get the Bech32 prefix for the Cosmos-based chain
 
-    // Convert Base64 pubkey to Buffer
-    const pubKeyBuffer = fromBase64(pubkey);
+    const pubKeyBuffer: Uint8Array = /^[A-Za-z0-9+/=]+$/.test(pubkey)
+      ? fromBase64(pubkey)
+      : /^[0-9A-Fa-f]+$/.test(pubkey)
+      ? fromHex(pubkey)
+      : (() => {
+          throw new Error(
+            "Unsupported public key format. Please provide a base64 or hex encoded public key."
+          );
+        })();
 
     // Create an Amino public key object
     const aminoPubKey = encodeSecp256k1Pubkey(pubKeyBuffer);
@@ -42,10 +48,11 @@ async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<T
   } catch (error) {
     if (error instanceof Error) {
       console.error(`Error in pubkeyToAddresses: ${error.message}`);
+      throw new Error(`Failed to convert public key to addresses: ${error.message}`);
     } else {
       console.error("An unknown error occurred in pubkeyToAddresses.");
+      throw new Error("An unknown error occurred while converting public key to addresses.");
     }
-    throw new Error("Failed to convert public key to addresses.");
   }
 }
 
