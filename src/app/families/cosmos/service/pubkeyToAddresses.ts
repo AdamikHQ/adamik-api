@@ -1,16 +1,18 @@
 import { pubkeyToAddress as aminoPubkeyToAddress, encodeSecp256k1Pubkey } from "@cosmjs/amino";
 import { fromBase64 } from "@cosmjs/encoding";
+import { PublicKey } from "@injectivelabs/sdk-ts";
 import { CHAINS } from "~/app/config/chains";
 import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { ChainId, ChainParams, TypedAddress } from "~/app/model/types_WIP";
 import { CosmosService } from ".";
+import { isHex } from "../logic";
 
 // Type guard to check if the chain params include Cosmos-related fields
 function isCosmosChain(params: ChainParams): params is CosmosChainParams {
   return !!params && (params as CosmosChainParams).prefix !== undefined;
 }
 
-async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<TypedAddress[]> {
+async function pubkeyToAddresses(this: CosmosService, pubKey: string): Promise<TypedAddress[]> {
   // Now this is properly typed as CosmosService
   try {
     const chainId = this.chainId as ChainId;
@@ -28,8 +30,14 @@ async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<T
 
     const prefix = chain.params.prefix; // Get the Bech32 prefix for the Cosmos-based chain
 
+    const pubkeyBase64 = isHex(pubKey) ? Buffer.from(pubKey, "hex").toString("base64") : pubKey;
+
+    if (chainId === ChainId.INJECTIVE) {
+      return [{ address: PublicKey.fromBase64(pubkeyBase64).toAddress().toBech32(), type: "default" }];
+    }
+
     // Convert Base64 pubkey to Buffer
-    const pubKeyBuffer = fromBase64(pubkey);
+    const pubKeyBuffer = fromBase64(pubkeyBase64);
 
     // Create an Amino public key object
     const aminoPubKey = encodeSecp256k1Pubkey(pubKeyBuffer);

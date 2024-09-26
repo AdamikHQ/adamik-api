@@ -9,6 +9,7 @@ import {
   AminoMsgUndelegate,
   AminoMsgWithdrawDelegatorReward,
 } from "@cosmjs/stargate";
+import { getAminoStdSignDoc } from "@injectivelabs/sdk-ts";
 import { bech32 } from "bech32";
 import { BigNumber } from "bignumber.js";
 import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
@@ -30,6 +31,7 @@ import {
 import { fetchNetworkId, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
+import { buildMessagesInjective } from "./injectiveLogin";
 import { CosmosChainParams, CosmosTransactionParams } from "./types";
 
 // TODO Keep this file as a fourre-tout or split it?
@@ -360,8 +362,21 @@ async function buildSignPayload(
     gas: transaction.gas.toString(),
   };
 
-  const { aminoMsgs } = buildMessages(transaction);
   const networkId = await fetchNetworkId(chainId);
+
+  if (chainId === ChainId.INJECTIVE) {
+    const msgs = buildMessagesInjective(transaction);
+
+    return getAminoStdSignDoc({
+      chainId: networkId as any, // FIXME: Bypass type check because SDK ChainId is not exportable
+      msgs: msgs,
+      sequence: Number(account.sequence),
+      accountNumber: Number(account.accountNumber),
+      memo: transaction.memo || "",
+    });
+  }
+
+  const { aminoMsgs } = buildMessages(transaction);
 
   return makeSignDoc(
     aminoMsgs,
@@ -483,4 +498,12 @@ async function encodeToBroadcast(
   return Buffer.from(txBytes).toString("hex");
 }
 
-export { encodeToBroadcast, encodeToSign, getDelegation, getEstimatedFees, isValidAddress, resolvePubKey };
+export {
+  encodeToBroadcast,
+  encodeToSign,
+  getDelegation,
+  getEstimatedFees,
+  isHex,
+  isValidAddress,
+  resolvePubKey,
+};

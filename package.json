@@ -20,6 +20,7 @@
     "@cosmjs/encoding": "^0.32.2",
     "@cosmjs/proto-signing": "^0.32.2",
     "@cosmjs/stargate": "^0.32.2",
+    "@injectivelabs/sdk-ts": "^1.14.13",
     "@isaacs/ttlcache": "^1.4.1",
     "@t3-oss/env-nextjs": "^0.10.1",
     "@ton-api/client": "^0.1.0",
