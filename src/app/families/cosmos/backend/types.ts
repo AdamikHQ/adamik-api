@@ -68,6 +68,7 @@ type CosmosMessage = {
 }
 */
 type CosmosTransaction = {
+  code: number;
   txhash: string;
   height: string;
   timestamp: string;
