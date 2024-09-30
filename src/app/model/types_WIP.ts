@@ -50,13 +50,6 @@ enum ChainId {
   ROOTSTOCK = "rootstock",
   ROOTSTOCK_TESNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
   INJECTIVE = "injective",
-  AKASH = "akash",
-  BAND = "band",
-  DYMENSION = "dymension",
-  KYVE = "kyve",
-  NEUTRON = "neutron",
-  TERRA = "terra",
-  STARGAZE = "stargaze",
 }
 
 enum ChainFamily {
