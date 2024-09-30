@@ -46,6 +46,7 @@
     "zod-validation-error": "^3.3.0"
   },
   "devDependencies": {
+    "@injectivelabs/ts-types": "^1.14.13",
     "@types/jest": "^29.5.10",
     "@types/node": "^18.19.3",
     "@types/react": "18.3.3",

@@ -3,58 +3,27 @@ import { fromBase64 } from "@cosmjs/encoding";
 import { PublicKey } from "@injectivelabs/sdk-ts";
 import { CHAINS } from "~/app/config/chains";
 import { CosmosChainParams } from "~/app/families/cosmos/types";
-import { ChainId, ChainParams, TypedAddress } from "~/app/model/types_WIP";
+import { ChainId, TypedAddress } from "~/app/model/types_WIP";
 import { CosmosService } from ".";
 import { isHex } from "../logic";
 
-// Type guard to check if the chain params include Cosmos-related fields
-function isCosmosChain(params: ChainParams): params is CosmosChainParams {
-  return !!params && (params as CosmosChainParams).prefix !== undefined;
-}
+async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<TypedAddress[]> {
+  const chain = CHAINS[this.chainId];
+  const chainParams = chain.params as CosmosChainParams;
 
-async function pubkeyToAddresses(this: CosmosService, pubKey: string): Promise<TypedAddress[]> {
-  // Now this is properly typed as CosmosService
-  try {
-    const chainId = this.chainId as ChainId;
+  const pubkeyBase64 = isHex(pubkey) ? Buffer.from(pubkey, "hex").toString("base64") : pubkey;
 
-    // Get the chain parameters based on chainId
-    const chain = CHAINS[chainId];
-    if (!chain || !chain.params) {
-      throw new Error(`Unsupported chainId: ${chainId}`);
-    }
-
-    // Type guard to ensure we are dealing with a Cosmos-based chain
-    if (!isCosmosChain(chain.params)) {
-      throw new Error(`Chain ${chainId} does not support Cosmos-style addresses.`);
-    }
-
-    const prefix = chain.params.prefix; // Get the Bech32 prefix for the Cosmos-based chain
-
-    const pubkeyBase64 = isHex(pubKey) ? Buffer.from(pubKey, "hex").toString("base64") : pubKey;
-
-    if (chainId === ChainId.INJECTIVE) {
-      return [{ address: PublicKey.fromBase64(pubkeyBase64).toAddress().toBech32(), type: "default" }];
-    }
-
-    // Convert Base64 pubkey to Buffer
-    const pubKeyBuffer = fromBase64(pubkeyBase64);
-
-    // Create an Amino public key object
-    const aminoPubKey = encodeSecp256k1Pubkey(pubKeyBuffer);
-
-    // Use the pubkeyToAddress function to get the address with the correct prefix
-    const address = aminoPubkeyToAddress(aminoPubKey, prefix);
-
-    // Return the address in the expected format
-    return [{ address, type: "default" }];
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(`Error in pubkeyToAddresses: ${error.message}`);
-    } else {
-      console.error("An unknown error occurred in pubkeyToAddresses.");
-    }
-    throw new Error("Failed to convert public key to addresses.");
+  if (this.chainId === ChainId.INJECTIVE) {
+    return [{ address: PublicKey.fromBase64(pubkeyBase64).toAddress().toBech32(), type: "default" }];
   }
+
+  const pubKeyBuffer = fromBase64(pubkeyBase64);
+
+  const aminoPubKey = encodeSecp256k1Pubkey(pubKeyBuffer);
+
+  const address = aminoPubkeyToAddress(aminoPubKey, chainParams.prefix);
+
+  return [{ address, type: "default" }];
 }
 
 export { pubkeyToAddresses };

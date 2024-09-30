@@ -1,4 +1,4 @@
-import { AminoMsg, makeSignDoc, serializeSignDoc, StdSignDoc } from "@cosmjs/amino";
+import { AminoMsg, makeSignDoc, serializeSignDoc, StdFee, StdSignDoc } from "@cosmjs/amino";
 import { Secp256k1Signature } from "@cosmjs/crypto";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
@@ -9,7 +9,6 @@ import {
   AminoMsgUndelegate,
   AminoMsgWithdrawDelegatorReward,
 } from "@cosmjs/stargate";
-import { getAminoStdSignDoc } from "@injectivelabs/sdk-ts";
 import { bech32 } from "bech32";
 import { BigNumber } from "bignumber.js";
 import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
@@ -30,8 +29,8 @@ import {
 } from "~/app/model/types_WIP";
 import { fetchNetworkId, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
+import { buildStdSignDocForInjective } from "./chains/injective";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
-import { buildMessagesInjective } from "./injectiveLogin";
 import { CosmosChainParams, CosmosTransactionParams } from "./types";
 
 // TODO Keep this file as a fourre-tout or split it?
@@ -364,18 +363,17 @@ async function buildSignPayload(
 
   const networkId = await fetchNetworkId(chainId);
 
-  if (chainId === ChainId.INJECTIVE) {
-    const msgs = buildMessagesInjective(transaction);
+  return chainId === ChainId.INJECTIVE
+    ? buildStdSignDocForInjective(account, transaction, networkId)
+    : buildStdSignDoc(account, transaction, networkId, feeToEncode);
+}
 
-    return getAminoStdSignDoc({
-      chainId: networkId as any, // FIXME: Bypass type check because SDK ChainId is not exportable
-      msgs: msgs,
-      sequence: Number(account.sequence),
-      accountNumber: Number(account.accountNumber),
-      memo: transaction.memo || "",
-    });
-  }
-
+function buildStdSignDoc(
+  account: CosmosAccount,
+  transaction: TransactionData,
+  networkId: string,
+  feeToEncode: StdFee
+) {
   const { aminoMsgs } = buildMessages(transaction);
 
   return makeSignDoc(

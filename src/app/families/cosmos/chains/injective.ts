@@ -1,13 +1,35 @@
+import { StdSignDoc } from "@cosmjs/amino";
 import {
   MsgBeginRedelegate,
   MsgDelegate,
   MsgSend,
   MsgUndelegate,
   MsgWithdrawDelegatorReward,
+  getAminoStdSignDoc,
 } from "@injectivelabs/sdk-ts";
+import { ChainId as CosmosChainId } from "@injectivelabs/ts-types";
 import { TransactionData, TransactionMode } from "~/app/model/types_WIP";
+import { CosmosAccount } from "../backend/types";
 
-function buildMessagesInjective(transaction: TransactionData) {
+function buildStdSignDocForInjective(
+  account: CosmosAccount,
+  transaction: TransactionData,
+  networkId: CosmosChainId
+): StdSignDoc {
+  const msgs = buildMessagesForInjective(transaction);
+
+  return getAminoStdSignDoc({
+    chainId: networkId,
+    msgs,
+    sequence: Number(account.sequence),
+    accountNumber: Number(account.accountNumber),
+    memo: transaction.memo || "",
+  });
+}
+
+function buildMessagesForInjective(
+  transaction: TransactionData
+): (MsgSend | MsgDelegate | MsgBeginRedelegate | MsgUndelegate | MsgWithdrawDelegatorReward)[] {
   const amount = transaction.amount as bigint;
   const msgs = [];
   switch (transaction.mode) {
@@ -78,4 +100,4 @@ function buildMessagesInjective(transaction: TransactionData) {
   return msgs;
 }
 
-export { buildMessagesInjective };
+export { buildStdSignDocForInjective };
