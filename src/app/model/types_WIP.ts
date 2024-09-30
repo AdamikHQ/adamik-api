@@ -55,7 +55,7 @@ enum ChainId {
   DYMENSION = "dymension",
   KYVE = "kyve",
   NEUTRON = "neutron",
-  TERRA = "terra",
+  TERRA = "terra2",
   STARGAZE = "stargaze",
 }
 
