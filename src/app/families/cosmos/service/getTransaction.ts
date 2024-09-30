@@ -30,9 +30,14 @@ async function getTransaction(
   };
 
   if (cosmosTransaction.height !== "") {
-    parsedTransaction.state = TransactionState.CONFIRMED;
     parsedTransaction.timestamp = new Date(cosmosTransaction.timestamp).getTime();
     parsedTransaction.blockHeight = BigInt(cosmosTransaction.height);
+
+    if (cosmosTransaction.code === 0) {
+      parsedTransaction.state = TransactionState.CONFIRMED;
+    } else {
+      parsedTransaction.state = TransactionState.FAILED;
+    }
   }
 
   const signerInfos = cosmosTransaction.tx.auth_info.signer_infos;
