@@ -1,12 +1,13 @@
-import { Token, TokenType } from "~/app/model/types_WIP";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
-import { IBCToken } from "../types";
+import { Token, TokenType } from "~/app/model/types_WIP";
+import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
 import { CosmosService } from ".";
+import { IBCToken } from "../types";
 
-async function getTokenInfo(this: CosmosService, tokenId: string): Promise<Token | null> {
+async function getTokenInfo(this: CosmosService, tokenId: string): Promise<Token> {
   const token = COSMOS_TOKENS.find((token) => token.denom === tokenId) as IBCToken;
   if (!token) {
-    return null;
+    throw new UnsupportedTokenIDError(tokenId, this.chainId);
   }
 
   return {

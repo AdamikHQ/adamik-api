@@ -1,21 +1,22 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { inputTransactionSchema, outputTransactionSchema, transactionStatusSchema } from "../../schemaCommon";
+import {
+  encodedTransactionSchema,
+  inputTransactionDataSchema,
+  outputTransactionDataSchema,
+  transactionStatusSchema,
+} from "../../schemaCommon";
 
 const requestSchema = z.object({
-  transaction: inputTransactionSchema.omit({ encoded: true, signature: true }),
+  transaction: inputTransactionDataSchema,
 });
 
 const responseSchema = z.object({
-  transaction: outputTransactionSchema.omit({ signature: true }).and(
-    z.object({
-      status: transactionStatusSchema,
-    })
-  ),
+  transaction: outputTransactionDataSchema.merge(transactionStatusSchema).merge(encodedTransactionSchema),
 });
 
 const errorResponseSchema = responseSchema.extend({
-  transaction: outputTransactionSchema.omit({ encoded: true, signature: true }),
+  transaction: outputTransactionDataSchema.merge(transactionStatusSchema),
 });
 
 const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
@@ -42,7 +43,7 @@ const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
         "400": {
           description: "400 Bad Request - The transaction data is invalid",
           content: {
-            "application/json": { schema: responseSchema },
+            "application/json": { schema: errorResponseSchema },
           },
         },
       },

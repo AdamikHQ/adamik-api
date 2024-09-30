@@ -1,11 +1,14 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { inputTransactionSchema } from "../../schemaCommon";
+import { inputTransactionDataSchema, signedAndEncodedTransactionSchema } from "../../schemaCommon";
 
 const requestSchema = z.object({
-  transaction: inputTransactionSchema,
+  transaction: z.object({ data: inputTransactionDataSchema }).and(signedAndEncodedTransactionSchema),
 });
 
+// TODO: maybe unify with other transaction endpoints: {
+//    transaction: { hash: z.string(), status: transactionStatusSchema },
+// }
 const responseSchema = z.union([
   z.object({ hash: z.string() }),
   z.object({

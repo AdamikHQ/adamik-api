@@ -4,7 +4,7 @@ import { chainIdSchema } from "~/app/api/schemaCommon";
 
 extendZodWithOpenApi(z);
 
-const requestSchema = z.object({
+const pathParamsSchema = z.object({
   chainId: chainIdSchema,
   transactionId: z.string().openapi({
     description: "Transaction ID. Usually a hash but can be different depending on the chain.",
@@ -71,7 +71,7 @@ const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = 
       description:
         "Retrieves detailed information about a specific transaction for a blockchain network, identified by chain ID and transaction ID.",
       requestParams: {
-        path: requestSchema,
+        path: pathParamsSchema,
         query: requestParamsSchema,
       },
       responses: {
@@ -87,4 +87,4 @@ const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = 
   },
 };
 
-export { chainsChainIdTransactionTransactionIdOpenAPIPath, requestSchema, responseSchema };
+export { chainsChainIdTransactionTransactionIdOpenAPIPath, pathParamsSchema, responseSchema };

@@ -50,9 +50,8 @@ export const POST = apiHandlerWrapper(
         { transaction: deepBigintOrNumToString(transaction) },
         { status: 400, statusText: `Invalid transaction` }
       );
-    } else {
-      return NextResponse.json({ transaction: deepBigintOrNumToString(transaction) });
     }
+    return NextResponse.json({ transaction: deepBigintOrNumToString(transaction) });
   },
   {
     requestSchema,

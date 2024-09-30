@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError, ZodTypeAny, z } from "zod";
-import { fromZodError } from "zod-validation-error";
-
-export const apiResponseErrorSchema = z.object({
-  message: z.string(),
-});
-export type ApiResponseError = z.infer<typeof apiResponseErrorSchema>;
-
-export type ApiResponse<T> = T | ApiResponseError;
+import { z, ZodError, ZodTypeAny } from "zod";
+import { fromZodError, ValidationError } from "zod-validation-error";
 
 /**
  * The default value of the next.js route parameter
@@ -20,7 +13,7 @@ type MethodCallHandler<
   Out extends ZodTypeAny,
   UrlParams extends ZodTypeAny = typeof nextRouteParamsSchema
 > = {
-  (body: z.infer<In>, params: z.infer<UrlParams>): Promise<NextResponse<ApiResponse<z.infer<Out>>>>;
+  (body: z.infer<In>, params: z.infer<UrlParams>, request: NextRequest): Promise<NextResponse<z.infer<Out>>>;
 };
 
 export interface Schemas<In extends ZodTypeAny, Out extends ZodTypeAny, UrlParams extends ZodTypeAny> {
@@ -40,7 +33,7 @@ export function apiHandlerWrapper<
   return async (
     req: NextRequest,
     context: { params?: UrlParams }
-  ): Promise<NextResponse<ApiResponse<z.infer<Out>>>> => {
+  ): ReturnType<MethodCallHandler<In, Out, UrlParams>> => {
     try {
       // add other middlewares that can't run on the edge here
       // parse the request when
@@ -48,9 +41,10 @@ export function apiHandlerWrapper<
       // parse the route params
       let parsedParams = (urlParamsSchema?.parse(context.params) ?? context.params) as z.infer<UrlParams>;
 
+      const response = await handler(body, parsedParams, req);
+
       // manually calls the wrapped handler
-      return await handler(body, parsedParams);
-      // TODO: parse the response with the responseSchema?
+      return NextResponse.json(responseSchema ? responseSchema.parse(response) : response);
     } catch (err: unknown) {
       return handleRequestValidationError(err);
     }
@@ -58,7 +52,12 @@ export function apiHandlerWrapper<
 }
 
 function handleRequestValidationError(e: unknown): NextResponse {
-  if (e instanceof ZodError) {
+  if (e instanceof ValidationError) {
+    return NextResponse.json(
+      { message: e.toString(), errors: e.details },
+      { status: 400, statusText: "Invalid or missing fields" }
+    );
+  } else if (e instanceof ZodError) {
     return NextResponse.json(
       { message: fromZodError(e).toString(), errors: e.errors },
       { status: 400, statusText: "Invalid or missing fields" }

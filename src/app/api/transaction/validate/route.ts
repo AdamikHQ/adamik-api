@@ -18,11 +18,15 @@ export const POST = apiHandlerWrapper(
 
     await service.prevalidateTransaction(transaction);
 
+    let responseBody = {
+      transaction: {
+        status: transaction.status,
+      },
+    };
     if (transaction.status.errors.length) {
-      return NextResponse.json(transaction.status, { status: 400, statusText: `Invalid transaction` });
-    } else {
-      return NextResponse.json(transaction.status);
+      return NextResponse.json(responseBody, { status: 400, statusText: `Invalid transaction` });
     }
+    return NextResponse.json(responseBody);
   },
   {
     requestSchema,

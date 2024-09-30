@@ -67,7 +67,7 @@ function isStakingService(object: BaseChainService | StakingService): object is 
 // TOKENS ////////////////////////////////////////////////////////////////////////////////////
 
 interface TokenService {
-  getTokenInfo(tokenId: string): Promise<Token | null>;
+  getTokenInfo(tokenId: string): Promise<Token>;
 }
 
 // Type predicate: checks that the input object implements the TokenService interface

@@ -35,7 +35,7 @@ const bigintSchema = z
   )
   .transform((data) => BigInt(data))
   .openapi({
-    type: ["string"], // TODO: also document API for integers but only on input
+    type: ["number", "string"],
   });
 
 const chainIdSchema = z.nativeEnum(ChainId, {
@@ -47,31 +47,15 @@ const chainIdSchema = z.nativeEnum(ChainId, {
   },
 });
 
-const plainTransactionSchema = z.object({
-  chainId: chainIdSchema,
-  mode: z.nativeEnum(TransactionMode),
-  senders: z.array(z.string()),
-  recipients: z.array(z.string()),
-  // TODO should be only one of [amount, useMaxAmount]
-  amount: z.string().min(1).optional(),
-  useMaxAmount: z.boolean().optional(),
-  fees: z.string().optional(),
-  gas: z.string().optional(),
-  nonce: z.number().optional(),
-  memo: z.string().optional(),
-  format: z.nativeEnum(EncodedTransactionFormat).optional(),
-  tokenId: z.string().optional(),
-  validatorAddress: z.string().optional(),
-  params: cosmosTransactionParamsSchema.optional(), // For more than 1 family z.union() should be used
-});
-
 const errorMsgSchema = z.object({
   message: z.string(),
 });
 
 const transactionStatusSchema = z.object({
-  errors: z.array(errorMsgSchema),
-  warnings: z.array(errorMsgSchema),
+  status: z.object({
+    errors: z.array(errorMsgSchema),
+    warnings: z.array(errorMsgSchema),
+  }),
 });
 
 const chainSchema = z.object({
@@ -126,11 +110,21 @@ const amountFieldSchema = z.object({
   useMaxAmount: z.boolean().default(false),
 });
 
-const transferNativeSchema = z
+const inputTransferNativeSchema = z
   .object({
     mode: z.literal(TransactionMode.TRANSFER),
   })
   .merge(amountFieldSchema)
+  .openapi({
+    title: "Transfer",
+    description: "Transfer chain native coins",
+  });
+
+const outputTransferNativeSchema = z
+  .object({
+    mode: z.literal(TransactionMode.TRANSFER),
+    amount: z.string().optional(),
+  })
   .openapi({
     title: "Transfer",
     description: "Transfer chain native coins",
@@ -147,6 +141,17 @@ const transferTokenSchema = z
     description: "Transfer chain tokens",
   });
 
+const outputTransferTokenSchema = z
+  .object({
+    mode: z.literal(TransactionMode.TRANSFER_TOKEN),
+    amount: z.string().optional(),
+    tokenId: z.string(),
+  })
+  .openapi({
+    title: "TransferToken",
+    description: "Transfer chain tokens",
+  });
+
 const stakingDelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.DELEGATE),
@@ -157,12 +162,32 @@ const stakingDelegateSchema = z
     title: "Delegate",
   });
 
+const outputStakingDelegateSchema = z
+  .object({
+    mode: z.literal(TransactionMode.DELEGATE),
+    validatorAddress: z.string(),
+    amount: z.string().optional(),
+  })
+  .openapi({
+    title: "Delegate",
+  });
+
 const stakingUndelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.UNDELEGATE),
     validatorAddress: z.string(),
   })
   .merge(amountFieldSchema)
+  .openapi({
+    title: "Undelegate",
+  });
+
+const outputStakingUndelegateSchema = z
+  .object({
+    mode: z.literal(TransactionMode.UNDELEGATE),
+    validatorAddress: z.string(),
+    amount: z.string().optional(),
+  })
   .openapi({
     title: "Undelegate",
   });
@@ -178,6 +203,17 @@ const stakingRedelegateSchema = z
     title: "Redelegate",
   });
 
+const outputStakingRedelegateSchema = z
+  .object({
+    mode: z.literal(TransactionMode.REDELEGATE),
+    sourceValidatorAddress: z.string(),
+    targetValidatorAddress: z.string(),
+    amount: z.string().optional(),
+  })
+  .openapi({
+    title: "Redelegate",
+  });
+
 const stakingClaimRewardsSchema = z
   .object({
     mode: z.literal(TransactionMode.CLAIM_REWARDS),
@@ -188,93 +224,94 @@ const stakingClaimRewardsSchema = z
     title: "ClaimRewards",
   });
 
-const transactionDataSchema = z
-  .object({
-    chainId: chainIdSchema,
-    sender: z.string(),
-    recipient: z.string(),
-    fees: bigintSchema.optional(),
-    gas: z.string().optional(),
-    nonce: bigintSchema.optional(),
-    memo: z.string().optional(),
-    format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
-    params: z.union([cosmosTransactionParamsSchema, tonTransactionParamsSchema]).optional(),
-  })
-  .and(
-    z.discriminatedUnion("mode", [
-      transferNativeSchema,
-      stakingDelegateSchema,
-      transferTokenSchema,
-      stakingUndelegateSchema,
-      stakingRedelegateSchema,
-      stakingClaimRewardsSchema,
-    ])
-  )
-  // validation of transaction mode VS chain features
-  .refine(
-    (data) => getSupportedTransactionModes(data.chainId).includes(data.mode),
-    (data) => {
-      return {
-        message: `Transaction mode ${data.mode} is not supported for ${data.chainId}`,
-        fatal: true,
-        code: z.ZodIssueCode.invalid_enum_value,
-        path: ["mode"],
-        options: getSupportedTransactionModes(data.chainId),
-      };
-    }
-  )
-  // FIXME: once we use Zod 4, we can move the superRefine to the amountFieldSchema above (cf: https://github.com/colinhacks/zod/issues/2474#issuecomment-2101077363)
-  .superRefine((data, ctx) => {
-    if ("amount" in data || "useMaxAmount" in data) {
-      checkEitherAmountOrUseMaxAmount(data, ctx);
-    }
-  });
+const inputTransactionDataSchema = z.object({
+  data: z
+    .object({
+      chainId: chainIdSchema,
+      sender: z.string(),
+      recipient: z.string(),
+      fees: bigintSchema.optional(),
+      gas: z.string().optional(),
+      nonce: bigintSchema.optional(),
+      memo: z.string().optional(),
+      format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
+      params: z.union([cosmosTransactionParamsSchema, tonTransactionParamsSchema]).optional(),
+    })
+    .and(
+      z.discriminatedUnion("mode", [
+        inputTransferNativeSchema,
+        stakingDelegateSchema,
+        transferTokenSchema,
+        stakingUndelegateSchema,
+        stakingRedelegateSchema,
+        stakingClaimRewardsSchema,
+      ])
+    )
+    // validation of transaction mode VS chain features
+    .refine(
+      (data) => getSupportedTransactionModes(data.chainId).includes(data.mode),
+      (data) => {
+        return {
+          message: `Transaction mode ${data.mode} is not supported for ${data.chainId}`,
+          fatal: true,
+          code: z.ZodIssueCode.invalid_enum_value,
+          path: ["mode"],
+          options: getSupportedTransactionModes(data.chainId),
+        };
+      }
+    )
+    // FIXME: once we use Zod 4, we can move the superRefine to the amountFieldSchema above (cf: https://github.com/colinhacks/zod/issues/2474#issuecomment-2101077363)
+    .superRefine((data, ctx) => {
+      if ("amount" in data || "useMaxAmount" in data) {
+        checkEitherAmountOrUseMaxAmount(data, ctx);
+      }
+    }),
+});
 
-const inputTransactionSchema = z.object({
-  data: transactionDataSchema,
+const outputTransactionDataSchema = z.object({
+  data: z
+    .object({
+      chainId: chainIdSchema,
+      sender: z.string(),
+      recipient: z.string(),
+      useMaxAmount: z.boolean().default(false),
+      fees: z.string().optional(),
+      gas: z.string().optional(),
+      nonce: z.string().optional(),
+      memo: z.string().optional(),
+      format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
+      params: z.union([cosmosTransactionParamsSchema, tonTransactionParamsSchema]).or(z.any()).optional(), // FIXME: remove any and replace with BitcoinTransactionParams. For some reason, using it breaks the type system
+    })
+    .and(
+      z.discriminatedUnion("mode", [
+        outputTransferNativeSchema,
+        outputStakingDelegateSchema,
+        outputTransferTokenSchema,
+        outputStakingUndelegateSchema,
+        outputStakingRedelegateSchema,
+        stakingClaimRewardsSchema,
+      ])
+    ),
+});
+
+const encodedTransactionSchema = z.object({
   // NOTE: 'any' here because 'encoded' can also be JSON
   // Improvement could be to properly type all possible encoded formats for every family
   encoded: z.string().or(z.any()),
+});
+
+const signedAndEncodedTransactionSchema = encodedTransactionSchema.extend({
   signature: z.string(),
 });
-// Names of properties in T with types that include undefined
-type OptionalPropertyNames<T> = { [K in keyof T]: undefined extends T[K] ? K : never }[keyof T];
-
-// Common properties from L and R with undefined in R[K] replaced by type in L[K]
-type SpreadProperties<L, R, K extends keyof L & keyof R> = { [P in K]: L[P] | Exclude<R[P], undefined> };
-
-type Id<T> = T extends infer U ? { [K in keyof U]: U[K] } : never; // see note at bottom*
-
-// Type of { ...L, ...R }
-type Spread<L, R> = Id<
-  // Properties in L that don't exist in R
-  Pick<L, Exclude<keyof L, keyof R>> & R
->;
-
-function merge<A extends object, B extends object>(a: A, b: B) {
-  return Object.assign(a, b) as unknown as Spread<A, B>;
-}
-
-// TODO: should replace deepBigintToString inside the wrapper with a parse call
-const outputTransactionSchema = inputTransactionSchema.extend({
-  data: inputTransactionSchema.shape.data.transform((data) => {
-    const modifiedData = {
-      fees: String(data.fees),
-      nonce: String(data.nonce),
-      params: data.params as typeof data.params | any, // FIXME: remove any and replace with BitcoinTransactionParams. For some reason, using it breaks the type system
-    };
-    return merge(data, modifiedData as Partial<typeof modifiedData>);
-  }),
-});
-
-type fees = z.infer<typeof outputTransactionSchema>["data"]["params"];
 
 export {
   chainIdSchema,
   chainSchema,
-  inputTransactionSchema,
-  outputTransactionSchema,
+  encodedTransactionSchema,
+  inputTransactionDataSchema,
+  outputTransactionDataSchema,
   paginationSchema,
+  signedAndEncodedTransactionSchema,
   tokenSchema,
   transactionStatusSchema,
 };

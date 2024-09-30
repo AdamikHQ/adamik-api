@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { fromError, ValidationError } from "zod-validation-error";
 import { getService } from "~/app/families/services";
 import { ApiRequestFilters } from "~/app/model/types_WIP";
 import { deepBigintOrNumToString } from "~/app/tools/convertors/deepBigintToString";
@@ -6,7 +7,7 @@ import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
 import { requestSchema, responseSchema } from "./schema";
 
 export const POST = apiHandlerWrapper(
-  async ({ chainId, accountId }) => {
+  async ({ chainId, accountId }, _, request) => {
     // Parse supported query params like : /.../...?include=native,tokens,staking
     // to build an ApiRequestFilters object like : { native?: true, tokens?: true, staking?: true }
     const filters: ApiRequestFilters = {};
@@ -25,10 +26,7 @@ export const POST = apiHandlerWrapper(
     const isAccountIdValid = await service.validateAddress(accountId);
 
     if (!isAccountIdValid) {
-      return NextResponse.json(
-        { message: `Invalid accountId ${accountId} for chainId ${chainId}` },
-        { status: 400, statusText: "Invalid or missing fields" }
-      );
+      throw new ValidationError(`Invalid accountId ${accountId} for chainId ${chainId}`);
     }
 
     try {
@@ -47,12 +45,9 @@ export const POST = apiHandlerWrapper(
       };
       return NextResponse.json(deepBigintOrNumToString(state));
     } catch (e: any) {
-      // FIXME Weak error management...
+      // FIXME Weak error management through ValidationError to turn all errors as user input errors ..
       // We should maybe propagate a status instead, same as for transaction/encode
-      return NextResponse.json(
-        { message: e.toString() },
-        { status: 400, statusText: "Invalid or missing fields" }
-      );
+      throw fromError(e);
     }
   },
   {

@@ -21,7 +21,7 @@ export const POST = apiHandlerWrapper(
     const broadcastPayload = await service.encodeTransactionToBroadcast(transaction);
     if (transaction.status.errors.length) {
       return NextResponse.json(
-        { error: transaction.status.errors[0] },
+        { error: { message: transaction.status.errors[0].message } },
         {
           status: 400,
           statusText: `Invalid transaction`,
@@ -33,9 +33,8 @@ export const POST = apiHandlerWrapper(
 
     if ("error" in broadcastStatus) {
       return NextResponse.json(broadcastStatus, { status: 400, statusText: `Invalid transaction` });
-    } else {
-      return NextResponse.json(broadcastStatus);
     }
+    return NextResponse.json(broadcastStatus);
   },
   {
     requestSchema,

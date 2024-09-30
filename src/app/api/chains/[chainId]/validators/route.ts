@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { isStakingService } from "~/app/model/service";
 import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { pathParamsSchema, requestSchema, responseSchema } from "./schema";
 
 // TODO Make sure to document this implicit limit in the doc / swagger description
@@ -13,10 +14,7 @@ export const POST = apiHandlerWrapper(
     const service = getService(chainId);
 
     if (!isStakingService(service)) {
-      return NextResponse.json(
-        { message: `Staking is not supported for chainId ${chainId}` },
-        { status: 400, statusText: "Unsupported feature" }
-      );
+      throw new UnsupportedFeatureError(`Staking is not supported for chainId ${chainId}`);
     }
 
     const validators = pagination ? await service.getValidators(pagination) : await service.getValidators();

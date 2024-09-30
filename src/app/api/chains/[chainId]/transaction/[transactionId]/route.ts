@@ -1,15 +1,13 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
 import { getService } from "~/app/families/services";
 import { ApiRequestFilters } from "~/app/model/types_WIP";
 import { deepBigintOrNumToString } from "~/app/tools/convertors/deepBigintToString";
 import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
-import { requestSchema, responseSchema } from "./schema";
-
-type Params = z.infer<typeof requestSchema>;
+import { UserInputError } from "~/app/tools/handlers/errors";
+import { pathParamsSchema, responseSchema } from "./schema";
 
 export const GET = apiHandlerWrapper(
-  async ({ transactionId }, { chainId }) => {
+  async (_, { transactionId, chainId }, request) => {
     // Parse supported query params like : /.../...?include=parsed,raw
     // to build an ApiRequestFilters object like : { parsed?: true, raw?: true }
     const filters: ApiRequestFilters = {};
@@ -18,7 +16,7 @@ export const GET = apiHandlerWrapper(
       .get("include")
       ?.split(",")
       .filter(Boolean)
-      .forEach((param) => {
+      .forEach((param: string) => {
         filters[param] = true;
       });
 
@@ -26,17 +24,17 @@ export const GET = apiHandlerWrapper(
 
     const transaction = await service.getTransaction(transactionId);
     if (!transaction) {
-      return NextResponse.json(
-        { message: `Transaction ${transactionId} not found for chainId ${chainId}` },
-        { status: 400, statusText: `Transaction not found` }
+      throw new UserInputError(
+        `Transaction ${transactionId} not found for chainId ${chainId}`,
+        "Transaction not found"
       );
     }
 
     // Apply filters
     if (filters.parsed && !transaction.parsed) {
-      return NextResponse.json(
-        { message: `Parsing currently not supported for transaction ${transactionId}` },
-        { status: 500, statusText: `Transaction not supported` }
+      throw new UserInputError(
+        `Parsing currently not supported for transaction ${transactionId}`,
+        "Transaction not supported"
       );
     }
 
@@ -50,7 +48,7 @@ export const GET = apiHandlerWrapper(
     });
   },
   {
-    requestSchema,
+    pathParamsSchema,
     responseSchema,
   }
 );
