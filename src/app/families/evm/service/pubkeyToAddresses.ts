@@ -6,9 +6,7 @@ import { EvmAddress } from "../types";
 // Converts an EVM public key to an Ethereum-like address
 async function pubkeyToAddresses(this: EvmService, pubkey: string): Promise<TypedAddress[]> {
   try {
-    const publicKeyHex = normalizePublicKey(pubkey);
-    const validatedKey = validatePublicKey(publicKeyHex);
-
+    const validatedKey = validatePublicKey(pubkey);
     const address = computeAddress("0x" + validatedKey) as EvmAddress;
     return [{ address, type: "default" }];
   } catch (error: unknown) {
@@ -16,21 +14,22 @@ async function pubkeyToAddresses(this: EvmService, pubkey: string): Promise<Type
   }
 }
 
-function normalizePublicKey(pubkey: string): string {
-  if (!pubkey.startsWith("0x") && pubkey.length !== 130 && pubkey.length !== 66) {
-    return Buffer.from(pubkey, "base64").toString("hex").trim();
-  }
-  return pubkey.startsWith("0x") ? pubkey.slice(2).trim() : pubkey.trim();
-}
+function validatePublicKey(pubkey: string): string {
+  const cleanPubkey = pubkey.startsWith("0x") ? pubkey.slice(2) : pubkey;
 
-function validatePublicKey(publicKeyHex: string): string {
-  if (publicKeyHex.length === 66 && (publicKeyHex.startsWith("02") || publicKeyHex.startsWith("03"))) {
-    return uncompressPublicKey(publicKeyHex);
+  if (!/^[0-9a-fA-F]+$/.test(cleanPubkey)) {
+    throw new Error("Invalid public key format. Expected a hex-encoded string.");
   }
-  if (publicKeyHex.length !== 130 || !publicKeyHex.startsWith("04")) {
-    throw new Error("Unsupported public key format or incorrect length.");
+
+  if (cleanPubkey.length === 130 && cleanPubkey.startsWith("04")) {
+    return cleanPubkey;
+  } else if (cleanPubkey.length === 66 && (cleanPubkey.startsWith("02") || cleanPubkey.startsWith("03"))) {
+    return uncompressPublicKey(cleanPubkey);
+  } else {
+    throw new Error(
+      "Invalid public key length. Expected 66 characters for compressed keys or 130 characters for uncompressed keys (excluding '0x' prefix if present)."
+    );
   }
-  return publicKeyHex;
 }
 
 function uncompressPublicKey(compressedKey: string): string {
