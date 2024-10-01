@@ -191,7 +191,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "DYDX",
     decimals: 18,
     backends: {
-      nodeURL: "https://lcd-dydx.imperator.co",
+      // (configs can be checked with [nodeURL]/cosmos/base/node/v1beta1/config )
+      nodeURL: "https://dydx-rest.publicnode.com",
+      // nodeURL: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live, but we've been blacklisted...
+      //nodeURL: "https://lcd-dydx.imperator.co", // Should be the best one, but only accepts fees in IBC token USDC at the moment...
+      //nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands twice the standard minimum gas fees, for some reason
     },
     params: {
       prefix: "dydx",
