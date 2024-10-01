@@ -31,7 +31,7 @@
 
 ## dydx
 
-| nodeURL | https://lcd-dydx.imperator.co |
+| nodeURL | https://dydx-rest.publicnode.com |
 
 ## axelar
 
