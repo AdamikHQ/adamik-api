@@ -215,3 +215,8 @@
 ## injective
 
 | nodeURL | https://lcd-injective.imperator.co |
+
+## dogecoin
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/dogecoin |
