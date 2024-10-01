@@ -1,6 +1,6 @@
 import { pubkeyToAddress as aminoPubkeyToAddress, encodeSecp256k1Pubkey } from "@cosmjs/amino";
 import { Secp256k1 } from "@cosmjs/crypto";
-import { fromBase64, fromHex } from "@cosmjs/encoding";
+import { fromHex } from "@cosmjs/encoding";
 import { CHAINS } from "~/app/config/chains";
 import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { ChainId, ChainParams, TypedAddress } from "~/app/model/types_WIP";
@@ -29,13 +29,11 @@ async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<T
     const prefix = chain.params.prefix; // Get the Bech32 prefix for the Cosmos-based chain
 
     const pubKeyBuffer: Uint8Array =
-      /^[A-Za-z0-9+/=]+$/.test(pubkey) && pubkey.length % 4 === 0
-        ? fromBase64(pubkey)
-        : /^(03)[0-9A-Fa-f]{64}$/.test(pubkey) || /^04[0-9A-Fa-f]{128}$/.test(pubkey)
+      /^(02|03)[0-9A-Fa-f]{64}$/.test(pubkey) || /^04[0-9A-Fa-f]{128}$/.test(pubkey)
         ? fromHex(pubkey)
         : (() => {
             throw new Error(
-              "Unsupported public key format. Please provide a valid base64 or hex encoded public key (compressed or uncompressed)."
+              "Unsupported public key format. Please provide a valid hex encoded public key (compressed or uncompressed)."
             );
           })();
 
