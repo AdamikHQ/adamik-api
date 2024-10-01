@@ -118,22 +118,85 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string"
-                      },
-                      "address": {
-                        "type": "string"
-                      }
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "cosmoshub-testnet",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "palm",
+                        "mantle",
+                        "chiliz",
+                        "chiliz-testnet",
+                        "ton",
+                        "bitcoin",
+                        "bitcoin-testnet",
+                        "litecoin",
+                        "rootstock",
+                        "rootstock-testnet",
+                        "injective"
+                      ]
                     },
-                    "required": [
-                      "type",
-                      "address"
-                    ]
-                  }
+                    "pubkey": {
+                      "type": "string"
+                    },
+                    "addresses": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "address"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "pubkey",
+                    "addresses"
+                  ]
                 }
               }
             }
