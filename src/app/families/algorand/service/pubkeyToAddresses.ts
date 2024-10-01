@@ -8,34 +8,28 @@ import { AlgorandService } from ".";
  * @returns {Promise<TypedAddress[]>} - The Algorand address.
  */
 async function pubkeyToAddresses(this: AlgorandService, pubkey: string): Promise<TypedAddress[]> {
-  try {
-    // Remove '0x' prefix if present
-    const cleanPubkey = pubkey.startsWith("0x") ? pubkey.slice(2) : pubkey;
+  // Remove '0x' prefix if present
+  const cleanPubkey = pubkey.startsWith("0x") ? pubkey.slice(2) : pubkey;
 
-    // Check if the public key is hex encoded (64 characters for 32 bytes)
-    if (!/^[0-9A-Fa-f]{64}$/.test(cleanPubkey)) {
-      throw new Error(
-        "Invalid input format. Please provide a 32-byte public key in hex format (64 hexadecimal characters, with or without '0x' prefix)."
-      );
-    }
-
-    const pubkeyBuffer = new Uint8Array(Buffer.from(cleanPubkey, "hex"));
-
-    // Encode the public key buffer to an Algorand address
-    const address = encodeAddress(pubkeyBuffer);
-
-    // Validate the generated address
-    if (!isValidAddress(address)) {
-      throw new Error("Generated address is not valid");
-    }
-
-    // Return the address in the expected format
-    return [{ type: "default", address }];
-  } catch (error) {
+  // Check if the public key is hex encoded (64 characters for 32 bytes)
+  if (!/^[0-9A-Fa-f]{64}$/.test(cleanPubkey)) {
     throw new Error(
-      `Failed to convert public key to address: ${error instanceof Error ? error.message : "Unknown error"}`
+      "Invalid input format. Please provide a 32-byte public key in hex format (64 hexadecimal characters, with or without '0x' prefix)."
     );
   }
+
+  const pubkeyBuffer = new Uint8Array(Buffer.from(cleanPubkey, "hex"));
+
+  // Encode the public key buffer to an Algorand address
+  const address = encodeAddress(pubkeyBuffer);
+
+  // Validate the generated address
+  if (!isValidAddress(address)) {
+    throw new Error("Generated address is not valid");
+  }
+
+  // Return the address in the expected format
+  return [{ type: "default", address }];
 }
 
 export { pubkeyToAddresses };
