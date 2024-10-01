@@ -1,4 +1,4 @@
-import { encodeAddress, isValidAddress } from "algosdk";
+import { encodeAddress } from "algosdk";
 import { TypedAddress } from "~/app/model/types_WIP";
 import { AlgorandService } from ".";
 
@@ -22,11 +22,6 @@ async function pubkeyToAddresses(this: AlgorandService, pubkey: string): Promise
 
   // Encode the public key buffer to an Algorand address
   const address = encodeAddress(pubkeyBuffer);
-
-  // Validate the generated address
-  if (!isValidAddress(address)) {
-    throw new Error("Generated address is not valid");
-  }
 
   // Return the address in the expected format
   return [{ type: "default", address }];
