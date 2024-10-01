@@ -3,6 +3,8 @@ import { TypedAddress } from "~/app/model/types_WIP";
 import { EvmService } from ".";
 import { EvmAddress } from "../types";
 
+const secp256k1 = require("secp256k1");
+
 // Converts an EVM public key to an Ethereum-like address
 async function pubkeyToAddresses(this: EvmService, pubkey: string): Promise<TypedAddress[]> {
   try {
@@ -33,8 +35,6 @@ function validatePublicKey(pubkey: string): string {
 }
 
 function uncompressPublicKey(compressedKey: string): string {
-  const secp256k1 = require("secp256k1");
-
   const compressedKeyBytes = Uint8Array.from(Buffer.from(compressedKey, "hex"));
   const uncompressedKeyBytes = secp256k1.publicKeyConvert(compressedKeyBytes, false);
   const uncompressedKey = Buffer.from(uncompressedKeyBytes).toString("hex");
