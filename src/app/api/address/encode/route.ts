@@ -6,9 +6,9 @@ export const POST = apiHandlerWrapper(
   async ({ chainId, pubkey }) => {
     const service = getService(chainId);
 
-    const address = await service.pubkeyToAddresses(pubkey);
+    const addresses = await service.pubkeyToAddresses(pubkey);
 
-    return AdamikResponse.json(address);
+    return AdamikResponse.json({ chainId, pubkey, addresses });
   },
   {
     requestSchema,

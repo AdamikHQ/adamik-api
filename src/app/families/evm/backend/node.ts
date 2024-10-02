@@ -24,6 +24,8 @@ import {
   palm,
   polygon,
   polygonAmoy,
+  rootstock,
+  rootstockTestnet,
   sepolia,
   zkSync,
   zkSyncSepoliaTestnet,
@@ -100,6 +102,10 @@ function getClientConfig(chainId: ChainId) {
       return { chain: chiliz, transport };
     case ChainId.CHILIZ_TESTNET:
       return { chain: chilizTesnet, transport };
+    case ChainId.ROOTSTOCK:
+      return { chain: rootstock, transport };
+    case ChainId.ROOTSTOCK_TESNET:
+      return { chain: rootstockTestnet, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }

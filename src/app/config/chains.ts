@@ -68,7 +68,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "ATOM",
     decimals: 6,
     backends: {
-      nodeURL: "https://cosmos-rest.publicnode.com",
+      nodeURL: "https://lcd-cosmos.imperator.co",
     },
     params: {
       prefix: "cosmos",
@@ -109,7 +109,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "OSMO",
     decimals: 6,
     backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/osmosis/rest/bfdb617358bd786c30374c8799978c27",
+      nodeURL: "https://lcd-osmosis.imperator.co",
     },
     params: {
       prefix: "osmo",
@@ -151,7 +151,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-celestia.imperator.co",
-      //nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27",
     },
     params: {
       prefix: "celestia",
@@ -216,7 +215,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "AXL",
     decimals: 6,
     backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/axelar/rest/bfdb617358bd786c30374c8799978c27",
+      nodeURL: "https://lcd-axelar.imperator.co",
     },
     params: {
       prefix: "axelar",
@@ -306,6 +305,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
+  //INJECTIVE-TESTNET EVM Version
   "injective-testnet": {
     family: ChainFamily.EVM,
     id: ChainId.INJECTIVE_TESTNET,
@@ -661,6 +661,41 @@ const CHAINS: { [key in ChainId]: Chain } = {
       ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
     ],
   },
+  rootstock: {
+    family: ChainFamily.EVM,
+    id: ChainId.ROOTSTOCK,
+    nativeId: "30",
+    name: "RootStock Mainnet",
+    ticker: "RBTC",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://public-node.rsk.co",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: [
+      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+      //Issue with EIP-1559 tx on rootstock
+      //ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ],
+  },
+  "rootstock-testnet": {
+    family: ChainFamily.EVM,
+    id: ChainId.ROOTSTOCK_TESTNET,
+    nativeId: "31",
+    name: "RootStock Testnet",
+    ticker: "tRBTC",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://public-node.testnet.rsk.co",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    isTestNet: true,
+    supportedFeatures: [
+      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+      //Issue with EIP-1559 tx on rootstock
+      //ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ],
+  },
   [ChainId.LITECOIN]: {
     id: ChainId.LITECOIN,
     name: "Litecoin",
@@ -716,6 +751,43 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
+  //Injective Cosmos based version
+  injective: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.INJECTIVE,
+    nativeId: "injective-1",
+    name: "Injective",
+    ticker: "INJ",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://lcd-injective.imperator.co",
+    },
+    params: {
+      prefix: "inj",
+      validatorPrefix: "injvaloper",
+      denom: "inj",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey", // should be eth_secp256k1 instead of secp256k1 (see https://docs.injective.network/learn/basic-concepts/accounts/)
+      defaultGas: 100000,
+      minGasPrice: 700000000,
+    },
+    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+  },
+  [ChainId.DOGECOIN]: {
+    id: ChainId.DOGECOIN,
+    name: "Dogecoin",
+    family: ChainFamily.BITCOIN,
+    ticker: "DOGE",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/dogecoin",
+    },
+    params: {
+      confirmations: 60, // confirmations used by Coinbase or Binance
+    },
+    nativeId: "dogecoin",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
   },
 } as const;
 

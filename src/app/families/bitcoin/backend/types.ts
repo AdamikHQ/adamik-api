@@ -255,7 +255,10 @@ const BlockchairXpubData = z.record(
 );
 
 const BlockchairXpubResponse = z.object({
-  data: BlockchairXpubData,
+  data: BlockchairXpubData.or(z.tuple([]))
+    .nullable()
+    .transform((data) => (!data || Array.isArray(data) ? {} : data))
+    .pipe(BlockchairXpubData),
   context: requestContextSchema.and(
     // not part of the typical context answer, only happens in the xpub dashboard
     z.object({

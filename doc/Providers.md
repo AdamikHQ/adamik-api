@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| nodeURL | https://cosmos-rest.publicnode.com |
+| nodeURL | https://lcd-cosmos.imperator.co |
 
 ## cosmoshub-testnet
 
@@ -15,7 +15,7 @@
 
 ## osmosis
 
-| nodeURL | https://g.w.lavanet.xyz:443/gateway/osmosis/rest/bfdb617358bd786c30374c8799978c27 |
+| nodeURL | https://lcd-osmosis.imperator.co |
 
 ## osmosis-testnet
 
@@ -35,7 +35,7 @@
 
 ## axelar
 
-| nodeURL | https://g.w.lavanet.xyz:443/gateway/axelar/rest/bfdb617358bd786c30374c8799978c27 |
+| nodeURL | https://lcd-axelar.imperator.co |
 
 ## ethereum
 
@@ -182,6 +182,16 @@
 | nodeURL | https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf |
 | explorerURL | https://deep-index.moralis.io/api |
 
+## rootstock
+
+| nodeURL | https://public-node.rsk.co |
+| explorerURL | https://deep-index.moralis.io/api |
+
+## rootstock-testnet
+
+| nodeURL | https://public-node.testnet.rsk.co |
+| explorerURL | https://deep-index.moralis.io/api |
+
 ## litecoin
 
 | nodeURL |  |
@@ -201,3 +211,12 @@
 
 | nodeURL | https://chiliz-spicy.publicnode.com |
 | explorerURL | https://deep-index.moralis.io/api |
+
+## injective
+
+| nodeURL | https://lcd-injective.imperator.co |
+
+## dogecoin
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/dogecoin |
