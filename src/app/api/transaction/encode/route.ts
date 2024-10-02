@@ -20,31 +20,27 @@ async function POST(request: NextRequest): Promise<NextResponse> {
     status: { errors: [], warnings: [] },
   };
 
-  try {
-    await service.prevalidateTransaction(transaction);
-    if (transaction.status.errors.length) {
-      return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
-    }
+  await service.prevalidateTransaction(transaction);
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  }
 
-    await service.completeTransaction(transaction);
-    if (transaction.status.errors.length) {
-      return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
-    }
+  await service.completeTransaction(transaction);
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  }
 
-    await service.validateTransaction(transaction);
-    if (transaction.status.errors.length) {
-      return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
-    }
+  await service.validateTransaction(transaction);
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  }
 
-    await service.encodeTransactionToSign(transaction);
+  await service.encodeTransactionToSign(transaction);
 
-    if (transaction.status.errors.length) {
-      return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
-    } else {
-      return NextResponse.json({ transaction });
-    }
-  } catch (e: any) {
-    return NextResponse.json({ message: e.toString() }, { status: 500, statusText: "Internal error" });
+  if (transaction.status.errors.length) {
+    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+  } else {
+    return NextResponse.json({ transaction });
   }
 }
 

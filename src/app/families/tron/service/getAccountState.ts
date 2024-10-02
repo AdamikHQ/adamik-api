@@ -7,7 +7,7 @@ async function getAccountState(this: TronService, accountId: string): Promise<Ac
 
   console.log(JSON.stringify(accountInfo, null, 2));
 
-  const nativeBalance = BigInt(accountInfo.balance);
+  const nativeBalance = accountInfo?.balance ? BigInt(accountInfo.balance) : BigInt(0);
 
   return {
     chainId: this.chainId,

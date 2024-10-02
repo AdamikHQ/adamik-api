@@ -44,7 +44,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
     ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
     ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
   ],
-  [ChainFamily.TRON]: [ChainFeature.READ_ACCOUNT_BALANCES_NATIVE],
+  [ChainFamily.TRON]: [ChainFeature.READ_ACCOUNT_BALANCES_NATIVE, ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE],
 };
 
 const CHAINS: { [key in ChainId]: Chain } = {
