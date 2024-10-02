@@ -1,22 +1,22 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { inputTransactionDataSchema, signedAndEncodedTransactionSchema } from "../../schemaCommon";
+import {
+  inputTransactionDataSchema,
+  outputTransactionDataSchema,
+  signedAndEncodedTransactionSchema,
+  statusSchema,
+} from "../../schemaCommon";
 
 const requestSchema = z.object({
-  transaction: z.object({ data: inputTransactionDataSchema }).and(signedAndEncodedTransactionSchema),
+  transaction: inputTransactionDataSchema.and(signedAndEncodedTransactionSchema),
 });
 
-// TODO: maybe unify with other transaction endpoints: {
-//    transaction: { hash: z.string(), status: transactionStatusSchema },
-// }
-const responseSchema = z.union([
-  z.object({ hash: z.string() }),
-  z.object({
-    error: z.object({
-      message: z.string(),
-    }),
-  }),
-]);
+const responseSchema = z
+  .object({
+    hash: z.string().optional(),
+    transaction: outputTransactionDataSchema,
+  })
+  .merge(statusSchema);
 
 const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/broadcast": {

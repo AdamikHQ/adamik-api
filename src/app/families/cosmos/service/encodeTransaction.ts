@@ -18,22 +18,18 @@ async function encodeTransactionToBroadcast(
   this: CosmosService,
   signedTransaction: Transaction
 ): Promise<string> {
-  try {
-    if (!signedTransaction.encoded) {
-      throw new Error("Missing encoded transaction");
-    }
-    if (!signedTransaction.signature) {
-      throw new Error("Missing transaction signature");
-    }
-
-    const account = await fetchAccount(this.chainId, signedTransaction.data.sender);
-    const updatedAccount = resolvePubKey(account, signedTransaction);
-
-    return await encodeToBroadcast(this.chainId, updatedAccount, signedTransaction);
-  } catch (e: any) {
-    signedTransaction.status.errors.push({ message: `Error while encoding to broadcast: ${e.message}` });
-    return "";
+  // Useless checks to make the compiler happy, Zod already validated the fields
+  if (!signedTransaction.encoded) {
+    throw new Error("Missing encoded transaction");
   }
+  if (!signedTransaction.signature) {
+    throw new Error("Missing transaction signature");
+  }
+
+  const account = await fetchAccount(this.chainId, signedTransaction.data.sender);
+  const updatedAccount = resolvePubKey(account, signedTransaction);
+
+  return await encodeToBroadcast(this.chainId, updatedAccount, signedTransaction);
 }
 
 export { encodeTransactionToBroadcast, encodeTransactionToSign };

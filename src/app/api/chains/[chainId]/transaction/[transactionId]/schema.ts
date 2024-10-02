@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema } from "~/app/api/schemaCommon";
+import { bigintToStringSchema, chainIdSchema, statusSchema } from "~/app/api/schemaCommon";
+import { deepBigintToString } from "~/app/tools/convertors/deepBigintToString";
 
 extendZodWithOpenApi(z);
 
@@ -29,39 +30,46 @@ const requestParamsSchema = z.object({
     }),
 });
 
-const responseSchema = z.object({
-  raw: z.unknown(),
-  parsed: z
-    .object({
-      chainId: chainIdSchema,
-      id: z.string(),
-      tokenId: z.string().optional(),
-      blockHeight: z.string().optional(),
-      timestamp: z
-        .string()
-        .openapi({
-          description: "Timestamp in milliseconds",
-        })
-        .optional(),
-      senders: z
-        .object({
-          address: z.string(),
-        })
-        .array(),
-      recipients: z
-        .object({
-          address: z.string(),
-          amount: z.string(),
-        })
-        .array()
-        .optional(),
-      fees: z.string(),
-      gas: z.string().optional(),
-      nonce: z.string().optional(),
-      memo: z.string().optional(),
-    })
-    .optional(),
-});
+// TODO: wrap raw & parsed inside transaction object ?
+const responseSchema = z
+  .object({
+    raw: z
+      .any()
+      .transform((data) => deepBigintToString(data)) // FIXME: remove this once we have a better way to handle raw transactions
+      .pipe(z.unknown()),
+    parsed: z
+      .object({
+        chainId: chainIdSchema,
+        id: z.string(),
+        tokenId: z.string().optional(),
+        blockHeight: bigintToStringSchema.optional(),
+        timestamp: z
+          .number()
+          .pipe(z.coerce.string())
+          .openapi({
+            description: "Timestamp in milliseconds",
+          })
+          .optional(),
+        senders: z
+          .object({
+            address: z.string(),
+          })
+          .array(),
+        recipients: z
+          .object({
+            address: z.string(),
+            amount: bigintToStringSchema,
+          })
+          .array()
+          .optional(),
+        fees: bigintToStringSchema,
+        gas: bigintToStringSchema.optional(),
+        nonce: bigintToStringSchema.optional(),
+        memo: z.string().optional(),
+      })
+      .optional(),
+  })
+  .merge(statusSchema);
 
 const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}/transaction/{transactionId}": {

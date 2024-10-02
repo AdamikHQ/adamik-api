@@ -1,25 +1,34 @@
 import { CHAINS } from "~/app/config/chains";
 import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
 import { CosmosService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
 import { fetchBalances, fetchDelegations } from "../backend/node";
 import { getDelegation, isValidAddress } from "../logic";
 import { CosmosChainParams } from "../types";
 
-async function prevalidateTransaction(this: CosmosService, transaction: Transaction): Promise<void> {
-  transaction.status = await prevalidateTransactionCommon(transaction.data, async (address: string) =>
+async function prevalidateTransaction(
+  this: CosmosService,
+  transaction: Transaction,
+  status: AdamikStatus
+): Promise<void> {
+  status = await prevalidateTransactionCommon(transaction.data, async (address: string) =>
     isValidAddress(address, this.chainId)
   );
 
   // Amount can't be 0 on cosmos chains
   if (transaction.data.amount === 0n) {
-    transaction.status.errors.push({
+    status.errors.push({
       message: `Amount cannot be 0 on chain ${this.chainId}`,
     });
   }
 }
 
-async function validateTransaction(this: CosmosService, transaction: Transaction): Promise<void> {
+async function validateTransaction(
+  this: CosmosService,
+  transaction: Transaction,
+  status: AdamikStatus
+): Promise<void> {
   const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
   const transactionData = transaction.data;
   // amount & fees are safe to cast as they're guaranteed to be filed in by completeTransaction
@@ -37,7 +46,7 @@ async function validateTransaction(this: CosmosService, transaction: Transaction
     case TransactionMode.DELEGATE:
       // - amount + fees < nativeBalance
       if (availableBalance && amount + fees > BigInt(availableBalance)) {
-        transaction.status.errors.push({ message: "Balance is too low" });
+        status.errors.push({ message: "Balance is too low" });
       }
 
       break;
@@ -46,7 +55,7 @@ async function validateTransaction(this: CosmosService, transaction: Transaction
 
       // - amount < tokenBalance
       if (!tokenBalance || amount > BigInt(tokenBalance)) {
-        transaction.status.errors.push({ message: "Token balance is too low" });
+        status.errors.push({ message: "Token balance is too low" });
       }
 
       break;
@@ -60,18 +69,18 @@ async function validateTransaction(this: CosmosService, transaction: Transaction
 
       // - amount < delegationBalance
       if (delegationBalance && amount > delegationBalance) {
-        transaction.status.errors.push({ message: "Staked balance is too low" });
+        status.errors.push({ message: "Staked balance is too low" });
       }
       break;
   }
 
   // - fees < nativeBalance
   if (availableBalance && fees > BigInt(availableBalance)) {
-    transaction.status.errors.push({ message: "Balance is too low to cover the fees" });
+    status.errors.push({ message: "Balance is too low to cover the fees" });
   }
 
   if (amount < fees * 10n) {
-    transaction.status.warnings.push({ message: "Network fees are above 10% of the amount" });
+    status.warnings.push({ message: "Network fees are above 10% of the amount" });
   }
 }
 

@@ -1,32 +1,26 @@
-import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { stringToBigint } from "~/app/model/serialization";
 import { Transaction, TransactionData } from "~/app/model/types_WIP";
-import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { AdamikResponse, apiHandlerWrapper, type AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { requestSchema, responseSchema } from "./schema";
 
 export const POST = apiHandlerWrapper(
   async (body) => {
-    const transactionData: TransactionData = stringToBigint(body.transaction.data);
+    const transactionData: TransactionData = body.transaction.data;
 
     const service = getService(transactionData.chainId);
 
     let transaction: Transaction = {
       data: transactionData,
-      status: { errors: [], warnings: [] },
     };
+    let status: AdamikStatus = { errors: [], warnings: [] };
 
-    await service.prevalidateTransaction(transaction);
+    await service.prevalidateTransaction(transaction, status);
 
-    let responseBody = {
-      transaction: {
-        status: transaction.status,
-      },
-    };
-    if (transaction.status.errors.length) {
-      return NextResponse.json(responseBody, { status: 400, statusText: `Invalid transaction` });
+    if (status.errors.length) {
+      throw new InvalidTransactionError(status);
     }
-    return NextResponse.json(responseBody);
+    return AdamikResponse.json({ transaction, status });
   },
   {
     requestSchema,

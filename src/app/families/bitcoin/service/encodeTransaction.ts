@@ -51,6 +51,7 @@ async function encodeTransactionToBroadcast(
   this: BitcoinService,
   signedTransaction: Transaction
 ): Promise<string> {
+  // useless check to make the compiler happy, zod already validated the fields
   if (!signedTransaction.signature) {
     throw new Error("missing transaction signature");
   }

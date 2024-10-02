@@ -1,7 +1,6 @@
-import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { isStakingService } from "~/app/model/service";
-import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { AdamikResponse, apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { pathParamsSchema, requestSchema, responseSchema } from "./schema";
 
@@ -24,7 +23,7 @@ export const POST = apiHandlerWrapper(
       validators,
     };
 
-    return NextResponse.json(validatorsResponse);
+    return AdamikResponse.json(validatorsResponse);
   },
   {
     requestSchema,

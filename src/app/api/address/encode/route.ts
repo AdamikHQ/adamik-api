@@ -1,6 +1,5 @@
-import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { AdamikResponse, apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
 import { requestSchema, responseSchema } from "./schema";
 
 export const POST = apiHandlerWrapper(
@@ -9,7 +8,7 @@ export const POST = apiHandlerWrapper(
 
     const address = await service.pubkeyToAddresses(pubkey);
 
-    return NextResponse.json(address);
+    return AdamikResponse.json(address);
   },
   {
     requestSchema,

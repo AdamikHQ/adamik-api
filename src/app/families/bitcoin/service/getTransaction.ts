@@ -1,22 +1,15 @@
 import { CHAINS } from "~/app/config/chains";
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
 import { BitcoinService } from ".";
 import { fetchStats, fetchTransaction } from "../backend/explorer";
 import { BitcoinChainParams } from "../types";
 
-async function getTransaction(
-  this: BitcoinService,
-  transactionId: string
-): Promise<FinalizedTransaction | null> {
-  let bitcoinTransaction;
-  try {
-    bitcoinTransaction = await fetchTransaction(this.chainId, transactionId);
-  } catch (e) {
-    return null;
-  }
+async function getTransaction(this: BitcoinService, transactionId: string): Promise<FinalizedTransaction> {
+  let bitcoinTransaction = await fetchTransaction(this.chainId, transactionId);
 
   if (!bitcoinTransaction.data || Array.isArray(bitcoinTransaction.data)) {
-    return null;
+    throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
   const transactionData = bitcoinTransaction.data[transactionId];

@@ -1,9 +1,7 @@
-import { NextResponse } from "next/server";
-import { fromError, ValidationError } from "zod-validation-error";
+import { ValidationError } from "zod-validation-error";
 import { getService } from "~/app/families/services";
 import { ApiRequestFilters } from "~/app/model/types_WIP";
-import { deepBigintOrNumToString } from "~/app/tools/convertors/deepBigintToString";
-import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { AdamikResponse, apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
 import { requestSchema, responseSchema } from "./schema";
 
 export const POST = apiHandlerWrapper(
@@ -29,26 +27,20 @@ export const POST = apiHandlerWrapper(
       throw new ValidationError(`Invalid accountId ${accountId} for chainId ${chainId}`);
     }
 
-    try {
-      const state = await service.getAccountState(accountId);
+    const state = await service.getAccountState(accountId);
 
-      // Apply filters
-      // Each field is returned if (explicitely demanded OR nothing specific demanded)
-      const includeNative = filters.native || !Object.keys(filters).length;
-      const includeTokens = filters.tokens || !Object.keys(filters).length;
-      const includeStaking = filters.staking || !Object.keys(filters).length;
-      state.balances = {
-        // Syntax trick to conditionally include fields
-        ...(includeNative && { native: state.balances.native }),
-        ...(includeTokens && { tokens: state.balances.tokens }),
-        ...(includeStaking && { staking: state.balances.staking }),
-      };
-      return NextResponse.json(deepBigintOrNumToString(state));
-    } catch (e: any) {
-      // FIXME Weak error management through ValidationError to turn all errors as user input errors ..
-      // We should maybe propagate a status instead, same as for transaction/encode
-      throw fromError(e);
-    }
+    // Apply filters
+    // Each field is returned if (explicitely demanded OR nothing specific demanded)
+    const includeNative = filters.native || !Object.keys(filters).length;
+    const includeTokens = filters.tokens || !Object.keys(filters).length;
+    const includeStaking = filters.staking || !Object.keys(filters).length;
+    state.balances = {
+      // Syntax trick to conditionally include fields
+      ...(includeNative && { native: state.balances.native }),
+      ...(includeTokens && { tokens: state.balances.tokens }),
+      ...(includeStaking && { staking: state.balances.staking }),
+    };
+    return AdamikResponse.json(state);
   },
   {
     requestSchema,

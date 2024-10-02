@@ -1,8 +1,6 @@
-import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { isTokenService } from "~/app/model/service";
-import { deepBigintOrNumToString } from "~/app/tools/convertors/deepBigintToString";
-import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { AdamikResponse, apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { pathParamsSchema, responseSchema } from "./schema";
 
@@ -16,7 +14,7 @@ export const GET = apiHandlerWrapper(
 
     const token = await service.getTokenInfo(tokenId);
 
-    return NextResponse.json(deepBigintOrNumToString(token));
+    return AdamikResponse.json(token);
   },
   {
     pathParamsSchema,

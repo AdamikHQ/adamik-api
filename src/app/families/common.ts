@@ -1,17 +1,16 @@
-import { ErrorMsg, TransactionData, TransactionMode, TransactionStatus } from "../model/types_WIP";
+import { TransactionData, TransactionMode } from "../model/types_WIP";
+import type { AdamikStatus } from "../tools/handlers/apiHandler";
 
-// TODO: Deprecate this whole function in favor of using directly Zod ?
+// Validations that couldn't have been done with Zod
 async function prevalidateTransactionCommon(
   transaction: TransactionData,
   addressValidationFn: (address: string) => Promise<boolean>
-): Promise<TransactionStatus> {
-  const errors: ErrorMsg[] = [];
-  const warnings: ErrorMsg[] = [];
-
+): Promise<AdamikStatus> {
+  let status: AdamikStatus = { errors: [], warnings: [] };
   // Logic validation
   const validSender = await addressValidationFn(transaction.sender);
   if (!validSender) {
-    errors.push({ message: "Sender address is invalid" });
+    status.errors.push({ message: "Sender address is invalid" });
   }
 
   switch (transaction.mode) {
@@ -19,11 +18,11 @@ async function prevalidateTransactionCommon(
     case TransactionMode.TRANSFER_TOKEN:
       const validRecipient = await addressValidationFn(transaction.recipient);
       if (!validRecipient) {
-        errors.push({ message: "Recipient address is invalid" });
+        status.errors.push({ message: "Recipient address is invalid" });
       }
 
       if (validSender && validRecipient && transaction.sender === transaction.recipient) {
-        warnings.push({ message: "Same sender and recipient address" });
+        status.warnings.push({ message: "Same sender and recipient address" });
       }
       break;
     case TransactionMode.DELEGATE:
@@ -32,7 +31,7 @@ async function prevalidateTransactionCommon(
       const validValidator =
         transaction.validatorAddress?.length && (await addressValidationFn(transaction.validatorAddress));
       if (!validValidator) {
-        errors.push({ message: "Validator address is invalid" });
+        status.errors.push({ message: "Validator address is invalid" });
       }
       break;
     case TransactionMode.REDELEGATE:
@@ -40,14 +39,14 @@ async function prevalidateTransactionCommon(
         transaction.sourceValidatorAddress?.length &&
         (await addressValidationFn(transaction.sourceValidatorAddress));
       if (!validSourceValidator) {
-        errors.push({ message: "Source validator address is invalid" });
+        status.errors.push({ message: "Source validator address is invalid" });
       }
 
       const validTargetValidator =
         transaction.targetValidatorAddress?.length &&
         (await addressValidationFn(transaction.targetValidatorAddress));
       if (!validTargetValidator) {
-        errors.push({ message: "Target validator address is invalid" });
+        status.errors.push({ message: "Target validator address is invalid" });
       }
       break;
     default: // ensure exhaustive check, both at compile time and runtime: https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
@@ -56,10 +55,7 @@ async function prevalidateTransactionCommon(
       };
       assertNever(transaction);
   }
-  return {
-    errors,
-    warnings,
-  };
+  return status;
 }
 
 export { prevalidateTransactionCommon };

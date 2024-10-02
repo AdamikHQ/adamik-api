@@ -1,6 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
-import { chainIdSchema, tokenSchema } from "~/app/api/schemaCommon";
+import { bigintToStringSchema, chainIdSchema, tokenSchema } from "~/app/api/schemaCommon";
 import { ChainId, StakingStatus } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
@@ -48,28 +48,28 @@ const responseSchema = z.object({
   balances: z.object({
     native: z
       .object({
-        available: z.string(),
-        total: z.string(),
+        available: bigintToStringSchema,
+        total: bigintToStringSchema,
       })
       .optional(),
     tokens: z
       .object({
         token: tokenSchema,
-        amount: z.string(),
+        amount: bigintToStringSchema,
       })
       .array()
       .optional(),
   }),
   staking: z
     .object({
-      total: z.string(),
-      locked: z.string(),
-      unlocking: z.string(),
-      unlocked: z.string(),
+      total: bigintToStringSchema,
+      locked: bigintToStringSchema,
+      unlocking: bigintToStringSchema,
+      unlocked: bigintToStringSchema,
       positions: z
         .object({
           validatorAddresses: z.string().array(),
-          amount: z.string(),
+          amount: bigintToStringSchema,
           status: z.nativeEnum(StakingStatus),
           completionDate: z.number().optional(),
         })
@@ -79,14 +79,14 @@ const responseSchema = z.object({
           native: z
             .object({
               validatorAddress: z.string(),
-              amount: z.string(),
+              amount: bigintToStringSchema,
             })
             .array(),
           tokens: z
             .object({
               token: tokenSchema,
               validatorAddress: z.string().optional(),
-              amount: z.string(),
+              amount: bigintToStringSchema,
             })
             .array(),
         })

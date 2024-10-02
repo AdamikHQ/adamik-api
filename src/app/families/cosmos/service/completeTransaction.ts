@@ -1,12 +1,17 @@
 import { CHAINS } from "~/app/config/chains";
 import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
 import { CosmosService } from ".";
 import { fetchAccount, fetchBalances, fetchDelegations } from "../backend/node";
 import { COSMOS_MOCK_FEES } from "../constants";
 import { getDelegation, getEstimatedFees, resolvePubKey } from "../logic";
 import { CosmosChainParams } from "../types";
 
-async function completeTransaction(this: CosmosService, transaction: Transaction): Promise<void> {
+async function completeTransaction(
+  this: CosmosService,
+  transaction: Transaction,
+  status: AdamikStatus
+): Promise<void> {
   const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
 
   const senderAddress = transaction.data.sender;
@@ -19,9 +24,10 @@ async function completeTransaction(this: CosmosService, transaction: Transaction
         const balances = await fetchBalances(this.chainId, senderAddress);
         const balance = balances.find((balance) => balance.denom === chainParams?.denom);
         if (!balance) {
-          transaction.status.errors.push({
+          status.errors.push({
             message: `No balance found for ${this.chainId} address ${senderAddress}`,
           });
+          // FIXME: shouldn't we throw an error here instead?
           return 0n;
         }
         return BigInt(balance.amount);
@@ -31,9 +37,10 @@ async function completeTransaction(this: CosmosService, transaction: Transaction
         const delegations = await fetchDelegations(this.chainId, senderAddress);
         const stakedBalance = getDelegation(delegations, transaction.data);
         if (!stakedBalance) {
-          transaction.status.errors.push({
+          status.errors.push({
             message: `No staking balance found for ${this.chainId} address ${senderAddress}`,
           });
+          // FIXME: shouldn't we throw an error here instead?
           return 0n;
         }
 

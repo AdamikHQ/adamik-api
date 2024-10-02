@@ -14,25 +14,21 @@ async function encodeTransactionToBroadcast(
   this: AlgorandService,
   signedTransaction: Transaction
 ): Promise<string> {
-  try {
-    if (!signedTransaction.encoded) {
-      throw new Error("missing encoded transaction");
-    }
-    if (!signedTransaction.signature) {
-      throw new Error("missing transaction signature");
-    }
-
-    const transactionPayload = msgpackDecode(
-      Buffer.from(signedTransaction.encoded, "hex")
-    ) as AlgoEncodedTransaction;
-    const signature = Buffer.from(signedTransaction.signature, "hex");
-    const encodedTransaction = encodeToBroadcast(transactionPayload, signature);
-
-    return encodedTransaction.toString("hex");
-  } catch (e: any) {
-    signedTransaction.status.errors.push({ message: `Error while encoding to broadcast: ${e.message}` });
-    return "";
+  // Useless checks to make the compiler happy, Zod already validated the fields
+  if (!signedTransaction.encoded) {
+    throw new Error("missing encoded transaction");
   }
+  if (!signedTransaction.signature) {
+    throw new Error("missing transaction signature");
+  }
+
+  const transactionPayload = msgpackDecode(
+    Buffer.from(signedTransaction.encoded, "hex")
+  ) as AlgoEncodedTransaction;
+  const signature = Buffer.from(signedTransaction.signature, "hex");
+  const encodedTransaction = encodeToBroadcast(transactionPayload, signature);
+
+  return encodedTransaction.toString("hex");
 }
 
 export { encodeTransactionToBroadcast, encodeTransactionToSign };

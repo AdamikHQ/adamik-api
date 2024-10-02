@@ -1,6 +1,7 @@
+import type { AdamikStatus } from "../tools/handlers/apiHandler";
 import {
   AccountState,
-  BroadcastStatus,
+  BroadcastStatus as BroadcastResult,
   ChainId,
   FinalizedTransaction,
   Pagination,
@@ -28,21 +29,21 @@ abstract class BaseChainService {
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data
-  abstract getTransaction(transactionId: string): Promise<FinalizedTransaction | null>;
+  abstract getTransaction(transactionId: string, status: AdamikStatus): Promise<FinalizedTransaction>;
   abstract getAccountState(accountId: string): Promise<AccountState>;
   //abstract getAddressesState(addresses: string[]): Promise<AccountState[]>;
   //abstract getAddressHistory(address: string): Promise<AddressHistory>;
 
   // Crafting
   // NOTE All of these functions will mutate the input 'Transaction' with additional info!
-  abstract prevalidateTransaction(transaction: Transaction): Promise<void>;
-  abstract completeTransaction(transaction: Transaction): Promise<void>;
-  abstract validateTransaction(transaction: Transaction): Promise<void>;
-  abstract encodeTransactionToSign(transaction: Transaction): Promise<void>;
+  abstract prevalidateTransaction(transaction: Transaction, status: AdamikStatus): Promise<void>;
+  abstract completeTransaction(transaction: Transaction, status: AdamikStatus): Promise<void>;
+  abstract validateTransaction(transaction: Transaction, status: AdamikStatus): Promise<void>;
+  abstract encodeTransactionToSign(transaction: Transaction, status: AdamikStatus): Promise<void>;
   abstract encodeTransactionToBroadcast(signedTransaction: Transaction): Promise<string>;
 
   // Broadcast
-  abstract broadcastTransaction(payload: string): Promise<BroadcastStatus>;
+  abstract broadcastTransaction(payload: string): Promise<BroadcastResult>;
 }
 
 // STAKING ////////////////////////////////////////////////////////////////////////////////////

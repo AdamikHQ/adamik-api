@@ -19,10 +19,10 @@ const paginationSchema = z.object({
   offset: z.number(),
 });
 
-const bigintSchema = z
+// Used for input conversion, to allow for strings or numbers
+const stringOrNumToBigintSchema = z
   .number()
   .or(z.string())
-  .or(z.bigint())
   .refine(
     (value) =>
       !isNaN(Number(value)) &&
@@ -33,29 +33,37 @@ const bigintSchema = z
       message: `value "${value}" must be a positive integer`,
     })
   )
-  .transform((data) => BigInt(data))
-  .openapi({
-    type: ["number", "string"],
-  });
+  .pipe(z.coerce.bigint());
 
-const chainIdSchema = z.nativeEnum(ChainId, {
-  errorMap: (issue, ctx) => {
-    if (issue.code === z.ZodIssueCode.invalid_enum_value) {
-      return { message: `Unsupported chainId "${ctx.data}"` };
-    }
-    return { message: ctx.defaultError };
-  },
-});
+// Used for output conversion, to allow for bigints to always be returned as strings
+const bigintToStringSchema = z.bigint().pipe(z.coerce.string());
+
+const chainIdSchema = z
+  .nativeEnum(ChainId, {
+    errorMap: (issue, ctx) => {
+      if (issue.code === z.ZodIssueCode.invalid_enum_value) {
+        return { message: `Unsupported chainId "${ctx.data}"` };
+      }
+      return { message: ctx.defaultError };
+    },
+  })
+  .openapi({
+    description: "Unique adamik identifier of the chain",
+    example: ChainId.BITCOIN,
+    ref: "ChainId",
+  });
 
 const errorMsgSchema = z.object({
   message: z.string(),
 });
 
-const transactionStatusSchema = z.object({
-  status: z.object({
-    errors: z.array(errorMsgSchema),
-    warnings: z.array(errorMsgSchema),
-  }),
+const statusSchema = z.object({
+  status: z
+    .object({
+      errors: z.array(errorMsgSchema),
+      warnings: z.array(errorMsgSchema),
+    })
+    .default({ errors: [], warnings: [] }),
 });
 
 const chainSchema = z.object({
@@ -67,10 +75,13 @@ const chainSchema = z.object({
   nativeId: z.string(),
   name: z.string(),
   ticker: z.string(),
-  decimals: z.string(), // FIXME?: this was a z.number(), to check with Hakim
+  decimals: z.number(),
   isTestnet: z.boolean().optional(),
   params: z.any().optional(),
-  supportedFeatures: z.nativeEnum(ChainFeature).array().readonly(),
+  supportedFeatures: z.nativeEnum(ChainFeature).array().readonly().openapi({
+    description: "List of supported features for the chain",
+    ref: "ChainFeature",
+  }),
 });
 
 const tokenSchema = z.object({
@@ -79,7 +90,7 @@ const tokenSchema = z.object({
   id: z.string(),
   name: z.string(),
   ticker: z.string(),
-  decimals: z.string(), // FIXME?: this was a z.number(), to check with Hakim
+  decimals: z.number().or(z.string()).pipe(z.coerce.string()),
   contractAddress: z.string().optional(),
 });
 
@@ -106,8 +117,7 @@ function checkEitherAmountOrUseMaxAmount(
 }
 
 const amountFieldSchema = z.object({
-  amount: bigintSchema.optional(),
-  useMaxAmount: z.boolean().default(false),
+  amount: stringOrNumToBigintSchema.optional(),
 });
 
 const inputTransferNativeSchema = z
@@ -123,7 +133,7 @@ const inputTransferNativeSchema = z
 const outputTransferNativeSchema = z
   .object({
     mode: z.literal(TransactionMode.TRANSFER),
-    amount: z.string().optional(),
+    amount: bigintToStringSchema.optional(),
   })
   .openapi({
     title: "Transfer",
@@ -144,7 +154,7 @@ const transferTokenSchema = z
 const outputTransferTokenSchema = z
   .object({
     mode: z.literal(TransactionMode.TRANSFER_TOKEN),
-    amount: z.string().optional(),
+    amount: bigintToStringSchema.optional(),
     tokenId: z.string(),
   })
   .openapi({
@@ -166,7 +176,7 @@ const outputStakingDelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.DELEGATE),
     validatorAddress: z.string(),
-    amount: z.string().optional(),
+    amount: bigintToStringSchema.optional(),
   })
   .openapi({
     title: "Delegate",
@@ -186,7 +196,7 @@ const outputStakingUndelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.UNDELEGATE),
     validatorAddress: z.string(),
-    amount: z.string().optional(),
+    amount: bigintToStringSchema.optional(),
   })
   .openapi({
     title: "Undelegate",
@@ -208,7 +218,7 @@ const outputStakingRedelegateSchema = z
     mode: z.literal(TransactionMode.REDELEGATE),
     sourceValidatorAddress: z.string(),
     targetValidatorAddress: z.string(),
-    amount: z.string().optional(),
+    amount: bigintToStringSchema.optional(),
   })
   .openapi({
     title: "Redelegate",
@@ -230,12 +240,13 @@ const inputTransactionDataSchema = z.object({
       chainId: chainIdSchema,
       sender: z.string(),
       recipient: z.string(),
-      fees: bigintSchema.optional(),
-      gas: z.string().optional(),
-      nonce: bigintSchema.optional(),
+      fees: stringOrNumToBigintSchema.optional(),
+      gas: stringOrNumToBigintSchema.optional(),
+      nonce: stringOrNumToBigintSchema.optional(),
       memo: z.string().optional(),
       format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
       params: z.union([cosmosTransactionParamsSchema, tonTransactionParamsSchema]).optional(),
+      useMaxAmount: z.boolean().default(false),
     })
     .and(
       z.discriminatedUnion("mode", [
@@ -275,9 +286,9 @@ const outputTransactionDataSchema = z.object({
       sender: z.string(),
       recipient: z.string(),
       useMaxAmount: z.boolean().default(false),
-      fees: z.string().optional(),
-      gas: z.string().optional(),
-      nonce: z.string().optional(),
+      fees: bigintToStringSchema.optional(),
+      gas: bigintToStringSchema.optional(),
+      nonce: bigintToStringSchema.optional(),
       memo: z.string().optional(),
       format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
       params: z.union([cosmosTransactionParamsSchema, tonTransactionParamsSchema]).or(z.any()).optional(), // FIXME: remove any and replace with BitcoinTransactionParams. For some reason, using it breaks the type system
@@ -305,6 +316,7 @@ const signedAndEncodedTransactionSchema = encodedTransactionSchema.extend({
 });
 
 export {
+  bigintToStringSchema,
   chainIdSchema,
   chainSchema,
   encodedTransactionSchema,
@@ -312,6 +324,6 @@ export {
   outputTransactionDataSchema,
   paginationSchema,
   signedAndEncodedTransactionSchema,
+  statusSchema,
   tokenSchema,
-  transactionStatusSchema,
 };

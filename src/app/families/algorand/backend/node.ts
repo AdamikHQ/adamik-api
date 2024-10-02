@@ -1,10 +1,12 @@
 import { CHAINS } from "~/app/config/chains";
+import { ChainId } from "~/app/model/types_WIP";
+import { AdamikApiServerError, UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
 import {
   AlgoAccount,
   AlgoAsset,
-  AlgoTransactionParams,
-  AlgoTransactionBroadcastResponse,
   AlgoAssetAmount,
+  AlgoTransactionBroadcastResponse,
+  AlgoTransactionParams,
 } from "./types";
 
 // TODO Caching !
@@ -35,14 +37,14 @@ async function fetchAccount(address: string): Promise<AlgoAccount> {
   };
 }
 
-async function fetchASA(assetId: string): Promise<AlgoAsset | null> {
+async function fetchASA(assetId: string): Promise<AlgoAsset> {
   const url = `${ROOT_URL}/assets/${assetId}`;
 
   const data = await fetch(url).then((response) => response.json());
 
   if (data.message) {
     console.warn(`/!\\ Failed to fetch algorand token with ID '${assetId}':`, data.message);
-    return null;
+    throw new UnsupportedTokenIDError(assetId, ChainId.ALGORAND);
   }
 
   return {
@@ -80,10 +82,10 @@ async function broadcast(payload: Buffer): Promise<string> {
   );
 
   if (data.message) {
-    throw new Error(data.message);
+    throw new AdamikApiServerError("Transaction broadcast failed", data.message);
   }
 
   return data.txId;
 }
 
-export { fetchAccount, fetchASA, fetchTransactionParams, broadcast };
+export { broadcast, fetchAccount, fetchASA, fetchTransactionParams };

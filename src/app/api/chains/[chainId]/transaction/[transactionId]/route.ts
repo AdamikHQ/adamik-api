@@ -1,8 +1,6 @@
-import { NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { ApiRequestFilters } from "~/app/model/types_WIP";
-import { deepBigintOrNumToString } from "~/app/tools/convertors/deepBigintToString";
-import { apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { AdamikResponse, apiHandlerWrapper, type AdamikStatus } from "~/app/tools/handlers/apiHandler";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { pathParamsSchema, responseSchema } from "./schema";
 
@@ -22,7 +20,9 @@ export const GET = apiHandlerWrapper(
 
     const service = getService(chainId);
 
-    const transaction = await service.getTransaction(transactionId);
+    let status: AdamikStatus = { errors: [], warnings: [] };
+
+    const transaction = await service.getTransaction(transactionId, status);
     if (!transaction) {
       throw new UserInputError(
         `Transaction ${transactionId} not found for chainId ${chainId}`,
@@ -41,9 +41,10 @@ export const GET = apiHandlerWrapper(
     // Each field is returned if (explicitely demanded OR nothing specific demanded)
     const includeParsed = filters.parsed || !Object.keys(filters).length;
     const includeRaw = filters.raw || !Object.keys(filters).length;
-    return NextResponse.json({
+
+    return AdamikResponse.json({
       // Syntax trick to conditionally include fields
-      ...(includeParsed && { parsed: deepBigintOrNumToString(transaction.parsed) }),
+      ...(includeParsed && { parsed: transaction.parsed }),
       ...(includeRaw && { raw: transaction.raw }),
     });
   },

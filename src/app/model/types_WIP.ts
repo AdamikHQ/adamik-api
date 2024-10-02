@@ -312,7 +312,6 @@ type Transaction = {
   data: TransactionData;
   encoded?: string;
   signature?: string;
-  status: TransactionStatus;
 };
 
 // Used to list spendable amounts, in native currency and one optional token currency
@@ -321,20 +320,7 @@ type TransactionSpendableAmounts = {
   token?: bigint;
 };
 
-type TransactionStatus = {
-  errors: ErrorMsg[];
-  warnings: ErrorMsg[];
-};
-
-type BroadcastStatus = { hash: string } | { error: ErrorMsg };
-
-type ErrorCode = "OK" | "KO";
-
-// TODO Return code, message should be on client side?
-type ErrorMsg = {
-  //code: ErrorCode;
-  message: string;
-};
+type BroadcastStatus = { hash: string };
 
 enum EncodedTransactionFormat {
   JSON = "json",
@@ -364,7 +350,6 @@ export type {
   BroadcastStatus,
   Chain,
   ChainParams,
-  ErrorMsg,
   FinalizedTransaction,
   Pagination,
   StakingPosition,
@@ -375,7 +360,6 @@ export type {
   Transaction,
   TransactionData,
   TransactionSpendableAmounts,
-  TransactionStatus,
   TypedAddress,
   Validator,
 };

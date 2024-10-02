@@ -1,14 +1,17 @@
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
 import { AlgorandService } from ".";
 import { fetchTransaction } from "../backend/explorer";
 
 async function getTransaction(
   this: AlgorandService,
-  transactionId: string
-): Promise<FinalizedTransaction | null> {
+  transactionId: string,
+  status: AdamikStatus
+): Promise<FinalizedTransaction> {
   const algoTransaction = await fetchTransaction(transactionId);
   if (!algoTransaction) {
-    return null;
+    throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
@@ -45,8 +48,13 @@ async function getTransaction(
       },
     ];
   } else {
+    const message = `Unsupported type of transaction ${transactionId} for chainId ${this.chainId}: ${
+      (algoTransaction as any).txType
+    }`;
     // Not supported (yet?)
-    console.warn(`/!\\ Unsupported parsing of transaction ${transactionId} for chainId ${this.chainId}`);
+
+    console.warn(message);
+    status.errors.push({ message });
     return {
       raw: algoTransaction,
     };

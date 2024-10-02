@@ -1,14 +1,20 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { inputTransactionDataSchema, transactionStatusSchema } from "~/app/api/schemaCommon";
+import {
+  inputTransactionDataSchema,
+  outputTransactionDataSchema,
+  statusSchema,
+} from "~/app/api/schemaCommon";
 
 const requestSchema = z.object({
   transaction: inputTransactionDataSchema,
 });
 
-const responseSchema = z.object({
-  transaction: transactionStatusSchema,
-});
+const responseSchema = z
+  .object({
+    transaction: outputTransactionDataSchema,
+  })
+  .merge(statusSchema);
 
 const transactionValidateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/validate": {

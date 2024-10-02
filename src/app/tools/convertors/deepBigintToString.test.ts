@@ -1,4 +1,4 @@
-import { deepBigintOrNumToString } from "./deepBigintToString";
+import { deepBigintToString } from "./deepBigintToString";
 
 // Tests
 describe("deepBigintToString", () => {
@@ -17,7 +17,7 @@ describe("deepBigintToString", () => {
         d: ["3", "4"],
       },
     };
-    const result = deepBigintOrNumToString(obj);
+    const result = deepBigintToString(obj);
     expect(result).toEqual(expected);
   });
 
@@ -68,7 +68,7 @@ describe("deepBigintToString", () => {
         },
       },
     };
-    expect(deepBigintOrNumToString(obj)).toEqual(expected);
+    expect(deepBigintToString(obj)).toEqual(expected);
   });
 
   it("should handle null and undefined", () => {
@@ -80,7 +80,7 @@ describe("deepBigintToString", () => {
       a: null,
       b: undefined,
     };
-    expect(deepBigintOrNumToString(obj)).toEqual(expected);
+    expect(deepBigintToString(obj)).toEqual(expected);
   });
 
   it("should handle non bigint values", () => {
@@ -92,7 +92,7 @@ describe("deepBigintToString", () => {
       a: 1,
       b: "hello",
     };
-    expect(deepBigintOrNumToString(obj)).toEqual(expected);
+    expect(deepBigintToString(obj)).toEqual(expected);
   });
 
   it("should handle arrays", () => {
@@ -104,7 +104,7 @@ describe("deepBigintToString", () => {
       a: ["1", "2"],
       b: [["3", "4"]],
     };
-    expect(deepBigintOrNumToString(obj)).toEqual(expected);
+    expect(deepBigintToString(obj)).toEqual(expected);
   });
 
   it("should handle objects with nested arrays", () => {
@@ -118,6 +118,6 @@ describe("deepBigintToString", () => {
         b: ["1", ["2", "3"]],
       },
     };
-    expect(deepBigintOrNumToString(obj)).toEqual(expected);
+    expect(deepBigintToString(obj)).toEqual(expected);
   });
 });
