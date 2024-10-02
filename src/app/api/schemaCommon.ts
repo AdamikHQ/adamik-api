@@ -7,6 +7,7 @@ import {
   EncodedTransactionFormat,
   TokenType,
   TransactionMode,
+  TransactionState,
 } from "~/app/model/types_WIP";
 import { getSupportedTransactionModes } from "../config/chains";
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
@@ -215,9 +216,40 @@ const transactionSchema = z.object({
   signature: z.string(),
 });
 
+const finalizedTransactionSchema = z.object({
+  raw: z.unknown(),
+  parsed: z
+    .object({
+      chainId: chainIdSchema,
+      id: z.string(),
+      tokenId: z.string().optional(),
+      status: z.nativeEnum(TransactionState),
+      blockHeight: z.string(),
+      timestamp: z
+        .string()
+        .openapi({
+          description: "Timestamp in milliseconds",
+        })
+        .optional(),
+      sender: z.string(),
+      recipients: z
+        .object({
+          address: z.string(),
+          amount: z.string(),
+        })
+        .array(),
+      fees: z.string(),
+      gas: z.string().optional(),
+      nonce: z.string().optional(),
+      memo: z.string().optional(),
+    })
+    .optional(),
+});
+
 export {
   chainIdSchema,
   chainSchema,
+  finalizedTransactionSchema,
   tokenSchema,
   transactionDataSchema,
   transactionSchema,

@@ -167,8 +167,9 @@ type TokenStakingReward = StakingReward & {
   token: Token;
 };
 
-type CommonState = {
+type AccountState = {
   chainId: ChainId;
+  accountId: string;
   balances: {
     native?: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
@@ -191,12 +192,10 @@ type CommonState = {
   };
 };
 
-type AccountState = CommonState & {
+type AccountHistory = {
+  chainId: ChainId;
   accountId: string;
-};
-
-type AddressesAggregatedState = CommonState & {
-  accountId: string;
+  transactions: FinalizedTransaction[];
 };
 
 type TypedAddress = {
@@ -372,8 +371,8 @@ export {
 };
 
 export type {
+  AccountHistory,
   AccountState,
-  AddressesAggregatedState,
   ApiRequestFilters,
   BroadcastStatus,
   Chain,

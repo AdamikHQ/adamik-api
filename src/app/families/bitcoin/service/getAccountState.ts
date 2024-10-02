@@ -1,20 +1,17 @@
 import { CHAINS } from "~/app/config/chains";
-import { AccountState, AddressesAggregatedState, ChainId } from "~/app/model/types_WIP";
+import { AccountState, ChainId } from "~/app/model/types_WIP";
 import { BitcoinService } from ".";
 import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
 import { isValidXpub } from "../logic";
 import { BitcoinChainParams, Xpub } from "../types";
 
-async function getAccountState(
-  this: BitcoinService,
-  accountId: string
-): Promise<AccountState | AddressesAggregatedState> {
+async function getAccountState(this: BitcoinService, accountId: string): Promise<AccountState> {
   return isValidXpub(this.chainId, accountId)
     ? getXpubState(this.chainId, accountId)
     : getAddressesState(this.chainId, [accountId]);
 }
 
-async function getAddressesState(chainId: ChainId, addresses: string[]): Promise<AddressesAggregatedState> {
+async function getAddressesState(chainId: ChainId, addresses: string[]): Promise<AccountState> {
   const addressesResult = await fetchAddressesDashboard(chainId, addresses);
 
   const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;

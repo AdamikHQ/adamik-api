@@ -51,7 +51,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
     // We should maybe propagate a status instead, same as for transaction/encode
     return NextResponse.json(
       { message: e.toString() },
-      { status: 400, statusText: "Invalid or missing fields" }
+      { status: 400, statusText: "Error while getting account state" }
     );
   }
 }
