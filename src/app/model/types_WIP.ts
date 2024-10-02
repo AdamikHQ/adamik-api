@@ -250,7 +250,7 @@ type FinalizedTransaction = {
     nonce?: bigint;
     memo?: string;
   };
-  raw: unknown; // The raw transaction as returned from the node (or explorer when necessary)
+  raw?: unknown; // The raw transaction as returned from the node (or explorer when necessary)
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 

@@ -217,7 +217,7 @@ const transactionSchema = z.object({
 });
 
 const finalizedTransactionSchema = z.object({
-  raw: z.unknown(),
+  raw: z.unknown().optional(),
   parsed: z
     .object({
       chainId: chainIdSchema,

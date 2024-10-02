@@ -2,7 +2,12 @@ import { MORALIS_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { EvmAddress } from "../types";
-import { MoralisERC20Token, MoralisERC20TokenBalance } from "./types";
+import {
+  MoralisERC20Token,
+  MoralisERC20TokenBalance,
+  MoralisWalletTransaction,
+  MoralisWalletTransactionsResponse,
+} from "./types";
 
 const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth"],
@@ -36,7 +41,7 @@ const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
 
 // NOTE Unused at the moment, could serve as replacement for getting transactions from the node
 /*
-async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<MoralisDecodedTransaction | null> {
+async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<MoralisTransaction | null> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
@@ -56,7 +61,7 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
     },
   };
 
-  const result: MoralisDecodedTransaction | { message: string } = await fetch(url, headers).then((response) =>
+  const result: MoralisTransaction | { message: string } = await fetch(url, headers).then((response) =>
     response.json()
   );
 
@@ -67,6 +72,30 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
   return result;
 }
 */
+
+// TODO later
+async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string) {
+  const url = new URL(urlString);
+
+  let data: T[] = [];
+  let response;
+  do {
+    if (response?.pagination?.next_key) {
+      url.searchParams.set("pagination.key", response.pagination.next_key);
+    }
+
+    response = await fetch(url.toString()).then((response) => response.json());
+
+    if (!response || !Array.isArray(response[dataKey])) {
+      console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
+      break;
+    }
+
+    data = data.concat(response[dataKey]);
+  } while (response?.pagination?.next_key);
+
+  return data;
+}
 
 async function fetchERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
@@ -172,4 +201,48 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
   };
 }
 
-export { fetchERC20Token, fetchERC20TokenAmounts };
+// https://docs.moralis.com/web3-data-api/evm/wallet-history
+// TODO Pagination
+async function fetchAccountTransactions(
+  chainId: ChainId,
+  address: EvmAddress
+): Promise<MoralisWalletTransaction[]> {
+  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  if (!moralisChainId) {
+    console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
+    return [];
+  }
+
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  if (!explorerURL) {
+    console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
+    return [];
+  }
+
+  const queryParams = new URLSearchParams({
+    chain: moralisChainId,
+    order: "DESC",
+    include_internal_transactions: "false", // Moralis bug : doesn't work!
+    nft_metadata: "false", // Moralis bug : doesn't work!
+  });
+
+  const url = `${explorerURL}/v2.2/wallets/${address}/history` + "?" + queryParams;
+
+  const headers: RequestInit = {
+    headers: {
+      "X-API-Key": MORALIS_API_KEY,
+    },
+  };
+
+  const { result }: MoralisWalletTransactionsResponse = await fetch(url, headers).then((response) =>
+    response.json()
+  );
+
+  // FIXME Because the queryParams above don't work, need to filter unwanted transactions by hand
+  // For now, we're not interested in internal transactions and NFTs
+  return result.filter(
+    (transaction) => !transaction.internal_transactions?.length && !transaction.nft_transfers?.length
+  );
+}
+
+export { fetchAccountTransactions, fetchERC20Token, fetchERC20TokenAmounts };
