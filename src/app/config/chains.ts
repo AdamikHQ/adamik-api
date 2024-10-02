@@ -680,7 +680,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
   },
   "rootstock-testnet": {
     family: ChainFamily.EVM,
-    id: ChainId.ROOTSTOCK_TESNET,
+    id: ChainId.ROOTSTOCK_TESTNET,
     nativeId: "31",
     name: "RootStock Testnet",
     ticker: "tRBTC",
