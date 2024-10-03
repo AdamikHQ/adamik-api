@@ -51,7 +51,7 @@ const responseSchema = z.object({
   transactions: finalizedTransactionSchema.array(),
 });
 
-const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
+const accountHistoryOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/account/history": {
     post: {
       tags: ["account"],
@@ -80,4 +80,4 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { accountStateOpenAPIPath, requestSchema, responseSchema };
+export { accountHistoryOpenAPIPath, requestSchema, responseSchema };
