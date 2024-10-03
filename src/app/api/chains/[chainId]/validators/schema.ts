@@ -1,12 +1,9 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import { chainIdSchema } from "~/app/api/schemaCommon";
-import { paginationSchema } from "~/app/api/schemaCommon";
 
-// FIXME: chainId is already defined in the URL as a path parameter, use it instead
 const requestSchema = z.object({
   chainId: chainIdSchema,
-  pagination: paginationSchema.optional(),
 });
 
 const responseSchema = z.object({
@@ -45,4 +42,4 @@ const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, chainsChainIdValidatorsOpenAPIPath };
+export { chainsChainIdValidatorsOpenAPIPath, requestSchema, responseSchema };
