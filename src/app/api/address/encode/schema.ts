@@ -7,12 +7,16 @@ const requestSchema = z.object({
   pubkey: z.string(),
 });
 
-const responseSchema = z
-  .object({
-    type: z.string(),
-    address: z.string(),
-  })
-  .array();
+const responseSchema = z.object({
+  chainId: chainIdSchema,
+  pubkey: z.string(),
+  addresses: z
+    .object({
+      type: z.string(),
+      address: z.string(),
+    })
+    .array(),
+});
 
 const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/encode": {

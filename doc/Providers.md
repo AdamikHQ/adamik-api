@@ -31,7 +31,7 @@
 
 ## dydx
 
-| nodeURL | https://lcd-dydx.imperator.co |
+| nodeURL | https://dydx-rest.publicnode.com |
 
 ## axelar
 
@@ -215,3 +215,8 @@
 ## injective
 
 | nodeURL | https://lcd-injective.imperator.co |
+
+## dogecoin
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/dogecoin |

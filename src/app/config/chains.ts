@@ -191,7 +191,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "DYDX",
     decimals: 18,
     backends: {
-      nodeURL: "https://lcd-dydx.imperator.co",
+      // (configs can be checked with [nodeURL]/cosmos/base/node/v1beta1/config )
+      nodeURL: "https://dydx-rest.publicnode.com",
+      // nodeURL: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live, but we've been blacklisted...
+      //nodeURL: "https://lcd-dydx.imperator.co", // Should be the best one, but only accepts fees in IBC token USDC at the moment...
+      //nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands twice the standard minimum gas fees, for some reason
     },
     params: {
       prefix: "dydx",
@@ -676,7 +680,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
   },
   "rootstock-testnet": {
     family: ChainFamily.EVM,
-    id: ChainId.ROOTSTOCK_TESNET,
+    id: ChainId.ROOTSTOCK_TESTNET,
     nativeId: "31",
     name: "RootStock Testnet",
     ticker: "tRBTC",
@@ -706,6 +710,22 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 6,
     },
     nativeId: "litecoin",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+  },
+  [ChainId.DOGECOIN]: {
+    id: ChainId.DOGECOIN,
+    name: "Dogecoin",
+    family: ChainFamily.BITCOIN,
+    ticker: "DOGE",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/dogecoin",
+    },
+    params: {
+      confirmations: 60, // confirmations used by Coinbase or Binance
+    },
+    nativeId: "dogecoin",
     supportedFeatures: FEATURES[ChainFamily.BITCOIN],
   },
   ton: {
