@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import z from "zod";
 import { getService } from "~/app/families/services";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import "~/bigintPatch";
@@ -6,6 +7,18 @@ import { requestSchema } from "./schema";
 
 async function POST(request: NextRequest): Promise<NextResponse> {
   const { chainId, accountId } = requestSchema.parse(await request.json());
+
+  const searchParams = request.nextUrl.searchParams;
+  const fromTimestamp = z
+    .number()
+    .optional()
+    .catch(undefined)
+    .parse(Number(searchParams.get("from_timestamp")));
+  const toTimestamp = z
+    .number()
+    .optional()
+    .catch(undefined)
+    .parse(Number(searchParams.get("to_timestamp")));
 
   const service = getService(chainId);
 
@@ -19,7 +32,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const history = await service.getAccountHistory(accountId);
+    const history = await service.getAccountHistory(accountId, { fromTimestamp, toTimestamp });
 
     return NextResponse.json(history);
   } catch (e: any) {

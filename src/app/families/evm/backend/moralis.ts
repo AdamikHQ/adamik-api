@@ -1,6 +1,6 @@
 import { MORALIS_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import { AccountHistoryPagination, ChainId, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { EvmAddress } from "../types";
 import {
   MoralisERC20Token,
@@ -205,7 +205,8 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
 // TODO Pagination
 async function fetchAccountTransactions(
   chainId: ChainId,
-  address: EvmAddress
+  address: EvmAddress,
+  pagination: AccountHistoryPagination
 ): Promise<MoralisWalletTransaction[]> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
@@ -225,6 +226,10 @@ async function fetchAccountTransactions(
     include_internal_transactions: "false", // Moralis bug : doesn't work!
     nft_metadata: "false", // Moralis bug : doesn't work!
   });
+
+  pagination.fromTimestamp && queryParams.set("from_date", pagination.fromTimestamp.toString());
+
+  pagination.toTimestamp && queryParams.set("to_date", pagination.toTimestamp.toString());
 
   const url = `${explorerURL}/v2.2/wallets/${address}/history` + "?" + queryParams;
 

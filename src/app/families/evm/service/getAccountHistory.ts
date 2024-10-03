@@ -2,6 +2,7 @@ import BigNumber from "bignumber.js";
 import { CHAINS } from "~/app/config/chains";
 import {
   AccountHistory,
+  AccountHistoryPagination,
   FinalizedTransaction,
   TransactionMode,
   TransactionState,
@@ -10,10 +11,18 @@ import { EvmService } from ".";
 import { fetchAccountTransactions } from "../backend/moralis";
 import { EvmAddress } from "../types";
 
-async function getAccountHistory(this: EvmService, accountId: string): Promise<AccountHistory> {
+async function getAccountHistory(
+  this: EvmService,
+  accountId: string,
+  pagination: AccountHistoryPagination
+): Promise<AccountHistory> {
   const chain = CHAINS[this.chainId];
 
-  const moralisTransactions = await fetchAccountTransactions(this.chainId, accountId as EvmAddress);
+  const moralisTransactions = await fetchAccountTransactions(
+    this.chainId,
+    accountId as EvmAddress,
+    pagination
+  );
 
   const transactions: FinalizedTransaction[] = [];
 

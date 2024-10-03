@@ -192,6 +192,8 @@ type AccountState = {
   };
 };
 
+type AccountHistoryPagination = { fromTimestamp?: number; toTimestamp?: number };
+
 type AccountHistory = {
   chainId: ChainId;
   accountId: string;
@@ -372,6 +374,7 @@ export {
 
 export type {
   AccountHistory,
+  AccountHistoryPagination,
   AccountState,
   ApiRequestFilters,
   BroadcastStatus,
