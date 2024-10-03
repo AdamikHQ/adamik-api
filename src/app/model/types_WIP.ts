@@ -50,6 +50,13 @@ enum ChainId {
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
+  AKASH = "akash",
+  BAND = "band",
+  DYMENSION = "dymension",
+  KYVE = "kyve",
+  NEUTRON = "neutron",
+  TERRA = "terra2",
+  STARGAZE = "stargaze",
   DOGECOIN = "dogecoin",
 }
 
