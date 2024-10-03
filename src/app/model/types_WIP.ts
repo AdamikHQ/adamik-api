@@ -107,6 +107,8 @@ type Chain = {
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
 enum TokenType {
+  TRC10 = "TRC10",
+  TRC20 = "TRC20",
   ASA = "ASA",
   ERC20 = "ERC20",
   IBC = "IBC",

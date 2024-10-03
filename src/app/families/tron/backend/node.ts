@@ -21,7 +21,6 @@ const createTransaction = async (to: string, amount: bigint, from: string) => {
 // FIXME: Hack to bypass contract needed type
 const broadcast = async (signedTransaction: any) => {
   const result = await tronWeb.trx.sendRawTransaction(signedTransaction);
-  console.log({ result });
   return result.transaction.txID;
 };
 
@@ -47,6 +46,17 @@ const isValidAddress = async (address: string) => {
   return isValid;
 };
 
+const getTRC20TokenInfo = async (tokenId: string) => {
+  const tokenInfo = await tronWeb.contract().at(tokenId);
+
+  const name = await tokenInfo.name();
+  const symbol = await tokenInfo.symbol();
+  const decimals = await tokenInfo.decimals();
+  const logo = await tokenInfo.logo();
+
+  return { name, symbol, decimals, logo };
+};
+
 export {
   broadcast,
   createTransaction,
@@ -54,5 +64,6 @@ export {
   getAccountResources,
   getBandwidthPrice,
   getChainParameters,
+  getTRC20TokenInfo,
   isValidAddress,
 };
