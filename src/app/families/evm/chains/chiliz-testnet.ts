@@ -1,6 +1,6 @@
 import { defineChain } from "viem";
 
-export const chilizTesnet = defineChain({
+export const chilizTestnet = defineChain({
   id: 88882,
   name: "Chiliz Spicy Testnet",
   nativeCurrency: { name: "CHZ", symbol: "CHZ", decimals: 18 },

@@ -742,7 +742,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.EVM,
     id: ChainId.CHILIZ_TESTNET,
     nativeId: "88882",
-    name: "Chiliz Spicy Tesnet",
+    name: "Chiliz Spicy Testnet",
     ticker: "CHZ",
     decimals: 18,
     backends: {
