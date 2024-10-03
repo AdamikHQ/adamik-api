@@ -104,7 +104,7 @@ function getClientConfig(chainId: ChainId) {
       return { chain: chilizTesnet, transport };
     case ChainId.ROOTSTOCK:
       return { chain: rootstock, transport };
-    case ChainId.ROOTSTOCK_TESNET:
+    case ChainId.ROOTSTOCK_TESTNET:
       return { chain: rootstockTestnet, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
