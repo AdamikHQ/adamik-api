@@ -14,11 +14,6 @@ import { tonTransactionParamsSchema } from "../families/ton/types";
 
 extendZodWithOpenApi(z);
 
-const paginationSchema = z.object({
-  limit: z.number(),
-  offset: z.number(),
-});
-
 const errorMsgSchema = z.object({
   message: z.string(),
 });
@@ -175,9 +170,7 @@ const transactionDataSchema = z
     nonce: bigintSchema.optional(),
     memo: z.string().optional(),
     format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
-    params: z.union(
-      [cosmosTransactionParamsSchema, tonTransactionParamsSchema]
-    ).optional()
+    params: z.union([cosmosTransactionParamsSchema, tonTransactionParamsSchema]).optional(),
   })
   .and(
     z.discriminatedUnion("mode", [
@@ -225,10 +218,8 @@ const transactionSchema = z.object({
 export {
   chainIdSchema,
   chainSchema,
-  paginationSchema,
   tokenSchema,
   transactionDataSchema,
   transactionSchema,
-  transactionStatusSchema
+  transactionStatusSchema,
 };
-
