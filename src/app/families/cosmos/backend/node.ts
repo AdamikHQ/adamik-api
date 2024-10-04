@@ -231,7 +231,9 @@ async function getValidatorsCached(chainId: ChainId, pagination?: Pagination): P
 
   const validators = VALIDATORS_CACHE.get(cacheKey) || [];
 
-  return pagination ? validators.slice(pagination.offset, pagination.offset + pagination.limit) : validators;
+  const offset = pagination?.offset || 0;
+  const limit = pagination?.limit || validators.length;
+  return pagination ? validators.slice(offset, offset + limit) : validators;
 }
 
 async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAccount> {

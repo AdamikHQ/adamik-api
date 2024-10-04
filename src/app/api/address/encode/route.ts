@@ -10,7 +10,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   try {
     const addresses = await service.pubkeyToAddresses(pubkey);
-    return NextResponse.json(addresses);
+    return NextResponse.json({ chainId, pubkey, addresses });
   } catch (e: any) {
     const info = `Error while converting public key ${pubkey} to addresses, for chain ID ${chainId}:`;
     console.warn(info, e.message);

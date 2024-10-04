@@ -43,13 +43,21 @@ enum ChainId {
   CHILIZ = "chiliz",
   CHILIZ_TESTNET = "chiliz-testnet",
   TON = "ton",
+  ROOTSTOCK = "rootstock",
+  ROOTSTOCK_TESTNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
+  INJECTIVE = "injective",
   // BTC family
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
-  ROOTSTOCK = "rootstock",
-  ROOTSTOCK_TESNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
-  INJECTIVE = "injective",
+  AKASH = "akash",
+  BAND = "band",
+  DYMENSION = "dymension",
+  KYVE = "kyve",
+  NEUTRON = "neutron",
+  TERRA = "terra2",
+  STARGAZE = "stargaze",
+  DOGECOIN = "dogecoin",
 }
 
 enum ChainFamily {
@@ -348,8 +356,8 @@ enum EncodedTransactionFormat {
 }
 
 type Pagination = {
-  offset: number;
-  limit: number;
+  offset?: number;
+  limit?: number;
 };
 
 export {

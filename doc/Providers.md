@@ -31,7 +31,7 @@
 
 ## dydx
 
-| nodeURL | https://lcd-dydx.imperator.co |
+| nodeURL | https://dydx-rest.publicnode.com |
 
 ## axelar
 
@@ -197,6 +197,11 @@
 | nodeURL |  |
 | explorerURL | https://api.blockchair.com/litecoin |
 
+## dogecoin
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/dogecoin |
+
 ## ton
 
 | nodeURL | https://toncenter.com/api/ |
@@ -215,3 +220,31 @@
 ## injective
 
 | nodeURL | https://lcd-injective.imperator.co |
+
+## akash
+
+| nodeURL | https://lcd-akash.imperator.co |
+
+## band
+
+| nodeURL | https://lcd-band.imperator.co |
+
+## dymension
+
+| nodeURL | https://lcd-dymension.imperator.co |
+
+## kyve
+
+| nodeURL | https://lcd-kyve.imperator.co |
+
+## neutron
+
+| nodeURL | https://lcd-neutron.imperator.co |
+
+## terra2
+
+| nodeURL | https://lcd-terra.imperator.co |
+
+## stargaze
+
+| nodeURL | https://lcd-stargaze.imperator.co |

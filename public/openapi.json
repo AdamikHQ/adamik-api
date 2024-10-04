@@ -92,12 +92,20 @@
                       "chiliz",
                       "chiliz-testnet",
                       "ton",
+                      "rootstock",
+                      "rootstock-testnet",
+                      "injective",
                       "bitcoin",
                       "bitcoin-testnet",
                       "litecoin",
-                      "rootstock",
-                      "rootstock-testnet",
-                      "injective"
+                      "akash",
+                      "band",
+                      "dymension",
+                      "kyve",
+                      "neutron",
+                      "terra2",
+                      "stargaze",
+                      "dogecoin"
                     ]
                   },
                   "pubkey": {
@@ -118,22 +126,93 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string"
-                      },
-                      "address": {
-                        "type": "string"
-                      }
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "cosmoshub-testnet",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "palm",
+                        "mantle",
+                        "chiliz",
+                        "chiliz-testnet",
+                        "ton",
+                        "rootstock",
+                        "rootstock-testnet",
+                        "injective",
+                        "bitcoin",
+                        "bitcoin-testnet",
+                        "litecoin",
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze",
+                        "dogecoin"
+                      ]
                     },
-                    "required": [
-                      "type",
-                      "address"
-                    ]
-                  }
+                    "pubkey": {
+                      "type": "string"
+                    },
+                    "addresses": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "address"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "pubkey",
+                    "addresses"
+                  ]
                 }
               }
             }
@@ -196,12 +275,20 @@
                       "chiliz",
                       "chiliz-testnet",
                       "ton",
+                      "rootstock",
+                      "rootstock-testnet",
+                      "injective",
                       "bitcoin",
                       "bitcoin-testnet",
                       "litecoin",
-                      "rootstock",
-                      "rootstock-testnet",
-                      "injective"
+                      "akash",
+                      "band",
+                      "dymension",
+                      "kyve",
+                      "neutron",
+                      "terra2",
+                      "stargaze",
+                      "dogecoin"
                     ]
                   },
                   "address": {
@@ -305,12 +392,20 @@
                       "chiliz",
                       "chiliz-testnet",
                       "ton",
+                      "rootstock",
+                      "rootstock-testnet",
+                      "injective",
                       "bitcoin",
                       "bitcoin-testnet",
                       "litecoin",
-                      "rootstock",
-                      "rootstock-testnet",
-                      "injective"
+                      "akash",
+                      "band",
+                      "dymension",
+                      "kyve",
+                      "neutron",
+                      "terra2",
+                      "stargaze",
+                      "dogecoin"
                     ]
                   },
                   "accountId": {
@@ -386,12 +481,20 @@
                         "chiliz",
                         "chiliz-testnet",
                         "ton",
+                        "rootstock",
+                        "rootstock-testnet",
+                        "injective",
                         "bitcoin",
                         "bitcoin-testnet",
                         "litecoin",
-                        "rootstock",
-                        "rootstock-testnet",
-                        "injective"
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze",
+                        "dogecoin"
                       ]
                     },
                     "accountId": {
@@ -465,12 +568,20 @@
                                       "chiliz",
                                       "chiliz-testnet",
                                       "ton",
+                                      "rootstock",
+                                      "rootstock-testnet",
+                                      "injective",
                                       "bitcoin",
                                       "bitcoin-testnet",
                                       "litecoin",
-                                      "rootstock",
-                                      "rootstock-testnet",
-                                      "injective"
+                                      "akash",
+                                      "band",
+                                      "dymension",
+                                      "kyve",
+                                      "neutron",
+                                      "terra2",
+                                      "stargaze",
+                                      "dogecoin"
                                     ]
                                   },
                                   "type": {
@@ -642,12 +753,20 @@
                                           "chiliz",
                                           "chiliz-testnet",
                                           "ton",
+                                          "rootstock",
+                                          "rootstock-testnet",
+                                          "injective",
                                           "bitcoin",
                                           "bitcoin-testnet",
                                           "litecoin",
-                                          "rootstock",
-                                          "rootstock-testnet",
-                                          "injective"
+                                          "akash",
+                                          "band",
+                                          "dymension",
+                                          "kyve",
+                                          "neutron",
+                                          "terra2",
+                                          "stargaze",
+                                          "dogecoin"
                                         ]
                                       },
                                       "type": {
@@ -798,12 +917,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -906,12 +1033,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -1014,12 +1149,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -1122,12 +1265,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -1230,12 +1381,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -1338,12 +1497,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -1446,12 +1613,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -1554,12 +1729,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -1662,12 +1845,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -1770,12 +1961,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -1878,12 +2077,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -1986,12 +2193,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -2094,12 +2309,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -2202,12 +2425,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -2310,12 +2541,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -2418,12 +2657,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -2526,12 +2773,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -2634,12 +2889,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -2742,12 +3005,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -2850,12 +3121,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -2958,12 +3237,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -3066,12 +3353,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -3174,12 +3469,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -3282,12 +3585,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -3390,12 +3701,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -3498,12 +3817,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -3606,12 +3933,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -3714,12 +4049,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -3822,12 +4165,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -3930,12 +4281,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -4038,12 +4397,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -4146,12 +4513,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -4254,12 +4629,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -4362,12 +4745,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -4470,12 +4861,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -4578,12 +4977,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -4686,12 +5093,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -4794,12 +5209,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -4902,336 +5325,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
-                              ]
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "string"
-                            },
-                            "isTestnet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "enum": [
-                                  "read.account.balances.native",
-                                  "read.account.balances.tokens",
-                                  "read.account.balances.staking",
-                                  "read.transaction.native",
-                                  "read.transaction.tokens",
-                                  "read.transaction.staking",
-                                  "write.transaction.type.native",
-                                  "write.transaction.type.tokens",
-                                  "write.transaction.type.staking",
-                                  "write.transaction.field.memo"
-                                ]
-                              }
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "bitcoin": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmoshub",
-                                "osmosis",
-                                "osmosis-testnet",
-                                "celestia",
-                                "celestia-testnet",
-                                "dydx",
-                                "cosmoshub-testnet",
-                                "axelar",
-                                "ethereum",
-                                "sepolia",
-                                "holesky",
-                                "zksync",
-                                "zksync-sepolia",
-                                "injective-testnet",
-                                "base",
-                                "base-sepolia",
-                                "optimism",
-                                "optimism-sepolia",
-                                "arbitrum",
-                                "arbitrum-sepolia",
-                                "polygon",
-                                "polygon-amoy",
-                                "bsc",
-                                "bsc-testnet",
-                                "linea",
-                                "linea-sepolia",
-                                "avalanche",
-                                "gnosis",
-                                "gnosis-chiado",
-                                "moonbeam",
-                                "moonriver",
-                                "moonbase",
-                                "fantom",
-                                "palm",
-                                "mantle",
-                                "chiliz",
-                                "chiliz-testnet",
-                                "ton",
-                                "bitcoin",
-                                "bitcoin-testnet",
-                                "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
-                              ]
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "string"
-                            },
-                            "isTestnet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "enum": [
-                                  "read.account.balances.native",
-                                  "read.account.balances.tokens",
-                                  "read.account.balances.staking",
-                                  "read.transaction.native",
-                                  "read.transaction.tokens",
-                                  "read.transaction.staking",
-                                  "write.transaction.type.native",
-                                  "write.transaction.type.tokens",
-                                  "write.transaction.type.staking",
-                                  "write.transaction.field.memo"
-                                ]
-                              }
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "bitcoin-testnet": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmoshub",
-                                "osmosis",
-                                "osmosis-testnet",
-                                "celestia",
-                                "celestia-testnet",
-                                "dydx",
-                                "cosmoshub-testnet",
-                                "axelar",
-                                "ethereum",
-                                "sepolia",
-                                "holesky",
-                                "zksync",
-                                "zksync-sepolia",
-                                "injective-testnet",
-                                "base",
-                                "base-sepolia",
-                                "optimism",
-                                "optimism-sepolia",
-                                "arbitrum",
-                                "arbitrum-sepolia",
-                                "polygon",
-                                "polygon-amoy",
-                                "bsc",
-                                "bsc-testnet",
-                                "linea",
-                                "linea-sepolia",
-                                "avalanche",
-                                "gnosis",
-                                "gnosis-chiado",
-                                "moonbeam",
-                                "moonriver",
-                                "moonbase",
-                                "fantom",
-                                "palm",
-                                "mantle",
-                                "chiliz",
-                                "chiliz-testnet",
-                                "ton",
-                                "bitcoin",
-                                "bitcoin-testnet",
-                                "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
-                              ]
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "string"
-                            },
-                            "isTestnet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "enum": [
-                                  "read.account.balances.native",
-                                  "read.account.balances.tokens",
-                                  "read.account.balances.staking",
-                                  "read.transaction.native",
-                                  "read.transaction.tokens",
-                                  "read.transaction.staking",
-                                  "write.transaction.type.native",
-                                  "write.transaction.type.tokens",
-                                  "write.transaction.type.staking",
-                                  "write.transaction.field.memo"
-                                ]
-                              }
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "litecoin": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmoshub",
-                                "osmosis",
-                                "osmosis-testnet",
-                                "celestia",
-                                "celestia-testnet",
-                                "dydx",
-                                "cosmoshub-testnet",
-                                "axelar",
-                                "ethereum",
-                                "sepolia",
-                                "holesky",
-                                "zksync",
-                                "zksync-sepolia",
-                                "injective-testnet",
-                                "base",
-                                "base-sepolia",
-                                "optimism",
-                                "optimism-sepolia",
-                                "arbitrum",
-                                "arbitrum-sepolia",
-                                "polygon",
-                                "polygon-amoy",
-                                "bsc",
-                                "bsc-testnet",
-                                "linea",
-                                "linea-sepolia",
-                                "avalanche",
-                                "gnosis",
-                                "gnosis-chiado",
-                                "moonbeam",
-                                "moonriver",
-                                "moonbase",
-                                "fantom",
-                                "palm",
-                                "mantle",
-                                "chiliz",
-                                "chiliz-testnet",
-                                "ton",
-                                "bitcoin",
-                                "bitcoin-testnet",
-                                "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -5334,12 +5441,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -5442,12 +5557,20 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective"
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -5550,12 +5673,1296 @@
                                 "chiliz",
                                 "chiliz-testnet",
                                 "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
                                 "bitcoin",
                                 "bitcoin-testnet",
                                 "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "bitcoin": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
                                 "rootstock",
                                 "rootstock-testnet",
-                                "injective"
+                                "injective",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "bitcoin-testnet": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "litecoin": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "akash": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "band": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "dymension": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "kyve": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "neutron": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "terra2": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "stargaze": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
+                              ]
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "string"
+                            },
+                            "isTestnet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "read.account.balances.native",
+                                  "read.account.balances.tokens",
+                                  "read.account.balances.staking",
+                                  "read.transaction.native",
+                                  "read.transaction.tokens",
+                                  "read.transaction.staking",
+                                  "write.transaction.type.native",
+                                  "write.transaction.type.tokens",
+                                  "write.transaction.type.staking",
+                                  "write.transaction.field.memo"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "dogecoin": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmoshub",
+                                "osmosis",
+                                "osmosis-testnet",
+                                "celestia",
+                                "celestia-testnet",
+                                "dydx",
+                                "cosmoshub-testnet",
+                                "axelar",
+                                "ethereum",
+                                "sepolia",
+                                "holesky",
+                                "zksync",
+                                "zksync-sepolia",
+                                "injective-testnet",
+                                "base",
+                                "base-sepolia",
+                                "optimism",
+                                "optimism-sepolia",
+                                "arbitrum",
+                                "arbitrum-sepolia",
+                                "polygon",
+                                "polygon-amoy",
+                                "bsc",
+                                "bsc-testnet",
+                                "linea",
+                                "linea-sepolia",
+                                "avalanche",
+                                "gnosis",
+                                "gnosis-chiado",
+                                "moonbeam",
+                                "moonriver",
+                                "moonbase",
+                                "fantom",
+                                "palm",
+                                "mantle",
+                                "chiliz",
+                                "chiliz-testnet",
+                                "ton",
+                                "rootstock",
+                                "rootstock-testnet",
+                                "injective",
+                                "bitcoin",
+                                "bitcoin-testnet",
+                                "litecoin",
+                                "akash",
+                                "band",
+                                "dymension",
+                                "kyve",
+                                "neutron",
+                                "terra2",
+                                "stargaze",
+                                "dogecoin"
                               ]
                             },
                             "nativeId": {
@@ -5670,12 +7077,20 @@
                 "chiliz",
                 "chiliz-testnet",
                 "ton",
+                "rootstock",
+                "rootstock-testnet",
+                "injective",
                 "bitcoin",
                 "bitcoin-testnet",
                 "litecoin",
-                "rootstock",
-                "rootstock-testnet",
-                "injective"
+                "akash",
+                "band",
+                "dymension",
+                "kyve",
+                "neutron",
+                "terra2",
+                "stargaze",
+                "dogecoin"
               ]
             },
             "required": true
@@ -5741,12 +7156,20 @@
                         "chiliz",
                         "chiliz-testnet",
                         "ton",
+                        "rootstock",
+                        "rootstock-testnet",
+                        "injective",
                         "bitcoin",
                         "bitcoin-testnet",
                         "litecoin",
-                        "rootstock",
-                        "rootstock-testnet",
-                        "injective"
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze",
+                        "dogecoin"
                       ]
                     },
                     "nativeId": {
@@ -5853,12 +7276,20 @@
                 "chiliz",
                 "chiliz-testnet",
                 "ton",
+                "rootstock",
+                "rootstock-testnet",
+                "injective",
                 "bitcoin",
                 "bitcoin-testnet",
                 "litecoin",
-                "rootstock",
-                "rootstock-testnet",
-                "injective"
+                "akash",
+                "band",
+                "dymension",
+                "kyve",
+                "neutron",
+                "terra2",
+                "stargaze",
+                "dogecoin"
               ]
             },
             "required": true
@@ -5927,12 +7358,20 @@
                         "chiliz",
                         "chiliz-testnet",
                         "ton",
+                        "rootstock",
+                        "rootstock-testnet",
+                        "injective",
                         "bitcoin",
                         "bitcoin-testnet",
                         "litecoin",
-                        "rootstock",
-                        "rootstock-testnet",
-                        "injective"
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze",
+                        "dogecoin"
                       ]
                     },
                     "type": {
@@ -6028,12 +7467,20 @@
                 "chiliz",
                 "chiliz-testnet",
                 "ton",
+                "rootstock",
+                "rootstock-testnet",
+                "injective",
                 "bitcoin",
                 "bitcoin-testnet",
                 "litecoin",
-                "rootstock",
-                "rootstock-testnet",
-                "injective"
+                "akash",
+                "band",
+                "dymension",
+                "kyve",
+                "neutron",
+                "terra2",
+                "stargaze",
+                "dogecoin"
               ]
             },
             "required": true
@@ -6130,12 +7577,20 @@
                             "chiliz",
                             "chiliz-testnet",
                             "ton",
+                            "rootstock",
+                            "rootstock-testnet",
+                            "injective",
                             "bitcoin",
                             "bitcoin-testnet",
                             "litecoin",
-                            "rootstock",
-                            "rootstock-testnet",
-                            "injective"
+                            "akash",
+                            "band",
+                            "dymension",
+                            "kyve",
+                            "neutron",
+                            "terra2",
+                            "stargaze",
+                            "dogecoin"
                           ]
                         },
                         "id": {
@@ -6214,91 +7669,91 @@
       }
     },
     "/api/chains/{chainId}/validators": {
-      "post": {
+      "get": {
         "tags": [
           "chains"
         ],
         "summary": "Retrieve the list of existing validators",
         "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "chainId": {
-                    "type": "string",
-                    "enum": [
-                      "algorand",
-                      "cosmoshub",
-                      "osmosis",
-                      "osmosis-testnet",
-                      "celestia",
-                      "celestia-testnet",
-                      "dydx",
-                      "cosmoshub-testnet",
-                      "axelar",
-                      "ethereum",
-                      "sepolia",
-                      "holesky",
-                      "zksync",
-                      "zksync-sepolia",
-                      "injective-testnet",
-                      "base",
-                      "base-sepolia",
-                      "optimism",
-                      "optimism-sepolia",
-                      "arbitrum",
-                      "arbitrum-sepolia",
-                      "polygon",
-                      "polygon-amoy",
-                      "bsc",
-                      "bsc-testnet",
-                      "linea",
-                      "linea-sepolia",
-                      "avalanche",
-                      "gnosis",
-                      "gnosis-chiado",
-                      "moonbeam",
-                      "moonriver",
-                      "moonbase",
-                      "fantom",
-                      "palm",
-                      "mantle",
-                      "chiliz",
-                      "chiliz-testnet",
-                      "ton",
-                      "bitcoin",
-                      "bitcoin-testnet",
-                      "litecoin",
-                      "rootstock",
-                      "rootstock-testnet",
-                      "injective"
-                    ]
-                  },
-                  "pagination": {
-                    "type": "object",
-                    "properties": {
-                      "limit": {
-                        "type": "number"
-                      },
-                      "offset": {
-                        "type": "number"
-                      }
-                    },
-                    "required": [
-                      "limit",
-                      "offset"
-                    ]
-                  }
-                },
-                "required": [
-                  "chainId"
-                ]
-              }
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "algorand",
+                "cosmoshub",
+                "osmosis",
+                "osmosis-testnet",
+                "celestia",
+                "celestia-testnet",
+                "dydx",
+                "cosmoshub-testnet",
+                "axelar",
+                "ethereum",
+                "sepolia",
+                "holesky",
+                "zksync",
+                "zksync-sepolia",
+                "injective-testnet",
+                "base",
+                "base-sepolia",
+                "optimism",
+                "optimism-sepolia",
+                "arbitrum",
+                "arbitrum-sepolia",
+                "polygon",
+                "polygon-amoy",
+                "bsc",
+                "bsc-testnet",
+                "linea",
+                "linea-sepolia",
+                "avalanche",
+                "gnosis",
+                "gnosis-chiado",
+                "moonbeam",
+                "moonriver",
+                "moonbase",
+                "fantom",
+                "palm",
+                "mantle",
+                "chiliz",
+                "chiliz-testnet",
+                "ton",
+                "rootstock",
+                "rootstock-testnet",
+                "injective",
+                "bitcoin",
+                "bitcoin-testnet",
+                "litecoin",
+                "akash",
+                "band",
+                "dymension",
+                "kyve",
+                "neutron",
+                "terra2",
+                "stargaze",
+                "dogecoin"
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "200 OK - Returns a list of validators, their status, and commission details for the specified chain ID.",
@@ -6349,12 +7804,20 @@
                         "chiliz",
                         "chiliz-testnet",
                         "ton",
+                        "rootstock",
+                        "rootstock-testnet",
+                        "injective",
                         "bitcoin",
                         "bitcoin-testnet",
                         "litecoin",
-                        "rootstock",
-                        "rootstock-testnet",
-                        "injective"
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze",
+                        "dogecoin"
                       ]
                     },
                     "validators": {
@@ -6453,12 +7916,20 @@
                                   "chiliz",
                                   "chiliz-testnet",
                                   "ton",
+                                  "rootstock",
+                                  "rootstock-testnet",
+                                  "injective",
                                   "bitcoin",
                                   "bitcoin-testnet",
                                   "litecoin",
-                                  "rootstock",
-                                  "rootstock-testnet",
-                                  "injective"
+                                  "akash",
+                                  "band",
+                                  "dymension",
+                                  "kyve",
+                                  "neutron",
+                                  "terra2",
+                                  "stargaze",
+                                  "dogecoin"
                                 ]
                               },
                               "sender": {
@@ -6820,12 +8291,20 @@
                                   "chiliz",
                                   "chiliz-testnet",
                                   "ton",
+                                  "rootstock",
+                                  "rootstock-testnet",
+                                  "injective",
                                   "bitcoin",
                                   "bitcoin-testnet",
                                   "litecoin",
-                                  "rootstock",
-                                  "rootstock-testnet",
-                                  "injective"
+                                  "akash",
+                                  "band",
+                                  "dymension",
+                                  "kyve",
+                                  "neutron",
+                                  "terra2",
+                                  "stargaze",
+                                  "dogecoin"
                                 ]
                               },
                               "sender": {
@@ -7127,12 +8606,20 @@
                                         "chiliz",
                                         "chiliz-testnet",
                                         "ton",
+                                        "rootstock",
+                                        "rootstock-testnet",
+                                        "injective",
                                         "bitcoin",
                                         "bitcoin-testnet",
                                         "litecoin",
-                                        "rootstock",
-                                        "rootstock-testnet",
-                                        "injective"
+                                        "akash",
+                                        "band",
+                                        "dymension",
+                                        "kyve",
+                                        "neutron",
+                                        "terra2",
+                                        "stargaze",
+                                        "dogecoin"
                                       ]
                                     },
                                     "sender": {
@@ -7504,12 +8991,20 @@
                                   "chiliz",
                                   "chiliz-testnet",
                                   "ton",
+                                  "rootstock",
+                                  "rootstock-testnet",
+                                  "injective",
                                   "bitcoin",
                                   "bitcoin-testnet",
                                   "litecoin",
-                                  "rootstock",
-                                  "rootstock-testnet",
-                                  "injective"
+                                  "akash",
+                                  "band",
+                                  "dymension",
+                                  "kyve",
+                                  "neutron",
+                                  "terra2",
+                                  "stargaze",
+                                  "dogecoin"
                                 ]
                               },
                               "sender": {
