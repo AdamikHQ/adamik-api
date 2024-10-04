@@ -6,6 +6,11 @@ const requestSchema = z.object({
   chainId: chainIdSchema,
 });
 
+const requestParamsSchema = z.object({
+  offset: z.number().optional(),
+  limit: z.number().optional(),
+});
+
 const responseSchema = z.object({
   chainId: chainIdSchema,
   validators: z
@@ -19,15 +24,14 @@ const responseSchema = z.object({
 
 const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}/validators": {
-    post: {
+    get: {
       tags: ["chains"],
       summary: "Retrieve the list of existing validators",
       description:
         "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
-      requestBody: {
-        content: {
-          "application/json": { schema: requestSchema },
-        },
+      requestParams: {
+        path: requestSchema,
+        query: requestParamsSchema,
       },
       responses: {
         "200": {
