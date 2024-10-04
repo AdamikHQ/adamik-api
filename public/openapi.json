@@ -7669,84 +7669,91 @@
       }
     },
     "/api/chains/{chainId}/validators": {
-      "post": {
+      "get": {
         "tags": [
           "chains"
         ],
         "summary": "Retrieve the list of existing validators",
         "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "chainId": {
-                    "type": "string",
-                    "enum": [
-                      "algorand",
-                      "cosmoshub",
-                      "osmosis",
-                      "osmosis-testnet",
-                      "celestia",
-                      "celestia-testnet",
-                      "dydx",
-                      "cosmoshub-testnet",
-                      "axelar",
-                      "ethereum",
-                      "sepolia",
-                      "holesky",
-                      "zksync",
-                      "zksync-sepolia",
-                      "injective-testnet",
-                      "base",
-                      "base-sepolia",
-                      "optimism",
-                      "optimism-sepolia",
-                      "arbitrum",
-                      "arbitrum-sepolia",
-                      "polygon",
-                      "polygon-amoy",
-                      "bsc",
-                      "bsc-testnet",
-                      "linea",
-                      "linea-sepolia",
-                      "avalanche",
-                      "gnosis",
-                      "gnosis-chiado",
-                      "moonbeam",
-                      "moonriver",
-                      "moonbase",
-                      "fantom",
-                      "palm",
-                      "mantle",
-                      "chiliz",
-                      "chiliz-testnet",
-                      "ton",
-                      "rootstock",
-                      "rootstock-testnet",
-                      "injective",
-                      "bitcoin",
-                      "bitcoin-testnet",
-                      "litecoin",
-                      "akash",
-                      "band",
-                      "dymension",
-                      "kyve",
-                      "neutron",
-                      "terra2",
-                      "stargaze",
-                      "dogecoin"
-                    ]
-                  }
-                },
-                "required": [
-                  "chainId"
-                ]
-              }
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "algorand",
+                "cosmoshub",
+                "osmosis",
+                "osmosis-testnet",
+                "celestia",
+                "celestia-testnet",
+                "dydx",
+                "cosmoshub-testnet",
+                "axelar",
+                "ethereum",
+                "sepolia",
+                "holesky",
+                "zksync",
+                "zksync-sepolia",
+                "injective-testnet",
+                "base",
+                "base-sepolia",
+                "optimism",
+                "optimism-sepolia",
+                "arbitrum",
+                "arbitrum-sepolia",
+                "polygon",
+                "polygon-amoy",
+                "bsc",
+                "bsc-testnet",
+                "linea",
+                "linea-sepolia",
+                "avalanche",
+                "gnosis",
+                "gnosis-chiado",
+                "moonbeam",
+                "moonriver",
+                "moonbase",
+                "fantom",
+                "palm",
+                "mantle",
+                "chiliz",
+                "chiliz-testnet",
+                "ton",
+                "rootstock",
+                "rootstock-testnet",
+                "injective",
+                "bitcoin",
+                "bitcoin-testnet",
+                "litecoin",
+                "akash",
+                "band",
+                "dymension",
+                "kyve",
+                "neutron",
+                "terra2",
+                "stargaze",
+                "dogecoin"
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "number"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "200 OK - Returns a list of validators, their status, and commission details for the specified chain ID.",
