@@ -42,6 +42,8 @@ enum ChainId {
   MANTLE = "mantle",
   CHILIZ = "chiliz",
   CHILIZ_TESTNET = "chiliz-testnet",
+  DEFI_KINGDOMS = "defi-kingdoms",
+  DEXALOT = "dexalot",
   TON = "ton",
   ROOTSTOCK = "rootstock",
   ROOTSTOCK_TESTNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)

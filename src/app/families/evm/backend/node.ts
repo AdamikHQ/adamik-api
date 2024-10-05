@@ -34,6 +34,8 @@ import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { chilizTesnet } from "../chains/chiliz-testnet";
+import { defiKingdoms } from "../chains/defi-kingdoms";
+import { dexalot } from "../chains/dexalot";
 import { injectiveTestnet } from "../chains/injective-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
 
@@ -106,6 +108,10 @@ function getClientConfig(chainId: ChainId) {
       return { chain: rootstock, transport };
     case ChainId.ROOTSTOCK_TESTNET:
       return { chain: rootstockTestnet, transport };
+    case ChainId.DEFI_KINGDOMS:
+      return { chain: defiKingdoms, transport };
+    case ChainId.DEXALOT:
+      return { chain: dexalot, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }
