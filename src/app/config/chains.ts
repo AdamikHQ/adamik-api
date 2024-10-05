@@ -768,6 +768,35 @@ const CHAINS: { [key in ChainId]: Chain } = {
     isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
+  "defi-kingdoms": {
+    family: ChainFamily.EVM,
+    id: ChainId.DEFI_KINGDOMS,
+    nativeId: "53935",
+    name: "DFK L1",
+    ticker: "JEWEL",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc",
+      //explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: [
+      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ],
+  },
+  dexalot: {
+    family: ChainFamily.EVM,
+    id: ChainId.DEXALOT,
+    nativeId: "432204",
+    name: "Dexalot L1",
+    ticker: "ALOT",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://subnets.avax.network/dexalot/mainnet/rpc",
+      //explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
   //Injective Cosmos based version
   injective: {
     family: ChainFamily.COSMOS,
@@ -787,7 +816,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 700000000,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: [
+      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ],
   },
   akash: {
     family: ChainFamily.COSMOS,
