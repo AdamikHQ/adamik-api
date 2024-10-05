@@ -2,12 +2,7 @@ import { MORALIS_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { AccountHistoryPagination, ChainId, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { EvmAddress } from "../types";
-import {
-  MoralisERC20Token,
-  MoralisERC20TokenBalance,
-  MoralisWalletTransaction,
-  MoralisWalletTransactionsResponse,
-} from "./types";
+import { MoralisERC20Token, MoralisERC20TokenBalance, MoralisWalletTransaction } from "./types";
 
 const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth"],
@@ -73,18 +68,23 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
 }
 */
 
-// TODO later
 async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string) {
   const url = new URL(urlString);
+
+  const headers: RequestInit = {
+    headers: {
+      "X-API-Key": MORALIS_API_KEY,
+    },
+  };
 
   let data: T[] = [];
   let response;
   do {
-    if (response?.pagination?.next_key) {
-      url.searchParams.set("pagination.key", response.pagination.next_key);
+    if (response?.cursor) {
+      url.searchParams.set("cursor", response.cursor);
     }
 
-    response = await fetch(url.toString()).then((response) => response.json());
+    response = await fetch(url.toString(), headers).then((response) => response.json());
 
     if (!response || !Array.isArray(response[dataKey])) {
       console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
@@ -92,7 +92,7 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
     }
 
     data = data.concat(response[dataKey]);
-  } while (response?.pagination?.next_key);
+  } while (response?.cursor);
 
   return data;
 }
@@ -220,32 +220,23 @@ async function fetchAccountTransactions(
     return [];
   }
 
-  const queryParams = new URLSearchParams({
+  const searchParams = new URLSearchParams({
     chain: moralisChainId,
     order: "DESC",
     include_internal_transactions: "false", // Moralis bug : doesn't work!
     nft_metadata: "false", // Moralis bug : doesn't work!
   });
 
-  pagination.fromTimestamp && queryParams.set("from_date", pagination.fromTimestamp.toString());
+  pagination.fromTimestamp && searchParams.set("from_date", pagination.fromTimestamp.toString());
+  pagination.toTimestamp && searchParams.set("to_date", pagination.toTimestamp.toString());
 
-  pagination.toTimestamp && queryParams.set("to_date", pagination.toTimestamp.toString());
+  const url = `${explorerURL}/v2.2/wallets/${address}/history` + "?" + searchParams;
 
-  const url = `${explorerURL}/v2.2/wallets/${address}/history` + "?" + queryParams;
-
-  const headers: RequestInit = {
-    headers: {
-      "X-API-Key": MORALIS_API_KEY,
-    },
-  };
-
-  const { result }: MoralisWalletTransactionsResponse = await fetch(url, headers).then((response) =>
-    response.json()
-  );
+  const transactions = await fetchWithPagination<MoralisWalletTransaction>(chainId, url, "result");
 
   // FIXME Because the queryParams above don't work, need to filter unwanted transactions by hand
   // For now, we're not interested in internal transactions and NFTs
-  return result.filter(
+  return transactions.filter(
     (transaction) => !transaction.internal_transactions?.length && !transaction.nft_transfers?.length
   );
 }
