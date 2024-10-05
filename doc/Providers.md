@@ -217,6 +217,14 @@
 | nodeURL | https://chiliz-spicy.publicnode.com |
 | explorerURL | https://deep-index.moralis.io/api |
 
+## defi-kingdoms
+
+| nodeURL | https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc |
+
+## dexalot
+
+| nodeURL | https://subnets.avax.network/dexalot/mainnet/rpc |
+
 ## injective
 
 | nodeURL | https://lcd-injective.imperator.co |
