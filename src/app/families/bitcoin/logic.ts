@@ -10,7 +10,7 @@ export function selectNetworkForChainId(chainId: ChainId): networks.Network {
   switch (chainId) {
     case ChainId.BITCOIN:
     case ChainId.BITCOIN_TESTNET:
-      return networks.bitcoin;
+      return networks.testnet;
     case ChainId.LITECOIN:
       // from https://github.com/bitcoinjs/bitcoinjs-lib/blob/34e1644b5fb60055793ec3078f2e4f48b2648ca6/test/address.spec.ts#L14
       return {
