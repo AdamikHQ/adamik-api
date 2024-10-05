@@ -35,6 +35,7 @@ async function fetchWithHeaders(url: string, options: RequestInit = {}) {
     ...options,
     headers: {
       ...options.headers,
+      // Custom header requested by imperator.co to identify and whitelist our traffic
       adamik: "6aPJgGeL2jHcNG7PaW4y",
     },
   };

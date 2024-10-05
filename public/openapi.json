@@ -844,6 +844,319 @@
         }
       }
     },
+    "/api/account/history": {
+      "post": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Retrieve an account's history",
+        "description": "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chainId": {
+                    "type": "string",
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "cosmoshub-testnet",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "palm",
+                      "mantle",
+                      "chiliz",
+                      "chiliz-testnet",
+                      "ton",
+                      "rootstock",
+                      "rootstock-testnet",
+                      "injective",
+                      "bitcoin",
+                      "bitcoin-testnet",
+                      "litecoin",
+                      "akash",
+                      "band",
+                      "dymension",
+                      "kyve",
+                      "neutron",
+                      "terra2",
+                      "stargaze",
+                      "dogecoin"
+                    ]
+                  },
+                  "accountId": {
+                    "type": "string",
+                    "description": "Account identifier (address, xpub, etc) for the specified chain ID"
+                  }
+                },
+                "required": [
+                  "chainId",
+                  "accountId"
+                ],
+                "examples": [
+                  {
+                    "chainId": "ethereum",
+                    "accountId": "0x0000000000000000000000000000000000000000"
+                  },
+                  {
+                    "chainId": "bitcoin",
+                    "accountId": "xpub"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns the current list of transactions for the specified address and chain ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "cosmoshub-testnet",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "palm",
+                        "mantle",
+                        "chiliz",
+                        "chiliz-testnet",
+                        "ton",
+                        "rootstock",
+                        "rootstock-testnet",
+                        "injective",
+                        "bitcoin",
+                        "bitcoin-testnet",
+                        "litecoin",
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze",
+                        "dogecoin"
+                      ]
+                    },
+                    "accountId": {
+                      "type": "string"
+                    },
+                    "transactions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "raw": {},
+                          "parsed": {
+                            "type": "object",
+                            "properties": {
+                              "chainId": {
+                                "type": "string",
+                                "enum": [
+                                  "algorand",
+                                  "cosmoshub",
+                                  "osmosis",
+                                  "osmosis-testnet",
+                                  "celestia",
+                                  "celestia-testnet",
+                                  "dydx",
+                                  "cosmoshub-testnet",
+                                  "axelar",
+                                  "ethereum",
+                                  "sepolia",
+                                  "holesky",
+                                  "zksync",
+                                  "zksync-sepolia",
+                                  "injective-testnet",
+                                  "base",
+                                  "base-sepolia",
+                                  "optimism",
+                                  "optimism-sepolia",
+                                  "arbitrum",
+                                  "arbitrum-sepolia",
+                                  "polygon",
+                                  "polygon-amoy",
+                                  "bsc",
+                                  "bsc-testnet",
+                                  "linea",
+                                  "linea-sepolia",
+                                  "avalanche",
+                                  "gnosis",
+                                  "gnosis-chiado",
+                                  "moonbeam",
+                                  "moonriver",
+                                  "moonbase",
+                                  "fantom",
+                                  "palm",
+                                  "mantle",
+                                  "chiliz",
+                                  "chiliz-testnet",
+                                  "ton",
+                                  "rootstock",
+                                  "rootstock-testnet",
+                                  "injective",
+                                  "bitcoin",
+                                  "bitcoin-testnet",
+                                  "litecoin",
+                                  "akash",
+                                  "band",
+                                  "dymension",
+                                  "kyve",
+                                  "neutron",
+                                  "terra2",
+                                  "stargaze",
+                                  "dogecoin"
+                                ]
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "tokenId": {
+                                "type": "string"
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "pending",
+                                  "unconfirmed",
+                                  "confirmed",
+                                  "failed",
+                                  "unknown"
+                                ]
+                              },
+                              "blockHeight": {
+                                "type": "string"
+                              },
+                              "timestamp": {
+                                "type": "string",
+                                "description": "Timestamp in milliseconds"
+                              },
+                              "sender": {
+                                "type": "string"
+                              },
+                              "recipients": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "address": {
+                                      "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "address",
+                                    "amount"
+                                  ]
+                                }
+                              },
+                              "fees": {
+                                "type": "string"
+                              },
+                              "gas": {
+                                "type": "string"
+                              },
+                              "nonce": {
+                                "type": "string"
+                              },
+                              "memo": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "chainId",
+                              "id",
+                              "status",
+                              "blockHeight",
+                              "sender",
+                              "recipients",
+                              "fees"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "accountId",
+                    "transactions"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/chains": {
       "get": {
         "tags": [
