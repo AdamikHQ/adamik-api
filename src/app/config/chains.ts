@@ -783,7 +783,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       prefix: "inj",
       validatorPrefix: "injvaloper",
       denom: "inj",
-      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey", // should be eth_secp256k1 instead of secp256k1 (see https://docs.injective.network/learn/basic-concepts/accounts/)
+      defaultPubKeyType: "/injective.crypto.v1beta1.ethsecp256k1.PubKey", // should be eth_secp256k1 instead of secp256k1 (see https://docs.injective.network/learn/basic-concepts/accounts/)
       defaultGas: 100000,
       minGasPrice: 700000000,
     },

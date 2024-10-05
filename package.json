@@ -20,6 +20,7 @@
     "@cosmjs/encoding": "^0.32.2",
     "@cosmjs/proto-signing": "^0.32.2",
     "@cosmjs/stargate": "^0.32.2",
+    "@injectivelabs/sdk-ts": "^1.14.13",
     "@isaacs/ttlcache": "^1.4.1",
     "@t3-oss/env-nextjs": "^0.10.1",
     "@ton-api/client": "^0.1.0",
@@ -47,6 +48,7 @@
     "zod-validation-error": "^3.3.0"
   },
   "devDependencies": {
+    "@injectivelabs/ts-types": "^1.14.13",
     "@types/jest": "^29.5.10",
     "@types/node": "^18.19.3",
     "@types/react": "18.3.3",

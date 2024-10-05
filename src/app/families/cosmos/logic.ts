@@ -1,4 +1,4 @@
-import { AminoMsg, makeSignDoc, serializeSignDoc, StdSignDoc } from "@cosmjs/amino";
+import { AminoMsg, makeSignDoc, serializeSignDoc, StdFee, StdSignDoc } from "@cosmjs/amino";
 import { Secp256k1Signature } from "@cosmjs/crypto";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
@@ -29,6 +29,7 @@ import {
 } from "~/app/model/types_WIP";
 import { fetchNetworkId, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
+import { buildStdSignDocForInjective } from "./chains/injective";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
 import { CosmosChainParams, CosmosTransactionParams } from "./types";
 
@@ -360,8 +361,20 @@ async function buildSignPayload(
     gas: transaction.gas.toString(),
   };
 
-  const { aminoMsgs } = buildMessages(transaction);
   const networkId = await fetchNetworkId(chainId);
+
+  return chainId === ChainId.INJECTIVE
+    ? buildStdSignDocForInjective(account, transaction, networkId)
+    : buildStdSignDoc(account, transaction, networkId, feeToEncode);
+}
+
+function buildStdSignDoc(
+  account: CosmosAccount,
+  transaction: TransactionData,
+  networkId: string,
+  feeToEncode: StdFee
+) {
+  const { aminoMsgs } = buildMessages(transaction);
 
   return makeSignDoc(
     aminoMsgs,
@@ -483,4 +496,12 @@ async function encodeToBroadcast(
   return Buffer.from(txBytes).toString("hex");
 }
 
-export { encodeToBroadcast, encodeToSign, getDelegation, getEstimatedFees, isValidAddress, resolvePubKey };
+export {
+  encodeToBroadcast,
+  encodeToSign,
+  getDelegation,
+  getEstimatedFees,
+  isHex,
+  isValidAddress,
+  resolvePubKey,
+};
