@@ -35,6 +35,8 @@ async function GET(request: NextRequest, context: { params: Params }): Promise<N
   const validatorsResponse = {
     chainId,
     validators,
+    // TODO
+    // paginationNext: { limit, offset } | null;
   };
 
   return NextResponse.json(validatorsResponse);
