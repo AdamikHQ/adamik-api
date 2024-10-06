@@ -33,6 +33,7 @@ import {
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
+import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { chilizTesnet } from "../chains/chiliz-testnet";
 import { defiKingdoms } from "../chains/defi-kingdoms";
 import { dexalot } from "../chains/dexalot";
@@ -112,6 +113,9 @@ function getClientConfig(chainId: ChainId) {
       return { chain: defiKingdoms, transport };
     case ChainId.DEXALOT:
       return { chain: dexalot, transport };
+    case ChainId.AVALANCHE_FUJI:
+      return { chain: avalancheFujiTesnet, transport };
+
     default:
       throw new Error("Unsupported chainId for Viem client");
   }

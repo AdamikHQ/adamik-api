@@ -552,6 +552,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
+  "avalanche-fuji": {
+    family: ChainFamily.EVM,
+    id: ChainId.AVALANCHE_FUJI,
+    nativeId: "43113",
+    name: "Avalanche Fuji Testnet",
+    ticker: "AVAX",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://avalanche-fuji-c-chain-rpc.publicnode.com",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
   gnosis: {
     family: ChainFamily.EVM,
     id: ChainId.GNOSIS,
