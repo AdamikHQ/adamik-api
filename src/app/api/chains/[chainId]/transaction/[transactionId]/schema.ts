@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema } from "~/app/api/schemaCommon";
-import { TransactionState } from "~/app/model/types_WIP";
+import { chainIdSchema, finalizedTransactionSchema } from "~/app/api/schemaCommon";
 
 extendZodWithOpenApi(z);
 
@@ -30,35 +29,7 @@ const requestParamsSchema = z.object({
     }),
 });
 
-const responseSchema = z.object({
-  raw: z.unknown(),
-  parsed: z
-    .object({
-      chainId: chainIdSchema,
-      id: z.string(),
-      tokenId: z.string().optional(),
-      status: z.nativeEnum(TransactionState),
-      blockHeight: z.string(),
-      timestamp: z
-        .string()
-        .openapi({
-          description: "Timestamp in milliseconds",
-        })
-        .optional(),
-      sender: z.string(),
-      recipients: z
-        .object({
-          address: z.string(),
-          amount: z.string(),
-        })
-        .array(),
-      fees: z.string(),
-      gas: z.string().optional(),
-      nonce: z.string().optional(),
-      memo: z.string().optional(),
-    })
-    .optional(),
-});
+const responseSchema = finalizedTransactionSchema;
 
 const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}/transaction/{transactionId}": {

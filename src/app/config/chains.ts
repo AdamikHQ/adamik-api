@@ -73,7 +73,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "ATOM",
     decimals: 6,
     backends: {
-      nodeURL: "https://cosmos-rest.publicnode.com",
+      nodeURL: "https://lcd-cosmos.imperator.co",
     },
     params: {
       prefix: "cosmos",
@@ -114,7 +114,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "OSMO",
     decimals: 6,
     backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/osmosis/rest/bfdb617358bd786c30374c8799978c27",
+      nodeURL: "https://lcd-osmosis.imperator.co",
     },
     params: {
       prefix: "osmo",
@@ -156,7 +156,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-celestia.imperator.co",
-      //nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestia/rest/bfdb617358bd786c30374c8799978c27",
     },
     params: {
       prefix: "celestia",
@@ -221,7 +220,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "AXL",
     decimals: 6,
     backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/axelar/rest/bfdb617358bd786c30374c8799978c27",
+      nodeURL: "https://lcd-axelar.imperator.co",
     },
     params: {
       prefix: "axelar",
@@ -311,6 +310,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     isTestNet: true,
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
+  //INJECTIVE-TESTNET EVM Version
   "injective-testnet": {
     family: ChainFamily.EVM,
     id: ChainId.INJECTIVE_TESTNET,
@@ -557,6 +557,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
+  "avalanche-fuji": {
+    family: ChainFamily.EVM,
+    id: ChainId.AVALANCHE_FUJI,
+    nativeId: "43113",
+    name: "Avalanche Fuji Testnet",
+    ticker: "AVAX",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://avalanche-fuji-c-chain-rpc.publicnode.com",
+      explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
   gnosis: {
     family: ChainFamily.EVM,
     id: ChainId.GNOSIS,
@@ -679,12 +692,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: [
       ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+      //Issue with EIP-1559 tx on rootstock
+      //ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
     ],
   },
   "rootstock-testnet": {
     family: ChainFamily.EVM,
-    id: ChainId.ROOTSTOCK_TESNET,
+    id: ChainId.ROOTSTOCK_TESTNET,
     nativeId: "31",
     name: "RootStock Testnet",
     ticker: "tRBTC",
@@ -696,7 +710,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     isTestNet: true,
     supportedFeatures: [
       ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+      //Issue with EIP-1559 tx on rootstock
+      //ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
     ],
   },
   [ChainId.LITECOIN]: {
@@ -713,6 +728,22 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 6,
     },
     nativeId: "litecoin",
+    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+  },
+  [ChainId.DOGECOIN]: {
+    id: ChainId.DOGECOIN,
+    name: "Dogecoin",
+    family: ChainFamily.BITCOIN,
+    ticker: "DOGE",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/dogecoin",
+    },
+    params: {
+      confirmations: 60, // confirmations used by Coinbase or Binance
+    },
+    nativeId: "dogecoin",
     supportedFeatures: FEATURES[ChainFamily.BITCOIN],
   },
   ton: {
@@ -766,6 +797,214 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://api.trongrid.io",
     },
     supportedFeatures: FEATURES[ChainFamily.TRON],
+  },
+  "defi-kingdoms": {
+    family: ChainFamily.EVM,
+    id: ChainId.DEFI_KINGDOMS,
+    nativeId: "53935",
+    name: "DFK L1",
+    ticker: "JEWEL",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc",
+      //explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: [
+      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ],
+  },
+  dexalot: {
+    family: ChainFamily.EVM,
+    id: ChainId.DEXALOT,
+    nativeId: "432204",
+    name: "Dexalot L1",
+    ticker: "ALOT",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://subnets.avax.network/dexalot/mainnet/rpc",
+      //explorerURL: "https://deep-index.moralis.io/api",
+    },
+    supportedFeatures: FEATURES[ChainFamily.EVM],
+  },
+  //Injective Cosmos based version
+  injective: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.INJECTIVE,
+    nativeId: "injective-1",
+    name: "Injective",
+    ticker: "INJ",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://lcd-injective.imperator.co",
+    },
+    params: {
+      prefix: "inj",
+      validatorPrefix: "injvaloper",
+      denom: "inj",
+      defaultPubKeyType: "/injective.crypto.v1beta1.ethsecp256k1.PubKey", // should be eth_secp256k1 instead of secp256k1 (see https://docs.injective.network/learn/basic-concepts/accounts/)
+      defaultGas: 100000,
+      minGasPrice: 700000000,
+    },
+    supportedFeatures: [
+      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
+      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ],
+  },
+  akash: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.AKASH,
+    nativeId: "akashnet-2",
+    name: "Akash",
+    ticker: "AKT",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-akash.imperator.co",
+    },
+    params: {
+      prefix: "akash",
+      validatorPrefix: "akashvaloper",
+      denom: "uakt",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.0025,
+    },
+    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/akash/chain.json
+  },
+
+  band: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.BAND,
+    nativeId: "laozi-mainnet",
+    name: "Band Protocol",
+    ticker: "BAND",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-band.imperator.co",
+    },
+    params: {
+      prefix: "band",
+      validatorPrefix: "bandvaloper",
+      denom: "uband",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000, // TODO: Verify this value for each specific chain
+      minGasPrice: 0.003,
+    },
+    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/bandchain/chain.json
+  },
+
+  //Dymension seems to be EVM based in its transaction handling
+  dymension: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.DYMENSION,
+    nativeId: "dymension_1100-1",
+    name: "Dymension",
+    ticker: "DYM",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://lcd-dymension.imperator.co",
+    },
+    params: {
+      prefix: "dym",
+      validatorPrefix: "dymvaloper",
+      denom: "adym",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000, // TODO: Verify this value for each specific chain
+      minGasPrice: 5000000000,
+    },
+    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/dymension/chain.json
+  },
+
+  kyve: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.KYVE,
+    nativeId: "kyve-1",
+    name: "KYVE",
+    ticker: "KYVE",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-kyve.imperator.co",
+    },
+    params: {
+      prefix: "kyve",
+      validatorPrefix: "kyvevaloper",
+      denom: "ukyve",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000, // TODO: Verify this value for each specific chain
+      minGasPrice: 0.03,
+    },
+    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/kyve/chain.json
+  },
+
+  neutron: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.NEUTRON,
+    nativeId: "neutron-1",
+    name: "Neutron",
+    ticker: "NTRN",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-neutron.imperator.co",
+    },
+    params: {
+      prefix: "neutron",
+      validatorPrefix: "neutronvaloper",
+      denom: "untrn",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000, // TODO: Verify this value for each specific chain
+      minGasPrice: 0.0053,
+    },
+    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/neutron/chain.json
+  },
+
+  //Terra 2 is the rebirthed version of Terra
+  terra2: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.TERRA,
+    nativeId: "phoenix-1",
+    name: "Terra",
+    ticker: "LUNA",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-terra.imperator.co",
+    },
+    params: {
+      prefix: "terra",
+      validatorPrefix: "terravaloper",
+      denom: "uluna",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000, // TODO: Verify this value for each specific chain
+      minGasPrice: 0.015,
+    },
+    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/terra2/chain.json
+  },
+
+  stargaze: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.STARGAZE,
+    nativeId: "stargaze-1",
+    name: "Stargaze",
+    ticker: "STARS",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-stargaze.imperator.co",
+    },
+    params: {
+      prefix: "stars",
+      validatorPrefix: "starsvaloper",
+      denom: "ustars",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000, // TODO: Verify this value for each specific chain
+      minGasPrice: 0.0025,
+    },
+    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/stargaze/chain.json
   },
 } as const;
 

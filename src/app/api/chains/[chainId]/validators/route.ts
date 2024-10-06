@@ -1,12 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
+import z from "zod";
 import { getService } from "~/app/families/services";
 import { isStakingService } from "~/app/model/service";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import "~/bigintPatch";
 import { requestSchema } from "./schema";
 
-async function POST(request: NextRequest): Promise<NextResponse> {
-  const { chainId, pagination } = requestSchema.parse(await request.json());
+type Params = z.infer<typeof requestSchema>;
+
+async function GET(request: NextRequest, context: { params: Params }): Promise<NextResponse> {
+  const { chainId } = requestSchema.parse(context.params);
+
+  const searchParams = request.nextUrl.searchParams;
+  const offset = z
+    .number()
+    .catch(0)
+    .parse(Number(searchParams.get("offset")));
+  const limit = z
+    .number()
+    .catch(0)
+    .parse(Number(searchParams.get("limit")));
 
   const service = getService(chainId);
 
@@ -17,16 +30,18 @@ async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const validators = pagination ? await service.getValidators(pagination) : await service.getValidators();
+  const validators = await service.getValidators({ offset, limit });
 
   const validatorsResponse = {
     chainId,
     validators,
+    // TODO
+    // paginationNext: { limit, offset } | null;
   };
 
   return NextResponse.json(validatorsResponse);
 }
 
 module.exports = apiHandler({
-  POST,
+  GET,
 });

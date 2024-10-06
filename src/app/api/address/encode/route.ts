@@ -10,9 +10,14 @@ async function POST(request: NextRequest): Promise<NextResponse> {
 
   try {
     const addresses = await service.pubkeyToAddresses(pubkey);
-    return NextResponse.json(addresses);
+    return NextResponse.json({ chainId, pubkey, addresses });
   } catch (e: any) {
-    return NextResponse.json({ message: e.toString() }, { status: 500, statusText: "Internal error" });
+    const info = `Error while converting public key ${pubkey} to addresses, for chain ID ${chainId}:`;
+    console.warn(info, e.message);
+    return NextResponse.json(
+      { message: `${info} ${e.message}` },
+      { status: 500, statusText: "Internal error" }
+    );
   }
 }
 
