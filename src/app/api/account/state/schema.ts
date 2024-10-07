@@ -15,7 +15,7 @@ const supportedChainIds = Object.values(CHAINS)
   )
   .map((chain) => chain.id);
 
-const supportedChainIdsSchema = z.enum(supportedChainIds as [string, ...string[]]);
+const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]]);
 
 const requestSchema = z
   .object({
