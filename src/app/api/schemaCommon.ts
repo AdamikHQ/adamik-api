@@ -2,7 +2,6 @@ import z from "zod";
 import { extendZodWithOpenApi } from "zod-openapi";
 import {
   ChainFamily,
-  ChainFeature,
   ChainId,
   EncodedTransactionFormat,
   TokenType,
@@ -47,6 +46,40 @@ const chainIdSchema = z.nativeEnum(ChainId, {
   },
 });
 
+const chainSupportedFeaturesSchema = z.object({
+  read: z.object({
+    account: z.object({
+      balances: z.object({
+        native: z.boolean(),
+        tokens: z.boolean(),
+        staking: z.boolean(),
+      }),
+      transactions: z.object({
+        native: z.boolean(),
+        tokens: z.boolean(),
+        staking: z.boolean(),
+      }),
+    }),
+    transaction: z.object({
+      native: z.boolean(),
+      tokens: z.boolean(),
+      staking: z.boolean(),
+    }),
+  }),
+  write: z.object({
+    transaction: z.object({
+      type: z.object({
+        native: z.boolean(),
+        tokens: z.boolean(),
+        staking: z.boolean(),
+      }),
+      field: z.object({
+        memo: z.boolean(),
+      }),
+    }),
+  }),
+});
+
 const chainSchema = z.object({
   family: z.nativeEnum(ChainFamily),
   // The following line causes all chainIds to be listed for all chains, in the generated OpenAPI spec
@@ -59,7 +92,7 @@ const chainSchema = z.object({
   decimals: z.string(),
   isTestnet: z.boolean().optional(),
   params: z.any().optional(),
-  supportedFeatures: z.nativeEnum(ChainFeature).array(),
+  supportedFeatures: chainSupportedFeaturesSchema,
 });
 
 const tokenSchema = z.object({

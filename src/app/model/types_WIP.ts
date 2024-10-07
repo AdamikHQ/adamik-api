@@ -73,26 +73,39 @@ enum ChainFamily {
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
 
-enum ChainFeature {
-  READ_ACCOUNT_BALANCES_NATIVE = "read.account.balances.native",
-  READ_ACCOUNT_BALANCES_TOKENS = "read.account.balances.tokens",
-  //READ_ACCOUNT_BALANCES_NFT = "read.account.balances.nft",
-  READ_ACCOUNT_BALANCES_STAKING = "read.account.balances.staking",
-
-  //READ_ACCOUNT_TRANSACTIONS_NATIVE = "read.account.transactions.native",
-  //READ_ACCOUNT_TRANSACTIONS_TOKENS = "read.account.transactions.tokens",
-  //READ_ACCOUNT_TRANSACTIONS_STAKING = "read.account.transactions.staking",
-
-  READ_TRANSACTION_NATIVE = "read.transaction.native",
-  READ_TRANSACTION_TOKENS = "read.transaction.tokens",
-  READ_TRANSACTION_STAKING = "read.transaction.staking",
-
-  WRITE_TRANSACTION_TYPE_NATIVE = "write.transaction.type.native",
-  WRITE_TRANSACTION_TYPE_TOKENS = "write.transaction.type.tokens",
-  WRITE_TRANSACTION_TYPE_STAKING = "write.transaction.type.staking",
-
-  WRITE_TRANSACTION_FIELD_MEMO = "write.transaction.field.memo",
-}
+type ChainSupportedFeatures = {
+  read: {
+    account: {
+      balances: {
+        native: boolean;
+        tokens: boolean;
+        staking: boolean;
+      };
+      transactions: {
+        native: boolean;
+        tokens: boolean;
+        staking: boolean;
+      };
+    };
+    transaction: {
+      native: boolean;
+      tokens: boolean;
+      staking: boolean;
+    };
+  };
+  write: {
+    transaction: {
+      type: {
+        native: boolean;
+        tokens: boolean;
+        staking: boolean;
+      };
+      field: {
+        memo: boolean;
+      };
+    };
+  };
+};
 
 // Define filters as flags: anything put in the object is true to flag that the filter is "ON"
 type ApiRequestFilters = Record<string, true>;
@@ -112,7 +125,7 @@ type Chain = {
   backends: Backends;
   isTestNet?: boolean;
   params?: ChainParams;
-  supportedFeatures: readonly ChainFeature[];
+  supportedFeatures: ChainSupportedFeatures;
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
@@ -366,7 +379,6 @@ type Pagination = {
 
 export {
   ChainFamily,
-  ChainFeature,
   ChainId,
   EncodedTransactionFormat,
   StakingStatus,
@@ -383,6 +395,7 @@ export type {
   BroadcastStatus,
   Chain,
   ChainParams,
+  ChainSupportedFeatures,
   ErrorMsg,
   FinalizedTransaction,
   Pagination,
