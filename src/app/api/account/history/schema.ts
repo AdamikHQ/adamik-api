@@ -10,7 +10,8 @@ const supportedChainIds = Object.values(CHAINS)
   .filter(
     (chain) =>
       chain.supportedFeatures.read.account.transactions.native ||
-      chain.supportedFeatures.read.account.transactions.tokens
+      chain.supportedFeatures.read.account.transactions.tokens ||
+      chain.supportedFeatures.read.account.transactions.staking
   )
   .map((chain) => chain.id);
 
