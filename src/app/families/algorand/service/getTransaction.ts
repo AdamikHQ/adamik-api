@@ -18,7 +18,7 @@ async function getTransaction(
     chainId: this.chainId,
     id: algoTransaction.id,
     senders: [{ address: algoTransaction.sender }],
-    fees: algoTransaction.fee,
+    fees: BigInt(algoTransaction.fee),
     // Placeholder values, actual values filled below
     state: TransactionState.UNCONFIRMED,
     mode: TransactionMode.TRANSFER,
@@ -35,7 +35,7 @@ async function getTransaction(
     parsedTransaction.recipients = [
       {
         address: algoTransaction.paymentTransaction.receiver,
-        amount: algoTransaction.paymentTransaction.amount,
+        amount: BigInt(algoTransaction.paymentTransaction.amount),
       },
     ];
   } else if (algoTransaction.txType === "axfer") {
@@ -44,17 +44,12 @@ async function getTransaction(
     parsedTransaction.recipients = [
       {
         address: algoTransaction.assetTransferTransaction.receiver,
-        amount: algoTransaction.assetTransferTransaction.amount,
+        amount: BigInt(algoTransaction.assetTransferTransaction.amount),
       },
     ];
   } else {
-    const message = `Unsupported type of transaction ${transactionId} for chainId ${this.chainId}: ${
-      (algoTransaction as any).txType
-    }`;
     // Not supported (yet?)
-
-    console.warn(message);
-    status.errors.push({ message });
+    console.warn(`/!\\ Unsupported parsing of transaction ${transactionId} for chainId ${this.chainId}`);
     return {
       raw: algoTransaction,
     };

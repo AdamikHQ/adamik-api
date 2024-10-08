@@ -9,15 +9,15 @@ type AlgoAsset = {
 
 type AlgoAssetAmount = {
   assetId: string;
-  amount: bigint;
+  amount: number;
   //isFrozen: boolean;
 };
 
 type AlgoAccount = {
   round: number;
   address: string;
-  balance: bigint;
-  pendingRewards: bigint;
+  balance: number;
+  pendingRewards: number;
   assetAmounts: AlgoAssetAmount[];
 };
 
@@ -37,24 +37,24 @@ type AlgoTransactionBroadcastResponse = {
 
 type AlgoTransaction = {
   id: string;
-  currentRound: bigint;
+  currentRound: number;
   confirmedRound: number;
   roundTime: number;
   sender: string;
-  fee: bigint;
+  fee: number;
   note?: string;
 } & (
   | {
       txType: "pay";
       paymentTransaction: {
-        amount: bigint;
+        amount: number;
         receiver: string;
       };
     }
   | {
       txType: "axfer";
       assetTransferTransaction: {
-        amount: bigint;
+        amount: number;
         assetId: number;
         receiver: string;
       };
