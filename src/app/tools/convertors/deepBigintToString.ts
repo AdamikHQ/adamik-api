@@ -17,9 +17,11 @@ export function deepBigintToString<T>(data: T): DeeplyConvertedBigInt<T> {
   if (data === null || data === undefined) {
     return data as DeeplyConvertedBigInt<T>;
   }
+
   if (Array.isArray(data)) {
     return data.map((item) => deepBigintToString(item)) as DeeplyConvertedBigInt<T>;
   }
+
   if (typeof data === "object") {
     return Object.fromEntries(
       Object.entries(data).map(([key, value]) => {
@@ -27,8 +29,10 @@ export function deepBigintToString<T>(data: T): DeeplyConvertedBigInt<T> {
       })
     ) as DeeplyConvertedBigInt<T>;
   }
+
   if (typeof data === "bigint") {
     return data.toString() as DeeplyConvertedBigInt<T>;
   }
+
   return data as DeeplyConvertedBigInt<T>;
 }
