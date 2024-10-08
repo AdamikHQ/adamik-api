@@ -142,6 +142,11 @@
 | nodeURL | https://site1.moralis-nodes.com/avalanche/5addb0088d03429eb061d98a104649ab |
 | explorerURL | https://deep-index.moralis.io/api |
 
+## avalanche-fuji
+
+| nodeURL | https://avalanche-fuji-c-chain-rpc.publicnode.com |
+| explorerURL | https://deep-index.moralis.io/api |
+
 ## gnosis
 
 | nodeURL | https://site1.moralis-nodes.com/gnosis/87598d6b313843f6be61fecc9b874cdd |
