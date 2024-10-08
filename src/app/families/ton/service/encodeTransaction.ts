@@ -24,8 +24,7 @@ async function encodeTransactionToBroadcast(
 
   const transactionParams = signedTransaction.data?.params as TonTransactionParams;
 
-  // FIXME Unclear: is the pubKey always required? Or only in some cases?
-  // FIXME: shouldn't this code be in prevalidateTransaction instead?
+  // Public key is mandatory when the account hasn't made a first transaction yet
   if (signedTransaction.data.nonce === BigInt(0) && !transactionParams?.pubKey) {
     throw new UserInputError("Missing wallet public key: `params.pubKey` is required");
   }

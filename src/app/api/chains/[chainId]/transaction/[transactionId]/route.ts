@@ -27,16 +27,16 @@ export const GET = apiHandler(
     const transaction = await service.getTransaction(transactionId, status);
     if (!transaction) {
       throw new UserInputError(
-        `Transaction ${transactionId} not found for chainId ${chainId}`,
-        "Transaction not found"
+        "Transaction not found",
+        `Transaction ${transactionId} not found for chainId ${chainId}`
       );
     }
 
     // Apply filters
     if (filters.parsed && !transaction.parsed) {
       throw new UserInputError(
-        `Parsing currently not supported for transaction ${transactionId}`,
-        "Transaction not supported"
+        "Transaction not supported",
+        `Parsing currently not supported for transaction ${transactionId}`
       );
     }
 

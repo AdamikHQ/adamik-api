@@ -159,9 +159,7 @@ async function getTransaction(
 
     // Not supported (yet?)
     default:
-      const warnMessage = `Unsupported type of transaction ${transactionId} for chainId ${this.chainId}: ${message["@type"]}`;
-      console.warn(warnMessage);
-      status.errors.push({ message: warnMessage });
+      console.warn(`/!\\ Unsupported parsing of transaction ${transactionId} for chainId ${this.chainId}`);
       return {
         raw: cosmosTransaction,
       };

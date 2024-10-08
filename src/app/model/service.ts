@@ -1,7 +1,7 @@
 import type { AdamikStatus } from "../tools/handlers/apiHandler";
 import {
   AccountState,
-  BroadcastStatus as BroadcastResult,
+  BroadcastStatus,
   ChainId,
   FinalizedTransaction,
   Pagination,
@@ -43,7 +43,7 @@ abstract class BaseChainService {
   abstract encodeTransactionToBroadcast(signedTransaction: Transaction): Promise<string>;
 
   // Broadcast
-  abstract broadcastTransaction(payload: string): Promise<BroadcastResult>;
+  abstract broadcastTransaction(payload: string): Promise<BroadcastStatus>;
 }
 
 // STAKING ////////////////////////////////////////////////////////////////////////////////////

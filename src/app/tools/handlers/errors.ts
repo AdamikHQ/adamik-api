@@ -18,6 +18,7 @@ export class UserInputError extends AdamikHttpError {
   statusText;
   status = 400;
 
+  // FIXME Most uses of this class only provide the 'message' param, but passed as 'statusText'
   constructor(statusText: string, message?: string) {
     super(message);
     this.statusText = statusText;
@@ -51,7 +52,7 @@ export class TransactionIdNotFoundError extends UserInputError {
   statusText = "TransactionId not found";
 
   constructor(transactionId: string, chainId: ChainId) {
-    super(`Transaction ${transactionId} not found for chainId ${chainId}`, "TransactionId not found");
+    super("TransactionId not found", `Transaction ${transactionId} not found for chainId ${chainId}`);
   }
 }
 
@@ -61,7 +62,7 @@ export class UnsupportedTokenIDError extends UserInputError {
   statusText = "Unsupported tokenId";
 
   constructor(tokenId: any, chainId: ChainId) {
-    super(`Token ID ${tokenId} is not supported for chain ID ${chainId}`, "Unsupported tokenId");
+    super("Unsupported tokenId", `Token ID ${tokenId} is not supported for chain ID ${chainId}`);
   }
 }
 
