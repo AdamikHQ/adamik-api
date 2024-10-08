@@ -13,12 +13,12 @@ async function getTokenInfo(this: TronService, tokenId: string): Promise<Token |
       name: tokenInfo.name,
       ticker: tokenInfo.symbol,
       decimals: Number(tokenInfo.decimals),
-      logo: tokenInfo.logo,
       contractAddress: tokenId,
     };
 
     return token;
   } catch (e) {
+    console.log(e);
     return null;
   }
 }

@@ -1,4 +1,5 @@
 import { TronWeb } from "tronweb";
+import { toHex } from "tronweb/utils";
 import { TRONGRID_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 
@@ -46,24 +47,84 @@ const isValidAddress = async (address: string) => {
   return isValid;
 };
 
-const getTRC20TokenInfo = async (tokenId: string) => {
-  const tokenInfo = await tronWeb.contract().at(tokenId);
+const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string) => {
+  tronWeb.setAddress(ownerAddress || tokenId);
+  const contract = await tronWeb.contract().at(tokenId);
 
-  const name = await tokenInfo.name();
-  const symbol = await tokenInfo.symbol();
-  const decimals = await tokenInfo.decimals();
-  const logo = await tokenInfo.logo();
+  const name = await contract.name().call();
+  const symbol = await contract.symbol().call();
+  const decimals = await contract.decimals().call();
 
-  return { name, symbol, decimals, logo };
+  return { name, symbol, decimals };
+};
+
+const sendTRC20TokenTransaction = async (tokenId: string, amount: bigint, to: string, from: string) => {
+  const inputs = [
+    {
+      type: "address",
+      value: toHex(to),
+    },
+    {
+      type: "uint256",
+      value: toHex(amount.toString()),
+    },
+  ];
+  tronWeb.setAddress(from);
+
+  const { transaction } = await tronWeb.transactionBuilder.triggerSmartContract(
+    toHex(tokenId),
+    "transfer(address,uint256)",
+    {
+      callValue: 0,
+    },
+    inputs,
+    toHex(from)
+  );
+
+  return transaction;
+};
+
+const estimateEnergyContract = async (tokenId: string, amount: bigint, to: string, from: string) => {
+  const inputs = [
+    {
+      type: "address",
+      value: toHex(to),
+    },
+    {
+      type: "uint256",
+      value: toHex(amount.toString()),
+    },
+  ];
+  tronWeb.setAddress(from);
+
+  const { energy_used, energy_penalty } = await tronWeb.transactionBuilder.triggerConstantContract(
+    toHex(tokenId),
+    "transfer(address,uint256)",
+    {
+      callValue: 0,
+    },
+    inputs,
+    toHex(from)
+  );
+  const chainParameters = await getChainParameters();
+  const energyPrice = chainParameters.find((p) => p.key === "getEnergyFee")?.value || 0;
+
+  if (!energy_used || !energy_penalty) {
+    return { fees: 0, energy_used: 0, energy_penalty: 0 };
+  }
+
+  return { fees: energy_used + energy_penalty * energyPrice, energy_used, energy_penalty };
 };
 
 export {
   broadcast,
   createTransaction,
+  estimateEnergyContract,
   getAccount,
   getAccountResources,
   getBandwidthPrice,
   getChainParameters,
   getTRC20TokenInfo,
   isValidAddress,
+  sendTRC20TokenTransaction,
 };

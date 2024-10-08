@@ -48,6 +48,7 @@ const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
     ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
     ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
     ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
+    ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
   ],
 };
 

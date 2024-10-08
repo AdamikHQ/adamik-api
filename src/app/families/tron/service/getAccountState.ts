@@ -7,8 +7,6 @@ async function getAccountState(this: TronService, accountId: string): Promise<Ac
 
   const nativeBalance = accountInfo?.balance ? BigInt(accountInfo.balance) : BigInt(0);
 
-  console.log("accountInfo", accountInfo);
-
   const tokens: TokenAmount[] = accountInfo.withPriceTokens
     .map((tokenInfo) => {
       if (tokenInfo.tokenType === "trc20") {

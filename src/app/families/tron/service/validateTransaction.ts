@@ -1,7 +1,8 @@
 import { Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { TronService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
-import { getAccount, isValidAddress } from "../backend/node";
+import { fetchTronscanAccountData } from "../backend/explorer";
+import { isValidAddress } from "../backend/node";
 
 async function prevalidateTransaction(this: TronService, transaction: Transaction): Promise<void> {
   transaction.status = await prevalidateTransactionCommon(transaction.data, async (address: string) =>
@@ -11,18 +12,28 @@ async function prevalidateTransaction(this: TronService, transaction: Transactio
 
 async function validateTransaction(this: TronService, transaction: Transaction): Promise<void> {
   const transactionData = transaction.data;
-  const availableBalance = (await getAccount(transactionData.sender)).balance;
+  const accountData = await fetchTronscanAccountData(transactionData.sender);
+  const availableBalance = accountData.balance;
   const amount = transactionData.amount as bigint;
   const fees = transactionData.fees as bigint;
 
   switch (transactionData.mode) {
-    case TransactionMode.TRANSFER:
+    case TransactionMode.TRANSFER: {
       // - amount + fees < nativeBalance
       if (availableBalance && amount + fees > BigInt(availableBalance)) {
         transaction.status.errors.push({ message: "Balance is too low" });
       }
-
       break;
+    }
+    case TransactionMode.TRANSFER_TOKEN: {
+      const tokenData = accountData.withPriceTokens.find(
+        (token) => token.tokenId === transactionData.tokenId
+      );
+      if (tokenData && amount > BigInt(tokenData.balance)) {
+        transaction.status.errors.push({ message: "Insufficient token balance" });
+      }
+      break;
+    }
   }
 
   // - fees < nativeBalance

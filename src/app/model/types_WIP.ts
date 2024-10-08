@@ -2,6 +2,7 @@ import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoi
 import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
 import { EvmChainParams } from "../families/evm/types";
 import { TonTransactionParams } from "../families/ton/types";
+import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -263,7 +264,11 @@ type FinalizedTransaction = {
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
-type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams | TonTransactionParams;
+type TransactionParams =
+  | CosmosTransactionParams
+  | BitcoinTransactionParams
+  | TonTransactionParams
+  | TronTransactionParams;
 
 // TODO WIP
 // FIXME de/serialization types <> string

@@ -1,10 +1,21 @@
-import { Transaction } from "~/app/model/types_WIP";
-import { createTransaction } from "./backend/node";
+import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { createTransaction, sendTRC20TokenTransaction } from "./backend/node";
 
 const buildTransaction = async (transaction: Transaction) => {
   const { amount, recipient, sender } = transaction.data;
   if (amount === undefined) {
     throw new Error("amount required to build raw transaction");
+  }
+
+  if (transaction.data.mode === TransactionMode.TRANSFER_TOKEN) {
+    const transactionBuilded = await sendTRC20TokenTransaction(
+      transaction.data.tokenId,
+      amount,
+      recipient,
+      sender
+    );
+
+    return transactionBuilded;
   }
 
   const transactionBuilded = await createTransaction(recipient, amount, sender);
