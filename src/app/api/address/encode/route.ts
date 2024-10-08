@@ -1,17 +1,18 @@
 import { getService } from "~/app/families/services";
-import { AdamikResponse, apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { requestSchema, responseSchema } from "./schema";
 
-export const POST = apiHandlerWrapper(
-  async ({ chainId, pubkey }) => {
+export const POST = apiHandler(
+  {
+    requestSchema,
+    responseSchema,
+  },
+  async ({ body }) => {
+    const { chainId, pubkey } = body;
     const service = getService(chainId);
 
     const addresses = await service.pubkeyToAddresses(pubkey);
 
-    return AdamikResponse.json({ chainId, pubkey, addresses });
-  },
-  {
-    requestSchema,
-    responseSchema,
+    return { chainId, pubkey, addresses };
   }
 );

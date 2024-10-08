@@ -25,7 +25,7 @@ const requestSchema = z
     ],
   });
 
-const requestParamsSchema = z.object({
+const queryParamsSchema = z.object({
   include: z
     .array(
       z.enum([
@@ -103,7 +103,7 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
       description:
         "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
       requestParams: {
-        query: requestParamsSchema,
+        query: queryParamsSchema,
       },
       requestBody: {
         content: {
@@ -123,4 +123,4 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { accountStateOpenAPIPath, requestSchema, responseSchema };
+export { accountStateOpenAPIPath, queryParamsSchema, requestSchema, responseSchema };

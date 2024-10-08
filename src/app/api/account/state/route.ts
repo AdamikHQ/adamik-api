@@ -1,23 +1,24 @@
 import { ValidationError } from "zod-validation-error";
 import { getService } from "~/app/families/services";
 import { ApiRequestFilters } from "~/app/model/types_WIP";
-import { AdamikResponse, apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
-import { requestSchema, responseSchema } from "./schema";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { queryParamsSchema, requestSchema, responseSchema } from "./schema";
 
-export const POST = apiHandlerWrapper(
-  async ({ chainId, accountId }, _, request) => {
+export const POST = apiHandler(
+  {
+    requestSchema,
+    responseSchema,
+    queryParamsSchema,
+  },
+  async ({ body, queryParams }) => {
+    const { chainId, accountId } = body;
+
     // Parse supported query params like : /.../...?include=native,tokens,staking
     // to build an ApiRequestFilters object like : { native?: true, tokens?: true, staking?: true }
     const filters: ApiRequestFilters = {};
-    // FIXME: add request access to apiHandler
-    const params = request.nextUrl.searchParams;
-    params
-      .get("include")
-      ?.split(",")
-      .filter(Boolean)
-      .forEach((param) => {
-        filters[param] = true;
-      });
+    queryParams.include?.forEach((param) => {
+      filters[param] = true;
+    });
 
     const service = getService(chainId);
 
@@ -40,10 +41,7 @@ export const POST = apiHandlerWrapper(
       ...(includeTokens && { tokens: state.balances.tokens }),
       ...(includeStaking && { staking: state.balances.staking }),
     };
-    return AdamikResponse.json(state);
-  },
-  {
-    requestSchema,
-    responseSchema,
+
+    return state;
   }
 );

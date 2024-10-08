@@ -1,15 +1,20 @@
 import { getService } from "~/app/families/services";
 import { isStakingService } from "~/app/model/service";
-import { AdamikResponse, apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { pathParamsSchema, requestSchema, responseSchema } from "./schema";
 
-// TODO Make sure to document this implicit limit in the doc / swagger description
-// We could also add something in the response to help user know what to fetch next (next limit, next URL...)
-const VALIDATORS_LIMIT = 100;
+export const POST = apiHandler(
+  {
+    requestSchema,
+    responseSchema,
+    pathParamsSchema,
+  },
+  async ({ body, pathParams }) => {
+    const { chainId } = pathParams;
 
-export const POST = apiHandlerWrapper(
-  async ({ pagination }, { chainId }) => {
+    const { pagination } = body;
+
     const service = getService(chainId);
 
     if (!isStakingService(service)) {
@@ -23,11 +28,6 @@ export const POST = apiHandlerWrapper(
       validators,
     };
 
-    return AdamikResponse.json(validatorsResponse);
-  },
-  {
-    requestSchema,
-    responseSchema,
-    pathParamsSchema,
+    return validatorsResponse;
   }
 );

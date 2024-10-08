@@ -1,48 +1,95 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z, ZodError, ZodTypeAny } from "zod";
+import { z, ZodError, ZodType } from "zod";
 import { fromZodIssue } from "zod-validation-error";
 import { AdamikHttpError, InvalidTransactionError } from "./errors";
 
-// Design notes:
-// - We make heavy use of generics and type inference to allow for typescript type hinting (https://zod.dev/?id=writing-generic-functions)
+// DESIGN NOTES
+// We make heavy use of generics and type inference to allow for typescript type hinting (https://zod.dev/?id=writing-generic-functions)
+//
+// HOW TO USE
+//
+// When creating a new route.ts, methods can be defined like this:
+//
+//             export const POST = apiHandler(A, B);
+//
+// - where A is: the collection of zod schemas representing this route (request body, response body, path params, query params)
+// - where B is: the function implementing the route, that will be fully typed thanks to the schemas provided
+//
+// Note: some schemas are optional, but if they're not provided then the apiHandler guarantees that their data cannot be used! 🛡️✅
+//
 
-type MethodCallHandler<In extends ZodTypeAny, Out extends ZodTypeAny, PathParams extends ZodTypeAny> = {
-  (body: z.infer<In>, params: z.infer<PathParams>, request: NextRequest): Promise<AdamikResponse<Out>>;
+type MethodCall<
+  RequestBody extends ZodType<unknown>,
+  ResponseBody extends z.input<ZodType<unknown>>,
+  PathParams extends ZodType<unknown>,
+  QueryParams extends ZodType<unknown>
+> = {
+  (_: {
+    body: z.infer<RequestBody>;
+    pathParams: z.infer<PathParams>;
+    queryParams: z.infer<QueryParams>;
+    // No need to access the request at the moment, can be put back if some route needs it:
+    // request: NextRequest;
+  }): Promise<ResponseBody>;
 };
 
-export interface Schemas<In extends ZodTypeAny, Out extends ZodTypeAny, PathParams extends ZodTypeAny> {
-  requestSchema?: In;
-  responseSchema?: Out;
+type Schemas<
+  RequestBody extends ZodType<unknown>,
+  ResponseBody extends z.input<ZodType<unknown>>,
+  PathParams extends ZodType<unknown>,
+  QueryParams extends ZodType<unknown>
+> = {
+  requestSchema?: RequestBody;
+  responseSchema: ResponseBody;
   pathParamsSchema?: PathParams;
-}
+  queryParamsSchema?: QueryParams;
+};
 
-export function apiHandlerWrapper<
-  In extends ZodTypeAny,
-  Out extends ZodTypeAny,
-  PathParams extends ZodTypeAny
+export function apiHandler<
+  RequestBody extends ZodType<unknown>,
+  ResponseBody extends ZodType<unknown>,
+  PathParams extends ZodType<unknown>,
+  QueryParams extends ZodType<unknown>
 >(
-  handler: MethodCallHandler<In, Out, PathParams>,
-  { requestSchema, pathParamsSchema: urlPathParamsSchema, responseSchema }: Schemas<In, Out, PathParams> = {}
+  {
+    requestSchema,
+    pathParamsSchema,
+    queryParamsSchema,
+    responseSchema,
+  }: Schemas<RequestBody, ResponseBody, PathParams, QueryParams>,
+  methodCall: MethodCall<RequestBody, z.input<ResponseBody>, PathParams, QueryParams>
 ) {
-  return async (req: NextRequest, context: { params?: PathParams }): Promise<NextResponse> => {
+  return async (request: NextRequest, context: { params?: PathParams }): Promise<NextResponse> => {
     try {
-      let body: z.infer<In> = undefined;
-
       // don't use json() if the content-type is not application/json
-      if (req.headers.get("Content-Type") === "application/json") {
-        // parse the request when available, otherwise use the raw body casted to the request schema for type hinting
-        body = requestSchema?.parse(await req.json()) ?? (await req.json());
-      }
+      const isBodyJson = request.headers.get("Content-Type") === "application/json";
+
+      // parse the request when available, otherwise use the raw body casted to the request schema for type hinting
+      const requestBody: z.infer<RequestBody> = isBodyJson
+        ? requestSchema?.parse(await request.json()) ?? (await request.json())
+        : undefined;
 
       // parse the route params, otherwise use the raw context params casted to the PathParams schema for type hinting
-      let parsedParams = (urlPathParamsSchema?.parse(context.params) ??
-        context.params) as z.infer<PathParams>;
+      const pathParams = pathParamsSchema?.parse(context.params) ?? context.params;
+
+      // parse the query params, otherwise use the raw request params casted to the PathParams schema for type hinting
+      const queryParams =
+        queryParamsSchema?.parse(request.nextUrl.searchParams) ?? request.nextUrl.searchParams;
 
       // manually calls the wrapped route handler (GET, POST, etc...)
-      const response = await handler(body, parsedParams, req);
+      const responseBody = await methodCall({ body: requestBody, pathParams, queryParams });
 
-      // Parse back the answer from the controller to next
-      return response.toNextResponse(responseSchema);
+      if (responseSchema) {
+        // use zod.parse on output response body to:
+        // - transform the body into the output schema (allows for type conversion like bigint -> string or number -> string)
+        // - filter the output to only keep the fields defined in the output schema (effectively removing any extraneous fields, making sure we never leak any information by accident) => https://zod.dev/?id=passthrough `By default Zod object schemas strip out unrecognized keys during parsing.`
+        // - always return a status field in the output only IF a schema is provided
+        const parsedOutput = responseSchema.parse(responseBody);
+
+        return NextResponse.json(parsedOutput);
+      }
+
+      return NextResponse.json(responseBody);
     } catch (err: unknown) {
       return handleRequestValidationError(err);
     }
@@ -66,44 +113,13 @@ const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
 z.setErrorMap(customErrorMap);
 
 /**
- * Simple wrapper around NextResponse to allow for type conversion of the body. Replace NextResponse.json() calls with AdamikResponse.json()
- */
-class AdamikResponse<T extends z.ZodTypeAny> {
-  // here we use z.input to allow the response to return bigints or numbers, and delegate to Zod to convert them (resulting in z.output<Out>)
-  body: z.input<T>;
-  init?: ResponseInit;
-
-  private constructor(body: z.input<T>, init?: ResponseInit) {
-    this.body = body;
-    this.init = init;
-  }
-
-  public static json<T extends z.ZodTypeAny>(body: z.input<T>, init?: ResponseInit): AdamikResponse<T> {
-    return new AdamikResponse(body, init);
-  }
-
-  toNextResponse<T extends z.ZodTypeAny>(outputSchema?: T): NextResponse {
-    if (outputSchema) {
-      // use zod.parse on output response body to:
-      // - transform the body into the output schema (allows for type conversion like bigint -> string or number -> string)
-      // - filter the output to only keep the fields defined in the output schema (effectively removing any extraneous fields, making sure we never leak any information by accident) => https://zod.dev/?id=passthrough `By default Zod object schemas strip out unrecognized keys during parsing.`
-      // - always return a status field in the output only IF a schema is provided
-      const parsedOutput = outputSchema.parse(this.body);
-
-      return NextResponse.json(parsedOutput, this.init);
-    }
-    return NextResponse.json(this.body, this.init);
-  }
-}
-
-/**
  * Handles errors thrown by anywhere in the backend
  * NB: `instanceof` tests should be in the order of the hierarchy, from most specific to most generic when inheritance is involved
  *
  * @param e Unknown error catched by the handler
  * @returns A NextResponse with the appropriate status and message
  */
-function handleRequestValidationError<OutputSchema extends ZodTypeAny>(e: unknown): NextResponse {
+function handleRequestValidationError(e: unknown): NextResponse {
   if (e instanceof InvalidTransactionError) {
     return NextResponse.json({ status: e.adamikStatus }, { status: e.status, statusText: e.statusText });
   } else if (e instanceof AdamikHttpError) {
@@ -151,13 +167,5 @@ function statusFromMessage(message: string): AdamikStatus {
   return { errors: [{ message: message }], warnings: [] };
 }
 
-function pick<T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K> {
-  const ret: any = {};
-  keys.forEach((key) => {
-    ret[key] = obj[key];
-  });
-  return ret;
-}
-
-export { AdamikResponse, statusFromMessage };
+export { statusFromMessage };
 export type { AdamikStatus, ErrorMsg };

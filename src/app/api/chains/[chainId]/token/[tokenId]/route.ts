@@ -1,11 +1,17 @@
 import { getService } from "~/app/families/services";
 import { isTokenService } from "~/app/model/service";
-import { AdamikResponse, apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { pathParamsSchema, responseSchema } from "./schema";
 
-export const GET = apiHandlerWrapper(
-  async (_, { chainId, tokenId }) => {
+export const GET = apiHandler(
+  {
+    pathParamsSchema,
+    responseSchema,
+  },
+  async ({ pathParams }) => {
+    const { chainId, tokenId } = pathParams;
+
     const service = getService(chainId);
 
     if (!isTokenService(service)) {
@@ -14,10 +20,6 @@ export const GET = apiHandlerWrapper(
 
     const token = await service.getTokenInfo(tokenId);
 
-    return AdamikResponse.json(token);
-  },
-  {
-    pathParamsSchema,
-    responseSchema,
+    return token;
   }
 );

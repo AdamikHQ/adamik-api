@@ -1,17 +1,19 @@
 import { getService } from "~/app/families/services";
-import { AdamikResponse, apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { requestSchema, responseSchema } from "./schema";
 
-export const POST = apiHandlerWrapper(
-  async ({ chainId, address }) => {
+export const POST = apiHandler(
+  {
+    requestSchema,
+    responseSchema,
+  },
+  async ({ body }) => {
+    const { chainId, address } = body;
+
     const service = getService(chainId);
 
     const isValid = await service.validateAddress(address);
 
-    return AdamikResponse.json(isValid);
-  },
-  {
-    requestSchema,
-    responseSchema,
+    return isValid;
   }
 );

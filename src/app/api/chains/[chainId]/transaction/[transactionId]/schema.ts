@@ -13,17 +13,10 @@ const pathParamsSchema = z.object({
   }),
 });
 
-const requestParamsSchema = z.object({
+const queryParamsSchema = z.object({
   include: z
-    .union([
-      z.literal("parsed").openapi({
-        description:
-          "Include parsed fields in the standard Adamik format. Note that all transactions types may not be available for this option.",
-      }),
-      z.literal("raw").openapi({
-        description: "Include the raw transaction as provided in native format by the blockchain.",
-      }),
-    ])
+    .array(z.enum(["parsed", "raw"]))
+    .nonempty()
     .optional()
     .openapi({
       description: "Optional filter, to let you request only the data that you need.",
@@ -80,7 +73,7 @@ const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = 
         "Retrieves detailed information about a specific transaction for a blockchain network, identified by chain ID and transaction ID.",
       requestParams: {
         path: pathParamsSchema,
-        query: requestParamsSchema,
+        query: queryParamsSchema,
       },
       responses: {
         "200": {
@@ -95,4 +88,9 @@ const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = 
   },
 };
 
-export { chainsChainIdTransactionTransactionIdOpenAPIPath, pathParamsSchema, responseSchema };
+export {
+  chainsChainIdTransactionTransactionIdOpenAPIPath,
+  pathParamsSchema,
+  queryParamsSchema,
+  responseSchema,
+};

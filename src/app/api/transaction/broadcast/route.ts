@@ -1,15 +1,15 @@
 import { getService } from "~/app/families/services";
 import { Transaction } from "~/app/model/types_WIP";
-import { AdamikResponse, apiHandlerWrapper } from "~/app/tools/handlers/apiHandler";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { requestSchema, responseSchema } from "./schema";
 
-export const POST = apiHandlerWrapper(
-  async (body) => {
-    let transaction: Transaction = {
-      data: body.transaction.data,
-      encoded: body.transaction.encoded,
-      signature: body.transaction.signature,
-    };
+export const POST = apiHandler(
+  {
+    requestSchema,
+    responseSchema,
+  },
+  async ({ body }) => {
+    const transaction: Transaction = body.transaction;
 
     const chainId = transaction.data.chainId;
     const service = getService(chainId);
@@ -17,10 +17,6 @@ export const POST = apiHandlerWrapper(
     const broadcastPayload = await service.encodeTransactionToBroadcast(transaction);
     const broadcastStatus = await service.broadcastTransaction(broadcastPayload);
 
-    return AdamikResponse.json({ hash: broadcastStatus.hash, transaction });
-  },
-  {
-    requestSchema,
-    responseSchema,
+    return { hash: broadcastStatus.hash, transaction };
   }
 );
