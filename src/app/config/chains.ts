@@ -564,6 +564,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: FEATURES[ChainFamily.EVM],
+    isTestNet: true,
   },
   gnosis: {
     family: ChainFamily.EVM,
