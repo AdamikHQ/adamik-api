@@ -33,8 +33,6 @@ enum ChainId {
   LINEA_SEPOLIA = "linea-sepolia",
   AVALANCHE = "avalanche",
   AVALANCHE_FUJI = "avalanche-fuji",
-  DEFI_KINGDOMS = "defi-kingdoms",
-  DEXALOT = "dexalot",
   GNOSIS = "gnosis",
   GNOSIS_CHIADO = "gnosis-chiado",
   MOONBEAM = "moonbeam",
