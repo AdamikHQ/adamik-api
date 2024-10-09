@@ -21,7 +21,6 @@ import {
   moonriver,
   optimism,
   optimismSepolia,
-  palm,
   polygon,
   polygonAmoy,
   rootstock,
@@ -95,8 +94,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: moonbeamDev, transport };
     case ChainId.FANTOM:
       return { chain: fantom, transport };
-    case ChainId.PALM:
-      return { chain: palm, transport };
+    // case ChainId.PALM:
+    //   return { chain: palm, transport };
     case ChainId.MANTLE:
       return { chain: mantle, transport };
     case ChainId.CHILIZ:
