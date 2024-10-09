@@ -32,6 +32,7 @@ enum ChainId {
   LINEA = "linea",
   LINEA_SEPOLIA = "linea-sepolia",
   AVALANCHE = "avalanche",
+  AVALANCHE_FUJI = "avalanche-fuji",
   GNOSIS = "gnosis",
   GNOSIS_CHIADO = "gnosis-chiado",
   MOONBEAM = "moonbeam",
@@ -50,6 +51,13 @@ enum ChainId {
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
+  AKASH = "akash",
+  BAND = "band",
+  DYMENSION = "dymension",
+  KYVE = "kyve",
+  NEUTRON = "neutron",
+  TERRA = "terra2",
+  STARGAZE = "stargaze",
   DOGECOIN = "dogecoin",
 }
 
@@ -160,8 +168,9 @@ type TokenStakingReward = StakingReward & {
   token: Token;
 };
 
-type CommonState = {
+type AccountState = {
   chainId: ChainId;
+  accountId: string;
   balances: {
     native?: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
@@ -184,12 +193,12 @@ type CommonState = {
   };
 };
 
-type AccountState = CommonState & {
-  accountId: string;
-};
+type AccountHistoryPagination = { fromTimestamp?: number; toTimestamp?: number };
 
-type AddressesAggregatedState = CommonState & {
+type AccountHistory = {
+  chainId: ChainId;
   accountId: string;
+  transactions: FinalizedTransaction[];
 };
 
 type TypedAddress = {
@@ -244,7 +253,7 @@ type FinalizedTransaction = {
     nonce?: bigint;
     memo?: string;
   };
-  raw: unknown; // The raw transaction as returned from the node (or explorer when necessary)
+  raw?: unknown; // The raw transaction as returned from the node (or explorer when necessary)
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
@@ -332,8 +341,8 @@ enum EncodedTransactionFormat {
 }
 
 type Pagination = {
-  offset: number;
-  limit: number;
+  offset?: number;
+  limit?: number;
 };
 
 export {
@@ -348,8 +357,9 @@ export {
 };
 
 export type {
+  AccountHistory,
+  AccountHistoryPagination,
   AccountState,
-  AddressesAggregatedState,
   ApiRequestFilters,
   BroadcastStatus,
   Chain,

@@ -1,3 +1,4 @@
+import { ChainId as CosmosChainId } from "@injectivelabs/ts-types";
 import TTLCache from "@isaacs/ttlcache";
 import { CHAINS } from "~/app/config/chains";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
@@ -34,6 +35,7 @@ async function fetchWithHeaders(url: string, options: RequestInit = {}) {
     ...options,
     headers: {
       ...options.headers,
+      // Custom header requested by imperator.co to identify and whitelist our traffic
       adamik: "6aPJgGeL2jHcNG7PaW4y",
     },
   };
@@ -230,7 +232,9 @@ async function getValidatorsCached(chainId: ChainId, pagination?: Pagination): P
 
   const validators = VALIDATORS_CACHE.get(cacheKey) || [];
 
-  return pagination ? validators.slice(pagination.offset, pagination.offset + pagination.limit) : validators;
+  const offset = pagination?.offset || 0;
+  const limit = pagination?.limit || validators.length;
+  return pagination ? validators.slice(offset, offset + limit) : validators;
 }
 
 async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAccount> {
@@ -284,12 +288,12 @@ async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promis
   return data.denom_trace.base_denom;
 }
 
-async function fetchNetworkId(chainId: ChainId): Promise<string> {
+async function fetchNetworkId(chainId: ChainId): Promise<CosmosChainId> {
   const url = `${getRootUrl(chainId)}/cosmos/base/tendermint/v1beta1/node_info`;
   const data = await fetchWithHeaders(url).then((response) => response.json());
   if (!data?.default_node_info?.network) {
     console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
-    return "";
+    throw new Error(`Error while fetching ${chainId} network ID from the node`);
   }
 
   return data.default_node_info.network;

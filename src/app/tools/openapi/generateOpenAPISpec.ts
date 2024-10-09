@@ -1,5 +1,6 @@
 import { createDocument, oas31 } from "zod-openapi";
 
+import { accountHistoryOpenAPIPath } from "~/app/api/account/history/schema";
 import { accountStateOpenAPIPath } from "~/app/api/account/state/schema";
 import { addressEncodeOpenAPIPath } from "~/app/api/address/encode/schema";
 import { addressValidateOpenAPIPath } from "~/app/api/address/validate/schema";
@@ -51,6 +52,7 @@ function generateOpenAPISpec(): oas31.OpenAPIObject {
       ...addressEncodeOpenAPIPath,
       ...addressValidateOpenAPIPath,
       ...accountStateOpenAPIPath,
+      ...accountHistoryOpenAPIPath,
       ...chainsOpenAPIPath,
       ...chainsChainIdOpenAPIPath,
       ...chainsChainIdTokenTokenIdOpenAPIPath,

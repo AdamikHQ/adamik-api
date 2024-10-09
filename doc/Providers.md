@@ -142,6 +142,11 @@
 | nodeURL | https://site1.moralis-nodes.com/avalanche/5addb0088d03429eb061d98a104649ab |
 | explorerURL | https://deep-index.moralis.io/api |
 
+## avalanche-fuji
+
+| nodeURL | https://avalanche-fuji-c-chain-rpc.publicnode.com |
+| explorerURL | https://deep-index.moralis.io/api |
+
 ## gnosis
 
 | nodeURL | https://site1.moralis-nodes.com/gnosis/87598d6b313843f6be61fecc9b874cdd |
@@ -197,6 +202,11 @@
 | nodeURL |  |
 | explorerURL | https://api.blockchair.com/litecoin |
 
+## dogecoin
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/dogecoin |
+
 ## ton
 
 | nodeURL | https://toncenter.com/api/ |
@@ -216,7 +226,30 @@
 
 | nodeURL | https://lcd-injective.imperator.co |
 
-## dogecoin
+## akash
 
-| nodeURL |  |
-| explorerURL | https://api.blockchair.com/dogecoin |
+| nodeURL | https://lcd-akash.imperator.co |
+
+## band
+
+| nodeURL | https://lcd-band.imperator.co |
+
+## dymension
+
+| nodeURL | https://lcd-dymension.imperator.co |
+
+## kyve
+
+| nodeURL | https://lcd-kyve.imperator.co |
+
+## neutron
+
+| nodeURL | https://lcd-neutron.imperator.co |
+
+## terra2
+
+| nodeURL | https://lcd-terra.imperator.co |
+
+## stargaze
+
+| nodeURL | https://lcd-stargaze.imperator.co |

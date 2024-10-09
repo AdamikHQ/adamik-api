@@ -11,13 +11,9 @@ import {
 import { getSupportedTransactionModes } from "../config/chains";
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 import { tonTransactionParamsSchema } from "../families/ton/types";
+import { deepBigintToString } from "../tools/convertors/deepBigintToString";
 
 extendZodWithOpenApi(z);
-
-const paginationSchema = z.object({
-  limit: z.number(),
-  offset: z.number(),
-});
 
 // Used for input conversion, to allow for strings or numbers
 const stringOrNumToBigintSchema = z
@@ -315,14 +311,52 @@ const signedAndEncodedTransactionSchema = encodedTransactionSchema.extend({
   signature: z.string(),
 });
 
+const finalizedTransactionSchema = z.object({
+  raw: z
+    .any()
+    .transform((data) => deepBigintToString(data)) // FIXME: remove this once we have a better way to handle raw transactions
+    .pipe(z.unknown()),
+  parsed: z
+    .object({
+      chainId: chainIdSchema,
+      id: z.string(),
+      tokenId: z.string().optional(),
+      blockHeight: bigintToStringSchema.optional(),
+      timestamp: z
+        .number()
+        .pipe(z.coerce.string())
+        .openapi({
+          description: "Timestamp in milliseconds",
+        })
+        .optional(),
+      senders: z
+        .object({
+          address: z.string(),
+        })
+        .array(),
+      recipients: z
+        .object({
+          address: z.string(),
+          amount: bigintToStringSchema,
+        })
+        .array()
+        .optional(),
+      fees: bigintToStringSchema,
+      gas: bigintToStringSchema.optional(),
+      nonce: bigintToStringSchema.optional(),
+      memo: z.string().optional(),
+    })
+    .optional(),
+});
+
 export {
   bigintToStringSchema,
   chainIdSchema,
   chainSchema,
   encodedTransactionSchema,
+  finalizedTransactionSchema,
   inputTransactionDataSchema,
   outputTransactionDataSchema,
-  paginationSchema,
   signedAndEncodedTransactionSchema,
   statusSchema,
   tokenSchema,

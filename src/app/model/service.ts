@@ -1,5 +1,7 @@
 import type { AdamikStatus } from "../tools/handlers/apiHandler";
 import {
+  AccountHistory,
+  AccountHistoryPagination,
   AccountState,
   BroadcastStatus,
   ChainId,
@@ -31,8 +33,10 @@ abstract class BaseChainService {
   // Data
   abstract getTransaction(transactionId: string, status: AdamikStatus): Promise<FinalizedTransaction>;
   abstract getAccountState(accountId: string): Promise<AccountState>;
-  //abstract getAddressesState(addresses: string[]): Promise<AccountState[]>;
-  //abstract getAddressHistory(address: string): Promise<AddressHistory>;
+  abstract getAccountHistory(
+    accountId: string,
+    pagination?: AccountHistoryPagination
+  ): Promise<AccountHistory>;
 
   // Crafting
   // NOTE All of these functions will mutate the input 'Transaction' with additional info!
