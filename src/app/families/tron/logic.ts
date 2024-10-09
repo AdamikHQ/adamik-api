@@ -1,5 +1,5 @@
 import { Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { createTransaction, sendTRC20TokenTransaction } from "./backend/node";
+import { createTransaction, createTRC20TokenTransaction } from "./backend/node";
 
 const buildTransaction = async (transaction: Transaction) => {
   const { amount, recipient, sender } = transaction.data;
@@ -8,7 +8,7 @@ const buildTransaction = async (transaction: Transaction) => {
   }
 
   if (transaction.data.mode === TransactionMode.TRANSFER_TOKEN) {
-    const transactionBuilded = await sendTRC20TokenTransaction(
+    const transactionBuilded = await createTRC20TokenTransaction(
       transaction.data.tokenId,
       amount,
       recipient,

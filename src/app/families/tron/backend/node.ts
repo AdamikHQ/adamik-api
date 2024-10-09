@@ -58,7 +58,7 @@ const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string) => {
   return { name, symbol, decimals };
 };
 
-const sendTRC20TokenTransaction = async (tokenId: string, amount: bigint, to: string, from: string) => {
+const createTRC20TokenTransaction = async (tokenId: string, amount: bigint, to: string, from: string) => {
   const inputs = [
     {
       type: "address",
@@ -116,15 +116,25 @@ const estimateEnergyContract = async (tokenId: string, amount: bigint, to: strin
   return { fees: energy_used + energy_penalty * energyPrice, energy_used, energy_penalty };
 };
 
+// TRON transaction and transaction info are not readable in case of TRC20 token transactions
+// because it's contract based transaction we need to be align with ABI to decode meaning of transaction
+// I prefer to use tronscan API to fetch transaction info because it's easier to get transaction info
+const fetchTransaction = async (transactionId: string) => {
+  const transactionInfo = await tronWeb.trx.getTransactionInfo(transactionId);
+  const transaction = await tronWeb.trx.getTransaction(transactionId);
+  return { transactionInfo, transaction };
+};
+
 export {
   broadcast,
   createTransaction,
+  createTRC20TokenTransaction,
   estimateEnergyContract,
+  fetchTransaction,
   getAccount,
   getAccountResources,
   getBandwidthPrice,
   getChainParameters,
   getTRC20TokenInfo,
   isValidAddress,
-  sendTRC20TokenTransaction,
 };
