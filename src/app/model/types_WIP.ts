@@ -39,7 +39,6 @@ enum ChainId {
   MOONRIVER = "moonriver",
   MOONBASE = "moonbase",
   FANTOM = "fantom",
-  // PALM = "palm", removed as Moralis API doesn't offer support anymore
   MANTLE = "mantle",
   CHILIZ = "chiliz",
   CHILIZ_TESTNET = "chiliz-testnet",

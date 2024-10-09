@@ -646,20 +646,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: FEATURES[ChainFamily.EVM],
   },
-  // Removed as not supported anymore by Moralis
-  //palm: {
-  //   family: ChainFamily.EVM,
-  //   id: ChainId.PALM,
-  //   nativeId: "11297108109",
-  //   name: "Palm ",
-  //   ticker: "PALM",
-  //   decimals: 18,
-  //   backends: {
-  //     nodeURL: "https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b",
-  //     explorerURL: "https://deep-index.moralis.io/api",
-  //   },
-  //   supportedFeatures: FEATURES[ChainFamily.EVM],
-  // },
   mantle: {
     family: ChainFamily.EVM,
     id: ChainId.MANTLE,
