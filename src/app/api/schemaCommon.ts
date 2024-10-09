@@ -46,33 +46,23 @@ const chainIdSchema = z.nativeEnum(ChainId, {
   },
 });
 
+const nativeTokenStakingFeatureSchema = z.object({
+  native: z.boolean(),
+  tokens: z.boolean(),
+  staking: z.boolean(),
+});
+
 const chainSupportedFeaturesSchema = z.object({
   read: z.object({
     account: z.object({
-      balances: z.object({
-        native: z.boolean(),
-        tokens: z.boolean(),
-        staking: z.boolean(),
-      }),
-      transactions: z.object({
-        native: z.boolean(),
-        tokens: z.boolean(),
-        staking: z.boolean(),
-      }),
+      balances: nativeTokenStakingFeatureSchema,
+      transactions: nativeTokenStakingFeatureSchema,
     }),
-    transaction: z.object({
-      native: z.boolean(),
-      tokens: z.boolean(),
-      staking: z.boolean(),
-    }),
+    transaction: nativeTokenStakingFeatureSchema,
   }),
   write: z.object({
     transaction: z.object({
-      type: z.object({
-        native: z.boolean(),
-        tokens: z.boolean(),
-        staking: z.boolean(),
-      }),
+      type: nativeTokenStakingFeatureSchema,
       field: z.object({
         memo: z.boolean(),
       }),
