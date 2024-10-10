@@ -90,15 +90,12 @@
                       "moonriver",
                       "moonbase",
                       "fantom",
-                      "palm",
                       "mantle",
                       "litecoin",
                       "dogecoin",
                       "ton",
                       "chiliz",
                       "chiliz-testnet",
-                      "defi-kingdoms",
-                      "dexalot",
                       "injective",
                       "akash",
                       "band",
@@ -169,15 +166,12 @@
                         "moonriver",
                         "moonbase",
                         "fantom",
-                        "palm",
                         "mantle",
                         "litecoin",
                         "dogecoin",
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
-                        "defi-kingdoms",
-                        "dexalot",
                         "injective",
                         "akash",
                         "band",
@@ -275,15 +269,12 @@
                       "moonriver",
                       "moonbase",
                       "fantom",
-                      "palm",
                       "mantle",
                       "litecoin",
                       "dogecoin",
                       "ton",
                       "chiliz",
                       "chiliz-testnet",
-                      "defi-kingdoms",
-                      "dexalot",
                       "injective",
                       "akash",
                       "band",
@@ -393,7 +384,6 @@
                       "moonriver",
                       "moonbase",
                       "fantom",
-                      "palm",
                       "mantle",
                       "rootstock",
                       "rootstock-testnet",
@@ -402,8 +392,6 @@
                       "ton",
                       "chiliz",
                       "chiliz-testnet",
-                      "defi-kingdoms",
-                      "dexalot",
                       "injective",
                       "akash",
                       "band",
@@ -485,7 +473,6 @@
                         "moonriver",
                         "moonbase",
                         "fantom",
-                        "palm",
                         "mantle",
                         "rootstock",
                         "rootstock-testnet",
@@ -494,8 +481,6 @@
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
-                        "defi-kingdoms",
-                        "dexalot",
                         "injective",
                         "akash",
                         "band",
@@ -567,15 +552,12 @@
                                       "linea-sepolia",
                                       "avalanche",
                                       "avalanche-fuji",
-                                      "defi-kingdoms",
-                                      "dexalot",
                                       "gnosis",
                                       "gnosis-chiado",
                                       "moonbeam",
                                       "moonriver",
                                       "moonbase",
                                       "fantom",
-                                      "palm",
                                       "mantle",
                                       "chiliz",
                                       "chiliz-testnet",
@@ -755,15 +737,12 @@
                                           "linea-sepolia",
                                           "avalanche",
                                           "avalanche-fuji",
-                                          "defi-kingdoms",
-                                          "dexalot",
                                           "gnosis",
                                           "gnosis-chiado",
                                           "moonbeam",
                                           "moonriver",
                                           "moonbase",
                                           "fantom",
-                                          "palm",
                                           "mantle",
                                           "chiliz",
                                           "chiliz-testnet",
@@ -901,7 +880,6 @@
                       "moonriver",
                       "moonbase",
                       "fantom",
-                      "palm",
                       "chiliz",
                       "chiliz-testnet"
                     ]
@@ -966,7 +944,6 @@
                         "moonriver",
                         "moonbase",
                         "fantom",
-                        "palm",
                         "chiliz",
                         "chiliz-testnet"
                       ]
@@ -1015,15 +992,12 @@
                                   "linea-sepolia",
                                   "avalanche",
                                   "avalanche-fuji",
-                                  "defi-kingdoms",
-                                  "dexalot",
                                   "gnosis",
                                   "gnosis-chiado",
                                   "moonbeam",
                                   "moonriver",
                                   "moonbase",
                                   "fantom",
-                                  "palm",
                                   "mantle",
                                   "chiliz",
                                   "chiliz-testnet",
@@ -1190,15 +1164,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -1422,15 +1393,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -1654,15 +1622,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -1886,15 +1851,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -2118,15 +2080,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -2350,15 +2309,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -2582,15 +2538,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -2814,15 +2767,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -3046,15 +2996,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -3278,15 +3225,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -3510,15 +3454,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -3742,15 +3683,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -3974,15 +3912,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -4206,15 +4141,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -4438,15 +4370,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -4670,15 +4599,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -4902,15 +4828,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -5134,15 +5057,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -5366,15 +5286,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -5598,15 +5515,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -5830,15 +5744,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -6062,15 +5973,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -6294,15 +6202,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -6526,15 +6431,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -6758,15 +6660,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -6990,15 +6889,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -7222,15 +7118,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -7454,15 +7347,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -7686,479 +7576,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
-                                "mantle",
-                                "chiliz",
-                                "chiliz-testnet",
-                                "ton",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective",
-                                "bitcoin",
-                                "bitcoin-testnet",
-                                "litecoin",
-                                "akash",
-                                "band",
-                                "dymension",
-                                "kyve",
-                                "neutron",
-                                "terra2",
-                                "stargaze",
-                                "dogecoin"
-                              ]
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "string"
-                            },
-                            "isTestnet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "type": "object",
-                              "properties": {
-                                "read": {
-                                  "type": "object",
-                                  "properties": {
-                                    "account": {
-                                      "type": "object",
-                                      "properties": {
-                                        "balances": {
-                                          "type": "object",
-                                          "properties": {
-                                            "native": {
-                                              "type": "boolean"
-                                            },
-                                            "tokens": {
-                                              "type": "boolean"
-                                            },
-                                            "staking": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "native",
-                                            "tokens",
-                                            "staking"
-                                          ]
-                                        },
-                                        "transactions": {
-                                          "type": "object",
-                                          "properties": {
-                                            "native": {
-                                              "type": "boolean"
-                                            },
-                                            "tokens": {
-                                              "type": "boolean"
-                                            },
-                                            "staking": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "native",
-                                            "tokens",
-                                            "staking"
-                                          ]
-                                        }
-                                      },
-                                      "required": [
-                                        "balances",
-                                        "transactions"
-                                      ]
-                                    },
-                                    "transaction": {
-                                      "type": "object",
-                                      "properties": {
-                                        "native": {
-                                          "type": "boolean"
-                                        },
-                                        "tokens": {
-                                          "type": "boolean"
-                                        },
-                                        "staking": {
-                                          "type": "boolean"
-                                        }
-                                      },
-                                      "required": [
-                                        "native",
-                                        "tokens",
-                                        "staking"
-                                      ]
-                                    }
-                                  },
-                                  "required": [
-                                    "account",
-                                    "transaction"
-                                  ]
-                                },
-                                "write": {
-                                  "type": "object",
-                                  "properties": {
-                                    "transaction": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "object",
-                                          "properties": {
-                                            "native": {
-                                              "type": "boolean"
-                                            },
-                                            "tokens": {
-                                              "type": "boolean"
-                                            },
-                                            "staking": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "native",
-                                            "tokens",
-                                            "staking"
-                                          ]
-                                        },
-                                        "field": {
-                                          "type": "object",
-                                          "properties": {
-                                            "memo": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "memo"
-                                          ]
-                                        }
-                                      },
-                                      "required": [
-                                        "type",
-                                        "field"
-                                      ]
-                                    }
-                                  },
-                                  "required": [
-                                    "transaction"
-                                  ]
-                                }
-                              },
-                              "required": [
-                                "read",
-                                "write"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "defi-kingdoms": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmoshub",
-                                "osmosis",
-                                "osmosis-testnet",
-                                "celestia",
-                                "celestia-testnet",
-                                "dydx",
-                                "cosmoshub-testnet",
-                                "axelar",
-                                "ethereum",
-                                "sepolia",
-                                "holesky",
-                                "zksync",
-                                "zksync-sepolia",
-                                "injective-testnet",
-                                "base",
-                                "base-sepolia",
-                                "optimism",
-                                "optimism-sepolia",
-                                "arbitrum",
-                                "arbitrum-sepolia",
-                                "polygon",
-                                "polygon-amoy",
-                                "bsc",
-                                "bsc-testnet",
-                                "linea",
-                                "linea-sepolia",
-                                "avalanche",
-                                "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
-                                "gnosis",
-                                "gnosis-chiado",
-                                "moonbeam",
-                                "moonriver",
-                                "moonbase",
-                                "fantom",
-                                "palm",
-                                "mantle",
-                                "chiliz",
-                                "chiliz-testnet",
-                                "ton",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective",
-                                "bitcoin",
-                                "bitcoin-testnet",
-                                "litecoin",
-                                "akash",
-                                "band",
-                                "dymension",
-                                "kyve",
-                                "neutron",
-                                "terra2",
-                                "stargaze",
-                                "dogecoin"
-                              ]
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "string"
-                            },
-                            "isTestnet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "type": "object",
-                              "properties": {
-                                "read": {
-                                  "type": "object",
-                                  "properties": {
-                                    "account": {
-                                      "type": "object",
-                                      "properties": {
-                                        "balances": {
-                                          "type": "object",
-                                          "properties": {
-                                            "native": {
-                                              "type": "boolean"
-                                            },
-                                            "tokens": {
-                                              "type": "boolean"
-                                            },
-                                            "staking": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "native",
-                                            "tokens",
-                                            "staking"
-                                          ]
-                                        },
-                                        "transactions": {
-                                          "type": "object",
-                                          "properties": {
-                                            "native": {
-                                              "type": "boolean"
-                                            },
-                                            "tokens": {
-                                              "type": "boolean"
-                                            },
-                                            "staking": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "native",
-                                            "tokens",
-                                            "staking"
-                                          ]
-                                        }
-                                      },
-                                      "required": [
-                                        "balances",
-                                        "transactions"
-                                      ]
-                                    },
-                                    "transaction": {
-                                      "type": "object",
-                                      "properties": {
-                                        "native": {
-                                          "type": "boolean"
-                                        },
-                                        "tokens": {
-                                          "type": "boolean"
-                                        },
-                                        "staking": {
-                                          "type": "boolean"
-                                        }
-                                      },
-                                      "required": [
-                                        "native",
-                                        "tokens",
-                                        "staking"
-                                      ]
-                                    }
-                                  },
-                                  "required": [
-                                    "account",
-                                    "transaction"
-                                  ]
-                                },
-                                "write": {
-                                  "type": "object",
-                                  "properties": {
-                                    "transaction": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "object",
-                                          "properties": {
-                                            "native": {
-                                              "type": "boolean"
-                                            },
-                                            "tokens": {
-                                              "type": "boolean"
-                                            },
-                                            "staking": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "native",
-                                            "tokens",
-                                            "staking"
-                                          ]
-                                        },
-                                        "field": {
-                                          "type": "object",
-                                          "properties": {
-                                            "memo": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "memo"
-                                          ]
-                                        }
-                                      },
-                                      "required": [
-                                        "type",
-                                        "field"
-                                      ]
-                                    }
-                                  },
-                                  "required": [
-                                    "transaction"
-                                  ]
-                                }
-                              },
-                              "required": [
-                                "read",
-                                "write"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "dexalot": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmoshub",
-                                "osmosis",
-                                "osmosis-testnet",
-                                "celestia",
-                                "celestia-testnet",
-                                "dydx",
-                                "cosmoshub-testnet",
-                                "axelar",
-                                "ethereum",
-                                "sepolia",
-                                "holesky",
-                                "zksync",
-                                "zksync-sepolia",
-                                "injective-testnet",
-                                "base",
-                                "base-sepolia",
-                                "optimism",
-                                "optimism-sepolia",
-                                "arbitrum",
-                                "arbitrum-sepolia",
-                                "polygon",
-                                "polygon-amoy",
-                                "bsc",
-                                "bsc-testnet",
-                                "linea",
-                                "linea-sepolia",
-                                "avalanche",
-                                "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
-                                "gnosis",
-                                "gnosis-chiado",
-                                "moonbeam",
-                                "moonriver",
-                                "moonbase",
-                                "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -8382,15 +7805,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -8614,15 +8034,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -8846,15 +8263,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -9078,15 +8492,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -9310,15 +8721,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -9542,247 +8950,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
-                                "mantle",
-                                "chiliz",
-                                "chiliz-testnet",
-                                "ton",
-                                "rootstock",
-                                "rootstock-testnet",
-                                "injective",
-                                "bitcoin",
-                                "bitcoin-testnet",
-                                "litecoin",
-                                "akash",
-                                "band",
-                                "dymension",
-                                "kyve",
-                                "neutron",
-                                "terra2",
-                                "stargaze",
-                                "dogecoin"
-                              ]
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "string"
-                            },
-                            "isTestnet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "type": "object",
-                              "properties": {
-                                "read": {
-                                  "type": "object",
-                                  "properties": {
-                                    "account": {
-                                      "type": "object",
-                                      "properties": {
-                                        "balances": {
-                                          "type": "object",
-                                          "properties": {
-                                            "native": {
-                                              "type": "boolean"
-                                            },
-                                            "tokens": {
-                                              "type": "boolean"
-                                            },
-                                            "staking": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "native",
-                                            "tokens",
-                                            "staking"
-                                          ]
-                                        },
-                                        "transactions": {
-                                          "type": "object",
-                                          "properties": {
-                                            "native": {
-                                              "type": "boolean"
-                                            },
-                                            "tokens": {
-                                              "type": "boolean"
-                                            },
-                                            "staking": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "native",
-                                            "tokens",
-                                            "staking"
-                                          ]
-                                        }
-                                      },
-                                      "required": [
-                                        "balances",
-                                        "transactions"
-                                      ]
-                                    },
-                                    "transaction": {
-                                      "type": "object",
-                                      "properties": {
-                                        "native": {
-                                          "type": "boolean"
-                                        },
-                                        "tokens": {
-                                          "type": "boolean"
-                                        },
-                                        "staking": {
-                                          "type": "boolean"
-                                        }
-                                      },
-                                      "required": [
-                                        "native",
-                                        "tokens",
-                                        "staking"
-                                      ]
-                                    }
-                                  },
-                                  "required": [
-                                    "account",
-                                    "transaction"
-                                  ]
-                                },
-                                "write": {
-                                  "type": "object",
-                                  "properties": {
-                                    "transaction": {
-                                      "type": "object",
-                                      "properties": {
-                                        "type": {
-                                          "type": "object",
-                                          "properties": {
-                                            "native": {
-                                              "type": "boolean"
-                                            },
-                                            "tokens": {
-                                              "type": "boolean"
-                                            },
-                                            "staking": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "native",
-                                            "tokens",
-                                            "staking"
-                                          ]
-                                        },
-                                        "field": {
-                                          "type": "object",
-                                          "properties": {
-                                            "memo": {
-                                              "type": "boolean"
-                                            }
-                                          },
-                                          "required": [
-                                            "memo"
-                                          ]
-                                        }
-                                      },
-                                      "required": [
-                                        "type",
-                                        "field"
-                                      ]
-                                    }
-                                  },
-                                  "required": [
-                                    "transaction"
-                                  ]
-                                }
-                              },
-                              "required": [
-                                "read",
-                                "write"
-                              ]
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "palm": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmoshub",
-                                "osmosis",
-                                "osmosis-testnet",
-                                "celestia",
-                                "celestia-testnet",
-                                "dydx",
-                                "cosmoshub-testnet",
-                                "axelar",
-                                "ethereum",
-                                "sepolia",
-                                "holesky",
-                                "zksync",
-                                "zksync-sepolia",
-                                "injective-testnet",
-                                "base",
-                                "base-sepolia",
-                                "optimism",
-                                "optimism-sepolia",
-                                "arbitrum",
-                                "arbitrum-sepolia",
-                                "polygon",
-                                "polygon-amoy",
-                                "bsc",
-                                "bsc-testnet",
-                                "linea",
-                                "linea-sepolia",
-                                "avalanche",
-                                "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
-                                "gnosis",
-                                "gnosis-chiado",
-                                "moonbeam",
-                                "moonriver",
-                                "moonbase",
-                                "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -10006,15 +9179,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -10238,15 +9408,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -10470,15 +9637,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -10702,15 +9866,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -10934,15 +10095,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -11166,15 +10324,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -11398,15 +10553,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -11630,15 +10782,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -11862,15 +11011,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -12094,15 +11240,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -12326,15 +11469,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -12558,15 +11698,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -12790,15 +11927,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -13022,15 +12156,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -13254,15 +12385,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -13486,15 +12614,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -13718,15 +12843,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -13950,15 +13072,12 @@
                                 "linea-sepolia",
                                 "avalanche",
                                 "avalanche-fuji",
-                                "defi-kingdoms",
-                                "dexalot",
                                 "gnosis",
                                 "gnosis-chiado",
                                 "moonbeam",
                                 "moonriver",
                                 "moonbase",
                                 "fantom",
-                                "palm",
                                 "mantle",
                                 "chiliz",
                                 "chiliz-testnet",
@@ -14194,15 +13313,12 @@
                 "linea-sepolia",
                 "avalanche",
                 "avalanche-fuji",
-                "defi-kingdoms",
-                "dexalot",
                 "gnosis",
                 "gnosis-chiado",
                 "moonbeam",
                 "moonriver",
                 "moonbase",
                 "fantom",
-                "palm",
                 "mantle",
                 "chiliz",
                 "chiliz-testnet",
@@ -14276,15 +13392,12 @@
                         "linea-sepolia",
                         "avalanche",
                         "avalanche-fuji",
-                        "defi-kingdoms",
-                        "dexalot",
                         "gnosis",
                         "gnosis-chiado",
                         "moonbeam",
                         "moonriver",
                         "moonbase",
                         "fantom",
-                        "palm",
                         "mantle",
                         "chiliz",
                         "chiliz-testnet",
@@ -14518,7 +13631,6 @@
                 "moonriver",
                 "moonbase",
                 "fantom",
-                "palm",
                 "ton",
                 "chiliz",
                 "chiliz-testnet",
@@ -14588,15 +13700,12 @@
                         "linea-sepolia",
                         "avalanche",
                         "avalanche-fuji",
-                        "defi-kingdoms",
-                        "dexalot",
                         "gnosis",
                         "gnosis-chiado",
                         "moonbeam",
                         "moonriver",
                         "moonbase",
                         "fantom",
-                        "palm",
                         "mantle",
                         "chiliz",
                         "chiliz-testnet",
@@ -14708,7 +13817,6 @@
                 "moonriver",
                 "moonbase",
                 "fantom",
-                "palm",
                 "litecoin",
                 "dogecoin",
                 "ton",
@@ -14808,15 +13916,12 @@
                             "linea-sepolia",
                             "avalanche",
                             "avalanche-fuji",
-                            "defi-kingdoms",
-                            "dexalot",
                             "gnosis",
                             "gnosis-chiado",
                             "moonbeam",
                             "moonriver",
                             "moonbase",
                             "fantom",
-                            "palm",
                             "mantle",
                             "chiliz",
                             "chiliz-testnet",
@@ -15076,15 +14181,12 @@
                                   "linea-sepolia",
                                   "avalanche",
                                   "avalanche-fuji",
-                                  "defi-kingdoms",
-                                  "dexalot",
                                   "gnosis",
                                   "gnosis-chiado",
                                   "moonbeam",
                                   "moonriver",
                                   "moonbase",
                                   "fantom",
-                                  "palm",
                                   "mantle",
                                   "chiliz",
                                   "chiliz-testnet",
@@ -15454,15 +14556,12 @@
                                   "linea-sepolia",
                                   "avalanche",
                                   "avalanche-fuji",
-                                  "defi-kingdoms",
-                                  "dexalot",
                                   "gnosis",
                                   "gnosis-chiado",
                                   "moonbeam",
                                   "moonriver",
                                   "moonbase",
                                   "fantom",
-                                  "palm",
                                   "mantle",
                                   "chiliz",
                                   "chiliz-testnet",
@@ -15772,15 +14871,12 @@
                                         "linea-sepolia",
                                         "avalanche",
                                         "avalanche-fuji",
-                                        "defi-kingdoms",
-                                        "dexalot",
                                         "gnosis",
                                         "gnosis-chiado",
                                         "moonbeam",
                                         "moonriver",
                                         "moonbase",
                                         "fantom",
-                                        "palm",
                                         "mantle",
                                         "chiliz",
                                         "chiliz-testnet",
@@ -16160,15 +15256,12 @@
                                   "linea-sepolia",
                                   "avalanche",
                                   "avalanche-fuji",
-                                  "defi-kingdoms",
-                                  "dexalot",
                                   "gnosis",
                                   "gnosis-chiado",
                                   "moonbeam",
                                   "moonriver",
                                   "moonbase",
                                   "fantom",
-                                  "palm",
                                   "mantle",
                                   "chiliz",
                                   "chiliz-testnet",

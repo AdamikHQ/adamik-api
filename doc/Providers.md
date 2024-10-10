@@ -177,11 +177,6 @@
 | nodeURL | https://rpcapi.fantom.network |
 | explorerURL | https://deep-index.moralis.io/api |
 
-## palm
-
-| nodeURL | https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b |
-| explorerURL | https://deep-index.moralis.io/api |
-
 ## mantle
 
 | nodeURL | https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf |
@@ -221,14 +216,6 @@
 
 | nodeURL | https://chiliz-spicy.publicnode.com |
 | explorerURL | https://deep-index.moralis.io/api |
-
-## defi-kingdoms
-
-| nodeURL | https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc |
-
-## dexalot
-
-| nodeURL | https://subnets.avax.network/dexalot/mainnet/rpc |
 
 ## injective
 

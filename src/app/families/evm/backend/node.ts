@@ -21,7 +21,6 @@ import {
   moonriver,
   optimism,
   optimismSepolia,
-  palm,
   polygon,
   polygonAmoy,
   rootstock,
@@ -35,8 +34,6 @@ import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { chilizTesnet } from "../chains/chiliz-testnet";
-import { defiKingdoms } from "../chains/defi-kingdoms";
-import { dexalot } from "../chains/dexalot";
 import { injectiveTestnet } from "../chains/injective-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
 
@@ -97,8 +94,6 @@ function getClientConfig(chainId: ChainId) {
       return { chain: moonbeamDev, transport };
     case ChainId.FANTOM:
       return { chain: fantom, transport };
-    case ChainId.PALM:
-      return { chain: palm, transport };
     case ChainId.MANTLE:
       return { chain: mantle, transport };
     case ChainId.CHILIZ:
@@ -109,10 +104,6 @@ function getClientConfig(chainId: ChainId) {
       return { chain: rootstock, transport };
     case ChainId.ROOTSTOCK_TESTNET:
       return { chain: rootstockTestnet, transport };
-    case ChainId.DEFI_KINGDOMS:
-      return { chain: defiKingdoms, transport };
-    case ChainId.DEXALOT:
-      return { chain: dexalot, transport };
     case ChainId.AVALANCHE_FUJI:
       return { chain: avalancheFujiTesnet, transport };
 

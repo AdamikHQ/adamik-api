@@ -527,6 +527,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES,
+    isTestNet: true,
   },
   gnosis: {
     family: ChainFamily.EVM,
@@ -604,19 +605,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: {
       nodeURL: "https://rpcapi.fantom.network",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
-    supportedFeatures: EVM_FEATURES,
-  },
-  palm: {
-    family: ChainFamily.EVM,
-    id: ChainId.PALM,
-    nativeId: "11297108109",
-    name: "Palm ",
-    ticker: "PALM",
-    decimals: 18,
-    backends: {
-      nodeURL: "https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b",
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES,
@@ -732,32 +720,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestNet: true,
     supportedFeatures: EVM_FEATURES,
-  },
-  "defi-kingdoms": {
-    family: ChainFamily.EVM,
-    id: ChainId.DEFI_KINGDOMS,
-    nativeId: "53935",
-    name: "DFK L1",
-    ticker: "JEWEL",
-    decimals: 18,
-    backends: {
-      nodeURL: "https://subnets.avax.network/defi-kingdoms/dfk-chain/rpc",
-      //explorerURL: "https://deep-index.moralis.io/api",
-    },
-    supportedFeatures: NATIVE_READ_WRITE_FEATURES,
-  },
-  dexalot: {
-    family: ChainFamily.EVM,
-    id: ChainId.DEXALOT,
-    nativeId: "432204",
-    name: "Dexalot L1",
-    ticker: "ALOT",
-    decimals: 18,
-    backends: {
-      nodeURL: "https://subnets.avax.network/dexalot/mainnet/rpc",
-      //explorerURL: "https://deep-index.moralis.io/api",
-    },
-    supportedFeatures: NATIVE_READ_WRITE_FEATURES,
   },
   //Injective Cosmos based version
   injective: {
