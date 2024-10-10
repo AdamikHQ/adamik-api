@@ -1,11 +1,22 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema, tokenSchema } from "~/app/api/schemaCommon";
+import { tokenSchema } from "~/app/api/schemaCommon";
+import { CHAINS } from "~/app/config/chains";
+import { ChainId } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
+const supportedChainIds = Object.values(CHAINS)
+  .filter(
+    (chain) =>
+      chain.supportedFeatures.read.account.balances.tokens || chain.supportedFeatures.read.transaction.tokens
+  )
+  .map((chain) => chain.id);
+
+const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]]);
+
 const requestSchema = z.object({
-  chainId: chainIdSchema,
+  chainId: supportedChainIdsSchema,
   tokenId: z.string().openapi({
     description: "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
     examples: ["0xdAC17F958D2ee523a2206206994597C13D831ec7"],
