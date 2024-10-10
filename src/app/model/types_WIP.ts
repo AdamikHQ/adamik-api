@@ -73,33 +73,23 @@ enum ChainFamily {
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
 
+type FeaturesSet = {
+  native: boolean;
+  tokens: boolean;
+  staking: boolean;
+};
+
 type ChainSupportedFeatures = {
   read: {
     account: {
-      balances: {
-        native: boolean;
-        tokens: boolean;
-        staking: boolean;
-      };
-      transactions: {
-        native: boolean;
-        tokens: boolean;
-        staking: boolean;
-      };
+      balances: FeaturesSet;
+      transactions: FeaturesSet;
     };
-    transaction: {
-      native: boolean;
-      tokens: boolean;
-      staking: boolean;
-    };
+    transaction: FeaturesSet;
   };
   write: {
     transaction: {
-      type: {
-        native: boolean;
-        tokens: boolean;
-        staking: boolean;
-      };
+      type: FeaturesSet;
       field: {
         memo: boolean;
       };
