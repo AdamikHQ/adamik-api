@@ -3,6 +3,7 @@ import { CHAINS } from "~/app/config/chains";
 import {
   AccountHistory,
   AccountHistoryPagination,
+  ApiRequestFilters,
   FinalizedTransaction,
   TransactionMode,
   TransactionState,
@@ -14,9 +15,12 @@ import { EvmAddress } from "../types";
 async function getAccountHistory(
   this: EvmService,
   accountId: string,
-  pagination: AccountHistoryPagination
+  pagination: AccountHistoryPagination,
+  filters: ApiRequestFilters
 ): Promise<AccountHistory> {
   const chain = CHAINS[this.chainId];
+
+  // TODO Apply filters
 
   const moralisTransactions = await fetchAccountTransactions(
     this.chainId,

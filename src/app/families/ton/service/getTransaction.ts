@@ -1,11 +1,12 @@
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
 import { TonService } from ".";
 import { fetchTransaction } from "../backend/explorer";
 
-async function getTransaction(this: TonService, transactionId: string): Promise<FinalizedTransaction | null> {
+async function getTransaction(this: TonService, transactionId: string): Promise<FinalizedTransaction> {
   const tonTransaction = await fetchTransaction(transactionId);
   if (!tonTransaction) {
-    return null;
+    throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
   let parsedTransaction: FinalizedTransaction["parsed"] = {

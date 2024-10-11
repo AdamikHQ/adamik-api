@@ -1,6 +1,6 @@
+import { CosmosChainParams, CosmosTransactionParams } from "~/app/families/cosmos/types";
+import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
-import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
-import { EvmChainParams } from "../families/evm/types";
 import { TonTransactionParams } from "../families/ton/types";
 
 enum ChainId {
@@ -327,7 +327,6 @@ type Transaction = {
   data: TransactionData;
   encoded?: string;
   signature?: string;
-  status: TransactionStatus;
 };
 
 // Used to list spendable amounts, in native currency and one optional token currency
@@ -336,23 +335,7 @@ type TransactionSpendableAmounts = {
   token?: bigint;
 };
 
-type TransactionStatus = {
-  errors: ErrorMsg[];
-  warnings: ErrorMsg[];
-};
-
-type BroadcastStatus = {
-  error?: ErrorMsg;
-  hash?: string;
-};
-
-type ErrorCode = "OK" | "KO";
-
-// TODO Return code, message should be on client side?
-type ErrorMsg = {
-  //code: ErrorCode;
-  message: string;
-};
+type BroadcastStatus = { hash: string };
 
 enum EncodedTransactionFormat {
   JSON = "json",
@@ -362,6 +345,19 @@ enum EncodedTransactionFormat {
 type Pagination = {
   offset?: number;
   limit?: number;
+};
+
+type ErrorCode = "OK" | "KO";
+
+// TODO Use code, and message should be on client side?
+type ErrorMsg = {
+  //code: ErrorCode;
+  message: string;
+};
+
+type Status = {
+  errors: ErrorMsg[];
+  warnings: ErrorMsg[];
 };
 
 export {
@@ -383,18 +379,17 @@ export type {
   Chain,
   ChainParams,
   ChainSupportedFeatures,
-  ErrorMsg,
   FinalizedTransaction,
   Pagination,
   StakingPosition,
   StakingReward,
+  Status,
   Token,
   TokenAmount,
   TokenStakingReward,
   Transaction,
   TransactionData,
   TransactionSpendableAmounts,
-  TransactionStatus,
   TypedAddress,
   Validator,
 };

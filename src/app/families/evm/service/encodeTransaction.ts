@@ -12,13 +12,28 @@ import {
 } from "viem";
 import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, EncodedTransactionFormat, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import {
+  ChainId,
+  EncodedTransactionFormat,
+  Status,
+  Transaction,
+  TransactionMode,
+} from "~/app/model/types_WIP";
+import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
 import { EvmService } from ".";
 import { estimateFeesPerGas } from "../backend/node";
 import { isHexString } from "../logic";
 import { EvmAddress, EvmChainParams } from "../types";
 
-async function encodeTransactionToSign(this: EvmService, transaction: Transaction): Promise<void> {
+async function encodeTransactionToSign(
+  this: EvmService,
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
+): Promise<void> {
+  const { transaction, status } = _;
+
   try {
     switch (transaction.data.format) {
       // HEX is the proper format and current default, when format is not explicitely provided
@@ -31,14 +46,14 @@ async function encodeTransactionToSign(this: EvmService, transaction: Transactio
         await encodeTransactionAsJSON(this.chainId, transaction);
         break;
       default:
-        throw new Error(
+        throw new UnsupportedFeatureError(
           `Unsupported encoding format '${transaction.data.format}' for chainId ${transaction.data.chainId}`
         );
     }
   } catch (e: any) {
     const message =
       (e instanceof ViemError ? e.shortMessage : e.message) || "Failed to encode the transaction";
-    transaction.status.errors.push({ message });
+    status.errors.push({ message });
   }
 }
 
@@ -119,68 +134,70 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
 
 async function encodeTransactionToBroadcast(
   this: EvmService,
-  signedTransaction: Transaction
-): Promise<string> {
-  try {
-    // TODO Could be done with zod at route level
-    if (!signedTransaction.signature) {
-      throw new Error("Missing transaction signature");
-    } else if (!isHexString(signedTransaction.signature)) {
-      throw new Error("Transaction signature must be in valid hex format");
-    }
-
-    // TODO Could be done with zod at route level
-    if (!signedTransaction.encoded) {
-      throw new Error("Missing encoded transaction");
-    } else if (!isHexString(signedTransaction.encoded)) {
-      throw new Error("Encoded transaction must be in valid hex format");
-    }
-
-    // TODO Make sure this is documented...
-    // NOTE signedTransaction.signature is assumed to be built that way, r,s,v being correct hexadecimal strings:
-    //
-    // 1) Remove the front "0x" from s and v strings
-    // 2) Concatenate them all in a single string : signedTransaction.signature = r + s.slice(2) + v.slice(2)
-
-    const parsedSignature: Signature = (() => {
-      try {
-        return parseSignature(signedTransaction.signature);
-      } catch (e) {
-        const parsedSignatureFromTransaction: TransactionSerializable = parseTransaction(
-          signedTransaction.signature
-        );
-
-        if (parsedSignatureFromTransaction.r === undefined) {
-          throw new Error("Invalid signature: missing r parameter");
-        }
-        if (parsedSignatureFromTransaction.s === undefined) {
-          throw new Error("Invalid signature: missing s parameter");
-        }
-        if (parsedSignatureFromTransaction.v === undefined) {
-          throw new Error("Invalid signature: missing v parameter");
-        }
-
-        return {
-          v: parsedSignatureFromTransaction.v,
-          r: parsedSignatureFromTransaction.r,
-          s: parsedSignatureFromTransaction.s,
-          yParity: parsedSignatureFromTransaction.yParity,
-        };
-      }
-    })();
-
-    const parsedTansaction: TransactionSerializable = parseTransaction(
-      signedTransaction.encoded as TransactionSerialized
-    );
-
-    const chainParams = CHAINS[this.chainId].params as EvmChainParams;
-    const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
-
-    return serializeTransactionFn(parsedTansaction, parsedSignature);
-  } catch (e: any) {
-    signedTransaction.status.errors.push({ message: `Error while encoding to broadcast: ${e.message}` });
-    return "";
+  _: {
+    signedTransaction: Transaction;
+    status: Status;
   }
+): Promise<string> {
+  const { signedTransaction } = _;
+
+  // Useless checks to make the compiler happy, zod already validated the fields
+  if (!signedTransaction.signature) {
+    throw new UserInputError("Missing transaction signature");
+  }
+  if (!signedTransaction.encoded) {
+    throw new UserInputError("Missing encoded transaction");
+  }
+
+  // TODO: could be done with zod at route level?
+  if (!isHexString(signedTransaction.signature)) {
+    throw new UserInputError("Transaction signature must be in valid hex format");
+  }
+  if (!isHexString(signedTransaction.encoded)) {
+    throw new UserInputError("Encoded transaction must be in valid hex format");
+  }
+
+  // TODO Make sure this is documented...
+  // NOTE signedTransaction.signature is assumed to be built that way, r,s,v being correct hexadecimal strings:
+  //
+  // 1) Remove the front "0x" from s and v strings
+  // 2) Concatenate them all in a single string : signedTransaction.signature = r + s.slice(2) + v.slice(2)
+
+  const parsedSignature: Signature = (() => {
+    try {
+      return parseSignature(signedTransaction.signature);
+    } catch (e) {
+      const parsedSignatureFromTransaction: TransactionSerializable = parseTransaction(
+        signedTransaction.signature
+      );
+
+      if (parsedSignatureFromTransaction.r === undefined) {
+        throw new UserInputError("Invalid signature: missing r parameter");
+      }
+      if (parsedSignatureFromTransaction.s === undefined) {
+        throw new UserInputError("Invalid signature: missing s parameter");
+      }
+      if (parsedSignatureFromTransaction.v === undefined) {
+        throw new UserInputError("Invalid signature: missing v parameter");
+      }
+
+      return {
+        v: parsedSignatureFromTransaction.v,
+        r: parsedSignatureFromTransaction.r,
+        s: parsedSignatureFromTransaction.s,
+        yParity: parsedSignatureFromTransaction.yParity,
+      };
+    }
+  })();
+
+  const parsedTansaction: TransactionSerializable = parseTransaction(
+    signedTransaction.encoded as TransactionSerialized
+  );
+
+  const chainParams = CHAINS[this.chainId].params as EvmChainParams;
+  const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
+
+  return serializeTransactionFn(parsedTansaction, parsedSignature);
 }
 
 export { encodeTransactionToBroadcast, encodeTransactionToSign };

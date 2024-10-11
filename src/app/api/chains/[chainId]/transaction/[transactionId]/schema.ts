@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { finalizedTransactionSchema } from "~/app/api/schemaCommon";
+import { finalizedTransactionSchema, statusSchema } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 
@@ -17,7 +17,7 @@ const supportedChainIds = Object.values(CHAINS)
 
 const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]]);
 
-const requestSchema = z.object({
+const pathParamsSchema = z.object({
   chainId: supportedChainIdsSchema,
   transactionId: z.string().openapi({
     description: "Transaction ID. Usually a hash but can be different depending on the chain.",
@@ -25,24 +25,17 @@ const requestSchema = z.object({
   }),
 });
 
-const requestParamsSchema = z.object({
+const queryParamsSchema = z.object({
   include: z
-    .union([
-      z.literal("parsed").openapi({
-        description:
-          "Include parsed fields in the standard Adamik format. Note that all transactions types may not be available for this option.",
-      }),
-      z.literal("raw").openapi({
-        description: "Include the raw transaction as provided in native format by the blockchain.",
-      }),
-    ])
+    .array(z.enum(["parsed", "raw"]))
+    .nonempty()
     .optional()
     .openapi({
       description: "Optional filter, to let you request only the data that you need.",
     }),
 });
 
-const responseSchema = finalizedTransactionSchema;
+const responseSchema = z.object({ transaction: finalizedTransactionSchema, status: statusSchema });
 
 const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}/transaction/{transactionId}": {
@@ -52,8 +45,8 @@ const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = 
       description:
         "Retrieves detailed information about a specific transaction for a blockchain network, identified by chain ID and transaction ID.",
       requestParams: {
-        path: requestSchema,
-        query: requestParamsSchema,
+        path: pathParamsSchema,
+        query: queryParamsSchema,
       },
       responses: {
         "200": {
@@ -68,4 +61,9 @@ const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = 
   },
 };
 
-export { chainsChainIdTransactionTransactionIdOpenAPIPath, requestSchema, responseSchema };
+export {
+  chainsChainIdTransactionTransactionIdOpenAPIPath,
+  pathParamsSchema,
+  queryParamsSchema,
+  responseSchema,
+};

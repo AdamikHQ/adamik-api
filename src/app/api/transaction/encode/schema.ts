@@ -1,19 +1,24 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { transactionSchema, transactionDataSchema, transactionStatusSchema } from "../../schemaCommon";
+import {
+  encodedTransactionSchema,
+  inputTransactionDataSchema,
+  outputTransactionDataSchema,
+  statusSchema,
+} from "../../schemaCommon";
 
 const requestSchema = z.object({
-  transaction: z.object({
-    data: transactionDataSchema,
-  }),
+  transaction: inputTransactionDataSchema,
 });
 
 const responseSchema = z.object({
-  transaction: transactionSchema.and(
-    z.object({
-      status: transactionStatusSchema,
-    })
-  ),
+  transaction: outputTransactionDataSchema.merge(encodedTransactionSchema),
+  status: statusSchema,
+});
+
+const errorResponseSchema = responseSchema.extend({
+  transaction: outputTransactionDataSchema,
+  status: statusSchema,
 });
 
 const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
@@ -35,6 +40,12 @@ const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
             "200 OK - Returns the transaction data encoded into a blockchain-specific format, ready for broadcasting.",
           content: {
             "application/json": { schema: responseSchema },
+          },
+        },
+        "400": {
+          description: "400 Bad Request - The transaction data is invalid",
+          content: {
+            "application/json": { schema: errorResponseSchema },
           },
         },
       },

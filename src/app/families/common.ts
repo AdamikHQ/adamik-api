@@ -1,65 +1,63 @@
-import { ErrorMsg, TransactionData, TransactionMode, TransactionStatus } from "../model/types_WIP";
+import { Status, TransactionData, TransactionMode } from "../model/types_WIP";
 
-// TODO: Deprecate this whole function in favor of using directly Zod ?
-async function prevalidateTransactionCommon(
-  transaction: TransactionData,
-  addressValidationFn: (address: string) => Promise<boolean>
-): Promise<TransactionStatus> {
-  const errors: ErrorMsg[] = [];
-  const warnings: ErrorMsg[] = [];
+// Validations that couldn't have been done with Zod
+async function prevalidateTransactionCommon(_: {
+  transactionData: TransactionData;
+  status: Status;
+  addressValidationFn: (address: string) => Promise<boolean>;
+}): Promise<Status> {
+  const { transactionData, addressValidationFn, status } = _;
 
   // Logic validation
-  const validSender = await addressValidationFn(transaction.sender);
+  const validSender = await addressValidationFn(transactionData.sender);
   if (!validSender) {
-    errors.push({ message: "Sender address is invalid" });
+    status.errors.push({ message: "Sender address is invalid" });
   }
 
-  switch (transaction.mode) {
+  switch (transactionData.mode) {
     case TransactionMode.TRANSFER:
     case TransactionMode.TRANSFER_TOKEN:
-      const validRecipient = await addressValidationFn(transaction.recipient);
+      const validRecipient = await addressValidationFn(transactionData.recipient);
       if (!validRecipient) {
-        errors.push({ message: "Recipient address is invalid" });
+        status.errors.push({ message: "Recipient address is invalid" });
       }
 
-      if (validSender && validRecipient && transaction.sender === transaction.recipient) {
-        warnings.push({ message: "Same sender and recipient address" });
+      if (validSender && validRecipient && transactionData.sender === transactionData.recipient) {
+        status.warnings.push({ message: "Same sender and recipient address" });
       }
       break;
     case TransactionMode.DELEGATE:
     case TransactionMode.UNDELEGATE:
     case TransactionMode.CLAIM_REWARDS:
       const validValidator =
-        transaction.validatorAddress?.length && (await addressValidationFn(transaction.validatorAddress));
+        transactionData.validatorAddress?.length &&
+        (await addressValidationFn(transactionData.validatorAddress));
       if (!validValidator) {
-        errors.push({ message: "Validator address is invalid" });
+        status.errors.push({ message: "Validator address is invalid" });
       }
       break;
     case TransactionMode.REDELEGATE:
       const validSourceValidator =
-        transaction.sourceValidatorAddress?.length &&
-        (await addressValidationFn(transaction.sourceValidatorAddress));
+        transactionData.sourceValidatorAddress?.length &&
+        (await addressValidationFn(transactionData.sourceValidatorAddress));
       if (!validSourceValidator) {
-        errors.push({ message: "Source validator address is invalid" });
+        status.errors.push({ message: "Source validator address is invalid" });
       }
 
       const validTargetValidator =
-        transaction.targetValidatorAddress?.length &&
-        (await addressValidationFn(transaction.targetValidatorAddress));
+        transactionData.targetValidatorAddress?.length &&
+        (await addressValidationFn(transactionData.targetValidatorAddress));
       if (!validTargetValidator) {
-        errors.push({ message: "Target validator address is invalid" });
+        status.errors.push({ message: "Target validator address is invalid" });
       }
       break;
     default: // ensure exhaustive check, both at compile time and runtime: https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
       const assertNever = (x: never): never => {
-        throw new Error(`Encountered unexpected/unknown transaction mode: ${(transaction as any).mode}`);
+        throw new Error(`Encountered unexpected/unknown transaction mode: ${(transactionData as any).mode}`);
       };
-      assertNever(transaction);
+      assertNever(transactionData);
   }
-  return {
-    errors,
-    warnings,
-  };
+  return status;
 }
 
 export { prevalidateTransactionCommon };

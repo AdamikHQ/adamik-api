@@ -711,7 +711,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.EVM,
     id: ChainId.CHILIZ_TESTNET,
     nativeId: "88882",
-    name: "Chiliz Spicy Tesnet",
+    name: "Chiliz Spicy Testnet",
     ticker: "CHZ",
     decimals: 18,
     backends: {
@@ -900,16 +900,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
   },
 } as const;
 
-// FIXME Trick to filter-out private 'backends' field from response
-// Needs to be handled with DTO instead
-// https://adamik.atlassian.net/browse/ADV-13
-const CHAINS_PUBLIC = Object.fromEntries(
-  Object.entries(CHAINS).map(([key, value]) => {
-    const { backends, ...rest } = value;
-    return [key, rest];
-  })
-);
-
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
   const supportedModes: TransactionMode[] = [];
   const supportedTransactions = CHAINS[chainId].supportedFeatures.write.transaction.type;
@@ -930,4 +920,4 @@ function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
   return supportedModes;
 }
 
-export { CHAINS, CHAINS_PUBLIC, getSupportedTransactionModes };
+export { CHAINS, getSupportedTransactionModes };

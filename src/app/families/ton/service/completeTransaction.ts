@@ -1,8 +1,10 @@
-import { Transaction } from "~/app/model/types_WIP";
+import { Status, Transaction } from "~/app/model/types_WIP";
 import { getSeqno } from "../backend/explorer";
 import { computeFees, computeMaxSpendable } from "../logic";
 
-async function completeTransaction(transaction: Transaction): Promise<void> {
+async function completeTransaction(_: { transaction: Transaction; status: Status }): Promise<void> {
+  const { transaction, status } = _;
+
   const maxSpendable = await computeMaxSpendable(transaction.data);
 
   const seqNo = await getSeqno(transaction.data.sender);

@@ -72,7 +72,7 @@ function computeMinimumAlgoBalance(mode: TransactionMode, nbAccountAssets: numbe
 
 async function isAmountValidForRecipient(recipientAddress: string, amount: bigint): Promise<boolean> {
   const recipientAccount = await fetchAccount(recipientAddress);
-  return recipientAccount.balance === 0n ? amount >= ALGORAND_MIN_ACCOUNT_BALANCE : true;
+  return recipientAccount.balance === 0 ? amount >= ALGORAND_MIN_ACCOUNT_BALANCE : true;
 }
 
 const addressHasAsset = async (address: string, assetId: string): Promise<boolean> => {
@@ -84,7 +84,7 @@ async function computeMaxSpendable(transaction: TransactionData): Promise<Transa
   const { balance, assetAmounts } = await fetchAccount(transaction.sender);
 
   const maxSpendable = computeAlgoMaxSpendable({
-    accountBalance: balance,
+    accountBalance: BigInt(balance),
     nbAccountAssets: assetAmounts.length,
     mode: transaction.mode,
   });
@@ -96,7 +96,7 @@ async function computeMaxSpendable(transaction: TransactionData): Promise<Transa
     const asaBalance = token?.amount;
     return {
       native: algoBalance,
-      token: asaBalance,
+      token: asaBalance === undefined ? undefined : BigInt(asaBalance),
     };
   } else {
     return { native: algoBalance };

@@ -1,6 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
-import { tokenSchema } from "~/app/api/schemaCommon";
+import { bigintToStringSchema, tokenSchema } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, StakingStatus } from "~/app/model/types_WIP";
 
@@ -37,7 +37,7 @@ const requestSchema = z
     ],
   });
 
-const requestParamsSchema = z.object({
+const queryParamsSchema = z.object({
   include: z
     .array(
       z.enum([
@@ -58,28 +58,30 @@ const responseSchema = z.object({
   chainId: supportedChainIdsSchema,
   accountId: z.string(),
   balances: z.object({
-    native: z.object({
-      available: z.string(),
-      total: z.string(),
-    }),
+    native: z
+      .object({
+        available: bigintToStringSchema,
+        total: bigintToStringSchema,
+      })
+      .optional(),
     tokens: z
       .object({
         token: tokenSchema,
-        amount: z.string(),
+        amount: bigintToStringSchema,
       })
       .array()
       .optional(),
   }),
   staking: z
     .object({
-      total: z.string(),
-      locked: z.string(),
-      unlocking: z.string(),
-      unlocked: z.string(),
+      total: bigintToStringSchema,
+      locked: bigintToStringSchema,
+      unlocking: bigintToStringSchema,
+      unlocked: bigintToStringSchema,
       positions: z
         .object({
           validatorAddresses: z.string().array(),
-          amount: z.string(),
+          amount: bigintToStringSchema,
           status: z.nativeEnum(StakingStatus),
           completionDate: z.number().optional(),
         })
@@ -89,20 +91,21 @@ const responseSchema = z.object({
           native: z
             .object({
               validatorAddress: z.string(),
-              amount: z.string(),
+              amount: bigintToStringSchema,
             })
             .array(),
           tokens: z
             .object({
               token: tokenSchema,
               validatorAddress: z.string().optional(),
-              amount: z.string(),
+              amount: bigintToStringSchema,
             })
             .array(),
         })
         .optional(),
     })
     .optional(),
+  //status: statusSchema, TODO Should all endpoints have a status?
 });
 
 const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
@@ -113,7 +116,7 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
       description:
         "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
       requestParams: {
-        query: requestParamsSchema,
+        query: queryParamsSchema,
       },
       requestBody: {
         content: {
@@ -133,4 +136,4 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { accountStateOpenAPIPath, requestSchema, responseSchema };
+export { accountStateOpenAPIPath, queryParamsSchema, requestSchema, responseSchema };

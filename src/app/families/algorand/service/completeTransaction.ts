@@ -1,7 +1,16 @@
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { AlgorandService } from ".";
 import { computeFees, computeMaxSpendable } from "../logic";
 
-async function completeTransaction(transaction: Transaction): Promise<void> {
+async function completeTransaction(
+  this: AlgorandService,
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
+): Promise<void> {
+  const { transaction } = _;
+
   const maxSpendable = await computeMaxSpendable(transaction.data);
 
   transaction.data.fees = await computeFees(transaction.data);

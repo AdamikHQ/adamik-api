@@ -2,10 +2,12 @@ import {
   AccountHistory,
   AccountHistoryPagination,
   AccountState,
+  ApiRequestFilters,
   BroadcastStatus,
   ChainId,
   FinalizedTransaction,
   Pagination,
+  Status,
   Token,
   Transaction,
   TypedAddress,
@@ -30,20 +32,22 @@ abstract class BaseChainService {
   abstract validateAddress(address: string): Promise<boolean>;
 
   // Data
-  abstract getTransaction(transactionId: string): Promise<FinalizedTransaction | null>;
+  abstract getTransaction(transactionId: string, status: Status): Promise<FinalizedTransaction>;
   abstract getAccountState(accountId: string): Promise<AccountState>;
   abstract getAccountHistory(
     accountId: string,
-    pagination?: AccountHistoryPagination
+    pagination: AccountHistoryPagination,
+    filters: ApiRequestFilters
   ): Promise<AccountHistory>;
 
   // Crafting
-  // NOTE All of these functions will mutate the input 'Transaction' with additional info!
-  abstract prevalidateTransaction(transaction: Transaction): Promise<void>;
-  abstract completeTransaction(transaction: Transaction): Promise<void>;
-  abstract validateTransaction(transaction: Transaction): Promise<void>;
-  abstract encodeTransactionToSign(transaction: Transaction): Promise<void>;
-  abstract encodeTransactionToBroadcast(signedTransaction: Transaction): Promise<string>;
+  // NOTE All of these functions will mutate the input 'Transaction' and 'Status' with additional info!
+  // The single object param allows to use both as const, so at least their reference cannot be overwritten
+  abstract prevalidateTransaction(_: { transaction: Transaction; status: Status }): Promise<void>;
+  abstract completeTransaction(_: { transaction: Transaction; status: Status }): Promise<void>;
+  abstract validateTransaction(_: { transaction: Transaction; status: Status }): Promise<void>;
+  abstract encodeTransactionToSign(_: { transaction: Transaction; status: Status }): Promise<void>;
+  abstract encodeTransactionToBroadcast(_: { signedTransaction: Transaction }): Promise<string>;
 
   // Broadcast
   abstract broadcastTransaction(payload: string): Promise<BroadcastStatus>;
@@ -71,7 +75,7 @@ function isStakingService(object: BaseChainService | StakingService): object is 
 // TOKENS ////////////////////////////////////////////////////////////////////////////////////
 
 interface TokenService {
-  getTokenInfo(tokenId: string): Promise<Token | null>;
+  getTokenInfo(tokenId: string): Promise<Token>;
 }
 
 // Type predicate: checks that the input object implements the TokenService interface

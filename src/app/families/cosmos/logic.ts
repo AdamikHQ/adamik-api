@@ -27,6 +27,8 @@ import {
   TransactionData,
   TransactionMode,
 } from "~/app/model/types_WIP";
+import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
+import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { fetchNetworkId, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
 import { buildStdSignDocForInjective } from "./chains/injective";
@@ -92,10 +94,12 @@ function resolvePubKey(account: CosmosAccount, transaction: Transaction): Cosmos
   const pubKeyType = account.pubKeyType || chainParams.defaultPubKeyType;
   const pubKey = account.pubKey || transactionParams?.pubKey;
   if (!pubKey) {
-    transaction.status.errors.push({
-      message: "Public key of the sender address not found on the blockchain, it must be provided manually",
-    });
-    return account;
+    throw new InvalidTransactionError(
+      statusFromMessage(
+        "Public key of the sender address not found on the blockchain, it must be provided manually"
+      )
+    );
+    // FIXME: should we return the account instead of breaking the flow?
   }
 
   return {
@@ -343,6 +347,7 @@ async function buildSignPayload(
   account: CosmosAccount,
   transaction: TransactionData
 ): Promise<StdSignDoc> {
+  // useless checks to make the compiler happy, completeTransaction already validated the fields
   if (!transaction.fees) {
     throw new Error("Missing fees data in transaction");
   } else if (!transaction.gas) {
@@ -464,6 +469,7 @@ async function encodeToBroadcast(
   signedTransaction: Transaction
 ): Promise<string> {
   const transactionData = signedTransaction.data;
+  // useless checks to make the compiler happy, completeTransaction already validated the fields
   // We don't want transactionData.nonce === 0 to be falsy
   if (transactionData.nonce === undefined) {
     throw new Error("Missing transaction nonce");
