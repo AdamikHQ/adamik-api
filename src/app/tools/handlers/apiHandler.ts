@@ -1,47 +1,163 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError } from "zod";
-import { fromZodError } from "zod-validation-error";
+import { z, ZodError, ZodType } from "zod";
+import { fromZodIssue } from "zod-validation-error";
+import { Status } from "~/app/model/types_WIP";
+import { AdamikHttpError, InvalidTransactionError } from "./errors";
 
-type RouteHandler = Partial<{
-  [key in (typeof httpMethods)[number]]: (req: NextRequest, ...args: any) => Promise<NextResponse>;
-}>;
+// DESIGN NOTES
+// We make heavy use of generics and type inference to allow for typescript type hinting (https://zod.dev/?id=writing-generic-functions)
+//
+// HOW TO USE
+//
+// When creating a new route.ts, http methods can be defined like this:
+//
+//             export const POST = apiHandler(A, B);
+//
+// - where A is: the collection of zod schemas representing this route (request body, response body, path params, query params)
+// - where B is: the function implementing the route, that will be fully typed thanks to the schemas provided
+//
+// Note: some schemas are optional, but if they're not provided then the apiHandler guarantees that their data cannot be used! 🛡️✅
+//
 
-const httpMethods = ["GET", "POST", "PUT", "PATCH", "DELETE"] as const;
+type MethodCall<
+  RequestBody extends ZodType<unknown>,
+  ResponseBody extends z.input<ZodType<unknown>>,
+  PathParams extends ZodType<unknown>,
+  QueryParams extends ZodType<unknown>
+> = {
+  (_: {
+    body: z.infer<RequestBody>;
+    pathParams: z.infer<PathParams>;
+    queryParams: z.infer<QueryParams>;
+    // No need to access the request at the moment, can be put back if some route needs it:
+    // request: NextRequest;
+  }): Promise<ResponseBody>;
+};
 
-export function apiHandler(handler: RouteHandler) {
-  const wrappedHandler: RouteHandler = {};
+type Schemas<
+  RequestBody extends ZodType<unknown>,
+  ResponseBody extends z.input<ZodType<unknown>>,
+  PathParams extends ZodType<unknown>,
+  QueryParams extends ZodType<unknown>
+> = {
+  requestSchema?: RequestBody;
+  responseSchema: ResponseBody;
+  pathParamsSchema?: PathParams;
+  queryParamsSchema?: QueryParams;
+};
 
-  // wrap handler methods to add global error handler
-  httpMethods.forEach((method) => {
-    const route = handler[method];
+export function apiHandler<
+  RequestBody extends ZodType<unknown>,
+  ResponseBody extends ZodType<unknown>,
+  PathParams extends ZodType<unknown>,
+  QueryParams extends ZodType<unknown>
+>(
+  {
+    requestSchema,
+    pathParamsSchema,
+    queryParamsSchema,
+    responseSchema,
+  }: Schemas<RequestBody, ResponseBody, PathParams, QueryParams>,
+  methodCall: MethodCall<RequestBody, z.input<ResponseBody>, PathParams, QueryParams>
+) {
+  return async (request: NextRequest, context: { params?: PathParams }): Promise<NextResponse> => {
+    try {
+      const isBodyJson = request.headers.get("Content-Type") === "application/json";
 
-    if (!route || typeof route !== "function") {
-      return;
-    }
-    wrappedHandler[method] = async (req: NextRequest, ...args) => {
-      try {
-        // add other middlewares that can't run on the edge here
+      const requestBody: z.infer<RequestBody> = isBodyJson
+        ? // parse the request when available, otherwise use the raw body
+          requestSchema?.parse(await request.json()) ?? (await request.json())
+        : // don't use json() if the content-type is not application/json
+          undefined;
 
-        // manually calls the wrapped handler
-        return await route(req, ...args);
-      } catch (err: unknown) {
-        return handleRequestValidationError(err);
+      // parse the route params, otherwise use the raw context params
+      const pathParams = pathParamsSchema?.parse(context.params) ?? context.params;
+
+      // build a more convenient record of the query params
+      const queryParamsEntries: Record<string, string[]> = {};
+      request.nextUrl.searchParams.forEach(
+        (values, key) => (queryParamsEntries[`${key}`] = values.split(",").filter(Boolean))
+      );
+
+      // parse the query params, otherwise use the raw request params
+      const queryParams = queryParamsSchema?.parse(queryParamsEntries) ?? request.nextUrl.searchParams;
+
+      // manually call the wrapped http method (GET, POST, etc...)
+      const responseBody = await methodCall({ body: requestBody, pathParams, queryParams });
+
+      if (responseSchema) {
+        // use zod.parse on output response body to:
+        // - transform the body into the output schema (allows for type conversion like bigint -> string or number -> string)
+        // - filter the output to only keep the fields defined in the output schema (effectively removing any extraneous fields, making sure we never leak any information by accident) => https://zod.dev/?id=passthrough `By default Zod object schemas strip out unrecognized keys during parsing.`
+        // - always return a status field in the output only IF a schema is provided
+        const parsedOutput = responseSchema.parse(responseBody);
+
+        return NextResponse.json(parsedOutput);
       }
-    };
-  });
 
-  return wrappedHandler;
+      return NextResponse.json(responseBody);
+    } catch (err: unknown) {
+      return handleRequestValidationError(err);
+    }
+  };
 }
 
-function handleRequestValidationError(e: unknown): NextResponse {
-  console.log(e);
+//
+// ERROR HANDLING
+//
 
-  if (e instanceof ZodError) {
+const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
+  switch (issue.code) {
+    case z.ZodIssueCode.invalid_type:
+      if (issue.received === "undefined") {
+        return { message: `expected required field "${issue.path.at(-1)}" to be defined` };
+      }
+  }
+  return { message: ctx.defaultError };
+};
+
+z.setErrorMap(customErrorMap);
+
+/**
+ * Handles errors thrown by anywhere in the backend
+ * NB: `instanceof` tests should be in the order of the hierarchy, from most specific to most generic when inheritance is involved
+ *
+ * @param e Unknown error catched by the handler
+ * @returns A NextResponse with the appropriate status and message
+ */
+function handleRequestValidationError(e: unknown): NextResponse {
+  if (e instanceof InvalidTransactionError) {
+    return NextResponse.json({ status: e.adamikStatus }, { status: e.status, statusText: e.statusText });
+  } else if (e instanceof AdamikHttpError) {
+    // catch-all for all AdamikHttpError
     return NextResponse.json(
-      { message: fromZodError(e).toString(), errors: e.errors },
+      { status: statusFromMessage(e.message) },
+      { status: e.status, statusText: e.statusText }
+    );
+  } else if (e instanceof ZodError) {
+    // Generic catchall for all the Zod errors, parse the message through zod-validation-error for user friendliness
+
+    return NextResponse.json(
+      {
+        status: {
+          errors: e.issues.map((issue) => ({ message: fromZodIssue(issue).toString() })), // one error per issue for maximum readability
+          warnings: [],
+        },
+      },
       { status: 400, statusText: "Invalid or missing fields" }
     );
+  } else if (e instanceof Error) {
+    console.error("handleRequestValidationError - unexpected error:", e);
+    return NextResponse.json(
+      { status: statusFromMessage(e.message) },
+      { status: 500, statusText: "Unexpected server error" }
+    );
   }
-  // FIXME: maybe handle error instead of throwing it away?
-  throw e;
+  throw e; // should never happen
 }
+
+function statusFromMessage(message: string): Status {
+  return { errors: [{ message: message }], warnings: [] };
+}
+
+export { statusFromMessage };

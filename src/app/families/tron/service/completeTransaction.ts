@@ -1,9 +1,11 @@
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { estimateEnergyContract, getAccount, getAccountResources, getChainParameters } from "../backend/node";
 import { buildTransaction, calculateTransactionLength } from "../logic";
 
 // https://www.notion.so/Fees-Energy-Bandwidth-1192ca550f9c80fdba26deba08f24505
-async function completeTransaction(transaction: Transaction): Promise<void> {
+async function completeTransaction(_: { transaction: Transaction; status: Status }): Promise<void> {
+  const { transaction } = _;
+
   const accountResources = await getAccountResources(transaction.data.sender);
   const usableBandwidth = accountResources.freeNetUsed
     ? accountResources.freeNetLimit - accountResources.freeNetUsed

@@ -1,16 +1,21 @@
 import { decodeFunctionData, erc20Abi } from "viem";
-import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import { FinalizedTransaction, Status, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import { TransactionIdNotFoundError as TransactionNotFoundError } from "~/app/tools/handlers/errors";
 import { EvmService } from ".";
 import { fetchTransaction, fetchTransactionReceipt } from "../backend/node";
 
-async function getTransaction(this: EvmService, transactionId: string): Promise<FinalizedTransaction | null> {
+async function getTransaction(
+  this: EvmService,
+  transactionId: string,
+  status: Status
+): Promise<FinalizedTransaction> {
   // NOTE Requires 2 calls to the node
   // In case of perf issues, could be done in 1 call to an explorer e.g. Moralis or Etherscan
   const evmTransaction = await fetchTransaction(this.chainId, transactionId);
   const evmTransactionReceipt = await fetchTransactionReceipt(this.chainId, transactionId);
 
   if (!evmTransaction || !evmTransactionReceipt) {
-    return null;
+    throw new TransactionNotFoundError(transactionId, this.chainId);
   }
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
@@ -47,8 +52,10 @@ async function getTransaction(this: EvmService, transactionId: string): Promise<
         },
       ];
     } else {
+      const message = `Unsupported parsing of transaction ${transactionId} for chainId ${this.chainId}: ${functionName} not supported`;
       // Not supported (yet?)
-      console.warn(`/!\\ Unsupported parsing of transaction ${transactionId} for chainId ${this.chainId}`);
+      console.warn(message);
+      status.errors.push({ message });
       return {
         raw: evmTransactionReceipt,
       };
@@ -72,7 +79,7 @@ async function getTransaction(this: EvmService, transactionId: string): Promise<
     // Skipped for now, but could be retrieved with an additional getBlock call to the node...
     // or by relying on the explorer instead
     // @ts-expect-error (looks like Viem doesn't type the blockTimestamp field properly)
-    parsedTransaction.timestamp = log.blockTimestamp;
+    parsedTransaction.timestamp = log.blockTimestamp && Number(log.blockTimestamp) * 1000;
   } else if (evmTransaction.blockNumber !== null) {
     parsedTransaction.state = TransactionState.CONFIRMED;
     parsedTransaction.blockHeight = BigInt(evmTransaction.blockNumber);

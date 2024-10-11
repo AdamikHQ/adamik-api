@@ -14,7 +14,7 @@ async function getAccountState(this: AlgorandService, accountId: string): Promis
   const tokenDetails = await Promise.all(tokenDetailsPromises);
 
   tokenDetails.forEach((tokenDetail, index) => {
-    if (tokenDetail) tokenAmounts.push({ token: tokenDetail, amount: assetAmounts[index].amount });
+    if (tokenDetail) tokenAmounts.push({ token: tokenDetail, amount: BigInt(assetAmounts[index].amount) });
   });
 
   return {
@@ -22,8 +22,8 @@ async function getAccountState(this: AlgorandService, accountId: string): Promis
     accountId,
     balances: {
       native: {
-        available: nativeBalance,
-        total: nativeBalance,
+        available: BigInt(nativeBalance),
+        total: BigInt(nativeBalance),
       },
       tokens: tokenAmounts,
     },

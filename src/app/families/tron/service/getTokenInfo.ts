@@ -1,8 +1,9 @@
 import { Token, TokenType } from "~/app/model/types_WIP";
+import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
 import { TronService } from ".";
 import { getTRC20TokenInfo } from "../backend/node";
 
-async function getTokenInfo(this: TronService, tokenId: string): Promise<Token | null> {
+async function getTokenInfo(this: TronService, tokenId: string): Promise<Token> {
   try {
     const tokenInfo = await getTRC20TokenInfo(tokenId);
 
@@ -18,8 +19,8 @@ async function getTokenInfo(this: TronService, tokenId: string): Promise<Token |
 
     return token;
   } catch (e) {
-    console.log(e);
-    return null;
+    console.warn(`/!\\ Failed to fetch tron token with ID '${tokenId}':`, e);
+    throw new UnsupportedTokenIDError(tokenId, this.chainId);
   }
 }
 

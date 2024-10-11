@@ -1,11 +1,20 @@
 import { BaseError as ViemError } from "viem";
-import { ChainId, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
+import { ChainId, Status, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { EvmService } from ".";
 import { fetchNonce } from "../backend/node";
 import { getTransactionAmount, getTransactionFees, getTransactionGas } from "../logic";
 import { EvmAddress } from "../types";
 
-async function completeTransaction(this: EvmService, transaction: Transaction): Promise<void> {
+async function completeTransaction(
+  this: EvmService,
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
+): Promise<void> {
+  const { transaction, status } = _;
+
   try {
     const nonce = await fetchNonce(this.chainId, transaction.data.sender as EvmAddress);
     transaction.data.nonce = BigInt(nonce);
@@ -19,14 +28,14 @@ async function completeTransaction(this: EvmService, transaction: Transaction): 
         break;
       default:
         // should never happen, zod already validated the mode per chain
-        throw new Error(
+        throw new UnsupportedFeatureError(
           `Unsupported transaction mode ${transaction.data.mode} for EVM chain ${this.chainId}`
         );
     }
   } catch (e: any) {
     const message =
       (e instanceof ViemError ? e.shortMessage : e.message) || "Failed to complete the transaction";
-    transaction.status.errors.push({ message });
+    status.errors.push({ message });
   }
 }
 

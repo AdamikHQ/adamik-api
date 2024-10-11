@@ -1,6 +1,6 @@
+import { CosmosChainParams, CosmosTransactionParams } from "~/app/families/cosmos/types";
+import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
-import { CosmosChainParams, CosmosTransactionParams } from "../families/cosmos/types";
-import { EvmChainParams } from "../families/evm/types";
 import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
 
@@ -34,15 +34,12 @@ enum ChainId {
   LINEA_SEPOLIA = "linea-sepolia",
   AVALANCHE = "avalanche",
   AVALANCHE_FUJI = "avalanche-fuji",
-  DEFI_KINGDOMS = "defi-kingdoms",
-  DEXALOT = "dexalot",
   GNOSIS = "gnosis",
   GNOSIS_CHIADO = "gnosis-chiado",
   MOONBEAM = "moonbeam",
   MOONRIVER = "moonriver",
   MOONBASE = "moonbase",
   FANTOM = "fantom",
-  PALM = "palm",
   MANTLE = "mantle",
   CHILIZ = "chiliz",
   CHILIZ_TESTNET = "chiliz-testnet",
@@ -76,26 +73,29 @@ enum ChainFamily {
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
 
-enum ChainFeature {
-  READ_ACCOUNT_BALANCES_NATIVE = "read.account.balances.native",
-  READ_ACCOUNT_BALANCES_TOKENS = "read.account.balances.tokens",
-  //READ_ACCOUNT_BALANCES_NFT = "read.account.balances.nft",
-  READ_ACCOUNT_BALANCES_STAKING = "read.account.balances.staking",
+type FeaturesSet = {
+  native: boolean;
+  tokens: boolean;
+  staking: boolean;
+};
 
-  //READ_ACCOUNT_TRANSACTIONS_NATIVE = "read.account.transactions.native",
-  //READ_ACCOUNT_TRANSACTIONS_TOKENS = "read.account.transactions.tokens",
-  //READ_ACCOUNT_TRANSACTIONS_STAKING = "read.account.transactions.staking",
-
-  READ_TRANSACTION_NATIVE = "read.transaction.native",
-  READ_TRANSACTION_TOKENS = "read.transaction.tokens",
-  READ_TRANSACTION_STAKING = "read.transaction.staking",
-
-  WRITE_TRANSACTION_TYPE_NATIVE = "write.transaction.type.native",
-  WRITE_TRANSACTION_TYPE_TOKENS = "write.transaction.type.tokens",
-  WRITE_TRANSACTION_TYPE_STAKING = "write.transaction.type.staking",
-
-  WRITE_TRANSACTION_FIELD_MEMO = "write.transaction.field.memo",
-}
+type ChainSupportedFeatures = {
+  read: {
+    account: {
+      balances: FeaturesSet;
+      transactions: FeaturesSet;
+    };
+    transaction: FeaturesSet;
+  };
+  write: {
+    transaction: {
+      type: FeaturesSet;
+      field: {
+        memo: boolean;
+      };
+    };
+  };
+};
 
 // Define filters as flags: anything put in the object is true to flag that the filter is "ON"
 type ApiRequestFilters = Record<string, true>;
@@ -115,7 +115,7 @@ type Chain = {
   backends: Backends;
   isTestNet?: boolean;
   params?: ChainParams;
-  supportedFeatures: readonly ChainFeature[];
+  supportedFeatures: ChainSupportedFeatures;
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
@@ -336,7 +336,6 @@ type Transaction = {
   data: TransactionData;
   encoded?: string;
   signature?: string;
-  status: TransactionStatus;
 };
 
 // Used to list spendable amounts, in native currency and one optional token currency
@@ -345,23 +344,7 @@ type TransactionSpendableAmounts = {
   token?: bigint;
 };
 
-type TransactionStatus = {
-  errors: ErrorMsg[];
-  warnings: ErrorMsg[];
-};
-
-type BroadcastStatus = {
-  error?: ErrorMsg;
-  hash?: string;
-};
-
-type ErrorCode = "OK" | "KO";
-
-// TODO Return code, message should be on client side?
-type ErrorMsg = {
-  //code: ErrorCode;
-  message: string;
-};
+type BroadcastStatus = { hash: string };
 
 enum EncodedTransactionFormat {
   JSON = "json",
@@ -373,9 +356,21 @@ type Pagination = {
   limit?: number;
 };
 
+type ErrorCode = "OK" | "KO";
+
+// TODO Use code, and message should be on client side?
+type ErrorMsg = {
+  //code: ErrorCode;
+  message: string;
+};
+
+type Status = {
+  errors: ErrorMsg[];
+  warnings: ErrorMsg[];
+};
+
 export {
   ChainFamily,
-  ChainFeature,
   ChainId,
   EncodedTransactionFormat,
   StakingStatus,
@@ -392,18 +387,18 @@ export type {
   BroadcastStatus,
   Chain,
   ChainParams,
-  ErrorMsg,
+  ChainSupportedFeatures,
   FinalizedTransaction,
   Pagination,
   StakingPosition,
   StakingReward,
+  Status,
   Token,
   TokenAmount,
   TokenStakingReward,
   Transaction,
   TransactionData,
   TransactionSpendableAmounts,
-  TransactionStatus,
   TypedAddress,
   Validator,
 };

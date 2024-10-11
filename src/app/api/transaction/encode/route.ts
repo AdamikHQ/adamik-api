@@ -1,49 +1,44 @@
-import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
-import { stringToBigint } from "~/app/model/serialization";
-import { Transaction, TransactionData } from "~/app/model/types_WIP";
+import { Status, Transaction, TransactionData } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import "~/bigintPatch";
-import { requestSchema } from "./schema";
+import { InvalidTransactionError } from "~/app/tools/handlers/errors";
+import { requestSchema, responseSchema } from "./schema";
 
-async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = await requestSchema.parseAsync(await request.json());
+export const POST = apiHandler(
+  {
+    requestSchema,
+    responseSchema,
+  },
+  async ({ body }) => {
+    const transactionData: TransactionData = body.transaction.data;
 
-  const transactionData: TransactionData = stringToBigint(body.transaction.data);
+    const service = getService(transactionData.chainId);
 
-  const service = getService(transactionData.chainId);
+    // Initialization of the full transaction and status that will be returned
+    // NOTE They will traverse and be mutated by all the service functions below
+    let transaction: Transaction = { data: transactionData };
+    let status: Status = { errors: [], warnings: [] };
 
-  // Initialization of the full transaction that will be returned
-  // NOTE It will traverse and be mutated by all the service functions below
-  let transaction: Transaction = {
-    data: transactionData,
-    status: { errors: [], warnings: [] },
-  };
+    await service.prevalidateTransaction({ transaction, status });
+    if (status.errors.length) {
+      throw new InvalidTransactionError(status);
+    }
 
-  await service.prevalidateTransaction(transaction);
-  if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
+    await service.completeTransaction({ transaction, status });
+    if (status.errors.length) {
+      throw new InvalidTransactionError(status);
+    }
+
+    await service.validateTransaction({ transaction, status });
+    if (status.errors.length) {
+      throw new InvalidTransactionError(status);
+    }
+
+    await service.encodeTransactionToSign({ transaction, status });
+    if (status.errors.length) {
+      throw new InvalidTransactionError(status);
+    }
+
+    return { transaction, status };
   }
-
-  await service.completeTransaction(transaction);
-  if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
-  }
-
-  await service.validateTransaction(transaction);
-  if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
-  }
-
-  await service.encodeTransactionToSign(transaction);
-
-  if (transaction.status.errors.length) {
-    return NextResponse.json({ transaction }, { status: 400, statusText: `Invalid transaction` });
-  } else {
-    return NextResponse.json({ transaction });
-  }
-}
-
-module.exports = apiHandler({
-  POST,
-});
+);

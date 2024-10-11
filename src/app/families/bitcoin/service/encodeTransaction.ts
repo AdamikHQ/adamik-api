@@ -1,11 +1,19 @@
 import { Psbt } from "bitcoinjs-lib";
-import { Transaction } from "~/app/model/types_WIP";
+import { Status, Transaction } from "~/app/model/types_WIP";
 import { BitcoinService } from ".";
 import { fetchRawTransactionMetadata, fetchTransactionMetadata } from "../backend/explorer";
 import { selectNetworkForChainId } from "../logic";
 import { BitcoinTransactionParams } from "../types";
 
-async function encodeTransactionToSign(this: BitcoinService, transaction: Transaction): Promise<void> {
+async function encodeTransactionToSign(
+  this: BitcoinService,
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
+): Promise<void> {
+  const { transaction, status } = _;
+
   const params = transaction.data.params as BitcoinTransactionParams;
 
   let psbt = new Psbt({ network: selectNetworkForChainId(this.chainId) });
@@ -49,8 +57,14 @@ async function encodeTransactionToSign(this: BitcoinService, transaction: Transa
 
 async function encodeTransactionToBroadcast(
   this: BitcoinService,
-  signedTransaction: Transaction
+  _: {
+    signedTransaction: Transaction;
+    status: Status;
+  }
 ): Promise<string> {
+  const { signedTransaction } = _;
+
+  // useless check to make the compiler happy, zod already validated the fields
   if (!signedTransaction.signature) {
     throw new Error("missing transaction signature");
   }

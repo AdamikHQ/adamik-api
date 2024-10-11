@@ -1,26 +1,18 @@
-import { NextRequest, NextResponse } from "next/server";
 import { getService } from "~/app/families/services";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import { requestSchema } from "./schema";
+import { requestSchema, responseSchema } from "./schema";
 
-async function POST(request: NextRequest): Promise<NextResponse> {
-  const { chainId, pubkey } = requestSchema.parse(await request.json());
+export const POST = apiHandler(
+  {
+    requestSchema,
+    responseSchema,
+  },
+  async ({ body }) => {
+    const { chainId, pubkey } = body;
+    const service = getService(chainId);
 
-  const service = getService(chainId);
-
-  try {
     const addresses = await service.pubkeyToAddresses(pubkey);
-    return NextResponse.json({ chainId, pubkey, addresses });
-  } catch (e: any) {
-    const info = `Error while converting public key ${pubkey} to addresses, for chain ID ${chainId}:`;
-    console.warn(info, e.message);
-    return NextResponse.json(
-      { message: `${info} ${e.message}` },
-      { status: 500, statusText: "Internal error" }
-    );
-  }
-}
 
-module.exports = apiHandler({
-  POST,
-});
+    return { chainId, pubkey, addresses };
+  }
+);

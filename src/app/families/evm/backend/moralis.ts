@@ -1,6 +1,7 @@
 import { MORALIS_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { AccountHistoryPagination, ChainId, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
 import { EvmAddress } from "../types";
 import { MoralisERC20Token, MoralisERC20TokenBalance, MoralisWalletTransaction } from "./types";
 
@@ -29,7 +30,6 @@ const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.MOONRIVER, "moonriver"],
   [ChainId.MOONBASE, "moonbase"],
   [ChainId.FANTOM, "fantom"],
-  [ChainId.PALM, "palm"],
   //Mantle may not be supported yet (marked as coming soon by Moralis)
   //[ChainId.MANTLE, "mantle"],
 ]);
@@ -161,17 +161,17 @@ async function fetchERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Pr
   return tokenAmounts;
 }
 
-async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<Token | null> {
+async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<Token> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
-    return null;
+    throw new UnsupportedTokenIDError(tokenId, chainId);
   }
 
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
-    return null;
+    throw new UnsupportedTokenIDError(tokenId, chainId);
   }
 
   const queryParams = new URLSearchParams({

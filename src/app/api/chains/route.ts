@@ -1,11 +1,12 @@
-import { NextResponse } from "next/server";
-import { CHAINS_PUBLIC } from "~/app/config/chains";
+import { CHAINS } from "~/app/config/chains";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { responseSchema } from "./schema";
 
-async function GET(): Promise<NextResponse> {
-  return NextResponse.json({ chains: CHAINS_PUBLIC });
-}
-
-module.exports = apiHandler({
-  GET
-});
+export const GET = apiHandler(
+  {
+    responseSchema,
+  },
+  async () => {
+    return { chains: CHAINS };
+  }
+);

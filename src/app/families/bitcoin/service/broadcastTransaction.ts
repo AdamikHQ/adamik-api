@@ -22,17 +22,9 @@ async function broadcastTransaction(
     transactionToBroadcast = signedTransaction;
   }
 
-  try {
-    return {
-      hash: await postTransaction(this.chainId, transactionToBroadcast),
-    };
-  } catch (e: any) {
-    return {
-      error: {
-        message: e.message,
-      },
-    };
-  }
+  return {
+    hash: await postTransaction(this.chainId, transactionToBroadcast),
+  };
 }
 
 export { broadcastTransaction };

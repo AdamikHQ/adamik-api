@@ -3,7 +3,7 @@ import { EvmService } from ".";
 import { fetchERC20Token } from "../backend/moralis";
 import { EvmAddress } from "../types";
 
-async function getTokenInfo(this: EvmService, tokenId: string): Promise<Token | null> {
+async function getTokenInfo(this: EvmService, tokenId: string): Promise<Token> {
   const contractAddress = tokenId as EvmAddress;
 
   return fetchERC20Token(this.chainId, contractAddress);

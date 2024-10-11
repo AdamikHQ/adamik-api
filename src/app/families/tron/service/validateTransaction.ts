@@ -1,16 +1,28 @@
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { TronService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
 import { fetchTronscanAccountData } from "../backend/explorer";
 import { isValidAddress } from "../backend/node";
 
-async function prevalidateTransaction(this: TronService, transaction: Transaction): Promise<void> {
-  transaction.status = await prevalidateTransactionCommon(transaction.data, async (address: string) =>
-    isValidAddress(address)
-  );
+async function prevalidateTransaction(
+  this: TronService,
+  _: { transaction: Transaction; status: Status }
+): Promise<void> {
+  const { transaction, status } = _;
+
+  await prevalidateTransactionCommon({
+    transactionData: transaction.data,
+    status,
+    addressValidationFn: async (address: string) => isValidAddress(address),
+  });
 }
 
-async function validateTransaction(this: TronService, transaction: Transaction): Promise<void> {
+async function validateTransaction(
+  this: TronService,
+  _: { transaction: Transaction; status: Status }
+): Promise<void> {
+  const { transaction, status } = _;
+
   const transactionData = transaction.data;
   const accountData = await fetchTronscanAccountData(transactionData.sender);
   const availableBalance = accountData.balance;
@@ -21,7 +33,7 @@ async function validateTransaction(this: TronService, transaction: Transaction):
     case TransactionMode.TRANSFER: {
       // - amount + fees < nativeBalance
       if (availableBalance && amount + fees > BigInt(availableBalance)) {
-        transaction.status.errors.push({ message: "Balance is too low" });
+        status.errors.push({ message: "Balance is too low" });
       }
       break;
     }
@@ -30,7 +42,7 @@ async function validateTransaction(this: TronService, transaction: Transaction):
         (token) => token.tokenId === transactionData.tokenId
       );
       if (tokenData && amount > BigInt(tokenData.balance)) {
-        transaction.status.errors.push({ message: "Insufficient token balance" });
+        status.errors.push({ message: "Insufficient token balance" });
       }
       break;
     }
@@ -38,11 +50,11 @@ async function validateTransaction(this: TronService, transaction: Transaction):
 
   // - fees < nativeBalance
   if (availableBalance && fees > BigInt(availableBalance)) {
-    transaction.status.errors.push({ message: "Balance is too low to cover the fees" });
+    status.errors.push({ message: "Balance is too low to cover the fees" });
   }
 
   if (amount < fees * 10n) {
-    transaction.status.warnings.push({ message: "Network fees are above 10% of the amount" });
+    status.warnings.push({ message: "Network fees are above 10% of the amount" });
   }
 }
 

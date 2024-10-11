@@ -9,6 +9,7 @@ initEccLib(ecc);
 export function selectNetworkForChainId(chainId: ChainId): networks.Network {
   switch (chainId) {
     case ChainId.BITCOIN:
+      return networks.bitcoin;
     case ChainId.BITCOIN_TESTNET:
       return networks.testnet;
     case ChainId.LITECOIN:
