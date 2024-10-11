@@ -10,11 +10,10 @@ const requestSchema = z.object({
   transaction: inputTransactionDataSchema,
 });
 
-const responseSchema = z
-  .object({
-    transaction: outputTransactionDataSchema,
-  })
-  .merge(statusSchema);
+const responseSchema = z.object({
+  transaction: outputTransactionDataSchema,
+  status: statusSchema,
+});
 
 const transactionValidateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/validate": {

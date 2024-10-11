@@ -1,25 +1,34 @@
 import { isAddress as isValidAddress } from "viem";
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { EvmService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
 import { getMaxSpendable } from "../logic";
 
 async function prevalidateTransaction(
   this: EvmService,
-  transaction: Transaction,
-  status: AdamikStatus
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
-  status = await prevalidateTransactionCommon(transaction.data, async (address: string) =>
-    isValidAddress(address)
-  );
+  const { transaction, status } = _;
+
+  await prevalidateTransactionCommon({
+    transactionData: transaction.data,
+    status,
+    addressValidationFn: async (address: string) => isValidAddress(address),
+  });
 }
 
 async function validateTransaction(
   this: EvmService,
-  transaction: Transaction,
-  status: AdamikStatus
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
+  const { transaction, status } = _;
+
   const maxSpendable = await getMaxSpendable(this.chainId, transaction.data);
   // amount & fees are safe to cast as they're guaranteed to be filed in by completeTransaction
   const amount = transaction.data.amount as bigint;

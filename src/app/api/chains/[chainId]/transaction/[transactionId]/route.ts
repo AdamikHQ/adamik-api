@@ -1,6 +1,6 @@
 import { getService } from "~/app/families/services";
-import { ApiRequestFilters } from "~/app/model/types_WIP";
-import { apiHandler, type AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { ApiRequestFilters, Status } from "~/app/model/types_WIP";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { pathParamsSchema, queryParamsSchema, responseSchema } from "./schema";
 
@@ -22,7 +22,7 @@ export const GET = apiHandler(
 
     const service = getService(chainId);
 
-    let status: AdamikStatus = { errors: [], warnings: [] };
+    let status: Status = { errors: [], warnings: [] };
 
     const transaction = await service.getTransaction(transactionId, status);
     if (!transaction) {
@@ -45,9 +45,12 @@ export const GET = apiHandler(
     const includeRaw = filters.raw || !Object.keys(filters).length;
 
     return {
-      // Syntax trick to conditionally include fields
-      ...(includeParsed && { parsed: transaction.parsed }),
-      ...(includeRaw && { raw: transaction.raw }),
+      transaction: {
+        // Syntax trick to conditionally include fields
+        ...(includeParsed && { parsed: transaction.parsed }),
+        ...(includeRaw && { raw: transaction.raw }),
+      },
+      status,
     };
   }
 );

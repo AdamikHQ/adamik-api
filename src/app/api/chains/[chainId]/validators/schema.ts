@@ -7,8 +7,8 @@ const pathParamsSchema = z.object({
 });
 
 const queryParamsSchema = z.object({
-  offset: z.number().optional(),
-  limit: z.number().optional(),
+  offset: z.coerce.number().optional(),
+  limit: z.coerce.number().optional(),
 });
 
 const responseSchema = z.object({
@@ -16,7 +16,7 @@ const responseSchema = z.object({
     .object({
       address: z.string(),
       name: z.string(),
-      commission: z.number().optional(), // TODO: maybe we want a default value rather than an optional?
+      commission: z.number().optional(),
     })
     .array(),
 });

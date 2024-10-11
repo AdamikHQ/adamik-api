@@ -1,7 +1,6 @@
 import coinSelect from "coinselect";
 import split from "coinselect/split.js";
-import { Transaction } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { Status, Transaction } from "~/app/model/types_WIP";
 import { BitcoinService } from ".";
 import { fetchAddressesDashboard, fetchFeePerByte, fetchXpubDashboard } from "../backend/explorer";
 import { UtxoWithMetadata } from "../backend/types";
@@ -10,9 +9,13 @@ import { BitcoinTransactionParams } from "../types";
 
 async function completeTransaction(
   this: BitcoinService,
-  transaction: Transaction,
-  status: AdamikStatus
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
+  const { transaction, status } = _;
+
   const feeRate = await fetchFeePerByte(this.chainId);
 
   // safe to cast here as we already validated sender in prevalidateTransaction

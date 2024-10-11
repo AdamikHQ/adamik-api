@@ -1,5 +1,4 @@
-import type { ChainId } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "./apiHandler";
+import type { ChainId, Status } from "~/app/model/types_WIP";
 
 export abstract class AdamikHttpError extends Error {
   abstract statusText: string;
@@ -38,9 +37,9 @@ export class InvalidTransactionError extends UserInputError {
   name = "InvalidTransactionError";
   status = 400;
   statusText = "Invalid transaction";
-  adamikStatus: AdamikStatus;
+  adamikStatus: Status;
 
-  constructor(adamikStatus: AdamikStatus) {
+  constructor(adamikStatus: Status) {
     super("Invalid transaction");
     this.adamikStatus = adamikStatus;
   }

@@ -22,7 +22,7 @@ const queryParamsSchema = z.object({
     }),
 });
 
-const responseSchema = z.object({ transaction: finalizedTransactionSchema }).merge(statusSchema);
+const responseSchema = z.object({ transaction: finalizedTransactionSchema, status: statusSchema });
 
 const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}/transaction/{transactionId}": {

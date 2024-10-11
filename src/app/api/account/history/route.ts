@@ -1,50 +1,40 @@
-import { NextRequest, NextResponse } from "next/server";
-import z from "zod";
+import { ValidationError } from "zod-validation-error";
 import { getService } from "~/app/families/services";
+import { ApiRequestFilters } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import "~/bigintPatch";
-import { requestSchema } from "./schema";
+import { queryParamsSchema, requestSchema, responseSchema } from "./schema";
 
-async function POST(request: NextRequest): Promise<NextResponse> {
-  const { chainId, accountId } = requestSchema.parse(await request.json());
+export const POST = apiHandler(
+  {
+    requestSchema,
+    responseSchema,
+    queryParamsSchema,
+  },
+  async ({ body, queryParams }) => {
+    const { chainId, accountId } = body;
 
-  const searchParams = request.nextUrl.searchParams;
-  const fromTimestamp = z
-    .number()
-    .optional()
-    .catch(undefined)
-    .parse(Number(searchParams.get("from_timestamp")));
-  const toTimestamp = z
-    .number()
-    .optional()
-    .catch(undefined)
-    .parse(Number(searchParams.get("to_timestamp")));
+    // Parse supported filters like : /.../...?include=native,tokens,staking
+    // to build an ApiRequestFilters object like : { native?: true, tokens?: true, staking?: true }
+    const filters: ApiRequestFilters = {};
+    // TODO Support filtering
+    /*
+    queryParams.include?.forEach((param) => {
+      filters[param] = true;
+    });
+    */
 
-  const service = getService(chainId);
+    const { from_timestamp: fromTimestamp, to_timestamp: toTimestamp } = queryParams;
 
-  const isAccountIdValid = await service.validateAddress(accountId);
+    const service = getService(chainId);
 
-  if (!isAccountIdValid) {
-    return NextResponse.json(
-      { message: `Invalid accountId ${accountId} for chainId ${chainId}` },
-      { status: 400, statusText: "Invalid or missing fields" }
-    );
+    const isAccountIdValid = await service.validateAddress(accountId);
+
+    if (!isAccountIdValid) {
+      throw new ValidationError(`Invalid accountId ${accountId} for chainId ${chainId}`);
+    }
+
+    const history = await service.getAccountHistory(accountId, { fromTimestamp, toTimestamp }, filters);
+
+    return history;
   }
-
-  try {
-    const history = await service.getAccountHistory(accountId, { fromTimestamp, toTimestamp });
-
-    return NextResponse.json(history);
-  } catch (e: any) {
-    // FIXME Weak error management...
-    // We should maybe propagate a status instead, same as for transaction/encode
-    return NextResponse.json(
-      { message: e.toString() },
-      { status: 400, statusText: "Error while getting account history" }
-    );
-  }
-}
-
-module.exports = apiHandler({
-  POST,
-});
+);

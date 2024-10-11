@@ -1,11 +1,19 @@
-import { Transaction } from "~/app/model/types_WIP";
+import { Status, Transaction } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { TonService } from ".";
 import { buildTransaction, createExternalMessage, packSignatureToFront } from "../logic";
 import { TonTransactionParams } from "../types";
 import { initWalletV4 } from "../wallets/walletv4";
 
-async function encodeTransactionToSign(this: TonService, transaction: Transaction): Promise<void> {
+async function encodeTransactionToSign(
+  this: TonService,
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
+): Promise<void> {
+  const { transaction } = _;
+
   const builtTransaction = await buildTransaction(transaction.data);
 
   transaction.encoded = builtTransaction.endCell().hash().toString("hex");
@@ -13,8 +21,13 @@ async function encodeTransactionToSign(this: TonService, transaction: Transactio
 
 async function encodeTransactionToBroadcast(
   this: TonService,
-  signedTransaction: Transaction
+  _: {
+    signedTransaction: Transaction;
+    status: Status;
+  }
 ): Promise<string> {
+  const { signedTransaction } = _;
+
   // useless check to make the compiler happy, zod already validated the fields
   if (signedTransaction.signature === undefined) {
     throw new Error("Missing transaction signature");

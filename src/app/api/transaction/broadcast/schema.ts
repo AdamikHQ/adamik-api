@@ -11,12 +11,11 @@ const requestSchema = z.object({
   transaction: inputTransactionDataSchema.and(signedAndEncodedTransactionSchema),
 });
 
-const responseSchema = z
-  .object({
-    hash: z.string().optional(),
-    transaction: outputTransactionDataSchema,
-  })
-  .merge(statusSchema);
+const responseSchema = z.object({
+  hash: z.string().optional(),
+  transaction: outputTransactionDataSchema,
+  status: statusSchema,
+});
 
 const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/broadcast": {

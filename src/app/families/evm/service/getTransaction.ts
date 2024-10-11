@@ -1,6 +1,5 @@
 import { decodeFunctionData, erc20Abi } from "viem";
-import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { FinalizedTransaction, Status, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError as TransactionNotFoundError } from "~/app/tools/handlers/errors";
 import { EvmService } from ".";
 import { fetchTransaction, fetchTransactionReceipt } from "../backend/node";
@@ -8,7 +7,7 @@ import { fetchTransaction, fetchTransactionReceipt } from "../backend/node";
 async function getTransaction(
   this: EvmService,
   transactionId: string,
-  status: AdamikStatus
+  status: Status
 ): Promise<FinalizedTransaction> {
   // NOTE Requires 2 calls to the node
   // In case of perf issues, could be done in 1 call to an explorer e.g. Moralis or Etherscan
@@ -80,7 +79,7 @@ async function getTransaction(
     // Skipped for now, but could be retrieved with an additional getBlock call to the node...
     // or by relying on the explorer instead
     // @ts-expect-error (looks like Viem doesn't type the blockTimestamp field properly)
-    parsedTransaction.timestamp = log.blockTimestamp;
+    parsedTransaction.timestamp = log.blockTimestamp && Number(log.blockTimestamp) * 1000;
   } else if (evmTransaction.blockNumber !== null) {
     parsedTransaction.state = TransactionState.CONFIRMED;
     parsedTransaction.blockHeight = BigInt(evmTransaction.blockNumber);

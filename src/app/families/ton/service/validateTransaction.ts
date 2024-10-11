@@ -1,15 +1,22 @@
-import { Transaction } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { Status, Transaction } from "~/app/model/types_WIP";
 import { TonService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
 import { isAddressValid } from "../logic";
 
 async function prevalidateTransaction(
   this: TonService,
-  transaction: Transaction,
-  status: AdamikStatus
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
-  status = await prevalidateTransactionCommon(transaction.data, isAddressValid);
+  const { transaction, status } = _;
+
+  await prevalidateTransactionCommon({
+    transactionData: transaction.data,
+    status,
+    addressValidationFn: isAddressValid,
+  });
 
   if (transaction.data.format) {
     status.warnings.push({
@@ -18,7 +25,13 @@ async function prevalidateTransaction(
   }
 }
 
-async function validateTransaction(this: TonService, transaction: Transaction): Promise<void> {
+async function validateTransaction(
+  this: TonService,
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
+): Promise<void> {
   // TODO
 }
 

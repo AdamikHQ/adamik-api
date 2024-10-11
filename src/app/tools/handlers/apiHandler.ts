@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z, ZodError, ZodType } from "zod";
 import { fromZodIssue } from "zod-validation-error";
+import { Status } from "~/app/model/types_WIP";
 import { AdamikHttpError, InvalidTransactionError } from "./errors";
 
 // DESIGN NOTES
@@ -8,7 +9,7 @@ import { AdamikHttpError, InvalidTransactionError } from "./errors";
 //
 // HOW TO USE
 //
-// When creating a new route.ts, methods can be defined like this:
+// When creating a new route.ts, http methods can be defined like this:
 //
 //             export const POST = apiHandler(A, B);
 //
@@ -61,22 +62,27 @@ export function apiHandler<
 ) {
   return async (request: NextRequest, context: { params?: PathParams }): Promise<NextResponse> => {
     try {
-      // don't use json() if the content-type is not application/json
       const isBodyJson = request.headers.get("Content-Type") === "application/json";
 
-      // parse the request when available, otherwise use the raw body casted to the request schema for type hinting
       const requestBody: z.infer<RequestBody> = isBodyJson
-        ? requestSchema?.parse(await request.json()) ?? (await request.json())
-        : undefined;
+        ? // parse the request when available, otherwise use the raw body
+          requestSchema?.parse(await request.json()) ?? (await request.json())
+        : // don't use json() if the content-type is not application/json
+          undefined;
 
-      // parse the route params, otherwise use the raw context params casted to the PathParams schema for type hinting
+      // parse the route params, otherwise use the raw context params
       const pathParams = pathParamsSchema?.parse(context.params) ?? context.params;
 
-      // parse the query params, otherwise use the raw request params casted to the PathParams schema for type hinting
-      const queryParams =
-        queryParamsSchema?.parse(request.nextUrl.searchParams) ?? request.nextUrl.searchParams;
+      // build a more convenient record of the query params
+      const queryParamsEntries: Record<string, string[]> = {};
+      request.nextUrl.searchParams.forEach(
+        (values, key) => (queryParamsEntries[`${key}`] = values.split(",").filter(Boolean))
+      );
 
-      // manually calls the wrapped route handler (GET, POST, etc...)
+      // parse the query params, otherwise use the raw request params
+      const queryParams = queryParamsSchema?.parse(queryParamsEntries) ?? request.nextUrl.searchParams;
+
+      // manually call the wrapped http method (GET, POST, etc...)
       const responseBody = await methodCall({ body: requestBody, pathParams, queryParams });
 
       if (responseSchema) {
@@ -150,22 +156,8 @@ function handleRequestValidationError(e: unknown): NextResponse {
   throw e; // should never happen
 }
 
-type ErrorCode = "OK" | "KO";
-
-// TODO Return code, message should be on client side?
-type ErrorMsg = {
-  //code: ErrorCode;
-  message: string;
-};
-
-type AdamikStatus = {
-  errors: ErrorMsg[];
-  warnings: ErrorMsg[];
-};
-
-function statusFromMessage(message: string): AdamikStatus {
+function statusFromMessage(message: string): Status {
   return { errors: [{ message: message }], warnings: [] };
 }
 
 export { statusFromMessage };
-export type { AdamikStatus, ErrorMsg };

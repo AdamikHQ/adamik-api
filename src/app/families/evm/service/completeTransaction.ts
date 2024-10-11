@@ -1,6 +1,5 @@
 import { BaseError as ViemError } from "viem";
-import { ChainId, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { ChainId, Status, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { EvmService } from ".";
 import { fetchNonce } from "../backend/node";
@@ -9,9 +8,13 @@ import { EvmAddress } from "../types";
 
 async function completeTransaction(
   this: EvmService,
-  transaction: Transaction,
-  status: AdamikStatus
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
+  const { transaction, status } = _;
+
   try {
     const nonce = await fetchNonce(this.chainId, transaction.data.sender as EvmAddress);
     transaction.data.nonce = BigInt(nonce);

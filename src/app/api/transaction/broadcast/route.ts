@@ -14,7 +14,7 @@ export const POST = apiHandler(
     const chainId = transaction.data.chainId;
     const service = getService(chainId);
 
-    const broadcastPayload = await service.encodeTransactionToBroadcast(transaction);
+    const broadcastPayload = await service.encodeTransactionToBroadcast({ signedTransaction: transaction });
     const broadcastStatus = await service.broadcastTransaction(broadcastPayload);
 
     return { hash: broadcastStatus.hash, transaction };

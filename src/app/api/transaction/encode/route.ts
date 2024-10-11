@@ -1,6 +1,6 @@
 import { getService } from "~/app/families/services";
-import { Transaction, TransactionData } from "~/app/model/types_WIP";
-import { apiHandler, type AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { Status, Transaction, TransactionData } from "~/app/model/types_WIP";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { requestSchema, responseSchema } from "./schema";
 
@@ -14,34 +14,31 @@ export const POST = apiHandler(
 
     const service = getService(transactionData.chainId);
 
-    // Initialization of the full transaction that will be returned
-    // NOTE It will traverse and be mutated by all the service functions below
-    let transaction: Transaction = {
-      data: transactionData,
-    };
-    let status: AdamikStatus = { errors: [], warnings: [] };
+    // Initialization of the full transaction and status that will be returned
+    // NOTE They will traverse and be mutated by all the service functions below
+    let transaction: Transaction = { data: transactionData };
+    let status: Status = { errors: [], warnings: [] };
 
-    await service.prevalidateTransaction(transaction, status);
+    await service.prevalidateTransaction({ transaction, status });
     if (status.errors.length) {
       throw new InvalidTransactionError(status);
     }
 
-    await service.completeTransaction(transaction, status);
+    await service.completeTransaction({ transaction, status });
     if (status.errors.length) {
       throw new InvalidTransactionError(status);
     }
 
-    await service.validateTransaction(transaction, status);
+    await service.validateTransaction({ transaction, status });
     if (status.errors.length) {
       throw new InvalidTransactionError(status);
     }
 
-    await service.encodeTransactionToSign(transaction, status);
-
+    await service.encodeTransactionToSign({ transaction, status });
     if (status.errors.length) {
       throw new InvalidTransactionError(status);
     }
 
-    return { transaction };
+    return { transaction, status };
   }
 );

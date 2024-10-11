@@ -1,6 +1,6 @@
 import { getService } from "~/app/families/services";
-import { Transaction, TransactionData } from "~/app/model/types_WIP";
-import { apiHandler, type AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { Status, Transaction, TransactionData } from "~/app/model/types_WIP";
+import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { requestSchema, responseSchema } from "./schema";
 
@@ -17,9 +17,9 @@ export const POST = apiHandler(
     let transaction: Transaction = {
       data: transactionData,
     };
-    let status: AdamikStatus = { errors: [], warnings: [] };
+    let status: Status = { errors: [], warnings: [] };
 
-    await service.prevalidateTransaction(transaction, status);
+    await service.prevalidateTransaction({ transaction, status });
 
     if (status.errors.length) {
       throw new InvalidTransactionError(status);

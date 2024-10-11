@@ -1,6 +1,5 @@
 import { isValidAddress } from "algosdk";
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { AlgorandService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
 import {
@@ -12,12 +11,18 @@ import {
 
 async function prevalidateTransaction(
   this: AlgorandService,
-  transaction: Transaction,
-  status: AdamikStatus
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
-  status = await prevalidateTransactionCommon(transaction.data, async (address: string) =>
-    isValidAddress(address)
-  );
+  const { transaction, status } = _;
+
+  await prevalidateTransactionCommon({
+    transactionData: transaction.data,
+    status,
+    addressValidationFn: async (address: string) => isValidAddress(address),
+  });
 
   if (transaction.data.format) {
     status.warnings.push({
@@ -28,9 +33,13 @@ async function prevalidateTransaction(
 
 async function validateTransaction(
   this: AlgorandService,
-  transaction: Transaction,
-  status: AdamikStatus
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
+  const { transaction, status } = _;
+
   if (transaction.data.memo && transaction.data.memo.length > ALGORAND_MAX_MEMO_SIZE) {
     status.errors.push({ message: "Memo is too long" });
   }
@@ -39,7 +48,7 @@ async function validateTransaction(
   const amount = transaction.data.amount as bigint;
   const fees = transaction.data.fees as bigint;
 
-  // FIXME Already called by transaction,
+  // FIXME Already called by completeTransaction,
   // should ideally be put in some common context, or at least some cache
   const maxSpendable = await computeMaxSpendable(transaction.data);
 

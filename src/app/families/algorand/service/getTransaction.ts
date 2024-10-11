@@ -1,5 +1,4 @@
-import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { FinalizedTransaction, Status, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
 import { AlgorandService } from ".";
 import { fetchTransaction } from "../backend/explorer";
@@ -7,7 +6,7 @@ import { fetchTransaction } from "../backend/explorer";
 async function getTransaction(
   this: AlgorandService,
   transactionId: string,
-  status: AdamikStatus
+  status: Status
 ): Promise<FinalizedTransaction> {
   const algoTransaction = await fetchTransaction(transactionId);
   if (!algoTransaction) {

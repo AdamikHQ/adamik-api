@@ -1,6 +1,5 @@
 import { CHAINS } from "~/app/config/chains";
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { CosmosService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
 import { fetchBalances, fetchDelegations } from "../backend/node";
@@ -9,12 +8,18 @@ import { CosmosChainParams } from "../types";
 
 async function prevalidateTransaction(
   this: CosmosService,
-  transaction: Transaction,
-  status: AdamikStatus
+  args: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
-  status = await prevalidateTransactionCommon(transaction.data, async (address: string) =>
-    isValidAddress(address, this.chainId)
-  );
+  const { transaction, status } = args;
+
+  await prevalidateTransactionCommon({
+    transactionData: transaction.data,
+    status,
+    addressValidationFn: async (address: string) => isValidAddress(address, this.chainId),
+  });
 
   // Amount can't be 0 on cosmos chains
   if (transaction.data.amount === 0n) {
@@ -26,9 +31,13 @@ async function prevalidateTransaction(
 
 async function validateTransaction(
   this: CosmosService,
-  transaction: Transaction,
-  status: AdamikStatus
+  args: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
+  const { transaction, status } = args;
+
   const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
   const transactionData = transaction.data;
   // amount & fees are safe to cast as they're guaranteed to be filed in by completeTransaction

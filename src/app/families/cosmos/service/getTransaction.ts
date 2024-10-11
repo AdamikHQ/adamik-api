@@ -1,6 +1,5 @@
 import { CHAINS } from "~/app/config/chains";
-import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { FinalizedTransaction, Status, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
 import { CosmosService } from ".";
 import { fetchTransaction } from "../backend/node";
@@ -9,7 +8,7 @@ import { CosmosChainParams } from "../types";
 async function getTransaction(
   this: CosmosService,
   transactionId: string,
-  status: AdamikStatus
+  status: Status
 ): Promise<FinalizedTransaction> {
   const cosmosTransaction = await fetchTransaction(this.chainId, transactionId);
   if (!cosmosTransaction) {

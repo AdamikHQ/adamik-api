@@ -93,6 +93,7 @@ const responseSchema = z.object({
         .optional(),
     })
     .optional(),
+  //status: statusSchema, TODO Should all endpoints have a status?
 });
 
 const accountStateOpenAPIPath: ZodOpenApiPathsObject = {

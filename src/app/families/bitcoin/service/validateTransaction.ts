@@ -1,13 +1,16 @@
-import { Transaction } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { Status, Transaction } from "~/app/model/types_WIP";
 import { BitcoinService } from ".";
 import { isValidAddress, isValidXpub } from "../logic";
 
 async function prevalidateTransaction(
   this: BitcoinService,
-  transaction: Transaction,
-  status: AdamikStatus
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
+  const { transaction, status } = _;
+
   if (
     !isValidXpub(this.chainId, transaction.data.sender) &&
     !isValidAddress(this.chainId, transaction.data.sender)
@@ -23,7 +26,13 @@ async function prevalidateTransaction(
   }
 }
 
-async function validateTransaction(this: BitcoinService, transaction: Transaction): Promise<void> {
+async function validateTransaction(
+  this: BitcoinService,
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
+): Promise<void> {
   // TODO: call testmempoolaccept on BTC-core node
   return;
 }

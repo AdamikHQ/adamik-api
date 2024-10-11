@@ -12,8 +12,13 @@ import {
 } from "viem";
 import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, EncodedTransactionFormat, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import {
+  ChainId,
+  EncodedTransactionFormat,
+  Status,
+  Transaction,
+  TransactionMode,
+} from "~/app/model/types_WIP";
 import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
 import { EvmService } from ".";
 import { estimateFeesPerGas } from "../backend/node";
@@ -22,9 +27,13 @@ import { EvmAddress, EvmChainParams } from "../types";
 
 async function encodeTransactionToSign(
   this: EvmService,
-  transaction: Transaction,
-  status: AdamikStatus
+  _: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
+  const { transaction, status } = _;
+
   try {
     switch (transaction.data.format) {
       // HEX is the proper format and current default, when format is not explicitely provided
@@ -125,8 +134,13 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
 
 async function encodeTransactionToBroadcast(
   this: EvmService,
-  signedTransaction: Transaction
+  _: {
+    signedTransaction: Transaction;
+    status: Status;
+  }
 ): Promise<string> {
+  const { signedTransaction } = _;
+
   // Useless checks to make the compiler happy, zod already validated the fields
   if (!signedTransaction.signature) {
     throw new UserInputError("Missing transaction signature");

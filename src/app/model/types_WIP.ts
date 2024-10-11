@@ -345,6 +345,19 @@ type Pagination = {
   limit?: number;
 };
 
+type ErrorCode = "OK" | "KO";
+
+// TODO Use code, and message should be on client side?
+type ErrorMsg = {
+  //code: ErrorCode;
+  message: string;
+};
+
+type Status = {
+  errors: ErrorMsg[];
+  warnings: ErrorMsg[];
+};
+
 export {
   ChainFamily,
   ChainFeature,
@@ -368,6 +381,7 @@ export type {
   Pagination,
   StakingPosition,
   StakingReward,
+  Status,
   Token,
   TokenAmount,
   TokenStakingReward,

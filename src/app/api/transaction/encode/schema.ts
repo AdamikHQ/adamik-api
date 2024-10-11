@@ -4,6 +4,7 @@ import {
   encodedTransactionSchema,
   inputTransactionDataSchema,
   outputTransactionDataSchema,
+  statusSchema,
 } from "../../schemaCommon";
 
 const requestSchema = z.object({
@@ -12,10 +13,12 @@ const requestSchema = z.object({
 
 const responseSchema = z.object({
   transaction: outputTransactionDataSchema.merge(encodedTransactionSchema),
+  status: statusSchema,
 });
 
 const errorResponseSchema = responseSchema.extend({
   transaction: outputTransactionDataSchema,
+  status: statusSchema,
 });
 
 const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {

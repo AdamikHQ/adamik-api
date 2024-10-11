@@ -1,6 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
-import { chainIdSchema, finalizedTransactionSchema, statusSchema } from "~/app/api/schemaCommon";
+import { chainIdSchema, finalizedTransactionSchema } from "~/app/api/schemaCommon";
 import { ChainId } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
@@ -25,9 +25,11 @@ const requestSchema = z
     ],
   });
 
-// TODO ?
-/*
-const requestParamsSchema = z.object({
+const queryParamsSchema = z.object({
+  from_timestamp: z.coerce.number().optional(),
+  to_timestamp: z.coerce.number().optional(),
+  // TODO Support filtering on features
+  /*
   include: z
     .array(
       z.enum([
@@ -42,16 +44,15 @@ const requestParamsSchema = z.object({
     .openapi({
       description: "Optional filter, to let you request only the data that you need.",
     }),
+    */
 });
-*/
 
-const responseSchema = z
-  .object({
-    chainId: chainIdSchema,
-    accountId: z.string(),
-    transactions: finalizedTransactionSchema.array(),
-  })
-  .merge(statusSchema);
+const responseSchema = z.object({
+  chainId: chainIdSchema,
+  accountId: z.string(),
+  transactions: finalizedTransactionSchema.array(),
+  //status: statusSchema, TODO Should all endpoints have a status?
+});
 
 const accountHistoryOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/account/history": {
@@ -82,4 +83,4 @@ const accountHistoryOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { accountHistoryOpenAPIPath, requestSchema, responseSchema };
+export { accountHistoryOpenAPIPath, queryParamsSchema, requestSchema, responseSchema };

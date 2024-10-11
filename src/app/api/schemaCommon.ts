@@ -53,14 +53,12 @@ const errorMsgSchema = z.object({
   message: z.string(),
 });
 
-const statusSchema = z.object({
-  status: z
-    .object({
-      errors: z.array(errorMsgSchema),
-      warnings: z.array(errorMsgSchema),
-    })
-    .default({ errors: [], warnings: [] }),
-});
+const statusSchema = z
+  .object({
+    errors: z.array(errorMsgSchema),
+    warnings: z.array(errorMsgSchema),
+  })
+  .default({ errors: [], warnings: [] });
 
 const chainSchema = z.object({
   family: z.nativeEnum(ChainFamily),
@@ -97,7 +95,7 @@ function checkEitherAmountOrUseMaxAmount(
   data: { useMaxAmount: boolean; amount?: bigint | undefined },
   ctx: z.RefinementCtx
 ) {
-  if (data.useMaxAmount && data.amount) {
+  if (data.useMaxAmount && data.amount !== undefined) {
     ctx.addIssue({
       message: "amount and useMaxAmount cannot be used together",
       code: z.ZodIssueCode.custom,

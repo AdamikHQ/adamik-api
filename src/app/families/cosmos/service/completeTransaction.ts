@@ -1,6 +1,5 @@
 import { CHAINS } from "~/app/config/chains";
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
-import type { AdamikStatus } from "~/app/tools/handlers/apiHandler";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { CosmosService } from ".";
 import { fetchAccount, fetchBalances, fetchDelegations } from "../backend/node";
 import { COSMOS_MOCK_FEES } from "../constants";
@@ -9,9 +8,13 @@ import { CosmosChainParams } from "../types";
 
 async function completeTransaction(
   this: CosmosService,
-  transaction: Transaction,
-  status: AdamikStatus
+  args: {
+    transaction: Transaction;
+    status: Status;
+  }
 ): Promise<void> {
+  const { transaction, status } = args;
+
   const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
 
   const senderAddress = transaction.data.sender;
