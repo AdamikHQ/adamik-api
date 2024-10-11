@@ -1,11 +1,24 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema, finalizedTransactionSchema, statusSchema } from "~/app/api/schemaCommon";
+import { finalizedTransactionSchema, statusSchema } from "~/app/api/schemaCommon";
+import { CHAINS } from "~/app/config/chains";
+import { ChainId } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
+const supportedChainIds = Object.values(CHAINS)
+  .filter(
+    (chain) =>
+      chain.supportedFeatures.read.transaction.native ||
+      chain.supportedFeatures.read.transaction.tokens ||
+      chain.supportedFeatures.read.transaction.staking
+  )
+  .map((chain) => chain.id);
+
+const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]]);
+
 const pathParamsSchema = z.object({
-  chainId: chainIdSchema,
+  chainId: supportedChainIdsSchema,
   transactionId: z.string().openapi({
     description: "Transaction ID. Usually a hash but can be different depending on the chain.",
     examples: ["559c1be45865069c6070529e43c69752d73438cbb1d04e4f301e94cd68bf7422"],

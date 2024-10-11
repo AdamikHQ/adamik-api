@@ -51,7 +51,60 @@
                 "type": "object",
                 "properties": {
                   "chainId": {
-                    "$ref": "#/components/schemas/ChainId"
+                    "type": "string",
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "cosmoshub-testnet",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "bitcoin",
+                      "bitcoin-testnet",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "avalanche-fuji",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "mantle",
+                      "litecoin",
+                      "dogecoin",
+                      "ton",
+                      "chiliz",
+                      "chiliz-testnet",
+                      "injective",
+                      "akash",
+                      "band",
+                      "dymension",
+                      "kyve",
+                      "neutron",
+                      "terra2",
+                      "stargaze"
+                    ]
                   },
                   "pubkey": {
                     "type": "string"
@@ -74,7 +127,60 @@
                   "type": "object",
                   "properties": {
                     "chainId": {
-                      "$ref": "#/components/schemas/ChainId"
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "cosmoshub-testnet",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia",
+                        "bitcoin",
+                        "bitcoin-testnet",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "avalanche-fuji",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "mantle",
+                        "litecoin",
+                        "dogecoin",
+                        "ton",
+                        "chiliz",
+                        "chiliz-testnet",
+                        "injective",
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze"
+                      ]
                     },
                     "pubkey": {
                       "type": "string"
@@ -124,7 +230,60 @@
                 "type": "object",
                 "properties": {
                   "chainId": {
-                    "$ref": "#/components/schemas/ChainId"
+                    "type": "string",
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "cosmoshub-testnet",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "bitcoin",
+                      "bitcoin-testnet",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "avalanche-fuji",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "mantle",
+                      "litecoin",
+                      "dogecoin",
+                      "ton",
+                      "chiliz",
+                      "chiliz-testnet",
+                      "injective",
+                      "akash",
+                      "band",
+                      "dymension",
+                      "kyve",
+                      "neutron",
+                      "terra2",
+                      "stargaze"
+                    ]
                   },
                   "address": {
                     "type": "string"
@@ -186,7 +345,62 @@
                 "type": "object",
                 "properties": {
                   "chainId": {
-                    "$ref": "#/components/schemas/ChainId"
+                    "type": "string",
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "cosmoshub-testnet",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "bitcoin",
+                      "bitcoin-testnet",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "avalanche-fuji",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "mantle",
+                      "rootstock",
+                      "rootstock-testnet",
+                      "litecoin",
+                      "dogecoin",
+                      "ton",
+                      "chiliz",
+                      "chiliz-testnet",
+                      "injective",
+                      "akash",
+                      "band",
+                      "dymension",
+                      "kyve",
+                      "neutron",
+                      "terra2",
+                      "stargaze"
+                    ]
                   },
                   "accountId": {
                     "type": "string",
@@ -220,7 +434,62 @@
                   "type": "object",
                   "properties": {
                     "chainId": {
-                      "$ref": "#/components/schemas/ChainId"
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "cosmoshub-testnet",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia",
+                        "bitcoin",
+                        "bitcoin-testnet",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "avalanche-fuji",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "mantle",
+                        "rootstock",
+                        "rootstock-testnet",
+                        "litecoin",
+                        "dogecoin",
+                        "ton",
+                        "chiliz",
+                        "chiliz-testnet",
+                        "injective",
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze"
+                      ]
                     },
                     "accountId": {
                       "type": "string"
@@ -456,7 +725,37 @@
                 "type": "object",
                 "properties": {
                   "chainId": {
-                    "$ref": "#/components/schemas/ChainId"
+                    "type": "string",
+                    "enum": [
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "zksync",
+                      "zksync-sepolia",
+                      "injective-testnet",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "optimism-sepolia",
+                      "arbitrum",
+                      "arbitrum-sepolia",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "avalanche-fuji",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "chiliz",
+                      "chiliz-testnet"
+                    ]
                   },
                   "accountId": {
                     "type": "string",
@@ -490,7 +789,37 @@
                   "type": "object",
                   "properties": {
                     "chainId": {
-                      "$ref": "#/components/schemas/ChainId"
+                      "type": "string",
+                      "enum": [
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "avalanche-fuji",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "chiliz",
+                        "chiliz-testnet"
+                      ]
                     },
                     "accountId": {
                       "type": "string"
@@ -572,54 +901,12 @@
                           }
                         }
                       }
-                    },
-                    "status": {
-                      "type": "object",
-                      "properties": {
-                        "errors": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "message": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "message"
-                            ]
-                          }
-                        },
-                        "warnings": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "message": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "message"
-                            ]
-                          }
-                        }
-                      },
-                      "required": [
-                        "errors",
-                        "warnings"
-                      ],
-                      "default": {
-                        "errors": [],
-                        "warnings": []
-                      }
                     }
                   },
                   "required": [
                     "chainId",
                     "accountId",
-                    "transactions",
-                    "status"
+                    "transactions"
                   ]
                 }
               }
@@ -679,7 +966,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -725,7 +1012,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -771,7 +1058,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -817,7 +1104,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -863,7 +1150,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -909,7 +1196,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -955,7 +1242,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1001,7 +1288,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1047,7 +1334,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1093,7 +1380,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1139,7 +1426,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1185,7 +1472,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1231,7 +1518,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1277,7 +1564,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1323,7 +1610,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1369,7 +1656,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1415,7 +1702,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1461,7 +1748,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1507,7 +1794,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1553,7 +1840,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1599,7 +1886,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1645,7 +1932,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1691,7 +1978,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1737,7 +2024,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1783,7 +2070,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1829,7 +2116,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1875,7 +2162,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1921,7 +2208,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -1967,7 +2254,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2013,7 +2300,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2059,7 +2346,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2105,7 +2392,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2151,7 +2438,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2197,7 +2484,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2243,53 +2530,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "palm": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestnet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2335,7 +2576,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2381,7 +2622,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2427,7 +2668,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2473,7 +2714,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2519,7 +2760,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2565,7 +2806,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2611,7 +2852,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2657,7 +2898,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2703,7 +2944,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2749,7 +2990,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2795,7 +3036,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2841,7 +3082,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2887,7 +3128,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2933,7 +3174,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -2979,7 +3220,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -3025,7 +3266,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -3071,7 +3312,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -3117,7 +3358,7 @@
                             },
                             "params": {},
                             "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainFeature"
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
                           },
                           "required": [
@@ -3200,7 +3441,7 @@
                     },
                     "params": {},
                     "supportedFeatures": {
-                      "$ref": "#/components/schemas/ChainFeature"
+                      "$ref": "#/components/schemas/ChainSupportedFeatures"
                     }
                   },
                   "required": [
@@ -3230,9 +3471,56 @@
           {
             "in": "path",
             "name": "chainId",
-            "description": "Unique adamik identifier of the chain",
             "schema": {
-              "$ref": "#/components/schemas/ChainId"
+              "type": "string",
+              "enum": [
+                "algorand",
+                "cosmoshub",
+                "cosmoshub-testnet",
+                "osmosis",
+                "osmosis-testnet",
+                "celestia",
+                "celestia-testnet",
+                "dydx",
+                "axelar",
+                "ethereum",
+                "sepolia",
+                "holesky",
+                "zksync",
+                "zksync-sepolia",
+                "injective-testnet",
+                "base",
+                "base-sepolia",
+                "optimism",
+                "optimism-sepolia",
+                "arbitrum",
+                "arbitrum-sepolia",
+                "polygon",
+                "polygon-amoy",
+                "bsc",
+                "bsc-testnet",
+                "linea",
+                "linea-sepolia",
+                "avalanche",
+                "avalanche-fuji",
+                "gnosis",
+                "gnosis-chiado",
+                "moonbeam",
+                "moonriver",
+                "moonbase",
+                "fantom",
+                "ton",
+                "chiliz",
+                "chiliz-testnet",
+                "injective",
+                "akash",
+                "band",
+                "dymension",
+                "kyve",
+                "neutron",
+                "terra2",
+                "stargaze"
+              ]
             },
             "required": true
           },
@@ -3311,9 +3599,60 @@
           {
             "in": "path",
             "name": "chainId",
-            "description": "Unique adamik identifier of the chain",
             "schema": {
-              "$ref": "#/components/schemas/ChainId"
+              "type": "string",
+              "enum": [
+                "algorand",
+                "cosmoshub",
+                "cosmoshub-testnet",
+                "osmosis",
+                "osmosis-testnet",
+                "celestia",
+                "celestia-testnet",
+                "dydx",
+                "axelar",
+                "ethereum",
+                "sepolia",
+                "holesky",
+                "zksync",
+                "zksync-sepolia",
+                "injective-testnet",
+                "base",
+                "base-sepolia",
+                "optimism",
+                "optimism-sepolia",
+                "arbitrum",
+                "arbitrum-sepolia",
+                "bitcoin",
+                "bitcoin-testnet",
+                "polygon",
+                "polygon-amoy",
+                "bsc",
+                "bsc-testnet",
+                "linea",
+                "linea-sepolia",
+                "avalanche",
+                "avalanche-fuji",
+                "gnosis",
+                "gnosis-chiado",
+                "moonbeam",
+                "moonriver",
+                "moonbase",
+                "fantom",
+                "litecoin",
+                "dogecoin",
+                "ton",
+                "chiliz",
+                "chiliz-testnet",
+                "injective",
+                "akash",
+                "band",
+                "dymension",
+                "kyve",
+                "neutron",
+                "terra2",
+                "stargaze"
+              ]
             },
             "required": true
           },
@@ -3495,9 +3834,26 @@
           {
             "in": "path",
             "name": "chainId",
-            "description": "Unique adamik identifier of the chain",
             "schema": {
-              "$ref": "#/components/schemas/ChainId"
+              "type": "string",
+              "enum": [
+                "cosmoshub",
+                "cosmoshub-testnet",
+                "osmosis",
+                "osmosis-testnet",
+                "celestia",
+                "celestia-testnet",
+                "dydx",
+                "axelar",
+                "injective",
+                "akash",
+                "band",
+                "dymension",
+                "kyve",
+                "neutron",
+                "terra2",
+                "stargaze"
+              ]
             },
             "required": true
           },
@@ -3524,6 +3880,27 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "chainId": {
+                      "type": "string",
+                      "enum": [
+                        "cosmoshub",
+                        "cosmoshub-testnet",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "axelar",
+                        "injective",
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze"
+                      ]
+                    },
                     "validators": {
                       "type": "array",
                       "items": {
@@ -3547,6 +3924,7 @@
                     }
                   },
                   "required": [
+                    "chainId",
                     "validators"
                   ]
                 }
@@ -4672,10 +5050,52 @@
                       "required": [
                         "data"
                       ]
+                    },
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "message": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "message"
+                            ]
+                          }
+                        },
+                        "warnings": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "message": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "message"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "errors",
+                        "warnings"
+                      ],
+                      "default": {
+                        "errors": [],
+                        "warnings": []
+                      }
                     }
                   },
                   "required": [
-                    "transaction"
+                    "transaction",
+                    "status"
                   ]
                 }
               }
@@ -4905,10 +5325,52 @@
                       "required": [
                         "data"
                       ]
+                    },
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "message": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "message"
+                            ]
+                          }
+                        },
+                        "warnings": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "message": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "message"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "errors",
+                        "warnings"
+                      ],
+                      "default": {
+                        "errors": [],
+                        "warnings": []
+                      }
                     }
                   },
                   "required": [
-                    "transaction"
+                    "transaction",
+                    "status"
                   ]
                 }
               }
@@ -5533,7 +5995,6 @@
           "moonriver",
           "moonbase",
           "fantom",
-          "palm",
           "mantle",
           "chiliz",
           "chiliz-testnet",
@@ -5556,23 +6017,136 @@
         "description": "Unique adamik identifier of the chain",
         "example": "bitcoin"
       },
-      "ChainFeature": {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "enum": [
-            "read.account.balances.native",
-            "read.account.balances.tokens",
-            "read.account.balances.staking",
-            "read.transaction.native",
-            "read.transaction.tokens",
-            "read.transaction.staking",
-            "write.transaction.type.native",
-            "write.transaction.type.tokens",
-            "write.transaction.type.staking",
-            "write.transaction.field.memo"
-          ]
+      "ChainSupportedFeatures": {
+        "type": "object",
+        "properties": {
+          "read": {
+            "type": "object",
+            "properties": {
+              "account": {
+                "type": "object",
+                "properties": {
+                  "balances": {
+                    "type": "object",
+                    "properties": {
+                      "native": {
+                        "type": "boolean"
+                      },
+                      "tokens": {
+                        "type": "boolean"
+                      },
+                      "staking": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "native",
+                      "tokens",
+                      "staking"
+                    ]
+                  },
+                  "transactions": {
+                    "type": "object",
+                    "properties": {
+                      "native": {
+                        "type": "boolean"
+                      },
+                      "tokens": {
+                        "type": "boolean"
+                      },
+                      "staking": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "native",
+                      "tokens",
+                      "staking"
+                    ]
+                  }
+                },
+                "required": [
+                  "balances",
+                  "transactions"
+                ]
+              },
+              "transaction": {
+                "type": "object",
+                "properties": {
+                  "native": {
+                    "type": "boolean"
+                  },
+                  "tokens": {
+                    "type": "boolean"
+                  },
+                  "staking": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "native",
+                  "tokens",
+                  "staking"
+                ]
+              }
+            },
+            "required": [
+              "account",
+              "transaction"
+            ]
+          },
+          "write": {
+            "type": "object",
+            "properties": {
+              "transaction": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "native": {
+                        "type": "boolean"
+                      },
+                      "tokens": {
+                        "type": "boolean"
+                      },
+                      "staking": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "native",
+                      "tokens",
+                      "staking"
+                    ]
+                  },
+                  "field": {
+                    "type": "object",
+                    "properties": {
+                      "memo": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "memo"
+                    ]
+                  }
+                },
+                "required": [
+                  "type",
+                  "field"
+                ]
+              }
+            },
+            "required": [
+              "transaction"
+            ]
+          }
         },
+        "required": [
+          "read",
+          "write"
+        ],
         "description": "List of supported features for the chain"
       }
     }

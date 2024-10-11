@@ -1,9 +1,21 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema } from "~/app/api/schemaCommon";
+import { CHAINS } from "~/app/config/chains";
+import { ChainId } from "~/app/model/types_WIP";
+
+const supportedChainIds = Object.values(CHAINS)
+  .filter(
+    (chain) =>
+      chain.supportedFeatures.write.transaction.type.native ||
+      chain.supportedFeatures.write.transaction.type.tokens ||
+      chain.supportedFeatures.write.transaction.type.staking
+  )
+  .map((chain) => chain.id);
+
+const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]]);
 
 const requestSchema = z.object({
-  chainId: chainIdSchema,
+  chainId: supportedChainIdsSchema,
   address: z.string(),
 });
 

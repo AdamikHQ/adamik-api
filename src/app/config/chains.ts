@@ -1,50 +1,13 @@
-import { Chain, ChainFamily, ChainFeature, ChainId, TransactionMode } from "../model/types_WIP";
-
-const FEATURES: { [key in ChainFamily]: ChainFeature[] } = {
-  [ChainFamily.ALGORAND]: [
-    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
-    ChainFeature.READ_TRANSACTION_NATIVE,
-    ChainFeature.READ_TRANSACTION_TOKENS,
-    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
-    ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
-    ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
-  ],
-  [ChainFamily.COSMOS]: [
-    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
-    ChainFeature.READ_ACCOUNT_BALANCES_STAKING,
-    ChainFeature.READ_TRANSACTION_NATIVE,
-    //ChainFeature.READ_TRANSACTION_TOKENS,
-    ChainFeature.READ_TRANSACTION_STAKING,
-    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
-    //ChainFeature.WRITE_TRANSACTION_TOKENS,
-    ChainFeature.WRITE_TRANSACTION_TYPE_STAKING,
-    ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
-  ],
-  [ChainFamily.EVM]: [
-    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
-    ChainFeature.READ_TRANSACTION_NATIVE,
-    ChainFeature.READ_TRANSACTION_TOKENS,
-    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
-    ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
-  ],
-  [ChainFamily.BITCOIN]: [
-    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-    ChainFeature.READ_TRANSACTION_NATIVE,
-    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
-  ],
-  [ChainFamily.TON]: [
-    ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-    ChainFeature.READ_ACCOUNT_BALANCES_TOKENS,
-    ChainFeature.READ_TRANSACTION_NATIVE,
-    ChainFeature.READ_TRANSACTION_TOKENS,
-    ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
-    ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS,
-    ChainFeature.WRITE_TRANSACTION_FIELD_MEMO,
-  ],
-};
+import { Chain, ChainFamily, ChainId, TransactionMode } from "../model/types_WIP";
+import {
+  ALGORAND_FEATURES,
+  BITCOIN_FEATURES,
+  COSMOS_FEATURES,
+  EVM_FEATURES,
+  EVM_ROOTSTOCK_FEATURES,
+  NATIVE_READ_WRITE_FEATURES,
+  TON_FEATURES,
+} from "./features";
 
 const CHAINS: { [key in ChainId]: Chain } = {
   algorand: {
@@ -58,7 +21,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://mainnet-api.algonode.cloud/v2",
       explorerURL: "https://mainnet-idx.algonode.cloud/v2",
     },
-    supportedFeatures: FEATURES[ChainFamily.ALGORAND],
+    supportedFeatures: ALGORAND_FEATURES,
   },
   cosmoshub: {
     family: ChainFamily.COSMOS,
@@ -78,7 +41,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
   },
   "cosmoshub-testnet": {
     family: ChainFamily.COSMOS,
@@ -99,7 +62,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
   },
   osmosis: {
     family: ChainFamily.COSMOS,
@@ -119,7 +82,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
   },
   "osmosis-testnet": {
     family: ChainFamily.COSMOS,
@@ -140,7 +103,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
   },
   celestia: {
     family: ChainFamily.COSMOS,
@@ -160,7 +123,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.02,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
   },
   "celestia-testnet": {
     family: ChainFamily.COSMOS,
@@ -181,7 +144,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.02,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
   },
   dydx: {
     family: ChainFamily.COSMOS,
@@ -205,7 +168,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 12500000000,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
   },
   axelar: {
     family: ChainFamily.COSMOS,
@@ -225,7 +188,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.007,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
   },
   ethereum: {
     family: ChainFamily.EVM,
@@ -240,7 +203,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       //explorerURL: "https://api.etherscan.io/api",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   sepolia: {
     family: ChainFamily.EVM,
@@ -256,7 +219,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   holesky: {
     family: ChainFamily.EVM,
@@ -272,7 +235,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   zksync: {
     family: ChainFamily.EVM,
@@ -287,7 +250,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       //explorerURL: "https://zksync.blockscout.com/api",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   "zksync-sepolia": {
     family: ChainFamily.EVM,
@@ -303,7 +266,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   //INJECTIVE-TESTNET EVM Version
   "injective-testnet": {
@@ -318,7 +281,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   base: {
     family: ChainFamily.EVM,
@@ -336,7 +299,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     params: {
       isL2Fees: true,
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   "base-sepolia": {
     family: ChainFamily.EVM,
@@ -355,7 +318,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     params: {
       isL2Fees: true,
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   optimism: {
     family: ChainFamily.EVM,
@@ -373,7 +336,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     params: {
       isL2Fees: true,
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   "optimism-sepolia": {
     family: ChainFamily.EVM,
@@ -392,7 +355,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     params: {
       isL2Fees: true,
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   arbitrum: {
     family: ChainFamily.EVM,
@@ -407,7 +370,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       //explorerURL: "https://api.arbiscan.io/api",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   "arbitrum-sepolia": {
     family: ChainFamily.EVM,
@@ -423,7 +386,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   [ChainId.BITCOIN]: {
     id: ChainId.BITCOIN,
@@ -439,7 +402,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 6,
     },
     nativeId: "bitcoin",
-    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+    supportedFeatures: BITCOIN_FEATURES,
   },
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,
@@ -456,7 +419,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 6,
     },
     nativeId: "bitcoin-testnet",
-    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+    supportedFeatures: BITCOIN_FEATURES,
   },
   polygon: {
     family: ChainFamily.EVM,
@@ -469,7 +432,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/polygon/70eb3a5858dc4f0d8ca0e1a1cf8d375f",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   "polygon-amoy": {
     family: ChainFamily.EVM,
@@ -483,7 +446,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   bsc: {
     family: ChainFamily.EVM,
@@ -496,7 +459,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/bsc/7c7d3520352d4cf1bba5535ed015851b",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   "bsc-testnet": {
     family: ChainFamily.EVM,
@@ -510,7 +473,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   linea: {
     family: ChainFamily.EVM,
@@ -523,7 +486,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/linea/38da1be47d6a45d5aee7e557800e9248",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   "linea-sepolia": {
     family: ChainFamily.EVM,
@@ -537,7 +500,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   avalanche: {
     family: ChainFamily.EVM,
@@ -550,7 +513,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/avalanche/5addb0088d03429eb061d98a104649ab",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   "avalanche-fuji": {
     family: ChainFamily.EVM,
@@ -563,7 +526,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://avalanche-fuji-c-chain-rpc.publicnode.com",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
     isTestNet: true,
   },
   gnosis: {
@@ -577,7 +540,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/gnosis/87598d6b313843f6be61fecc9b874cdd",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   "gnosis-chiado": {
     family: ChainFamily.EVM,
@@ -591,7 +554,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   moonbeam: {
     family: ChainFamily.EVM,
@@ -604,7 +567,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/moonbeam/82196cbf24574538b48c18bb13ffda21",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   moonriver: {
     family: ChainFamily.EVM,
@@ -617,7 +580,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/moonriver/84a61f509f5e4ae3a9c29ebd7e8fda67",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   moonbase: {
     family: ChainFamily.EVM,
@@ -631,7 +594,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   fantom: {
     family: ChainFamily.EVM,
@@ -644,20 +607,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://rpcapi.fantom.network",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
-  },
-  palm: {
-    family: ChainFamily.EVM,
-    id: ChainId.PALM,
-    nativeId: "11297108109",
-    name: "Palm ",
-    ticker: "PALM",
-    decimals: 18,
-    backends: {
-      nodeURL: "https://palm-mainnet.infura.io/v3/3a961d6501e54add9a41aa53f15de99b",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   mantle: {
     family: ChainFamily.EVM,
@@ -670,10 +620,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: [
-      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-      ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
-    ],
+    supportedFeatures: NATIVE_READ_WRITE_FEATURES,
   },
   rootstock: {
     family: ChainFamily.EVM,
@@ -686,11 +633,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://public-node.rsk.co",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: [
-      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-      //Issue with EIP-1559 tx on rootstock
-      //ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
-    ],
+    supportedFeatures: EVM_ROOTSTOCK_FEATURES,
   },
   "rootstock-testnet": {
     family: ChainFamily.EVM,
@@ -704,11 +647,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: [
-      ChainFeature.READ_ACCOUNT_BALANCES_NATIVE,
-      //Issue with EIP-1559 tx on rootstock
-      //ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE,
-    ],
+    supportedFeatures: EVM_ROOTSTOCK_FEATURES,
   },
   [ChainId.LITECOIN]: {
     id: ChainId.LITECOIN,
@@ -724,7 +663,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 6,
     },
     nativeId: "litecoin",
-    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+    supportedFeatures: BITCOIN_FEATURES,
   },
   [ChainId.DOGECOIN]: {
     id: ChainId.DOGECOIN,
@@ -740,7 +679,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 60, // confirmations used by Coinbase or Binance
     },
     nativeId: "dogecoin",
-    supportedFeatures: FEATURES[ChainFamily.BITCOIN],
+    supportedFeatures: BITCOIN_FEATURES,
   },
   ton: {
     family: ChainFamily.TON,
@@ -753,7 +692,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://toncenter.com/api/",
       explorerURL: "https://tonapi.io",
     },
-    supportedFeatures: FEATURES[ChainFamily.TON],
+    supportedFeatures: TON_FEATURES,
   },
   chiliz: {
     family: ChainFamily.EVM,
@@ -766,7 +705,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://chiliz-rpc.publicnode.com",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   "chiliz-testnet": {
     family: ChainFamily.EVM,
@@ -780,7 +719,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     isTestNet: true,
-    supportedFeatures: FEATURES[ChainFamily.EVM],
+    supportedFeatures: EVM_FEATURES,
   },
   //Injective Cosmos based version
   injective: {
@@ -797,11 +736,12 @@ const CHAINS: { [key in ChainId]: Chain } = {
       prefix: "inj",
       validatorPrefix: "injvaloper",
       denom: "inj",
-      defaultPubKeyType: "/injective.crypto.v1beta1.ethsecp256k1.PubKey", // should be eth_secp256k1 instead of secp256k1 (see https://docs.injective.network/learn/basic-concepts/accounts/)
+      // eth_secp256k1 instead of secp256k1 (see https://docs.injective.network/learn/basic-concepts/accounts/)
+      defaultPubKeyType: "/injective.crypto.v1beta1.ethsecp256k1.PubKey",
       defaultGas: 100000,
       minGasPrice: 700000000,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
   },
   akash: {
     family: ChainFamily.COSMOS,
@@ -821,7 +761,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.0025,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/akash/chain.json
   },
 
@@ -843,7 +783,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.003,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/bandchain/chain.json
   },
 
@@ -866,7 +806,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 5000000000,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/dymension/chain.json
   },
 
@@ -888,7 +828,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.03,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kyve/chain.json
   },
 
@@ -910,7 +850,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.0053,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/neutron/chain.json
   },
 
@@ -933,7 +873,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.015,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/terra2/chain.json
   },
 
@@ -955,29 +895,29 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.0025,
     },
-    supportedFeatures: FEATURES[ChainFamily.COSMOS],
+    supportedFeatures: COSMOS_FEATURES,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/stargaze/chain.json
   },
 } as const;
 
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
-  return CHAINS[chainId].supportedFeatures.flatMap((feature) => {
-    switch (feature) {
-      case ChainFeature.WRITE_TRANSACTION_TYPE_NATIVE:
-        return [TransactionMode.TRANSFER];
-      case ChainFeature.WRITE_TRANSACTION_TYPE_TOKENS:
-        return [TransactionMode.TRANSFER_TOKEN];
-      case ChainFeature.WRITE_TRANSACTION_TYPE_STAKING:
-        return [
-          TransactionMode.DELEGATE,
-          TransactionMode.REDELEGATE,
-          TransactionMode.UNDELEGATE,
-          TransactionMode.CLAIM_REWARDS,
-        ];
-      default:
-        return [];
-    }
-  });
+  const supportedModes: TransactionMode[] = [];
+  const supportedTransactions = CHAINS[chainId].supportedFeatures.write.transaction.type;
+
+  if (supportedTransactions.native) {
+    supportedModes.push(TransactionMode.TRANSFER);
+  }
+  if (supportedTransactions.tokens) {
+    supportedModes.push(TransactionMode.TRANSFER_TOKEN);
+  }
+  if (supportedTransactions.staking) {
+    supportedModes.push(TransactionMode.DELEGATE);
+    supportedModes.push(TransactionMode.REDELEGATE);
+    supportedModes.push(TransactionMode.UNDELEGATE);
+    supportedModes.push(TransactionMode.CLAIM_REWARDS);
+  }
+
+  return supportedModes;
 }
 
 export { CHAINS, getSupportedTransactionModes };

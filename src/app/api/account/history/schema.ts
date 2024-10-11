@@ -1,13 +1,25 @@
 import z from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
-import { chainIdSchema, finalizedTransactionSchema } from "~/app/api/schemaCommon";
+import { finalizedTransactionSchema } from "~/app/api/schemaCommon";
+import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
+const supportedChainIds = Object.values(CHAINS)
+  .filter(
+    (chain) =>
+      chain.supportedFeatures.read.account.transactions.native ||
+      chain.supportedFeatures.read.account.transactions.tokens ||
+      chain.supportedFeatures.read.account.transactions.staking
+  )
+  .map((chain) => chain.id);
+
+const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]]);
+
 const requestSchema = z
   .object({
-    chainId: chainIdSchema,
+    chainId: supportedChainIdsSchema,
     accountId: z.string().openapi({
       description: "Account identifier (address, xpub, etc) for the specified chain ID",
     }),
@@ -48,7 +60,7 @@ const queryParamsSchema = z.object({
 });
 
 const responseSchema = z.object({
-  chainId: chainIdSchema,
+  chainId: supportedChainIdsSchema,
   accountId: z.string(),
   transactions: finalizedTransactionSchema.array(),
   //status: statusSchema, TODO Should all endpoints have a status?
