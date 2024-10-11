@@ -15,14 +15,13 @@ const supportedChainIds = Object.values(CHAINS)
 
 const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]]);
 
-const requestSchema = z.object({
+const pathParamsSchema = z.object({
   chainId: supportedChainIdsSchema,
   tokenId: z.string().openapi({
     description: "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
     examples: ["0xdAC17F958D2ee523a2206206994597C13D831ec7"],
   }),
 });
-
 const responseSchema = tokenSchema;
 
 const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
@@ -33,7 +32,7 @@ const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
       description:
         "Retrieves detailed information about a specific token for a blockchain network, identified by chain ID and token ID.",
       requestParams: {
-        path: requestSchema,
+        path: pathParamsSchema,
       },
       responses: {
         "200": {
@@ -48,4 +47,4 @@ const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { chainsChainIdTokenTokenIdOpenAPIPath, requestSchema, responseSchema };
+export { chainsChainIdTokenTokenIdOpenAPIPath, pathParamsSchema, responseSchema };

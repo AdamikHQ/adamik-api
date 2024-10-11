@@ -1,37 +1,33 @@
-import { NextRequest, NextResponse } from "next/server";
+import { ValidationError } from "zod-validation-error";
 import { getService } from "~/app/families/services";
 import { ApiRequestFilters } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import "~/bigintPatch";
-import { requestSchema } from "./schema";
+import { queryParamsSchema, requestSchema, responseSchema } from "./schema";
 
-async function POST(request: NextRequest): Promise<NextResponse> {
-  const { chainId, accountId } = requestSchema.parse(await request.json());
+export const POST = apiHandler(
+  {
+    requestSchema,
+    responseSchema,
+    queryParamsSchema,
+  },
+  async ({ body, queryParams }) => {
+    const { chainId, accountId } = body;
 
-  // Parse supported query params like : /.../...?include=native,tokens,staking
-  // to build an ApiRequestFilters object like : { native?: true, tokens?: true, staking?: true }
-  const filters: ApiRequestFilters = {};
-  const params = request.nextUrl.searchParams;
-  params
-    .get("include")
-    ?.split(",")
-    .filter(Boolean)
-    .forEach((param) => {
+    // Parse supported query params like : /.../...?include=native,tokens,staking
+    // to build an ApiRequestFilters object like : { native?: true, tokens?: true, staking?: true }
+    const filters: ApiRequestFilters = {};
+    queryParams.include?.forEach((param) => {
       filters[param] = true;
     });
 
-  const service = getService(chainId);
+    const service = getService(chainId);
 
-  const isAccountIdValid = await service.validateAddress(accountId);
+    const isAccountIdValid = await service.validateAddress(accountId);
 
-  if (!isAccountIdValid) {
-    return NextResponse.json(
-      { message: `Invalid accountId ${accountId} for chainId ${chainId}` },
-      { status: 400, statusText: "Invalid or missing fields" }
-    );
-  }
+    if (!isAccountIdValid) {
+      throw new ValidationError(`Invalid accountId ${accountId} for chainId ${chainId}`);
+    }
 
-  try {
     const state = await service.getAccountState(accountId);
 
     // Apply filters
@@ -45,17 +41,7 @@ async function POST(request: NextRequest): Promise<NextResponse> {
       ...(includeTokens && { tokens: state.balances.tokens }),
       ...(includeStaking && { staking: state.balances.staking }),
     };
-    return NextResponse.json(state);
-  } catch (e: any) {
-    // FIXME Weak error management...
-    // We should maybe propagate a status instead, same as for transaction/encode
-    return NextResponse.json(
-      { message: e.toString() },
-      { status: 400, statusText: "Error while getting account state" }
-    );
-  }
-}
 
-module.exports = apiHandler({
-  POST,
-});
+    return state;
+  }
+);

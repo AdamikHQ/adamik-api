@@ -2,10 +2,9 @@ import { z } from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import { chainIdSchema, chainSchema } from "~/app/api/schemaCommon";
 
-const requestSchema = z.object({
+const pathParamsSchema = z.object({
   chainId: chainIdSchema,
 });
-
 const responseSchema = chainSchema;
 
 const chainsChainIdOpenAPIPath: ZodOpenApiPathsObject = {
@@ -16,7 +15,7 @@ const chainsChainIdOpenAPIPath: ZodOpenApiPathsObject = {
       description:
         "Retrieves detailed information about a specific blockchain network identified by chain ID.",
       requestParams: {
-        path: requestSchema,
+        path: pathParamsSchema,
       },
       responses: {
         "200": {
@@ -31,4 +30,4 @@ const chainsChainIdOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { chainsChainIdOpenAPIPath, requestSchema };
+export { chainsChainIdOpenAPIPath, pathParamsSchema, responseSchema };

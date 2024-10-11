@@ -1,21 +1,23 @@
-import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import { FinalizedTransaction, Status, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
 import { AlgorandService } from ".";
 import { fetchTransaction } from "../backend/explorer";
 
 async function getTransaction(
   this: AlgorandService,
-  transactionId: string
-): Promise<FinalizedTransaction | null> {
+  transactionId: string,
+  status: Status
+): Promise<FinalizedTransaction> {
   const algoTransaction = await fetchTransaction(transactionId);
   if (!algoTransaction) {
-    return null;
+    throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId: this.chainId,
     id: algoTransaction.id,
     senders: [{ address: algoTransaction.sender }],
-    fees: algoTransaction.fee,
+    fees: BigInt(algoTransaction.fee),
     // Placeholder values, actual values filled below
     state: TransactionState.UNCONFIRMED,
     mode: TransactionMode.TRANSFER,
@@ -32,7 +34,7 @@ async function getTransaction(
     parsedTransaction.recipients = [
       {
         address: algoTransaction.paymentTransaction.receiver,
-        amount: algoTransaction.paymentTransaction.amount,
+        amount: BigInt(algoTransaction.paymentTransaction.amount),
       },
     ];
   } else if (algoTransaction.txType === "axfer") {
@@ -41,7 +43,7 @@ async function getTransaction(
     parsedTransaction.recipients = [
       {
         address: algoTransaction.assetTransferTransaction.receiver,
-        amount: algoTransaction.assetTransferTransaction.amount,
+        amount: BigInt(algoTransaction.assetTransferTransaction.amount),
       },
     ];
   } else {

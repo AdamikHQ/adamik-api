@@ -31,4 +31,3 @@ type Branded<T, B> = T & Brand<B>;
 type Xpub = Branded<string, "Xpub">;
 
 export type { BitcoinChainParams, BitcoinTransactionParams, Branded, Xpub };
-

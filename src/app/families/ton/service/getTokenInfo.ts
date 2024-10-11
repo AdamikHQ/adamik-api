@@ -1,12 +1,13 @@
 import { Token, TokenType } from "~/app/model/types_WIP";
+import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
 import { TonService } from ".";
 import { getJettonInfo } from "../backend/explorer";
 
-async function getTokenInfo(this: TonService, tokenId: string): Promise<Token | null> {
+async function getTokenInfo(this: TonService, tokenId: string): Promise<Token> {
   try {
     const jettonInfo = await getJettonInfo(tokenId);
     if (!jettonInfo) {
-      return null;
+      throw new UnsupportedTokenIDError(tokenId, this.chainId);
     }
 
     const token: Token = {
@@ -21,7 +22,8 @@ async function getTokenInfo(this: TonService, tokenId: string): Promise<Token | 
 
     return token;
   } catch (e) {
-    return null;
+    console.log(`/!\\ Failed to fetch token info for ${tokenId} on chain ${this.chainId}: ${e}`);
+    throw new UnsupportedTokenIDError(tokenId, this.chainId);
   }
 }
 

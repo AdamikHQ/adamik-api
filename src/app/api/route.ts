@@ -1,12 +1,7 @@
-import { NextResponse } from "next/server";
-import { generateOpenAPISpec } from "~/app/tools/openapi/generateOpenAPISpec";
+import { z } from "zod";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { generateOpenAPISpec } from "~/app/tools/openapi/generateOpenAPISpec";
 
-async function GET() {
-  const apiSpec = generateOpenAPISpec();
-  return NextResponse.json(apiSpec);
-}
-
-module.exports = apiHandler({
-  GET
+export const GET = apiHandler({ responseSchema: z.any() }, async () => {
+  return generateOpenAPISpec();
 });
