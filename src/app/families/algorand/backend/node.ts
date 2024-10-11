@@ -23,7 +23,7 @@ async function fetchAccount(address: string): Promise<AlgoAccount> {
     ? data.assets.map((asset: { "asset-id": number; amount: number }): AlgoAssetAmount => {
         return {
           assetId: asset["asset-id"].toString(),
-          amount: BigInt(asset.amount),
+          amount: asset.amount,
         };
       })
     : [];
@@ -31,8 +31,8 @@ async function fetchAccount(address: string): Promise<AlgoAccount> {
   return {
     round: data.round,
     address: data.address,
-    balance: BigInt(data.amount),
-    pendingRewards: BigInt(data["pending-rewards"]),
+    balance: data.amount,
+    pendingRewards: data["pending-rewards"],
     assetAmounts,
   };
 }
