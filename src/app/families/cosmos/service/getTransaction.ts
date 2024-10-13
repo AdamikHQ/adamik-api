@@ -15,15 +15,19 @@ async function getTransaction(
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
-  const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
-  const feesAmount = cosmosTransaction.tx.auth_info.fee.amount.find(
-    (a) => a.denom === chainParams.denom
-  )?.amount;
+  const chain = CHAINS[this.chainId];
+  const chainParams = chain.params as CosmosChainParams;
+
+  // TODO Would deserve some sanitization...
+  const transactionFees = cosmosTransaction.tx.auth_info.fee.amount[0];
 
   let parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId: this.chainId,
     id: cosmosTransaction.txhash,
-    fees: BigInt(feesAmount || 0n),
+    fees: {
+      amount: BigInt(transactionFees.amount),
+      ticker: transactionFees.denom,
+    },
     gas: BigInt(cosmosTransaction.gas_used),
     // Placeholder values, actual values filled below
     mode: TransactionMode.TRANSFER,
@@ -134,6 +138,7 @@ async function getTransaction(
       const amounts = withdrawEvent?.attributes.find((attr) => attr.key === "amount")?.value;
 
       // So we parse it to only get native rewards at the moment, IBC rewards are not supported for now
+      // TODO Support IBC rewards
       const amount = amounts
         ?.split(",")
         .find((amount) => amount.includes(chainParams.denom)) // --> "84047uatom" (keep only the native amount)

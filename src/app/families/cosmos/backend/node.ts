@@ -43,7 +43,7 @@ async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   return fetch(url, defaultOptions);
 }
 
-async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string) {
+async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string): Promise<T[]> {
   const url = new URL(urlString);
 
   let data: T[] = [];

@@ -240,6 +240,7 @@ type FinalizedTransaction = {
     recipients?: {
       address: string;
       amount: bigint;
+      ticker?: string;
     }[];
     validators?: {
       source?: {
@@ -250,7 +251,10 @@ type FinalizedTransaction = {
         amount: bigint;
       };
     };
-    fees: bigint;
+    fees: {
+      amount: bigint;
+      ticker?: string;
+    };
     gas?: bigint;
     nonce?: bigint;
     memo?: string;

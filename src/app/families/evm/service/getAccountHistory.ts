@@ -35,7 +35,7 @@ async function getAccountHistory(
     const feesBN = new BigNumber(moralisTransaction.transaction_fee).multipliedBy(
       Math.pow(10, chain.decimals)
     );
-    const fees = BigInt(feesBN.toFixed());
+    const feesAmount = BigInt(feesBN.toFixed());
 
     const parsedTransaction: FinalizedTransaction["parsed"] = {
       chainId: this.chainId,
@@ -46,7 +46,10 @@ async function getAccountHistory(
           address: moralisTransaction.from_address,
         },
       ],
-      fees,
+      fees: {
+        amount: feesAmount,
+        ticker: chain.ticker,
+      },
       gas: BigInt(moralisTransaction.gas),
       nonce: BigInt(moralisTransaction.nonce),
       // Placeholder values, actual values filled below

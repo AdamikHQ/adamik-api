@@ -208,13 +208,174 @@ type CosmosValidator = {
   min_self_delegation: string;
 };
 
+// MINTSCAN ///////////
+
+type MintscanAccountTransactionsResponse = {
+  transactions: MintscanTransaction[];
+  pagination: Pagination;
+};
+
+type Pagination = {
+  totalCount: number;
+  searchAfter: string;
+};
+
+type MintscanTransaction = {
+  height: string;
+  txhash: string;
+  codespace: string;
+  code: number;
+  data: string;
+  info: string;
+  gas_wanted: string;
+  gas_used: string;
+  tx: Tx;
+  timestamp: Date;
+  logs: Log[];
+  chain_id: string;
+};
+
+type Log = {
+  msg_index: number;
+  log: string;
+  events: Event[];
+};
+
+type Event = {
+  type: string;
+  attributes: Attribute[];
+};
+
+type Attribute = {
+  key: string;
+  value: string; // Can technically be string[] in some cases, but we'll never care about them
+};
+
+type Tx = {
+  "@type": string;
+  "/cosmos-tx-v1beta1-Tx": CosmosTxV1Beta1Tx;
+};
+
+type CosmosTxV1Beta1Tx = {
+  body: Body;
+  auth_info: AuthInfo;
+  signatures: string[];
+};
+
+type AuthInfo = {
+  signer_infos: SignerInfo[];
+  fee: Fee;
+  tip?: null;
+};
+
+type Fee = {
+  amount: Amount[];
+  gas_limit: string;
+  payer: string;
+  granter: string;
+};
+
+type Amount = {
+  denom: string;
+  amount: string;
+};
+
+type SignerInfo = {
+  public_key: PublicKey;
+  mode_info: ModeInfo;
+  sequence: string;
+};
+
+type ModeInfo = {
+  single: Single;
+};
+
+type Single = {
+  mode: Mode;
+};
+
+enum Mode {
+  SignModeDirect = "SIGN_MODE_DIRECT",
+  SignModeLegacyAminoJSON = "SIGN_MODE_LEGACY_AMINO_JSON",
+}
+
+type PublicKey = {
+  "@type": string;
+  "/cosmos-crypto-secp256k1-PubKey"?: CryptoSecp256K1PubKey;
+  "/injective-crypto-v1beta1-ethsecp256k1-PubKey"?: CryptoSecp256K1PubKey;
+};
+
+type CryptoSecp256K1PubKey = {
+  key: string;
+};
+
+type Body = {
+  messages: Message[];
+  memo: string;
+  timeout_height: string;
+  extension_options: any[];
+  non_critical_extension_options: any[];
+};
+
+// TODO Define the list of supported messages
+type Message = {
+  "@type": CosmosMessageType;
+  "/cosmos-bank-v1beta1-MsgSend"?: CosmosBankV1Beta1MsgSend;
+  "/cosmos-staking-v1beta1-MsgDelegate"?: CosmosStakingV1Beta1MsgDelegate;
+  "/cosmos-staking-v1beta1-MsgBeginRedelegate"?: CosmosStakingV1Beta1MsgBeginRedelegate;
+  "/cosmos-staking-v1beta1-MsgUndelegate"?: CosmosStakingV1Beta1MsgUndelegate;
+  "/cosmos-distribution-v1beta1-MsgWithdrawDelegatorReward"?: CosmosDistributionV1Beta1MsgWithdrawDelegatorReward;
+  //"/ibc-applications-transfer-v1-MsgTransfer"?: IbcApplicationsTransferV1MsgTransfer;
+};
+
+type CosmosMessageType =
+  | "/cosmos-bank-v1beta1-MsgSend"
+  | "/cosmos-staking-v1beta1-MsgDelegate"
+  | "/cosmos-staking-v1beta1-MsgBeginRedelegate"
+  | "/cosmos-staking-v1beta1-MsgUndelegate"
+  | "/cosmos-distribution-v1beta1-MsgWithdrawDelegatorReward";
+//"/ibc-applications-transfer-v1-MsgTransfer"
+
+type CosmosBankV1Beta1MsgSend = {
+  from_address: string;
+  to_address: string;
+  amount: Amount[];
+};
+
+type CosmosStakingV1Beta1MsgDelegate = {
+  delegator_address: string;
+  validator_address: string;
+  amount: Amount;
+};
+
+type CosmosStakingV1Beta1MsgBeginRedelegate = {
+  delegator_address: string;
+  validator_src_address: string;
+  validator_dst_address: string;
+  amount: Amount;
+};
+
+type CosmosStakingV1Beta1MsgUndelegate = {
+  delegator_address: string;
+  validator_address: string;
+  amount: Amount;
+};
+
+type CosmosDistributionV1Beta1MsgWithdrawDelegatorReward = {
+  delegator_address: string;
+  validator_address: string;
+};
+
 export type {
   CosmosAccount,
   CosmosBalance,
   CosmosDelegation,
+  CosmosMessageType,
   CosmosRedelegation,
   CosmosRewards,
   CosmosTransaction,
   CosmosUnbondingDelegation,
   CosmosValidator,
+  MintscanAccountTransactionsResponse,
+  MintscanTransaction,
 };

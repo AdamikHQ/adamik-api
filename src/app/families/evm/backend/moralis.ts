@@ -68,7 +68,7 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
 }
 */
 
-async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string) {
+async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string): Promise<T[]> {
   const url = new URL(urlString);
 
   const headers: RequestInit = {
