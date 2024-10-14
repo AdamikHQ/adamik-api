@@ -12,8 +12,11 @@ async function getTransaction(this: TronService, transactionId: string): Promise
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId: this.chainId,
     id: tronTransaction.hash,
-    mode: tronTransaction.tokenTransferInfo ? TransactionMode.TRANSFER_TOKEN : TransactionMode.TRANSFER,
-    tokenId: tronTransaction.tokenTransferInfo?.contract_address || undefined,
+    mode: tronTransaction.contractData.tokenInfo ? TransactionMode.TRANSFER_TOKEN : TransactionMode.TRANSFER,
+    tokenId:
+      tronTransaction.contractData?.contract_address ||
+      tronTransaction.contractData?.tokenInfo?.tokenId ||
+      undefined,
     senders: [{ address: tronTransaction.ownerAddress }],
     recipients: [
       tronTransaction.tokenTransferInfo

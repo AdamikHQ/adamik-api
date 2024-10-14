@@ -47,6 +47,12 @@ const isValidAddress = async (address: string) => {
   return isValid;
 };
 
+const getTRC10TokenInfo = async (tokenId: string) => {
+  const tokenInfo = await tronWeb.trx.getTokenByID(tokenId);
+
+  return tokenInfo;
+};
+
 const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string) => {
   tronWeb.setAddress(ownerAddress || tokenId);
   const contract = await tronWeb.contract().at(tokenId);
@@ -56,6 +62,12 @@ const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string) => {
   const decimals = await contract.decimals().call();
 
   return { name, symbol, decimals };
+};
+
+const createTRC10TokenTransaction = async (tokenId: string, amount: bigint, to: string, from: string) => {
+  const transaction = await tronWeb.transactionBuilder.sendToken(to, Number(amount), tokenId, from);
+
+  return transaction;
 };
 
 const createTRC20TokenTransaction = async (tokenId: string, amount: bigint, to: string, from: string) => {
@@ -107,13 +119,12 @@ const estimateEnergyContract = async (tokenId: string, amount: bigint, to: strin
     toHex(from)
   );
   const chainParameters = await getChainParameters();
-  const energyPrice = chainParameters.find((p) => p.key === "getEnergyFee")?.value || 0;
 
   if (!energy_used || !energy_penalty) {
     return { fees: 0, energy_used: 0, energy_penalty: 0 };
   }
 
-  return { fees: energy_used + energy_penalty * energyPrice, energy_used, energy_penalty };
+  return { energy_used, energy_penalty };
 };
 
 // TRON transaction and transaction info are not readable in case of TRC20 token transactions
@@ -128,6 +139,7 @@ const fetchTransaction = async (transactionId: string) => {
 export {
   broadcast,
   createTransaction,
+  createTRC10TokenTransaction,
   createTRC20TokenTransaction,
   estimateEnergyContract,
   fetchTransaction,
@@ -135,6 +147,7 @@ export {
   getAccountResources,
   getBandwidthPrice,
   getChainParameters,
+  getTRC10TokenInfo,
   getTRC20TokenInfo,
   isValidAddress,
 };

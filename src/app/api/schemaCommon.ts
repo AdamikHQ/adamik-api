@@ -267,7 +267,11 @@ const inputTransactionDataSchema = z.object({
       memo: z.string().optional(),
       format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
       params: z
-        .union([cosmosTransactionParamsSchema, tonTransactionParamsSchema, tronTransactionParamsSchema])
+        .discriminatedUnion("kind", [
+          cosmosTransactionParamsSchema,
+          tronTransactionParamsSchema,
+          tonTransactionParamsSchema,
+        ])
         .optional(),
       useMaxAmount: z.boolean().default(false),
     })

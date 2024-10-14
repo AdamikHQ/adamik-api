@@ -1,5 +1,7 @@
 import { Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { createTransaction, createTRC20TokenTransaction } from "./backend/node";
+import { createTransaction, createTRC10TokenTransaction, createTRC20TokenTransaction } from "./backend/node";
+
+const isTRC10Token = (tokenId: string) => !isNaN(parseInt(tokenId, 10));
 
 const buildTransaction = async (transaction: Transaction) => {
   const { amount, recipient, sender } = transaction.data;
@@ -8,6 +10,18 @@ const buildTransaction = async (transaction: Transaction) => {
   }
 
   if (transaction.data.mode === TransactionMode.TRANSFER_TOKEN) {
+    // Check if tokenId is a number that means it's a TRC10 token
+    if (isTRC10Token(transaction.data.tokenId)) {
+      const transactionBuilded = await createTRC10TokenTransaction(
+        transaction.data.tokenId,
+        amount,
+        recipient,
+        sender
+      );
+
+      return transactionBuilded;
+    }
+
     const transactionBuilded = await createTRC20TokenTransaction(
       transaction.data.tokenId,
       amount,
@@ -31,4 +45,4 @@ function calculateTransactionLength(rawDateHex: string): number {
   return SIGNATURE_LENGTH + PROTOBUF_HEADER_LENGTH + Buffer.from(rawDateHex, "hex").byteLength;
 }
 
-export { buildTransaction, calculateTransactionLength };
+export { buildTransaction, calculateTransactionLength, isTRC10Token };

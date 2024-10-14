@@ -1,6 +1,6 @@
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { estimateEnergyContract, getAccount, getAccountResources, getChainParameters } from "../backend/node";
-import { buildTransaction, calculateTransactionLength } from "../logic";
+import { buildTransaction, calculateTransactionLength, isTRC10Token } from "../logic";
 
 // https://www.notion.so/Fees-Energy-Bandwidth-1192ca550f9c80fdba26deba08f24505
 async function completeTransaction(_: { transaction: Transaction; status: Status }): Promise<void> {
@@ -30,11 +30,11 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
   // Check if the user has enough bandwidth
   if (usableBandwidth < bandwidthPoints) {
     // console.log(`Insufficient bandwidth. Available: ${usableBandwidth}, Required: ${bandwidthPoints}`);
-    transaction.data.fees += BigInt(bandwidthPrice * bandwidthPrice);
+    transaction.data.fees += BigInt(bandwidthPrice * bandwidthPoints);
   }
 
-  if (transaction.data.mode === TransactionMode.TRANSFER_TOKEN) {
-    const { fees, energy_used } = await estimateEnergyContract(
+  if (transaction.data.mode === TransactionMode.TRANSFER_TOKEN && !isTRC10Token(transaction.data.tokenId)) {
+    const { energy_used } = await estimateEnergyContract(
       transaction.data.tokenId,
       transaction.data.amount as bigint,
       transaction.data.recipient,
@@ -50,15 +50,7 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
       const energyPrice = chainParameters.find((p) => p.key === "getEnergyFee")?.value || 0;
 
       transaction.data.fees += energyFee * BigInt(energyPrice);
-
-      // console.log(`Energy fee: ${transaction.data.fees}`);
-      // console.log(`Energy price: ${energyPrice}`);
-      // console.log(`Energy penalty: ${energy_penalty}`);
-      // console.log(`Energy used: ${energy_used}`);
-      // console.log(`Energy fee in TRX: ${Number(transaction.data.fees) / 1_000_000}`);
     }
-
-    transaction.data.fees += BigInt(fees);
   }
 }
 
