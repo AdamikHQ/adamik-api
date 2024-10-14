@@ -131,7 +131,7 @@ function handleRequestValidationError(e: unknown): NextResponse {
   } else if (e instanceof AdamikHttpError) {
     // catch-all for all AdamikHttpError
     return NextResponse.json(
-      { status: statusFromMessage(e.message) },
+      { status: statusFromMessage(e.statusText) },
       { status: e.status, statusText: e.statusText }
     );
   } else if (e instanceof ZodError) {
