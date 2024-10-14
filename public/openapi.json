@@ -4121,26 +4121,33 @@
                                     ]
                                   },
                                   "params": {
-                                    "anyOf": [
+                                    "oneOf": [
                                       {
                                         "type": "object",
                                         "properties": {
+                                          "kind": {
+                                            "type": "string",
+                                            "enum": [
+                                              "cosmos"
+                                            ]
+                                          },
                                           "pubKey": {
                                             "type": "string"
                                           }
-                                        }
+                                        },
+                                        "required": [
+                                          "kind"
+                                        ]
                                       },
                                       {
                                         "type": "object",
                                         "properties": {
-                                          "pubKey": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
+                                          "kind": {
+                                            "type": "string",
+                                            "enum": [
+                                              "tron"
+                                            ]
+                                          },
                                           "visible": {
                                             "type": "boolean"
                                           },
@@ -4165,6 +4172,9 @@
                                                               "type": "string"
                                                             },
                                                             "owner_address": {
+                                                              "type": "string"
+                                                            },
+                                                            "asset_name": {
                                                               "type": "string"
                                                             },
                                                             "contract_address": {
@@ -4229,9 +4239,27 @@
                                           }
                                         },
                                         "required": [
+                                          "kind",
                                           "txID",
                                           "raw_data",
                                           "raw_data_hex"
+                                        ]
+                                      },
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "kind": {
+                                            "type": "string",
+                                            "enum": [
+                                              "ton"
+                                            ]
+                                          },
+                                          "pubKey": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "kind"
                                         ]
                                       }
                                     ]
@@ -4514,18 +4542,36 @@
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "cosmos"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "ton"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         }
                                       ]
                                     },
@@ -4809,26 +4855,33 @@
                                 ]
                               },
                               "params": {
-                                "anyOf": [
+                                "oneOf": [
                                   {
                                     "type": "object",
                                     "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "cosmos"
+                                        ]
+                                      },
                                       "pubKey": {
                                         "type": "string"
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "kind"
+                                    ]
                                   },
                                   {
                                     "type": "object",
                                     "properties": {
-                                      "pubKey": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "tron"
+                                        ]
+                                      },
                                       "visible": {
                                         "type": "boolean"
                                       },
@@ -4853,6 +4906,9 @@
                                                           "type": "string"
                                                         },
                                                         "owner_address": {
+                                                          "type": "string"
+                                                        },
+                                                        "asset_name": {
                                                           "type": "string"
                                                         },
                                                         "contract_address": {
@@ -4917,9 +4973,27 @@
                                       }
                                     },
                                     "required": [
+                                      "kind",
                                       "txID",
                                       "raw_data",
                                       "raw_data_hex"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "ton"
+                                        ]
+                                      },
+                                      "pubKey": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind"
                                     ]
                                   }
                                 ]
@@ -5178,18 +5252,36 @@
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "cosmos"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "ton"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         }
                                       ]
                                     },
@@ -5461,18 +5553,36 @@
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "cosmos"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "ton"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         }
                                       ]
                                     },
@@ -5756,26 +5866,33 @@
                                 ]
                               },
                               "params": {
-                                "anyOf": [
+                                "oneOf": [
                                   {
                                     "type": "object",
                                     "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "cosmos"
+                                        ]
+                                      },
                                       "pubKey": {
                                         "type": "string"
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "kind"
+                                    ]
                                   },
                                   {
                                     "type": "object",
                                     "properties": {
-                                      "pubKey": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "tron"
+                                        ]
+                                      },
                                       "visible": {
                                         "type": "boolean"
                                       },
@@ -5800,6 +5917,9 @@
                                                           "type": "string"
                                                         },
                                                         "owner_address": {
+                                                          "type": "string"
+                                                        },
+                                                        "asset_name": {
                                                           "type": "string"
                                                         },
                                                         "contract_address": {
@@ -5864,9 +5984,27 @@
                                       }
                                     },
                                     "required": [
+                                      "kind",
                                       "txID",
                                       "raw_data",
                                       "raw_data_hex"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "ton"
+                                        ]
+                                      },
+                                      "pubKey": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind"
                                     ]
                                   }
                                 ]
@@ -6125,18 +6263,36 @@
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "cosmos"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "ton"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         }
                                       ]
                                     },
