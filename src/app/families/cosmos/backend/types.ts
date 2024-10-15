@@ -1,8 +1,3 @@
-type CosmosMessage = {
-  type: string;
-  attributes: { key: string; value: string; index?: boolean }[];
-};
-
 /*
 {
     "txhash": "9C96915060C952D4D3ACF7A0621287AA9FF26D044DC5B7E150152A30D7F41DDB",
@@ -251,15 +246,51 @@ type Attribute = {
   value: string; // Can technically be string[] in some cases, but we'll never care about them
 };
 
-type Tx = {
-  "@type": string;
-  "/cosmos-tx-v1beta1-Tx": CosmosTxV1Beta1Tx;
+type Tx =
+  | {
+      "@type": "/cosmos.tx.v1beta1.Tx";
+      "/cosmos-tx-v1beta1-Tx": CosmosTxV1Beta1Tx;
+    }
+  | {
+      "@type": "cosmos-sdk/StdTx";
+      "cosmos-sdk/StdTx": {
+        value: CosmosSDKStdTxValue;
+      };
+    };
+
+type CosmosSDKStdTxValue = {
+  msg: Msg[];
+  fee: Fee;
+  //signatures: Signature[];
+  memo: string;
 };
+
+type Msg =
+  | {
+      type: "cosmos-sdk/MsgSend";
+      "cosmos-sdk/MsgSend": { value: CosmosMsgSend };
+    }
+  | {
+      type: "cosmos-sdk/MsgDelegate";
+      "cosmos-sdk/MsgDelegate": { value: CosmosMsgDelegate };
+    }
+  | {
+      type: "cosmos-sdk/MsgBeginRedelegate";
+      "cosmos-sdk/MsgBeginRedelegate": { value: CosmosMsgBeginRedelegate };
+    }
+  | {
+      type: "cosmos-sdk/MsgUndelegate";
+      "cosmos-sdk/MsgUndelegate": { value: CosmosMsgUndelegate };
+    }
+  | {
+      type: "cosmos-sdk/MsgWithdrawDelegatorReward";
+      "cosmos-sdk/MsgWithdrawDelegatorReward": { value: CosmosMsgWithdrawDelegatorReward };
+    };
 
 type CosmosTxV1Beta1Tx = {
   body: Body;
   auth_info: AuthInfo;
-  signatures: string[];
+  //signatures: string[];
 };
 
 type AuthInfo = {
@@ -317,51 +348,56 @@ type Body = {
   non_critical_extension_options: any[];
 };
 
-// TODO Define the list of supported messages
-type Message = {
-  "@type": CosmosMessageType;
-  "/cosmos-bank-v1beta1-MsgSend"?: CosmosBankV1Beta1MsgSend;
-  "/cosmos-staking-v1beta1-MsgDelegate"?: CosmosStakingV1Beta1MsgDelegate;
-  "/cosmos-staking-v1beta1-MsgBeginRedelegate"?: CosmosStakingV1Beta1MsgBeginRedelegate;
-  "/cosmos-staking-v1beta1-MsgUndelegate"?: CosmosStakingV1Beta1MsgUndelegate;
-  "/cosmos-distribution-v1beta1-MsgWithdrawDelegatorReward"?: CosmosDistributionV1Beta1MsgWithdrawDelegatorReward;
-  //"/ibc-applications-transfer-v1-MsgTransfer"?: IbcApplicationsTransferV1MsgTransfer;
-};
+// TODO Decide the list of supported messages
+type Message =
+  | {
+      "@type": "/cosmos.bank.v1beta1.MsgSend";
+      "/cosmos-bank-v1beta1-MsgSend": CosmosMsgSend;
+    }
+  | {
+      "@type": "/cosmos.staking.v1beta1.MsgDelegate";
+      "/cosmos-staking-v1beta1-MsgDelegate": CosmosMsgDelegate;
+    }
+  | {
+      "@type": "/cosmos.staking.v1beta1.MsgBeginRedelegate";
+      "/cosmos-staking-v1beta1-MsgBeginRedelegate": CosmosMsgBeginRedelegate;
+    }
+  | {
+      "@type": "/cosmos.staking.v1beta1.MsgUndelegate";
+      "/cosmos-staking-v1beta1-MsgUndelegate": CosmosMsgUndelegate;
+    }
+  | {
+      "@type": "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward";
+      "/cosmos-distribution-v1beta1-MsgWithdrawDelegatorReward": CosmosMsgWithdrawDelegatorReward;
+      //"/ibc-applications-transfer-v1-MsgTransfer": IbcApplicationsTransferV1MsgTransfer;
+    };
 
-type CosmosMessageType =
-  | "/cosmos-bank-v1beta1-MsgSend"
-  | "/cosmos-staking-v1beta1-MsgDelegate"
-  | "/cosmos-staking-v1beta1-MsgBeginRedelegate"
-  | "/cosmos-staking-v1beta1-MsgUndelegate"
-  | "/cosmos-distribution-v1beta1-MsgWithdrawDelegatorReward";
-//"/ibc-applications-transfer-v1-MsgTransfer"
-
-type CosmosBankV1Beta1MsgSend = {
+type CosmosMsgSend = {
   from_address: string;
   to_address: string;
   amount: Amount[];
 };
 
-type CosmosStakingV1Beta1MsgDelegate = {
+type CosmosMsgDelegate = {
   delegator_address: string;
   validator_address: string;
   amount: Amount;
 };
 
-type CosmosStakingV1Beta1MsgBeginRedelegate = {
+type CosmosMsgBeginRedelegate = {
   delegator_address: string;
   validator_src_address: string;
   validator_dst_address: string;
   amount: Amount;
 };
 
-type CosmosStakingV1Beta1MsgUndelegate = {
+type CosmosMsgUndelegate = {
   delegator_address: string;
   validator_address: string;
   amount: Amount;
 };
 
-type CosmosDistributionV1Beta1MsgWithdrawDelegatorReward = {
+type CosmosMsgWithdrawDelegatorReward = {
   delegator_address: string;
   validator_address: string;
 };
@@ -370,7 +406,6 @@ export type {
   CosmosAccount,
   CosmosBalance,
   CosmosDelegation,
-  CosmosMessageType,
   CosmosRedelegation,
   CosmosRewards,
   CosmosTransaction,

@@ -50,13 +50,8 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
   }
 
   const url = `${explorerURL}/v2.2/transaction/${transactionId}`;
-  const headers: RequestInit = {
-    headers: {
-      "X-API-Key": MORALIS_API_KEY,
-    },
-  };
 
-  const result: MoralisTransaction | { message: string } = await fetch(url, headers).then((response) =>
+  const result: MoralisTransaction | { message: string } = await fetchWithHeaders(url).then((response) =>
     response.json()
   );
 
@@ -68,14 +63,20 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
 }
 */
 
-async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string): Promise<T[]> {
-  const url = new URL(urlString);
-
-  const headers: RequestInit = {
+async function fetchWithHeaders(url: string, options: RequestInit = {}) {
+  const newOptions: RequestInit = {
+    ...options,
     headers: {
+      ...options.headers,
       "X-API-Key": MORALIS_API_KEY,
     },
   };
+
+  return fetch(url, newOptions);
+}
+
+async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string): Promise<T[]> {
+  const url = new URL(urlString);
 
   let data: T[] = [];
   let response;
@@ -84,7 +85,7 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
       url.searchParams.set("cursor", response.cursor);
     }
 
-    response = await fetch(url.toString(), headers).then((response) => response.json());
+    response = await fetchWithHeaders(url.toString()).then((response) => response.json());
 
     if (!response || !Array.isArray(response[dataKey])) {
       console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
@@ -125,13 +126,7 @@ async function fetchERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Pr
 
     const url = `${explorerURL}/v2.2/wallets/${address}/tokens` + "?" + queryParams;
 
-    const headers: RequestInit = {
-      headers: {
-        "X-API-Key": MORALIS_API_KEY,
-      },
-    };
-
-    data = await fetch(url, headers).then((response) => response.json());
+    data = await fetchWithHeaders(url).then((response) => response.json());
 
     const results: MoralisERC20TokenBalance[] = data?.result;
     if (!Array.isArray(results)) {
@@ -181,14 +176,8 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
 
   const url = `${explorerURL}/v2.2/erc20/metadata` + "?" + queryParams;
 
-  const headers: RequestInit = {
-    headers: {
-      "X-API-Key": MORALIS_API_KEY,
-    },
-  };
-
   // (array destructuring, we only need the 1st item)
-  const [result]: [MoralisERC20Token] = await fetch(url, headers).then((response) => response.json());
+  const [result]: [MoralisERC20Token] = await fetchWithHeaders(url).then((response) => response.json());
 
   return {
     chainId: chainId,

@@ -74,8 +74,7 @@ const accountHistoryOpenAPIPath: ZodOpenApiPathsObject = {
       description:
         "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
       requestParams: {
-        // TODO ?
-        //query: requestParamsSchema,
+        query: queryParamsSchema,
       },
       requestBody: {
         content: {

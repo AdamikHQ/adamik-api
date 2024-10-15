@@ -46,7 +46,6 @@ enum ChainId {
   ROOTSTOCK = "rootstock",
   ROOTSTOCK_TESTNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
   INJECTIVE = "injective",
-  // BTC family
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
@@ -234,6 +233,13 @@ type FinalizedTransaction = {
     state: TransactionState;
     blockHeight?: bigint;
     timestamp?: number;
+    fees: {
+      amount: bigint;
+      ticker?: string;
+    };
+    gas?: bigint;
+    nonce?: bigint;
+    memo?: string;
     senders: {
       address: string;
     }[];
@@ -251,13 +257,6 @@ type FinalizedTransaction = {
         amount: bigint;
       };
     };
-    fees: {
-      amount: bigint;
-      ticker?: string;
-    };
-    gas?: bigint;
-    nonce?: bigint;
-    memo?: string;
   };
   raw?: unknown; // The raw transaction as returned from the node (or explorer when necessary)
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
@@ -266,7 +265,6 @@ type FinalizedTransaction = {
 type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams | TonTransactionParams;
 
 // TODO WIP
-// FIXME de/serialization types <> string
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
 // FIXME one 'TransactionData' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
@@ -284,8 +282,8 @@ type CommonTransaction = {
   gas?: bigint;
   nonce?: bigint;
   memo?: string;
-  format?: EncodedTransactionFormat; // FIXME: really required for all transactions?
-  params?: TransactionParams; // FIXME: really required for all transactions?
+  format?: EncodedTransactionFormat;
+  params?: TransactionParams;
 };
 
 type TransferTransaction = CommonTransaction & {

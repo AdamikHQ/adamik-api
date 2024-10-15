@@ -17,7 +17,9 @@ async function getTransaction(this: BitcoinService, transactionId: string): Prom
     chainId: this.chainId,
     id: transactionId,
     mode: TransactionMode.TRANSFER,
-    fees: transactionData.transaction.fee,
+    fees: {
+      amount: transactionData.transaction.fee,
+    },
     // Placeholder values, actual values filled below
     state: TransactionState.PENDING,
     senders: [],
