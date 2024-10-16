@@ -1,0 +1,29 @@
+meta {
+  name: /api/transaction/encode Token
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_url}}/api/transaction/encode
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "algorand",
+        "mode": "transferToken",
+        "tokenId": "300208676",
+        "sender": "466VT6W5MGDSU24FXJ7ASW4GBHR5DP2XL4QRZ2KFSCL6FEOBONGKQHN2BQ",
+        "recipient": "M7I4NOKQFENEQCWEM52DA6IDF75X4UMO57Q6TBWMBEK7UKON4O5RR2PGUM",
+        "amount": "10000",
+        "memo": "adamik-test-memo",
+        "format": "json",
+        "pubKey": "A4y0euEONBRjVuWle7ZQspFF6yeldNmhPk48BFDB"
+      }
+    }
+  }
+}

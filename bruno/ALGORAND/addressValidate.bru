@@ -1,0 +1,18 @@
+meta {
+  name: /api/address/validate
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_url}}/api/address/validate
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "chainId": "algorand",
+    "address": "466VT6W5MGDSU24FXJ7ASW4GBHR5DP2XL4QRZ2KFSCL6FEOBONGKQHN2BQ"
+  }
+}

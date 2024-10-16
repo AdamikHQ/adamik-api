@@ -1,0 +1,19 @@
+meta {
+  name: /api
+  type: http
+  seq: 2
+}
+
+get {
+  url: /api
+  body: none
+  auth: none
+}
+
+params:query {
+  : 
+}
+
+headers {
+  Authorization: {{api_key}}
+}
