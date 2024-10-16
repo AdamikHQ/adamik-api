@@ -33,7 +33,6 @@ jobs:
       - name: Create and populate .Renviron file
         run: |
           touch ./bruno/environments/ci.bru
-          run: |
           echo "vars {" >> ./bruno/environments/ci.bru
           echo "  api_key: \"${{ secrets.ADAMIK_TESTS_API_KEY }}\"" >> ./bruno/environments/ci.bru
           echo "  api_url: http://localhost:3000" >> ./bruno/environments/ci.bru
