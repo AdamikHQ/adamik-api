@@ -97,7 +97,9 @@ async function fetchAccountTransactions(
 
   const searchParams = new URLSearchParams();
 
-  pagination.fromTimestamp && searchParams.set("fromDateTime", timestampToDate(pagination.fromTimestamp));
+  // For some reason, providing either fromDateTime or toDateTime is mandatory
+  // or the endpoint returns an empty result... hence the default '1' value
+  searchParams.set("fromDateTime", timestampToDate(pagination.fromTimestamp || 1));
   pagination.toTimestamp && searchParams.set("toDateTime", timestampToDate(pagination.toTimestamp));
 
   const url = `${getRootUrl(chainId)}/${mintscanChainId}/accounts/${address}/transactions?` + searchParams;
