@@ -29,10 +29,10 @@ jobs:
       - name: run Adamik API
         run: pnpm run dev &
         env:
-          EDGE_CONFIG: https://edge-config.vercel.com/ecfg_e4jkpjfbg0qae9h1gqdysstq4elo?token=d448b041-36d8-44e2-a672-fc19e86308e1
+          EDGE_CONFIG: ${{ secrets.EDGE_CONFIG }}
       - name: Create configuration file
         env:
-          ADAMIK_TESTS_API_KEY: ${{ secrets.ADAMIK_TESTS_API_KEY }}
+          ADAMIK_TESTS_API_KEY: afd0b43d3c2297ff5771fa6c4d6a0bf2d12405b310ff295d2ac5ad54ff509852
         run: |
           echo "vars {
             api_key: \"${{ env.ADAMIK_TESTS_API_KEY }}\"
