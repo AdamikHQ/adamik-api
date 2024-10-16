@@ -41,4 +41,4 @@ jobs:
       - name: run tests
         run: |
           sleep 5
-          pnpm run bruno:test
+          pnpm run ci:bruno:test
