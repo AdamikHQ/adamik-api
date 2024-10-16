@@ -30,6 +30,14 @@ jobs:
         run: pnpm run dev &
         env:
           EDGE_CONFIG: https://edge-config.vercel.com/ecfg_e4jkpjfbg0qae9h1gqdysstq4elo?token=d448b041-36d8-44e2-a672-fc19e86308e1
+      - name: Create and populate .Renviron file
+        run: |
+          touch ./bruno/environments/ci.bru
+          run: |
+          echo "vars {" >> ./bruno/environments/ci.bru
+          echo "  api_key: \"${{ secrets.ADAMIK_TESTS_API_KEY }}\"" >> ./bruno/environments/ci.bru
+          echo "  api_url: http://localhost:3000" >> ./bruno/environments/ci.bru
+          echo "}" >> ./bruno/environments/ci.bru
       - name: run tests
         run: |
           sleep 5
