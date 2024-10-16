@@ -7,7 +7,11 @@ meta {
 post {
   url: {{api_url}}/api/transaction/encode
   body: json
-  auth: inherit
+  auth: none
+}
+
+headers {
+  Authorization: {{api_key}}
 }
 
 body:json {
@@ -21,7 +25,6 @@ body:json {
         "recipient": "M7I4NOKQFENEQCWEM52DA6IDF75X4UMO57Q6TBWMBEK7UKON4O5RR2PGUM",
         "amount": "10000",
         "memo": "adamik-test-memo",
-        "format": "json",
         "pubKey": "A4y0euEONBRjVuWle7ZQspFF6yeldNmhPk48BFDB"
       }
     }

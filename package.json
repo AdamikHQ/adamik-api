@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
+    "bruno:test": "cd ./bruno && bru run --env local",
     "doc:providers": "ts-node src/scripts/generateProvidersDoc.ts",
     "doc:openapi": "ts-node src/scripts/generateOpenAPIDoc.ts",
     "gen:cosmos-tokens": "ts-node src/scripts/generateCosmosIBCTokensDefinitions.ts"
@@ -26,6 +27,7 @@
     "@ton-api/client": "^0.1.0",
     "@ton/core": "^0.57.0",
     "@ton/ton": "^15.0.0",
+    "@usebruno/cli": "^1.33.0",
     "@vercel/edge-config": "^1.1.0",
     "algo-msgpack-with-bigint": "^2.1.1",
     "algosdk": "^2.7.0",

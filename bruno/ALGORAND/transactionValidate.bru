@@ -7,7 +7,11 @@ meta {
 post {
   url: {{api_url}}/api/transaction/validate
   body: json
-  auth: inherit
+  auth: none
+}
+
+headers {
+  Authorization: {{api_key}}
 }
 
 body:json {
@@ -19,7 +23,7 @@ body:json {
         "sender": "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM",
         "recipient": "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM",
         "amount": "1234560",
-        "useMaxAmount": true,
+        "useMaxAmount": false,
         "memo": "adamik-test-memo",
         "format": "json"
       }

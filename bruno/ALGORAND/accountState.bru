@@ -7,7 +7,10 @@ meta {
 post {
   url: {{api_url}}/api/account/state
   body: json
-  auth: inherit
+}
+
+headers {
+  Authorization: {{api_key}}
 }
 
 body:json {
