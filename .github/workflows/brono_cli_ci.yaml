@@ -27,6 +27,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: run Adamik API
-        run: pnpm run dev
+        run: pnpm run dev &
       - name: run tests
-        run: pnpm run bruno:test
+        run: |
+          sleep 5
+          pnpm run bruno:test
