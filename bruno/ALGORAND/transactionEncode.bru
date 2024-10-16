@@ -25,3 +25,9 @@ body:json {
     }
   }
 }
+
+assert {
+  res.body.transaction.data.sender: eq RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM
+  res.body.transaction.data.recipient: eq RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM
+  res.body.transaction.encoded: isString 1
+}
