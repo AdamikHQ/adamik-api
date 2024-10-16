@@ -28,6 +28,8 @@ jobs:
         run: pnpm install
       - name: run Adamik API
         run: pnpm run dev &
+        env:
+          EDGE_CONFIG: https://edge-config.vercel.com/ecfg_e4jkpjfbg0qae9h1gqdysstq4elo?token=d448b041-36d8-44e2-a672-fc19e86308e1
       - name: run tests
         run: |
           sleep 5
