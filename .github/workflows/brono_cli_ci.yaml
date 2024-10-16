@@ -32,10 +32,10 @@ jobs:
           EDGE_CONFIG: ${{ secrets.EDGE_CONFIG }}
       - name: Create configuration file
         env:
-          ADAMIK_TESTS_API_KEY: afd0b43d3c2297ff5771fa6c4d6a0bf2d12405b310ff295d2ac5ad54ff509852
+          ADAMIK_TESTS_API_KEY: ${{ secrets.ADAMIK_TESTS_API_KEY }}
         run: |
           echo "vars {
-            api_key: \"${{ env.ADAMIK_TESTS_API_KEY }}\"
+            api_key: ${{ env.ADAMIK_TESTS_API_KEY }}
             api_url: http://localhost:3000
           }" > ./bruno/environments/ci.bru
       - name: run tests
