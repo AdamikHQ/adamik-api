@@ -99,7 +99,7 @@ const chainSchema = z.object({
   name: z.string(),
   ticker: z.string(),
   decimals: z.number(),
-  isTestnet: z.boolean().optional(),
+  isTestNet: z.boolean().optional(),
   params: z.any().optional(),
   supportedFeatures: chainSupportedFeaturesSchema,
 });
