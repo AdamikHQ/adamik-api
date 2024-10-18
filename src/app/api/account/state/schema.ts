@@ -37,20 +37,19 @@ const requestSchema = z
     ],
   });
 
+const includeEnum = z.enum(["native", "tokens", "staking"]);
+
 const queryParamsSchema = z.object({
   include: z
-    .array(
-      z.enum([
-        // NOTE Need to manually add new modes here, when they start being supported
-        "native",
-        "tokens",
-        "staking",
-      ])
-    )
-    .nonempty()
+    .union([
+      includeEnum,
+      z.array(includeEnum),
+      z.string().transform((val) => val.split(",").map((item) => item.trim())),
+    ])
     .optional()
     .openapi({
-      description: "Optional filter, to let you request only the data that you need.",
+      description:
+        "Optional filter to request specific data. Can be a single value, comma-separated string, or multiple include parameters.",
     }),
 });
 
@@ -136,4 +135,4 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { accountStateOpenAPIPath, queryParamsSchema, requestSchema, responseSchema };
+export { accountStateOpenAPIPath, includeEnum, queryParamsSchema, requestSchema, responseSchema };
