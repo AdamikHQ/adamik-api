@@ -12,11 +12,12 @@ async function getAccountState(this: TronService, accountId: string): Promise<Ac
       if (tokenInfo.tokenAbbr === "trx") {
         return null;
       }
-      if (tokenInfo.tokenType === "trc20") {
+
+      if (tokenInfo.tokenType === "trc10" || tokenInfo.tokenType === "trc20") {
         return {
           token: {
             chainId: this.chainId,
-            type: TokenType.TRC20,
+            type: tokenInfo.tokenType === "trc10" ? TokenType.TRC10 : TokenType.TRC20,
             id: tokenInfo.tokenId,
             name: tokenInfo.tokenName,
             ticker: tokenInfo.tokenAbbr,
@@ -27,21 +28,7 @@ async function getAccountState(this: TronService, accountId: string): Promise<Ac
           amount: BigInt(tokenInfo.balance),
         };
       }
-      if (tokenInfo.tokenType === "trc10") {
-        return {
-          token: {
-            chainId: this.chainId,
-            type: TokenType.TRC10,
-            id: tokenInfo.tokenId,
-            name: tokenInfo.tokenName,
-            ticker: tokenInfo.tokenAbbr,
-            decimals: tokenInfo.tokenDecimal,
-            contractAddress: tokenInfo.tokenId,
-            logo: tokenInfo.tokenLogo,
-          },
-          amount: BigInt(tokenInfo.balance),
-        };
-      }
+
       return null;
     })
     .filter(Boolean) as TokenAmount[];
