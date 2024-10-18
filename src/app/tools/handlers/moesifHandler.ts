@@ -1,0 +1,24 @@
+import moesif, { MoesifOptions } from "moesif-nodejs";
+import { NextRequest } from "next/server";
+import { MOESIF_APPLICATION_ID } from "~/app/config/apiKeys";
+
+const moesifOptions: MoesifOptions = {
+  applicationId: MOESIF_APPLICATION_ID,
+  logBody: true,
+  // @ts-ignore
+  isNextJsAppRouter: true,
+  debug: true,
+  identifyUser: (req, res) => {
+    console.log(`extracting user from headers:`, (req as NextRequest).headers);
+    return (req as NextRequest).headers.get("X-Adamik-User-Id") || "cus_R2Z0ASpxTEDB1O";
+  },
+  getMetadata: (req, res) => {
+    return {
+      isBillable: true,
+    };
+  },
+};
+
+const applyMoesifMiddleware = moesif(moesifOptions);
+
+export default applyMoesifMiddleware;

@@ -18,6 +18,8 @@ export async function middleware(request: NextRequest) {
 
   console.log("API KEY:", client?.apiKey);
 
+  request.headers.set("X-Adamik-User-Id", client?.clientId || "unknown");
+  console.log("middleware headers", request.headers);
   // NOTE No additional checks for now
   // In the future we could apply rate limits, or special access rights
   if (!client) {
