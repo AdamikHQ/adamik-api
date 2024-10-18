@@ -37,21 +37,20 @@ const requestSchema = z
     ],
   });
 
-const includeEnum = z.enum(["native", "tokens", "staking"]);
+export const includeEnum = z.enum(["native", "tokens", "staking"]);
 
-const queryParamsSchema = z.object({
-  include: z
-    .union([
-      includeEnum,
-      z.array(includeEnum),
-      z.string().transform((val) => val.split(",").map((item) => item.trim())),
-    ])
-    .optional()
-    .openapi({
-      description:
-        "Optional filter to request specific data. Can be a single value, comma-separated string, or multiple include parameters.",
-    }),
-});
+export const queryParamsSchema = z
+  .object({
+    include: z
+      .union([
+        includeEnum,
+        z.array(includeEnum),
+        z.string().transform((val) => val.split(",").map((item) => item.trim())),
+      ])
+      .optional(),
+    ___rawQueryString: z.string(),
+  })
+  .passthrough();
 
 const responseSchema = z.object({
   chainId: supportedChainIdsSchema,
@@ -135,4 +134,4 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { accountStateOpenAPIPath, includeEnum, queryParamsSchema, requestSchema, responseSchema };
+export { accountStateOpenAPIPath, requestSchema, responseSchema };

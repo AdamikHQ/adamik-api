@@ -7,10 +7,6 @@ import { includeEnum, queryParamsSchema, requestSchema, responseSchema } from ".
 
 type IncludeParam = z.infer<typeof includeEnum>;
 
-interface QueryParams {
-  include?: string | string[] | IncludeParam | IncludeParam[];
-}
-
 export const POST = apiHandler(
   {
     requestSchema,
@@ -22,26 +18,18 @@ export const POST = apiHandler(
     queryParams,
   }: {
     body: { chainId: string; accountId: string };
-    queryParams: QueryParams;
+    queryParams: z.infer<typeof queryParamsSchema>;
   }) => {
     const { chainId, accountId } = body;
 
-    // Parse and validate query parameters
-    const parsedQueryParams = queryParamsSchema.parse(queryParams);
+    // Parse the raw query string to get all 'include' parameters
+    const rawQueryString = queryParams.___rawQueryString;
+    const rawParams = new URLSearchParams(rawQueryString);
+    const includeParams = rawParams.getAll("include");
 
-    // Normalize include to always be an array of valid options
-    const includeParams: string[] = Array.isArray(parsedQueryParams.include)
-      ? parsedQueryParams.include.flatMap((item) =>
-          typeof item === "string" ? item.split(",").map((s) => s.trim()) : item
-        )
-      : parsedQueryParams.include
-      ? [parsedQueryParams.include].flatMap((item) =>
-          typeof item === "string" ? item.split(",").map((s) => s.trim()) : item
-        )
-      : [];
-
-    // Filter out any invalid include params
-    const validIncludeParams = includeParams.filter(
+    // Normalize and validate include parameters
+    const normalizedParams = includeParams.flatMap((param) => param.split(",").map((item) => item.trim()));
+    const validIncludeParams = normalizedParams.filter(
       (param): param is IncludeParam => includeEnum.safeParse(param).success
     );
 

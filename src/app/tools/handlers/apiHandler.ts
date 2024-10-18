@@ -64,33 +64,26 @@ export function apiHandler<
     try {
       const hasBody = !!request.body;
       const requestBody: z.infer<RequestBody> = hasBody
-        ? // parse the request when available, otherwise use the raw body
-          requestSchema?.parse(await request.json()) ?? (await request.json())
-        : // don't use json() if the content-type is not application/json
-          undefined;
+        ? requestSchema?.parse(await request.json()) ?? (await request.json())
+        : undefined;
 
-      // parse the route params, otherwise use the raw context params
       const pathParams = pathParamsSchema?.parse(context.params) ?? context.params;
 
-      // build a more convenient record of the query params
-      const queryParamsEntries: Record<string, string[]> = {};
+      // Parse query params and add raw query string
+      const queryParamsEntries: Record<string, string[] | string> = {};
       request.nextUrl.searchParams.forEach(
-        (values, key) => (queryParamsEntries[`${key}`] = values.split(",").filter(Boolean))
+        (values, key) => (queryParamsEntries[key] = values.split(",").filter(Boolean))
       );
+      queryParamsEntries.___rawQueryString = request.nextUrl.search.slice(1);
 
-      // parse the query params, otherwise use the raw request params
+      // Parse the query params, otherwise use the raw request params
       const queryParams = queryParamsSchema?.parse(queryParamsEntries) ?? request.nextUrl.searchParams;
 
       // manually call the wrapped http method (GET, POST, etc...)
       const responseBody = await methodCall({ body: requestBody, pathParams, queryParams });
 
       if (responseSchema) {
-        // use zod.parse on output response body to:
-        // - transform the body into the output schema (allows for type conversion like bigint -> string or number -> string)
-        // - filter the output to only keep the fields defined in the output schema (effectively removing any extraneous fields, making sure we never leak any information by accident) => https://zod.dev/?id=passthrough `By default Zod object schemas strip out unrecognized keys during parsing.`
-        // - always return a status field in the output only IF a schema is provided
         const parsedOutput = responseSchema.parse(responseBody);
-
         return NextResponse.json(parsedOutput);
       }
 
