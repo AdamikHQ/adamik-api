@@ -23,7 +23,12 @@ export const POST = apiHandler(
     const { chainId, accountId } = body;
 
     // Parse the raw query string to get all 'include' parameters
+    // We use the raw query string instead of the parsed queryParams.include
+    // to handle multiple 'include' parameters, which Next.js doesn't support by default
     const rawQueryString = queryParams.___rawQueryString;
+    if (typeof rawQueryString !== "string") {
+      throw new Error("Raw query string is missing or invalid");
+    }
     const rawParams = new URLSearchParams(rawQueryString);
     const includeParams = rawParams.getAll("include");
 

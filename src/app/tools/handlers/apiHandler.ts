@@ -74,6 +74,8 @@ export function apiHandler<
       request.nextUrl.searchParams.forEach(
         (values, key) => (queryParamsEntries[key] = values.split(",").filter(Boolean))
       );
+      // Add the raw query string to allow custom parsing in route handlers
+      // This is necessary to handle cases like multiple parameters with the same name
       queryParamsEntries.___rawQueryString = request.nextUrl.search.slice(1);
 
       // Parse the query params, otherwise use the raw request params
