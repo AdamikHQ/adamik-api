@@ -322,20 +322,40 @@
           {
             "in": "query",
             "name": "include",
-            "description": "Optional filter, to let you request only the data that you need.",
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "native",
-                  "tokens",
-                  "staking"
-                ]
-              },
-              "minItems": 1,
-              "description": "Optional filter, to let you request only the data that you need."
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "native",
+                    "tokens",
+                    "staking"
+                  ]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "native",
+                      "tokens",
+                      "staking"
+                    ]
+                  }
+                },
+                {
+                  "type": "string"
+                }
+              ]
             }
+          },
+          {
+            "in": "query",
+            "name": "___rawQueryString",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
           }
         ],
         "requestBody": {
@@ -961,7 +981,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1007,7 +1027,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1053,7 +1073,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1099,7 +1119,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1145,7 +1165,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1191,7 +1211,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1237,7 +1257,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1283,7 +1303,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1329,7 +1349,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1375,7 +1395,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1421,7 +1441,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1467,7 +1487,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1513,7 +1533,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1559,7 +1579,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1605,7 +1625,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1651,7 +1671,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1697,7 +1717,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1743,7 +1763,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1789,7 +1809,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1835,7 +1855,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1881,7 +1901,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1927,7 +1947,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1973,7 +1993,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2019,7 +2039,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2065,7 +2085,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2111,7 +2131,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2157,7 +2177,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2203,7 +2223,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2249,7 +2269,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2295,7 +2315,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2341,7 +2361,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2387,7 +2407,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2433,7 +2453,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2479,7 +2499,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2525,7 +2545,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2571,7 +2591,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2617,7 +2637,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2663,7 +2683,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2709,7 +2729,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2755,7 +2775,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2801,7 +2821,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2847,7 +2867,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2893,7 +2913,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2939,7 +2959,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2985,7 +3005,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3031,7 +3051,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3077,7 +3097,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3123,7 +3143,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3169,7 +3189,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3215,7 +3235,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3261,7 +3281,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3307,7 +3327,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3353,7 +3373,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3436,7 +3456,7 @@
                     "decimals": {
                       "type": "number"
                     },
-                    "isTestnet": {
+                    "isTestNet": {
                       "type": "boolean"
                     },
                     "params": {},
