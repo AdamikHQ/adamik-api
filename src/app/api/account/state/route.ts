@@ -16,9 +16,14 @@ export const POST = apiHandler(
     // Parse supported query params like : /.../...?include=native,tokens,staking
     // to build an ApiRequestFilters object like : { native?: true, tokens?: true, staking?: true }
     const filters: ApiRequestFilters = {};
-    queryParams.include?.forEach((param) => {
-      filters[param] = true;
-    });
+    const include = queryParams.include;
+    if (include) {
+      include.forEach((param) => {
+        if (param === "native" || param === "tokens" || param === "staking") {
+          filters[param] = true;
+        }
+      });
+    }
 
     const service = getService(chainId);
 
