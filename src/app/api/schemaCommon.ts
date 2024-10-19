@@ -97,7 +97,7 @@ const chainSchema = z.object({
   name: z.string(),
   ticker: z.string(),
   decimals: z.number(),
-  isTestnet: z.boolean().optional(),
+  isTestNet: z.boolean().optional(),
   params: z.any().optional(),
   supportedFeatures: chainSupportedFeaturesSchema,
 });
@@ -326,7 +326,7 @@ const outputTransactionDataSchema = z.object({
 const encodedTransactionSchema = z.object({
   // NOTE: 'any' here because 'encoded' can also be JSON
   // Improvement could be to properly type all possible encoded formats for every family
-  encoded: z.string().or(z.any()),
+  encoded: z.string().or(z.any().transform((data) => deepBigintToString(data))),
 });
 
 const signedAndEncodedTransactionSchema = encodedTransactionSchema.extend({
