@@ -8,34 +8,42 @@
 ## cosmoshub
 
 | nodeURL | https://lcd-cosmos.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
 
 | nodeURL | https://api-t.cosmos.nodestake.top |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## osmosis
 
 | nodeURL | https://lcd-osmosis.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## osmosis-testnet
 
 | nodeURL | https://g.w.lavanet.xyz:443/gateway/osmosist/rest/REDACTED |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## celestia
 
 | nodeURL | https://lcd-celestia.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## celestia-testnet
 
 | nodeURL | https://g.w.lavanet.xyz:443/gateway/celestiatm/rest/REDACTED |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## dydx
 
 | nodeURL | https://dydx-rest.publicnode.com |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## axelar
 
 | nodeURL | https://lcd-axelar.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## ethereum
 
@@ -220,31 +228,39 @@
 ## injective
 
 | nodeURL | https://lcd-injective.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## akash
 
 | nodeURL | https://lcd-akash.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## band
 
 | nodeURL | https://lcd-band.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## dymension
 
 | nodeURL | https://lcd-dymension.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## kyve
 
 | nodeURL | https://lcd-kyve.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## neutron
 
 | nodeURL | https://lcd-neutron.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## terra2
 
 | nodeURL | https://lcd-terra.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
 
 ## stargaze
 
 | nodeURL | https://lcd-stargaze.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
