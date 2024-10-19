@@ -150,9 +150,8 @@ function parseLegacyAminoTransaction(
     },
     gas: BigInt(mintscanTransaction.gas_used),
     // Placeholder values, actual values filled below
-    mode: TransactionMode.TRANSFER,
-    state: TransactionState.UNCONFIRMED,
-    senders: [],
+    mode: "unknown",
+    state: TransactionState.UNKNOWN,
   };
 
   if (mintscanTransaction.height !== "") {
@@ -294,7 +293,6 @@ function parseLegacyAminoTransaction(
       console.warn(
         `/!\\ Unsupported parsing of transaction ${mintscanTransaction.txhash} for chainId ${chainId}`
       );
-      return null;
   }
 
   return parsedTransaction;
@@ -324,9 +322,8 @@ function parseProtobufTransaction(
     },
     gas: BigInt(mintscanTransaction.gas_used),
     // Placeholder values, actual values filled below
-    mode: TransactionMode.TRANSFER,
-    state: TransactionState.UNCONFIRMED,
-    senders: [],
+    mode: "unknown",
+    state: TransactionState.UNKNOWN,
   };
 
   if (mintscanTransaction.height !== "") {
@@ -473,7 +470,6 @@ function parseProtobufTransaction(
       console.warn(
         `/!\\ Unsupported parsing of transaction ${mintscanTransaction.txhash} for chainId ${chainId}`
       );
-      return null;
   }
 
   return parsedTransaction;

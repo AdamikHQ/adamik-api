@@ -1,21 +1,13 @@
-import {
-  AccountHistory,
-  AccountHistoryPagination,
-  ApiRequestFilters,
-  FinalizedTransaction,
-} from "~/app/model/types_WIP";
+import { AccountHistory, AccountHistoryPagination, FinalizedTransaction } from "~/app/model/types_WIP";
 import { CosmosService } from ".";
 import { fetchAccountTransactions, mintscanToAdamikTransaction } from "../backend/mintscan";
 
 async function getAccountHistory(
   this: CosmosService,
   accountId: string,
-  pagination: AccountHistoryPagination,
-  filters: ApiRequestFilters
+  pagination: AccountHistoryPagination
 ): Promise<AccountHistory> {
   const transactions: FinalizedTransaction[] = [];
-
-  // TODO Apply filters
 
   const cosmosTransactions = await fetchAccountTransactions(this.chainId, accountId, pagination);
 
@@ -25,6 +17,7 @@ async function getAccountHistory(
     parsedTransaction &&
       transactions.push({
         parsed: parsedTransaction,
+        raw: cosmosTransaction,
       });
   }
 

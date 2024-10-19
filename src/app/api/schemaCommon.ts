@@ -343,7 +343,7 @@ const finalizedTransactionSchema = z.object({
     .object({
       chainId: chainIdSchema,
       id: z.string(),
-      mode: z.nativeEnum(TransactionMode),
+      mode: z.nativeEnum(TransactionMode).or(z.literal("unknown")),
       state: z.nativeEnum(TransactionState),
       tokenId: z.string().optional(),
       blockHeight: bigintToStringSchema.optional(),
@@ -365,7 +365,8 @@ const finalizedTransactionSchema = z.object({
         .object({
           address: z.string(),
         })
-        .array(),
+        .array()
+        .optional(),
       recipients: z
         .object({
           address: z.string(),

@@ -2,7 +2,6 @@ import {
   AccountHistory,
   AccountHistoryPagination,
   AccountState,
-  ApiRequestFilters,
   BroadcastStatus,
   ChainId,
   FinalizedTransaction,
@@ -36,8 +35,7 @@ abstract class BaseChainService {
   abstract getAccountState(accountId: string): Promise<AccountState>;
   abstract getAccountHistory(
     accountId: string,
-    pagination: AccountHistoryPagination,
-    filters: ApiRequestFilters
+    pagination: AccountHistoryPagination
   ): Promise<AccountHistory>;
 
   // Crafting

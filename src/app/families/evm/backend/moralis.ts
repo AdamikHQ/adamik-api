@@ -191,7 +191,6 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
 }
 
 // https://docs.moralis.com/web3-data-api/evm/wallet-history
-// TODO Pagination
 async function fetchAccountTransactions(
   chainId: ChainId,
   address: EvmAddress,

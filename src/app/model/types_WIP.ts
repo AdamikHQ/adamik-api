@@ -228,7 +228,7 @@ type FinalizedTransaction = {
   parsed?: {
     chainId: ChainId;
     id: string;
-    mode: TransactionMode;
+    mode: TransactionMode | "unknown";
     tokenId?: string;
     state: TransactionState;
     blockHeight?: bigint;
@@ -240,7 +240,7 @@ type FinalizedTransaction = {
     gas?: bigint;
     nonce?: bigint;
     memo?: string;
-    senders: {
+    senders?: {
       address: string;
     }[];
     recipients?: {
