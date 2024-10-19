@@ -322,19 +322,11 @@
           {
             "in": "query",
             "name": "include",
-            "description": "Optional filter, to let you request only the data that you need.",
+            "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "native",
-                  "tokens",
-                  "staking"
-                ]
-              },
-              "minItems": 1,
-              "description": "Optional filter, to let you request only the data that you need."
+              "type": "string",
+              "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
+              "example": "native,tokens,staking"
             }
           }
         ],
