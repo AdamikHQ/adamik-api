@@ -18,7 +18,6 @@ import {
   CosmosDelegation,
   CosmosRedelegation,
   CosmosRewards,
-  CosmosTransaction,
   CosmosUnbondingDelegation,
   CosmosValidator,
 } from "./types";
@@ -43,7 +42,7 @@ async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   return fetch(url, defaultOptions);
 }
 
-async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string) {
+async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string): Promise<T[]> {
   const url = new URL(urlString);
 
   let data: T[] = [];
@@ -66,6 +65,8 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
   return data;
 }
 
+// Unused, we rely on the explorer (mintscan) for that
+/*
 async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<CosmosTransaction | null> {
   const url = `${getRootUrl(chainId)}/cosmos/tx/v1beta1/txs/${transactionId}`;
 
@@ -77,6 +78,7 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
 
   return response.tx_response;
 }
+*/
 
 async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosBalance[]> {
   const url = `${getRootUrl(chainId)}/cosmos/bank/v1beta1/balances/${address}`;
@@ -345,7 +347,6 @@ export {
   fetchDelegations,
   fetchNetworkId,
   fetchRewards,
-  fetchTransaction,
   fetchUnbondingDelegations,
   getValidatorsCached,
   simulateTransaction,

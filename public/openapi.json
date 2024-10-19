@@ -718,6 +718,39 @@
         ],
         "summary": "Retrieve an account's history",
         "description": "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from_timestamp",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to_timestamp",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "description": "Optional filter, to let you request only the data that you need.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "parsed",
+                  "raw"
+                ]
+              },
+              "minItems": 1,
+              "description": "Optional filter, to let you request only the data that you need."
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -727,6 +760,14 @@
                   "chainId": {
                     "type": "string",
                     "enum": [
+                      "cosmoshub",
+                      "cosmoshub-testnet",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "axelar",
                       "ethereum",
                       "sepolia",
                       "holesky",
@@ -754,7 +795,15 @@
                       "moonbase",
                       "fantom",
                       "chiliz",
-                      "chiliz-testnet"
+                      "chiliz-testnet",
+                      "injective",
+                      "akash",
+                      "band",
+                      "dymension",
+                      "kyve",
+                      "neutron",
+                      "terra2",
+                      "stargaze"
                     ]
                   },
                   "accountId": {
@@ -791,6 +840,14 @@
                     "chainId": {
                       "type": "string",
                       "enum": [
+                        "cosmoshub",
+                        "cosmoshub-testnet",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "axelar",
                         "ethereum",
                         "sepolia",
                         "holesky",
@@ -818,7 +875,15 @@
                         "moonbase",
                         "fantom",
                         "chiliz",
-                        "chiliz-testnet"
+                        "chiliz-testnet",
+                        "injective",
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze"
                       ]
                     },
                     "accountId": {
@@ -839,6 +904,37 @@
                               "id": {
                                 "type": "string"
                               },
+                              "mode": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "transfer",
+                                      "transferToken",
+                                      "delegate",
+                                      "redelegate",
+                                      "undelegate",
+                                      "claimRewards"
+                                    ]
+                                  },
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "unknown"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "state": {
+                                "type": "string",
+                                "enum": [
+                                  "pending",
+                                  "unconfirmed",
+                                  "confirmed",
+                                  "failed",
+                                  "unknown"
+                                ]
+                              },
                               "tokenId": {
                                 "type": "string"
                               },
@@ -848,6 +944,26 @@
                               "timestamp": {
                                 "type": "string",
                                 "description": "Timestamp in milliseconds"
+                              },
+                              "fees": {
+                                "type": "object",
+                                "properties": {
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "gas": {
+                                "type": "string"
+                              },
+                              "nonce": {
+                                "type": "string"
+                              },
+                              "memo": {
+                                "type": "string"
                               },
                               "senders": {
                                 "type": "array",
@@ -880,23 +996,43 @@
                                   ]
                                 }
                               },
-                              "fees": {
-                                "type": "string"
-                              },
-                              "gas": {
-                                "type": "string"
-                              },
-                              "nonce": {
-                                "type": "string"
-                              },
-                              "memo": {
-                                "type": "string"
+                              "validators": {
+                                "type": "object",
+                                "properties": {
+                                  "source": {
+                                    "type": "object",
+                                    "properties": {
+                                      "address": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "address"
+                                    ]
+                                  },
+                                  "target": {
+                                    "type": "object",
+                                    "properties": {
+                                      "address": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "address"
+                                    ]
+                                  }
+                                }
                               }
                             },
                             "required": [
                               "chainId",
                               "id",
-                              "senders"
+                              "mode",
+                              "state",
+                              "fees"
                             ]
                           }
                         }
@@ -3708,6 +3844,37 @@
                             "id": {
                               "type": "string"
                             },
+                            "mode": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "transfer",
+                                    "transferToken",
+                                    "delegate",
+                                    "redelegate",
+                                    "undelegate",
+                                    "claimRewards"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "unknown"
+                                  ]
+                                }
+                              ]
+                            },
+                            "state": {
+                              "type": "string",
+                              "enum": [
+                                "pending",
+                                "unconfirmed",
+                                "confirmed",
+                                "failed",
+                                "unknown"
+                              ]
+                            },
                             "tokenId": {
                               "type": "string"
                             },
@@ -3717,6 +3884,26 @@
                             "timestamp": {
                               "type": "string",
                               "description": "Timestamp in milliseconds"
+                            },
+                            "fees": {
+                              "type": "object",
+                              "properties": {
+                                "amount": {
+                                  "type": "string"
+                                },
+                                "ticker": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "gas": {
+                              "type": "string"
+                            },
+                            "nonce": {
+                              "type": "string"
+                            },
+                            "memo": {
+                              "type": "string"
                             },
                             "senders": {
                               "type": "array",
@@ -3749,23 +3936,43 @@
                                 ]
                               }
                             },
-                            "fees": {
-                              "type": "string"
-                            },
-                            "gas": {
-                              "type": "string"
-                            },
-                            "nonce": {
-                              "type": "string"
-                            },
-                            "memo": {
-                              "type": "string"
+                            "validators": {
+                              "type": "object",
+                              "properties": {
+                                "source": {
+                                  "type": "object",
+                                  "properties": {
+                                    "address": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "address"
+                                  ]
+                                },
+                                "target": {
+                                  "type": "object",
+                                  "properties": {
+                                    "address": {
+                                      "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "address"
+                                  ]
+                                }
+                              }
                             }
                           },
                           "required": [
                             "chainId",
                             "id",
-                            "senders"
+                            "mode",
+                            "state",
+                            "fees"
                           ]
                         }
                       }

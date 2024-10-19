@@ -17,7 +17,9 @@ async function getTransaction(
     chainId: this.chainId,
     id: algoTransaction.id,
     senders: [{ address: algoTransaction.sender }],
-    fees: BigInt(algoTransaction.fee),
+    fees: {
+      amount: BigInt(algoTransaction.fee),
+    },
     // Placeholder values, actual values filled below
     state: TransactionState.UNCONFIRMED,
     mode: TransactionMode.TRANSFER,

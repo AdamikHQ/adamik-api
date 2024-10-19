@@ -40,7 +40,14 @@ const requestSchema = z
 const queryParamsSchema = z.object({
   from_timestamp: z.coerce.number().optional(),
   to_timestamp: z.coerce.number().optional(),
-  // TODO Support filtering on features
+  include: z
+    .array(z.enum(["parsed", "raw"]))
+    .nonempty()
+    .optional()
+    .openapi({
+      description: "Optional filter, to let you request only the data that you need.",
+    }),
+  // FIXME Need to also add these filters? How to combine with existing one above?
   /*
   include: z
     .array(
@@ -74,8 +81,7 @@ const accountHistoryOpenAPIPath: ZodOpenApiPathsObject = {
       description:
         "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
       requestParams: {
-        // TODO ?
-        //query: requestParamsSchema,
+        query: queryParamsSchema,
       },
       requestBody: {
         content: {
