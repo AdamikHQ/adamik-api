@@ -95,20 +95,26 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
 }
 
 async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transaction): Promise<void> {
+  const chain = CHAINS[chainId];
+
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
-  // amount is safe to cast as it's guaranteed to be filled in by completeTransaction
-  const amount = transaction.data.amount as bigint;
+  // NOTE These parameters are specific to Metamask-like signers
+  // Will need a more precise format than "JSON" if other signers require other parameters
+  const commonData = {
+    chainId: toHex(chain.nativeId),
+    maxPriorityFeePerGas: toHex(maxPriorityFeePerGas),
+    maxFeePerGas: toHex(maxFeePerGas),
+    gas: toHex(transaction.data.gas!),
+    from: transaction.data.sender,
+    nonce: toHex(transaction.data.nonce!),
+  };
 
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER: {
-      // NOTE These parameters are specific to Metamask-like signers
-      // Will need a more precise format than "JSON" if other signers require other parameters
       transaction.encoded = {
-        maxPriorityFeePerGas: toHex(maxPriorityFeePerGas as bigint),
-        maxFeePerGas: toHex(maxFeePerGas as bigint),
-        value: toHex(amount),
-        from: transaction.data.sender,
+        ...commonData,
+        value: toHex(transaction.data.amount!),
         to: transaction.data.recipient,
       } as any;
       break;
@@ -117,13 +123,12 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
       const data = encodeFunctionData({
         abi: erc20Abi,
         functionName: "transfer",
-        args: [transaction.data.recipient as EvmAddress, amount],
+        args: [transaction.data.recipient as EvmAddress, transaction.data.amount!],
       });
 
       transaction.encoded = {
-        maxPriorityFeePerGas: toHex(maxPriorityFeePerGas as bigint),
-        maxFeePerGas: toHex(maxFeePerGas as bigint),
-        from: transaction.data.sender,
+        ...commonData,
+        value: toHex(0n),
         to: transaction.data.tokenId,
         data,
       } as any;
@@ -152,9 +157,6 @@ async function encodeTransactionToBroadcast(
   // TODO: could be done with zod at route level?
   if (!isHexString(signedTransaction.signature)) {
     throw new UserInputError("Transaction signature must be in valid hex format");
-  }
-  if (!isHexString(signedTransaction.encoded)) {
-    throw new UserInputError("Encoded transaction must be in valid hex format");
   }
 
   // TODO Make sure this is documented...
@@ -190,9 +192,9 @@ async function encodeTransactionToBroadcast(
     }
   })();
 
-  const parsedTansaction: TransactionSerializable = parseTransaction(
-    signedTransaction.encoded as TransactionSerialized
-  );
+  const parsedTansaction: TransactionSerializable = isHexString(signedTransaction.encoded)
+    ? parseTransaction(signedTransaction.encoded as TransactionSerialized)
+    : (signedTransaction.encoded as TransactionSerializable);
 
   const chainParams = CHAINS[this.chainId].params as EvmChainParams;
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
