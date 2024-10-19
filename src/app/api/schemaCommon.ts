@@ -328,7 +328,7 @@ const outputTransactionDataSchema = z.object({
 const encodedTransactionSchema = z.object({
   // NOTE: 'any' here because 'encoded' can also be JSON
   // Improvement could be to properly type all possible encoded formats for every family
-  encoded: z.string().or(z.any()),
+  encoded: z.string().or(z.any().transform((data) => deepBigintToString(data))),
 });
 
 const signedAndEncodedTransactionSchema = encodedTransactionSchema.extend({
