@@ -16,12 +16,9 @@ export const POST = apiHandler(
     // Parse supported filters like : /.../...?include=native,tokens,staking
     // to build an ApiRequestFilters object like : { native?: true, tokens?: true, staking?: true }
     const filters: ApiRequestFilters = {};
-    // TODO Support filtering
-    /*
     queryParams.include?.forEach((param) => {
       filters[param] = true;
     });
-    */
 
     const { from_timestamp: fromTimestamp, to_timestamp: toTimestamp } = queryParams;
 
@@ -33,7 +30,18 @@ export const POST = apiHandler(
       throw new ValidationError(`Invalid accountId ${accountId} for chainId ${chainId}`);
     }
 
-    const history = await service.getAccountHistory(accountId, { fromTimestamp, toTimestamp }, filters);
+    const history = await service.getAccountHistory(accountId, { fromTimestamp, toTimestamp });
+
+    // Parsed is returned if (explicitely demanded OR nothing specific demanded)
+    const includeParsed = filters.parsed || !Object.keys(filters).length;
+    // Raw is returned only if explicitely demanded
+    const includeRaw = filters.raw;
+
+    history.transactions = history.transactions.map((transaction) => ({
+      // Syntax trick to conditionally include fields
+      ...(includeParsed && { parsed: transaction.parsed }),
+      ...(includeRaw && { raw: transaction.raw }),
+    }));
 
     return history;
   }

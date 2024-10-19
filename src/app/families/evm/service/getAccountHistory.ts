@@ -3,7 +3,6 @@ import { CHAINS } from "~/app/config/chains";
 import {
   AccountHistory,
   AccountHistoryPagination,
-  ApiRequestFilters,
   FinalizedTransaction,
   TransactionMode,
   TransactionState,
@@ -15,52 +14,46 @@ import { EvmAddress } from "../types";
 async function getAccountHistory(
   this: EvmService,
   accountId: string,
-  pagination: AccountHistoryPagination,
-  filters: ApiRequestFilters
+  pagination: AccountHistoryPagination
 ): Promise<AccountHistory> {
   const chain = CHAINS[this.chainId];
 
-  // TODO Apply filters
-
-  const moralisTransactions = await fetchAccountTransactions(
-    this.chainId,
-    accountId as EvmAddress,
-    pagination
-  );
+  const evmTransactions = await fetchAccountTransactions(this.chainId, accountId as EvmAddress, pagination);
 
   const transactions: FinalizedTransaction[] = [];
 
-  for (const moralisTransaction of moralisTransactions) {
+  for (const evmTransaction of evmTransactions) {
     // Moralis bug ? For some reason, transaction_fee is NOT in smallest unit... so we need to convert it
-    const feesBN = new BigNumber(moralisTransaction.transaction_fee).multipliedBy(
-      Math.pow(10, chain.decimals)
-    );
-    const fees = BigInt(feesBN.toFixed());
+    const feesBN = new BigNumber(evmTransaction.transaction_fee).multipliedBy(Math.pow(10, chain.decimals));
+    const feesAmount = BigInt(feesBN.toFixed());
 
     const parsedTransaction: FinalizedTransaction["parsed"] = {
       chainId: this.chainId,
-      id: moralisTransaction.hash,
-      timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
+      id: evmTransaction.hash,
+      timestamp: new Date(evmTransaction.block_timestamp).getTime(),
       senders: [
         {
-          address: moralisTransaction.from_address,
+          address: evmTransaction.from_address,
         },
       ],
-      fees,
-      gas: BigInt(moralisTransaction.gas),
-      nonce: BigInt(moralisTransaction.nonce),
+      fees: {
+        amount: feesAmount,
+        ticker: chain.ticker,
+      },
+      gas: BigInt(evmTransaction.gas),
+      nonce: BigInt(evmTransaction.nonce),
       // Placeholder values, actual values filled below
-      mode: TransactionMode.TRANSFER,
-      state: TransactionState.PENDING,
+      mode: "unknown",
+      state: TransactionState.UNKNOWN,
     };
 
-    if (moralisTransaction.block_number) {
+    if (evmTransaction.block_number) {
       parsedTransaction.state = TransactionState.CONFIRMED;
-      parsedTransaction.blockHeight = BigInt(moralisTransaction.block_number);
+      parsedTransaction.blockHeight = BigInt(evmTransaction.block_number);
     }
 
-    if (moralisTransaction.native_transfers?.length) {
-      const moralisNativeTransfer = moralisTransaction.native_transfers[0];
+    if (evmTransaction.native_transfers?.length) {
+      const moralisNativeTransfer = evmTransaction.native_transfers[0];
       parsedTransaction.mode = TransactionMode.TRANSFER;
       parsedTransaction.recipients = [
         {
@@ -68,8 +61,8 @@ async function getAccountHistory(
           address: moralisNativeTransfer.to_address,
         },
       ];
-    } else if (moralisTransaction.erc20_transfers?.length) {
-      const moralisErc20Transfer = moralisTransaction.erc20_transfers[0];
+    } else if (evmTransaction.erc20_transfers?.length) {
+      const moralisErc20Transfer = evmTransaction.erc20_transfers[0];
       parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
       parsedTransaction.tokenId = moralisErc20Transfer.address;
       parsedTransaction.recipients = [
@@ -82,6 +75,7 @@ async function getAccountHistory(
 
     transactions.push({
       parsed: parsedTransaction,
+      raw: evmTransaction,
     });
   }
 

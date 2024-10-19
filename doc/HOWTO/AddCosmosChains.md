@@ -37,3 +37,13 @@
     },
   },
 ```
+
+## Mintscan explorer
+
+Mintscan is currently the default and only explorer we use for all of our supported Cosmos chains.\
+
+It uses its own IDs to identify chains, so we need a mapping with our Adamik `ChainId`.
+
+1. Find your chain's ID at Mintscan: https://docs.cosmostation.io/apis#cosmos-sdk-based-chains-1
+2. If you don't find your chain there, it probably means it isn't supported by Mintscan... you can try probing the mintscan endpoints with your chain ID to make sure, otherwise nothing else to do
+3. If you found your chain, then in [/src/app/families/cosmos/backend/mintscan.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/families/cosmos/backend/mintscan.ts) update `MINTSCAN_CHAIN_IDS` with Adamik's ChainId and the Mintscan ID

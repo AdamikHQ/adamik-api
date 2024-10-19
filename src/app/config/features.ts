@@ -24,7 +24,7 @@ const COSMOS_FEATURES: ChainSupportedFeatures = {
   read: {
     account: {
       balances: { native: true, tokens: true, staking: true },
-      transactions: { native: false, tokens: false, staking: false },
+      transactions: { native: true, tokens: false, staking: true },
     },
     transaction: { native: true, tokens: false, staking: true },
   },
