@@ -69,41 +69,40 @@ const responseSchema = z.object({
       })
       .array()
       .optional(),
+    staking: z
+      .object({
+        total: bigintToStringSchema,
+        locked: bigintToStringSchema,
+        unlocking: bigintToStringSchema,
+        unlocked: bigintToStringSchema,
+        positions: z
+          .object({
+            validatorAddresses: z.string().array(),
+            amount: bigintToStringSchema,
+            status: z.nativeEnum(StakingStatus),
+            completionDate: z.number().optional(),
+          })
+          .array(),
+        rewards: z
+          .object({
+            native: z
+              .object({
+                validatorAddress: z.string(),
+                amount: bigintToStringSchema,
+              })
+              .array(),
+            tokens: z
+              .object({
+                token: tokenSchema,
+                validatorAddress: z.string().optional(),
+                amount: bigintToStringSchema,
+              })
+              .array(),
+          })
+          .optional(),
+      })
+      .optional(),
   }),
-  staking: z
-    .object({
-      total: bigintToStringSchema,
-      locked: bigintToStringSchema,
-      unlocking: bigintToStringSchema,
-      unlocked: bigintToStringSchema,
-      positions: z
-        .object({
-          validatorAddresses: z.string().array(),
-          amount: bigintToStringSchema,
-          status: z.nativeEnum(StakingStatus),
-          completionDate: z.number().optional(),
-        })
-        .array(),
-      rewards: z
-        .object({
-          native: z
-            .object({
-              validatorAddress: z.string(),
-              amount: bigintToStringSchema,
-            })
-            .array(),
-          tokens: z
-            .object({
-              token: tokenSchema,
-              validatorAddress: z.string().optional(),
-              amount: bigintToStringSchema,
-            })
-            .array(),
-        })
-        .optional(),
-    })
-    .optional(),
-  //status: statusSchema, TODO Should all endpoints have a status?
 });
 
 const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
