@@ -732,6 +732,23 @@
             "schema": {
               "type": "number"
             }
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "description": "Optional filter, to let you request only the data that you need.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "parsed",
+                  "raw"
+                ]
+              },
+              "minItems": 1,
+              "description": "Optional filter, to let you request only the data that you need."
+            }
           }
         ],
         "requestBody": {
@@ -888,14 +905,24 @@
                                 "type": "string"
                               },
                               "mode": {
-                                "type": "string",
-                                "enum": [
-                                  "transfer",
-                                  "transferToken",
-                                  "delegate",
-                                  "redelegate",
-                                  "undelegate",
-                                  "claimRewards"
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "transfer",
+                                      "transferToken",
+                                      "delegate",
+                                      "redelegate",
+                                      "undelegate",
+                                      "claimRewards"
+                                    ]
+                                  },
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "unknown"
+                                    ]
+                                  }
                                 ]
                               },
                               "state": {
@@ -1005,8 +1032,7 @@
                               "id",
                               "mode",
                               "state",
-                              "fees",
-                              "senders"
+                              "fees"
                             ]
                           }
                         }
@@ -3819,14 +3845,24 @@
                               "type": "string"
                             },
                             "mode": {
-                              "type": "string",
-                              "enum": [
-                                "transfer",
-                                "transferToken",
-                                "delegate",
-                                "redelegate",
-                                "undelegate",
-                                "claimRewards"
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "transfer",
+                                    "transferToken",
+                                    "delegate",
+                                    "redelegate",
+                                    "undelegate",
+                                    "claimRewards"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "unknown"
+                                  ]
+                                }
                               ]
                             },
                             "state": {
@@ -3936,8 +3972,7 @@
                             "id",
                             "mode",
                             "state",
-                            "fees",
-                            "senders"
+                            "fees"
                           ]
                         }
                       }
