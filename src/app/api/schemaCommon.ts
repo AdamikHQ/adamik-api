@@ -332,7 +332,7 @@ const encodedTransactionSchema = z.object({
     z
       .any()
       .transform((data) => deepBigintToString(data))
-      .pipe(z.unknown())
+      .pipe(z.any())
   ),
 });
 
