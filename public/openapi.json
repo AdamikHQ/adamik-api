@@ -560,143 +560,143 @@
                               "token"
                             ]
                           }
-                        }
-                      }
-                    },
-                    "staking": {
-                      "type": "object",
-                      "properties": {
-                        "total": {
-                          "type": "string"
                         },
-                        "locked": {
-                          "type": "string"
-                        },
-                        "unlocking": {
-                          "type": "string"
-                        },
-                        "unlocked": {
-                          "type": "string"
-                        },
-                        "positions": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "validatorAddresses": {
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                }
-                              },
-                              "amount": {
-                                "type": "string"
-                              },
-                              "status": {
-                                "type": "string",
-                                "enum": [
-                                  "free",
-                                  "locked",
-                                  "unlocking",
-                                  "unlocked"
-                                ]
-                              },
-                              "completionDate": {
-                                "type": "number"
-                              }
-                            },
-                            "required": [
-                              "validatorAddresses",
-                              "status"
-                            ]
-                          }
-                        },
-                        "rewards": {
+                        "staking": {
                           "type": "object",
                           "properties": {
-                            "native": {
+                            "total": {
+                              "type": "string"
+                            },
+                            "locked": {
+                              "type": "string"
+                            },
+                            "unlocking": {
+                              "type": "string"
+                            },
+                            "unlocked": {
+                              "type": "string"
+                            },
+                            "positions": {
                               "type": "array",
                               "items": {
                                 "type": "object",
                                 "properties": {
-                                  "validatorAddress": {
-                                    "type": "string"
+                                  "validatorAddresses": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
                                   },
                                   "amount": {
                                     "type": "string"
+                                  },
+                                  "status": {
+                                    "type": "string",
+                                    "enum": [
+                                      "free",
+                                      "locked",
+                                      "unlocking",
+                                      "unlocked"
+                                    ]
+                                  },
+                                  "completionDate": {
+                                    "type": "number"
                                   }
                                 },
                                 "required": [
-                                  "validatorAddress"
+                                  "validatorAddresses",
+                                  "status"
                                 ]
                               }
                             },
-                            "tokens": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "token": {
+                            "rewards": {
+                              "type": "object",
+                              "properties": {
+                                "native": {
+                                  "type": "array",
+                                  "items": {
                                     "type": "object",
                                     "properties": {
-                                      "chainId": {
-                                        "$ref": "#/components/schemas/ChainId"
-                                      },
-                                      "type": {
-                                        "type": "string",
-                                        "enum": [
-                                          "ASA",
-                                          "ERC20",
-                                          "IBC",
-                                          "JETTON"
-                                        ]
-                                      },
-                                      "id": {
+                                      "validatorAddress": {
                                         "type": "string"
                                       },
-                                      "name": {
-                                        "type": "string"
-                                      },
-                                      "ticker": {
-                                        "type": "string"
-                                      },
-                                      "decimals": {
-                                        "type": "string"
-                                      },
-                                      "contractAddress": {
+                                      "amount": {
                                         "type": "string"
                                       }
                                     },
                                     "required": [
-                                      "chainId",
-                                      "type",
-                                      "id",
-                                      "name",
-                                      "ticker"
+                                      "validatorAddress"
                                     ]
-                                  },
-                                  "validatorAddress": {
-                                    "type": "string"
-                                  },
-                                  "amount": {
-                                    "type": "string"
                                   }
                                 },
-                                "required": [
-                                  "token"
-                                ]
-                              }
+                                "tokens": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "token": {
+                                        "type": "object",
+                                        "properties": {
+                                          "chainId": {
+                                            "$ref": "#/components/schemas/ChainId"
+                                          },
+                                          "type": {
+                                            "type": "string",
+                                            "enum": [
+                                              "ASA",
+                                              "ERC20",
+                                              "IBC",
+                                              "JETTON"
+                                            ]
+                                          },
+                                          "id": {
+                                            "type": "string"
+                                          },
+                                          "name": {
+                                            "type": "string"
+                                          },
+                                          "ticker": {
+                                            "type": "string"
+                                          },
+                                          "decimals": {
+                                            "type": "string"
+                                          },
+                                          "contractAddress": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "chainId",
+                                          "type",
+                                          "id",
+                                          "name",
+                                          "ticker"
+                                        ]
+                                      },
+                                      "validatorAddress": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "token"
+                                    ]
+                                  }
+                                }
+                              },
+                              "required": [
+                                "native",
+                                "tokens"
+                              ]
                             }
                           },
                           "required": [
-                            "native",
-                            "tokens"
+                            "positions"
                           ]
                         }
-                      },
-                      "required": [
-                        "positions"
-                      ]
+                      }
                     }
                   },
                   "required": [
@@ -961,7 +961,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1007,7 +1007,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1053,7 +1053,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1099,7 +1099,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1145,7 +1145,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1191,7 +1191,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1237,7 +1237,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1283,7 +1283,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1329,7 +1329,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1375,7 +1375,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1421,7 +1421,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1467,7 +1467,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1513,7 +1513,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1559,7 +1559,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1605,7 +1605,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1651,7 +1651,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1697,7 +1697,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1743,7 +1743,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1789,7 +1789,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1835,7 +1835,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1881,7 +1881,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1927,7 +1927,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1973,7 +1973,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2019,7 +2019,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2065,7 +2065,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2111,7 +2111,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2157,7 +2157,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2203,7 +2203,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2249,7 +2249,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2295,7 +2295,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2341,7 +2341,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2387,7 +2387,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2433,7 +2433,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2479,7 +2479,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2525,7 +2525,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2571,7 +2571,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2617,7 +2617,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2663,7 +2663,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2709,7 +2709,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2755,7 +2755,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2801,7 +2801,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2847,7 +2847,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2893,7 +2893,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2939,7 +2939,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2985,7 +2985,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3031,7 +3031,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3077,7 +3077,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3123,7 +3123,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3169,7 +3169,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3215,7 +3215,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3261,7 +3261,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3307,7 +3307,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3353,7 +3353,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3436,7 +3436,7 @@
                     "decimals": {
                       "type": "number"
                     },
-                    "isTestnet": {
+                    "isTestNet": {
                       "type": "boolean"
                     },
                     "params": {},
