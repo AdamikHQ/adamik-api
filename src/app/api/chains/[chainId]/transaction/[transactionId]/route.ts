@@ -16,9 +16,14 @@ export const GET = apiHandler(
     // Parse supported query params like : /.../...?include=parsed,raw
     // to build an ApiRequestFilters object like : { parsed?: true, raw?: true }
     const filters: ApiRequestFilters = {};
-    queryParams.include?.forEach((param) => {
-      filters[param] = true;
-    });
+    const include = queryParams.include;
+    if (include) {
+      include.forEach((param) => {
+        if (param === "parsed" || param === "raw") {
+          filters[param] = true;
+        }
+      });
+    }
 
     const service = getService(chainId);
 
@@ -38,9 +43,9 @@ export const GET = apiHandler(
       }
     }
 
-    // Parsed is returned if (explicitely demanded OR nothing specific demanded)
+    // Parsed is returned if (explicitly demanded OR nothing specific demanded)
     const includeParsed = filters.parsed || !Object.keys(filters).length;
-    // Raw is returned only if explicitely demanded
+    // Raw is returned only if explicitly demanded
     const includeRaw = filters.raw;
 
     return {
