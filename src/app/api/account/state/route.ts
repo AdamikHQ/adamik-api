@@ -4,8 +4,6 @@ import { ApiRequestFilters } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { queryParamsSchema, requestSchema, responseSchema } from "./schema";
 
-type Include = "native" | "tokens" | "staking";
-
 export const POST = apiHandler(
   {
     requestSchema,
