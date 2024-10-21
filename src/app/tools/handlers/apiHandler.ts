@@ -64,6 +64,9 @@ export function apiHandler<
   return applyMoesifMiddleware(
     async (request: NextRequest, context: { params?: PathParams }): Promise<NextResponse> => {
       try {
+        console.log("apiHandler - request headers: ", request.headers);
+        console.log("apiHandler - request header: ", request.headers.get("X-Adamik-User-Id"));
+
         const hasBody = !!request.body;
         const requestBody: z.infer<RequestBody> = hasBody
           ? // parse the request when available, otherwise use the raw body

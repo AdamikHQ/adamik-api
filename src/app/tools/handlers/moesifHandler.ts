@@ -9,8 +9,7 @@ const moesifOptions: MoesifOptions = {
   isNextJsAppRouter: true,
   debug: true,
   identifyUser: (req, res) => {
-    console.log(`extracting user from headers:`, (req as NextRequest).headers);
-    return (req as NextRequest).headers.get("X-Adamik-User-Id") || "cus_R2Z0ASpxTEDB1O";
+    return (req as NextRequest).headers.get("X-Adamik-User-Id");
   },
   getMetadata: (req, res) => {
     return {

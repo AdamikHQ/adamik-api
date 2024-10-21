@@ -18,8 +18,9 @@ export async function middleware(request: NextRequest) {
 
   console.log("API KEY:", client?.apiKey);
 
-  request.headers.set("X-Adamik-User-Id", client?.clientId || "unknown");
-  console.log("middleware headers", request.headers);
+  const headers = new Headers(request.headers);
+  headers.set("X-Adamik-User-Id", client?.clientId || "unknown");
+
   // NOTE No additional checks for now
   // In the future we could apply rate limits, or special access rights
   if (!client) {
@@ -28,6 +29,14 @@ export async function middleware(request: NextRequest) {
       { status: 401, statusText: `Unauthorized` }
     );
   }
+  return NextResponse.next({
+    // New option `request.headers` which accepts a Headers object
+    // overrides request headers with the specified new ones.
+    // NB: although we "return" a response, this actually gets forwarded to route
+    request: {
+      headers,
+    },
+  });
 }
 
 // Limit the middleware to paths starting with `/api/`
