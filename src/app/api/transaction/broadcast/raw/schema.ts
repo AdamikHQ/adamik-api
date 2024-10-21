@@ -15,11 +15,11 @@ const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/broadcast/raw": {
     post: {
       tags: ["transaction"],
-      summary: "Broadcast a signed transaction in raw format",
+      summary: "Broadcast a signed transaction (raw format)",
       description:
-        "Broadcasts a signed transaction to the blockchain. \
-        Unlike the standard broadcast, which builds the broadcast payload for you, this endpoint lets you provide the final payload ready to be sent to the blockchain. \
-        Returns a transaction receipt (hash) or error details.",
+        "Broadcasts a signed transaction to the blockchain in raw format. \
+        Unlike the standard broadcast, which builds the broadcast payload for you, this endpoint requires the final payload, ready for submission. \
+        Returns the transaction receipt (hash) or error details in case of failure.",
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
