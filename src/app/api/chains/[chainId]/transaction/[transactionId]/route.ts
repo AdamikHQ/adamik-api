@@ -18,13 +18,9 @@ export const GET = apiHandler(
     const filters: ApiRequestFilters = {};
     const include = queryParams.include;
     if (include) {
-      // Use the schema to validate and process the include array
-      const validInclude = queryParamsSchema.shape.include.parse(include);
-      if (validInclude) {
-        validInclude.forEach((param) => {
-          filters[param] = true;
-        });
-      }
+      include.forEach((param) => {
+        filters[param] = true;
+      });
     }
 
     const service = getService(chainId);
