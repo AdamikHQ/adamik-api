@@ -4,6 +4,8 @@ import { ApiRequestFilters } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { queryParamsSchema, requestSchema, responseSchema } from "./schema";
 
+type Include = "native" | "tokens" | "staking";
+
 export const POST = apiHandler(
   {
     requestSchema,
@@ -13,16 +15,17 @@ export const POST = apiHandler(
   async ({ body, queryParams }) => {
     const { chainId, accountId } = body;
 
-    // Parse supported query params like : /.../...?include=native,tokens,staking
-    // to build an ApiRequestFilters object like : { native?: true, tokens?: true, staking?: true }
+    // Parse supported query params
     const filters: ApiRequestFilters = {};
     const include = queryParams.include;
     if (include) {
-      include.forEach((param) => {
-        if (param === "native" || param === "tokens" || param === "staking") {
+      // Use the schema to validate and process the include array
+      const validInclude = queryParamsSchema.shape.include.parse(include);
+      if (validInclude) {
+        validInclude.forEach((param) => {
           filters[param] = true;
-        }
-      });
+        });
+      }
     }
 
     const service = getService(chainId);
@@ -36,7 +39,7 @@ export const POST = apiHandler(
     const state = await service.getAccountState(accountId);
 
     // Apply filters
-    // Each field is returned if (explicitely demanded OR nothing specific demanded)
+    // Each field is returned if (explicitly demanded OR nothing specific demanded)
     const includeNative = filters.native || !Object.keys(filters).length;
     const includeTokens = filters.tokens || !Object.keys(filters).length;
     const includeStaking = filters.staking || !Object.keys(filters).length;
