@@ -10,6 +10,7 @@ import { chainsChainIdTransactionTransactionIdOpenAPIPath } from "~/app/api/chai
 import { chainsChainIdValidatorsOpenAPIPath } from "~/app/api/chains/[chainId]/validators/schema";
 import { chainsOpenAPIPath } from "~/app/api/chains/schema";
 import { apiOpenAPIPath } from "~/app/api/schema";
+import { transactionBroadcastOpenAPIPath as transactionBroadcastRawOpenAPIPath } from "~/app/api/transaction/broadcast/raw/schema";
 import { transactionBroadcastOpenAPIPath } from "~/app/api/transaction/broadcast/schema";
 import { transactionEncodeOpenAPIPath } from "~/app/api/transaction/encode/schema";
 import { transactionValidateOpenAPIPath } from "~/app/api/transaction/validate/schema";
@@ -59,6 +60,7 @@ function generateOpenAPISpec(): oas31.OpenAPIObject {
       ...chainsChainIdTransactionTransactionIdOpenAPIPath,
       ...chainsChainIdValidatorsOpenAPIPath,
       ...transactionBroadcastOpenAPIPath,
+      ...transactionBroadcastRawOpenAPIPath,
       ...transactionEncodeOpenAPIPath,
       ...transactionValidateOpenAPIPath,
     },
