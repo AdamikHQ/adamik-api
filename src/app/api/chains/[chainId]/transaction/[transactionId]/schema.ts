@@ -30,18 +30,16 @@ type Include = (typeof includeValues)[number];
 
 const queryParamsSchema = z.object({
   include: z
-    .preprocess(
-      (val) => (Array.isArray(val) ? val.join(",") : val),
-      z
-        .string()
-        .optional()
-        .transform((val) => (val ? (val.split(",") as Include[]) : undefined))
-        .refine(
-          (arr): arr is Include[] | undefined =>
-            arr === undefined || arr.every((item): item is Include => includeValues.includes(item)),
-          { message: "Invalid include value" }
-        )
-    )
+    .string()
+    .optional()
+    .transform((val) => {
+      if (!val) return undefined;
+      const items = val.split(",") as Include[];
+      return items.every((item) => includeValues.includes(item)) ? items : undefined;
+    })
+    .refine((arr): arr is Include[] | undefined => arr === undefined || arr.length > 0, {
+      message: "At least one valid include value must be provided",
+    })
     .openapi({
       description:
         "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
