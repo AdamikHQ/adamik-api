@@ -325,19 +325,11 @@
           {
             "in": "query",
             "name": "include",
-            "description": "Optional filter, to let you request only the data that you need.",
+            "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "native",
-                  "tokens",
-                  "staking"
-                ]
-              },
-              "minItems": 1,
-              "description": "Optional filter, to let you request only the data that you need."
+              "type": "string",
+              "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
+              "example": "native,tokens,staking"
             }
           }
         ],
@@ -567,145 +559,145 @@
                               "token"
                             ]
                           }
-                        }
-                      }
-                    },
-                    "staking": {
-                      "type": "object",
-                      "properties": {
-                        "total": {
-                          "type": "string"
                         },
-                        "locked": {
-                          "type": "string"
-                        },
-                        "unlocking": {
-                          "type": "string"
-                        },
-                        "unlocked": {
-                          "type": "string"
-                        },
-                        "positions": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "validatorAddresses": {
-                                "type": "array",
-                                "items": {
-                                  "type": "string"
-                                }
-                              },
-                              "amount": {
-                                "type": "string"
-                              },
-                              "status": {
-                                "type": "string",
-                                "enum": [
-                                  "free",
-                                  "locked",
-                                  "unlocking",
-                                  "unlocked"
-                                ]
-                              },
-                              "completionDate": {
-                                "type": "number"
-                              }
-                            },
-                            "required": [
-                              "validatorAddresses",
-                              "status"
-                            ]
-                          }
-                        },
-                        "rewards": {
+                        "staking": {
                           "type": "object",
                           "properties": {
-                            "native": {
+                            "total": {
+                              "type": "string"
+                            },
+                            "locked": {
+                              "type": "string"
+                            },
+                            "unlocking": {
+                              "type": "string"
+                            },
+                            "unlocked": {
+                              "type": "string"
+                            },
+                            "positions": {
                               "type": "array",
                               "items": {
                                 "type": "object",
                                 "properties": {
-                                  "validatorAddress": {
-                                    "type": "string"
+                                  "validatorAddresses": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
                                   },
                                   "amount": {
                                     "type": "string"
+                                  },
+                                  "status": {
+                                    "type": "string",
+                                    "enum": [
+                                      "free",
+                                      "locked",
+                                      "unlocking",
+                                      "unlocked"
+                                    ]
+                                  },
+                                  "completionDate": {
+                                    "type": "number"
                                   }
                                 },
                                 "required": [
-                                  "validatorAddress"
+                                  "validatorAddresses",
+                                  "status"
                                 ]
                               }
                             },
-                            "tokens": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "token": {
+                            "rewards": {
+                              "type": "object",
+                              "properties": {
+                                "native": {
+                                  "type": "array",
+                                  "items": {
                                     "type": "object",
                                     "properties": {
-                                      "chainId": {
-                                        "$ref": "#/components/schemas/ChainId"
-                                      },
-                                      "type": {
-                                        "type": "string",
-                                        "enum": [
-                                          "TRC10",
-                                          "TRC20",
-                                          "ASA",
-                                          "ERC20",
-                                          "IBC",
-                                          "JETTON"
-                                        ]
-                                      },
-                                      "id": {
+                                      "validatorAddress": {
                                         "type": "string"
                                       },
-                                      "name": {
-                                        "type": "string"
-                                      },
-                                      "ticker": {
-                                        "type": "string"
-                                      },
-                                      "decimals": {
-                                        "type": "string"
-                                      },
-                                      "contractAddress": {
+                                      "amount": {
                                         "type": "string"
                                       }
                                     },
                                     "required": [
-                                      "chainId",
-                                      "type",
-                                      "id",
-                                      "name",
-                                      "ticker"
+                                      "validatorAddress"
                                     ]
-                                  },
-                                  "validatorAddress": {
-                                    "type": "string"
-                                  },
-                                  "amount": {
-                                    "type": "string"
                                   }
                                 },
-                                "required": [
-                                  "token"
-                                ]
-                              }
+                                "tokens": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "token": {
+                                        "type": "object",
+                                        "properties": {
+                                          "chainId": {
+                                            "$ref": "#/components/schemas/ChainId"
+                                          },
+                                          "type": {
+                                            "type": "string",
+                                            "enum": [
+                                              "TRC10",
+                                              "TRC20",
+                                              "ASA",
+                                              "ERC20",
+                                              "IBC",
+                                              "JETTON"
+                                            ]
+                                          },
+                                          "id": {
+                                            "type": "string"
+                                          },
+                                          "name": {
+                                            "type": "string"
+                                          },
+                                          "ticker": {
+                                            "type": "string"
+                                          },
+                                          "decimals": {
+                                            "type": "string"
+                                          },
+                                          "contractAddress": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "chainId",
+                                          "type",
+                                          "id",
+                                          "name",
+                                          "ticker"
+                                        ]
+                                      },
+                                      "validatorAddress": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "token"
+                                    ]
+                                  }
+                                }
+                              },
+                              "required": [
+                                "native",
+                                "tokens"
+                              ]
                             }
                           },
                           "required": [
-                            "native",
-                            "tokens"
+                            "positions"
                           ]
                         }
-                      },
-                      "required": [
-                        "positions"
-                      ]
+                      }
                     }
                   },
                   "required": [
@@ -727,6 +719,39 @@
         ],
         "summary": "Retrieve an account's history",
         "description": "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from_timestamp",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to_timestamp",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "description": "Optional filter, to let you request only the data that you need.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "parsed",
+                  "raw"
+                ]
+              },
+              "minItems": 1,
+              "description": "Optional filter, to let you request only the data that you need."
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -736,6 +761,14 @@
                   "chainId": {
                     "type": "string",
                     "enum": [
+                      "cosmoshub",
+                      "cosmoshub-testnet",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "axelar",
                       "ethereum",
                       "sepolia",
                       "holesky",
@@ -763,7 +796,15 @@
                       "moonbase",
                       "fantom",
                       "chiliz",
-                      "chiliz-testnet"
+                      "chiliz-testnet",
+                      "injective",
+                      "akash",
+                      "band",
+                      "dymension",
+                      "kyve",
+                      "neutron",
+                      "terra2",
+                      "stargaze"
                     ]
                   },
                   "accountId": {
@@ -800,6 +841,14 @@
                     "chainId": {
                       "type": "string",
                       "enum": [
+                        "cosmoshub",
+                        "cosmoshub-testnet",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "axelar",
                         "ethereum",
                         "sepolia",
                         "holesky",
@@ -827,7 +876,15 @@
                         "moonbase",
                         "fantom",
                         "chiliz",
-                        "chiliz-testnet"
+                        "chiliz-testnet",
+                        "injective",
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze"
                       ]
                     },
                     "accountId": {
@@ -848,6 +905,37 @@
                               "id": {
                                 "type": "string"
                               },
+                              "mode": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "transfer",
+                                      "transferToken",
+                                      "delegate",
+                                      "redelegate",
+                                      "undelegate",
+                                      "claimRewards"
+                                    ]
+                                  },
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "unknown"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "state": {
+                                "type": "string",
+                                "enum": [
+                                  "pending",
+                                  "unconfirmed",
+                                  "confirmed",
+                                  "failed",
+                                  "unknown"
+                                ]
+                              },
                               "tokenId": {
                                 "type": "string"
                               },
@@ -857,6 +945,26 @@
                               "timestamp": {
                                 "type": "string",
                                 "description": "Timestamp in milliseconds"
+                              },
+                              "fees": {
+                                "type": "object",
+                                "properties": {
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "gas": {
+                                "type": "string"
+                              },
+                              "nonce": {
+                                "type": "string"
+                              },
+                              "memo": {
+                                "type": "string"
                               },
                               "senders": {
                                 "type": "array",
@@ -889,23 +997,43 @@
                                   ]
                                 }
                               },
-                              "fees": {
-                                "type": "string"
-                              },
-                              "gas": {
-                                "type": "string"
-                              },
-                              "nonce": {
-                                "type": "string"
-                              },
-                              "memo": {
-                                "type": "string"
+                              "validators": {
+                                "type": "object",
+                                "properties": {
+                                  "source": {
+                                    "type": "object",
+                                    "properties": {
+                                      "address": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "address"
+                                    ]
+                                  },
+                                  "target": {
+                                    "type": "object",
+                                    "properties": {
+                                      "address": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "address"
+                                    ]
+                                  }
+                                }
                               }
                             },
                             "required": [
                               "chainId",
                               "id",
-                              "senders"
+                              "mode",
+                              "state",
+                              "fees"
                             ]
                           }
                         }
@@ -971,7 +1099,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1018,7 +1146,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1065,7 +1193,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1112,7 +1240,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1159,7 +1287,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1206,7 +1334,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1253,7 +1381,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1300,7 +1428,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1347,7 +1475,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1394,7 +1522,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1441,7 +1569,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1488,7 +1616,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1535,7 +1663,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1582,7 +1710,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1629,7 +1757,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1676,7 +1804,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1723,7 +1851,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1770,7 +1898,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1817,7 +1945,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1864,7 +1992,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1911,7 +2039,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -1958,7 +2086,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2005,7 +2133,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2052,7 +2180,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2099,7 +2227,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2146,7 +2274,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2193,7 +2321,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2240,7 +2368,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2287,7 +2415,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2334,7 +2462,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2381,7 +2509,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2428,7 +2556,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2475,7 +2603,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2522,7 +2650,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2569,7 +2697,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2616,7 +2744,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2663,7 +2791,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2710,7 +2838,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2757,7 +2885,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2804,7 +2932,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2851,7 +2979,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2898,7 +3026,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2945,7 +3073,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -2992,7 +3120,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3039,7 +3167,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3086,7 +3214,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3133,7 +3261,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3180,7 +3308,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3227,7 +3355,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3274,7 +3402,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3321,7 +3449,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3368,7 +3496,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3415,7 +3543,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3462,7 +3590,7 @@
                             "decimals": {
                               "type": "number"
                             },
-                            "isTestnet": {
+                            "isTestNet": {
                               "type": "boolean"
                             },
                             "params": {},
@@ -3546,7 +3674,7 @@
                     "decimals": {
                       "type": "number"
                     },
-                    "isTestnet": {
+                    "isTestNet": {
                       "type": "boolean"
                     },
                     "params": {},
@@ -3786,18 +3914,11 @@
           {
             "in": "query",
             "name": "include",
-            "description": "Optional filter, to let you request only the data that you need.",
+            "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "parsed",
-                  "raw"
-                ]
-              },
-              "minItems": 1,
-              "description": "Optional filter, to let you request only the data that you need."
+              "type": "string",
+              "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
+              "example": "parsed,raw"
             }
           }
         ],
@@ -3822,6 +3943,37 @@
                             "id": {
                               "type": "string"
                             },
+                            "mode": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "transfer",
+                                    "transferToken",
+                                    "delegate",
+                                    "redelegate",
+                                    "undelegate",
+                                    "claimRewards"
+                                  ]
+                                },
+                                {
+                                  "type": "string",
+                                  "enum": [
+                                    "unknown"
+                                  ]
+                                }
+                              ]
+                            },
+                            "state": {
+                              "type": "string",
+                              "enum": [
+                                "pending",
+                                "unconfirmed",
+                                "confirmed",
+                                "failed",
+                                "unknown"
+                              ]
+                            },
                             "tokenId": {
                               "type": "string"
                             },
@@ -3831,6 +3983,26 @@
                             "timestamp": {
                               "type": "string",
                               "description": "Timestamp in milliseconds"
+                            },
+                            "fees": {
+                              "type": "object",
+                              "properties": {
+                                "amount": {
+                                  "type": "string"
+                                },
+                                "ticker": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "gas": {
+                              "type": "string"
+                            },
+                            "nonce": {
+                              "type": "string"
+                            },
+                            "memo": {
+                              "type": "string"
                             },
                             "senders": {
                               "type": "array",
@@ -3863,23 +4035,43 @@
                                 ]
                               }
                             },
-                            "fees": {
-                              "type": "string"
-                            },
-                            "gas": {
-                              "type": "string"
-                            },
-                            "nonce": {
-                              "type": "string"
-                            },
-                            "memo": {
-                              "type": "string"
+                            "validators": {
+                              "type": "object",
+                              "properties": {
+                                "source": {
+                                  "type": "object",
+                                  "properties": {
+                                    "address": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "address"
+                                  ]
+                                },
+                                "target": {
+                                  "type": "object",
+                                  "properties": {
+                                    "address": {
+                                      "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "address"
+                                  ]
+                                }
+                              }
                             }
                           },
                           "required": [
                             "chainId",
                             "id",
-                            "senders"
+                            "mode",
+                            "state",
+                            "fees"
                           ]
                         }
                       }
@@ -4777,6 +4969,53 @@
                     "transaction",
                     "status"
                   ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transaction/broadcast/raw": {
+      "post": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Broadcast a signed transaction (raw format)",
+        "description": "Broadcasts a signed transaction to the blockchain in raw format.         Unlike the standard broadcast, which builds the broadcast payload for you, this endpoint requires the final payload, ready for submission.         Returns the transaction receipt (hash) or error details in case of failure.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chainId": {
+                    "$ref": "#/components/schemas/ChainId"
+                  },
+                  "payload": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "chainId",
+                  "payload"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns a transaction receipt or error details if the transaction fails.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "hash": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
