@@ -908,6 +908,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://api.trongrid.io",
+      explorerURL: "https://apilist.tronscanapi.com",
     },
     supportedFeatures: TRON_FEATURES,
   },

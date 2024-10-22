@@ -9,10 +9,10 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = _;
 
-  const transactionBuilded = await buildTransaction(transaction);
+  const transactionBuilt = await buildTransaction(transaction);
 
-  transaction.encoded = transactionBuilded.raw_data_hex;
-  transaction.data.params = { kind: "tron", ...transactionBuilded } as TronTransactionParams;
+  transaction.encoded = transactionBuilt.raw_data_hex;
+  transaction.data.params = { kind: "tron", ...transactionBuilt } as TronTransactionParams;
 }
 
 async function encodeTransactionToBroadcast(
@@ -21,11 +21,10 @@ async function encodeTransactionToBroadcast(
 ): Promise<string> {
   const { signedTransaction } = _;
 
-  // FIXME: Please send help :(
-  return {
+  return JSON.stringify({
     ...signedTransaction.data.params,
     signature: [signedTransaction.signature],
-  } as unknown as string;
+  });
 }
 
 export { encodeTransactionToBroadcast, encodeTransactionToSign };

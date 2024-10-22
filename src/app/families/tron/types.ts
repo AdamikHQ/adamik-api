@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 const tronTransactionParamsSchema = z.object({
-  kind: z.literal("tron"),
   visible: z.boolean().optional(),
   txID: z.string(),
   raw_data: z.object({

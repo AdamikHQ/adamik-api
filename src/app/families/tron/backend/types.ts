@@ -1,6 +1,4 @@
-import { TRONSCAN_API_KEY } from "~/app/config/apiKeys";
-
-interface TronscanAccountResponse {
+type TronscanAccountResponse = {
   address: string;
   balance: number;
   totalFrozenV2: number;
@@ -32,7 +30,7 @@ interface TronscanAccountResponse {
     vip: boolean;
     tokenLogo: string;
   }>;
-}
+};
 
 type TronScanTransactionInfo = {
   contract_map: {
@@ -172,36 +170,4 @@ type TronScanTransactionInfo = {
   contract_type?: string;
 };
 
-async function fetchTronscanAccountData(address: string): Promise<TronscanAccountResponse> {
-  const apiUrl = `https://apilist.tronscanapi.com/api/accountv2?address=${address}`;
-
-  try {
-    const response = await fetch(apiUrl, { headers: { "TRON-PRO-API-KEY": TRONSCAN_API_KEY } });
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data: TronscanAccountResponse = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching Tronscan account data:", error);
-    throw error;
-  }
-}
-
-async function fetchTronscanTransaction(transactionId: string): Promise<TronScanTransactionInfo> {
-  const apiUrl = `https://apilist.tronscanapi.com/api/transaction-info?hash=${transactionId}`;
-
-  try {
-    const response = await fetch(apiUrl, { headers: { "TRON-PRO-API-KEY": TRONSCAN_API_KEY } });
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data: TronScanTransactionInfo = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching Tronscan transaction data:", error);
-    throw error;
-  }
-}
-
-export { fetchTronscanAccountData, fetchTronscanTransaction };
+export type { TronScanTransactionInfo, TronscanAccountResponse };
