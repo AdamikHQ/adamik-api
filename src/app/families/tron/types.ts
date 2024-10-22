@@ -1,6 +1,8 @@
 import { z } from "zod";
+import { ChainFamily } from "~/app/model/types_WIP";
 
 const tronTransactionParamsSchema = z.object({
+  kind: z.literal(ChainFamily.TRON),
   visible: z.boolean().optional(),
   txID: z.string(),
   raw_data: z.object({
@@ -28,6 +30,7 @@ const tronTransactionParamsSchema = z.object({
   }),
   raw_data_hex: z.string(),
 });
+
 type TronTransactionParams = z.infer<typeof tronTransactionParamsSchema>;
 
 export type { TronTransactionParams };

@@ -29,7 +29,7 @@ async function getTransaction(this: TronService, transactionId: string): Promise
             amount: BigInt(tronTransaction.contractData?.amount || "0"),
           },
     ],
-    fees: BigInt(tronTransaction.cost.energy_fee + tronTransaction.cost.net_fee),
+    fees: { amount: BigInt(tronTransaction.cost.energy_fee + tronTransaction.cost.net_fee) },
     state:
       tronTransaction.contractRet === "SUCCESS" ? TransactionState.CONFIRMED : TransactionState.UNCONFIRMED,
     timestamp: tronTransaction.timestamp,
