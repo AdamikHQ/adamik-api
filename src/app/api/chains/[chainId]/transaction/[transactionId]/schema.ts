@@ -25,13 +25,27 @@ const pathParamsSchema = z.object({
   }),
 });
 
+const includeValues = ["parsed", "raw"] as const;
+type Include = (typeof includeValues)[number];
+
 const queryParamsSchema = z.object({
   include: z
-    .array(z.enum(["parsed", "raw"]))
-    .nonempty()
-    .optional()
+    .preprocess(
+      (val) => (Array.isArray(val) ? val.join(",") : val),
+      z
+        .string()
+        .optional()
+        .transform((val) => (val ? (val.split(",") as Include[]) : undefined))
+        .refine(
+          (arr): arr is Include[] | undefined =>
+            arr === undefined || arr.every((item): item is Include => includeValues.includes(item)),
+          { message: "Invalid include value" }
+        )
+    )
     .openapi({
-      description: "Optional filter, to let you request only the data that you need.",
+      description:
+        "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
+      example: "parsed,raw",
     }),
 });
 

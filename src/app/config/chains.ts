@@ -33,6 +33,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-cosmos.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "cosmos",
@@ -53,6 +54,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://api-t.cosmos.nodestake.top",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     isTestNet: true,
     params: {
@@ -74,6 +76,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-osmosis.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "osmo",
@@ -94,6 +97,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://g.w.lavanet.xyz:443/gateway/osmosist/rest/bfdb617358bd786c30374c8799978c27",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     isTestNet: true,
     params: {
@@ -115,6 +119,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-celestia.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "celestia",
@@ -135,6 +140,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestiatm/rest/bfdb617358bd786c30374c8799978c27",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     isTestNet: true,
     params: {
@@ -160,6 +166,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       // nodeURL: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live, but we've been blacklisted...
       //nodeURL: "https://lcd-dydx.imperator.co", // Should be the best one, but only accepts fees in IBC token USDC at the moment...
       //nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands twice the standard minimum gas fees, for some reason
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "dydx",
@@ -180,6 +187,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-axelar.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "axelar",
@@ -732,6 +740,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: {
       nodeURL: "https://lcd-injective.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "inj",
@@ -753,6 +762,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-akash.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "akash",
@@ -775,6 +785,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-band.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "band",
@@ -798,6 +809,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: {
       nodeURL: "https://lcd-dymension.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "dym",
@@ -820,6 +832,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-kyve.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "kyve",
@@ -842,6 +855,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-neutron.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "neutron",
@@ -865,6 +879,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-terra.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "terra",
@@ -887,6 +902,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-stargaze.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "stars",

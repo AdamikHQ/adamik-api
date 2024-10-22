@@ -37,20 +37,27 @@ const requestSchema = z
     ],
   });
 
+const includeValues = ["native", "tokens", "staking"] as const;
+type Include = (typeof includeValues)[number];
+
 const queryParamsSchema = z.object({
   include: z
-    .array(
-      z.enum([
-        // NOTE Need to manually add new modes here, when they start being supported
-        "native",
-        "tokens",
-        "staking",
-      ])
+    .preprocess(
+      (val) => (Array.isArray(val) ? val.join(",") : val),
+      z
+        .string()
+        .optional()
+        .transform((val) => (val ? (val.split(",") as Include[]) : undefined))
+        .refine(
+          (arr): arr is Include[] | undefined =>
+            arr === undefined || arr.every((item): item is Include => includeValues.includes(item)),
+          { message: "Invalid include value" }
+        )
     )
-    .nonempty()
-    .optional()
     .openapi({
-      description: "Optional filter, to let you request only the data that you need.",
+      description:
+        "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
+      example: "native,tokens,staking",
     }),
 });
 
@@ -71,41 +78,40 @@ const responseSchema = z.object({
       })
       .array()
       .optional(),
+    staking: z
+      .object({
+        total: bigintToStringSchema,
+        locked: bigintToStringSchema,
+        unlocking: bigintToStringSchema,
+        unlocked: bigintToStringSchema,
+        positions: z
+          .object({
+            validatorAddresses: z.string().array(),
+            amount: bigintToStringSchema,
+            status: z.nativeEnum(StakingStatus),
+            completionDate: z.number().optional(),
+          })
+          .array(),
+        rewards: z
+          .object({
+            native: z
+              .object({
+                validatorAddress: z.string(),
+                amount: bigintToStringSchema,
+              })
+              .array(),
+            tokens: z
+              .object({
+                token: tokenSchema,
+                validatorAddress: z.string().optional(),
+                amount: bigintToStringSchema,
+              })
+              .array(),
+          })
+          .optional(),
+      })
+      .optional(),
   }),
-  staking: z
-    .object({
-      total: bigintToStringSchema,
-      locked: bigintToStringSchema,
-      unlocking: bigintToStringSchema,
-      unlocked: bigintToStringSchema,
-      positions: z
-        .object({
-          validatorAddresses: z.string().array(),
-          amount: bigintToStringSchema,
-          status: z.nativeEnum(StakingStatus),
-          completionDate: z.number().optional(),
-        })
-        .array(),
-      rewards: z
-        .object({
-          native: z
-            .object({
-              validatorAddress: z.string(),
-              amount: bigintToStringSchema,
-            })
-            .array(),
-          tokens: z
-            .object({
-              token: tokenSchema,
-              validatorAddress: z.string().optional(),
-              amount: bigintToStringSchema,
-            })
-            .array(),
-        })
-        .optional(),
-    })
-    .optional(),
-  //status: statusSchema, TODO Should all endpoints have a status?
 });
 
 const accountStateOpenAPIPath: ZodOpenApiPathsObject = {

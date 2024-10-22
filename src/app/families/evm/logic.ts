@@ -18,7 +18,8 @@ import {
 import { EtherscanERC20Event } from "./backend/types";
 import { EvmAddress, EvmChainParams } from "./types";
 
-const isHexString = (val: string): val is Hex => val.startsWith("0x") && /^[0-9a-fA-F]+$/i.test(val.slice(2));
+const isHexString = (val: string): val is Hex =>
+  val?.startsWith && val.startsWith("0x") && /^[0-9a-fA-F]+$/i.test(val.slice(2));
 
 async function getTransactionGas(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {

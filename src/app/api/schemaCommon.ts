@@ -6,6 +6,7 @@ import {
   EncodedTransactionFormat,
   TokenType,
   TransactionMode,
+  TransactionState,
 } from "~/app/model/types_WIP";
 import { getSupportedTransactionModes } from "../config/chains";
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
@@ -92,15 +93,12 @@ const chainSupportedFeaturesSchema = z
 
 const chainSchema = z.object({
   family: z.nativeEnum(ChainFamily),
-  // The following line causes all chainIds to be listed for all chains, in the generated OpenAPI spec
-  // TODO? Find how to generate swagger types, define a type for the ChainId enum,
-  // then only reference that type each time instead of listing all its values
   id: chainIdSchema,
   nativeId: z.string(),
   name: z.string(),
   ticker: z.string(),
   decimals: z.number(),
-  isTestnet: z.boolean().optional(),
+  isTestNet: z.boolean().optional(),
   params: z.any().optional(),
   supportedFeatures: chainSupportedFeaturesSchema,
 });
@@ -335,13 +333,19 @@ const outputTransactionDataSchema = z.object({
 const encodedTransactionSchema = z.object({
   // NOTE: 'any' here because 'encoded' can also be JSON
   // Improvement could be to properly type all possible encoded formats for every family
-  encoded: z.string().or(z.any()),
+  encoded: z.string().or(
+    z
+      .any()
+      .transform((data) => deepBigintToString(data))
+      .pipe(z.any())
+  ),
 });
 
 const signedAndEncodedTransactionSchema = encodedTransactionSchema.extend({
   signature: z.string(),
 });
 
+// FIXME Not convenient to manually maintain this aligned with FinalizedTransaction...
 const finalizedTransactionSchema = z.object({
   raw: z
     .any()
@@ -351,6 +355,8 @@ const finalizedTransactionSchema = z.object({
     .object({
       chainId: chainIdSchema,
       id: z.string(),
+      mode: z.nativeEnum(TransactionMode).or(z.literal("unknown")),
+      state: z.nativeEnum(TransactionState),
       tokenId: z.string().optional(),
       blockHeight: bigintToStringSchema.optional(),
       timestamp: z
@@ -360,11 +366,19 @@ const finalizedTransactionSchema = z.object({
           description: "Timestamp in milliseconds",
         })
         .optional(),
+      fees: z.object({
+        amount: bigintToStringSchema,
+        ticker: z.string().optional(),
+      }),
+      gas: bigintToStringSchema.optional(),
+      nonce: bigintToStringSchema.optional(),
+      memo: z.string().optional(),
       senders: z
         .object({
           address: z.string(),
         })
-        .array(),
+        .array()
+        .optional(),
       recipients: z
         .object({
           address: z.string(),
@@ -372,10 +386,21 @@ const finalizedTransactionSchema = z.object({
         })
         .array()
         .optional(),
-      fees: bigintToStringSchema,
-      gas: bigintToStringSchema.optional(),
-      nonce: bigintToStringSchema.optional(),
-      memo: z.string().optional(),
+      validators: z
+        .object({
+          source: z
+            .object({
+              address: z.string(),
+            })
+            .optional(),
+          target: z
+            .object({
+              address: z.string(),
+              amount: bigintToStringSchema,
+            })
+            .optional(),
+        })
+        .optional(),
     })
     .optional(),
 });

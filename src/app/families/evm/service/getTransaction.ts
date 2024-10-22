@@ -26,7 +26,9 @@ async function getTransaction(
         address: evmTransaction.from,
       },
     ],
-    fees: evmTransactionReceipt.gasUsed * evmTransactionReceipt.effectiveGasPrice,
+    fees: {
+      amount: evmTransactionReceipt.gasUsed * evmTransactionReceipt.effectiveGasPrice,
+    },
     gas: evmTransactionReceipt.gasUsed,
     nonce: BigInt(evmTransaction.nonce),
     // Placeholder values, actual values filled below

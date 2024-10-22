@@ -62,9 +62,8 @@ export function apiHandler<
 ) {
   return async (request: NextRequest, context: { params?: PathParams }): Promise<NextResponse> => {
     try {
-      const isBodyJson = request.headers.get("Content-Type") === "application/json";
-
-      const requestBody: z.infer<RequestBody> = isBodyJson
+      const hasBody = !!request.body;
+      const requestBody: z.infer<RequestBody> = hasBody
         ? // parse the request when available, otherwise use the raw body
           requestSchema?.parse(await request.json()) ?? (await request.json())
         : // don't use json() if the content-type is not application/json
@@ -131,7 +130,7 @@ function handleRequestValidationError(e: unknown): NextResponse {
   } else if (e instanceof AdamikHttpError) {
     // catch-all for all AdamikHttpError
     return NextResponse.json(
-      { status: statusFromMessage(e.message) },
+      { status: statusFromMessage(e.statusText) },
       { status: e.status, statusText: e.statusText }
     );
   } else if (e instanceof ZodError) {

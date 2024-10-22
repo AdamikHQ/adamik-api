@@ -85,9 +85,6 @@ importers:
       next:
         specifier: 14.0.3
         version: 14.0.3(@babel/core@7.23.6)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      react:
-        specifier: ^18.2.0
-        version: 18.2.0
       secp256k1:
         specifier: ^5.0.0
         version: 5.0.0
@@ -122,9 +119,6 @@ importers:
       '@types/node':
         specifier: ^18.19.3
         version: 18.19.3
-      '@types/react':
-        specifier: 18.3.3
-        version: 18.3.3
       eslint:
         specifier: ^8
         version: 8.0.0
@@ -4607,12 +4601,14 @@ snapshots:
     dependencies:
       '@types/node': 18.19.3
 
-  '@types/prop-types@15.7.12': {}
+  '@types/prop-types@15.7.12':
+    optional: true
 
   '@types/react@18.3.3':
     dependencies:
       '@types/prop-types': 15.7.12
       csstype: 3.1.3
+    optional: true
 
   '@types/secp256k1@4.0.6':
     dependencies:
@@ -5147,7 +5143,8 @@ snapshots:
     dependencies:
       cssom: 0.3.8
 
-  csstype@3.1.3: {}
+  csstype@3.1.3:
+    optional: true
 
   damerau-levenshtein@1.0.8: {}
 

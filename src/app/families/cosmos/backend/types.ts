@@ -1,8 +1,3 @@
-type CosmosMessage = {
-  type: string;
-  attributes: { key: string; value: string; index?: boolean }[];
-};
-
 /*
 {
     "txhash": "9C96915060C952D4D3ACF7A0621287AA9FF26D044DC5B7E150152A30D7F41DDB",
@@ -208,6 +203,205 @@ type CosmosValidator = {
   min_self_delegation: string;
 };
 
+// MINTSCAN ///////////
+
+type MintscanAccountTransactionsResponse = {
+  transactions: MintscanTransaction[];
+  pagination: Pagination;
+};
+
+type Pagination = {
+  totalCount: number;
+  searchAfter: string;
+};
+
+type MintscanTransaction = {
+  height: string;
+  txhash: string;
+  codespace: string;
+  code: number;
+  data: string;
+  info: string;
+  gas_wanted: string;
+  gas_used: string;
+  tx: Tx;
+  timestamp: Date;
+  logs: Log[];
+  chain_id: string;
+};
+
+type Log = {
+  msg_index: number;
+  log: string;
+  events: Event[];
+};
+
+type Event = {
+  type: string;
+  attributes: Attribute[];
+};
+
+type Attribute = {
+  key: string;
+  value: string; // Can technically be string[] in some cases, but we'll never care about them
+};
+
+type Tx =
+  | {
+      "@type": "/cosmos.tx.v1beta1.Tx";
+      "/cosmos-tx-v1beta1-Tx": CosmosTxV1Beta1Tx;
+    }
+  | {
+      "@type": "cosmos-sdk/StdTx";
+      "cosmos-sdk/StdTx": {
+        value: CosmosSDKStdTxValue;
+      };
+    };
+
+type CosmosSDKStdTxValue = {
+  msg: Msg[];
+  fee: Fee;
+  //signatures: Signature[];
+  memo: string;
+};
+
+type Msg =
+  | {
+      type: "cosmos-sdk/MsgSend";
+      "cosmos-sdk/MsgSend": { value: CosmosMsgSend };
+    }
+  | {
+      type: "cosmos-sdk/MsgDelegate";
+      "cosmos-sdk/MsgDelegate": { value: CosmosMsgDelegate };
+    }
+  | {
+      type: "cosmos-sdk/MsgBeginRedelegate";
+      "cosmos-sdk/MsgBeginRedelegate": { value: CosmosMsgBeginRedelegate };
+    }
+  | {
+      type: "cosmos-sdk/MsgUndelegate";
+      "cosmos-sdk/MsgUndelegate": { value: CosmosMsgUndelegate };
+    }
+  | {
+      type: "cosmos-sdk/MsgWithdrawDelegatorReward";
+      "cosmos-sdk/MsgWithdrawDelegatorReward": { value: CosmosMsgWithdrawDelegatorReward };
+    };
+
+type CosmosTxV1Beta1Tx = {
+  body: Body;
+  auth_info: AuthInfo;
+  //signatures: string[];
+};
+
+type AuthInfo = {
+  signer_infos: SignerInfo[];
+  fee: Fee;
+  tip?: null;
+};
+
+type Fee = {
+  amount: Amount[];
+  gas_limit: string;
+  payer: string;
+  granter: string;
+};
+
+type Amount = {
+  denom: string;
+  amount: string;
+};
+
+type SignerInfo = {
+  public_key: PublicKey;
+  mode_info: ModeInfo;
+  sequence: string;
+};
+
+type ModeInfo = {
+  single: Single;
+};
+
+type Single = {
+  mode: Mode;
+};
+
+enum Mode {
+  SignModeDirect = "SIGN_MODE_DIRECT",
+  SignModeLegacyAminoJSON = "SIGN_MODE_LEGACY_AMINO_JSON",
+}
+
+type PublicKey = {
+  "@type": string;
+  "/cosmos-crypto-secp256k1-PubKey"?: CryptoSecp256K1PubKey;
+  "/injective-crypto-v1beta1-ethsecp256k1-PubKey"?: CryptoSecp256K1PubKey;
+};
+
+type CryptoSecp256K1PubKey = {
+  key: string;
+};
+
+type Body = {
+  messages: Message[];
+  memo: string;
+  timeout_height: string;
+  extension_options: any[];
+  non_critical_extension_options: any[];
+};
+
+// TODO Decide the list of supported messages
+type Message =
+  | {
+      "@type": "/cosmos.bank.v1beta1.MsgSend";
+      "/cosmos-bank-v1beta1-MsgSend": CosmosMsgSend;
+    }
+  | {
+      "@type": "/cosmos.staking.v1beta1.MsgDelegate";
+      "/cosmos-staking-v1beta1-MsgDelegate": CosmosMsgDelegate;
+    }
+  | {
+      "@type": "/cosmos.staking.v1beta1.MsgBeginRedelegate";
+      "/cosmos-staking-v1beta1-MsgBeginRedelegate": CosmosMsgBeginRedelegate;
+    }
+  | {
+      "@type": "/cosmos.staking.v1beta1.MsgUndelegate";
+      "/cosmos-staking-v1beta1-MsgUndelegate": CosmosMsgUndelegate;
+    }
+  | {
+      "@type": "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward";
+      "/cosmos-distribution-v1beta1-MsgWithdrawDelegatorReward": CosmosMsgWithdrawDelegatorReward;
+      //"/ibc-applications-transfer-v1-MsgTransfer": IbcApplicationsTransferV1MsgTransfer;
+    };
+
+type CosmosMsgSend = {
+  from_address: string;
+  to_address: string;
+  amount: Amount[];
+};
+
+type CosmosMsgDelegate = {
+  delegator_address: string;
+  validator_address: string;
+  amount: Amount;
+};
+
+type CosmosMsgBeginRedelegate = {
+  delegator_address: string;
+  validator_src_address: string;
+  validator_dst_address: string;
+  amount: Amount;
+};
+
+type CosmosMsgUndelegate = {
+  delegator_address: string;
+  validator_address: string;
+  amount: Amount;
+};
+
+type CosmosMsgWithdrawDelegatorReward = {
+  delegator_address: string;
+  validator_address: string;
+};
+
 export type {
   CosmosAccount,
   CosmosBalance,
@@ -217,4 +411,6 @@ export type {
   CosmosTransaction,
   CosmosUnbondingDelegation,
   CosmosValidator,
+  MintscanAccountTransactionsResponse,
+  MintscanTransaction,
 };

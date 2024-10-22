@@ -16,9 +16,12 @@ export const GET = apiHandler(
     // Parse supported query params like : /.../...?include=parsed,raw
     // to build an ApiRequestFilters object like : { parsed?: true, raw?: true }
     const filters: ApiRequestFilters = {};
-    queryParams.include?.forEach((param) => {
-      filters[param] = true;
-    });
+    const include = queryParams.include;
+    if (include) {
+      include.forEach((param) => {
+        filters[param] = true;
+      });
+    }
 
     const service = getService(chainId);
 
@@ -26,23 +29,22 @@ export const GET = apiHandler(
 
     const transaction = await service.getTransaction(transactionId, status);
     if (!transaction) {
-      throw new UserInputError(
-        "Transaction not found",
-        `Transaction ${transactionId} not found for chainId ${chainId}`
-      );
+      throw new UserInputError(`Transaction ${transactionId} not found for chainId ${chainId}`);
     }
 
     // Apply filters
-    if (filters.parsed && !transaction.parsed) {
-      throw new UserInputError(
-        "Transaction not supported",
-        `Parsing currently not supported for transaction ${transactionId}`
-      );
+    if (!transaction.parsed) {
+      if (!filters.raw) {
+        status.errors.push({ message: `Parsing currently not supported for transaction ${transactionId}` });
+      } else if (filters.parsed) {
+        status.warnings.push({ message: `Parsing currently not supported for transaction ${transactionId}` });
+      }
     }
 
-    // Each field is returned if (explicitely demanded OR nothing specific demanded)
+    // Parsed is returned if (explicitly demanded OR nothing specific demanded)
     const includeParsed = filters.parsed || !Object.keys(filters).length;
-    const includeRaw = filters.raw || !Object.keys(filters).length;
+    // Raw is returned only if explicitly demanded
+    const includeRaw = filters.raw;
 
     return {
       transaction: {

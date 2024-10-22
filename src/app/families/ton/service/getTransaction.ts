@@ -12,7 +12,9 @@ async function getTransaction(this: TonService, transactionId: string): Promise<
   let parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId: this.chainId,
     id: tonTransaction.hash,
-    fees: BigInt(tonTransaction.totalFees || 0n),
+    fees: {
+      amount: BigInt(tonTransaction.totalFees || 0n),
+    },
     // Placeholder values, actual values filled below
     mode: TransactionMode.TRANSFER,
     state: TransactionState.UNCONFIRMED,

@@ -48,7 +48,6 @@ enum ChainId {
   ROOTSTOCK = "rootstock",
   ROOTSTOCK_TESTNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
   INJECTIVE = "injective",
-  // BTC family
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
@@ -234,17 +233,25 @@ type FinalizedTransaction = {
   parsed?: {
     chainId: ChainId;
     id: string;
-    mode: TransactionMode;
+    mode: TransactionMode | "unknown";
     tokenId?: string;
     state: TransactionState;
     blockHeight?: bigint;
     timestamp?: number;
-    senders: {
+    fees: {
+      amount: bigint;
+      ticker?: string;
+    };
+    gas?: bigint;
+    nonce?: bigint;
+    memo?: string;
+    senders?: {
       address: string;
     }[];
     recipients?: {
       address: string;
       amount: bigint;
+      ticker?: string;
     }[];
     validators?: {
       source?: {
@@ -255,10 +262,6 @@ type FinalizedTransaction = {
         amount: bigint;
       };
     };
-    fees: bigint;
-    gas?: bigint;
-    nonce?: bigint;
-    memo?: string;
   };
   raw?: unknown; // The raw transaction as returned from the node (or explorer when necessary)
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
@@ -271,7 +274,6 @@ type TransactionParams =
   | TronTransactionParams;
 
 // TODO WIP
-// FIXME de/serialization types <> string
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
 // FIXME one 'TransactionData' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
@@ -289,8 +291,8 @@ type CommonTransaction = {
   gas?: bigint;
   nonce?: bigint;
   memo?: string;
-  format?: EncodedTransactionFormat; // FIXME: really required for all transactions?
-  params?: TransactionParams; // FIXME: really required for all transactions?
+  format?: EncodedTransactionFormat;
+  params?: TransactionParams;
 };
 
 type TransferTransaction = CommonTransaction & {
