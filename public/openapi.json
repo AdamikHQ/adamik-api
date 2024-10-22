@@ -103,7 +103,8 @@
                       "kyve",
                       "neutron",
                       "terra2",
-                      "stargaze"
+                      "stargaze",
+                      "tron"
                     ]
                   },
                   "pubkey": {
@@ -179,7 +180,8 @@
                         "kyve",
                         "neutron",
                         "terra2",
-                        "stargaze"
+                        "stargaze",
+                        "tron"
                       ]
                     },
                     "pubkey": {
@@ -282,7 +284,8 @@
                       "kyve",
                       "neutron",
                       "terra2",
-                      "stargaze"
+                      "stargaze",
+                      "tron"
                     ]
                   },
                   "address": {
@@ -391,7 +394,8 @@
                       "kyve",
                       "neutron",
                       "terra2",
-                      "stargaze"
+                      "stargaze",
+                      "tron"
                     ]
                   },
                   "accountId": {
@@ -480,7 +484,8 @@
                         "kyve",
                         "neutron",
                         "terra2",
-                        "stargaze"
+                        "stargaze",
+                        "tron"
                       ]
                     },
                     "accountId": {
@@ -514,6 +519,8 @@
                                   "type": {
                                     "type": "string",
                                     "enum": [
+                                      "TRC10",
+                                      "TRC20",
                                       "ASA",
                                       "ERC20",
                                       "IBC",
@@ -635,6 +642,8 @@
                                           "type": {
                                             "type": "string",
                                             "enum": [
+                                              "TRC10",
+                                              "TRC20",
                                               "ASA",
                                               "ERC20",
                                               "IBC",
@@ -1071,6 +1080,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1117,6 +1127,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1163,6 +1174,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1209,6 +1221,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1255,6 +1268,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1301,6 +1315,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1347,6 +1362,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1393,6 +1409,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1439,6 +1456,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1485,6 +1503,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1531,6 +1550,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1577,6 +1597,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1623,6 +1644,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1669,6 +1691,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1715,6 +1738,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1761,6 +1785,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1807,6 +1832,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1853,6 +1879,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1899,6 +1926,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1945,6 +1973,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -1991,6 +2020,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2037,6 +2067,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2083,6 +2114,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2129,6 +2161,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2175,6 +2208,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2221,6 +2255,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2267,6 +2302,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2313,6 +2349,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2359,6 +2396,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2405,6 +2443,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2451,6 +2490,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2497,6 +2537,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2543,6 +2584,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2589,6 +2631,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2635,6 +2678,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2681,6 +2725,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2727,6 +2772,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2773,6 +2819,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2819,6 +2866,54 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "tron": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2865,6 +2960,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2911,6 +3007,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -2957,6 +3054,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3003,6 +3101,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3049,6 +3148,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3095,6 +3195,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3141,6 +3242,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3187,6 +3289,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3233,6 +3336,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3279,6 +3383,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3325,6 +3430,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3371,6 +3477,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3417,6 +3524,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3463,6 +3571,7 @@
                                 "cosmos",
                                 "evm",
                                 "bitcoin",
+                                "tron",
                                 "ton"
                               ]
                             },
@@ -3546,6 +3655,7 @@
                         "cosmos",
                         "evm",
                         "bitcoin",
+                        "tron",
                         "ton"
                       ]
                     },
@@ -3647,7 +3757,8 @@
                 "kyve",
                 "neutron",
                 "terra2",
-                "stargaze"
+                "stargaze",
+                "tron"
               ]
             },
             "required": true
@@ -3680,6 +3791,8 @@
                     "type": {
                       "type": "string",
                       "enum": [
+                        "TRC10",
+                        "TRC20",
                         "ASA",
                         "ERC20",
                         "IBC",
@@ -3779,7 +3892,8 @@
                 "kyve",
                 "neutron",
                 "terra2",
-                "stargaze"
+                "stargaze",
+                "tron"
               ]
             },
             "required": true
@@ -4199,22 +4313,146 @@
                                     ]
                                   },
                                   "params": {
-                                    "anyOf": [
+                                    "oneOf": [
                                       {
                                         "type": "object",
                                         "properties": {
+                                          "kind": {
+                                            "type": "string",
+                                            "enum": [
+                                              "cosmos"
+                                            ]
+                                          },
                                           "pubKey": {
                                             "type": "string"
                                           }
-                                        }
+                                        },
+                                        "required": [
+                                          "kind"
+                                        ]
                                       },
                                       {
                                         "type": "object",
                                         "properties": {
+                                          "kind": {
+                                            "type": "string",
+                                            "enum": [
+                                              "tron"
+                                            ]
+                                          },
+                                          "visible": {
+                                            "type": "boolean"
+                                          },
+                                          "txID": {
+                                            "type": "string"
+                                          },
+                                          "raw_data": {
+                                            "type": "object",
+                                            "properties": {
+                                              "contract": {
+                                                "type": "array",
+                                                "items": {
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "parameter": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "value": {
+                                                          "type": "object",
+                                                          "properties": {
+                                                            "data": {
+                                                              "type": "string"
+                                                            },
+                                                            "owner_address": {
+                                                              "type": "string"
+                                                            },
+                                                            "asset_name": {
+                                                              "type": "string"
+                                                            },
+                                                            "contract_address": {
+                                                              "type": "string"
+                                                            },
+                                                            "to_address": {
+                                                              "type": "string"
+                                                            },
+                                                            "amount": {
+                                                              "type": "number"
+                                                            }
+                                                          },
+                                                          "required": [
+                                                            "owner_address"
+                                                          ]
+                                                        },
+                                                        "type_url": {
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "required": [
+                                                        "value",
+                                                        "type_url"
+                                                      ]
+                                                    },
+                                                    "type": {
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "required": [
+                                                    "parameter",
+                                                    "type"
+                                                  ]
+                                                }
+                                              },
+                                              "ref_block_bytes": {
+                                                "type": "string"
+                                              },
+                                              "ref_block_hash": {
+                                                "type": "string"
+                                              },
+                                              "expiration": {
+                                                "type": "number"
+                                              },
+                                              "fee_limit": {
+                                                "type": "number"
+                                              },
+                                              "timestamp": {
+                                                "type": "number"
+                                              }
+                                            },
+                                            "required": [
+                                              "contract",
+                                              "ref_block_bytes",
+                                              "ref_block_hash",
+                                              "expiration",
+                                              "timestamp"
+                                            ]
+                                          },
+                                          "raw_data_hex": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "kind",
+                                          "txID",
+                                          "raw_data",
+                                          "raw_data_hex"
+                                        ]
+                                      },
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "kind": {
+                                            "type": "string",
+                                            "enum": [
+                                              "ton"
+                                            ]
+                                          },
                                           "pubKey": {
                                             "type": "string"
                                           }
-                                        }
+                                        },
+                                        "required": [
+                                          "kind"
+                                        ]
                                       }
                                     ]
                                   },
@@ -4496,18 +4734,36 @@
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "cosmos"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "ton"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         }
                                       ]
                                     },
@@ -4838,22 +5094,146 @@
                                 ]
                               },
                               "params": {
-                                "anyOf": [
+                                "oneOf": [
                                   {
                                     "type": "object",
                                     "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "cosmos"
+                                        ]
+                                      },
                                       "pubKey": {
                                         "type": "string"
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "kind"
+                                    ]
                                   },
                                   {
                                     "type": "object",
                                     "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "tron"
+                                        ]
+                                      },
+                                      "visible": {
+                                        "type": "boolean"
+                                      },
+                                      "txID": {
+                                        "type": "string"
+                                      },
+                                      "raw_data": {
+                                        "type": "object",
+                                        "properties": {
+                                          "contract": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "object",
+                                              "properties": {
+                                                "parameter": {
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "value": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "data": {
+                                                          "type": "string"
+                                                        },
+                                                        "owner_address": {
+                                                          "type": "string"
+                                                        },
+                                                        "asset_name": {
+                                                          "type": "string"
+                                                        },
+                                                        "contract_address": {
+                                                          "type": "string"
+                                                        },
+                                                        "to_address": {
+                                                          "type": "string"
+                                                        },
+                                                        "amount": {
+                                                          "type": "number"
+                                                        }
+                                                      },
+                                                      "required": [
+                                                        "owner_address"
+                                                      ]
+                                                    },
+                                                    "type_url": {
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "required": [
+                                                    "value",
+                                                    "type_url"
+                                                  ]
+                                                },
+                                                "type": {
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "required": [
+                                                "parameter",
+                                                "type"
+                                              ]
+                                            }
+                                          },
+                                          "ref_block_bytes": {
+                                            "type": "string"
+                                          },
+                                          "ref_block_hash": {
+                                            "type": "string"
+                                          },
+                                          "expiration": {
+                                            "type": "number"
+                                          },
+                                          "fee_limit": {
+                                            "type": "number"
+                                          },
+                                          "timestamp": {
+                                            "type": "number"
+                                          }
+                                        },
+                                        "required": [
+                                          "contract",
+                                          "ref_block_bytes",
+                                          "ref_block_hash",
+                                          "expiration",
+                                          "timestamp"
+                                        ]
+                                      },
+                                      "raw_data_hex": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "txID",
+                                      "raw_data",
+                                      "raw_data_hex"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "ton"
+                                        ]
+                                      },
                                       "pubKey": {
                                         "type": "string"
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "kind"
+                                    ]
                                   }
                                 ]
                               },
@@ -5111,18 +5491,36 @@
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "cosmos"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "ton"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         }
                                       ]
                                     },
@@ -5394,18 +5792,36 @@
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "cosmos"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "ton"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         }
                                       ]
                                     },
@@ -5689,22 +6105,146 @@
                                 ]
                               },
                               "params": {
-                                "anyOf": [
+                                "oneOf": [
                                   {
                                     "type": "object",
                                     "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "cosmos"
+                                        ]
+                                      },
                                       "pubKey": {
                                         "type": "string"
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "kind"
+                                    ]
                                   },
                                   {
                                     "type": "object",
                                     "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "tron"
+                                        ]
+                                      },
+                                      "visible": {
+                                        "type": "boolean"
+                                      },
+                                      "txID": {
+                                        "type": "string"
+                                      },
+                                      "raw_data": {
+                                        "type": "object",
+                                        "properties": {
+                                          "contract": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "object",
+                                              "properties": {
+                                                "parameter": {
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "value": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "data": {
+                                                          "type": "string"
+                                                        },
+                                                        "owner_address": {
+                                                          "type": "string"
+                                                        },
+                                                        "asset_name": {
+                                                          "type": "string"
+                                                        },
+                                                        "contract_address": {
+                                                          "type": "string"
+                                                        },
+                                                        "to_address": {
+                                                          "type": "string"
+                                                        },
+                                                        "amount": {
+                                                          "type": "number"
+                                                        }
+                                                      },
+                                                      "required": [
+                                                        "owner_address"
+                                                      ]
+                                                    },
+                                                    "type_url": {
+                                                      "type": "string"
+                                                    }
+                                                  },
+                                                  "required": [
+                                                    "value",
+                                                    "type_url"
+                                                  ]
+                                                },
+                                                "type": {
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "required": [
+                                                "parameter",
+                                                "type"
+                                              ]
+                                            }
+                                          },
+                                          "ref_block_bytes": {
+                                            "type": "string"
+                                          },
+                                          "ref_block_hash": {
+                                            "type": "string"
+                                          },
+                                          "expiration": {
+                                            "type": "number"
+                                          },
+                                          "fee_limit": {
+                                            "type": "number"
+                                          },
+                                          "timestamp": {
+                                            "type": "number"
+                                          }
+                                        },
+                                        "required": [
+                                          "contract",
+                                          "ref_block_bytes",
+                                          "ref_block_hash",
+                                          "expiration",
+                                          "timestamp"
+                                        ]
+                                      },
+                                      "raw_data_hex": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "kind",
+                                      "txID",
+                                      "raw_data",
+                                      "raw_data_hex"
+                                    ]
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "kind": {
+                                        "type": "string",
+                                        "enum": [
+                                          "ton"
+                                        ]
+                                      },
                                       "pubKey": {
                                         "type": "string"
                                       }
-                                    }
+                                    },
+                                    "required": [
+                                      "kind"
+                                    ]
                                   }
                                 ]
                               },
@@ -5962,18 +6502,36 @@
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "cosmos"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
+                                            "kind": {
+                                              "type": "string",
+                                              "enum": [
+                                                "ton"
+                                              ]
+                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          }
+                                          },
+                                          "required": [
+                                            "kind"
+                                          ]
                                         }
                                       ]
                                     },
@@ -6238,6 +6796,7 @@
           "chiliz",
           "chiliz-testnet",
           "ton",
+          "tron",
           "rootstock",
           "rootstock-testnet",
           "injective",

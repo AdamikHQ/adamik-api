@@ -2,6 +2,7 @@ import { CosmosChainParams, CosmosTransactionParams } from "~/app/families/cosmo
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
 import { TonTransactionParams } from "../families/ton/types";
+import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
   ALGORAND = "algorand",
@@ -43,6 +44,7 @@ enum ChainId {
   CHILIZ = "chiliz",
   CHILIZ_TESTNET = "chiliz-testnet",
   TON = "ton",
+  TRON = "tron",
   ROOTSTOCK = "rootstock",
   ROOTSTOCK_TESTNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
   INJECTIVE = "injective",
@@ -64,6 +66,7 @@ enum ChainFamily {
   COSMOS = "cosmos",
   EVM = "evm",
   BITCOIN = "bitcoin",
+  TRON = "tron",
   TON = "ton",
 }
 
@@ -116,6 +119,8 @@ type Chain = {
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
 enum TokenType {
+  TRC10 = "TRC10",
+  TRC20 = "TRC20",
   ASA = "ASA",
   ERC20 = "ERC20",
   IBC = "IBC",
@@ -262,7 +267,11 @@ type FinalizedTransaction = {
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
-type TransactionParams = CosmosTransactionParams | BitcoinTransactionParams | TonTransactionParams;
+type TransactionParams =
+  | CosmosTransactionParams
+  | BitcoinTransactionParams
+  | TonTransactionParams
+  | TronTransactionParams;
 
 // TODO WIP
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?

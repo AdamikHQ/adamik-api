@@ -92,6 +92,24 @@ const TON_FEATURES: ChainSupportedFeatures = {
   },
 };
 
+const TRON_FEATURES: ChainSupportedFeatures = {
+  read: {
+    account: {
+      balances: { native: true, tokens: true, staking: false },
+      transactions: { native: false, tokens: false, staking: false },
+    },
+    transaction: { native: true, tokens: true, staking: false },
+  },
+  write: {
+    transaction: {
+      type: { native: true, tokens: true, staking: false },
+      field: {
+        memo: false,
+      },
+    },
+  },
+};
+
 // CUSTOM FEATURES - should be temporary and aligned with standard features if possible
 
 const NATIVE_READ_WRITE_FEATURES: ChainSupportedFeatures = {
@@ -139,4 +157,5 @@ export {
   EVM_ROOTSTOCK_FEATURES,
   NATIVE_READ_WRITE_FEATURES,
   TON_FEATURES,
+  TRON_FEATURES,
 };
