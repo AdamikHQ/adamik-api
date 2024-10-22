@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z, ZodError, ZodType } from "zod";
 import { fromZodIssue } from "zod-validation-error";
 import { Status } from "~/app/model/types_WIP";
+import { server } from "~/mock/node";
 import { AdamikHttpError, InvalidTransactionError } from "./errors";
 
 // DESIGN NOTES
@@ -61,6 +62,9 @@ export function apiHandler<
   methodCall: MethodCall<RequestBody, z.input<ResponseBody>, PathParams, QueryParams>
 ) {
   return async (request: NextRequest, context: { params?: PathParams }): Promise<NextResponse> => {
+    if (process.env.ENABLE_NOCK === "true") {
+      server.listen();
+    }
     try {
       const hasBody = !!request.body;
       const requestBody: z.infer<RequestBody> = hasBody
