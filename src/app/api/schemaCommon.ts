@@ -11,6 +11,7 @@ import {
 import { getSupportedTransactionModes } from "../config/chains";
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 import { tonTransactionParamsSchema } from "../families/ton/types";
+import { tronTransactionParamsSchema } from "../families/tron/types";
 import { deepBigintToString } from "../tools/convertors/deepBigintToString";
 
 extendZodWithOpenApi(z);
@@ -263,7 +264,13 @@ const inputTransactionDataSchema = z.object({
       nonce: stringOrNumToBigintSchema.optional(),
       memo: z.string().optional(),
       format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
-      params: z.union([cosmosTransactionParamsSchema, tonTransactionParamsSchema]).optional(),
+      params: z
+        .discriminatedUnion("kind", [
+          cosmosTransactionParamsSchema,
+          tronTransactionParamsSchema,
+          tonTransactionParamsSchema,
+        ])
+        .optional(),
       useMaxAmount: z.boolean().default(false),
     })
     .and(

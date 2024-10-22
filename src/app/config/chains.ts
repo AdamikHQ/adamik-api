@@ -7,6 +7,7 @@ import {
   EVM_ROOTSTOCK_FEATURES,
   NATIVE_READ_WRITE_FEATURES,
   TON_FEATURES,
+  TRON_FEATURES,
 } from "./features";
 
 const CHAINS: { [key in ChainId]: Chain } = {
@@ -913,6 +914,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/stargaze/chain.json
+  },
+  tron: {
+    family: ChainFamily.TRON,
+    id: ChainId.TRON,
+    nativeId: "tron",
+    name: "Tron",
+    ticker: "TRX",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://api.trongrid.io",
+      explorerURL: "https://apilist.tronscanapi.com",
+    },
+    supportedFeatures: TRON_FEATURES,
   },
 } as const;
 
