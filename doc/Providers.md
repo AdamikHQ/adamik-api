@@ -264,3 +264,8 @@
 
 | nodeURL | https://lcd-stargaze.imperator.co |
 | explorerURL | https://apis.mintscan.io/v1 |
+
+## tron
+
+| nodeURL | https://api.trongrid.io |
+| explorerURL | https://apilist.tronscanapi.com |
