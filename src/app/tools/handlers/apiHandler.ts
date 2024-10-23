@@ -65,7 +65,7 @@ export function apiHandler<
     async (request: NextRequest, context: { params?: PathParams }): Promise<NextResponse> => {
       try {
         console.log("apiHandler - request headers: ", request.headers);
-        console.log("apiHandler - request header: ", request.headers.get("X-Adamik-User-Id"));
+        console.log("apiHandler - request header: ", request.headers.get("X-Adamik-Customer-Id"));
 
         const hasBody = !!request.body;
         const requestBody: z.infer<RequestBody> = hasBody
