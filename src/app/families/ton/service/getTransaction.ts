@@ -28,7 +28,7 @@ async function getTransaction(this: TonService, transactionId: string): Promise<
     parsedTransaction.state = TransactionState.CONFIRMED;
   }
 
-  parsedTransaction.timestamp = new Date(Number(tonTransaction.lt)).getTime();
+  parsedTransaction.timestamp = new Date(tonTransaction.outMsgs[0].createdAt).getTime();
   if (tonTransaction.inMsg?.decodedOpName === "text_comment") {
     parsedTransaction.memo = tonTransaction.inMsg?.decodedBody.text;
   }
@@ -38,7 +38,7 @@ async function getTransaction(this: TonService, transactionId: string): Promise<
     // TODO: parsedTransaction.tokenId
     parsedTransaction.senders = [
       {
-        address: tonTransaction.outMsgs[0]?.source?.address.toString() || "",
+        address: tonTransaction.account.address.toString() || "",
       },
     ];
     parsedTransaction.recipients = [
@@ -59,13 +59,13 @@ async function getTransaction(this: TonService, transactionId: string): Promise<
 
     parsedTransaction.senders = [
       {
-        address: tonTransaction.inMsg?.source?.address.toString() || "",
+        address: tonTransaction.account.address.toString() || "",
       },
     ];
 
     parsedTransaction.recipients = [
       {
-        address: tonTransaction.inMsg?.destination?.address.toString() || "",
+        address: tonTransaction.outMsgs[0]?.destination?.address.toString() || "",
         amount: BigInt(tonTransaction.inMsg?.value || 0n),
       },
     ];
