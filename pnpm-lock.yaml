@@ -79,6 +79,9 @@ importers:
       hi-base32:
         specifier: ^0.5.1
         version: 0.5.1
+      js-sha512:
+        specifier: ^0.8.0
+        version: 0.8.0
       next:
         specifier: 14.0.3
         version: 14.0.3(@babel/core@7.23.6)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
