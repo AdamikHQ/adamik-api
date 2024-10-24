@@ -43,4 +43,4 @@ jobs:
         run: |
           cat ./bruno/environments/ci.bru
           sleep 5
-          pnpm run ci:bruno:test
+          pnpm run test:bruno:ci
