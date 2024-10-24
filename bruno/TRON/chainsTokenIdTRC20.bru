@@ -1,0 +1,19 @@
+meta {
+  name: /api/chains/[chainId]/token/[tokenId] - TRC10
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/token/:tokenId
+  body: none
+}
+
+params:path {
+  tokenId: TXL6rJbvmjD46zeN1JssfgxvSo99qC8MRT
+  chainId: tron
+}
+
+headers {
+  Authorization: {{api_key}}
+}

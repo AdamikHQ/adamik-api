@@ -1,0 +1,168 @@
+{
+  "request": {
+    "url": "https://apilist.tronscanapi.com/api/accountv2?address=TRFc31J1drV7C8CYYjhpJxTxBe1Muf7MGg",
+    "method": "GET",
+    "params": null
+  },
+  "response": {
+    "totalFrozenV2": 7000000,
+    "transactions_out": 32,
+    "frozenForEnergyV2": 7000000,
+    "rewardNum": 0,
+    "delegatedFrozenV2BalanceForBandwidth": 0,
+    "ownerPermission": {
+      "keys": [
+        {
+          "address": "TRFc31J1drV7C8CYYjhpJxTxBe1Muf7MGg",
+          "weight": 1
+        }
+      ],
+      "threshold": 1,
+      "permission_name": "owner"
+    },
+    "redTag": "",
+    "delegateFrozenForEnergy": 0,
+    "balance": 75939021,
+    "frozenForBandWidthV2": 0,
+    "canWithdrawAmountV2": 0,
+    "delegated": {},
+    "transactions_in": 4,
+    "totalTransactionCount": 36,
+    "representative": {
+      "lastWithDrawTime": 0,
+      "allowance": 0,
+      "enabled": false,
+      "url": ""
+    },
+    "announcement": "",
+    "allowExchange": [],
+    "accountType": 0,
+    "exchanges": [],
+    "frozen": {
+      "total": 0,
+      "balances": []
+    },
+    "transactions": 36,
+    "delegatedFrozenV2BalanceForEnergy": 0,
+    "name": "",
+    "frozenForEnergy": 0,
+    "energyCost": 12.301581952541625,
+    "activePermissions": [
+      {
+        "operations": "7fff1fc0033ec30f000000000000000000000000000000000000000000000000",
+        "keys": [
+          {
+            "address": "TRFc31J1drV7C8CYYjhpJxTxBe1Muf7MGg",
+            "weight": 1
+          }
+        ],
+        "threshold": 1,
+        "id": 2,
+        "type": "Active",
+        "permission_name": "active"
+      }
+    ],
+    "acquiredDelegatedFrozenV2BalanceForBandwidth": 0,
+    "netCost": 1.472921661948577,
+    "acquiredDelegateFrozenForBandWidth": 0,
+    "greyTag": "",
+    "publicTag": "",
+    "withPriceTokens": [
+      {
+        "amount": "75.939021",
+        "tokenPriceInTrx": 1,
+        "tokenId": "_",
+        "balance": "75939021",
+        "tokenName": "trx",
+        "tokenDecimal": 6,
+        "tokenAbbr": "trx",
+        "tokenCanShow": 1,
+        "tokenType": "trc10",
+        "vip": false,
+        "tokenLogo": "https://static.tronscan.org/production/logo/trx.png"
+      },
+      {
+        "amount": 0.7048277528187991,
+        "tokenId": "1002000",
+        "tokenName": "BitTorrent Old",
+        "owner_address": "TF5Bn4cJCT6GVeUgyCN4rBhDg42KBrpAjg",
+        "tokenAbbr": "BTTOLD",
+        "tokenCanShow": 1,
+        "transferCount": 64382752,
+        "tokenLogo": "https://static.tronscan.org/production/logo/1002000.png",
+        "tokenPriceInTrx": 0.005711108832203712,
+        "nrOfTokenHolders": 16331045,
+        "balance": "123413469",
+        "tokenDecimal": 6,
+        "tokenType": "trc10",
+        "vip": true
+      },
+      {
+        "tokenId": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+        "balance": "1199322",
+        "tokenName": "Tether USD",
+        "tokenAbbr": "USDT",
+        "tokenDecimal": 6,
+        "tokenCanShow": 1,
+        "tokenType": "trc20",
+        "tokenLogo": "https://static.tronscan.org/production/logo/usdtlogo.png",
+        "vip": true,
+        "tokenPriceInTrx": 6.242038326467463,
+        "amount": 7.48621388977561,
+        "nrOfTokenHolders": 54352926,
+        "transferCount": 2066954876
+      }
+    ],
+    "unfreezeV2": 0,
+    "feedbackRisk": false,
+    "voteTotal": 0,
+    "totalFrozen": 0,
+    "latest_operation_time": 1728649131000,
+    "frozenForBandWidth": 0,
+    "reward": 1,
+    "addressTagLogo": "",
+    "address": "TRFc31J1drV7C8CYYjhpJxTxBe1Muf7MGg",
+    "frozen_supply": [],
+    "bandwidth": {
+      "energyRemaining": 86,
+      "totalEnergyLimit": 180000000000,
+      "totalEnergyWeight": 14632264427,
+      "netUsed": 0,
+      "storageLimit": 0,
+      "storagePercentage": 0,
+      "assets": {
+        "1002000": {
+          "netPercentage": 0,
+          "netLimit": 0,
+          "netRemaining": 0,
+          "netUsed": 0
+        }
+      },
+      "netPercentage": 0,
+      "storageUsed": 0,
+      "storageRemaining": 0,
+      "freeNetLimit": 600,
+      "energyUsed": 0,
+      "freeNetRemaining": 600,
+      "netLimit": 0,
+      "netRemaining": 0,
+      "energyLimit": 86,
+      "freeNetUsed": 0,
+      "totalNetWeight": 29329462059,
+      "freeNetPercentage": 0,
+      "energyPercentage": 0,
+      "totalNetLimit": 43200000000
+    },
+    "date_created": 1727700042000,
+    "acquiredDelegatedFrozenV2BalanceForEnergy": 0,
+    "accountResource": {
+      "frozen_balance_for_energy": {}
+    },
+    "blueTag": "",
+    "witness": 0,
+    "freezing": 7000000,
+    "delegateFrozenForBandWidth": 0,
+    "activated": true,
+    "acquiredDelegateFrozenForEnergy": 0
+  }
+}

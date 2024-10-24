@@ -1,0 +1,30 @@
+meta {
+  name: /api/account/state
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_url}}/api/account/state
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: {{api_key}}
+}
+
+body:json {
+  {
+    "chainId": "tron",
+    "accountId": "TRFc31J1drV7C8CYYjhpJxTxBe1Muf7MGg",
+    "tokens": true
+  }
+}
+
+assert {
+  res.body.balances: isDefined tokens
+  res.body.balances.tokens: isArray
+  res.body.balances.native.total: eq "75939021"
+  res.body.balances.native.available: eq "75939021"
+}

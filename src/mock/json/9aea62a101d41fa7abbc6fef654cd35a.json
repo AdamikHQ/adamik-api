@@ -1,0 +1,8 @@
+{
+  "url": "https://tonapi.io/v2/wallet/0:9a2bb3e5eea4ac28e55e0dae1e16d55dcbac5dbadfa17c7462f222c36c953f0b/seqno",
+  "method": "GET",
+  "params": null,
+  "response": {
+    "seqno": 405
+  }
+}

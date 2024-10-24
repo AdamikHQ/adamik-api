@@ -1,0 +1,20 @@
+meta {
+  name: /api/chains/[chainId]
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: tron
+}
+
+headers {
+  Authorization: {{api_key}}
+  Authorization: {{api_key}}
+}
