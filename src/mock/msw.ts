@@ -12,7 +12,7 @@ const BLACKLIST_JSON_PATH_URL: Record<string, string> = {
 const computeFilepath = async (request: Request) => {
   const requestBody = await request.text();
   const filteredBody = BLACKLIST_JSON_PATH_URL[request.url]
-    ? jq.json(JSON.parse(requestBody), `del(${BLACKLIST_JSON_PATH_URL[request.url]})`)
+    ? await jq.promised.json(JSON.parse(requestBody), `del(${BLACKLIST_JSON_PATH_URL[request.url]})`)
     : requestBody;
 
   const fileName = MD5(request.url + filteredBody) + ".json";
