@@ -37,33 +37,33 @@ const requestSchema = z
     ],
   });
 
+// FIXME Need to also add these filters? How to combine with existing one above?
+// NOTE Need to manually add new modes here, when they start being supported
+
+const includeValues = ["parsed", "raw"] as const;
+type Include = (typeof includeValues)[number];
+
 const queryParamsSchema = z.object({
   from_timestamp: z.coerce.number().optional(),
   to_timestamp: z.coerce.number().optional(),
   include: z
-    .array(z.enum(["parsed", "raw"]))
-    .nonempty()
-    .optional()
-    .openapi({
-      description: "Optional filter, to let you request only the data that you need.",
-    }),
-  // FIXME Need to also add these filters? How to combine with existing one above?
-  /*
-  include: z
-    .array(
-      z.enum([
-        // NOTE Need to manually add new modes here, when they start being supported
-        "native",
-        "tokens",
-        "staking",
-      ])
+    .preprocess(
+      (val) => (Array.isArray(val) ? val.join(",") : val),
+      z
+        .string()
+        .optional()
+        .transform((val) => (val ? (val.split(",") as Include[]) : undefined))
+        .refine(
+          (arr): arr is Include[] | undefined =>
+            arr === undefined || arr.every((item): item is Include => includeValues.includes(item)),
+          { message: "Invalid include value" }
+        )
     )
-    .nonempty()
-    .optional()
     .openapi({
-      description: "Optional filter, to let you request only the data that you need.",
+      description:
+        "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
+      example: "parsed,raw",
     }),
-    */
 });
 
 const responseSchema = z.object({

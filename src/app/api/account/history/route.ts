@@ -13,8 +13,8 @@ export const POST = apiHandler(
   async ({ body, queryParams }) => {
     const { chainId, accountId } = body;
 
-    // Parse supported filters like : /.../...?include=native,tokens,staking
-    // to build an ApiRequestFilters object like : { native?: true, tokens?: true, staking?: true }
+    // Parse supported query params like : /.../...?include=parsed,raw
+    // to build an ApiRequestFilters object like : { parsed?: true, raw?: true }
     const filters: ApiRequestFilters = {};
     queryParams.include?.forEach((param) => {
       filters[param] = true;
