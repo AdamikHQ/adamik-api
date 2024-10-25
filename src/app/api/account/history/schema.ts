@@ -44,8 +44,14 @@ const includeValues = ["parsed", "raw"] as const;
 type Include = (typeof includeValues)[number];
 
 const queryParamsSchema = z.object({
-  from_timestamp: z.coerce.number().optional(),
-  to_timestamp: z.coerce.number().optional(),
+  from_timestamp: z.coerce.number().optional().openapi({
+    description: "Optional Unix timestamp to filter transactions from this date.",
+    example: 1698764400,
+  }),
+  to_timestamp: z.coerce.number().optional().openapi({
+    description: "Optional Unix timestamp to filter transactions until this date.",
+    example: 1699023600,
+  }),
   include: z
     .preprocess(
       (val) => (Array.isArray(val) ? val.join(",") : val),
