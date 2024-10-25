@@ -723,32 +723,31 @@
           {
             "in": "query",
             "name": "from_timestamp",
+            "description": "Optional Unix timestamp to filter transactions from this date.",
             "schema": {
-              "type": "number"
+              "type": "number",
+              "description": "Optional Unix timestamp to filter transactions from this date.",
+              "example": 1698764400
             }
           },
           {
             "in": "query",
             "name": "to_timestamp",
+            "description": "Optional Unix timestamp to filter transactions until this date.",
             "schema": {
-              "type": "number"
+              "type": "number",
+              "description": "Optional Unix timestamp to filter transactions until this date.",
+              "example": 1699023600
             }
           },
           {
             "in": "query",
             "name": "include",
-            "description": "Optional filter, to let you request only the data that you need.",
+            "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "parsed",
-                  "raw"
-                ]
-              },
-              "minItems": 1,
-              "description": "Optional filter, to let you request only the data that you need."
+              "type": "string",
+              "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
+              "example": "parsed,raw"
             }
           }
         ],
