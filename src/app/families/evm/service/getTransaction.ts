@@ -1,6 +1,6 @@
 import { decodeFunctionData, erc20Abi } from "viem";
 import { FinalizedTransaction, Status, TransactionMode, TransactionState } from "~/app/model/types_WIP";
-import { TransactionIdNotFoundError as TransactionNotFoundError } from "~/app/tools/handlers/errors";
+import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
 import { EvmService } from ".";
 import { fetchTransaction, fetchTransactionReceipt } from "../backend/node";
 
@@ -15,7 +15,7 @@ async function getTransaction(
   const evmTransactionReceipt = await fetchTransactionReceipt(this.chainId, transactionId);
 
   if (!evmTransaction || !evmTransactionReceipt) {
-    throw new TransactionNotFoundError(transactionId, this.chainId);
+    throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
@@ -76,7 +76,7 @@ async function getTransaction(
   if (log) {
     parsedTransaction.state = TransactionState.CONFIRMED;
     parsedTransaction.blockHeight = log.blockNumber;
-    // FIXME Apparently there are no logs for simple transfer transactions,
+    // FIXME Seems that sometimes there are no logs for simple transfer transactions (?)
     // so blockTimestamp isn't avaialble for these :/
     // Skipped for now, but could be retrieved with an additional getBlock call to the node...
     // or by relying on the explorer instead

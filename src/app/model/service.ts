@@ -13,6 +13,10 @@ import {
   Validator,
 } from "./types_WIP";
 
+// NOTE
+// - BaseChainService is for any feature that exists on all chains (even if not implemented by us for some chains)
+// - Service extensions are for features that intrinsincly don't exist on some chains, not just when they're not implemented here
+
 // TODO Doc (comment) for each function in every service
 
 // BASE ////////////////////////////////////////////////////////////////////////////////////

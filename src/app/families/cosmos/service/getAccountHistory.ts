@@ -14,11 +14,10 @@ async function getAccountHistory(
   for (const cosmosTransaction of cosmosTransactions) {
     const parsedTransaction = mintscanToAdamikTransaction(this.chainId, cosmosTransaction);
 
-    parsedTransaction &&
-      transactions.push({
-        parsed: parsedTransaction,
-        raw: cosmosTransaction,
-      });
+    transactions.push({
+      parsed: parsedTransaction,
+      raw: cosmosTransaction,
+    });
   }
 
   return {

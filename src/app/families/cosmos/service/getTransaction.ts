@@ -15,14 +15,10 @@ async function getTransaction(
 
   const parsedTransaction = mintscanToAdamikTransaction(this.chainId, cosmosTransaction);
 
-  return parsedTransaction
-    ? {
-        parsed: parsedTransaction,
-        raw: cosmosTransaction,
-      }
-    : {
-        raw: cosmosTransaction,
-      };
+  return {
+    parsed: parsedTransaction,
+    raw: cosmosTransaction,
+  };
 }
 
 export { getTransaction };

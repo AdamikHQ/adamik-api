@@ -1,9 +1,19 @@
+import BigNumber from "bignumber.js";
 import { MORALIS_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { AccountHistoryPagination, ChainId, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import {
+  AccountHistoryPagination,
+  ChainId,
+  FinalizedTransaction,
+  Token,
+  TokenAmount,
+  TokenType,
+  TransactionMode,
+  TransactionState,
+} from "~/app/model/types_WIP";
 import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
 import { EvmAddress } from "../types";
-import { MoralisERC20Token, MoralisERC20TokenBalance, MoralisWalletTransaction } from "./types";
+import { MoralisAccountTransaction, MoralisERC20Token, MoralisERC20TokenBalance } from "./types";
 
 const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth"],
@@ -33,35 +43,6 @@ const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   //Mantle may not be supported yet (marked as coming soon by Moralis)
   //[ChainId.MANTLE, "mantle"],
 ]);
-
-// NOTE Unused at the moment, could serve as replacement for getting transactions from the node
-/*
-async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<MoralisTransaction | null> {
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
-  if (!moralisChainId) {
-    console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
-    return null;
-  }
-
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
-  if (!explorerURL) {
-    console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
-    return null;
-  }
-
-  const url = `${explorerURL}/v2.2/transaction/${transactionId}`;
-
-  const result: MoralisTransaction | { message: string } = await fetchWithHeaders(url).then((response) =>
-    response.json()
-  );
-
-  if ("message" in result) {
-    return null;
-  }
-
-  return result;
-}
-*/
 
 async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   const newOptions: RequestInit = {
@@ -98,6 +79,39 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
   return data;
 }
 
+// NOTE Unused at the moment, could serve as replacement for getting transactions from the node
+/*
+async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<MoralisTransaction | null> {
+  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  if (!moralisChainId) {
+    console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
+    return null;
+  }
+
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  if (!explorerURL) {
+    console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
+    return null;
+  }
+
+  const queryParams = new URLSearchParams({
+    chain: moralisChainId,
+  });
+
+  const url = `${explorerURL}/v2.2/transaction/${transactionId}/verbose?${queryParams}`;
+
+  const result: MoralisTransaction | { message: string } = await fetchWithHeaders(url).then((response) =>
+    response.json()
+  );
+
+  if ("message" in result) {
+    return null;
+  }
+
+  return result;
+}
+*/
+
 async function fetchERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
@@ -124,7 +138,7 @@ async function fetchERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Pr
       queryParams.append("cursor", data.cursor);
     }
 
-    const url = `${explorerURL}/v2.2/wallets/${address}/tokens` + "?" + queryParams;
+    const url = `${explorerURL}/v2.2/wallets/${address}/tokens?${queryParams}`;
 
     data = await fetchWithHeaders(url).then((response) => response.json());
 
@@ -174,7 +188,7 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
     "addresses[0]": tokenId,
   });
 
-  const url = `${explorerURL}/v2.2/erc20/metadata` + "?" + queryParams;
+  const url = `${explorerURL}/v2.2/erc20/metadata?${queryParams}`;
 
   // (array destructuring, we only need the 1st item)
   const [result]: [MoralisERC20Token] = await fetchWithHeaders(url).then((response) => response.json());
@@ -195,7 +209,7 @@ async function fetchAccountTransactions(
   chainId: ChainId,
   address: EvmAddress,
   pagination: AccountHistoryPagination
-): Promise<MoralisWalletTransaction[]> {
+): Promise<MoralisAccountTransaction[]> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
@@ -208,19 +222,19 @@ async function fetchAccountTransactions(
     return [];
   }
 
-  const searchParams = new URLSearchParams({
+  const queryParams = new URLSearchParams({
     chain: moralisChainId,
     order: "DESC",
-    include_internal_transactions: "false", // Moralis bug : doesn't work!
-    nft_metadata: "false", // Moralis bug : doesn't work!
+    include_internal_transactions: "false", // Moralis bug : doesn't work??
+    nft_metadata: "false", // Moralis bug : doesn't work??
   });
 
-  pagination.fromTimestamp && searchParams.set("from_date", pagination.fromTimestamp.toString());
-  pagination.toTimestamp && searchParams.set("to_date", pagination.toTimestamp.toString());
+  pagination.fromTimestamp && queryParams.set("from_date", pagination.fromTimestamp.toString());
+  pagination.toTimestamp && queryParams.set("to_date", pagination.toTimestamp.toString());
 
-  const url = `${explorerURL}/v2.2/wallets/${address}/history` + "?" + searchParams;
+  const url = `${explorerURL}/v2.2/wallets/${address}/history?${queryParams}`;
 
-  const transactions = await fetchWithPagination<MoralisWalletTransaction>(chainId, url, "result");
+  const transactions = await fetchWithPagination<MoralisAccountTransaction>(chainId, url, "result");
 
   // FIXME Because the queryParams above don't work, need to filter unwanted transactions by hand
   // For now, we're not interested in internal transactions and NFTs
@@ -229,4 +243,68 @@ async function fetchAccountTransactions(
   );
 }
 
-export { fetchAccountTransactions, fetchERC20Token, fetchERC20TokenAmounts };
+function moralisToAdamikAccountTransaction(
+  chainId: ChainId,
+  moralisTransaction: MoralisAccountTransaction
+): FinalizedTransaction["parsed"] {
+  const chain = CHAINS[chainId];
+
+  // Moralis bug ? For some reason, transaction_fee is NOT in smallest unit... so we need to convert it
+  const feesBN = new BigNumber(moralisTransaction.transaction_fee).multipliedBy(Math.pow(10, chain.decimals));
+  const feesAmount = BigInt(feesBN.toFixed());
+
+  const parsedTransaction: FinalizedTransaction["parsed"] = {
+    chainId,
+    id: moralisTransaction.hash,
+    timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
+    senders: [
+      {
+        address: moralisTransaction.from_address,
+      },
+    ],
+    fees: {
+      amount: feesAmount,
+      ticker: chain.ticker,
+    },
+    gas: BigInt(moralisTransaction.gas),
+    nonce: BigInt(moralisTransaction.nonce),
+    // Placeholder values, actual values filled below
+    mode: "unknown",
+    state: TransactionState.UNKNOWN,
+  };
+
+  if (moralisTransaction.block_number) {
+    parsedTransaction.state = TransactionState.CONFIRMED;
+    parsedTransaction.blockHeight = BigInt(moralisTransaction.block_number);
+  }
+
+  if (moralisTransaction.native_transfers?.length) {
+    const moralisNativeTransfer = moralisTransaction.native_transfers[0];
+    parsedTransaction.mode = TransactionMode.TRANSFER;
+    parsedTransaction.recipients = [
+      {
+        amount: BigInt(moralisNativeTransfer.value),
+        address: moralisNativeTransfer.to_address,
+      },
+    ];
+  } else if (moralisTransaction.erc20_transfers?.length) {
+    const moralisErc20Transfer = moralisTransaction.erc20_transfers[0];
+    parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
+    parsedTransaction.tokenId = moralisErc20Transfer.address;
+    parsedTransaction.recipients = [
+      {
+        amount: BigInt(moralisErc20Transfer.value),
+        address: moralisErc20Transfer.to_address,
+      },
+    ];
+  }
+
+  return parsedTransaction;
+}
+
+export {
+  fetchAccountTransactions,
+  fetchERC20Token,
+  fetchERC20TokenAmounts,
+  moralisToAdamikAccountTransaction,
+};

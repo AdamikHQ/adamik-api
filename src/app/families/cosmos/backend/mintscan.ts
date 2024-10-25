@@ -112,7 +112,7 @@ async function fetchAccountTransactions(
 function mintscanToAdamikTransaction(
   chainId: ChainId,
   mintscanTransaction: MintscanTransaction
-): FinalizedTransaction["parsed"] | null {
+): FinalizedTransaction["parsed"] {
   // https://docs.cosmos.network/v0.46/core/transactions.html#signing-transactions
   switch (mintscanTransaction.tx["@type"]) {
     case "/cosmos.tx.v1beta1.Tx":
@@ -129,7 +129,7 @@ function mintscanToAdamikTransaction(
 function parseLegacyAminoTransaction(
   chainId: ChainId,
   mintscanTransaction: MintscanTransaction
-): FinalizedTransaction["parsed"] | null {
+): FinalizedTransaction["parsed"] {
   if (mintscanTransaction.tx["@type"] !== "cosmos-sdk/StdTx") {
     console.warn(
       `/!\\ Invalid mintscan payload for transaction ${mintscanTransaction.txhash} of chainId ${chainId}`
@@ -301,7 +301,7 @@ function parseLegacyAminoTransaction(
 function parseProtobufTransaction(
   chainId: ChainId,
   mintscanTransaction: MintscanTransaction
-): FinalizedTransaction["parsed"] | null {
+): FinalizedTransaction["parsed"] {
   if (mintscanTransaction.tx["@type"] !== "/cosmos.tx.v1beta1.Tx") {
     console.warn(
       `/!\\ Invalid mintscan payload for transaction ${mintscanTransaction.txhash} of chainId ${chainId}`
