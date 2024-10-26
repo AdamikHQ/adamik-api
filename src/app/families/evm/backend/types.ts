@@ -23,7 +23,6 @@ type EtherscanERC20Event = {
 };
 
 // NOTE Unused at the moment
-/*
 type MoralisTransaction = {
   hash: string;
   nonce: bigint;
@@ -50,7 +49,6 @@ type MoralisTransaction = {
     }[];
   };
 };
-*/
 
 type MoralisERC20Token = {
   address: EvmAddress;
@@ -218,4 +216,5 @@ export type {
   MoralisAccountTransactionsResponse,
   MoralisERC20Token,
   MoralisERC20TokenBalance,
+  MoralisTransaction,
 };

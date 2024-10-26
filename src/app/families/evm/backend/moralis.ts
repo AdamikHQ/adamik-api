@@ -13,7 +13,12 @@ import {
 } from "~/app/model/types_WIP";
 import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
 import { EvmAddress } from "../types";
-import { MoralisAccountTransaction, MoralisERC20Token, MoralisERC20TokenBalance } from "./types";
+import {
+  MoralisAccountTransaction,
+  MoralisERC20Token,
+  MoralisERC20TokenBalance,
+  MoralisTransaction,
+} from "./types";
 
 const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth"],
@@ -79,8 +84,6 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
   return data;
 }
 
-// NOTE Unused at the moment, could serve as replacement for getting transactions from the node
-/*
 async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<MoralisTransaction | null> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
@@ -110,7 +113,6 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
 
   return result;
 }
-*/
 
 async function fetchERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
@@ -243,6 +245,72 @@ async function fetchAccountTransactions(
   );
 }
 
+function moralisToAdamikTransaction(
+  chainId: ChainId,
+  moralisTransaction: MoralisTransaction
+): FinalizedTransaction["parsed"] {
+  const chain = CHAINS[chainId];
+
+  // Moralis bug ? For some reason, transaction_fee is NOT in smallest unit... so we need to convert it
+  const feesBN = new BigNumber(moralisTransaction.transaction_fee).multipliedBy(Math.pow(10, chain.decimals));
+  const feesAmount = feesBN.isNaN() ? 0n : BigInt(feesBN.toFixed());
+
+  const parsedTransaction: FinalizedTransaction["parsed"] = {
+    chainId,
+    id: moralisTransaction.hash,
+    timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
+    senders: [
+      {
+        address: moralisTransaction.from_address,
+      },
+    ],
+    fees: {
+      amount: feesAmount,
+    },
+    gas: BigInt(moralisTransaction.receipt_gas_used),
+    nonce: BigInt(moralisTransaction.nonce),
+    // Placeholder values, actual values filled below
+    mode: "unknown",
+    state: TransactionState.UNKNOWN,
+  };
+
+  if (moralisTransaction.block_number) {
+    parsedTransaction.state = TransactionState.CONFIRMED;
+    parsedTransaction.blockHeight = BigInt(moralisTransaction.block_number);
+  }
+
+  const decodedCall = moralisTransaction.decoded_call;
+  if (!moralisTransaction.decoded_call) {
+    parsedTransaction.mode = TransactionMode.TRANSFER;
+
+    parsedTransaction.recipients = [
+      {
+        amount: BigInt(moralisTransaction.value),
+        address: moralisTransaction.to_address,
+      },
+    ];
+  } else if (decodedCall.type === "function" && decodedCall.label === "transfer") {
+    parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
+    parsedTransaction.tokenId = moralisTransaction.to_address;
+
+    const recipientAddress = decodedCall.params.find((param) => param.name === "_to")?.value || "";
+    const amount = decodedCall.params.find((param) => param.name === "_value")?.value;
+    if (!amount) {
+      console.warn(`/!\\ Invalid data in response from explorer for chainId ${chainId}:`, moralisTransaction);
+      throw new Error(`Invalid data in response from explorer for chain ID ${chainId}`);
+    }
+
+    parsedTransaction.recipients = [
+      {
+        address: recipientAddress,
+        amount: BigInt(amount),
+      },
+    ];
+  }
+
+  return parsedTransaction;
+}
+
 function moralisToAdamikAccountTransaction(
   chainId: ChainId,
   moralisTransaction: MoralisAccountTransaction
@@ -308,5 +376,7 @@ export {
   fetchAccountTransactions,
   fetchERC20Token,
   fetchERC20TokenAmounts,
+  fetchTransaction,
   moralisToAdamikAccountTransaction,
+  moralisToAdamikTransaction,
 };
