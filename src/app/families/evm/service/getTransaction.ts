@@ -18,6 +18,9 @@ async function getTransaction(
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
+  // Concatenate the 2 to return all their data as the raw transaction
+  (evmTransaction as any).transactionReceipt = evmTransactionReceipt;
+
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId: this.chainId,
     id: evmTransaction.hash,
@@ -32,45 +35,15 @@ async function getTransaction(
     gas: evmTransactionReceipt.gasUsed,
     nonce: BigInt(evmTransaction.nonce),
     // Placeholder values, actual values filled below
-    mode: TransactionMode.TRANSFER,
+    mode: "unknown",
     state: TransactionState.UNKNOWN,
-  };
-
-  if (evmTransaction.input && evmTransaction.input !== "0x") {
-    const { functionName, args } = decodeFunctionData({
-      abi: erc20Abi,
-      data: evmTransaction.input,
-    });
-
-    // Misleading, but the "transfer" value here refers to the ERC20 ABI's "transfer" method,
-    // which indicates a token transfer not a native transfer
-    // See https://ethereum.org/en/developers/docs/standards/tokens/erc-20/#methods
-    if (functionName === "transfer") {
-      parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
-      parsedTransaction.recipients = [
-        {
-          address: args[0],
-          amount: args[1],
-        },
-      ];
-    } else {
-      const message = `Unsupported parsing of transaction ${transactionId} for chainId ${this.chainId}: ${functionName} not supported`;
-      // Not supported (yet?)
-      console.warn(message);
-      status.errors.push({ message });
-      return {
-        raw: evmTransactionReceipt,
-      };
-    }
-  } else {
-    parsedTransaction.mode = TransactionMode.TRANSFER;
-    parsedTransaction.recipients = [
+    recipients: [
       {
         address: evmTransaction.to || "",
         amount: evmTransaction.value,
       },
-    ];
-  }
+    ],
+  };
 
   const log = evmTransactionReceipt.logs[0];
   if (log) {
@@ -89,9 +62,43 @@ async function getTransaction(
     parsedTransaction.state = TransactionState.UNCONFIRMED;
   }
 
+  // For other data, we only support EIP1559 transactions at the moment
+  if (evmTransaction.type === "eip1559") {
+    // Empty input (data) means simple transfer
+    if (evmTransaction.input === "0x") {
+      parsedTransaction.mode = TransactionMode.TRANSFER;
+    } else {
+      const { functionName, args } = decodeFunctionData({
+        abi: erc20Abi,
+        data: evmTransaction.input,
+      });
+
+      // Misleading, but the "transfer" value here refers to the ERC20 ABI's "transfer" method,
+      // which indicates a token transfer not a native transfer
+      // See https://ethereum.org/en/developers/docs/standards/tokens/erc-20/#methods
+      if (functionName === "transfer") {
+        parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
+        parsedTransaction.recipients = [
+          {
+            address: args[0],
+            amount: args[1],
+          },
+        ];
+      } else {
+        const message = `Unsupported parsing of transaction ${transactionId} for chainId ${this.chainId}: ${functionName} not supported`;
+        // Not supported (yet?)
+        console.warn(message);
+        status.errors.push({ message });
+        return {
+          raw: evmTransactionReceipt,
+        };
+      }
+    }
+  }
+
   return {
     parsed: parsedTransaction,
-    raw: evmTransactionReceipt,
+    raw: evmTransaction,
   };
 }
 

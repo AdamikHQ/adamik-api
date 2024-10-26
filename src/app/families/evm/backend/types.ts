@@ -127,6 +127,7 @@ type MoralisAccountTransaction = {
   nft_transfers: MoralisNftTransfer[];
   erc20_transfers: MoralisErc20Transfer[];
   native_transfers: MoralisNativeTransfer[];
+  category: string;
 };
 
 type MoralisNativeTransfer = {

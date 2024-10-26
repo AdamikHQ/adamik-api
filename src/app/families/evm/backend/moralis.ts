@@ -251,7 +251,7 @@ function moralisToAdamikAccountTransaction(
 
   // Moralis bug ? For some reason, transaction_fee is NOT in smallest unit... so we need to convert it
   const feesBN = new BigNumber(moralisTransaction.transaction_fee).multipliedBy(Math.pow(10, chain.decimals));
-  const feesAmount = BigInt(feesBN.toFixed());
+  const feesAmount = feesBN.isNaN() ? 0n : BigInt(feesBN.toFixed());
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId,
@@ -264,9 +264,8 @@ function moralisToAdamikAccountTransaction(
     ],
     fees: {
       amount: feesAmount,
-      ticker: chain.ticker,
     },
-    gas: BigInt(moralisTransaction.gas),
+    gas: BigInt(moralisTransaction.receipt_gas_used),
     nonce: BigInt(moralisTransaction.nonce),
     // Placeholder values, actual values filled below
     mode: "unknown",
@@ -279,8 +278,11 @@ function moralisToAdamikAccountTransaction(
   }
 
   if (moralisTransaction.native_transfers?.length) {
+    if (["send", "receive"].includes(moralisTransaction.category)) {
+      parsedTransaction.mode = TransactionMode.TRANSFER;
+    }
+
     const moralisNativeTransfer = moralisTransaction.native_transfers[0];
-    parsedTransaction.mode = TransactionMode.TRANSFER;
     parsedTransaction.recipients = [
       {
         amount: BigInt(moralisNativeTransfer.value),
