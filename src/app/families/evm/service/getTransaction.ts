@@ -78,22 +78,22 @@ async function getTransaction(
       // See https://ethereum.org/en/developers/docs/standards/tokens/erc-20/#methods
       if (functionName === "transfer") {
         parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
+        parsedTransaction.tokenId = evmTransaction.to!;
         parsedTransaction.recipients = [
           {
             address: args[0],
             amount: args[1],
           },
         ];
-      } else {
-        const message = `Unsupported parsing of transaction ${transactionId} for chainId ${this.chainId}: ${functionName} not supported`;
-        // Not supported (yet?)
-        console.warn(message);
-        status.errors.push({ message });
-        return {
-          raw: evmTransactionReceipt,
-        };
       }
     }
+  }
+
+  if (parsedTransaction.mode === "unknown") {
+    // Not supported (yet?)
+    const message = `Unsupported parsing of transaction ${transactionId} for chainId ${this.chainId}`;
+    console.warn(message);
+    status.warnings.push({ message });
   }
 
   return {
