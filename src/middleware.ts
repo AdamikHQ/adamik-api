@@ -5,8 +5,7 @@ type ClientData = {
   clientId: string; // adamik generated ID
   apiKey: string;
   creationDate: number;
-  // FIXME: undefined while there are still old registrations without stripe ids in the config file
-  stripeCustomerId: string | undefined; // stripe generated ID
+  nickname: string; // for display purposes only
 };
 
 export async function middleware(request: NextRequest) {
@@ -22,7 +21,7 @@ export async function middleware(request: NextRequest) {
   console.log("API KEY:", client?.apiKey);
 
   const headers = new Headers(request.headers);
-  headers.set("X-Adamik-Customer-Id", client?.stripeCustomerId || "unknown");
+  headers.set("X-Adamik-Customer-Id", client?.clientId || "unknown");
 
   // NOTE No additional checks for now
   // In the future we could apply rate limits, or special access rights
