@@ -1,4 +1,4 @@
-import { FeeValuesEIP1559, Transaction, TransactionReceipt, createPublicClient, erc20Abi, http } from "viem";
+import { FeeValuesEIP1559, createPublicClient, erc20Abi, http } from "viem";
 import {
   arbitrum,
   arbitrumSepolia,
@@ -265,6 +265,8 @@ async function fetchNonce(chainId: ChainId, address: EvmAddress): Promise<number
   return await getClient(chainId).getTransactionCount({ address });
 }
 
+// NOTE Unused at the moment, transactions are retrived via the explorer
+/*
 async function fetchTransaction(chainId: ChainId, transactionHash: string): Promise<Transaction | null> {
   try {
     return await getClient(chainId).getTransaction({ hash: transactionHash });
@@ -283,6 +285,7 @@ async function fetchTransactionReceipt(
     return null;
   }
 }
+*/
 
 async function broadcast(chainId: ChainId, signedTransaction: string) {
   return await getClient(chainId).sendRawTransaction({ serializedTransaction: signedTransaction });
@@ -301,6 +304,4 @@ export {
   fetchERC20Ticker,
   fetchERC20name,
   fetchNonce,
-  fetchTransaction,
-  fetchTransactionReceipt,
 };

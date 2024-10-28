@@ -1,14 +1,6 @@
-import BigNumber from "bignumber.js";
-import { CHAINS } from "~/app/config/chains";
-import {
-  AccountHistory,
-  AccountHistoryPagination,
-  FinalizedTransaction,
-  TransactionMode,
-  TransactionState,
-} from "~/app/model/types_WIP";
+import { AccountHistory, AccountHistoryPagination, FinalizedTransaction } from "~/app/model/types_WIP";
 import { EvmService } from ".";
-import { fetchAccountTransactions } from "../backend/moralis";
+import { fetchAccountTransactions, moralisToAdamikAccountTransaction } from "../backend/moralis";
 import { EvmAddress } from "../types";
 
 async function getAccountHistory(
@@ -16,62 +8,12 @@ async function getAccountHistory(
   accountId: string,
   pagination: AccountHistoryPagination
 ): Promise<AccountHistory> {
-  const chain = CHAINS[this.chainId];
-
   const evmTransactions = await fetchAccountTransactions(this.chainId, accountId as EvmAddress, pagination);
 
   const transactions: FinalizedTransaction[] = [];
 
   for (const evmTransaction of evmTransactions) {
-    // Moralis bug ? For some reason, transaction_fee is NOT in smallest unit... so we need to convert it
-    const feesBN = new BigNumber(evmTransaction.transaction_fee).multipliedBy(Math.pow(10, chain.decimals));
-    const feesAmount = BigInt(feesBN.toFixed());
-
-    const parsedTransaction: FinalizedTransaction["parsed"] = {
-      chainId: this.chainId,
-      id: evmTransaction.hash,
-      timestamp: new Date(evmTransaction.block_timestamp).getTime(),
-      senders: [
-        {
-          address: evmTransaction.from_address,
-        },
-      ],
-      fees: {
-        amount: feesAmount,
-        ticker: chain.ticker,
-      },
-      gas: BigInt(evmTransaction.gas),
-      nonce: BigInt(evmTransaction.nonce),
-      // Placeholder values, actual values filled below
-      mode: "unknown",
-      state: TransactionState.UNKNOWN,
-    };
-
-    if (evmTransaction.block_number) {
-      parsedTransaction.state = TransactionState.CONFIRMED;
-      parsedTransaction.blockHeight = BigInt(evmTransaction.block_number);
-    }
-
-    if (evmTransaction.native_transfers?.length) {
-      const moralisNativeTransfer = evmTransaction.native_transfers[0];
-      parsedTransaction.mode = TransactionMode.TRANSFER;
-      parsedTransaction.recipients = [
-        {
-          amount: BigInt(moralisNativeTransfer.value),
-          address: moralisNativeTransfer.to_address,
-        },
-      ];
-    } else if (evmTransaction.erc20_transfers?.length) {
-      const moralisErc20Transfer = evmTransaction.erc20_transfers[0];
-      parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
-      parsedTransaction.tokenId = moralisErc20Transfer.address;
-      parsedTransaction.recipients = [
-        {
-          amount: BigInt(moralisErc20Transfer.value),
-          address: moralisErc20Transfer.to_address,
-        },
-      ];
-    }
+    const parsedTransaction = moralisToAdamikAccountTransaction(this.chainId, evmTransaction);
 
     transactions.push({
       parsed: parsedTransaction,
