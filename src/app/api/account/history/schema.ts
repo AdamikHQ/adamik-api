@@ -37,9 +37,7 @@ const requestSchema = z
     ],
   });
 
-// FIXME Need to also add these filters? How to combine with existing one above?
 // NOTE Need to manually add new modes here, when they start being supported
-
 const includeValues = ["parsed", "raw"] as const;
 type Include = (typeof includeValues)[number];
 
@@ -65,6 +63,24 @@ const queryParamsSchema = z.object({
             arr === undefined || arr.every((item): item is Include => includeValues.includes(item)),
           { message: "Invalid include value" }
         )
+      // FIXME Should we add the following filters (native, tokens, staking)?
+      // How to combine with existing one above 'raw' and 'parsed'?
+      /*
+  include: z
+    .array(
+      z.enum([
+        // NOTE Need to manually add new modes here, when they start being supported
+        "native",
+        "tokens",
+        "staking",
+      ])
+    )
+    .nonempty()
+    .optional()
+    .openapi({
+      description: "Optional filter, to let you request only the data that you need.",
+    }),
+    */
     )
     .openapi({
       description:
