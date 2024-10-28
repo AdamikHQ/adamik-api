@@ -54,6 +54,7 @@ const queryParamsSchema = z.object({
   }),
   include: z
     .preprocess(
+      // we make sure to handle both array and joined strings alike (Next formats query parameters differently depending on route verb
       (val) => (Array.isArray(val) ? val.join(",") : val),
       z
         .string()
