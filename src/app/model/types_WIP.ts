@@ -403,4 +403,5 @@ export type {
   TransactionSpendableAmounts,
   TypedAddress,
   Validator,
+  FeaturesSet,
 };

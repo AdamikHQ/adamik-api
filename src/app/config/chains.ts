@@ -370,7 +370,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.EVM,
     id: ChainId.ARBITRUM,
     nativeId: "42161",
-    name: "Arbitrum One",
+    name: "Arbitrum",
     ticker: "ETH",
     decimals: 18,
     backends: {
@@ -415,7 +415,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
   },
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,
-    name: "Bitcoin testnet",
+    name: "Bitcoin Testnet",
     family: ChainFamily.BITCOIN,
     ticker: "BTC",
     decimals: 8,
@@ -635,7 +635,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.EVM,
     id: ChainId.ROOTSTOCK,
     nativeId: "30",
-    name: "RootStock Mainnet",
+    name: "RootStock",
     ticker: "RBTC",
     decimals: 18,
     backends: {
@@ -707,7 +707,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.EVM,
     id: ChainId.CHILIZ,
     nativeId: "88888",
-    name: "Chiliz Chain",
+    name: "Chiliz",
     ticker: "CHZ",
     decimals: 18,
     backends: {
