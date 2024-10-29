@@ -15,6 +15,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const apiKey = request.headers.get("Authorization");
+  // FIXME: use postgres instead of Vercel config
   const clients: readonly ClientData[] | undefined = await getVercelEdgeConfig("clients");
   const client = clients?.find((client) => client.apiKey === apiKey);
 
