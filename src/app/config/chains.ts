@@ -591,6 +591,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: EVM_FEATURES,
   },
+  //Moonbeam Testnet (aka Moonbase)
   moonbase: {
     family: ChainFamily.EVM,
     id: ChainId.MOONBASE,
