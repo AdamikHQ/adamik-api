@@ -311,15 +311,19 @@ function parseProtobufTransaction(
 
   const tx = mintscanTransaction.tx["/cosmos-tx-v1beta1-Tx"];
 
-  const transactionFees = tx.auth_info.fee.amount[0];
+  const transactionFees = tx?.auth_info?.fee?.amount[0];
 
   let parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId: chainId,
     id: mintscanTransaction.txhash,
-    fees: {
-      amount: BigInt(transactionFees.amount),
-      ticker: transactionFees.denom,
-    },
+    fees: transactionFees
+      ? {
+          amount: BigInt(transactionFees.amount),
+          ticker: transactionFees.denom,
+        }
+      : {
+          amount: 0n,
+        },
     gas: BigInt(mintscanTransaction.gas_used),
     // Placeholder values, actual values filled below
     mode: "unknown",
