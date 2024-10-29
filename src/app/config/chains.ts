@@ -915,6 +915,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: COSMOS_FEATURES,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/stargaze/chain.json
   },
+
   tron: {
     family: ChainFamily.TRON,
     id: ChainId.TRON,
@@ -927,6 +928,315 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://apilist.tronscanapi.com",
     },
     supportedFeatures: TRON_FEATURES,
+  },
+
+  cudos: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.CUDOS,
+    nativeId: "cudos-1",
+    name: "Cudos",
+    ticker: "CUDOS",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://lcd-cudos.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "cudos",
+      validatorPrefix: "cudosvaloper",
+      denom: "acudos",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 5000000000000,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  evmos: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.EVMOS,
+    nativeId: "evmos_9001-2",
+    name: "Evmos",
+    ticker: "EVMOS",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://lcd-evmos.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "evmos",
+      validatorPrefix: "evmosvaloper",
+      denom: "aevmos",
+      //TODO: do the same as for Injective as the signature scheme might be different
+      defaultPubKeyType: "/ethermint.crypto.v1.ethsecp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 25000000000,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  irisnet: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.IRISNET,
+    nativeId: "irishub-1",
+    name: "IRISnet",
+    ticker: "IRIS",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-iris.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "iaa",
+      validatorPrefix: "iva",
+      denom: "uiris",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.3,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  juno: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.JUNO,
+    nativeId: "juno-1",
+    name: "Juno",
+    ticker: "JUNO",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-juno.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "juno",
+      validatorPrefix: "junovaloper",
+      denom: "ujuno",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.1,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  "lum-network": {
+    family: ChainFamily.COSMOS,
+    id: ChainId.LUM_NETWORK,
+    nativeId: "lum-network-1",
+    name: "Lum Network",
+    ticker: "LUM",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-lum.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "lum",
+      validatorPrefix: "lumvaloper",
+      denom: "ulum",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  omniflix: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.OMNIFLIX,
+    nativeId: "omniflixhub-1",
+    name: "OmniFlix",
+    ticker: "FLIX",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-omniflix.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "omniflix",
+      validatorPrefix: "omniflixvaloper",
+      denom: "uflix",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.0025,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  sei: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.SEI,
+    nativeId: "pacific-1",
+    name: "Sei",
+    ticker: "SEI",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-sei.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "sei",
+      validatorPrefix: "seivaloper",
+      denom: "usei",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.02,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  medibloc: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.MEDIBLOC,
+    nativeId: "panacea-3",
+    name: "MediBloc",
+    ticker: "MED",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-medibloc.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "panacea",
+      validatorPrefix: "panaceavaloper",
+      denom: "umed",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 7,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  passage: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.PASSAGE,
+    nativeId: "passage-2",
+    name: "Passage",
+    ticker: "PASG",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-passage.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "pasg",
+      validatorPrefix: "pasgvaloper",
+      denom: "upasg",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.0025,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  quasar: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.QUASAR,
+    nativeId: "quasar-1",
+    name: "Quasar",
+    ticker: "QSR",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-quasar.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "quasar",
+      validatorPrefix: "quasarvaloper",
+      denom: "uqsr",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.25,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  seda: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.SEDA,
+    nativeId: "seda-1",
+    name: "Seda",
+    ticker: "SEDA",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-seda.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "seda",
+      validatorPrefix: "sedavaloper",
+      denom: "useda",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 10000000000,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  sommelier: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.SOMMELIER,
+    nativeId: "sommelier-3",
+    name: "Sommelier",
+    ticker: "SOMM",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-sommelier.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "somm",
+      validatorPrefix: "sommvaloper",
+      denom: "usomm",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  shentu: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.SHENTU,
+    nativeId: "shentu-2.2",
+    name: "Shentu",
+    ticker: "CTK",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-shentu.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "shentu",
+      validatorPrefix: "shentuvaloper",
+      denom: "uctk",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES,
+  },
+
+  stride: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.STRIDE,
+    nativeId: "stride-1",
+    name: "Stride",
+    ticker: "STRD",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://lcd-stride.imperator.co",
+      explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "stride",
+      validatorPrefix: "stridevaloper",
+      denom: "ustrd",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.005,
+    },
+    supportedFeatures: COSMOS_FEATURES,
   },
 } as const;
 
