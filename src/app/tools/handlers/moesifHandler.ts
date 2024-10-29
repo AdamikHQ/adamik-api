@@ -12,6 +12,7 @@ const moesifOptions: MoesifOptions = {
   },
   getMetadata: (req, res) => {
     return {
+      // FIXME Hardcoded for now, needs to be provided from Stripe info (or JWT token...)
       isBillable: true,
     };
   },
