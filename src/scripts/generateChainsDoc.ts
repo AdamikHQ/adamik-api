@@ -84,9 +84,10 @@ function getBaseChainName(chain: Chain): string {
 
   // Fallback to mapping testnets to their base chain
   switch (chain.id) {
+    case ChainId.MOONBASE:
+      return CHAINS[ChainId.MOONBEAM].name;
     case ChainId.SEPOLIA:
     case ChainId.HOLESKY:
-    case ChainId.MOONBASE:
       return CHAINS[ChainId.ETHEREUM].name;
     default:
       throw new Error(`Encountered unknown testnet chain: ${chain.id}`);
@@ -146,8 +147,7 @@ const CONFIG = {
     table: 'style={{ borderCollapse: "collapse", border: "none" }}',
     cell: 'style={{ textAlign: "center", border: "none"}}',
     // Add a combined style for cells that need both center alignment and nowrap
-    cellNoWrap:
-      'style={{ textAlign: "center", border: "none", whiteSpace: "nowrap", "word-break": "keep-all"}}',
+    cellNoWrap: 'style={{ textAlign: "center", border: "none", whiteSpace: "nowrap"}}',
   },
   CLASSES: {
     supported: "checkmark",
