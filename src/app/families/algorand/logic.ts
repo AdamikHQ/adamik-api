@@ -62,6 +62,8 @@ function computeAlgoMaxSpendable({
   return maxSpendable >= 0 ? maxSpendable : 0n;
 }
 
+// FIXME Should also include impact of Algorand smart contracts on minimum balance
+// https://developer.algorand.org/docs/get-details/dapps/smart-contracts/apps/#minimum-balance-requirement-for-a-smart-contract
 function computeMinimumAlgoBalance(mode: TransactionMode, nbAccountAssets: number): number {
   const base = 100000; // 0.1 ALGO = 100000 mALGO
   const currentAssets = nbAccountAssets;

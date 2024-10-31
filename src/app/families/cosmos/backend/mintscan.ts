@@ -69,7 +69,7 @@ async function fetchTransaction(
 ): Promise<MintscanTransaction | null> {
   const mintscanChainId = MINTSCAN_CHAIN_IDS.get(chainId);
   if (!mintscanChainId) {
-    console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
+    console.warn(`/!\\ Chain ID ${chainId} is not supported by Mintscan API`);
     return null;
   }
 
@@ -91,7 +91,7 @@ async function fetchAccountTransactions(
 ): Promise<MintscanTransaction[]> {
   const mintscanChainId = MINTSCAN_CHAIN_IDS.get(chainId);
   if (!mintscanChainId) {
-    console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
+    console.warn(`/!\\ Chain ID ${chainId} is not supported by Mintscan API`);
     return [];
   }
 
