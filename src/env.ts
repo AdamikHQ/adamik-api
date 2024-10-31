@@ -9,6 +9,7 @@ const env = createEnv({
   server: {
     EDGE_CONFIG: z.string().url(),
     MOESIF_APPLICATION_ID: z.string().min(1),
+    MOESIF_MANAGEMENT_API_KEY: z.string().min(1),
   },
 
   /*
@@ -20,6 +21,7 @@ const env = createEnv({
   runtimeEnv: {
     EDGE_CONFIG: process.env.EDGE_CONFIG,
     MOESIF_APPLICATION_ID: process.env.MOESIF_APPLICATION_ID,
+    MOESIF_MANAGEMENT_API_KEY: process.env.MOESIF_MANAGEMENT_API_KEY,
   },
 });
 
