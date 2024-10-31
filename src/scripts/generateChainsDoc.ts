@@ -60,11 +60,19 @@ function hasFeature<T extends ChainSupportedFeatures>(features: T, featurePath: 
   return paths.reduce((obj: any, path) => obj?.[path], features) ?? false;
 }
 
-const TESTNET_IDENTIFIERS = [" Spicy Testnet", " Testnet", " Fuji", " Amoy", " Chiado", " Sepolia"] as const;
+const TESTNET_IDENTIFIERS = [
+  " Spicy Testnet",
+  " Fuji Testnet",
+  " Testnet",
+  " Amoy",
+  " Chiado",
+  " Sepolia",
+] as const;
 
 // TODO: move to chains.ts so that testnet chains advertise their base chain?
 function getBaseChainName(chain: Chain): string {
-  if (!chain.isTestNet) {
+  // FIXME: Injective testnet is a special case
+  if (!chain.isTestNet || chain.id === ChainId.INJECTIVE_TESTNET) {
     return chain.name;
   }
 
@@ -77,7 +85,6 @@ function getBaseChainName(chain: Chain): string {
   // Fallback to mapping testnets to their base chain
   switch (chain.id) {
     case ChainId.SEPOLIA:
-    case ChainId.INJECTIVE_TESTNET:
     case ChainId.HOLESKY:
     case ChainId.MOONBASE:
       return CHAINS[ChainId.ETHEREUM].name;
@@ -136,11 +143,11 @@ const CONFIG = {
   OUTPUT_FILE: "./chains_supported.mdx",
   TABLE_STYLES: {
     centerAlign: 'style={{ textAlign: "center" }}',
-    noWrap: 'style={{ whiteSpace: "nowrap" }}',
     table: 'style={{ borderCollapse: "collapse", border: "none" }}',
     cell: 'style={{ textAlign: "center", border: "none"}}',
     // Add a combined style for cells that need both center alignment and nowrap
-    cellNoWrap: 'style={{ textAlign: "center", border: "none", whiteSpace: "nowrap"}}',
+    cellNoWrap:
+      'style={{ textAlign: "center", border: "none", whiteSpace: "nowrap", "word-break": "keep-all"}}',
   },
   CLASSES: {
     supported: "checkmark",
