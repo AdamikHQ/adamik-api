@@ -43,8 +43,4 @@ To update the chains documentation, run the following command:
 pnpm run doc:chains
 ```
 
-This will generate a new file `chains_supported.mdx` in the root directory, which you should then copy to `adamik-documentation`:
-
-```bash
-cp chains_supported.mdx ../adamik-documentation/get_started/chains_supported.mdx
-```
+This will generate a new file `doc/chains_supported.mdx` in the root directory, which you should then copy to (adamik-documentation)[https://github.com/AdamikHQ/adamik-documentation/blob/main/get_started/chains_supported.mdx]

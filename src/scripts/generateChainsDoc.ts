@@ -60,14 +60,7 @@ function hasFeature<T extends ChainSupportedFeatures>(features: T, featurePath: 
   return paths.reduce((obj: any, path) => obj?.[path], features) ?? false;
 }
 
-const TESTNET_IDENTIFIERS = [
-  " Spicy Testnet",
-  " Fuji Testnet",
-  " Testnet",
-  " Amoy",
-  " Chiado",
-  " Sepolia",
-] as const;
+const TESTNET_IDENTIFIERS = [" Fuji Testnet", " Testnet", " Amoy", " Chiado", " Sepolia"] as const;
 
 // TODO: move to chains.ts so that testnet chains advertise their base chain?
 function getBaseChainName(chain: Chain): string {
@@ -76,22 +69,26 @@ function getBaseChainName(chain: Chain): string {
     return chain.name;
   }
 
+  // Special cases for testnets that don't follow the pattern "<BaseName> <TestnetName>"
+  switch (chain.id) {
+    case ChainId.ARBITRUM_SEPOLIA:
+      return CHAINS[ChainId.ARBITRUM].name;
+    case ChainId.CHILIZ_TESTNET:
+      return CHAINS[ChainId.CHILIZ].name;
+    case ChainId.MOONBASE:
+      return CHAINS[ChainId.MOONBEAM].name;
+    case ChainId.SEPOLIA:
+    case ChainId.HOLESKY:
+      return CHAINS[ChainId.ETHEREUM].name;
+  }
+
   // Simple renaming for testnets of the form "<BaseName> <TestnetName>"
   const knownTestnetPostfix = TESTNET_IDENTIFIERS.find((identifier) => chain.name.includes(identifier));
   if (knownTestnetPostfix) {
     return chain.name.replace(knownTestnetPostfix, "");
   }
 
-  // Fallback to mapping testnets to their base chain
-  switch (chain.id) {
-    case ChainId.MOONBASE:
-      return CHAINS[ChainId.MOONBEAM].name;
-    case ChainId.SEPOLIA:
-    case ChainId.HOLESKY:
-      return CHAINS[ChainId.ETHEREUM].name;
-    default:
-      throw new Error(`Encountered unknown testnet chain: ${chain.id}`);
-  }
+  throw new Error(`Encountered unknown testnet chain: ${chain.id}`);
 }
 
 // Function to sort and group chains
@@ -236,7 +233,7 @@ ${columns.map((column, index) => generateTableCell(column, index, mainChain, net
 </Info>`;
 
   // Write the generated content to file
-  fs.writeFileSync("./chains_supported.mdx", mdxContent);
+  fs.writeFileSync("./doc/chains_supported.mdx", mdxContent);
 }
 
 // Execute the main function

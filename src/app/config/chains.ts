@@ -370,7 +370,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.EVM,
     id: ChainId.ARBITRUM,
     nativeId: "42161",
-    name: "Arbitrum",
+    name: "Arbitrum One",
     ticker: "ETH",
     decimals: 18,
     backends: {
@@ -708,7 +708,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.EVM,
     id: ChainId.CHILIZ,
     nativeId: "88888",
-    name: "Chiliz",
+    name: "Chiliz Chain",
     ticker: "CHZ",
     decimals: 18,
     backends: {
