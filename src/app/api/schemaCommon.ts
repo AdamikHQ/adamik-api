@@ -295,13 +295,7 @@ const inputTransactionDataSchema = z.object({
           options: getSupportedTransactionModes(data.chainId),
         };
       }
-    )
-    // FIXME: once we use Zod 4, we can move the superRefine to the amountFieldSchema above (cf: https://github.com/colinhacks/zod/issues/2474#issuecomment-2101077363)
-    .superRefine((data, ctx) => {
-      if ("amount" in data || "useMaxAmount" in data) {
-        checkEitherAmountOrUseMaxAmount(data, ctx);
-      }
-    }),
+    ),
 });
 
 const outputTransactionDataSchema = z.object({
@@ -409,6 +403,7 @@ export {
   bigintToStringSchema,
   chainIdSchema,
   chainSchema,
+  checkEitherAmountOrUseMaxAmount,
   encodedTransactionSchema,
   finalizedTransactionSchema,
   inputTransactionDataSchema,
