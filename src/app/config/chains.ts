@@ -1406,7 +1406,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "LIKE",
     decimals: 9,
     backends: {
-      nodeURL: "https://likecoin-api.polkachu.com",
+      //Need to check if a better node URL is available
+      nodeURL: "https://mainnet-node.like.co",
       //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {

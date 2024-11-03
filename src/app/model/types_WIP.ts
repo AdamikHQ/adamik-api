@@ -70,7 +70,6 @@ enum ChainId {
   FETCH_AI = "fetch-ai",
   HUMANS_AI = "humans-ai",
   KI = "ki",
-  LIKECOIN = "likecoin",
   MARS_HUB = "mars-hub",
   PROVENANCE = "provenance",
   QUICKSILVER = "quicksilver",
@@ -92,6 +91,9 @@ enum ChainId {
   SOMMELIER = "sommelier",
   SHENTU = "shentu",
   STRIDE = "stride",
+
+  //Added through other node providers
+  LIKECOIN = "likecoin",
 
   //Their own family
   // EGLD = "egld",
