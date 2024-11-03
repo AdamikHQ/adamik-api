@@ -64,7 +64,7 @@ enum ChainId {
   //Added through Polkachu nodes (no tx history)
   BITSONG = "bitsong",
   CHIHUAHUA = "chihuahua",
-  //KAVA = "kava", to be added
+  KAVA = "kava",
   PERSISTENCE = "persistence",
   COMDEX = "comdex",
   FETCH_AI = "fetch-ai",

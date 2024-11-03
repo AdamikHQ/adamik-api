@@ -1530,6 +1530,28 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/ux/chain.json
   },
+  kava: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.KAVA,
+    nativeId: "kava_2222-10",
+    name: "Kava",
+    ticker: "KAVA",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://kava-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "kava",
+      validatorPrefix: "kavavaloper",
+      denom: "ukava",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/kava/chain.json
+  },
 } as const;
 
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
