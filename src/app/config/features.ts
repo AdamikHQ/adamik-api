@@ -149,10 +149,29 @@ const EVM_ROOTSTOCK_FEATURES = {
   },
 };
 
+const COSMOS_FEATURES_WITHOUT_EXPLORER: ChainSupportedFeatures = {
+  read: {
+    account: {
+      balances: { native: true, tokens: true, staking: true },
+      transactions: { native: false, tokens: false, staking: false },
+    },
+    transaction: { native: true, tokens: false, staking: true },
+  },
+  write: {
+    transaction: {
+      type: { native: true, tokens: false, staking: true },
+      field: {
+        memo: true,
+      },
+    },
+  },
+};
+
 export {
   ALGORAND_FEATURES,
   BITCOIN_FEATURES,
   COSMOS_FEATURES,
+  COSMOS_FEATURES_WITHOUT_EXPLORER,
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
   NATIVE_READ_WRITE_FEATURES,

@@ -3,6 +3,7 @@ import {
   ALGORAND_FEATURES,
   BITCOIN_FEATURES,
   COSMOS_FEATURES,
+  COSMOS_FEATURES_WITHOUT_EXPLORER,
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
   NATIVE_READ_WRITE_FEATURES,
@@ -1104,7 +1105,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 7,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
   },
 
   passage: {
@@ -1149,6 +1150,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.25,
     },
     supportedFeatures: COSMOS_FEATURES,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/quasar/chain.json
   },
 
   seda: {
@@ -1171,6 +1173,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 10000000000,
     },
     supportedFeatures: COSMOS_FEATURES,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/seda/chain.json
   },
 
   sommelier: {
@@ -1193,6 +1196,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/sommelier/chain.json
   },
 
   shentu: {
@@ -1215,6 +1219,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/shentu/chain.json
   },
 
   stride: {
@@ -1237,6 +1242,293 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.005,
     },
     supportedFeatures: COSMOS_FEATURES,
+  },
+
+  chihuahua: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.CHIHUAHUA,
+    nativeId: "chihuahua-1",
+    name: "Chihuahua",
+    ticker: "HUAHUA",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://chihuahua-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "chihuahua",
+      validatorPrefix: "chihuahuavaloper",
+      denom: "uhuahua",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/chihuahua/chain.json
+  },
+  bitsong: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.BITSONG,
+    nativeId: "bitsong-1",
+    name: "Bitsong",
+    ticker: "BTSG",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://bitsong-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "bitsong",
+      validatorPrefix: "bitsongvaloper",
+      denom: "ubtsg",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/bitsong/chain.json
+  },
+  persistence: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.PERSISTENCE,
+    nativeId: "core-1",
+    name: "Persistence",
+    ticker: "XPRT",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://persistence-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "persistence",
+      validatorPrefix: "persistencevaloper",
+      denom: "uxprt",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/persistence/chain.json
+  },
+  comdex: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.COMDEX,
+    nativeId: "comdex-1",
+    name: "Comdex",
+    ticker: "CMDX",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://comdex-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "comdex",
+      validatorPrefix: "comdexvaloper",
+      denom: "ucmdx",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/comdex/chain.json
+  },
+  "fetch-ai": {
+    family: ChainFamily.COSMOS,
+    id: ChainId.FETCH_AI,
+    nativeId: "fetchhub-4",
+    name: "Fetch.ai",
+    ticker: "FET",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://fetchai-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "fetch",
+      validatorPrefix: "fetchvaloper",
+      denom: "afet",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/fetchhub/chain.json
+  },
+  "humans-ai": {
+    family: ChainFamily.COSMOS,
+    id: ChainId.HUMANS_AI,
+    nativeId: "humans_1",
+    name: "Humans.ai",
+    ticker: "HEART",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://humans-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "human",
+      validatorPrefix: "humanvaloper",
+      denom: "uheart",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/humans/chain.json
+  },
+  ki: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.KI,
+    nativeId: "kichain-2",
+    name: "Ki Chain",
+    ticker: "XKI",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://ki-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "ki",
+      validatorPrefix: "kivaloper",
+      denom: "uxki",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/kichain/chain.json
+  },
+  likecoin: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.LIKECOIN,
+    nativeId: "likecoin-mainnet-2",
+    name: "LikeCoin",
+    ticker: "LIKE",
+    decimals: 9,
+    backends: {
+      nodeURL: "https://likecoin-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "like",
+      validatorPrefix: "likevaloper",
+      denom: "nanolike",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 1,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/likecoin/chain.json
+  },
+  "mars-hub": {
+    family: ChainFamily.COSMOS,
+    id: ChainId.MARS_HUB,
+    nativeId: "mars-1",
+    name: "Mars Hub",
+    ticker: "MARS",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://mars-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "mars",
+      validatorPrefix: "marsvaloper",
+      denom: "umars",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/mars/chain.json
+  },
+  provenance: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.PROVENANCE,
+    nativeId: "pio-mainnet-1",
+    name: "Provenance",
+    ticker: "HASH",
+    decimals: 9,
+    backends: {
+      nodeURL: "https://provenance-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "pb",
+      validatorPrefix: "pbvaloper",
+      denom: "nhash",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 1905,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/provenance/chain.json
+  },
+  quicksilver: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.QUICKSILVER,
+    nativeId: "quicksilver-2",
+    name: "Quicksilver",
+    ticker: "QCK",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://quicksilver-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "quick",
+      validatorPrefix: "quickvaloper",
+      denom: "uqck",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/quicksilver/chain.json
+  },
+  saga: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.SAGA,
+    nativeId: "saga-1",
+    name: "Saga",
+    ticker: "SAGA",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://saga-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "saga",
+      validatorPrefix: "sagavaloper",
+      denom: "usaga",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/saga/chain.json
+  },
+  "ux-chain": {
+    family: ChainFamily.COSMOS,
+    id: ChainId.UX_CHAIN,
+    nativeId: "ux-1",
+    name: "UX Chain",
+    ticker: "UX",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://ux-api.polkachu.com",
+      //explorerURL: "https://apis.mintscan.io/v1",
+    },
+    params: {
+      prefix: "ux",
+      validatorPrefix: "uxvaloper",
+      denom: "uux",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.025,
+    },
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    // Chain info: https://github.com/cosmos/chain-registry/blob/master/ux/chain.json
   },
 } as const;
 

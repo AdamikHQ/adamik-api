@@ -60,10 +60,24 @@ enum ChainId {
   STARGAZE = "stargaze",
   DOGECOIN = "dogecoin",
   //All networks requested by Meria
-  // BITSONG = "bitsong", not supported by Imperator yet
-  // CHIHUAHUA = "chihuahua", not supported by Imperator yet
-  // PERSISTANCE = "persistance", not supported by Imperator yet
-  // COMDEX = "comdex", not supported by Imperator yet
+
+  //Added through Polkachu nodes (no tx history)
+  BITSONG = "bitsong",
+  CHIHUAHUA = "chihuahua",
+  //KAVA = "kava", to be added
+  PERSISTENCE = "persistence",
+  COMDEX = "comdex",
+  FETCH_AI = "fetch-ai",
+  HUMANS_AI = "humans-ai",
+  KI = "ki",
+  LIKECOIN = "likecoin",
+  MARS_HUB = "mars-hub",
+  PROVENANCE = "provenance",
+  QUICKSILVER = "quicksilver",
+  SAGA = "saga",
+  UX_CHAIN = "ux-chain",
+
+  //Added through Imperator + Mintscan
   CUDOS = "cudos",
   EVMOS = "evmos",
   IRISNET = "irisnet",
@@ -78,16 +92,7 @@ enum ChainId {
   SOMMELIER = "sommelier",
   SHENTU = "shentu",
   STRIDE = "stride",
-  // FETCH_AI = "fetch.ai", not supported by Imperator yet
-  // HUMANS_AI = "humans.ai", not supported by Imperator yet
-  // KAVA = "kava", not supported by Imperator yet
-  // KI = "ki", not supported by Imperator yet
-  // LIKECOIN = "likecoin", not supported by Imperator yet
-  // MARS_HUB = "mars-hub", not supported by Imperator yet
-  // PROVENANCE = "provenance", not supported by Imperator yet
-  //QUICKSILVER = "quicksilver",
-  // SAGA = "saga", not supported by Imperator yet
-  // UX_CHAIN = "ux-chain", not supported by Imperator yet
+
   //Their own family
   // EGLD = "egld",
   // SOL = "sol",
