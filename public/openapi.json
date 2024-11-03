@@ -131,7 +131,8 @@
                       "provenance",
                       "quicksilver",
                       "saga",
-                      "ux-chain"
+                      "ux-chain",
+                      "kava"
                     ]
                   },
                   "pubkey": {
@@ -235,7 +236,8 @@
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain"
+                        "ux-chain",
+                        "kava"
                       ]
                     },
                     "pubkey": {
@@ -366,7 +368,8 @@
                       "provenance",
                       "quicksilver",
                       "saga",
-                      "ux-chain"
+                      "ux-chain",
+                      "kava"
                     ]
                   },
                   "address": {
@@ -503,7 +506,8 @@
                       "provenance",
                       "quicksilver",
                       "saga",
-                      "ux-chain"
+                      "ux-chain",
+                      "kava"
                     ]
                   },
                   "accountId": {
@@ -620,7 +624,8 @@
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain"
+                        "ux-chain",
+                        "kava"
                       ]
                     },
                     "accountId": {
@@ -3862,6 +3867,53 @@
                             "supportedFeatures"
                           ]
                         },
+                        "kava": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
                         "persistence": {
                           "type": "object",
                           "properties": {
@@ -5214,7 +5266,8 @@
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain"
+                "ux-chain",
+                "kava"
               ]
             },
             "required": true
@@ -5376,7 +5429,8 @@
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain"
+                "ux-chain",
+                "kava"
               ]
             },
             "required": true
@@ -5668,7 +5722,8 @@
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain"
+                "ux-chain",
+                "kava"
               ]
             },
             "required": true
@@ -5741,7 +5796,8 @@
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain"
+                        "ux-chain",
+                        "kava"
                       ]
                     },
                     "validators": {
@@ -8350,6 +8406,7 @@
           "dogecoin",
           "bitsong",
           "chihuahua",
+          "kava",
           "persistence",
           "comdex",
           "fetch-ai",
