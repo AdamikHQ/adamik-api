@@ -953,7 +953,6 @@
                       "sei",
                       "passage",
                       "quasar",
-                      "seda",
                       "sommelier",
                       "shentu",
                       "stride"
@@ -1046,7 +1045,6 @@
                         "sei",
                         "passage",
                         "quasar",
-                        "seda",
                         "sommelier",
                         "shentu",
                         "stride"
@@ -4337,6 +4335,53 @@
                             "supportedFeatures"
                           ]
                         },
+                        "seda": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
                         "ux-chain": {
                           "type": "object",
                           "properties": {
@@ -4808,53 +4853,6 @@
                           ]
                         },
                         "quasar": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "seda": {
                           "type": "object",
                           "properties": {
                             "family": {
@@ -8416,6 +8414,7 @@
           "provenance",
           "quicksilver",
           "saga",
+          "seda",
           "ux-chain",
           "cudos",
           "evmos",
@@ -8427,7 +8426,6 @@
           "medibloc",
           "passage",
           "quasar",
-          "seda",
           "sommelier",
           "shentu",
           "stride",
