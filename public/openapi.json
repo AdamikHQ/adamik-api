@@ -938,9 +938,6 @@
                       "chiliz-testnet",
                       "injective",
                       "akash",
-                      "band",
-                      "dymension",
-                      "kyve",
                       "neutron",
                       "terra2",
                       "stargaze",
@@ -954,8 +951,9 @@
                       "passage",
                       "quasar",
                       "sommelier",
-                      "shentu",
-                      "stride"
+                      "stride",
+                      "bitsong",
+                      "kava"
                     ]
                   },
                   "accountId": {
@@ -1030,9 +1028,6 @@
                         "chiliz-testnet",
                         "injective",
                         "akash",
-                        "band",
-                        "dymension",
-                        "kyve",
                         "neutron",
                         "terra2",
                         "stargaze",
@@ -1046,8 +1041,9 @@
                         "passage",
                         "quasar",
                         "sommelier",
-                        "shentu",
-                        "stride"
+                        "stride",
+                        "bitsong",
+                        "kava"
                       ]
                     },
                     "accountId": {
