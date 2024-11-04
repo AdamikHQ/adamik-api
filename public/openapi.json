@@ -3,7 +3,7 @@
   "info": {
     "title": "Adamik",
     "version": "0.1.0",
-    "description": "Adamik API reference (still WIP)"
+    "description": "Adamik API reference"
   },
   "servers": [
     {
@@ -722,22 +722,9 @@
         "parameters": [
           {
             "in": "query",
-            "name": "from_timestamp",
-            "description": "Optional Unix timestamp to filter transactions from this date.",
+            "name": "nextPage",
             "schema": {
-              "type": "number",
-              "description": "Optional Unix timestamp to filter transactions from this date.",
-              "example": 1698764400
-            }
-          },
-          {
-            "in": "query",
-            "name": "to_timestamp",
-            "description": "Optional Unix timestamp to filter transactions until this date.",
-            "schema": {
-              "type": "number",
-              "description": "Optional Unix timestamp to filter transactions until this date.",
-              "example": 1699023600
+              "type": "string"
             }
           },
           {
@@ -1037,12 +1024,31 @@
                           }
                         }
                       }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextPage": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "nextPage"
+                      ]
                     }
                   },
                   "required": [
                     "chainId",
                     "accountId",
-                    "transactions"
+                    "transactions",
+                    "pagination"
                   ]
                 }
               }
@@ -4164,16 +4170,9 @@
           },
           {
             "in": "query",
-            "name": "offset",
+            "name": "nextPage",
             "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "type": "number"
+              "type": "string"
             }
           }
         ],
@@ -4226,11 +4225,30 @@
                           "name"
                         ]
                       }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextPage": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "nextPage"
+                      ]
                     }
                   },
                   "required": [
                     "chainId",
-                    "validators"
+                    "validators",
+                    "pagination"
                   ]
                 }
               }
