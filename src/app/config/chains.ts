@@ -786,7 +786,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-band.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "band",
@@ -796,7 +796,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.003,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/bandchain/chain.json
   },
 
@@ -810,7 +810,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: {
       nodeURL: "https://lcd-dymension.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "dym",
@@ -820,7 +820,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 5000000000,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/dymension/chain.json
   },
 
@@ -833,7 +833,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-kyve.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "kyve",
@@ -843,7 +843,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.03,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kyve/chain.json
   },
 
@@ -1095,7 +1095,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-medibloc.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "panacea",
@@ -1208,7 +1208,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-shentu.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "shentu",
@@ -1218,7 +1218,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/shentu/chain.json
   },
 
@@ -1285,7 +1285,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: COSMOS_FEATURES,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/bitsong/chain.json
   },
   persistence: {
@@ -1540,7 +1540,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://kava-api.polkachu.com",
-      //explorerURL: "https://apis.mintscan.io/v1",
+      explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "kava",
@@ -1550,7 +1550,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: COSMOS_FEATURES,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kava/chain.json
   },
 } as const;
