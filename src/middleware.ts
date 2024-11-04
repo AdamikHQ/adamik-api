@@ -1,13 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
 import { get as getVercelEdgeConfig } from "@vercel/edge-config";
-import { env } from "./env";
+import { NextRequest, NextResponse } from "next/server";
 
 type ClientData = {
   clientId: string; // adamik generated ID
   apiKey: string;
   creationDate: number;
-  nickname: string; // for display purposes only
-  stripeCustomerId: string;
 };
 
 export async function middleware(request: NextRequest) {
@@ -17,7 +14,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const apiKey = request.headers.get("Authorization");
-  // FIXME: use postgres instead of Vercel config
+  // TODO Use postgres instead of edge config
   const clients: readonly ClientData[] | undefined = await getVercelEdgeConfig("clients");
   const client = clients?.find((client) => client.apiKey === apiKey);
 
@@ -33,30 +30,9 @@ export async function middleware(request: NextRequest) {
   const headers = new Headers(request.headers);
   headers.set("X-Adamik-Customer-Id", client.clientId || "unknown");
 
-  // Retrieve customer's subscription plan to determine if it's a free or paid user
-  try {
-    // https://www.moesif.com/docs/api?javascript#getcompanysubscriptions
-    const company = await fetch(
-      `https://api.moesif.com/v1/search/~/companies/${client.clientId}/subscriptions`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${env.MOESIF_MANAGEMENT_API_KEY}`,
-        },
-      }
-    ).then((response) => response.json());
-
-    const plan = company?.subscriptions[0]?.items[0]?.plan_id;
-
-    headers.set("X-Adamik-Plan-Type", plan === "prod_R7omOL9I6NpP2H" ? "paid" : "free"); // FIXME: get the plan id from Stripe dashboard
-  } catch (e) {
-    console.warn("Error while fetching user plan:", e);
-  }
-
   return NextResponse.next({
-    // New option `request.headers` which accepts a Headers object
-    // overrides request headers with the specified new ones.
-    // NB: although we "return" a response, this actually gets forwarded to route
+    // Override request headers with the specified new ones
+    // NB: although we "return" a response, this actually gets forwarded to the route
     request: {
       headers,
     },
