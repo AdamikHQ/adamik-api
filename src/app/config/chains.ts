@@ -939,7 +939,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: {
       nodeURL: "https://lcd-cudos.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "cudos",
@@ -949,7 +949,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 5000000000000,
     },
-    supportedFeatures: generateCosmosFeatures(true),
+    supportedFeatures: generateCosmosFeatures(false),
   },
 
   evmos: {
