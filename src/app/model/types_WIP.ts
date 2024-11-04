@@ -143,19 +143,24 @@ type TokenAmount = {
   amount: bigint;
 };
 
-enum StakingStatus {
-  FREE = "free", // Can be used as part of the available balance
-  LOCKED = "locked",
-  UNLOCKING = "unlocking",
-  UNLOCKED = "unlocked", // Can't be used as part of the avaialble balance, needs a transaction first
-}
-
 type Validator = {
   address: string;
   name: string;
   commission?: number;
   stakedAmount?: bigint;
 };
+
+type ChainValidators = {
+  chainId: ChainId;
+  validators: Validator[];
+};
+
+enum StakingStatus {
+  FREE = "free", // Can be used as part of the available balance
+  LOCKED = "locked",
+  UNLOCKING = "unlocking",
+  UNLOCKED = "unlocked", // Can't be used as part of the avaialble balance, needs a transaction first
+}
 
 type StakingPosition = {
   validatorAddresses: string[];
@@ -198,8 +203,6 @@ type AccountState = {
     };
   };
 };
-
-type AccountHistoryPagination = { fromTimestamp?: number; toTimestamp?: number };
 
 type AccountHistory = {
   chainId: ChainId;
@@ -353,9 +356,10 @@ enum EncodedTransactionFormat {
   HEX = "hex",
 }
 
-type Pagination = {
-  offset?: number;
-  limit?: number;
+type Paginated<T> = T & {
+  pagination: {
+    nextPage: string | null;
+  };
 };
 
 type ErrorCode = "OK" | "KO";
@@ -383,15 +387,15 @@ export {
 
 export type {
   AccountHistory,
-  AccountHistoryPagination,
   AccountState,
   ApiRequestFilters,
   BroadcastStatus,
   Chain,
   ChainParams,
   ChainSupportedFeatures,
+  ChainValidators,
   FinalizedTransaction,
-  Pagination,
+  Paginated,
   StakingPosition,
   StakingReward,
   Status,

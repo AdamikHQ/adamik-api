@@ -3,10 +3,8 @@ import { z, ZodError, ZodType } from "zod";
 import { fromZodIssue } from "zod-validation-error";
 import { Status } from "~/app/model/types_WIP";
 import { AdamikHttpError, InvalidTransactionError } from "./errors";
+import applyMoesifMiddleware from "./moesifHandler";
 
-// DESIGN NOTES
-// We make heavy use of generics and type inference to allow for typescript type hinting (https://zod.dev/?id=writing-generic-functions)
-//
 // HOW TO USE
 //
 // When creating a new route.ts, http methods can be defined like this:
@@ -60,45 +58,82 @@ export function apiHandler<
   }: Schemas<RequestBody, ResponseBody, PathParams, QueryParams>,
   methodCall: MethodCall<RequestBody, z.input<ResponseBody>, PathParams, QueryParams>
 ) {
-  return async (request: NextRequest, context: { params?: PathParams }): Promise<NextResponse> => {
-    try {
-      const hasBody = !!request.body;
-      const requestBody: z.infer<RequestBody> = hasBody
-        ? // parse the request when available, otherwise use the raw body
-          requestSchema?.parse(await request.json()) ?? (await request.json())
-        : // don't use json() if the content-type is not application/json
-          undefined;
+  return applyMoesifMiddleware(
+    async (request: NextRequest, context: { params?: unknown }): Promise<NextResponse> => {
+      try {
+        const hasBody = !!request.body;
+        const requestBody: z.infer<RequestBody> = !hasBody
+          ? undefined // Don't use json() if the request has no body
+          : requestSchema?.parse(await request.json()) ?? (await request.json());
 
-      // parse the route params, otherwise use the raw context params
-      const pathParams = pathParamsSchema?.parse(context.params) ?? context.params;
+        const pathParams = parsePathParams({ pathParams: context.params, pathParamsSchema });
 
-      // build a more convenient record of the query params
-      const queryParamsEntries: Record<string, string[]> = {};
-      request.nextUrl.searchParams.forEach(
-        (values, key) => (queryParamsEntries[`${key}`] = values.split(",").filter(Boolean))
-      );
+        const queryParams = parseQueryParams({
+          queryParams: request.nextUrl.searchParams,
+          queryParamsSchema,
+        });
 
-      // parse the query params, otherwise use the raw request params
-      const queryParams = queryParamsSchema?.parse(queryParamsEntries) ?? request.nextUrl.searchParams;
+        // Manually call the wrapped http method (GET, POST, etc...)
+        const responseBody = await methodCall({ body: requestBody, pathParams, queryParams });
 
-      // manually call the wrapped http method (GET, POST, etc...)
-      const responseBody = await methodCall({ body: requestBody, pathParams, queryParams });
+        if (responseSchema) {
+          // use zod.parse on output response body to:
+          // - transform the body into the output schema (allows for type conversion like bigint -> string or number -> string)
+          // - filter the output to only keep the fields defined in the output schema (effectively removing any extraneous fields, making sure we never leak any information by accident) => https://zod.dev/?id=passthrough `By default Zod object schemas strip out unrecognized keys during parsing.`
+          // - always return a status field in the output only IF a schema is provided
+          const parsedOutput = responseSchema.parse(responseBody);
 
-      if (responseSchema) {
-        // use zod.parse on output response body to:
-        // - transform the body into the output schema (allows for type conversion like bigint -> string or number -> string)
-        // - filter the output to only keep the fields defined in the output schema (effectively removing any extraneous fields, making sure we never leak any information by accident) => https://zod.dev/?id=passthrough `By default Zod object schemas strip out unrecognized keys during parsing.`
-        // - always return a status field in the output only IF a schema is provided
-        const parsedOutput = responseSchema.parse(responseBody);
+          return NextResponse.json(parsedOutput);
+        }
 
-        return NextResponse.json(parsedOutput);
+        return NextResponse.json(responseBody);
+      } catch (e: unknown) {
+        return handleRequestValidationError(e);
       }
-
-      return NextResponse.json(responseBody);
-    } catch (err: unknown) {
-      return handleRequestValidationError(err);
     }
-  };
+  );
+}
+
+function parsePathParams({
+  pathParams,
+  pathParamsSchema,
+}: {
+  pathParams?: unknown;
+  pathParamsSchema?: ZodType<unknown>;
+}) {
+  try {
+    return pathParamsSchema?.parse(pathParams);
+  } catch {
+    return pathParams;
+  }
+}
+
+function parseQueryParams({
+  queryParams,
+  queryParamsSchema,
+}: {
+  queryParams: URLSearchParams;
+  queryParamsSchema?: ZodType<unknown>;
+}) {
+  // Build more convenient records from the query params
+  const queryParamsSingleValue: Record<string, string> = {};
+  const queryParamsMultipleValues: Record<string, string[]> = {};
+  queryParams.forEach((value, key) => {
+    queryParamsSingleValue[`${key}`] = value;
+    queryParamsMultipleValues[`${key}`] = value.split(",").filter(Boolean);
+  });
+
+  try {
+    // If the schema can expect multiple values, e.g: "?include=raw,parsed"
+    return queryParamsSchema?.parse(queryParamsMultipleValues);
+  } catch (e: any) {
+    if (e?.message?.includes("Expected string, received array")) {
+      // If the schema only expects one single value, e.g: "?next=abcdef"
+      return queryParamsSchema?.parse(queryParamsSingleValue);
+    } else {
+      throw e;
+    }
+  }
 }
 
 //
@@ -130,7 +165,7 @@ function handleRequestValidationError(e: unknown): NextResponse {
   } else if (e instanceof AdamikHttpError) {
     // catch-all for all AdamikHttpError
     return NextResponse.json(
-      { status: statusFromMessage(e.statusText) },
+      { status: statusFromMessage(e.message || e.statusText) },
       { status: e.status, statusText: e.statusText }
     );
   } else if (e instanceof ZodError) {

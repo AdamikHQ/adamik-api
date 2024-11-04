@@ -265,11 +265,8 @@ const inputTransactionDataSchema = z.object({
       memo: z.string().optional(),
       format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
       params: z
-        .discriminatedUnion("kind", [
-          cosmosTransactionParamsSchema,
-          tronTransactionParamsSchema,
-          tonTransactionParamsSchema,
-        ])
+        .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
+        .or(z.any())
         .optional(),
       useMaxAmount: z.boolean().default(false),
     })
@@ -295,13 +292,7 @@ const inputTransactionDataSchema = z.object({
           options: getSupportedTransactionModes(data.chainId),
         };
       }
-    )
-    // FIXME: once we use Zod 4, we can move the superRefine to the amountFieldSchema above (cf: https://github.com/colinhacks/zod/issues/2474#issuecomment-2101077363)
-    .superRefine((data, ctx) => {
-      if ("amount" in data || "useMaxAmount" in data) {
-        checkEitherAmountOrUseMaxAmount(data, ctx);
-      }
-    }),
+    ),
 });
 
 const outputTransactionDataSchema = z.object({
@@ -316,7 +307,10 @@ const outputTransactionDataSchema = z.object({
       nonce: bigintToStringSchema.optional(),
       memo: z.string().optional(),
       format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
-      params: z.union([cosmosTransactionParamsSchema, tonTransactionParamsSchema]).or(z.any()).optional(), // FIXME: remove any and replace with BitcoinTransactionParams. For some reason, using it breaks the type system
+      params: z
+        .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
+        .or(z.any())
+        .optional(), // FIXME: remove any and replace with BitcoinTransactionParams. For some reason, using it breaks the type system
     })
     .and(
       z.discriminatedUnion("mode", [
@@ -405,14 +399,29 @@ const finalizedTransactionSchema = z.object({
     .optional(),
 });
 
+// TODO Add OpenAPI doc to describe this
+const paginationQueryParamsSchema = z.object({
+  nextPage: z.string().optional(),
+});
+
+// TODO Add OpenAPI doc to describe this
+const paginatedResponseSchema = z.object({
+  pagination: z.object({
+    nextPage: z.string().or(z.null()),
+  }),
+});
+
 export {
   bigintToStringSchema,
   chainIdSchema,
   chainSchema,
+  checkEitherAmountOrUseMaxAmount,
   encodedTransactionSchema,
   finalizedTransactionSchema,
   inputTransactionDataSchema,
   outputTransactionDataSchema,
+  paginatedResponseSchema,
+  paginationQueryParamsSchema,
   signedAndEncodedTransactionSchema,
   statusSchema,
   tokenSchema,

@@ -1,10 +1,14 @@
-import { Pagination, Validator } from "~/app/model/types_WIP";
-import { getValidatorsCached } from "../backend/node";
+import { ChainValidators, Paginated, Validator } from "~/app/model/types_WIP";
 import { CosmosService } from ".";
+import { fetchValidators } from "../backend/node";
 
-async function getValidators(this: CosmosService, pagination?: Pagination): Promise<Validator[]> {
-  const validatorsData = await getValidatorsCached(this.chainId, pagination);
-  return validatorsData.map((validatorData) => {
+async function getValidators(
+  this: CosmosService,
+  paginationToken?: string
+): Promise<Paginated<ChainValidators>> {
+  const { validators: cosmosValidators, nextPage } = await fetchValidators(this.chainId, paginationToken);
+
+  const validators = cosmosValidators.map((validatorData) => {
     const validator: Validator = {
       address: validatorData.operator_address,
       name: validatorData.description?.moniker,
@@ -20,6 +24,14 @@ async function getValidators(this: CosmosService, pagination?: Pagination): Prom
 
     return validator;
   });
+
+  return {
+    chainId: this.chainId,
+    validators,
+    pagination: {
+      nextPage,
+    },
+  };
 }
 
 export { getValidators };
