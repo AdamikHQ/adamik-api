@@ -1,6 +1,5 @@
 import {
   AccountHistory,
-  AccountHistoryPagination,
   AccountState,
   BroadcastStatus,
   ChainId,
@@ -33,10 +32,7 @@ abstract class BaseChainService {
   // Data
   abstract getTransaction(transactionId: string, status: Status): Promise<FinalizedTransaction>;
   abstract getAccountState(accountId: string): Promise<AccountState>;
-  abstract getAccountHistory(
-    accountId: string,
-    pagination: AccountHistoryPagination
-  ): Promise<Paginated<AccountHistory>>;
+  abstract getAccountHistory(accountId: string, paginationToken?: string): Promise<Paginated<AccountHistory>>;
 
   // Crafting
   // NOTE All of these functions will mutate the input 'Transaction' and 'Status' with additional info!

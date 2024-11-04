@@ -1,13 +1,18 @@
-import { AccountHistory } from "~/app/model/types_WIP";
+import { AccountHistory, Paginated } from "~/app/model/types_WIP";
 import { AlgorandService } from ".";
 
-async function getAccountHistory(this: AlgorandService, accountId: string): Promise<AccountHistory> {
+async function getAccountHistory(
+  this: AlgorandService,
+  accountId: string,
+  paginationToken?: string
+): Promise<Paginated<AccountHistory>> {
   // TODO
 
   return {
     chainId: this.chainId,
     accountId,
     transactions: [],
+    nextPage: null,
   };
 }
 

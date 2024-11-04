@@ -1,14 +1,12 @@
 import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import {
-  AccountHistoryPagination,
-  ChainId,
-  FinalizedTransaction,
-  TransactionMode,
-  TransactionState,
-} from "~/app/model/types_WIP";
+import { ChainId, FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
+import { paginationFromB64, paginationToB64 } from "../../common";
 import { CosmosChainParams } from "../types";
-import { MintscanTransaction } from "./types";
+import { MintscanAccountTransactionsResponse, MintscanTransaction } from "./types";
+
+const MINTSCAN_PAGE_SIZE = 20;
 
 const getRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.explorerURL;
 
@@ -40,29 +38,6 @@ async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   return fetch(url, newOptions);
 }
 
-async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string): Promise<T[]> {
-  const url = new URL(urlString);
-
-  let data: T[] = [];
-  let response;
-  do {
-    if (response?.pagination?.searchAfter) {
-      url.searchParams.set("searchAfter", response.pagination.searchAfter);
-    }
-
-    response = await fetchWithHeaders(url.toString()).then((response) => response.json());
-
-    if (!response || !Array.isArray(response[dataKey])) {
-      console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
-      break;
-    }
-
-    data = data.concat(response[dataKey]);
-  } while (response?.pagination?.searchAfter);
-
-  return data;
-}
-
 async function fetchTransaction(
   chainId: ChainId,
   transactionId: string
@@ -87,26 +62,48 @@ async function fetchTransaction(
 async function fetchAccountTransactions(
   chainId: ChainId,
   address: string,
-  pagination: AccountHistoryPagination
-): Promise<MintscanTransaction[]> {
+  paginationToken?: string
+): Promise<{ cosmosTransactions: MintscanTransaction[]; nextPage: string | null }> {
   const mintscanChainId = MINTSCAN_CHAIN_IDS.get(chainId);
   if (!mintscanChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Mintscan API`);
-    return [];
+    return { cosmosTransactions: [], nextPage: null };
+  }
+
+  const paginationData = paginationFromB64(paginationToken);
+  if (paginationData && typeof paginationData !== "string") {
+    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
   }
 
   const searchParams = new URLSearchParams();
+  paginationData && searchParams.set("searchAfter", paginationData);
 
-  // For some reason, providing either fromDateTime or toDateTime is mandatory
-  // or the endpoint returns an empty result... hence the default '1' value
-  searchParams.set("fromDateTime", timestampToDate(pagination.fromTimestamp || 1));
-  pagination.toTimestamp && searchParams.set("toDateTime", timestampToDate(pagination.toTimestamp));
+  // For some reason, providing either 'fromDateTime' or 'toDateTime' is mandatory
+  // or the endpoint returns aberrant results... hence this default value
+  searchParams.set("fromDateTime", "1970-01-01");
 
   const url = `${getRootUrl(chainId)}/${mintscanChainId}/accounts/${address}/transactions?` + searchParams;
 
-  const mintscanTransactions = await fetchWithPagination<MintscanTransaction>(chainId, url, "transactions");
+  const response: MintscanAccountTransactionsResponse = await fetchWithHeaders(url.toString()).then(
+    (response) => response.json()
+  );
 
-  return mintscanTransactions;
+  if (!Array.isArray(response?.transactions)) {
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
+    return { cosmosTransactions: [], nextPage: null };
+  }
+
+  // FIXME Mintscan bug... a 'searchAfter' token is still provided with the last page, instead of null
+  // so we skip it to avoid a useless last call to the API that returns empty data
+  const nextPage =
+    response.transactions?.length < MINTSCAN_PAGE_SIZE
+      ? null
+      : paginationToB64(response?.pagination?.searchAfter);
+
+  return {
+    cosmosTransactions: response.transactions,
+    nextPage,
+  };
 }
 
 function mintscanToAdamikTransaction(
@@ -114,11 +111,14 @@ function mintscanToAdamikTransaction(
   mintscanTransaction: MintscanTransaction
 ): FinalizedTransaction["parsed"] {
   // https://docs.cosmos.network/v0.46/core/transactions.html#signing-transactions
-  switch (mintscanTransaction.tx["@type"]) {
-    case "/cosmos.tx.v1beta1.Tx":
-      return parseProtobufTransaction(chainId, mintscanTransaction);
-    case "cosmos-sdk/StdTx":
-      return parseLegacyAminoTransaction(chainId, mintscanTransaction);
+
+  if ("type" in mintscanTransaction.tx && mintscanTransaction.tx.type === "cosmos-sdk/StdTx") {
+    return parseLegacyAminoTransaction(chainId, mintscanTransaction);
+  } else if (
+    "@type" in mintscanTransaction.tx &&
+    mintscanTransaction.tx["@type"] === "/cosmos.tx.v1beta1.Tx"
+  ) {
+    return parseProtobufTransaction(chainId, mintscanTransaction);
   }
 }
 
@@ -130,7 +130,7 @@ function parseLegacyAminoTransaction(
   chainId: ChainId,
   mintscanTransaction: MintscanTransaction
 ): FinalizedTransaction["parsed"] {
-  if (mintscanTransaction.tx["@type"] !== "cosmos-sdk/StdTx") {
+  if (!("type" in mintscanTransaction.tx && mintscanTransaction.tx.type === "cosmos-sdk/StdTx")) {
     console.warn(
       `/!\\ Invalid mintscan payload for transaction ${mintscanTransaction.txhash} of chainId ${chainId}`
     );
@@ -302,7 +302,7 @@ function parseProtobufTransaction(
   chainId: ChainId,
   mintscanTransaction: MintscanTransaction
 ): FinalizedTransaction["parsed"] {
-  if (mintscanTransaction.tx["@type"] !== "/cosmos.tx.v1beta1.Tx") {
+  if (!("@type" in mintscanTransaction.tx && mintscanTransaction.tx["@type"] === "/cosmos.tx.v1beta1.Tx")) {
     console.warn(
       `/!\\ Invalid mintscan payload for transaction ${mintscanTransaction.txhash} of chainId ${chainId}`
     );
@@ -477,22 +477,6 @@ function parseProtobufTransaction(
   }
 
   return parsedTransaction;
-}
-
-/**
- * @timestamp in milliseconds
- * @returns the corresponding date in format "YYYY-MM-DD", as required by mintscan
- */
-function timestampToDate(timestamp: number): string {
-  const date = new Date(timestamp);
-
-  return (
-    date.getFullYear() +
-    "-" +
-    (date.getMonth() + 1).toString().padStart(2, "0") +
-    "-" +
-    date.getDate().toString().padStart(2, "0")
-  );
 }
 
 export { fetchAccountTransactions, fetchTransaction, mintscanToAdamikTransaction };

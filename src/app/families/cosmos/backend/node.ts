@@ -289,6 +289,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
 }
 
 // NOTE Unused at the moment, all IBC token infos are retrieved from src/app/config/tokens/cosmos.ts
+/*
 async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promise<string> {
   const url = `${getNodeRootUrl(chainId)}/ibc/apps/transfer/v1/denom_traces/${ibcTokenId}`;
 
@@ -300,6 +301,7 @@ async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promis
 
   return data.denom_trace.base_denom;
 }
+*/
 
 async function fetchNetworkId(chainId: ChainId): Promise<CosmosChainId> {
   const url = `${getNodeRootUrl(chainId)}/cosmos/base/tendermint/v1beta1/node_info`;
