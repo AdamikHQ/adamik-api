@@ -6,14 +6,6 @@ import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
   ALGORAND = "algorand",
-  COSMOSHUB = "cosmoshub",
-  OSMOSIS = "osmosis",
-  OSMOSIS_TESTNET = "osmosis-testnet",
-  CELESTIA = "celestia",
-  CELESTIA_TESTNET = "celestia-testnet",
-  DYDX = "dydx",
-  COSMOSHUB_TESTNET = "cosmoshub-testnet",
-  AXELAR = "axelar",
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",
   HOLESKY = "holesky",
@@ -47,24 +39,16 @@ enum ChainId {
   TRON = "tron",
   ROOTSTOCK = "rootstock",
   ROOTSTOCK_TESTNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
-  INJECTIVE = "injective",
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
-  AKASH = "akash",
-  BAND = "band",
-  DYMENSION = "dymension",
-  KYVE = "kyve",
-  NEUTRON = "neutron",
-  TERRA = "terra2",
-  STARGAZE = "stargaze",
   DOGECOIN = "dogecoin",
-  //All networks requested by Meria
 
-  //Added through Polkachu nodes (no tx history)
+  //All Cosmos based chains
+  //Added through Polkachu nodes
   BITSONG = "bitsong",
   CHIHUAHUA = "chihuahua",
-  KAVA = "kava",
+  SEDA = "seda",
   PERSISTENCE = "persistence",
   COMDEX = "comdex",
   FETCH_AI = "fetch-ai",
@@ -74,10 +58,14 @@ enum ChainId {
   PROVENANCE = "provenance",
   QUICKSILVER = "quicksilver",
   SAGA = "saga",
-  SEDA = "seda",
   UX_CHAIN = "ux-chain",
-
-  //Added through Imperator + Mintscan
+  KAVA = "kava",
+  //Added through Imperator nodes
+  COSMOSHUB = "cosmoshub",
+  OSMOSIS = "osmosis",
+  CELESTIA = "celestia",
+  DYDX = "dydx",
+  AXELAR = "axelar",
   CUDOS = "cudos",
   EVMOS = "evmos",
   IRISNET = "irisnet",
@@ -91,9 +79,19 @@ enum ChainId {
   SOMMELIER = "sommelier",
   SHENTU = "shentu",
   STRIDE = "stride",
-
+  NEUTRON = "neutron",
+  TERRA = "terra2",
+  AKASH = "akash",
+  INJECTIVE = "injective",
+  DYMENSION = "dymension",
+  BAND = "band",
+  STARGAZE = "stargaze",
+  KYVE = "kyve",
   //Added through other node providers
   LIKECOIN = "likecoin",
+  OSMOSIS_TESTNET = "osmosis-testnet", //using lavanet
+  CELESTIA_TESTNET = "celestia-testnet", //using lavanet
+  COSMOSHUB_TESTNET = "cosmoshub-testnet", //using nodestake
 
   //Their own family
   // EGLD = "egld",
