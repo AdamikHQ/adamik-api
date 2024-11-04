@@ -1,33 +1,27 @@
 import { ChainId as CosmosChainId } from "@injectivelabs/ts-types";
-import TTLCache from "@isaacs/ttlcache";
 import { CHAINS } from "~/app/config/chains";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 import {
   ChainId,
-  Pagination,
   StakingPosition,
   StakingReward,
   StakingStatus,
   TokenStakingReward,
   TokenType,
 } from "~/app/model/types_WIP";
+import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
+import { paginationFromB64, paginationToB64 } from "../../common";
 import { CosmosChainParams, IBCToken } from "../types";
 import {
   CosmosAccount,
   CosmosBalance,
   CosmosDelegation,
-  CosmosRedelegation,
   CosmosRewards,
   CosmosUnbondingDelegation,
   CosmosValidator,
 } from "./types";
 
-const VALIDATORS_CACHE = new TTLCache<string, CosmosValidator[]>({
-  max: 1, // Only need one item
-  ttl: 1000 * 60 * 60, // Cache expiration = 1h
-});
-
-const getRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
+const getNodeRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
 
 async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   const defaultOptions: RequestInit = {
@@ -42,7 +36,7 @@ async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   return fetch(url, defaultOptions);
 }
 
-async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string): Promise<T[]> {
+async function fetchAllWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string): Promise<T[]> {
   const url = new URL(urlString);
 
   let data: T[] = [];
@@ -65,7 +59,7 @@ async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataK
   return data;
 }
 
-// Unused, we rely on the explorer (mintscan) for that
+// NOTE Unused, we rely on the explorer (mintscan) for that
 /*
 async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<CosmosTransaction | null> {
   const url = `${getRootUrl(chainId)}/cosmos/tx/v1beta1/txs/${transactionId}`;
@@ -81,15 +75,19 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
 */
 
 async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosBalance[]> {
-  const url = `${getRootUrl(chainId)}/cosmos/bank/v1beta1/balances/${address}`;
+  const url = `${getNodeRootUrl(chainId)}/cosmos/bank/v1beta1/balances/${address}`;
 
-  return await fetchWithPagination<CosmosBalance>(chainId, url, "balances");
+  return await fetchAllWithPagination<CosmosBalance>(chainId, url, "balances");
 }
 
 async function fetchDelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
-  const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegations/${address}`;
+  const url = `${getNodeRootUrl(chainId)}/cosmos/staking/v1beta1/delegations/${address}`;
 
-  const delegationsData = await fetchWithPagination<CosmosDelegation>(chainId, url, "delegation_responses");
+  const delegationsData = await fetchAllWithPagination<CosmosDelegation>(
+    chainId,
+    url,
+    "delegation_responses"
+  );
 
   return delegationsData.map((delegation) => {
     return {
@@ -102,10 +100,11 @@ async function fetchDelegations(chainId: ChainId, address: string): Promise<Stak
 
 // NOTE This is unused at the moment, as redelegations are also included in the delegations
 // (missing specific info such as the destination validator, but we don't need it for now)
+/*
 async function fetchRedelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
-  const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegators/${address}/redelegations`;
+  const url = `${getNodeRootUrl(chainId)}/cosmos/staking/v1beta1/delegators/${address}/redelegations`;
 
-  const redelegationsData = await fetchWithPagination<CosmosRedelegation>(
+  const redelegationsData = await fetchAllWithPagination<CosmosRedelegation>(
     chainId,
     url,
     "redelegation_responses"
@@ -131,11 +130,12 @@ async function fetchRedelegations(chainId: ChainId, address: string): Promise<St
 
   return redelegations;
 }
+*/
 
 async function fetchUnbondingDelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
-  const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/delegators/${address}/unbonding_delegations`;
+  const url = `${getNodeRootUrl(chainId)}/cosmos/staking/v1beta1/delegators/${address}/unbonding_delegations`;
 
-  const unbondingsData = await fetchWithPagination<CosmosUnbondingDelegation>(
+  const unbondingsData = await fetchAllWithPagination<CosmosUnbondingDelegation>(
     chainId,
     url,
     "unbonding_responses"
@@ -160,7 +160,7 @@ async function fetchRewards(
   chainId: ChainId,
   address: string
 ): Promise<{ native: StakingReward[]; tokens: TokenStakingReward[] }> {
-  const url = `${getRootUrl(chainId)}/cosmos/distribution/v1beta1/delegators/${address}/rewards`;
+  const url = `${getNodeRootUrl(chainId)}/cosmos/distribution/v1beta1/delegators/${address}/rewards`;
 
   // (Note: this endpoint is not paginated)
   const data: CosmosRewards = await fetchWithHeaders(url).then((response) => response.json());
@@ -218,25 +218,36 @@ async function fetchRewards(
   };
 }
 
-async function fetchAllValidators(chainId: ChainId): Promise<CosmosValidator[]> {
-  const url = `${getRootUrl(chainId)}/cosmos/staking/v1beta1/validators`;
-
-  return await fetchWithPagination<CosmosValidator>(chainId, url, "validators");
-}
-
-async function getValidatorsCached(chainId: ChainId, pagination?: Pagination): Promise<CosmosValidator[]> {
-  const cacheKey = `validators-${chainId}`;
-
-  if (!VALIDATORS_CACHE.has(cacheKey)) {
-    const newValidators = await fetchAllValidators(chainId);
-    VALIDATORS_CACHE.set(cacheKey, newValidators);
+async function fetchValidators(
+  chainId: ChainId,
+  paginationToken?: string
+): Promise<{ validators: CosmosValidator[]; nextPage: string | null }> {
+  const paginationData = paginationFromB64(paginationToken);
+  if (paginationData && typeof paginationData !== "string") {
+    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
   }
 
-  const validators = VALIDATORS_CACHE.get(cacheKey) || [];
+  const url = new URL(`${getNodeRootUrl(chainId)}/cosmos/staking/v1beta1/validators`);
 
-  const offset = pagination?.offset || 0;
-  const limit = pagination?.limit || validators.length;
-  return pagination ? validators.slice(offset, offset + limit) : validators;
+  if (paginationData) {
+    url.searchParams.set("pagination.key", paginationData);
+  }
+
+  const response = await fetchWithHeaders(url.toString()).then((response) => response.json());
+
+  if (response?.message === "illegal base64 data at input byte 4") {
+    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+  }
+
+  if (!Array.isArray(response?.validators)) {
+    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
+    throw new Error(`Error while fetching ${chainId} validators from the node`);
+  }
+
+  return {
+    validators: response.validators,
+    nextPage: paginationToB64(response.pagination.next_key),
+  };
 }
 
 async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAccount> {
@@ -249,7 +260,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
     pubKey: "",
   };
 
-  const url = `${getRootUrl(chainId)}/cosmos/auth/v1beta1/accounts/${address}`;
+  const url = `${getNodeRootUrl(chainId)}/cosmos/auth/v1beta1/accounts/${address}`;
 
   const data = await fetchWithHeaders(url).then((response) => response.json());
 
@@ -278,8 +289,9 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
 }
 
 // NOTE Unused at the moment, all IBC token infos are retrieved from src/app/config/tokens/cosmos.ts
+/*
 async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promise<string> {
-  const url = `${getRootUrl(chainId)}/ibc/apps/transfer/v1/denom_traces/${ibcTokenId}`;
+  const url = `${getNodeRootUrl(chainId)}/ibc/apps/transfer/v1/denom_traces/${ibcTokenId}`;
 
   const data = await fetchWithHeaders(url).then((response) => response.json());
   if (!data?.denom_trace?.base_denom) {
@@ -289,9 +301,10 @@ async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promis
 
   return data.denom_trace.base_denom;
 }
+*/
 
 async function fetchNetworkId(chainId: ChainId): Promise<CosmosChainId> {
-  const url = `${getRootUrl(chainId)}/cosmos/base/tendermint/v1beta1/node_info`;
+  const url = `${getNodeRootUrl(chainId)}/cosmos/base/tendermint/v1beta1/node_info`;
   const data = await fetchWithHeaders(url).then((response) => response.json());
   if (!data?.default_node_info?.network) {
     console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
@@ -302,7 +315,7 @@ async function fetchNetworkId(chainId: ChainId): Promise<CosmosChainId> {
 }
 
 async function simulateTransaction(chainId: ChainId, payload: string): Promise<bigint> {
-  const url = `${getRootUrl(chainId)}/cosmos/tx/v1beta1/simulate`;
+  const url = `${getNodeRootUrl(chainId)}/cosmos/tx/v1beta1/simulate`;
   const options: RequestInit = {
     method: "POST",
     body: payload,
@@ -319,7 +332,7 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
 }
 
 async function broadcastTransaction(chainId: ChainId, payload: string): Promise<string> {
-  const url = `${getRootUrl(chainId)}/cosmos/tx/v1beta1/txs`;
+  const url = `${getNodeRootUrl(chainId)}/cosmos/tx/v1beta1/txs`;
   const options: RequestInit = {
     method: "POST",
     body: payload,
@@ -348,6 +361,6 @@ export {
   fetchNetworkId,
   fetchRewards,
   fetchUnbondingDelegations,
-  getValidatorsCached,
+  fetchValidators,
   simulateTransaction,
 };

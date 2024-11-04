@@ -20,7 +20,7 @@ export const POST = apiHandler(
       filters[param] = true;
     });
 
-    const { from_timestamp: fromTimestamp, to_timestamp: toTimestamp } = queryParams;
+    const paginationToken = queryParams.nextPage;
 
     const service = getService(chainId);
 
@@ -30,19 +30,24 @@ export const POST = apiHandler(
       throw new ValidationError(`Invalid accountId ${accountId} for chainId ${chainId}`);
     }
 
-    const history = await service.getAccountHistory(accountId, { fromTimestamp, toTimestamp });
+    const { transactions, pagination } = await service.getAccountHistory(accountId, paginationToken);
 
     // Parsed is returned if (explicitely demanded OR nothing specific demanded)
     const includeParsed = filters.parsed || !Object.keys(filters).length;
     // Raw is returned only if explicitely demanded
     const includeRaw = filters.raw;
 
-    history.transactions = history.transactions.map((transaction) => ({
+    const filteredTransactions = transactions.map((transaction) => ({
       // Syntax trick to conditionally include fields
       ...(includeParsed && { parsed: transaction.parsed }),
       ...(includeRaw && { raw: transaction.raw }),
     }));
 
-    return history;
+    return {
+      chainId,
+      accountId,
+      transactions: filteredTransactions,
+      pagination,
+    };
   }
 );

@@ -27,7 +27,7 @@ function generateOpenAPISpec(): oas31.OpenAPIObject {
     info: {
       title: "Adamik",
       version: "0.1.0",
-      description: "Adamik API reference (still WIP)",
+      description: "Adamik API reference",
     },
     components: {
       securitySchemes: {
