@@ -74,6 +74,7 @@ enum ChainId {
   PROVENANCE = "provenance",
   QUICKSILVER = "quicksilver",
   SAGA = "saga",
+  SEDA = "seda",
   UX_CHAIN = "ux-chain",
 
   //Added through Imperator + Mintscan
@@ -87,7 +88,6 @@ enum ChainId {
   MEDIBLOC = "medibloc",
   PASSAGE = "passage",
   QUASAR = "quasar",
-  SEDA = "seda",
   SOMMELIER = "sommelier",
   SHENTU = "shentu",
   STRIDE = "stride",

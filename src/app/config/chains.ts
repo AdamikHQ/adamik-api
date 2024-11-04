@@ -1159,20 +1159,20 @@ const CHAINS: { [key in ChainId]: Chain } = {
     nativeId: "seda-1",
     name: "Seda",
     ticker: "SEDA",
-    decimals: 6,
+    decimals: 18,
     backends: {
-      nodeURL: "https://lcd-seda.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      nodeURL: "https://seda-api.polkachu.com/",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "seda",
       validatorPrefix: "sedavaloper",
-      denom: "useda",
+      denom: "aseda",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
       minGasPrice: 10000000000,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/seda/chain.json
   },
 
