@@ -252,7 +252,7 @@ type Tx =
       "/cosmos-tx-v1beta1-Tx": CosmosTxV1Beta1Tx;
     }
   | {
-      "@type": "cosmos-sdk/StdTx";
+      type: "cosmos-sdk/StdTx";
       "cosmos-sdk/StdTx": {
         value: CosmosSDKStdTxValue;
       };

@@ -1,16 +1,15 @@
 import {
   AccountHistory,
-  AccountHistoryPagination,
   AccountState,
   BroadcastStatus,
   ChainId,
+  ChainValidators,
   FinalizedTransaction,
-  Pagination,
+  Paginated,
   Status,
   Token,
   Transaction,
   TypedAddress,
-  Validator,
 } from "./types_WIP";
 
 // TODO Doc (comment) for each function in every service
@@ -33,10 +32,7 @@ abstract class BaseChainService {
   // Data
   abstract getTransaction(transactionId: string, status: Status): Promise<FinalizedTransaction>;
   abstract getAccountState(accountId: string): Promise<AccountState>;
-  abstract getAccountHistory(
-    accountId: string,
-    pagination: AccountHistoryPagination
-  ): Promise<AccountHistory>;
+  abstract getAccountHistory(accountId: string, paginationToken?: string): Promise<Paginated<AccountHistory>>;
 
   // Crafting
   // NOTE All of these functions will mutate the input 'Transaction' and 'Status' with additional info!
@@ -54,7 +50,7 @@ abstract class BaseChainService {
 // STAKING ////////////////////////////////////////////////////////////////////////////////////
 
 interface StakingService {
-  getValidators(pagination?: Pagination): Promise<Validator[]>;
+  getValidators(paginationToken?: string): Promise<Paginated<ChainValidators>>;
 }
 
 // Type predicate: checks that the input object implements the StakingService interface

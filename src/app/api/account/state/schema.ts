@@ -37,9 +37,7 @@ const requestSchema = z
     ],
   });
 
-const includeValues = ["native", "tokens", "staking"] as const;
-type Include = (typeof includeValues)[number];
-
+const includeValues: readonly string[] = ["native", "tokens", "staking"] as const;
 const queryParamsSchema = z.object({
   include: z
     .preprocess(
@@ -47,12 +45,10 @@ const queryParamsSchema = z.object({
       z
         .string()
         .optional()
-        .transform((val) => (val ? (val.split(",") as Include[]) : undefined))
-        .refine(
-          (arr): arr is Include[] | undefined =>
-            arr === undefined || arr.every((item): item is Include => includeValues.includes(item)),
-          { message: "Invalid include value" }
-        )
+        .transform((val) => (val ? val.split(",") : undefined))
+        .refine((arr) => arr === undefined || arr.every((item) => includeValues.includes(item)), {
+          message: "Invalid value",
+        })
     )
     .openapi({
       description:
