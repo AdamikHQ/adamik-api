@@ -1028,7 +1028,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-lum.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "lum",
@@ -1038,7 +1038,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: generateCosmosFeatures(true),
+    supportedFeatures: generateCosmosFeatures(false),
   },
 
   omniflix: {
