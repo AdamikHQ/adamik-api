@@ -37,7 +37,7 @@ const requestSchema = z
     ],
   });
 
-const includeValues: string[] = ["native", "tokens", "staking"] as const;
+const includeValues: readonly string[] = ["native", "tokens", "staking"] as const;
 const queryParamsSchema = z.object({
   include: z
     .preprocess(
