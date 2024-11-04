@@ -2,10 +2,9 @@ import { Chain, ChainFamily, ChainId, TransactionMode } from "../model/types_WIP
 import {
   ALGORAND_FEATURES,
   BITCOIN_FEATURES,
-  COSMOS_FEATURES,
-  COSMOS_FEATURES_WITHOUT_EXPLORER,
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
+  generateCosmosFeatures,
   NATIVE_READ_WRITE_FEATURES,
   TON_FEATURES,
   TRON_FEATURES,
@@ -44,7 +43,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
   "cosmoshub-testnet": {
     family: ChainFamily.COSMOS,
@@ -66,7 +65,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
   osmosis: {
     family: ChainFamily.COSMOS,
@@ -87,7 +86,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
   "osmosis-testnet": {
     family: ChainFamily.COSMOS,
@@ -109,7 +108,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
   celestia: {
     family: ChainFamily.COSMOS,
@@ -130,7 +129,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.02,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
   "celestia-testnet": {
     family: ChainFamily.COSMOS,
@@ -152,7 +151,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.02,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
   dydx: {
     family: ChainFamily.COSMOS,
@@ -177,7 +176,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 12500000000,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
   axelar: {
     family: ChainFamily.COSMOS,
@@ -198,7 +197,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.007,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
   ethereum: {
     family: ChainFamily.EVM,
@@ -752,7 +751,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 700000000,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
   akash: {
     family: ChainFamily.COSMOS,
@@ -773,7 +772,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.0025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/akash/chain.json
   },
 
@@ -796,7 +795,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.003,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/bandchain/chain.json
   },
 
@@ -820,7 +819,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 5000000000,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/dymension/chain.json
   },
 
@@ -843,7 +842,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.03,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kyve/chain.json
   },
 
@@ -866,7 +865,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.0053,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/neutron/chain.json
   },
 
@@ -890,7 +889,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.015,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/terra2/chain.json
   },
 
@@ -913,7 +912,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.0025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/stargaze/chain.json
   },
 
@@ -950,7 +949,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 5000000000000,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
 
   evmos: {
@@ -973,7 +972,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 25000000000,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
 
   irisnet: {
@@ -995,7 +994,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.3,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
   },
 
   juno: {
@@ -1017,7 +1016,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.1,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
 
   "lum-network": {
@@ -1039,7 +1038,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
 
   omniflix: {
@@ -1061,7 +1060,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.0025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
   },
 
   sei: {
@@ -1083,7 +1082,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.02,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
 
   medibloc: {
@@ -1105,7 +1104,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 7,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
   },
 
   passage: {
@@ -1127,7 +1126,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.0025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
   },
 
   quasar: {
@@ -1149,7 +1148,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.25,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/quasar/chain.json
   },
 
@@ -1172,7 +1171,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 10000000000,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/seda/chain.json
   },
 
@@ -1195,7 +1194,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/sommelier/chain.json
   },
 
@@ -1218,7 +1217,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/shentu/chain.json
   },
 
@@ -1241,7 +1240,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.005,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
   },
 
   chihuahua: {
@@ -1263,7 +1262,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/chihuahua/chain.json
   },
   bitsong: {
@@ -1285,7 +1284,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/bitsong/chain.json
   },
   persistence: {
@@ -1307,7 +1306,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/persistence/chain.json
   },
   comdex: {
@@ -1329,7 +1328,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/comdex/chain.json
   },
   "fetch-ai": {
@@ -1351,7 +1350,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/fetchhub/chain.json
   },
   "humans-ai": {
@@ -1373,7 +1372,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/humans/chain.json
   },
   ki: {
@@ -1395,7 +1394,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kichain/chain.json
   },
   likecoin: {
@@ -1418,7 +1417,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 1,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/likecoin/chain.json
   },
   "mars-hub": {
@@ -1440,7 +1439,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/mars/chain.json
   },
   provenance: {
@@ -1462,7 +1461,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 1905,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/provenance/chain.json
   },
   quicksilver: {
@@ -1484,7 +1483,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/quicksilver/chain.json
   },
   saga: {
@@ -1506,7 +1505,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/saga/chain.json
   },
   "ux-chain": {
@@ -1528,7 +1527,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
+    supportedFeatures: generateCosmosFeatures(false),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/ux/chain.json
   },
   kava: {
@@ -1550,7 +1549,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: generateCosmosFeatures(true),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kava/chain.json
   },
 } as const;
