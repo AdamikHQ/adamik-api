@@ -1262,382 +1262,6 @@
                             "supportedFeatures"
                           ]
                         },
-                        "cosmoshub": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "osmosis": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "osmosis-testnet": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "celestia": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "celestia-testnet": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "dydx": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "cosmoshub-testnet": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "axelar": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
                         "ethereum": {
                           "type": "object",
                           "properties": {
@@ -3189,53 +2813,6 @@
                             "supportedFeatures"
                           ]
                         },
-                        "injective": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
                         "bitcoin": {
                           "type": "object",
                           "properties": {
@@ -3331,335 +2908,6 @@
                           ]
                         },
                         "litecoin": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "akash": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "band": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "dymension": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "kyve": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "neutron": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "terra2": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestNet": {
-                              "type": "boolean"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "stargaze": {
                           "type": "object",
                           "properties": {
                             "family": {
@@ -3847,7 +3095,7 @@
                             "supportedFeatures"
                           ]
                         },
-                        "kava": {
+                        "seda": {
                           "type": "object",
                           "properties": {
                             "family": {
@@ -4317,7 +3565,7 @@
                             "supportedFeatures"
                           ]
                         },
-                        "seda": {
+                        "ux-chain": {
                           "type": "object",
                           "properties": {
                             "family": {
@@ -4364,7 +3612,242 @@
                             "supportedFeatures"
                           ]
                         },
-                        "ux-chain": {
+                        "kava": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "cosmoshub": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "osmosis": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "celestia": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "dydx": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "axelar": {
                           "type": "object",
                           "properties": {
                             "family": {
@@ -5022,7 +4505,524 @@
                             "supportedFeatures"
                           ]
                         },
+                        "neutron": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "terra2": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "akash": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "injective": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "dymension": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "band": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "stargaze": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "kyve": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
                         "likecoin": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "osmosis-testnet": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "celestia-testnet": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestNet": {
+                              "type": "boolean"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "cosmoshub-testnet": {
                           "type": "object",
                           "properties": {
                             "family": {
@@ -8331,14 +8331,6 @@
         "type": "string",
         "enum": [
           "algorand",
-          "cosmoshub",
-          "osmosis",
-          "osmosis-testnet",
-          "celestia",
-          "celestia-testnet",
-          "dydx",
-          "cosmoshub-testnet",
-          "axelar",
           "ethereum",
           "sepolia",
           "holesky",
@@ -8372,21 +8364,13 @@
           "tron",
           "rootstock",
           "rootstock-testnet",
-          "injective",
           "bitcoin",
           "bitcoin-testnet",
           "litecoin",
-          "akash",
-          "band",
-          "dymension",
-          "kyve",
-          "neutron",
-          "terra2",
-          "stargaze",
           "dogecoin",
           "bitsong",
           "chihuahua",
-          "kava",
+          "seda",
           "persistence",
           "comdex",
           "fetch-ai",
@@ -8396,8 +8380,13 @@
           "provenance",
           "quicksilver",
           "saga",
-          "seda",
           "ux-chain",
+          "kava",
+          "cosmoshub",
+          "osmosis",
+          "celestia",
+          "dydx",
+          "axelar",
           "cudos",
           "evmos",
           "irisnet",
@@ -8411,7 +8400,18 @@
           "sommelier",
           "shentu",
           "stride",
-          "likecoin"
+          "neutron",
+          "terra2",
+          "akash",
+          "injective",
+          "dymension",
+          "band",
+          "stargaze",
+          "kyve",
+          "likecoin",
+          "osmosis-testnet",
+          "celestia-testnet",
+          "cosmoshub-testnet"
         ],
         "description": "Unique adamik identifier of the chain",
         "example": "bitcoin"
