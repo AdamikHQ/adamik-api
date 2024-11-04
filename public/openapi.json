@@ -4312,147 +4312,127 @@
                                     ]
                                   },
                                   "params": {
-                                    "oneOf": [
+                                    "anyOf": [
                                       {
-                                        "type": "object",
-                                        "properties": {
-                                          "kind": {
-                                            "type": "string",
-                                            "enum": [
-                                              "cosmos"
-                                            ]
-                                          },
-                                          "pubKey": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": [
-                                          "kind"
-                                        ]
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "kind": {
-                                            "type": "string",
-                                            "enum": [
-                                              "tron"
-                                            ]
-                                          },
-                                          "visible": {
-                                            "type": "boolean"
-                                          },
-                                          "txID": {
-                                            "type": "string"
-                                          },
-                                          "raw_data": {
+                                        "anyOf": [
+                                          {
                                             "type": "object",
                                             "properties": {
-                                              "contract": {
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "parameter": {
+                                              "pubKey": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "visible": {
+                                                "type": "boolean"
+                                              },
+                                              "txID": {
+                                                "type": "string"
+                                              },
+                                              "raw_data": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "contract": {
+                                                    "type": "array",
+                                                    "items": {
                                                       "type": "object",
                                                       "properties": {
-                                                        "value": {
+                                                        "parameter": {
                                                           "type": "object",
                                                           "properties": {
-                                                            "data": {
-                                                              "type": "string"
+                                                            "value": {
+                                                              "type": "object",
+                                                              "properties": {
+                                                                "data": {
+                                                                  "type": "string"
+                                                                },
+                                                                "owner_address": {
+                                                                  "type": "string"
+                                                                },
+                                                                "asset_name": {
+                                                                  "type": "string"
+                                                                },
+                                                                "contract_address": {
+                                                                  "type": "string"
+                                                                },
+                                                                "to_address": {
+                                                                  "type": "string"
+                                                                },
+                                                                "amount": {
+                                                                  "type": "number"
+                                                                }
+                                                              },
+                                                              "required": [
+                                                                "owner_address"
+                                                              ]
                                                             },
-                                                            "owner_address": {
+                                                            "type_url": {
                                                               "type": "string"
-                                                            },
-                                                            "asset_name": {
-                                                              "type": "string"
-                                                            },
-                                                            "contract_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "to_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "amount": {
-                                                              "type": "number"
                                                             }
                                                           },
                                                           "required": [
-                                                            "owner_address"
+                                                            "value",
+                                                            "type_url"
                                                           ]
                                                         },
-                                                        "type_url": {
+                                                        "type": {
                                                           "type": "string"
                                                         }
                                                       },
                                                       "required": [
-                                                        "value",
-                                                        "type_url"
+                                                        "parameter",
+                                                        "type"
                                                       ]
-                                                    },
-                                                    "type": {
-                                                      "type": "string"
                                                     }
                                                   },
-                                                  "required": [
-                                                    "parameter",
-                                                    "type"
-                                                  ]
-                                                }
+                                                  "ref_block_bytes": {
+                                                    "type": "string"
+                                                  },
+                                                  "ref_block_hash": {
+                                                    "type": "string"
+                                                  },
+                                                  "expiration": {
+                                                    "type": "number"
+                                                  },
+                                                  "fee_limit": {
+                                                    "type": "number"
+                                                  },
+                                                  "timestamp": {
+                                                    "type": "number"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "contract",
+                                                  "ref_block_bytes",
+                                                  "ref_block_hash",
+                                                  "expiration",
+                                                  "timestamp"
+                                                ]
                                               },
-                                              "ref_block_bytes": {
+                                              "raw_data_hex": {
                                                 "type": "string"
-                                              },
-                                              "ref_block_hash": {
-                                                "type": "string"
-                                              },
-                                              "expiration": {
-                                                "type": "number"
-                                              },
-                                              "fee_limit": {
-                                                "type": "number"
-                                              },
-                                              "timestamp": {
-                                                "type": "number"
                                               }
                                             },
                                             "required": [
-                                              "contract",
-                                              "ref_block_bytes",
-                                              "ref_block_hash",
-                                              "expiration",
-                                              "timestamp"
+                                              "txID",
+                                              "raw_data",
+                                              "raw_data_hex"
                                             ]
                                           },
-                                          "raw_data_hex": {
-                                            "type": "string"
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "pubKey": {
+                                                "type": "string"
+                                              }
+                                            }
                                           }
-                                        },
-                                        "required": [
-                                          "kind",
-                                          "txID",
-                                          "raw_data",
-                                          "raw_data_hex"
                                         ]
                                       },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "kind": {
-                                            "type": "string",
-                                            "enum": [
-                                              "ton"
-                                            ]
-                                          },
-                                          "pubKey": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": [
-                                          "kind"
-                                        ]
-                                      }
+                                      {}
                                     ]
                                   },
                                   "useMaxAmount": {
@@ -4733,36 +4713,117 @@
                                         {
                                           "type": "object",
                                           "properties": {
-                                            "kind": {
-                                              "type": "string",
-                                              "enum": [
-                                                "cosmos"
+                                            "pubKey": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "visible": {
+                                              "type": "boolean"
+                                            },
+                                            "txID": {
+                                              "type": "string"
+                                            },
+                                            "raw_data": {
+                                              "type": "object",
+                                              "properties": {
+                                                "contract": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "parameter": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "value": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "data": {
+                                                                "type": "string"
+                                                              },
+                                                              "owner_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "asset_name": {
+                                                                "type": "string"
+                                                              },
+                                                              "contract_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "to_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "amount": {
+                                                                "type": "number"
+                                                              }
+                                                            },
+                                                            "required": [
+                                                              "owner_address"
+                                                            ]
+                                                          },
+                                                          "type_url": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "required": [
+                                                          "value",
+                                                          "type_url"
+                                                        ]
+                                                      },
+                                                      "type": {
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "parameter",
+                                                      "type"
+                                                    ]
+                                                  }
+                                                },
+                                                "ref_block_bytes": {
+                                                  "type": "string"
+                                                },
+                                                "ref_block_hash": {
+                                                  "type": "string"
+                                                },
+                                                "expiration": {
+                                                  "type": "number"
+                                                },
+                                                "fee_limit": {
+                                                  "type": "number"
+                                                },
+                                                "timestamp": {
+                                                  "type": "number"
+                                                }
+                                              },
+                                              "required": [
+                                                "contract",
+                                                "ref_block_bytes",
+                                                "ref_block_hash",
+                                                "expiration",
+                                                "timestamp"
                                               ]
                                             },
-                                            "pubKey": {
+                                            "raw_data_hex": {
                                               "type": "string"
                                             }
                                           },
                                           "required": [
-                                            "kind"
+                                            "txID",
+                                            "raw_data",
+                                            "raw_data_hex"
                                           ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
-                                            "kind": {
-                                              "type": "string",
-                                              "enum": [
-                                                "ton"
-                                              ]
-                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          },
-                                          "required": [
-                                            "kind"
-                                          ]
+                                          }
                                         }
                                       ]
                                     },
@@ -5093,147 +5154,127 @@
                                 ]
                               },
                               "params": {
-                                "oneOf": [
+                                "anyOf": [
                                   {
-                                    "type": "object",
-                                    "properties": {
-                                      "kind": {
-                                        "type": "string",
-                                        "enum": [
-                                          "cosmos"
-                                        ]
-                                      },
-                                      "pubKey": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "required": [
-                                      "kind"
-                                    ]
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "kind": {
-                                        "type": "string",
-                                        "enum": [
-                                          "tron"
-                                        ]
-                                      },
-                                      "visible": {
-                                        "type": "boolean"
-                                      },
-                                      "txID": {
-                                        "type": "string"
-                                      },
-                                      "raw_data": {
+                                    "anyOf": [
+                                      {
                                         "type": "object",
                                         "properties": {
-                                          "contract": {
-                                            "type": "array",
-                                            "items": {
-                                              "type": "object",
-                                              "properties": {
-                                                "parameter": {
+                                          "pubKey": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "visible": {
+                                            "type": "boolean"
+                                          },
+                                          "txID": {
+                                            "type": "string"
+                                          },
+                                          "raw_data": {
+                                            "type": "object",
+                                            "properties": {
+                                              "contract": {
+                                                "type": "array",
+                                                "items": {
                                                   "type": "object",
                                                   "properties": {
-                                                    "value": {
+                                                    "parameter": {
                                                       "type": "object",
                                                       "properties": {
-                                                        "data": {
-                                                          "type": "string"
+                                                        "value": {
+                                                          "type": "object",
+                                                          "properties": {
+                                                            "data": {
+                                                              "type": "string"
+                                                            },
+                                                            "owner_address": {
+                                                              "type": "string"
+                                                            },
+                                                            "asset_name": {
+                                                              "type": "string"
+                                                            },
+                                                            "contract_address": {
+                                                              "type": "string"
+                                                            },
+                                                            "to_address": {
+                                                              "type": "string"
+                                                            },
+                                                            "amount": {
+                                                              "type": "number"
+                                                            }
+                                                          },
+                                                          "required": [
+                                                            "owner_address"
+                                                          ]
                                                         },
-                                                        "owner_address": {
+                                                        "type_url": {
                                                           "type": "string"
-                                                        },
-                                                        "asset_name": {
-                                                          "type": "string"
-                                                        },
-                                                        "contract_address": {
-                                                          "type": "string"
-                                                        },
-                                                        "to_address": {
-                                                          "type": "string"
-                                                        },
-                                                        "amount": {
-                                                          "type": "number"
                                                         }
                                                       },
                                                       "required": [
-                                                        "owner_address"
+                                                        "value",
+                                                        "type_url"
                                                       ]
                                                     },
-                                                    "type_url": {
+                                                    "type": {
                                                       "type": "string"
                                                     }
                                                   },
                                                   "required": [
-                                                    "value",
-                                                    "type_url"
+                                                    "parameter",
+                                                    "type"
                                                   ]
-                                                },
-                                                "type": {
-                                                  "type": "string"
                                                 }
                                               },
-                                              "required": [
-                                                "parameter",
-                                                "type"
-                                              ]
-                                            }
+                                              "ref_block_bytes": {
+                                                "type": "string"
+                                              },
+                                              "ref_block_hash": {
+                                                "type": "string"
+                                              },
+                                              "expiration": {
+                                                "type": "number"
+                                              },
+                                              "fee_limit": {
+                                                "type": "number"
+                                              },
+                                              "timestamp": {
+                                                "type": "number"
+                                              }
+                                            },
+                                            "required": [
+                                              "contract",
+                                              "ref_block_bytes",
+                                              "ref_block_hash",
+                                              "expiration",
+                                              "timestamp"
+                                            ]
                                           },
-                                          "ref_block_bytes": {
+                                          "raw_data_hex": {
                                             "type": "string"
-                                          },
-                                          "ref_block_hash": {
-                                            "type": "string"
-                                          },
-                                          "expiration": {
-                                            "type": "number"
-                                          },
-                                          "fee_limit": {
-                                            "type": "number"
-                                          },
-                                          "timestamp": {
-                                            "type": "number"
                                           }
                                         },
                                         "required": [
-                                          "contract",
-                                          "ref_block_bytes",
-                                          "ref_block_hash",
-                                          "expiration",
-                                          "timestamp"
+                                          "txID",
+                                          "raw_data",
+                                          "raw_data_hex"
                                         ]
                                       },
-                                      "raw_data_hex": {
-                                        "type": "string"
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "pubKey": {
+                                            "type": "string"
+                                          }
+                                        }
                                       }
-                                    },
-                                    "required": [
-                                      "kind",
-                                      "txID",
-                                      "raw_data",
-                                      "raw_data_hex"
                                     ]
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "kind": {
-                                        "type": "string",
-                                        "enum": [
-                                          "ton"
-                                        ]
-                                      },
-                                      "pubKey": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "required": [
-                                      "kind"
-                                    ]
-                                  }
+                                  {}
                                 ]
                               },
                               "useMaxAmount": {
@@ -5490,36 +5531,117 @@
                                         {
                                           "type": "object",
                                           "properties": {
-                                            "kind": {
-                                              "type": "string",
-                                              "enum": [
-                                                "cosmos"
+                                            "pubKey": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "visible": {
+                                              "type": "boolean"
+                                            },
+                                            "txID": {
+                                              "type": "string"
+                                            },
+                                            "raw_data": {
+                                              "type": "object",
+                                              "properties": {
+                                                "contract": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "parameter": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "value": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "data": {
+                                                                "type": "string"
+                                                              },
+                                                              "owner_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "asset_name": {
+                                                                "type": "string"
+                                                              },
+                                                              "contract_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "to_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "amount": {
+                                                                "type": "number"
+                                                              }
+                                                            },
+                                                            "required": [
+                                                              "owner_address"
+                                                            ]
+                                                          },
+                                                          "type_url": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "required": [
+                                                          "value",
+                                                          "type_url"
+                                                        ]
+                                                      },
+                                                      "type": {
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "parameter",
+                                                      "type"
+                                                    ]
+                                                  }
+                                                },
+                                                "ref_block_bytes": {
+                                                  "type": "string"
+                                                },
+                                                "ref_block_hash": {
+                                                  "type": "string"
+                                                },
+                                                "expiration": {
+                                                  "type": "number"
+                                                },
+                                                "fee_limit": {
+                                                  "type": "number"
+                                                },
+                                                "timestamp": {
+                                                  "type": "number"
+                                                }
+                                              },
+                                              "required": [
+                                                "contract",
+                                                "ref_block_bytes",
+                                                "ref_block_hash",
+                                                "expiration",
+                                                "timestamp"
                                               ]
                                             },
-                                            "pubKey": {
+                                            "raw_data_hex": {
                                               "type": "string"
                                             }
                                           },
                                           "required": [
-                                            "kind"
+                                            "txID",
+                                            "raw_data",
+                                            "raw_data_hex"
                                           ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
-                                            "kind": {
-                                              "type": "string",
-                                              "enum": [
-                                                "ton"
-                                              ]
-                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          },
-                                          "required": [
-                                            "kind"
-                                          ]
+                                          }
                                         }
                                       ]
                                     },
@@ -5791,36 +5913,117 @@
                                         {
                                           "type": "object",
                                           "properties": {
-                                            "kind": {
-                                              "type": "string",
-                                              "enum": [
-                                                "cosmos"
+                                            "pubKey": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "visible": {
+                                              "type": "boolean"
+                                            },
+                                            "txID": {
+                                              "type": "string"
+                                            },
+                                            "raw_data": {
+                                              "type": "object",
+                                              "properties": {
+                                                "contract": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "parameter": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "value": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "data": {
+                                                                "type": "string"
+                                                              },
+                                                              "owner_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "asset_name": {
+                                                                "type": "string"
+                                                              },
+                                                              "contract_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "to_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "amount": {
+                                                                "type": "number"
+                                                              }
+                                                            },
+                                                            "required": [
+                                                              "owner_address"
+                                                            ]
+                                                          },
+                                                          "type_url": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "required": [
+                                                          "value",
+                                                          "type_url"
+                                                        ]
+                                                      },
+                                                      "type": {
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "parameter",
+                                                      "type"
+                                                    ]
+                                                  }
+                                                },
+                                                "ref_block_bytes": {
+                                                  "type": "string"
+                                                },
+                                                "ref_block_hash": {
+                                                  "type": "string"
+                                                },
+                                                "expiration": {
+                                                  "type": "number"
+                                                },
+                                                "fee_limit": {
+                                                  "type": "number"
+                                                },
+                                                "timestamp": {
+                                                  "type": "number"
+                                                }
+                                              },
+                                              "required": [
+                                                "contract",
+                                                "ref_block_bytes",
+                                                "ref_block_hash",
+                                                "expiration",
+                                                "timestamp"
                                               ]
                                             },
-                                            "pubKey": {
+                                            "raw_data_hex": {
                                               "type": "string"
                                             }
                                           },
                                           "required": [
-                                            "kind"
+                                            "txID",
+                                            "raw_data",
+                                            "raw_data_hex"
                                           ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
-                                            "kind": {
-                                              "type": "string",
-                                              "enum": [
-                                                "ton"
-                                              ]
-                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          },
-                                          "required": [
-                                            "kind"
-                                          ]
+                                          }
                                         }
                                       ]
                                     },
@@ -6104,147 +6307,127 @@
                                 ]
                               },
                               "params": {
-                                "oneOf": [
+                                "anyOf": [
                                   {
-                                    "type": "object",
-                                    "properties": {
-                                      "kind": {
-                                        "type": "string",
-                                        "enum": [
-                                          "cosmos"
-                                        ]
-                                      },
-                                      "pubKey": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "required": [
-                                      "kind"
-                                    ]
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "kind": {
-                                        "type": "string",
-                                        "enum": [
-                                          "tron"
-                                        ]
-                                      },
-                                      "visible": {
-                                        "type": "boolean"
-                                      },
-                                      "txID": {
-                                        "type": "string"
-                                      },
-                                      "raw_data": {
+                                    "anyOf": [
+                                      {
                                         "type": "object",
                                         "properties": {
-                                          "contract": {
-                                            "type": "array",
-                                            "items": {
-                                              "type": "object",
-                                              "properties": {
-                                                "parameter": {
+                                          "pubKey": {
+                                            "type": "string"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "visible": {
+                                            "type": "boolean"
+                                          },
+                                          "txID": {
+                                            "type": "string"
+                                          },
+                                          "raw_data": {
+                                            "type": "object",
+                                            "properties": {
+                                              "contract": {
+                                                "type": "array",
+                                                "items": {
                                                   "type": "object",
                                                   "properties": {
-                                                    "value": {
+                                                    "parameter": {
                                                       "type": "object",
                                                       "properties": {
-                                                        "data": {
-                                                          "type": "string"
+                                                        "value": {
+                                                          "type": "object",
+                                                          "properties": {
+                                                            "data": {
+                                                              "type": "string"
+                                                            },
+                                                            "owner_address": {
+                                                              "type": "string"
+                                                            },
+                                                            "asset_name": {
+                                                              "type": "string"
+                                                            },
+                                                            "contract_address": {
+                                                              "type": "string"
+                                                            },
+                                                            "to_address": {
+                                                              "type": "string"
+                                                            },
+                                                            "amount": {
+                                                              "type": "number"
+                                                            }
+                                                          },
+                                                          "required": [
+                                                            "owner_address"
+                                                          ]
                                                         },
-                                                        "owner_address": {
+                                                        "type_url": {
                                                           "type": "string"
-                                                        },
-                                                        "asset_name": {
-                                                          "type": "string"
-                                                        },
-                                                        "contract_address": {
-                                                          "type": "string"
-                                                        },
-                                                        "to_address": {
-                                                          "type": "string"
-                                                        },
-                                                        "amount": {
-                                                          "type": "number"
                                                         }
                                                       },
                                                       "required": [
-                                                        "owner_address"
+                                                        "value",
+                                                        "type_url"
                                                       ]
                                                     },
-                                                    "type_url": {
+                                                    "type": {
                                                       "type": "string"
                                                     }
                                                   },
                                                   "required": [
-                                                    "value",
-                                                    "type_url"
+                                                    "parameter",
+                                                    "type"
                                                   ]
-                                                },
-                                                "type": {
-                                                  "type": "string"
                                                 }
                                               },
-                                              "required": [
-                                                "parameter",
-                                                "type"
-                                              ]
-                                            }
+                                              "ref_block_bytes": {
+                                                "type": "string"
+                                              },
+                                              "ref_block_hash": {
+                                                "type": "string"
+                                              },
+                                              "expiration": {
+                                                "type": "number"
+                                              },
+                                              "fee_limit": {
+                                                "type": "number"
+                                              },
+                                              "timestamp": {
+                                                "type": "number"
+                                              }
+                                            },
+                                            "required": [
+                                              "contract",
+                                              "ref_block_bytes",
+                                              "ref_block_hash",
+                                              "expiration",
+                                              "timestamp"
+                                            ]
                                           },
-                                          "ref_block_bytes": {
+                                          "raw_data_hex": {
                                             "type": "string"
-                                          },
-                                          "ref_block_hash": {
-                                            "type": "string"
-                                          },
-                                          "expiration": {
-                                            "type": "number"
-                                          },
-                                          "fee_limit": {
-                                            "type": "number"
-                                          },
-                                          "timestamp": {
-                                            "type": "number"
                                           }
                                         },
                                         "required": [
-                                          "contract",
-                                          "ref_block_bytes",
-                                          "ref_block_hash",
-                                          "expiration",
-                                          "timestamp"
+                                          "txID",
+                                          "raw_data",
+                                          "raw_data_hex"
                                         ]
                                       },
-                                      "raw_data_hex": {
-                                        "type": "string"
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "pubKey": {
+                                            "type": "string"
+                                          }
+                                        }
                                       }
-                                    },
-                                    "required": [
-                                      "kind",
-                                      "txID",
-                                      "raw_data",
-                                      "raw_data_hex"
                                     ]
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "kind": {
-                                        "type": "string",
-                                        "enum": [
-                                          "ton"
-                                        ]
-                                      },
-                                      "pubKey": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "required": [
-                                      "kind"
-                                    ]
-                                  }
+                                  {}
                                 ]
                               },
                               "useMaxAmount": {
@@ -6501,36 +6684,117 @@
                                         {
                                           "type": "object",
                                           "properties": {
-                                            "kind": {
-                                              "type": "string",
-                                              "enum": [
-                                                "cosmos"
+                                            "pubKey": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "visible": {
+                                              "type": "boolean"
+                                            },
+                                            "txID": {
+                                              "type": "string"
+                                            },
+                                            "raw_data": {
+                                              "type": "object",
+                                              "properties": {
+                                                "contract": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "parameter": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "value": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "data": {
+                                                                "type": "string"
+                                                              },
+                                                              "owner_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "asset_name": {
+                                                                "type": "string"
+                                                              },
+                                                              "contract_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "to_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "amount": {
+                                                                "type": "number"
+                                                              }
+                                                            },
+                                                            "required": [
+                                                              "owner_address"
+                                                            ]
+                                                          },
+                                                          "type_url": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "required": [
+                                                          "value",
+                                                          "type_url"
+                                                        ]
+                                                      },
+                                                      "type": {
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "parameter",
+                                                      "type"
+                                                    ]
+                                                  }
+                                                },
+                                                "ref_block_bytes": {
+                                                  "type": "string"
+                                                },
+                                                "ref_block_hash": {
+                                                  "type": "string"
+                                                },
+                                                "expiration": {
+                                                  "type": "number"
+                                                },
+                                                "fee_limit": {
+                                                  "type": "number"
+                                                },
+                                                "timestamp": {
+                                                  "type": "number"
+                                                }
+                                              },
+                                              "required": [
+                                                "contract",
+                                                "ref_block_bytes",
+                                                "ref_block_hash",
+                                                "expiration",
+                                                "timestamp"
                                               ]
                                             },
-                                            "pubKey": {
+                                            "raw_data_hex": {
                                               "type": "string"
                                             }
                                           },
                                           "required": [
-                                            "kind"
+                                            "txID",
+                                            "raw_data",
+                                            "raw_data_hex"
                                           ]
                                         },
                                         {
                                           "type": "object",
                                           "properties": {
-                                            "kind": {
-                                              "type": "string",
-                                              "enum": [
-                                                "ton"
-                                              ]
-                                            },
                                             "pubKey": {
                                               "type": "string"
                                             }
-                                          },
-                                          "required": [
-                                            "kind"
-                                          ]
+                                          }
                                         }
                                       ]
                                     },
