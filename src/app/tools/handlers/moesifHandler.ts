@@ -13,12 +13,6 @@ const moesifOptions: MoesifOptions = {
   identifyUser: (req, res) => {
     return (req as NextRequest).headers.get("X-Adamik-Customer-Id");
   },
-  getMetadata: (req, res) => {
-    return {
-      // FIXME Hardcoded for now, needs to be provided from Stripe info (or JWT token...)
-      isBillable: false,
-    };
-  },
 };
 
 const applyMoesifMiddleware = moesif(moesifOptions);
