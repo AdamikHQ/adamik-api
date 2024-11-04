@@ -880,7 +880,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-terra.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "terra",
@@ -890,7 +890,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.015,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/terra2/chain.json
   },
 
@@ -903,7 +903,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-stargaze.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "stars",
@@ -913,7 +913,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.0025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/stargaze/chain.json
   },
 
@@ -985,7 +985,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-iris.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "iaa",
@@ -995,7 +995,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.3,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
   },
 
   juno: {
@@ -1051,7 +1051,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-omniflix.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "omniflix",
@@ -1061,7 +1061,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.0025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
   },
 
   sei: {
@@ -1117,7 +1117,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-passage.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "pasg",
@@ -1127,7 +1127,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.0025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
   },
 
   quasar: {
@@ -1139,7 +1139,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-quasar.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "quasar",
@@ -1149,7 +1149,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.25,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/quasar/chain.json
   },
 
@@ -1185,7 +1185,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: {
       nodeURL: "https://lcd-sommelier.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "somm",
@@ -1195,7 +1195,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.025,
     },
-    supportedFeatures: COSMOS_FEATURES,
+    supportedFeatures: COSMOS_FEATURES_WITHOUT_EXPLORER,
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/sommelier/chain.json
   },
 
