@@ -2,7 +2,6 @@ import BigNumber from "bignumber.js";
 import { MORALIS_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
-  AccountHistoryPagination,
   ChainId,
   FinalizedTransaction,
   Token,
@@ -11,10 +10,12 @@ import {
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
-import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
+import { InvalidPaginationTokenError, UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
+import { paginationFromB64, paginationToB64 } from "../../common";
 import { EvmAddress } from "../types";
 import {
   MoralisAccountTransaction,
+  MoralisAccountTransactionsResponse,
   MoralisERC20Token,
   MoralisERC20TokenBalance,
   MoralisTransaction,
@@ -59,59 +60,6 @@ async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   };
 
   return fetch(url, newOptions);
-}
-
-async function fetchWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string): Promise<T[]> {
-  const url = new URL(urlString);
-
-  let data: T[] = [];
-  let response;
-  do {
-    if (response?.cursor) {
-      url.searchParams.set("cursor", response.cursor);
-    }
-
-    response = await fetchWithHeaders(url.toString()).then((response) => response.json());
-
-    if (!response || !Array.isArray(response[dataKey])) {
-      console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
-      break;
-    }
-
-    data = data.concat(response[dataKey]);
-  } while (response?.cursor);
-
-  return data;
-}
-
-async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<MoralisTransaction | null> {
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
-  if (!moralisChainId) {
-    console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
-    return null;
-  }
-
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
-  if (!explorerURL) {
-    console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
-    return null;
-  }
-
-  const queryParams = new URLSearchParams({
-    chain: moralisChainId,
-  });
-
-  const url = `${explorerURL}/v2.2/transaction/${transactionId}/verbose?${queryParams}`;
-
-  const result: MoralisTransaction | { message: string } = await fetchWithHeaders(url).then((response) =>
-    response.json()
-  );
-
-  if ("message" in result) {
-    return null;
-  }
-
-  return result;
 }
 
 async function fetchERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
@@ -206,43 +154,82 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
   };
 }
 
-// https://docs.moralis.com/web3-data-api/evm/wallet-history
-async function fetchAccountTransactions(
-  chainId: ChainId,
-  address: EvmAddress,
-  pagination: AccountHistoryPagination
-): Promise<MoralisAccountTransaction[]> {
+async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<MoralisTransaction | null> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
-    return [];
+    return null;
   }
 
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
-    return [];
+    return null;
+  }
+
+  const queryParams = new URLSearchParams({
+    chain: moralisChainId,
+  });
+
+  const url = `${explorerURL}/v2.2/transaction/${transactionId}/verbose?${queryParams}`;
+
+  const result: MoralisTransaction | { message: string } = await fetchWithHeaders(url).then((response) =>
+    response.json()
+  );
+
+  if ("message" in result) {
+    return null;
+  }
+
+  return result;
+}
+
+async function fetchAccountTransactions(
+  chainId: ChainId,
+  address: EvmAddress,
+  paginationToken?: string
+): Promise<{ evmTransactions: MoralisAccountTransaction[]; nextPage: string | null }> {
+  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  if (!moralisChainId) {
+    console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
+    return { evmTransactions: [], nextPage: null };
+  }
+
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  if (!explorerURL) {
+    console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
+    return { evmTransactions: [], nextPage: null };
+  }
+
+  const paginationData = paginationFromB64(paginationToken);
+  if (paginationData && typeof paginationData !== "string") {
+    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
   }
 
   const queryParams = new URLSearchParams({
     chain: moralisChainId,
     order: "DESC",
-    include_internal_transactions: "false", // Moralis bug : doesn't work??
-    nft_metadata: "false", // Moralis bug : doesn't work??
+    cursor: paginationData,
+    // For now, we're not interested in internal transactions and NFTs
+    include_internal_transactions: "false",
+    nft_metadata: "false",
   });
-
-  pagination.fromTimestamp && queryParams.set("from_date", pagination.fromTimestamp.toString());
-  pagination.toTimestamp && queryParams.set("to_date", pagination.toTimestamp.toString());
 
   const url = `${explorerURL}/v2.2/wallets/${address}/history?${queryParams}`;
 
-  const transactions = await fetchWithPagination<MoralisAccountTransaction>(chainId, url, "result");
-
-  // FIXME Because the queryParams above don't work, need to filter unwanted transactions by hand
-  // For now, we're not interested in internal transactions and NFTs
-  return transactions.filter(
-    (transaction) => !transaction.internal_transactions?.length && !transaction.nft_transfers?.length
+  const response: MoralisAccountTransactionsResponse = await fetchWithHeaders(url.toString()).then(
+    (response) => response.json()
   );
+
+  if (!Array.isArray(response?.result)) {
+    console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
+    return { evmTransactions: [], nextPage: null };
+  }
+
+  return {
+    evmTransactions: response.result,
+    nextPage: paginationToB64(response.cursor),
+  };
 }
 
 function moralisToAdamikTransaction(
