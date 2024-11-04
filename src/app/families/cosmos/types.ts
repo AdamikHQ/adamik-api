@@ -1,5 +1,4 @@
 import z from "zod";
-import { ChainFamily } from "~/app/model/types_WIP";
 
 // Params that exist only for cosmos chains
 type CosmosChainParams = {
@@ -26,7 +25,6 @@ type CosmosTransactionParams =
   | undefined; // undefined is for type safety, since the data will be coming from requests
 
 const cosmosTransactionParamsSchema = z.object({
-  kind: z.literal(ChainFamily.COSMOS),
   pubKey: z.string().optional(),
 });
 

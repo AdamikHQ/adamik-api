@@ -265,11 +265,8 @@ const inputTransactionDataSchema = z.object({
       memo: z.string().optional(),
       format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
       params: z
-        .discriminatedUnion("kind", [
-          cosmosTransactionParamsSchema,
-          tronTransactionParamsSchema,
-          tonTransactionParamsSchema,
-        ])
+        .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
+        .or(z.any())
         .optional(),
       useMaxAmount: z.boolean().default(false),
     })
@@ -310,7 +307,10 @@ const outputTransactionDataSchema = z.object({
       nonce: bigintToStringSchema.optional(),
       memo: z.string().optional(),
       format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
-      params: z.union([cosmosTransactionParamsSchema, tonTransactionParamsSchema]).or(z.any()).optional(), // FIXME: remove any and replace with BitcoinTransactionParams. For some reason, using it breaks the type system
+      params: z
+        .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
+        .or(z.any())
+        .optional(), // FIXME: remove any and replace with BitcoinTransactionParams. For some reason, using it breaks the type system
     })
     .and(
       z.discriminatedUnion("mode", [
