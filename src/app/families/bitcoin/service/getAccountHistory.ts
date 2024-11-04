@@ -12,7 +12,9 @@ async function getAccountHistory(
     chainId: this.chainId,
     accountId,
     transactions: [],
-    nextPage: null,
+    pagination: {
+      nextPage: null,
+    },
   };
 }
 

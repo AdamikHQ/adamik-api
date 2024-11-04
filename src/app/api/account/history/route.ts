@@ -30,7 +30,7 @@ export const POST = apiHandler(
       throw new ValidationError(`Invalid accountId ${accountId} for chainId ${chainId}`);
     }
 
-    const { transactions, nextPage } = await service.getAccountHistory(accountId, paginationToken);
+    const { transactions, pagination } = await service.getAccountHistory(accountId, paginationToken);
 
     // Parsed is returned if (explicitely demanded OR nothing specific demanded)
     const includeParsed = filters.parsed || !Object.keys(filters).length;
@@ -47,9 +47,7 @@ export const POST = apiHandler(
       chainId,
       accountId,
       transactions: filteredTransactions,
-      pagination: {
-        nextPage,
-      },
+      pagination,
     };
   }
 );

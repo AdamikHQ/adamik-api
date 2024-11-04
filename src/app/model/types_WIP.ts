@@ -357,7 +357,9 @@ enum EncodedTransactionFormat {
 }
 
 type Paginated<T> = T & {
-  nextPage: string | null;
+  pagination: {
+    nextPage: string | null;
+  };
 };
 
 type ErrorCode = "OK" | "KO";

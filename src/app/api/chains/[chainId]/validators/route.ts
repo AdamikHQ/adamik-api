@@ -21,14 +21,12 @@ export const GET = apiHandler(
       throw new UnsupportedFeatureError(`Staking is not supported for chainId ${chainId}`);
     }
 
-    const { validators, nextPage } = await service.getValidators(paginationToken);
+    const { validators, pagination } = await service.getValidators(paginationToken);
 
     const validatorsResponse = {
       chainId,
       validators,
-      pagination: {
-        nextPage,
-      },
+      pagination,
     };
 
     return validatorsResponse;
