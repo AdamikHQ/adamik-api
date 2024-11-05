@@ -11,7 +11,10 @@ const moesifOptions: MoesifOptions = {
   isNextJsAppRouter: true,
 
   identifyUser: (req, res) => {
-    return (req as NextRequest).headers.get("X-Adamik-Customer-Id");
+    const header = (req as NextRequest).headers.get("X-Adamik-Customer-Id");
+    // TODO For debug in prod, cleanup when done
+    console.log("MOESIF - moesifHandler - headers.get('X-Adamik-Customer-Id'):", header);
+    return header;
   },
 };
 
