@@ -70,7 +70,7 @@
 | nodeURL | https://site1.moralis-nodes.com/zksync-sepolia/a55bf0a6af264a73b083323f58a5d50b |
 | explorerURL | https://deep-index.moralis.io/api |
 
-## injective-testnet
+## injective-evm-testnet
 
 | nodeURL | https://testnet.rpc.inevm.com/http |
 | explorerURL | https://deep-index.moralis.io/api |
