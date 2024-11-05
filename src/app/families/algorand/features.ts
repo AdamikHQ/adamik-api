@@ -1,0 +1,23 @@
+import { ChainSupportedFeatures } from "~/app/model/types_WIP";
+
+const ALGORAND_FEATURES: ChainSupportedFeatures = {
+  read: {
+    token: true,
+    validators: false,
+    account: {
+      balances: { native: true, tokens: true, staking: false },
+      transactions: { native: false, tokens: false, staking: false },
+    },
+    transaction: { native: true, tokens: true, staking: false },
+  },
+  write: {
+    transaction: {
+      type: { native: true, tokens: true, staking: false },
+      field: {
+        memo: true,
+      },
+    },
+  },
+};
+
+export { ALGORAND_FEATURES };

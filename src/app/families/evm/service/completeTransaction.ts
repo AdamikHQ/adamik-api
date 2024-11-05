@@ -1,9 +1,9 @@
 import { BaseError as ViemError } from "viem";
 import { ChainId, Status, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
-import { EvmService } from ".";
 import { fetchNonce } from "../backend/node";
 import { getTransactionAmount, getTransactionFees, getTransactionGas } from "../logic";
+import { EvmService } from "../service";
 import { EvmAddress } from "../types";
 
 async function completeTransaction(

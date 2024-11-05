@@ -1,10 +1,10 @@
 import coinSelect from "coinselect";
 import split from "coinselect/split.js";
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { BitcoinService } from ".";
 import { fetchAddressesDashboard, fetchFeePerByte, fetchXpubDashboard } from "../backend/explorer";
 import { UtxoWithMetadata } from "../backend/types";
 import { isValidXpub } from "../logic";
+import { BitcoinService } from "../service";
 import { BitcoinTransactionParams } from "../types";
 
 async function completeTransaction(

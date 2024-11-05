@@ -1,6 +1,6 @@
 import { encodeAddress } from "algosdk";
 import { TypedAddress } from "~/app/model/types_WIP";
-import { AlgorandService } from ".";
+import { AlgorandService } from "../service";
 
 /**
  * Converts a hex-encoded public key to an Algorand address.

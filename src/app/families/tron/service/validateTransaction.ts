@@ -1,8 +1,8 @@
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { TronService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
 import { isValidAddress } from "../backend/node";
 import { fetchTronscanAccountData } from "../backend/tronscan";
+import { TronService } from "../service";
 
 async function prevalidateTransaction(
   this: TronService,

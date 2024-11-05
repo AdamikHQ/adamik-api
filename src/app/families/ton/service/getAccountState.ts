@@ -1,6 +1,6 @@
 import { AccountState, TokenType } from "~/app/model/types_WIP";
-import { TonService } from ".";
 import { fetchAccount, getJettonsFromWallet } from "../backend/explorer";
+import { TonService } from "../service";
 
 async function getAccountState(this: TonService, accountId: string): Promise<AccountState> {
   const accountInfo = await fetchAccount(accountId);

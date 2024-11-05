@@ -1,7 +1,7 @@
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { TronService } from ".";
 import { fetchTronscanTransaction } from "../backend/tronscan";
+import { TronService } from "../service";
 
 async function getTransaction(this: TronService, transactionId: string): Promise<FinalizedTransaction> {
   const tronTransaction = await fetchTronscanTransaction(transactionId);

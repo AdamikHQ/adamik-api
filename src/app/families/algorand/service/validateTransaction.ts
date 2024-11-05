@@ -1,6 +1,5 @@
 import { isValidAddress } from "algosdk";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { AlgorandService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
 import {
   ALGORAND_MAX_MEMO_SIZE,
@@ -8,6 +7,7 @@ import {
   computeMaxSpendable,
   isAmountValidForRecipient,
 } from "../logic";
+import { AlgorandService } from "../service";
 
 async function prevalidateTransaction(
   this: AlgorandService,

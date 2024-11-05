@@ -1,7 +1,7 @@
 import { Token, TokenType } from "~/app/model/types_WIP";
 import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
-import { AlgorandService } from ".";
 import { fetchASA } from "../backend/node";
+import { AlgorandService } from "../service";
 
 async function getTokenInfo(this: AlgorandService, tokenId: string): Promise<Token> {
   const algoAsset = await fetchASA(tokenId);

@@ -1,5 +1,5 @@
 import { ValidationError } from "zod-validation-error";
-import { getService } from "~/app/families/services";
+import { getService } from "~/app/config/services";
 import { ApiRequestFilters } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { queryParamsSchema, requestSchema, responseSchema } from "./schema";

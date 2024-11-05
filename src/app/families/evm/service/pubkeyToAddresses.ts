@@ -1,6 +1,6 @@
 import { computeAddress } from "ethers";
 import { TypedAddress } from "~/app/model/types_WIP";
-import { EvmService } from ".";
+import { EvmService } from "../service";
 import { EvmAddress } from "../types";
 
 const secp256k1 = require("secp256k1");

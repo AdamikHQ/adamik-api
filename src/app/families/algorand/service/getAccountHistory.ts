@@ -1,5 +1,5 @@
 import { AccountHistory, Paginated } from "~/app/model/types_WIP";
-import { AlgorandService } from ".";
+import { AlgorandService } from "../service";
 
 async function getAccountHistory(
   this: AlgorandService,

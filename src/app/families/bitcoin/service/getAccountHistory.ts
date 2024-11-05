@@ -1,5 +1,5 @@
 import { AccountHistory, Paginated } from "~/app/model/types_WIP";
-import { BitcoinService } from ".";
+import { BitcoinService } from "../service";
 
 async function getAccountHistory(
   this: BitcoinService,
