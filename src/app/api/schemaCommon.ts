@@ -70,11 +70,13 @@ const featuresSetSchema = z.object({
 const chainSupportedFeaturesSchema = z
   .object({
     read: z.object({
+      token: z.boolean(),
+      validators: z.boolean(),
+      transaction: featuresSetSchema,
       account: z.object({
         balances: featuresSetSchema,
         transactions: featuresSetSchema,
       }),
-      transaction: featuresSetSchema,
     }),
     write: z.object({
       transaction: z.object({

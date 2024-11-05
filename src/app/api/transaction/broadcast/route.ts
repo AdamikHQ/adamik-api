@@ -1,4 +1,4 @@
-import { getService } from "~/app/families/services";
+import { getService } from "~/app/config/services";
 import { Transaction } from "~/app/model/types_WIP";
 import { apiHandler, statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";

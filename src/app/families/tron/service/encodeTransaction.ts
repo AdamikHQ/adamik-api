@@ -1,6 +1,6 @@
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { TronService } from ".";
 import { buildTransaction } from "../logic";
+import { TronService } from "../service";
 import { TronTransactionParams } from "../types";
 
 async function encodeTransactionToSign(

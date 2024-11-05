@@ -1,7 +1,7 @@
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { TonService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
 import { isAddressValid } from "../logic";
+import { TonService } from "../service";
 
 async function prevalidateTransaction(
   this: TonService,

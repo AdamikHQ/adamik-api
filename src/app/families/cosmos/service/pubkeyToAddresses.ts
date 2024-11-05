@@ -4,8 +4,8 @@ import { PublicKey } from "@injectivelabs/sdk-ts";
 import { CHAINS } from "~/app/config/chains";
 import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { ChainId, TypedAddress } from "~/app/model/types_WIP";
-import { CosmosService } from ".";
 import { isHex } from "../logic";
+import { CosmosService } from "../service";
 
 async function pubkeyToAddresses(this: CosmosService, pubkey: string): Promise<TypedAddress[]> {
   const chain = CHAINS[this.chainId];

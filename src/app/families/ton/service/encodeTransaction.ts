@@ -1,7 +1,7 @@
 import { Status, Transaction } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
-import { TonService } from ".";
 import { buildTransaction, createExternalMessage, packSignatureToFront } from "../logic";
+import { TonService } from "../service";
 import { TonTransactionParams } from "../types";
 import { initWalletV4 } from "../wallets/walletv4";
 

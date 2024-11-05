@@ -377,6 +377,7 @@ export {
   fetchERC20Token,
   fetchERC20TokenAmounts,
   fetchTransaction,
+  MORALIS_CHAIN_IDS,
   moralisToAdamikAccountTransaction,
   moralisToAdamikTransaction,
 };

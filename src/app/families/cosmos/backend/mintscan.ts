@@ -503,4 +503,4 @@ function timestampToDate(timestamp: number): string {
   );
 }
 
-export { fetchAccountTransactions, fetchTransaction, mintscanToAdamikTransaction };
+export { fetchAccountTransactions, fetchTransaction, MINTSCAN_CHAIN_IDS, mintscanToAdamikTransaction };

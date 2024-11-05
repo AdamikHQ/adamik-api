@@ -119,11 +119,13 @@ type FeaturesSet = {
 
 type ChainSupportedFeatures = {
   read: {
+    token: boolean;
+    validators: boolean;
+    transaction: FeaturesSet;
     account: {
       balances: FeaturesSet;
       transactions: FeaturesSet;
     };
-    transaction: FeaturesSet;
   };
   write: {
     transaction: {

@@ -1,9 +1,9 @@
 import { CHAINS } from "~/app/config/chains";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { CosmosService } from ".";
 import { fetchAccount, fetchBalances, fetchDelegations } from "../backend/node";
 import { COSMOS_MOCK_FEES } from "../constants";
 import { getDelegation, getEstimatedFees, resolvePubKey } from "../logic";
+import { CosmosService } from "../service";
 import { CosmosChainParams } from "../types";
 
 async function completeTransaction(

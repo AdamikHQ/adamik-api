@@ -1,7 +1,7 @@
 import { Token, TokenType } from "~/app/model/types_WIP";
 import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
-import { TronService } from ".";
 import { getTRC10TokenInfo, getTRC20TokenInfo } from "../backend/node";
+import { TronService } from "../service";
 
 async function getTokenInfo(this: TronService, tokenId: string): Promise<Token> {
   try {

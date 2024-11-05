@@ -1,4 +1,4 @@
-import { getService } from "~/app/families/services";
+import { getService } from "~/app/config/services";
 import { ApiRequestFilters, Status } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { UserInputError } from "~/app/tools/handlers/errors";

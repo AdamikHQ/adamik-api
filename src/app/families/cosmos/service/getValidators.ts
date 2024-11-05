@@ -1,6 +1,6 @@
 import { Pagination, Validator } from "~/app/model/types_WIP";
 import { getValidatorsCached } from "../backend/node";
-import { CosmosService } from ".";
+import { CosmosService } from "../service";
 
 async function getValidators(this: CosmosService, pagination?: Pagination): Promise<Validator[]> {
   const validatorsData = await getValidatorsCached(this.chainId, pagination);

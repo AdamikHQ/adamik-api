@@ -1,119 +1,17 @@
+import { ALGORAND_FEATURES } from "../families/algorand/features";
+import { BITCOIN_FEATURES } from "../families/bitcoin/features";
+import { COSMOS_FEATURES } from "../families/cosmos/features";
+import { EVM_FEATURES } from "../families/evm/features";
+import { TON_FEATURES } from "../families/ton/features";
+import { TRON_FEATURES } from "../families/tron/features";
 import { ChainSupportedFeatures } from "../model/types_WIP";
-
-// STANDARD FEATURES per family
-
-const ALGORAND_FEATURES: ChainSupportedFeatures = {
-  read: {
-    account: {
-      balances: { native: true, tokens: true, staking: false },
-      transactions: { native: false, tokens: false, staking: false },
-    },
-    transaction: { native: true, tokens: true, staking: false },
-  },
-  write: {
-    transaction: {
-      type: { native: true, tokens: true, staking: false },
-      field: {
-        memo: true,
-      },
-    },
-  },
-};
-
-const COSMOS_FEATURES: ChainSupportedFeatures = {
-  read: {
-    account: {
-      balances: { native: true, tokens: true, staking: true },
-      transactions: { native: true, tokens: false, staking: true },
-    },
-    transaction: { native: true, tokens: false, staking: true },
-  },
-  write: {
-    transaction: {
-      type: { native: true, tokens: false, staking: true },
-      field: {
-        memo: true,
-      },
-    },
-  },
-};
-
-const EVM_FEATURES: ChainSupportedFeatures = {
-  read: {
-    account: {
-      balances: { native: true, tokens: true, staking: false },
-      transactions: { native: true, tokens: true, staking: false },
-    },
-    transaction: { native: true, tokens: true, staking: false },
-  },
-  write: {
-    transaction: {
-      type: { native: true, tokens: true, staking: false },
-      field: {
-        memo: false,
-      },
-    },
-  },
-};
-
-const BITCOIN_FEATURES: ChainSupportedFeatures = {
-  read: {
-    account: {
-      balances: { native: true, tokens: false, staking: false },
-      transactions: { native: false, tokens: false, staking: false },
-    },
-    transaction: { native: true, tokens: false, staking: false },
-  },
-  write: {
-    transaction: {
-      type: { native: true, tokens: false, staking: false },
-      field: {
-        memo: false,
-      },
-    },
-  },
-};
-
-const TON_FEATURES: ChainSupportedFeatures = {
-  read: {
-    account: {
-      balances: { native: true, tokens: true, staking: false },
-      transactions: { native: false, tokens: false, staking: false },
-    },
-    transaction: { native: true, tokens: true, staking: false },
-  },
-  write: {
-    transaction: {
-      type: { native: true, tokens: true, staking: false },
-      field: {
-        memo: true,
-      },
-    },
-  },
-};
-
-const TRON_FEATURES: ChainSupportedFeatures = {
-  read: {
-    account: {
-      balances: { native: true, tokens: true, staking: false },
-      transactions: { native: false, tokens: false, staking: false },
-    },
-    transaction: { native: true, tokens: true, staking: false },
-  },
-  write: {
-    transaction: {
-      type: { native: true, tokens: true, staking: false },
-      field: {
-        memo: false,
-      },
-    },
-  },
-};
 
 // CUSTOM FEATURES - should be temporary and aligned with standard features if possible
 
-const NATIVE_READ_WRITE_FEATURES: ChainSupportedFeatures = {
+const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
   read: {
+    token: false,
+    validators: false,
     account: {
       balances: { native: true, tokens: false, staking: false },
       transactions: { native: false, tokens: false, staking: false },
@@ -130,8 +28,10 @@ const NATIVE_READ_WRITE_FEATURES: ChainSupportedFeatures = {
   },
 };
 
-const EVM_ROOTSTOCK_FEATURES = {
+const EVM_ROOTSTOCK_FEATURES: ChainSupportedFeatures = {
   read: {
+    token: false,
+    validators: false,
     account: {
       balances: { native: true, tokens: false, staking: false },
       transactions: { native: false, tokens: false, staking: false },
@@ -149,33 +49,13 @@ const EVM_ROOTSTOCK_FEATURES = {
   },
 };
 
-function generateCosmosFeatures(hasExplorer: boolean): ChainSupportedFeatures {
-  return {
-    read: {
-      account: {
-        balances: { native: true, tokens: true, staking: true },
-        transactions: { native: hasExplorer, tokens: false, staking: hasExplorer },
-      },
-      transaction: { native: true, tokens: false, staking: true },
-    },
-    write: {
-      transaction: {
-        type: { native: true, tokens: false, staking: true },
-        field: {
-          memo: true,
-        },
-      },
-    },
-  };
-}
-
 export {
   ALGORAND_FEATURES,
   BITCOIN_FEATURES,
+  COSMOS_FEATURES,
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
-  generateCosmosFeatures,
-  NATIVE_READ_WRITE_FEATURES,
+  NATIVE_READ_WRITE_ONLY,
   TON_FEATURES,
   TRON_FEATURES,
 };

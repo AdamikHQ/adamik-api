@@ -1,4 +1,4 @@
-import { getService } from "~/app/families/services";
+import { getService } from "~/app/config/services";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { requestSchema, responseSchema } from "./schema";
 

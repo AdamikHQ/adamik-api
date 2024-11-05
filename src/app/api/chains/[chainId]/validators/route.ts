@@ -1,5 +1,5 @@
 import z from "zod";
-import { getService } from "~/app/families/services";
+import { getService } from "~/app/config/services";
 import { isStakingService } from "~/app/model/service";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";

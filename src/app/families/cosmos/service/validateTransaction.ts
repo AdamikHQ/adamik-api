@@ -1,9 +1,9 @@
 import { CHAINS } from "~/app/config/chains";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { CosmosService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
 import { fetchBalances, fetchDelegations } from "../backend/node";
 import { getDelegation, isValidAddress } from "../logic";
+import { CosmosService } from "../service";
 import { CosmosChainParams } from "../types";
 
 async function prevalidateTransaction(

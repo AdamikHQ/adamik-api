@@ -1,6 +1,6 @@
 import { AccountHistory, AccountHistoryPagination, FinalizedTransaction } from "~/app/model/types_WIP";
-import { EvmService } from ".";
 import { fetchAccountTransactions, moralisToAdamikAccountTransaction } from "../backend/moralis";
+import { EvmService } from "../service";
 import { EvmAddress } from "../types";
 
 async function getAccountHistory(
