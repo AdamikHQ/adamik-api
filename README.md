@@ -34,3 +34,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Update chains documentation
+
+To update the chains documentation, run the following command:
+
+```bash
+pnpm run doc:chains
+```
+
+This will generate a new file `doc/chains_supported.mdx` in the root directory, which you should then copy to (adamik-documentation)[https://github.com/AdamikHQ/adamik-documentation/blob/main/get_started/chains_supported.mdx]

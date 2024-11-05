@@ -11,6 +11,7 @@
     "test": "jest",
     "doc:providers": "ts-node src/scripts/generateProvidersDoc.ts",
     "doc:openapi": "ts-node src/scripts/generateOpenAPIDoc.ts",
+    "doc:chains": "ts-node src/scripts/generateChainsDoc.ts",
     "gen:cosmos-tokens": "ts-node src/scripts/generateCosmosIBCTokensDefinitions.ts"
   },
   "dependencies": {
