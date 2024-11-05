@@ -12,7 +12,7 @@ async function encodeTransactionToSign(
   const transactionBuilt = await buildTransaction(transaction);
 
   transaction.encoded = transactionBuilt.raw_data_hex;
-  transaction.data.params = { kind: "tron", ...transactionBuilt } as TronTransactionParams;
+  transaction.data.params = { ...transactionBuilt } as TronTransactionParams;
 }
 
 async function encodeTransactionToBroadcast(

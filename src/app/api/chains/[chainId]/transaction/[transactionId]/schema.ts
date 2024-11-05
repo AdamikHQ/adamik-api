@@ -39,7 +39,7 @@ const queryParamsSchema = z.object({
         .refine(
           (arr): arr is Include[] | undefined =>
             arr === undefined || arr.every((item): item is Include => includeValues.includes(item)),
-          { message: "Invalid include value" }
+          { message: "Invalid value" }
         )
     )
     .openapi({

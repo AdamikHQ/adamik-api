@@ -65,6 +65,15 @@ export class UnsupportedTokenIDError extends UserInputError {
   }
 }
 
+export class InvalidPaginationTokenError extends UserInputError {
+  name = "InvalidPaginationTokenError";
+  statusText = "Invalid pagination token";
+
+  constructor(message: string) {
+    super("Invalid pagination token", message);
+  }
+}
+
 /**
  * Errors that don't seem to be caused by the user but that we still want to tell the user
  */

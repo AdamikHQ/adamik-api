@@ -1,5 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
+import { paginatedResponseSchema, paginationQueryParamsSchema } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 
@@ -13,21 +14,20 @@ const pathParamsSchema = z.object({
   chainId: supportedChainIdsSchema,
 });
 
-const queryParamsSchema = z.object({
-  offset: z.coerce.number().optional(),
-  limit: z.coerce.number().optional(),
-});
+const queryParamsSchema = paginationQueryParamsSchema;
 
-const responseSchema = z.object({
-  chainId: supportedChainIdsSchema,
-  validators: z
-    .object({
-      address: z.string(),
-      name: z.string(),
-      commission: z.number().optional(),
-    })
-    .array(),
-});
+const responseSchema = z
+  .object({
+    chainId: supportedChainIdsSchema,
+    validators: z
+      .object({
+        address: z.string(),
+        name: z.string(),
+        commission: z.number().optional(),
+      })
+      .array(),
+  })
+  .merge(paginatedResponseSchema);
 
 const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}/validators": {

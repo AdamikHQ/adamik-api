@@ -22,7 +22,7 @@ export const POST = apiHandler(
       const broadcastStatus = await service.broadcastTransaction(broadcastPayload);
       return { hash: broadcastStatus.hash, transaction };
     } catch {
-      console.warn(`/!\\ Transaction broadcast failed for transaction '${transaction}'`);
+      console.warn("/!\\ Transaction broadcast failed for transaction:", transaction);
       throw new InvalidTransactionError(statusFromMessage("Transaction broadcast failed"));
     }
   }
