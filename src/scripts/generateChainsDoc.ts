@@ -60,79 +60,28 @@ function hasFeature<T extends ChainSupportedFeatures>(features: T, featurePath: 
   return paths.reduce((obj: any, path) => obj?.[path], features) ?? false;
 }
 
-const TESTNET_IDENTIFIERS = [" Fuji Testnet", " Testnet", " Amoy", " Chiado", " Sepolia"] as const;
-
-// TODO: move to chains.ts so that testnet chains advertise their base chain?
-function getBaseChainName(chain: Chain): string {
-  // FIXME: Injective testnet is a special case
-  if (!chain.isTestNet || chain.id === ChainId.INJECTIVE_TESTNET) {
-    return chain.name;
-  }
-
-  // Special cases for testnets that don't follow the pattern "<BaseName> <TestnetName>"
-  switch (chain.id) {
-    case ChainId.ARBITRUM_SEPOLIA:
-      return CHAINS[ChainId.ARBITRUM].name;
-    case ChainId.CHILIZ_TESTNET:
-      return CHAINS[ChainId.CHILIZ].name;
-    case ChainId.MOONBASE:
-      return CHAINS[ChainId.MOONBEAM].name;
-    case ChainId.SEPOLIA:
-    case ChainId.HOLESKY:
-      return CHAINS[ChainId.ETHEREUM].name;
-  }
-
-  // Simple renaming for testnets of the form "<BaseName> <TestnetName>"
-  const knownTestnetPostfix = TESTNET_IDENTIFIERS.find((identifier) => chain.name.includes(identifier));
-  if (knownTestnetPostfix) {
-    return chain.name.replace(knownTestnetPostfix, "");
-  }
-
-  throw new Error(`Encountered unknown testnet chain: ${chain.id}`);
+function getMainnetName(chain: Chain): string {
+  return chain.isTestnetFor || chain.id;
 }
 
-// Function to sort and group chains
-function groupChains(chains: Chain[]): Chain[][] {
+function groupChainsByMainnet(): Map<string, Chain[]> {
   const groupedChainsMap = new Map<string, Chain[]>();
 
   // Group chains by their base name
-  chains.forEach((chain) => {
-    const baseName = getBaseChainName(chain);
-    if (!groupedChainsMap.has(baseName)) {
-      groupedChainsMap.set(baseName, []);
+  Object.values(CHAINS).forEach((chain) => {
+    const mainnetName = getMainnetName(chain);
+    if (!groupedChainsMap.has(mainnetName)) {
+      groupedChainsMap.set(mainnetName, []);
     }
-    groupedChainsMap.get(baseName)!.push(chain);
+    groupedChainsMap.get(mainnetName)!.push(chain);
   });
 
-  // Sort groups by base name
-  const sortedGroups = Array.from(groupedChainsMap.entries())
-    .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
-    .map(([_, chains]) => {
-      // Sort chains within each group: main chain first, then testnets
-      return chains.sort((a, b) => {
-        if (a.isTestNet && !b.isTestNet) return 1;
-        if (!a.isTestNet && b.isTestNet) return -1;
-        return 0;
-      });
-    });
-
-  return sortedGroups;
+  return groupedChainsMap;
 }
 
 // Function to format network identifiers
 function formatNetworkIds(chains: Chain[]): string {
-  const mainnetIds: string[] = [];
-  const testnetIds: string[] = [];
-
-  chains.forEach((chain) => {
-    if (chain.isTestNet) {
-      testnetIds.push(chain.id);
-    } else {
-      mainnetIds.push(chain.id);
-    }
-  });
-
-  return [...mainnetIds, ...testnetIds].join(", ");
+  return chains.map((chain) => chain.id).join(", ");
 }
 
 /// Documentation generation functions
@@ -156,19 +105,6 @@ const CONFIG = {
   },
 } as const;
 
-/** Document structure constants */
-const MDX_TEMPLATE = {
-  HEADER: `---
-icon: link
----
-
-List of blockchains supported in the Adamik API with their respective features.`,
-  INFO_FOOTER: `
-<Info>
-  You will get the same result using the [chain endpoint](../api-reference/endpoint/get-apichains) of the Adamik API.
-</Info>`,
-} as const;
-
 function generateTableHeader(columns: TableColumn[]): string {
   return `<table ${CONFIG.TABLE_STYLES.table}>
   <thead>
@@ -180,15 +116,15 @@ ${columns.map((column) => `      <th ${CONFIG.TABLE_STYLES.cell}>${column.label}
 `;
 }
 
-function generateTableCell(column: TableColumn, index: number, chain: Chain, networkIds: string): string {
+function generateTableCell(column: TableColumn, index: number, mainChain: Chain, networkIds: string): string {
   if (index === 0) {
-    return `      <td ${CONFIG.TABLE_STYLES.cell}>${chain.name}</td>`;
+    return `      <td ${CONFIG.TABLE_STYLES.cell}>${mainChain?.name}</td>`;
   }
   if (index === 1) {
     return `      <td ${CONFIG.TABLE_STYLES.cellNoWrap}>${networkIds}</td>`;
   }
   if (column.featurePath) {
-    const isSupported = hasFeature(chain.supportedFeatures, column.featurePath);
+    const isSupported = hasFeature(mainChain.supportedFeatures, column.featurePath);
     return `      <td ${CONFIG.TABLE_STYLES.cell} class="${
       isSupported ? CONFIG.CLASSES.supported : CONFIG.CLASSES.unsupported
     }">
@@ -208,32 +144,34 @@ icon: link
 
 List of blockchains supported in the Adamik API with their respective features.
 
+<Info>
+  You will get the same info using the [chain endpoint](../api-reference/endpoint/get-apichains) of the Adamik API.
+</Info>
+
 ${generateTableHeader(columns)}`;
 
   // Sort and group chains
-  const groupedChains = groupChains(Object.values(CHAINS));
+  const groupedChains = groupChainsByMainnet();
 
   // Generate table rows
-  groupedChains.forEach((chains: Chain[]) => {
-    const mainChain = chains[0]; // First chain in group (mainnet)
-    const networkIds = formatNetworkIds(chains);
+  groupedChains.forEach((chains: Chain[], mainnetId: string) => {
+    const mainChain = CHAINS[mainnetId as ChainId];
+    const chainIds = chains.map((chain) => chain.id).join(", ");
 
     mdxContent += `    <tr>
-${columns.map((column, index) => generateTableCell(column, index, mainChain, networkIds)).join("\n")}
+${columns
+  .map((column, index) => generateTableCell(column, index, mainChain || chains[0], chainIds))
+  .join("\n")}
     </tr>
 `;
   });
 
   // Add table closing tags and info section
   mdxContent += `  </tbody>
-</table>
-
-<Info>
-  You will get the same result using the [chain endpoint](../api-reference/endpoint/get-apichains) of the Adamik API.
-</Info>`;
+</table>`;
 
   // Write the generated content to file
-  fs.writeFileSync("./doc/chains_supported.mdx", mdxContent);
+  fs.writeFileSync("./doc/supported_chains.mdx", mdxContent);
 }
 
 // Execute the main function
