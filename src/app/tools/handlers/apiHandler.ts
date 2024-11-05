@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z, ZodError, ZodType } from "zod";
-import { fromZodIssue } from "zod-validation-error";
+import { fromZodIssue, ValidationError } from "zod-validation-error";
 import { Status } from "~/app/model/types_WIP";
 import { AdamikHttpError, InvalidTransactionError } from "./errors";
 import applyMoesifMiddleware from "./moesifHandler";
@@ -159,6 +159,8 @@ z.setErrorMap(customErrorMap);
  * @param e Unknown error catched by the handler
  * @returns A NextResponse with the appropriate status and message
  */
+// TODO Rework error management to simplify all this
+// We should reduce the number of different error types
 function handleRequestValidationError(e: unknown): NextResponse {
   if (e instanceof InvalidTransactionError) {
     return NextResponse.json({ status: e.adamikStatus }, { status: e.status, statusText: e.statusText });
@@ -175,6 +177,16 @@ function handleRequestValidationError(e: unknown): NextResponse {
       {
         status: {
           errors: e.issues.map((issue) => ({ message: fromZodIssue(issue).toString() })), // one error per issue for maximum readability
+          warnings: [],
+        },
+      },
+      { status: 400, statusText: "Invalid or missing fields" }
+    );
+  } else if (e instanceof ValidationError) {
+    return NextResponse.json(
+      {
+        status: {
+          errors: [{ message: e.message }],
           warnings: [],
         },
       },
