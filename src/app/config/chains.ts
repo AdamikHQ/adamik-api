@@ -56,7 +56,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://api-t.cosmos.nodestake.top",
       explorerURL: "https://apis.mintscan.io/v1",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.COSMOSHUB,
     params: {
       prefix: "cosmos",
       validatorPrefix: "cosmosvaloper",
@@ -99,7 +99,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://g.w.lavanet.xyz:443/gateway/osmosist/rest/REDACTED",
       explorerURL: "https://apis.mintscan.io/v1",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.OSMOSIS,
     params: {
       prefix: "osmo",
       validatorPrefix: "osmovaloper",
@@ -142,7 +142,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestiatm/rest/REDACTED",
       explorerURL: "https://apis.mintscan.io/v1",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.CELESTIA,
     params: {
       prefix: "celestia",
       validatorPrefix: "celestiavaloper",
@@ -227,7 +227,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       //explorerURL: "https://api-sepolia.etherscan.io/api",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.ETHEREUM,
     supportedFeatures: EVM_FEATURES(ChainId.SEPOLIA),
   },
   holesky: {
@@ -243,7 +243,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       //explorerURL: "https://api-holesky.etherscan.io/api",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.ETHEREUM,
     supportedFeatures: EVM_FEATURES(ChainId.HOLESKY),
   },
   zksync: {
@@ -274,23 +274,22 @@ const CHAINS: { [key in ChainId]: Chain } = {
       //explorerURL: "https://zksync.blockscout.com/api",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.ZKSYNC,
     supportedFeatures: EVM_FEATURES(ChainId.ZKSYNC_SEPOLIA),
   },
-  //INJECTIVE-TESTNET EVM Version
-  "injective-testnet": {
+  "injective-evm-testnet": {
     family: ChainFamily.EVM,
-    id: ChainId.INJECTIVE_TESTNET,
+    id: ChainId.INJECTIVE_EVM_TESTNET,
     nativeId: "2424",
-    name: "Injective",
+    name: "Injective Evm Testnet",
     ticker: "INJ",
     decimals: 18,
     backends: {
       nodeURL: "https://testnet.rpc.inevm.com/http",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
-    supportedFeatures: EVM_FEATURES(ChainId.INJECTIVE_TESTNET),
+    isTestnetFor: "injective-evm", // TODO Support the mainnet
+    supportedFeatures: EVM_FEATURES(ChainId.INJECTIVE_EVM_TESTNET),
   },
   base: {
     family: ChainFamily.EVM,
@@ -323,7 +322,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       //explorerURL: "https://api.basescan.org/api",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.BASE,
     params: {
       isL2Fees: true,
     },
@@ -360,7 +359,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       //explorerURL: "https://api-sepolia-optimistic.etherscan.io/api",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.OPTIMISM,
     params: {
       isL2Fees: true,
     },
@@ -394,7 +393,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       //explorerURL: "https://api-sepolia.arbiscan.io/api",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.ARBITRUM,
     supportedFeatures: EVM_FEATURES(ChainId.ARBITRUM_SEPOLIA),
   },
   [ChainId.BITCOIN]: {
@@ -415,7 +414,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
   },
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,
-    name: "Bitcoin testnet",
+    name: "Bitcoin Testnet",
     family: ChainFamily.BITCOIN,
     ticker: "BTC",
     decimals: 8,
@@ -423,7 +422,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "",
       explorerURL: "https://api.blockchair.com/bitcoin/testnet",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.BITCOIN,
     params: {
       confirmations: 6,
     },
@@ -454,7 +453,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/amoy/REDACTED",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.POLYGON,
     supportedFeatures: EVM_FEATURES(ChainId.POLYGON_AMOY),
   },
   bsc: {
@@ -481,7 +480,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/bsc-testnet/REDACTED",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.BSC,
     supportedFeatures: EVM_FEATURES(ChainId.BSC_TESTNET),
   },
   linea: {
@@ -508,7 +507,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/linea-sepolia/REDACTED",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.LINEA,
     supportedFeatures: EVM_FEATURES(ChainId.LINEA_SEPOLIA),
   },
   avalanche: {
@@ -535,8 +534,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://avalanche-fuji-c-chain-rpc.publicnode.com",
       explorerURL: "https://deep-index.moralis.io/api",
     },
+    isTestnetFor: ChainId.AVALANCHE,
     supportedFeatures: EVM_FEATURES(ChainId.AVALANCHE_FUJI),
-    isTestNet: true,
   },
   gnosis: {
     family: ChainFamily.EVM,
@@ -562,7 +561,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/gnosis-testnet/REDACTED",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.GNOSIS,
     supportedFeatures: EVM_FEATURES(ChainId.GNOSIS_CHIADO),
   },
   moonbeam: {
@@ -602,7 +601,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://site1.moralis-nodes.com/moonbase/REDACTED",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.MOONBEAM,
     supportedFeatures: EVM_FEATURES(ChainId.MOONBASE),
   },
   fantom: {
@@ -635,7 +634,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.EVM,
     id: ChainId.ROOTSTOCK,
     nativeId: "30",
-    name: "RootStock Mainnet",
+    name: "RootStock",
     ticker: "RBTC",
     decimals: 18,
     backends: {
@@ -655,7 +654,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://public-node.testnet.rsk.co",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.ROOTSTOCK,
     supportedFeatures: EVM_ROOTSTOCK_FEATURES,
   },
   [ChainId.LITECOIN]: {
@@ -727,7 +726,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://chiliz-spicy.publicnode.com",
       explorerURL: "https://deep-index.moralis.io/api",
     },
-    isTestNet: true,
+    isTestnetFor: ChainId.CHILIZ,
     supportedFeatures: EVM_FEATURES(ChainId.CHILIZ_TESTNET),
   },
   //Injective Cosmos based version

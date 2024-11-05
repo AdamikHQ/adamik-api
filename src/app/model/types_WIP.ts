@@ -11,7 +11,7 @@ enum ChainId {
   HOLESKY = "holesky",
   ZKSYNC = "zksync",
   ZKSYNC_SEPOLIA = "zksync-sepolia",
-  INJECTIVE_TESTNET = "injective-testnet",
+  INJECTIVE_EVM_TESTNET = "injective-evm-testnet",
   BASE = "base",
   BASE_SEPOLIA = "base-sepolia",
   OPTIMISM = "optimism",
@@ -153,7 +153,7 @@ type Chain = {
   ticker: string;
   decimals: number;
   backends: Backends;
-  isTestNet?: boolean;
+  isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;
 };
@@ -435,6 +435,7 @@ export type {
   ChainParams,
   ChainSupportedFeatures,
   ChainValidators,
+  FeaturesSet,
   FinalizedTransaction,
   Paginated,
   StakingPosition,

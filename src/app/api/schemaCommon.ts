@@ -100,7 +100,7 @@ const chainSchema = z.object({
   name: z.string(),
   ticker: z.string(),
   decimals: z.number(),
-  isTestNet: z.boolean().optional(),
+  isTestnetFor: z.string().optional(),
   params: z.any().optional(),
   supportedFeatures: chainSupportedFeaturesSchema,
 });
