@@ -34,7 +34,7 @@ import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { chilizTestnet } from "../chains/chiliz-testnet";
-import { injectiveTestnet } from "../chains/injective-testnet";
+import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
 
 // FIXME Couldn't find a proper type that works besides 'any'
@@ -54,8 +54,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: zkSync, transport };
     case ChainId.ZKSYNC_SEPOLIA:
       return { chain: zkSyncSepoliaTestnet, transport };
-    case ChainId.INJECTIVE_TESTNET:
-      return { chain: injectiveTestnet, transport };
+    case ChainId.INJECTIVE_EVM_TESTNET:
+      return { chain: injectiveEvmTestnet, transport };
     case ChainId.BASE:
       return { chain: base, transport };
     case ChainId.BASE_SEPOLIA:
