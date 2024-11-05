@@ -60,7 +60,7 @@ function hasFeature<T extends ChainSupportedFeatures>(features: T, featurePath: 
   return paths.reduce((obj: any, path) => obj?.[path], features) ?? false;
 }
 
-function getMainnetName(chain: Chain): string {
+function getMainnetId(chain: Chain): string {
   return chain.isTestnetFor || chain.id;
 }
 
@@ -69,14 +69,24 @@ function groupChainsByMainnet(): Map<string, Chain[]> {
 
   // Group chains by their base name
   Object.values(CHAINS).forEach((chain) => {
-    const mainnetName = getMainnetName(chain);
-    if (!groupedChainsMap.has(mainnetName)) {
-      groupedChainsMap.set(mainnetName, []);
+    const mainnetId = getMainnetId(chain);
+    if (!groupedChainsMap.has(mainnetId)) {
+      groupedChainsMap.set(mainnetId, []);
     }
-    groupedChainsMap.get(mainnetName)!.push(chain);
+    groupedChainsMap.get(mainnetId)!.push(chain);
   });
 
-  return groupedChainsMap;
+  // Sort groups by base name
+  const sortedGroups = new Map(
+    [...groupedChainsMap].sort(([idA], [idB]) => {
+      const nameA = CHAINS[idA as ChainId]?.name;
+      const nameB = CHAINS[idB as ChainId]?.name;
+
+      return !nameA ? 1 : !nameB ? -1 : nameA.localeCompare(nameB);
+    })
+  );
+
+  return sortedGroups;
 }
 
 // Function to format network identifiers
@@ -140,9 +150,10 @@ function generateChainDocumentation(): void {
 
   let mdxContent: string = `---
 icon: link
+title: "Supported Chains"
+sidebarTitle: "Supported Chains"
+description: "List of blockchains supported in the Adamik API with their respective features."
 ---
-
-List of blockchains supported in the Adamik API with their respective features.
 
 <Info>
   You will get the same info using the [chain endpoint](../api-reference/endpoint/get-apichains) of the Adamik API.
