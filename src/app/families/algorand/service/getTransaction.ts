@@ -1,7 +1,7 @@
 import { FinalizedTransaction, Status, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { AlgorandService } from ".";
 import { fetchTransaction } from "../backend/explorer";
+import { AlgorandService } from "../service";
 
 async function getTransaction(
   this: AlgorandService,

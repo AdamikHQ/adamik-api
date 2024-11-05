@@ -1,7 +1,7 @@
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 import { Token, TokenType } from "~/app/model/types_WIP";
 import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
-import { CosmosService } from ".";
+import { CosmosService } from "../service";
 import { IBCToken } from "../types";
 
 async function getTokenInfo(this: CosmosService, tokenId: string): Promise<Token> {

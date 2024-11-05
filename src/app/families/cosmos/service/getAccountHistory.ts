@@ -1,6 +1,6 @@
 import { AccountHistory, FinalizedTransaction, Paginated } from "~/app/model/types_WIP";
-import { CosmosService } from ".";
 import { fetchAccountTransactions, mintscanToAdamikTransaction } from "../backend/mintscan";
+import { CosmosService } from "../service";
 
 async function getAccountHistory(
   this: CosmosService,

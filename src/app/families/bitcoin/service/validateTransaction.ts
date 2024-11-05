@@ -1,6 +1,6 @@
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { BitcoinService } from ".";
 import { isValidAddress, isValidXpub } from "../logic";
+import { BitcoinService } from "../service";
 
 async function prevalidateTransaction(
   this: BitcoinService,

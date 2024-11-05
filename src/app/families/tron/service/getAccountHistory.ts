@@ -1,5 +1,5 @@
-import { TronService } from ".";
 import { AccountHistory, Paginated } from "../../../model/types_WIP";
+import { TronService } from "../service";
 
 async function getAccountHistory(
   this: TronService,

@@ -20,9 +20,9 @@ import {
   TransactionMode,
 } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
-import { EvmService } from ".";
 import { estimateFeesPerGas } from "../backend/node";
 import { isHexString } from "../logic";
+import { EvmService } from "../service";
 import { EvmAddress, EvmChainParams } from "../types";
 
 async function encodeTransactionToSign(

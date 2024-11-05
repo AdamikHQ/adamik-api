@@ -1,5 +1,5 @@
 import { AccountHistory, Paginated } from "~/app/model/types_WIP";
-import { TonService } from ".";
+import { TonService } from "../service";
 
 async function getAccountHistory(
   this: TonService,

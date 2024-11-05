@@ -37,7 +37,7 @@
 
 ## dydx
 
-| nodeURL | https://dydx-rest.publicnode.com |
+| nodeURL | https://lcd-dydx.imperator.co |
 | explorerURL | https://apis.mintscan.io/v1 |
 
 ## axelar
@@ -269,3 +269,143 @@
 
 | nodeURL | https://api.trongrid.io |
 | explorerURL | https://apilist.tronscanapi.com |
+
+## cudos
+
+| nodeURL | https://lcd-cudos.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## evmos
+
+| nodeURL | https://lcd-evmos.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## irisnet
+
+| nodeURL | https://lcd-iris.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## juno
+
+| nodeURL | https://lcd-juno.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## lum-network
+
+| nodeURL | https://lcd-lum.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## omniflix
+
+| nodeURL | https://lcd-omniflix.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## sei
+
+| nodeURL | https://lcd-sei.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## medibloc
+
+| nodeURL | https://lcd-medibloc.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## passage
+
+| nodeURL | https://lcd-passage.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## quasar
+
+| nodeURL | https://lcd-quasar.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## seda
+
+| nodeURL | https://seda-api.polkachu.com/ |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## sommelier
+
+| nodeURL | https://lcd-sommelier.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## shentu
+
+| nodeURL | https://lcd-shentu.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## stride
+
+| nodeURL | https://lcd-stride.imperator.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## chihuahua
+
+| nodeURL | https://chihuahua-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## bitsong
+
+| nodeURL | https://bitsong-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## persistence
+
+| nodeURL | https://persistence-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## comdex
+
+| nodeURL | https://comdex-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## fetch-ai
+
+| nodeURL | https://fetchai-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## humans-ai
+
+| nodeURL | https://humans-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## ki
+
+| nodeURL | https://ki-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## likecoin
+
+| nodeURL | https://mainnet-node.like.co |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## mars-hub
+
+| nodeURL | https://mars-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## provenance
+
+| nodeURL | https://provenance-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## quicksilver
+
+| nodeURL | https://quicksilver-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## saga
+
+| nodeURL | https://saga-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## ux-chain
+
+| nodeURL | https://ux-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |
+
+## kava
+
+| nodeURL | https://kava-api.polkachu.com |
+| explorerURL | https://apis.mintscan.io/v1 |

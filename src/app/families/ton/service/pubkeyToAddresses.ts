@@ -1,6 +1,6 @@
 import { WalletContractV1R3, WalletContractV2R2, WalletContractV3R2, WalletContractV4 } from "@ton/ton";
 import { TypedAddress } from "~/app/model/types_WIP";
-import { TonService } from ".";
+import { TonService } from "../service";
 
 async function pubkeyToAddresses(this: TonService, pubkey: string): Promise<TypedAddress[]> {
   return [

@@ -1,6 +1,6 @@
 import { AccountState, TokenAmount } from "~/app/model/types_WIP";
-import { AlgorandService } from ".";
 import { fetchAccount } from "../backend/node";
+import { AlgorandService } from "../service";
 
 async function getAccountState(this: AlgorandService, accountId: string): Promise<AccountState> {
   const { balance: nativeBalance, assetAmounts } = await fetchAccount(accountId);

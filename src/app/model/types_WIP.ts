@@ -6,14 +6,6 @@ import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
   ALGORAND = "algorand",
-  COSMOSHUB = "cosmoshub",
-  OSMOSIS = "osmosis",
-  OSMOSIS_TESTNET = "osmosis-testnet",
-  CELESTIA = "celestia",
-  CELESTIA_TESTNET = "celestia-testnet",
-  DYDX = "dydx",
-  COSMOSHUB_TESTNET = "cosmoshub-testnet",
-  AXELAR = "axelar",
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",
   HOLESKY = "holesky",
@@ -47,18 +39,65 @@ enum ChainId {
   TRON = "tron",
   ROOTSTOCK = "rootstock",
   ROOTSTOCK_TESTNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
-  INJECTIVE = "injective",
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
-  AKASH = "akash",
-  BAND = "band",
-  DYMENSION = "dymension",
-  KYVE = "kyve",
+  DOGECOIN = "dogecoin",
+
+  //All Cosmos based chains
+  //Added through Polkachu nodes
+  BITSONG = "bitsong",
+  CHIHUAHUA = "chihuahua",
+  SEDA = "seda",
+  PERSISTENCE = "persistence",
+  COMDEX = "comdex",
+  FETCH_AI = "fetch-ai",
+  HUMANS_AI = "humans-ai",
+  KI = "ki",
+  MARS_HUB = "mars-hub",
+  PROVENANCE = "provenance",
+  QUICKSILVER = "quicksilver",
+  SAGA = "saga",
+  UX_CHAIN = "ux-chain",
+  KAVA = "kava",
+  //Added through Imperator nodes
+  COSMOSHUB = "cosmoshub",
+  OSMOSIS = "osmosis",
+  CELESTIA = "celestia",
+  DYDX = "dydx",
+  AXELAR = "axelar",
+  CUDOS = "cudos",
+  EVMOS = "evmos",
+  IRISNET = "irisnet",
+  JUNO = "juno",
+  LUM_NETWORK = "lum-network",
+  OMNIFLIX = "omniflix",
+  SEI = "sei",
+  MEDIBLOC = "medibloc",
+  PASSAGE = "passage",
+  QUASAR = "quasar",
+  SOMMELIER = "sommelier",
+  SHENTU = "shentu",
+  STRIDE = "stride",
   NEUTRON = "neutron",
   TERRA = "terra2",
+  AKASH = "akash",
+  INJECTIVE = "injective",
+  DYMENSION = "dymension",
+  BAND = "band",
   STARGAZE = "stargaze",
-  DOGECOIN = "dogecoin",
+  KYVE = "kyve",
+  //Added through other node providers
+  LIKECOIN = "likecoin",
+  OSMOSIS_TESTNET = "osmosis-testnet", //using lavanet
+  CELESTIA_TESTNET = "celestia-testnet", //using lavanet
+  COSMOSHUB_TESTNET = "cosmoshub-testnet", //using nodestake
+
+  //Their own family
+  // EGLD = "egld",
+  // SOL = "sol",
+  // NEAR = "near",
+  // ALEPH = "aleph",
 }
 
 enum ChainFamily {
@@ -80,11 +119,13 @@ type FeaturesSet = {
 
 type ChainSupportedFeatures = {
   read: {
+    token: boolean;
+    validators: boolean;
+    transaction: FeaturesSet;
     account: {
       balances: FeaturesSet;
       transactions: FeaturesSet;
     };
-    transaction: FeaturesSet;
   };
   write: {
     transaction: {

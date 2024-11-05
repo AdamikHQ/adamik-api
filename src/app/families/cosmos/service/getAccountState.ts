@@ -1,9 +1,9 @@
 import { CHAINS } from "~/app/config/chains";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 import { AccountState, StakingPosition, TokenAmount, TokenType } from "~/app/model/types_WIP";
-import { CosmosService } from ".";
 import { fetchBalances, fetchDelegations, fetchRewards, fetchUnbondingDelegations } from "../backend/node";
 import { CosmosBalance } from "../backend/types";
+import { CosmosService } from "../service";
 import { CosmosChainParams, IBCToken } from "../types";
 
 async function getAccountState(this: CosmosService, accountId: string): Promise<AccountState> {
@@ -80,4 +80,3 @@ async function getAccountState(this: CosmosService, accountId: string): Promise<
 }
 
 export { getAccountState };
-
