@@ -1,5 +1,5 @@
 import { AccountState, ChainId } from "~/app/model/types_WIP";
-import { BitcoinService } from ".";
+import { BitcoinService } from "../service";
 
 const CHAIN_ID = ChainId.BITCOIN;
 

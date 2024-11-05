@@ -1,7 +1,7 @@
 import { FinalizedTransaction, Status } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { EvmService } from ".";
 import { fetchTransaction, moralisToAdamikTransaction } from "../backend/moralis";
+import { EvmService } from "../service";
 
 async function getTransaction(
   this: EvmService,

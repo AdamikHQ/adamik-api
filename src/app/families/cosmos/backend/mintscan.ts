@@ -13,17 +13,29 @@ const getRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.explorerURL;
 const MINTSCAN_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.COSMOSHUB, "cosmos"],
   [ChainId.OSMOSIS, "osmosis"],
-  [ChainId.HOLESKY, "celestia"],
+  [ChainId.CELESTIA, "celestia"],
   [ChainId.DYDX, "dydx"],
   [ChainId.AXELAR, "axelar"],
   [ChainId.INJECTIVE, "injective"],
   [ChainId.AKASH, "akash"],
-  //[ChainId.BAND, ""],
-  //[ChainId.DYMENSION, ""],
-  //[ChainId.KYVE, ""],
   [ChainId.NEUTRON, "neutron"],
-  //[ChainId.TERRA, ""],
-  //[ChainId.STARGAZE, ""],
+  [ChainId.EVMOS, "evmos"],
+  [ChainId.JUNO, "juno"],
+  [ChainId.SEI, "sei"],
+  [ChainId.STRIDE, "stride"],
+  [ChainId.KAVA, "kava"],
+  //NOT SUPPORTED BY MINTSCAN YET
+  // [ChainId.IRISNET, "iris"],
+  // [ChainId.TERRA, "terra2"],
+  // [ChainId.LUM_NETWORK, "lum"],
+  // [ChainId.OMNIFLIX, "omniflix"],
+  // [ChainId.STARGAZE, "stargaze"],
+  // [ChainId.BAND, "band"],
+  // [ChainId.DYMENSION, "dymension"],
+  // [ChainId.KYVE, "kyve"],
+  // [ChainId.CHIHUAHUA, "chihuahua"],
+  // [ChainId.SEDA, "seda"],
+  // [ChainId.SHENTU, "shentu"],
 ]);
 
 async function fetchWithHeaders(url: string, options: RequestInit = {}) {
@@ -483,4 +495,4 @@ function parseProtobufTransaction(
   return parsedTransaction;
 }
 
-export { fetchAccountTransactions, fetchTransaction, mintscanToAdamikTransaction };
+export { fetchAccountTransactions, fetchTransaction, MINTSCAN_CHAIN_IDS, mintscanToAdamikTransaction };

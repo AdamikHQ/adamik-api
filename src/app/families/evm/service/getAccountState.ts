@@ -1,13 +1,10 @@
 import { AccountState, TokenAmount } from "~/app/model/types_WIP";
-import { EvmService } from ".";
 import { fetchERC20TokenAmounts } from "../backend/moralis";
 import { fetchBalance } from "../backend/node";
+import { EvmService } from "../service";
 import { EvmAddress } from "../types";
 
-async function getAccountState(
-  this: EvmService,
-  accountId: EvmAddress
-): Promise<AccountState> {
+async function getAccountState(this: EvmService, accountId: EvmAddress): Promise<AccountState> {
   // Native
   const nativeBalance = await fetchBalance(this.chainId, accountId);
 

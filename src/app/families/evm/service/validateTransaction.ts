@@ -1,8 +1,8 @@
 import { isAddress as isValidAddress } from "viem";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { EvmService } from ".";
 import { prevalidateTransactionCommon } from "../../common";
 import { getMaxSpendable } from "../logic";
+import { EvmService } from "../service";
 
 async function prevalidateTransaction(
   this: EvmService,

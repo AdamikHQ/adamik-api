@@ -1,6 +1,6 @@
 import { ChainValidators, Paginated, Validator } from "~/app/model/types_WIP";
-import { CosmosService } from ".";
 import { fetchValidators } from "../backend/node";
+import { CosmosService } from "../service";
 
 async function getValidators(
   this: CosmosService,

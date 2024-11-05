@@ -1,8 +1,8 @@
 import { CHAINS } from "~/app/config/chains";
 import { AccountState, ChainId } from "~/app/model/types_WIP";
-import { BitcoinService } from ".";
 import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
 import { isValidXpub } from "../logic";
+import { BitcoinService } from "../service";
 import { BitcoinChainParams, Xpub } from "../types";
 
 async function getAccountState(this: BitcoinService, accountId: string): Promise<AccountState> {

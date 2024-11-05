@@ -1,6 +1,6 @@
 import { BroadcastStatus } from "~/app/model/types_WIP";
-import { CosmosService } from ".";
 import { broadcastTransaction as broadcast } from "../backend/node";
+import { CosmosService } from "../service";
 
 async function broadcastTransaction(
   this: CosmosService,

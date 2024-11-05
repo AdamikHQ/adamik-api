@@ -1,7 +1,7 @@
 import { EncodedTransactionFormat, Status, Transaction } from "~/app/model/types_WIP";
-import { CosmosService } from ".";
 import { fetchAccount } from "../backend/node";
 import { encodeToBroadcast, encodeToSign, resolvePubKey } from "../logic";
+import { CosmosService } from "../service";
 
 async function encodeTransactionToSign(
   this: CosmosService,

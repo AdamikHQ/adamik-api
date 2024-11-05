@@ -1,7 +1,7 @@
 import { Token, TokenType } from "~/app/model/types_WIP";
 import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
-import { TonService } from ".";
 import { getJettonInfo } from "../backend/explorer";
+import { TonService } from "../service";
 
 async function getTokenInfo(this: TonService, tokenId: string): Promise<Token> {
   try {
