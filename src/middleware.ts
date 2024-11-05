@@ -27,9 +27,6 @@ export async function middleware(request: NextRequest) {
     );
   }
 
-  // TODO For debug in prod, cleanup when done
-  console.log("MOESIF - middleware - headers.set('X-Adamik-Customer-Id', client.clientId):", client.clientId);
-
   const headers = new Headers(request.headers);
   headers.set("X-Adamik-Customer-Id", client.clientId || "unknown");
 
