@@ -1,4 +1,4 @@
-import { getService } from "~/app/families/services";
+import { getService } from "~/app/config/services";
 import { Transaction } from "~/app/model/types_WIP";
 import { apiHandler, statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
@@ -22,7 +22,7 @@ export const POST = apiHandler(
       const broadcastStatus = await service.broadcastTransaction(broadcastPayload);
       return { hash: broadcastStatus.hash, transaction };
     } catch {
-      console.warn(`/!\\ Transaction broadcast failed for transaction '${transaction}'`);
+      console.warn("/!\\ Transaction broadcast failed for transaction:", transaction);
       throw new InvalidTransactionError(statusFromMessage("Transaction broadcast failed"));
     }
   }

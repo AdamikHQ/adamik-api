@@ -6,20 +6,12 @@ import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
   ALGORAND = "algorand",
-  COSMOSHUB = "cosmoshub",
-  OSMOSIS = "osmosis",
-  OSMOSIS_TESTNET = "osmosis-testnet",
-  CELESTIA = "celestia",
-  CELESTIA_TESTNET = "celestia-testnet",
-  DYDX = "dydx",
-  COSMOSHUB_TESTNET = "cosmoshub-testnet",
-  AXELAR = "axelar",
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",
   HOLESKY = "holesky",
   ZKSYNC = "zksync",
   ZKSYNC_SEPOLIA = "zksync-sepolia",
-  INJECTIVE_TESTNET = "injective-testnet",
+  INJECTIVE_EVM_TESTNET = "injective-evm-testnet",
   BASE = "base",
   BASE_SEPOLIA = "base-sepolia",
   OPTIMISM = "optimism",
@@ -47,18 +39,65 @@ enum ChainId {
   TRON = "tron",
   ROOTSTOCK = "rootstock",
   ROOTSTOCK_TESTNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
-  INJECTIVE = "injective",
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
-  AKASH = "akash",
-  BAND = "band",
-  DYMENSION = "dymension",
-  KYVE = "kyve",
+  DOGECOIN = "dogecoin",
+
+  //All Cosmos based chains
+  //Added through Polkachu nodes
+  BITSONG = "bitsong",
+  CHIHUAHUA = "chihuahua",
+  SEDA = "seda",
+  PERSISTENCE = "persistence",
+  COMDEX = "comdex",
+  FETCH_AI = "fetch-ai",
+  HUMANS_AI = "humans-ai",
+  KI = "ki",
+  MARS_HUB = "mars-hub",
+  PROVENANCE = "provenance",
+  QUICKSILVER = "quicksilver",
+  SAGA = "saga",
+  UX_CHAIN = "ux-chain",
+  KAVA = "kava",
+  //Added through Imperator nodes
+  COSMOSHUB = "cosmoshub",
+  OSMOSIS = "osmosis",
+  CELESTIA = "celestia",
+  DYDX = "dydx",
+  AXELAR = "axelar",
+  CUDOS = "cudos",
+  EVMOS = "evmos",
+  IRISNET = "irisnet",
+  JUNO = "juno",
+  LUM_NETWORK = "lum-network",
+  OMNIFLIX = "omniflix",
+  SEI = "sei",
+  MEDIBLOC = "medibloc",
+  PASSAGE = "passage",
+  QUASAR = "quasar",
+  SOMMELIER = "sommelier",
+  SHENTU = "shentu",
+  STRIDE = "stride",
   NEUTRON = "neutron",
   TERRA = "terra2",
+  AKASH = "akash",
+  INJECTIVE = "injective",
+  DYMENSION = "dymension",
+  BAND = "band",
   STARGAZE = "stargaze",
-  DOGECOIN = "dogecoin",
+  KYVE = "kyve",
+  //Added through other node providers
+  LIKECOIN = "likecoin",
+  OSMOSIS_TESTNET = "osmosis-testnet", //using lavanet
+  CELESTIA_TESTNET = "celestia-testnet", //using lavanet
+  COSMOSHUB_TESTNET = "cosmoshub-testnet", //using nodestake
+
+  //Their own family
+  // EGLD = "egld",
+  // SOL = "sol",
+  // NEAR = "near",
+  // ALEPH = "aleph",
 }
 
 enum ChainFamily {
@@ -80,11 +119,13 @@ type FeaturesSet = {
 
 type ChainSupportedFeatures = {
   read: {
+    token: boolean;
+    validators: boolean;
+    transaction: FeaturesSet;
     account: {
       balances: FeaturesSet;
       transactions: FeaturesSet;
     };
-    transaction: FeaturesSet;
   };
   write: {
     transaction: {
@@ -112,7 +153,7 @@ type Chain = {
   ticker: string;
   decimals: number;
   backends: Backends;
-  isTestNet?: boolean;
+  isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;
 };
@@ -143,19 +184,24 @@ type TokenAmount = {
   amount: bigint;
 };
 
-enum StakingStatus {
-  FREE = "free", // Can be used as part of the available balance
-  LOCKED = "locked",
-  UNLOCKING = "unlocking",
-  UNLOCKED = "unlocked", // Can't be used as part of the avaialble balance, needs a transaction first
-}
-
 type Validator = {
   address: string;
   name: string;
   commission?: number;
   stakedAmount?: bigint;
 };
+
+type ChainValidators = {
+  chainId: ChainId;
+  validators: Validator[];
+};
+
+enum StakingStatus {
+  FREE = "free", // Can be used as part of the available balance
+  LOCKED = "locked",
+  UNLOCKING = "unlocking",
+  UNLOCKED = "unlocked", // Can't be used as part of the avaialble balance, needs a transaction first
+}
 
 type StakingPosition = {
   validatorAddresses: string[];
@@ -198,8 +244,6 @@ type AccountState = {
     };
   };
 };
-
-type AccountHistoryPagination = { fromTimestamp?: number; toTimestamp?: number };
 
 type AccountHistory = {
   chainId: ChainId;
@@ -353,9 +397,10 @@ enum EncodedTransactionFormat {
   HEX = "hex",
 }
 
-type Pagination = {
-  offset?: number;
-  limit?: number;
+type Paginated<T> = T & {
+  pagination: {
+    nextPage: string | null;
+  };
 };
 
 type ErrorCode = "OK" | "KO";
@@ -383,15 +428,16 @@ export {
 
 export type {
   AccountHistory,
-  AccountHistoryPagination,
   AccountState,
   ApiRequestFilters,
   BroadcastStatus,
   Chain,
   ChainParams,
   ChainSupportedFeatures,
+  ChainValidators,
+  FeaturesSet,
   FinalizedTransaction,
-  Pagination,
+  Paginated,
   StakingPosition,
   StakingReward,
   Status,

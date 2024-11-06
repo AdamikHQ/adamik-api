@@ -1,4 +1,4 @@
-import { FeeValuesEIP1559, Transaction, TransactionReceipt, createPublicClient, erc20Abi, http } from "viem";
+import { FeeValuesEIP1559, createPublicClient, erc20Abi, http } from "viem";
 import {
   arbitrum,
   arbitrumSepolia,
@@ -34,7 +34,7 @@ import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { chilizTestnet } from "../chains/chiliz-testnet";
-import { injectiveTestnet } from "../chains/injective-testnet";
+import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
 
 // FIXME Couldn't find a proper type that works besides 'any'
@@ -54,8 +54,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: zkSync, transport };
     case ChainId.ZKSYNC_SEPOLIA:
       return { chain: zkSyncSepoliaTestnet, transport };
-    case ChainId.INJECTIVE_TESTNET:
-      return { chain: injectiveTestnet, transport };
+    case ChainId.INJECTIVE_EVM_TESTNET:
+      return { chain: injectiveEvmTestnet, transport };
     case ChainId.BASE:
       return { chain: base, transport };
     case ChainId.BASE_SEPOLIA:
@@ -265,6 +265,8 @@ async function fetchNonce(chainId: ChainId, address: EvmAddress): Promise<number
   return await getClient(chainId).getTransactionCount({ address });
 }
 
+// NOTE Unused at the moment, transactions are retrived via the explorer
+/*
 async function fetchTransaction(chainId: ChainId, transactionHash: string): Promise<Transaction | null> {
   try {
     return await getClient(chainId).getTransaction({ hash: transactionHash });
@@ -283,6 +285,7 @@ async function fetchTransactionReceipt(
     return null;
   }
 }
+*/
 
 async function broadcast(chainId: ChainId, signedTransaction: string) {
   return await getClient(chainId).sendRawTransaction({ serializedTransaction: signedTransaction });
@@ -301,6 +304,4 @@ export {
   fetchERC20Ticker,
   fetchERC20name,
   fetchNonce,
-  fetchTransaction,
-  fetchTransactionReceipt,
 };

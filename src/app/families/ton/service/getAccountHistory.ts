@@ -1,13 +1,20 @@
-import { AccountHistory } from "~/app/model/types_WIP";
-import { TonService } from ".";
+import { AccountHistory, Paginated } from "~/app/model/types_WIP";
+import { TonService } from "../service";
 
-async function getAccountHistory(this: TonService, accountId: string): Promise<AccountHistory> {
+async function getAccountHistory(
+  this: TonService,
+  accountId: string,
+  paginationToken?: string
+): Promise<Paginated<AccountHistory>> {
   // TODO
 
   return {
     chainId: this.chainId,
     accountId,
     transactions: [],
+    pagination: {
+      nextPage: null,
+    },
   };
 }
 

@@ -1,6 +1,10 @@
 import z from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
-import { finalizedTransactionSchema } from "~/app/api/schemaCommon";
+import {
+  finalizedTransactionSchema,
+  paginatedResponseSchema,
+  paginationQueryParamsSchema,
+} from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 
@@ -37,18 +41,28 @@ const requestSchema = z
     ],
   });
 
-const queryParamsSchema = z.object({
-  from_timestamp: z.coerce.number().optional(),
-  to_timestamp: z.coerce.number().optional(),
-  include: z
-    .array(z.enum(["parsed", "raw"]))
-    .nonempty()
-    .optional()
-    .openapi({
-      description: "Optional filter, to let you request only the data that you need.",
-    }),
-  // FIXME Need to also add these filters? How to combine with existing one above?
-  /*
+// NOTE Need to manually add new modes here, when they start being supported
+const includeValues = ["parsed", "raw"] as const;
+type Include = (typeof includeValues)[number];
+
+const queryParamsSchema = paginationQueryParamsSchema.merge(
+  z.object({
+    include: z
+      .preprocess(
+        // we make sure to handle both array and joined strings alike (Next formats query parameters differently depending on route verb
+        (val) => (Array.isArray(val) ? val.join(",") : val),
+        z
+          .string()
+          .optional()
+          .transform((val) => (val ? (val.split(",") as Include[]) : undefined))
+          .refine(
+            (arr): arr is Include[] | undefined =>
+              arr === undefined || arr.every((item): item is Include => includeValues.includes(item)),
+            { message: "Invalid include value" }
+          )
+        // FIXME Should we add the following filters (native, tokens, staking)?
+        // How to combine with existing one above 'raw' and 'parsed'?
+        /*
   include: z
     .array(
       z.enum([
@@ -64,14 +78,23 @@ const queryParamsSchema = z.object({
       description: "Optional filter, to let you request only the data that you need.",
     }),
     */
-});
+      )
+      .openapi({
+        description:
+          "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
+        example: "parsed,raw",
+      }),
+  })
+);
 
-const responseSchema = z.object({
-  chainId: supportedChainIdsSchema,
-  accountId: z.string(),
-  transactions: finalizedTransactionSchema.array(),
-  //status: statusSchema, TODO Should all endpoints have a status?
-});
+const responseSchema = z
+  .object({
+    chainId: supportedChainIdsSchema,
+    accountId: z.string(),
+    transactions: finalizedTransactionSchema.array(),
+    //status: statusSchema, TODO Should all endpoints have a status?
+  })
+  .merge(paginatedResponseSchema);
 
 const accountHistoryOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/account/history": {

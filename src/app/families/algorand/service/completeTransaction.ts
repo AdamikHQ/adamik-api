@@ -1,6 +1,6 @@
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { AlgorandService } from ".";
 import { computeFees, computeMaxSpendable } from "../logic";
+import { AlgorandService } from "../service";
 
 async function completeTransaction(
   this: AlgorandService,

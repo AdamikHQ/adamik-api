@@ -1,7 +1,7 @@
 import { Psbt } from "bitcoinjs-lib";
 import { BroadcastStatus } from "~/app/model/types_WIP";
-import { BitcoinService } from ".";
 import { postTransaction } from "../backend/explorer";
+import { BitcoinService } from "../service";
 
 /**
  * Allows to broadcast a raw transaction, or a PSBT.

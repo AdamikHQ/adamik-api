@@ -2,7 +2,7 @@ import { decode as msgpackDecode } from "algo-msgpack-with-bigint";
 import { EncodedTransaction as AlgoEncodedTransaction } from "algosdk";
 import { buildRawTransaction, encodeToBroadcast, encodeToSign } from "~/app/families/algorand/logic";
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { AlgorandService } from ".";
+import { AlgorandService } from "../service";
 
 async function encodeTransactionToSign(
   this: AlgorandService,

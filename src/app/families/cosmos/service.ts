@@ -1,21 +1,21 @@
 import { BaseChainService, StakingService, TokenService } from "~/app/model/service";
-import { broadcastTransaction as broadcastTransactionFn } from "./broadcastTransaction";
-import { completeTransaction as completeTransactionFn } from "./completeTransaction";
+import { broadcastTransaction as broadcastTransactionFn } from "./service/broadcastTransaction";
+import { completeTransaction as completeTransactionFn } from "./service/completeTransaction";
 import {
   encodeTransactionToBroadcast as encodeTransactionToBroadcastFn,
   encodeTransactionToSign as encodeTransactionToSignFn,
-} from "./encodeTransaction";
-import { getAccountHistory as getAccountHistoryFn } from "./getAccountHistory";
-import { getAccountState as getAccountStateFn } from "./getAccountState";
-import { getTokenInfo as getTokenInfoFn } from "./getTokenInfo";
-import { getTransaction as getTransactionFn } from "./getTransaction";
-import { getValidators as getValidatorsFn } from "./getValidators";
-import { pubkeyToAddresses as pubkeyToAddressesFn } from "./pubkeyToAddresses";
-import { validateAddress as validateAddressFn } from "./validateAddress";
+} from "./service/encodeTransaction";
+import { getAccountHistory as getAccountHistoryFn } from "./service/getAccountHistory";
+import { getAccountState as getAccountStateFn } from "./service/getAccountState";
+import { getTokenInfo as getTokenInfoFn } from "./service/getTokenInfo";
+import { getTransaction as getTransactionFn } from "./service/getTransaction";
+import { getValidators as getValidatorsFn } from "./service/getValidators";
+import { pubkeyToAddresses as pubkeyToAddressesFn } from "./service/pubkeyToAddresses";
+import { validateAddress as validateAddressFn } from "./service/validateAddress";
 import {
   prevalidateTransaction as prevalidateTransactionFn,
   validateTransaction as validateTransactionFn,
-} from "./validateTransaction";
+} from "./service/validateTransaction";
 
 class CosmosService extends BaseChainService implements TokenService, StakingService {
   override pubkeyToAddresses = pubkeyToAddressesFn.bind(this);

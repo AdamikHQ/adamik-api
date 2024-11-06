@@ -1,6 +1,6 @@
 import { BroadcastStatus } from "~/app/model/types_WIP";
-import { TronService } from ".";
 import { broadcast } from "../backend/node";
+import { TronService } from "../service";
 
 async function broadcastTransaction(this: TronService, signedTransaction: string): Promise<BroadcastStatus> {
   return {

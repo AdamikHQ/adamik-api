@@ -1,8 +1,8 @@
 import { CHAINS } from "~/app/config/chains";
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { BitcoinService } from ".";
 import { fetchStats, fetchTransaction } from "../backend/explorer";
+import { BitcoinService } from "../service";
 import { BitcoinChainParams } from "../types";
 
 async function getTransaction(this: BitcoinService, transactionId: string): Promise<FinalizedTransaction> {

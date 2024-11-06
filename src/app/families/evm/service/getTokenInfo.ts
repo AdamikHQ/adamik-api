@@ -1,6 +1,6 @@
 import { Token } from "~/app/model/types_WIP";
-import { EvmService } from ".";
 import { fetchERC20Token } from "../backend/moralis";
+import { EvmService } from "../service";
 import { EvmAddress } from "../types";
 
 async function getTokenInfo(this: EvmService, tokenId: string): Promise<Token> {

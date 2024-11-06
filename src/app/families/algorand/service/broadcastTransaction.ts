@@ -1,6 +1,6 @@
 import { BroadcastStatus } from "~/app/model/types_WIP";
-import { AlgorandService } from ".";
 import { broadcast } from "../backend/node";
+import { AlgorandService } from "../service";
 
 async function broadcastTransaction(
   this: AlgorandService,

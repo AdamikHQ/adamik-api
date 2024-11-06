@@ -1,6 +1,6 @@
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { TronService } from ".";
 import { buildTransaction } from "../logic";
+import { TronService } from "../service";
 import { TronTransactionParams } from "../types";
 
 async function encodeTransactionToSign(
@@ -12,7 +12,7 @@ async function encodeTransactionToSign(
   const transactionBuilt = await buildTransaction(transaction);
 
   transaction.encoded = transactionBuilt.raw_data_hex;
-  transaction.data.params = { kind: "tron", ...transactionBuilt } as TronTransactionParams;
+  transaction.data.params = { ...transactionBuilt } as TronTransactionParams;
 }
 
 async function encodeTransactionToBroadcast(

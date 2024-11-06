@@ -23,8 +23,7 @@ type EtherscanERC20Event = {
 };
 
 // NOTE Unused at the moment
-/*
-type MoralisDecodedTransaction = {
+type MoralisTransaction = {
   hash: string;
   nonce: bigint;
   from_address: string;
@@ -50,7 +49,6 @@ type MoralisDecodedTransaction = {
     }[];
   };
 };
-*/
 
 type MoralisERC20Token = {
   address: EvmAddress;
@@ -92,14 +90,14 @@ type MoralisERC20TokenBalance = {
   //portfolio_percentage: number;
 };
 
-type MoralisWalletTransactionsResponse = {
+type MoralisAccountTransactionsResponse = {
   page: string;
   page_size: string;
   cursor: string;
-  result: MoralisWalletTransaction[];
+  result: MoralisAccountTransaction[];
 };
 
-type MoralisWalletTransaction = {
+type MoralisAccountTransaction = {
   hash: string;
   nonce: string;
   transaction_index: string;
@@ -127,6 +125,7 @@ type MoralisWalletTransaction = {
   nft_transfers: MoralisNftTransfer[];
   erc20_transfers: MoralisErc20Transfer[];
   native_transfers: MoralisNativeTransfer[];
+  category: string;
 };
 
 type MoralisNativeTransfer = {
@@ -213,8 +212,9 @@ type MoralisInternalTransaction = {
 
 export type {
   EtherscanERC20Event,
+  MoralisAccountTransaction,
+  MoralisAccountTransactionsResponse,
   MoralisERC20Token,
   MoralisERC20TokenBalance,
-  MoralisWalletTransaction,
-  MoralisWalletTransactionsResponse,
+  MoralisTransaction,
 };

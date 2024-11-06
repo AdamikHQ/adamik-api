@@ -1,5 +1,4 @@
-import z from "zod";
-import { getService } from "~/app/families/services";
+import { getService } from "~/app/config/services";
 import { isStakingService } from "~/app/model/service";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
@@ -14,8 +13,7 @@ export const GET = apiHandler(
   async ({ pathParams, queryParams }) => {
     const { chainId } = pathParams;
 
-    const offset = z.number().catch(0).parse(Number(queryParams.offset));
-    const limit = z.number().catch(0).parse(Number(queryParams.limit));
+    const paginationToken = queryParams.nextPage;
 
     const service = getService(chainId);
 
@@ -23,13 +21,12 @@ export const GET = apiHandler(
       throw new UnsupportedFeatureError(`Staking is not supported for chainId ${chainId}`);
     }
 
-    const validators = await service.getValidators({ offset, limit });
+    const { validators, pagination } = await service.getValidators(paginationToken);
 
     const validatorsResponse = {
       chainId,
       validators,
-      // TODO
-      // paginationNext: { limit, offset } | null;
+      pagination,
     };
 
     return validatorsResponse;

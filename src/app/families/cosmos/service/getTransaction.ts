@@ -1,7 +1,7 @@
 import { FinalizedTransaction, Status } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { CosmosService } from ".";
 import { fetchTransaction, mintscanToAdamikTransaction } from "../backend/mintscan";
+import { CosmosService } from "../service";
 
 async function getTransaction(
   this: CosmosService,
@@ -15,14 +15,10 @@ async function getTransaction(
 
   const parsedTransaction = mintscanToAdamikTransaction(this.chainId, cosmosTransaction);
 
-  return parsedTransaction
-    ? {
-        parsed: parsedTransaction,
-        raw: cosmosTransaction,
-      }
-    : {
-        raw: cosmosTransaction,
-      };
+  return {
+    parsed: parsedTransaction,
+    raw: cosmosTransaction,
+  };
 }
 
 export { getTransaction };

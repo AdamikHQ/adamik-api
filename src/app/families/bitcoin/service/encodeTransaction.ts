@@ -1,8 +1,8 @@
 import { Psbt } from "bitcoinjs-lib";
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { BitcoinService } from ".";
 import { fetchRawTransactionMetadata, fetchTransactionMetadata } from "../backend/explorer";
 import { selectNetworkForChainId } from "../logic";
+import { BitcoinService } from "../service";
 import { BitcoinTransactionParams } from "../types";
 
 async function encodeTransactionToSign(

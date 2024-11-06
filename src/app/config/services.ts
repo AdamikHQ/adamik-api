@@ -1,12 +1,12 @@
 import { BaseChainService } from "~/app/model/service";
 import { ChainFamily, ChainId } from "~/app/model/types_WIP";
-import { CHAINS } from "../config/chains";
-import { AlgorandService } from "./algorand/service";
-import { BitcoinService } from "./bitcoin/service";
-import { CosmosService } from "./cosmos/service";
-import { EvmService } from "./evm/service";
-import { TonService } from "./ton/service";
-import { TronService } from "./tron/service";
+import { AlgorandService } from "../families/algorand/service";
+import { BitcoinService } from "../families/bitcoin/service";
+import { CosmosService } from "../families/cosmos/service";
+import { EvmService } from "../families/evm/service";
+import { TonService } from "../families/ton/service";
+import { TronService } from "../families/tron/service";
+import { CHAINS } from "./chains";
 
 function getService(chainId: ChainId): BaseChainService {
   const family = CHAINS[chainId]?.family;
