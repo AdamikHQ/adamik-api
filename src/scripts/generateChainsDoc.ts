@@ -38,6 +38,9 @@ const featureColumns: Partial<Record<ChainFeaturePaths, TableColumn>> = {
   "read.account.balances.staking": {
     label: "Staking and Rewards",
   },
+  "read.account.transactions.native": {
+    label: "Transaction History",
+  },
 };
 
 // Function to generate table columns configuration
@@ -111,8 +114,8 @@ const CONFIG = {
     unsupported: "cross",
   },
   ICONS: {
-    supported: "✓",
-    unsupported: "✗",
+    supported: "✅",
+    unsupported: "❌",
   },
 } as const;
 
