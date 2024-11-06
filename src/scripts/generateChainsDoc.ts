@@ -104,6 +104,7 @@ const CONFIG = {
     cell: 'style={{ textAlign: "center", border: "none"}}',
     // Add a combined style for cells that need both center alignment and nowrap
     cellNoWrap: 'style={{ textAlign: "center", border: "none", whiteSpace: "nowrap"}}',
+    header: 'style={{ textAlign: "center", border: "none", verticalAlign: "middle"}}',
   },
   CLASSES: {
     supported: "checkmark",
@@ -119,7 +120,7 @@ function generateTableHeader(columns: TableColumn[]): string {
   return `<table ${CONFIG.TABLE_STYLES.table}>
   <thead>
     <tr>
-${columns.map((column) => `      <th ${CONFIG.TABLE_STYLES.cell}>${column.label}</th>`).join("\n")}
+${columns.map((column) => `      <th ${CONFIG.TABLE_STYLES.header}>${column.label}</th>`).join("\n")}
     </tr>
   </thead>
   <tbody>
