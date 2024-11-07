@@ -863,8 +863,10 @@
           {
             "in": "query",
             "name": "nextPage",
+            "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint"
             }
           },
           {
@@ -1154,7 +1156,8 @@
                             {
                               "type": "null"
                             }
-                          ]
+                          ],
+                          "description": "Token that can be used to retrieve the next page of results from this endpoint.       Must simply be provided in the 'nextPage' query param with a request to this endpoint"
                         }
                       },
                       "required": [
@@ -5611,8 +5614,10 @@
           {
             "in": "query",
             "name": "nextPage",
+            "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint"
             }
           }
         ],
@@ -5674,7 +5679,8 @@
                             {
                               "type": "null"
                             }
-                          ]
+                          ],
+                          "description": "Token that can be used to retrieve the next page of results from this endpoint.       Must simply be provided in the 'nextPage' query param with a request to this endpoint"
                         }
                       },
                       "required": [
