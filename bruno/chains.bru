@@ -1,14 +1,11 @@
 meta {
   name: /api/chains
   type: http
-  seq: 1
+  seq: 2
 }
 
 get {
   url: {{api_url}}/api/chains
   body: none
-}
-
-headers {
-  Authorization: {{api_key}}
+  auth: none
 }

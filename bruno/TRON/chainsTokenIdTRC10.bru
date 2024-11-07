@@ -1,19 +1,16 @@
 meta {
   name: /api/chains/[chainId]/token/[tokenId] - TRC10
   type: http
-  seq: 1
+  seq: 2
 }
 
 get {
   url: {{api_url}}/api/chains/:chainId/token/:tokenId
   body: none
+  auth: none
 }
 
 params:path {
   tokenId: 1002000
   chainId: tron
-}
-
-headers {
-  Authorization: {{api_key}}
 }

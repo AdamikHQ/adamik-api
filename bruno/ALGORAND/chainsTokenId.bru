@@ -7,13 +7,10 @@ meta {
 get {
   url: {{api_url}}/api/chains/:chainId/token/:tokenId
   body: none
+  auth: none
 }
 
 params:path {
   tokenId: 1775410837
   chainId: algorand
-}
-
-headers {
-  Authorization: {{api_key}}
 }

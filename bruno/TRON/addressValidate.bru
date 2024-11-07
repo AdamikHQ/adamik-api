@@ -1,16 +1,13 @@
 meta {
   name: /api/address/validate
   type: http
-  seq: 2
+  seq: 6
 }
 
 post {
   url: {{api_url}}/api/address/validate
   body: json
-}
-
-headers {
-  Authorization: {{api_key}}
+  auth: none
 }
 
 body:json {

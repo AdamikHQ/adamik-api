@@ -1,7 +1,7 @@
 meta {
   name: /api/account/state
   type: http
-  seq: 1
+  seq: 4
 }
 
 post {
@@ -10,15 +10,10 @@ post {
   auth: none
 }
 
-headers {
-  Authorization: {{api_key}}
-}
-
 body:json {
   {
     "chainId": "tron",
-    "accountId": "TRFc31J1drV7C8CYYjhpJxTxBe1Muf7MGg",
-    "tokens": true
+    "accountId": "TRFc31J1drV7C8CYYjhpJxTxBe1Muf7MGg"
   }
 }
 

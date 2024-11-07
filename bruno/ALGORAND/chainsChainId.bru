@@ -7,16 +7,9 @@ meta {
 get {
   url: {{api_url}}/api/chains/:chainId
   body: none
-}
-
-headers {
-  Authorization: {{api_key}}
+  auth: none
 }
 
 params:path {
   chainId: algorand
-}
-
-headers {
-  Authorization: {{api_key}}
 }

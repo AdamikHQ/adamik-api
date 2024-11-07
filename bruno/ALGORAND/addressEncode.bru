@@ -7,10 +7,7 @@ meta {
 post {
   url: {{api_url}}/api/address/encode
   body: json
-}
-
-headers {
-  Authorization: {{api_key}}
+  auth: none
 }
 
 body:json {
@@ -18,4 +15,8 @@ body:json {
     "chainId": "algorand",
     "pubkey": "DUMMY"
   }
+}
+
+assert {
+  ~res.status: eq 200
 }
