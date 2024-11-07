@@ -291,6 +291,8 @@ type FinalizedTransaction = {
     memo?: string;
     senders?: {
       address: string;
+      amount: bigint;
+      ticker?: string;
     }[];
     recipients?: {
       address: string;
@@ -300,10 +302,13 @@ type FinalizedTransaction = {
     validators?: {
       source?: {
         address: string;
+        amount: bigint;
+        ticker?: string;
       };
       target?: {
         address: string;
         amount: bigint;
+        ticker?: string;
       };
     };
   };

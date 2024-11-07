@@ -191,6 +191,8 @@ function parseLegacyAminoTransaction(
       parsedTransaction.senders = [
         {
           address: message.from_address,
+          amount: BigInt(message.amount[0].amount),
+          ticker: message.amount[0].denom, // FIXME Could need a mapping with the tickers that we define in config/chains.ts
         },
       ];
 
@@ -212,6 +214,7 @@ function parseLegacyAminoTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
+          amount: BigInt(message.amount.amount),
         },
       ];
 
@@ -232,6 +235,7 @@ function parseLegacyAminoTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
+          amount: BigInt(message.amount.amount),
         },
       ];
 
@@ -255,6 +259,7 @@ function parseLegacyAminoTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
+          amount: BigInt(message.amount.amount),
         },
       ];
 
@@ -292,6 +297,7 @@ function parseLegacyAminoTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
+          amount: BigInt(amount || 0n),
         },
       ];
 
@@ -372,6 +378,8 @@ function parseProtobufTransaction(
       parsedTransaction.senders = [
         {
           address: message.from_address,
+          amount: BigInt(message.amount[0].amount),
+          ticker: message.amount[0].denom, // FIXME Could need a mapping with the tickers that we define in config/chains.ts
         },
       ];
 
@@ -393,6 +401,7 @@ function parseProtobufTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
+          amount: BigInt(message.amount.amount),
         },
       ];
 
@@ -413,12 +422,14 @@ function parseProtobufTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
+          amount: 0n,
         },
       ];
 
       parsedTransaction.validators = {
         source: {
           address: message.validator_src_address,
+          amount: BigInt(message.amount.amount),
         },
         target: {
           address: message.validator_dst_address,
@@ -436,6 +447,7 @@ function parseProtobufTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
+          amount: 0n,
         },
       ];
 
@@ -473,6 +485,7 @@ function parseProtobufTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
+          amount: 0n,
         },
       ];
 
