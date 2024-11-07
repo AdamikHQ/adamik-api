@@ -185,6 +185,7 @@ export {
   addressHasAsset,
   ALGORAND_MAX_MEMO_SIZE,
   buildRawTransaction,
+  computeAlgoMaxSpendable,
   computeFees,
   computeMaxSpendable,
   encodeAddress,
