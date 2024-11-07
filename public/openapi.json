@@ -863,8 +863,10 @@
           {
             "in": "query",
             "name": "nextPage",
+            "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint"
             }
           },
           {
@@ -1057,7 +1059,8 @@
                                     "type": "string"
                                   },
                                   "ticker": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 }
                               },
@@ -1077,6 +1080,13 @@
                                   "properties": {
                                     "address": {
                                       "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
@@ -1094,6 +1104,10 @@
                                     },
                                     "amount": {
                                       "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
@@ -1109,6 +1123,13 @@
                                     "properties": {
                                       "address": {
                                         "type": "string"
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      },
+                                      "ticker": {
+                                        "type": "string",
+                                        "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                       }
                                     },
                                     "required": [
@@ -1123,6 +1144,10 @@
                                       },
                                       "amount": {
                                         "type": "string"
+                                      },
+                                      "ticker": {
+                                        "type": "string",
+                                        "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                       }
                                     },
                                     "required": [
@@ -1154,7 +1179,8 @@
                             {
                               "type": "null"
                             }
-                          ]
+                          ],
+                          "description": "Token that can be used to retrieve the next page of results from this endpoint.       Must simply be provided in the 'nextPage' query param with a request to this endpoint"
                         }
                       },
                       "required": [
@@ -5439,7 +5465,8 @@
                                   "type": "string"
                                 },
                                 "ticker": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                 }
                               }
                             },
@@ -5459,6 +5486,13 @@
                                 "properties": {
                                   "address": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string",
+                                    "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 },
                                 "required": [
@@ -5476,6 +5510,10 @@
                                   },
                                   "amount": {
                                     "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string",
+                                    "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 },
                                 "required": [
@@ -5491,6 +5529,13 @@
                                   "properties": {
                                     "address": {
                                       "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
@@ -5505,6 +5550,10 @@
                                     },
                                     "amount": {
                                       "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
@@ -5611,8 +5660,10 @@
           {
             "in": "query",
             "name": "nextPage",
+            "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint"
             }
           }
         ],
@@ -5674,7 +5725,8 @@
                             {
                               "type": "null"
                             }
-                          ]
+                          ],
+                          "description": "Token that can be used to retrieve the next page of results from this endpoint.       Must simply be provided in the 'nextPage' query param with a request to this endpoint"
                         }
                       },
                       "required": [
