@@ -1,21 +1,26 @@
-import MD5 from "crypto-js/md5";
+import * as crypto from "crypto";
 import fs from "fs";
 import jq from "jq-web";
 import { bypass, http, HttpResponse, passthrough } from "msw";
 import { setupServer } from "msw/node";
 import path from "path";
 
-const BLACKLIST_JSON_PATH_URL: Record<string, string> = {
-  "https://toncenter.com/api/v2/jsonRPC": ".params.body",
+// Some fields will have a different value at each call,
+// making the related request's filename change everytime
+const BLACKLIST_CHANGING_FIELDS: Record<string, string> = {
+  "https://toncenter.com/api/v2/jsonRPC": ".params.body", // contains a timestamp
 };
 
 const computeFilepath = async (request: Request) => {
   const requestBody = await request.text();
-  const filteredBody = BLACKLIST_JSON_PATH_URL[request.url]
-    ? await jq.promised.json(JSON.parse(requestBody), `del(${BLACKLIST_JSON_PATH_URL[request.url]})`)
+  const filteredBody = BLACKLIST_CHANGING_FIELDS[request.url]
+    ? await jq.promised.json(JSON.parse(requestBody), `del(${BLACKLIST_CHANGING_FIELDS[request.url]})`)
     : requestBody;
 
-  const fileName = MD5(request.url + filteredBody) + ".json";
+  const hash = crypto.createHash("md5");
+  hash.update(request.url + filteredBody);
+  const fileName = hash.digest("hex") + ".json";
+
   return path.join(path.join(process.cwd() + "/src/mock/json"), fileName);
 };
 

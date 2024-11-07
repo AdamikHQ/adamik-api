@@ -13,7 +13,7 @@
     "lint": "next lint",
     "start": "next start",
     "test:bruno:ci": "cd ./bruno && bru run --env ci",
-    "test:bruno:local": "cd ./bruno && bru run --env local",
+    "test:bruno:local": "cd ./bruno && bru run --env localhost",
     "test:jest": "jest"
   },
   "dependencies": {
@@ -52,18 +52,15 @@
   },
   "devDependencies": {
     "@injectivelabs/ts-types": "^1.14.13",
-    "@types/crypto-js": "^4.2.2",
     "@types/jest": "^29.5.10",
     "@types/node": "^18.19.3",
     "@usebruno/cli": "^1.33.0",
-    "crypto-js": "^4.2.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jq-web": "^0.5.1",
     "msw": "2.4.3",
-    "nock": "^13.5.5",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^4.2.0",
