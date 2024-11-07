@@ -235,13 +235,14 @@ function parseLegacyAminoTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
-          amount: BigInt(message.amount.amount),
+          amount: 0n,
         },
       ];
 
       parsedTransaction.validators = {
         source: {
           address: message.validator_src_address,
+          amount: BigInt(message.amount.amount),
         },
         target: {
           address: message.validator_dst_address,
@@ -259,7 +260,7 @@ function parseLegacyAminoTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
-          amount: BigInt(message.amount.amount),
+          amount: 0n,
         },
       ];
 
@@ -297,7 +298,7 @@ function parseLegacyAminoTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
-          amount: BigInt(amount || 0n),
+          amount: 0n,
         },
       ];
 
