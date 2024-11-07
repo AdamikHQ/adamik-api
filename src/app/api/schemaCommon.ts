@@ -401,15 +401,21 @@ const finalizedTransactionSchema = z.object({
     .optional(),
 });
 
-// TODO Add OpenAPI doc to describe this
 const paginationQueryParamsSchema = z.object({
-  nextPage: z.string().optional(),
+  nextPage: z.string().optional().openapi({
+    description:
+      "Token that is provided in a previous response from this endpoint. \
+    Just provide it here to get the next page of results from the endpoint",
+  }),
 });
 
-// TODO Add OpenAPI doc to describe this
 const paginatedResponseSchema = z.object({
   pagination: z.object({
-    nextPage: z.string().or(z.null()),
+    nextPage: z.string().or(z.null()).openapi({
+      description:
+        "Token that can be used to retrieve the next page of results from this endpoint. \
+      Must simply be provided in the 'nextPage' query param with a request to this endpoint",
+    }),
   }),
 });
 
