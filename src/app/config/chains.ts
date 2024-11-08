@@ -1070,7 +1070,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "SEI",
     decimals: 6,
     backends: {
-      nodeURL: "https://lcd-sei.imperator.co",
+      nodeURL: "https://sei-api.polkachu.com/",
       explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
