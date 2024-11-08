@@ -17,30 +17,41 @@ async function getTransaction(this: TonService, transactionId: string): Promise<
     },
     // Placeholder values, actual values filled below
     mode: TransactionMode.TRANSFER,
-    state: TransactionState.UNCONFIRMED,
-    senders: [],
+    state: TransactionState.UNKNOWN,
   };
 
-  // We will need to find a transaction with PENDING;
-  if (tonTransaction.success === false) {
-    parsedTransaction.state = TransactionState.FAILED;
-  } else {
-    parsedTransaction.state = TransactionState.CONFIRMED;
-  }
-
   parsedTransaction.timestamp = new Date(tonTransaction.outMsgs[0].createdAt).getTime();
+
+  // TON block value is weirdly formatted (e.g "(0,8000000000000000,26209049)")
+  // Assuming our block height is the last of the three values... :
+  const tonBlockId = tonTransaction.block
+    .slice(1, tonTransaction.block.length - 1) // remove the parenthesis
+    .split(",") // split the 3 values
+    .pop(); // get the last one
+
+  parsedTransaction.blockHeight = tonBlockId ? BigInt(tonBlockId) : undefined;
+  parsedTransaction.state = tonBlockId
+    ? tonTransaction.success
+      ? TransactionState.CONFIRMED
+      : TransactionState.FAILED
+    : TransactionState.PENDING;
+
   if (tonTransaction.inMsg?.decodedOpName === "text_comment") {
     parsedTransaction.memo = tonTransaction.inMsg?.decodedBody.text;
   }
 
   if (tonTransaction.outMsgs[0].decodedOpName === "jetton_transfer") {
     parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
+
     // TODO: parsedTransaction.tokenId
+
     parsedTransaction.senders = [
       {
         address: tonTransaction.account.address.toString() || "",
+        amount: BigInt(tonTransaction.outMsgs[0].decodedBody.amount),
       },
     ];
+
     parsedTransaction.recipients = [
       {
         address: tonTransaction.outMsgs[0].decodedBody.destination,
@@ -48,18 +59,10 @@ async function getTransaction(this: TonService, transactionId: string): Promise<
       },
     ];
   } else {
-    // TON block value is weirdly formatted (e.g "(0,8000000000000000,26209049)")
-    // Assuming our block height is the last of the three values... :
-    const tonBlockId = tonTransaction.block
-      .slice(1, tonTransaction.block.length - 1) // remove the parenthesis
-      .split(",") // split the 3 values
-      .pop(); // get the last one
-
-    parsedTransaction.blockHeight = BigInt(tonBlockId || 0n);
-
     parsedTransaction.senders = [
       {
         address: tonTransaction.account.address.toString() || "",
+        amount: BigInt(tonTransaction.inMsg?.value || 0n),
       },
     ];
 

@@ -246,11 +246,6 @@ function moralisToAdamikTransaction(
     chainId,
     id: moralisTransaction.hash,
     timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
-    senders: [
-      {
-        address: moralisTransaction.from_address,
-      },
-    ],
     fees: {
       amount: feesAmount,
     },
@@ -270,10 +265,17 @@ function moralisToAdamikTransaction(
   if (!moralisTransaction.decoded_call) {
     parsedTransaction.mode = TransactionMode.TRANSFER;
 
+    parsedTransaction.senders = [
+      {
+        address: moralisTransaction.from_address,
+        amount: BigInt(moralisTransaction.value),
+      },
+    ];
+
     parsedTransaction.recipients = [
       {
-        amount: BigInt(moralisTransaction.value),
         address: moralisTransaction.to_address,
+        amount: BigInt(moralisTransaction.value),
       },
     ];
   } else if (decodedCall.type === "function" && decodedCall.label === "transfer") {
@@ -283,9 +285,19 @@ function moralisToAdamikTransaction(
     const recipientAddress = decodedCall.params.find((param) => param.name === "_to")?.value || "";
     const amount = decodedCall.params.find((param) => param.name === "_value")?.value;
     if (!amount) {
-      console.warn(`/!\\ Invalid data in response from explorer for chainId ${chainId}:`, moralisTransaction);
+      console.warn(
+        `/!\\ Invalid transaction data in response from explorer for chainId ${chainId}:`,
+        moralisTransaction
+      );
       throw new Error(`Invalid data in response from explorer for chain ID ${chainId}`);
     }
+
+    parsedTransaction.senders = [
+      {
+        address: moralisTransaction.from_address,
+        amount: BigInt(amount),
+      },
+    ];
 
     parsedTransaction.recipients = [
       {
@@ -312,11 +324,6 @@ function moralisToAdamikAccountTransaction(
     chainId,
     id: moralisTransaction.hash,
     timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
-    senders: [
-      {
-        address: moralisTransaction.from_address,
-      },
-    ],
     fees: {
       amount: feesAmount,
     },
@@ -338,20 +345,36 @@ function moralisToAdamikAccountTransaction(
     }
 
     const moralisNativeTransfer = moralisTransaction.native_transfers[0];
+
+    parsedTransaction.senders = [
+      {
+        address: moralisNativeTransfer.from_address,
+        amount: BigInt(moralisNativeTransfer.value),
+      },
+    ];
+
     parsedTransaction.recipients = [
       {
-        amount: BigInt(moralisNativeTransfer.value),
         address: moralisNativeTransfer.to_address,
+        amount: BigInt(moralisNativeTransfer.value),
       },
     ];
   } else if (moralisTransaction.erc20_transfers?.length) {
     const moralisErc20Transfer = moralisTransaction.erc20_transfers[0];
     parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
     parsedTransaction.tokenId = moralisErc20Transfer.address;
+
+    parsedTransaction.senders = [
+      {
+        address: moralisErc20Transfer.from_address,
+        amount: BigInt(moralisErc20Transfer.value),
+      },
+    ];
+
     parsedTransaction.recipients = [
       {
-        amount: BigInt(moralisErc20Transfer.value),
         address: moralisErc20Transfer.to_address,
+        amount: BigInt(moralisErc20Transfer.value),
       },
     ];
   }

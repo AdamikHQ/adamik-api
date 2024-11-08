@@ -16,7 +16,6 @@ async function getTransaction(
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId: this.chainId,
     id: algoTransaction.id,
-    senders: [{ address: algoTransaction.sender }],
     fees: {
       amount: BigInt(algoTransaction.fee),
     },
@@ -33,6 +32,12 @@ async function getTransaction(
 
   if (algoTransaction.txType === "pay") {
     parsedTransaction.mode = TransactionMode.TRANSFER;
+    parsedTransaction.senders = [
+      {
+        address: algoTransaction.sender,
+        amount: BigInt(algoTransaction.paymentTransaction.amount),
+      },
+    ];
     parsedTransaction.recipients = [
       {
         address: algoTransaction.paymentTransaction.receiver,
@@ -42,6 +47,12 @@ async function getTransaction(
   } else if (algoTransaction.txType === "axfer") {
     parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
     parsedTransaction.tokenId = algoTransaction.assetTransferTransaction.assetId.toString();
+    parsedTransaction.senders = [
+      {
+        address: algoTransaction.sender,
+        amount: BigInt(algoTransaction.assetTransferTransaction.amount),
+      },
+    ];
     parsedTransaction.recipients = [
       {
         address: algoTransaction.assetTransferTransaction.receiver,

@@ -1059,7 +1059,8 @@
                                     "type": "string"
                                   },
                                   "ticker": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 }
                               },
@@ -1079,6 +1080,13 @@
                                   "properties": {
                                     "address": {
                                       "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
@@ -1096,6 +1104,10 @@
                                     },
                                     "amount": {
                                       "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
@@ -1111,6 +1123,13 @@
                                     "properties": {
                                       "address": {
                                         "type": "string"
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      },
+                                      "ticker": {
+                                        "type": "string",
+                                        "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                       }
                                     },
                                     "required": [
@@ -1125,6 +1144,10 @@
                                       },
                                       "amount": {
                                         "type": "string"
+                                      },
+                                      "ticker": {
+                                        "type": "string",
+                                        "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                       }
                                     },
                                     "required": [
@@ -5442,7 +5465,8 @@
                                   "type": "string"
                                 },
                                 "ticker": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                 }
                               }
                             },
@@ -5462,6 +5486,13 @@
                                 "properties": {
                                   "address": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string",
+                                    "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 },
                                 "required": [
@@ -5479,6 +5510,10 @@
                                   },
                                   "amount": {
                                     "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string",
+                                    "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 },
                                 "required": [
@@ -5494,6 +5529,13 @@
                                   "properties": {
                                     "address": {
                                       "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
@@ -5508,6 +5550,10 @@
                                     },
                                     "amount": {
                                       "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
