@@ -4,6 +4,8 @@ import { ApiRequestFilters } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { queryParamsSchema, requestSchema, responseSchema } from "./schema";
 
+export const dynamic = "force-dynamic";
+
 export const POST = apiHandler(
   {
     requestSchema,

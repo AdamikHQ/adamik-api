@@ -2,6 +2,8 @@ import { getService } from "~/app/config/services";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { requestSchema, responseSchema } from "./schema";
 
+export const dynamic = "force-dynamic";
+
 export const POST = apiHandler(
   {
     requestSchema,
