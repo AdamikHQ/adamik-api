@@ -423,9 +423,7 @@ const paginationQueryParamsSchema = z.object({
 const paginatedResponseSchema = z.object({
   pagination: z.object({
     nextPage: z.string().or(z.null()).openapi({
-      description:
-        "Token that can be used to retrieve the next page of results from this endpoint. \
-      Must simply be provided in the 'nextPage' query param with a request to this endpoint",
+      description: "Use the token from the previous response to retrieve the next page of results.",
     }),
   }),
 });
