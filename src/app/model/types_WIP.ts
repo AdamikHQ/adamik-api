@@ -60,6 +60,7 @@ enum ChainId {
   SAGA = "saga",
   UX_CHAIN = "ux-chain",
   KAVA = "kava",
+  SEI = "sei",
   //Added through Imperator nodes
   COSMOSHUB = "cosmoshub",
   OSMOSIS = "osmosis",
@@ -72,7 +73,6 @@ enum ChainId {
   JUNO = "juno",
   LUM_NETWORK = "lum-network",
   OMNIFLIX = "omniflix",
-  SEI = "sei",
   MEDIBLOC = "medibloc",
   PASSAGE = "passage",
   QUASAR = "quasar",
