@@ -302,7 +302,7 @@
 
 ## sei
 
-| nodeURL | https://lcd-sei.imperator.co |
+| nodeURL | https://sei-api.polkachu.com/ |
 | explorerURL | https://apis.mintscan.io/v1 |
 
 ## medibloc
