@@ -35,7 +35,7 @@ const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
       tags: ["chains"],
       summary: "Retrieve the list of existing validators",
       description:
-        "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
+        "Lists validators for a specified chain ID, including their operational status and commission rates. Useful for delegation operations on proof-of-stake blockchains.",
       requestParams: {
         path: pathParamsSchema,
         query: queryParamsSchema,

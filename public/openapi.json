@@ -1180,7 +1180,7 @@
                               "type": "null"
                             }
                           ],
-                          "description": "Token that can be used to retrieve the next page of results from this endpoint.       Must simply be provided in the 'nextPage' query param with a request to this endpoint"
+                          "description": "Use the token from the previous response to retrieve the next page of results."
                         }
                       },
                       "required": [
@@ -5632,7 +5632,7 @@
           "chains"
         ],
         "summary": "Retrieve the list of existing validators",
-        "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
+        "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Useful for delegation operations on proof-of-stake blockchains.",
         "parameters": [
           {
             "in": "path",
@@ -5726,7 +5726,7 @@
                               "type": "null"
                             }
                           ],
-                          "description": "Token that can be used to retrieve the next page of results from this endpoint.       Must simply be provided in the 'nextPage' query param with a request to this endpoint"
+                          "description": "Use the token from the previous response to retrieve the next page of results."
                         }
                       },
                       "required": [
