@@ -1316,7 +1316,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "FET",
     decimals: 18,
     backends: {
-      nodeURL: "https://fetchai-api.polkachu.com",
+      nodeURL: "https://lcd-fetch.imperator.co",
       explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {

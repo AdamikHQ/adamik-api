@@ -51,7 +51,6 @@ enum ChainId {
   SEDA = "seda",
   PERSISTENCE = "persistence",
   COMDEX = "comdex",
-  FETCH_AI = "fetch-ai",
   HUMANS_AI = "humans-ai",
   KI = "ki",
   MARS_HUB = "mars-hub",
@@ -67,7 +66,6 @@ enum ChainId {
   CELESTIA = "celestia",
   DYDX = "dydx",
   AXELAR = "axelar",
-  //CUDOS = "cudos",
   EVMOS = "evmos",
   IRISNET = "irisnet",
   JUNO = "juno",
@@ -86,6 +84,8 @@ enum ChainId {
   BAND = "band",
   STARGAZE = "stargaze",
   KYVE = "kyve",
+  FETCH_AI = "fetch-ai",
+
   //Added through other node providers
   LIKECOIN = "likecoin",
   OSMOSIS_TESTNET = "osmosis-testnet", //using lavanet
