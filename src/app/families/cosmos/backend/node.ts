@@ -1,4 +1,5 @@
 import { ChainId as CosmosChainId } from "@injectivelabs/ts-types";
+import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 import {
@@ -29,10 +30,14 @@ async function fetchWithHeaders(url: string, options: RequestInit = {}) {
     headers: {
       ...options.headers,
       // Custom header requested by imperator.co to identify and whitelist our traffic
-      adamik: "6aPJgGeL2jHcNG7PaW4y",
+      ...(url.includes("imperator.co") && {
+        adamik: "6aPJgGeL2jHcNG7PaW4y",
+      }),
+      ...(url.includes("apis.mintscan.io") && {
+        Authorization: MINTSCAN_API_KEY,
+      }),
     },
   };
-
   return fetch(url, defaultOptions);
 }
 
