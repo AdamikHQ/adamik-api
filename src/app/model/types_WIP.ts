@@ -82,7 +82,6 @@ enum ChainId {
   NEUTRON = "neutron",
   TERRA = "terra2",
   AKASH = "akash",
-  INJECTIVE = "injective",
   DYMENSION = "dymension",
   BAND = "band",
   STARGAZE = "stargaze",
@@ -92,6 +91,7 @@ enum ChainId {
   OSMOSIS_TESTNET = "osmosis-testnet", //using lavanet
   CELESTIA_TESTNET = "celestia-testnet", //using lavanet
   COSMOSHUB_TESTNET = "cosmoshub-testnet", //using nodestake
+  INJECTIVE = "injective", //using mintscan node
 
   //Their own family
   // EGLD = "egld",

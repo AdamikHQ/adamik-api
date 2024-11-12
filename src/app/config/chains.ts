@@ -738,7 +738,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "INJ",
     decimals: 18,
     backends: {
-      nodeURL: "https://lcd-injective.imperator.co",
+      nodeURL: "https://apis.mintscan.io/injective/lcd",
       explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
@@ -937,8 +937,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "CUDOS",
     decimals: 18,
     backends: {
-      nodeURL: "https://lcd-cudos.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
+      nodeURL: "http://mainnet-full-node-01.hosts.cudos.org:1317",
+      //explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
       prefix: "cudos",
