@@ -67,7 +67,7 @@ enum ChainId {
   CELESTIA = "celestia",
   DYDX = "dydx",
   AXELAR = "axelar",
-  CUDOS = "cudos",
+  //CUDOS = "cudos",
   EVMOS = "evmos",
   IRISNET = "irisnet",
   JUNO = "juno",

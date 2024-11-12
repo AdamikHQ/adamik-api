@@ -929,28 +929,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: TRON_FEATURES,
   },
 
-  cudos: {
-    family: ChainFamily.COSMOS,
-    id: ChainId.CUDOS,
-    nativeId: "cudos-1",
-    name: "Cudos",
-    ticker: "CUDOS",
-    decimals: 18,
-    backends: {
-      nodeURL: "http://mainnet-full-node-01.hosts.cudos.org:1317",
-      //explorerURL: "https://apis.mintscan.io/v1",
-    },
-    params: {
-      prefix: "cudos",
-      validatorPrefix: "cudosvaloper",
-      denom: "acudos",
-      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
-      defaultGas: 100000,
-      minGasPrice: 5000000000000,
-    },
-    supportedFeatures: COSMOS_FEATURES(ChainId.CUDOS),
-  },
-
   evmos: {
     family: ChainFamily.COSMOS,
     id: ChainId.EVMOS,
