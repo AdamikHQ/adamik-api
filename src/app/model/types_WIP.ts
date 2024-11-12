@@ -60,6 +60,7 @@ enum ChainId {
   UX_CHAIN = "ux-chain",
   KAVA = "kava",
   SEI = "sei",
+  FETCH_AI = "fetch-ai",
   //Added through Imperator nodes
   COSMOSHUB = "cosmoshub",
   OSMOSIS = "osmosis",
@@ -84,7 +85,6 @@ enum ChainId {
   BAND = "band",
   STARGAZE = "stargaze",
   KYVE = "kyve",
-  FETCH_AI = "fetch-ai",
 
   //Added through other node providers
   LIKECOIN = "likecoin",
