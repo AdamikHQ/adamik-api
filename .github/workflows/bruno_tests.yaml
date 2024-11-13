@@ -2,13 +2,9 @@ name: Bruno API tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    types:
-      - opened
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -31,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: run Adamik API
-        run: pnpm run dev > output.txt &
+        run: pnpm run dev &
         env:
           EDGE_CONFIG: ${{ secrets.EDGE_CONFIG }}
           ENABLE_MSW: true
@@ -48,7 +44,3 @@ jobs:
           cat ./bruno/environments/ci.bru
           sleep 5
           pnpm run test:bruno:ci
-      - uses: actions/upload-artifact@v4
-        with:
-          name: adamik-test-output
-          path: output.txt
