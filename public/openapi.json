@@ -105,7 +105,6 @@
                       "terra2",
                       "stargaze",
                       "tron",
-                      "cudos",
                       "evmos",
                       "irisnet",
                       "juno",
@@ -210,7 +209,6 @@
                         "terra2",
                         "stargaze",
                         "tron",
-                        "cudos",
                         "evmos",
                         "irisnet",
                         "juno",
@@ -342,7 +340,6 @@
                       "terra2",
                       "stargaze",
                       "tron",
-                      "cudos",
                       "evmos",
                       "irisnet",
                       "juno",
@@ -480,7 +477,6 @@
                       "terra2",
                       "stargaze",
                       "tron",
-                      "cudos",
                       "evmos",
                       "irisnet",
                       "juno",
@@ -598,7 +594,6 @@
                         "terra2",
                         "stargaze",
                         "tron",
-                        "cudos",
                         "evmos",
                         "irisnet",
                         "juno",
@@ -1059,7 +1054,8 @@
                                     "type": "string"
                                   },
                                   "ticker": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 }
                               },
@@ -1079,6 +1075,13 @@
                                   "properties": {
                                     "address": {
                                       "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
@@ -1096,6 +1099,10 @@
                                     },
                                     "amount": {
                                       "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
@@ -1111,6 +1118,13 @@
                                     "properties": {
                                       "address": {
                                         "type": "string"
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      },
+                                      "ticker": {
+                                        "type": "string",
+                                        "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                       }
                                     },
                                     "required": [
@@ -1125,6 +1139,10 @@
                                       },
                                       "amount": {
                                         "type": "string"
+                                      },
+                                      "ticker": {
+                                        "type": "string",
+                                        "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                       }
                                     },
                                     "required": [
@@ -1157,7 +1175,7 @@
                               "type": "null"
                             }
                           ],
-                          "description": "Token that can be used to retrieve the next page of results from this endpoint.       Must simply be provided in the 'nextPage' query param with a request to this endpoint"
+                          "description": "Use the token from the previous response to retrieve the next page of results."
                         }
                       },
                       "required": [
@@ -3217,53 +3235,6 @@
                             "supportedFeatures"
                           ]
                         },
-                        "fetch-ai": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestnetFor": {
-                              "type": "string"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
                         "humans-ai": {
                           "type": "object",
                           "properties": {
@@ -3640,6 +3611,100 @@
                             "supportedFeatures"
                           ]
                         },
+                        "sei": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "fetch-ai": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
                         "cosmoshub": {
                           "type": "object",
                           "properties": {
@@ -3875,53 +3940,6 @@
                             "supportedFeatures"
                           ]
                         },
-                        "cudos": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestnetFor": {
-                              "type": "string"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
                         "evmos": {
                           "type": "object",
                           "properties": {
@@ -4111,53 +4129,6 @@
                           ]
                         },
                         "omniflix": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestnetFor": {
-                              "type": "string"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
-                        "sei": {
                           "type": "object",
                           "properties": {
                             "family": {
@@ -4627,53 +4598,6 @@
                             "supportedFeatures"
                           ]
                         },
-                        "injective": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestnetFor": {
-                              "type": "string"
-                            },
-                            "params": {},
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures"
-                          ]
-                        },
                         "dymension": {
                           "type": "object",
                           "properties": {
@@ -5049,6 +4973,53 @@
                             "decimals",
                             "supportedFeatures"
                           ]
+                        },
+                        "injective": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
                         }
                       },
                       "additionalProperties": false
@@ -5193,7 +5164,6 @@
                 "terra2",
                 "stargaze",
                 "tron",
-                "cudos",
                 "evmos",
                 "irisnet",
                 "juno",
@@ -5442,7 +5412,8 @@
                                   "type": "string"
                                 },
                                 "ticker": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                 }
                               }
                             },
@@ -5462,6 +5433,13 @@
                                 "properties": {
                                   "address": {
                                     "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string",
+                                    "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 },
                                 "required": [
@@ -5479,6 +5457,10 @@
                                   },
                                   "amount": {
                                     "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string",
+                                    "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 },
                                 "required": [
@@ -5494,6 +5476,13 @@
                                   "properties": {
                                     "address": {
                                       "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
@@ -5508,6 +5497,10 @@
                                     },
                                     "amount": {
                                       "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
@@ -5586,7 +5579,7 @@
           "chains"
         ],
         "summary": "Retrieve the list of existing validators",
-        "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Supports pagination through 'limit' and 'offset' parameters. Useful for delegation operations on proof-of-stake blockchains.",
+        "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Useful for delegation operations on proof-of-stake blockchains.",
         "parameters": [
           {
             "in": "path",
@@ -5680,7 +5673,7 @@
                               "type": "null"
                             }
                           ],
-                          "description": "Token that can be used to retrieve the next page of results from this endpoint.       Must simply be provided in the 'nextPage' query param with a request to this endpoint"
+                          "description": "Use the token from the previous response to retrieve the next page of results."
                         }
                       },
                       "required": [
@@ -8524,7 +8517,6 @@
           "seda",
           "persistence",
           "comdex",
-          "fetch-ai",
           "humans-ai",
           "ki",
           "mars-hub",
@@ -8533,18 +8525,18 @@
           "saga",
           "ux-chain",
           "kava",
+          "sei",
+          "fetch-ai",
           "cosmoshub",
           "osmosis",
           "celestia",
           "dydx",
           "axelar",
-          "cudos",
           "evmos",
           "irisnet",
           "juno",
           "lum-network",
           "omniflix",
-          "sei",
           "medibloc",
           "passage",
           "quasar",
@@ -8554,7 +8546,6 @@
           "neutron",
           "terra2",
           "akash",
-          "injective",
           "dymension",
           "band",
           "stargaze",
@@ -8562,7 +8553,8 @@
           "likecoin",
           "osmosis-testnet",
           "celestia-testnet",
-          "cosmoshub-testnet"
+          "cosmoshub-testnet",
+          "injective"
         ],
         "description": "Unique adamik identifier of the chain",
         "example": "bitcoin"

@@ -341,11 +341,16 @@ const signedAndEncodedTransactionSchema = encodedTransactionSchema.extend({
   signature: z.string(),
 });
 
+const optionalTickerSchema = z.string().optional().openapi({
+  description:
+    "Specific currency for that amount. If not provided, the amount is in the native currency of the chain.",
+});
+
 // FIXME Not convenient to manually maintain this aligned with FinalizedTransaction...
 const finalizedTransactionSchema = z.object({
   raw: z
     .any()
-    .transform((data) => deepBigintToString(data)) // FIXME: remove this once we have a better way to handle raw transactions
+    .transform((data) => deepBigintToString(data))
     .pipe(z.unknown()),
   parsed: z
     .object({
@@ -364,7 +369,7 @@ const finalizedTransactionSchema = z.object({
         .optional(),
       fees: z.object({
         amount: bigintToStringSchema,
-        ticker: z.string().optional(),
+        ticker: optionalTickerSchema,
       }),
       gas: bigintToStringSchema.optional(),
       nonce: bigintToStringSchema.optional(),
@@ -372,6 +377,8 @@ const finalizedTransactionSchema = z.object({
       senders: z
         .object({
           address: z.string(),
+          amount: bigintToStringSchema,
+          ticker: optionalTickerSchema,
         })
         .array()
         .optional(),
@@ -379,6 +386,7 @@ const finalizedTransactionSchema = z.object({
         .object({
           address: z.string(),
           amount: bigintToStringSchema,
+          ticker: optionalTickerSchema,
         })
         .array()
         .optional(),
@@ -387,12 +395,15 @@ const finalizedTransactionSchema = z.object({
           source: z
             .object({
               address: z.string(),
+              amount: bigintToStringSchema,
+              ticker: optionalTickerSchema,
             })
             .optional(),
           target: z
             .object({
               address: z.string(),
               amount: bigintToStringSchema,
+              ticker: optionalTickerSchema,
             })
             .optional(),
         })
@@ -412,9 +423,7 @@ const paginationQueryParamsSchema = z.object({
 const paginatedResponseSchema = z.object({
   pagination: z.object({
     nextPage: z.string().or(z.null()).openapi({
-      description:
-        "Token that can be used to retrieve the next page of results from this endpoint. \
-      Must simply be provided in the 'nextPage' query param with a request to this endpoint",
+      description: "Use the token from the previous response to retrieve the next page of results.",
     }),
   }),
 });

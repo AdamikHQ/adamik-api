@@ -738,7 +738,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "INJ",
     decimals: 18,
     backends: {
-      nodeURL: "https://lcd-injective.imperator.co",
+      nodeURL: "https://apis.mintscan.io/injective/lcd",
       explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
@@ -929,28 +929,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: TRON_FEATURES,
   },
 
-  cudos: {
-    family: ChainFamily.COSMOS,
-    id: ChainId.CUDOS,
-    nativeId: "cudos-1",
-    name: "Cudos",
-    ticker: "CUDOS",
-    decimals: 18,
-    backends: {
-      nodeURL: "https://lcd-cudos.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
-    params: {
-      prefix: "cudos",
-      validatorPrefix: "cudosvaloper",
-      denom: "acudos",
-      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
-      defaultGas: 100000,
-      minGasPrice: 5000000000000,
-    },
-    supportedFeatures: COSMOS_FEATURES(ChainId.CUDOS),
-  },
-
   evmos: {
     family: ChainFamily.COSMOS,
     id: ChainId.EVMOS,
@@ -1070,7 +1048,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "SEI",
     decimals: 6,
     backends: {
-      nodeURL: "https://lcd-sei.imperator.co",
+      nodeURL: "https://sei-api.polkachu.com/",
       explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
@@ -1338,7 +1316,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "FET",
     decimals: 18,
     backends: {
-      nodeURL: "https://fetchai-api.polkachu.com",
+      nodeURL: "https://fetch-api.polkachu.com/",
       explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {

@@ -227,7 +227,7 @@
 
 ## injective
 
-| nodeURL | https://lcd-injective.imperator.co |
+| nodeURL | https://apis.mintscan.io/injective/lcd |
 | explorerURL | https://apis.mintscan.io/v1 |
 
 ## akash
@@ -270,11 +270,6 @@
 | nodeURL | https://api.trongrid.io |
 | explorerURL | https://apilist.tronscanapi.com |
 
-## cudos
-
-| nodeURL | https://lcd-cudos.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
-
 ## evmos
 
 | nodeURL | https://lcd-evmos.imperator.co |
@@ -302,7 +297,7 @@
 
 ## sei
 
-| nodeURL | https://lcd-sei.imperator.co |
+| nodeURL | https://sei-api.polkachu.com/ |
 | explorerURL | https://apis.mintscan.io/v1 |
 
 ## medibloc
@@ -362,7 +357,7 @@
 
 ## fetch-ai
 
-| nodeURL | https://fetchai-api.polkachu.com |
+| nodeURL | https://fetch-api.polkachu.com/ |
 | explorerURL | https://apis.mintscan.io/v1 |
 
 ## humans-ai

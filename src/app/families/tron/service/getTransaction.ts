@@ -9,6 +9,17 @@ async function getTransaction(this: TronService, transactionId: string): Promise
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
+  const amount = tronTransaction.tokenTransferInfo
+    ? tronTransaction.tokenTransferInfo?.amount_str
+    : tronTransaction.contractData?.amount;
+  if (!amount) {
+    console.warn(
+      `/!\\ Invalid transaction data in response from explorer for chainId ${this.chainId}:`,
+      tronTransaction
+    );
+    throw new Error(`Invalid data in response from explorer for chain ID ${this.chainId}`);
+  }
+
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId: this.chainId,
     id: tronTransaction.hash,
@@ -17,16 +28,21 @@ async function getTransaction(this: TronService, transactionId: string): Promise
       tronTransaction.contractData?.contract_address ||
       tronTransaction.contractData?.tokenInfo?.tokenId ||
       undefined,
-    senders: [{ address: tronTransaction.ownerAddress }],
+    senders: [
+      {
+        address: tronTransaction.ownerAddress,
+        amount: BigInt(amount),
+      },
+    ],
     recipients: [
       tronTransaction.tokenTransferInfo
         ? {
             address: tronTransaction.tokenTransferInfo?.to_address || "",
-            amount: BigInt(tronTransaction.tokenTransferInfo?.amount_str || "0"),
+            amount: BigInt(amount),
           }
         : {
             address: tronTransaction.toAddress,
-            amount: BigInt(tronTransaction.contractData?.amount || "0"),
+            amount: BigInt(amount),
           },
     ],
     fees: { amount: BigInt(tronTransaction.cost.energy_fee + tronTransaction.cost.net_fee) },

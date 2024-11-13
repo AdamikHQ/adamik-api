@@ -51,7 +51,6 @@ enum ChainId {
   SEDA = "seda",
   PERSISTENCE = "persistence",
   COMDEX = "comdex",
-  FETCH_AI = "fetch-ai",
   HUMANS_AI = "humans-ai",
   KI = "ki",
   MARS_HUB = "mars-hub",
@@ -60,19 +59,19 @@ enum ChainId {
   SAGA = "saga",
   UX_CHAIN = "ux-chain",
   KAVA = "kava",
+  SEI = "sei",
+  FETCH_AI = "fetch-ai",
   //Added through Imperator nodes
   COSMOSHUB = "cosmoshub",
   OSMOSIS = "osmosis",
   CELESTIA = "celestia",
   DYDX = "dydx",
   AXELAR = "axelar",
-  CUDOS = "cudos",
   EVMOS = "evmos",
   IRISNET = "irisnet",
   JUNO = "juno",
   LUM_NETWORK = "lum-network",
   OMNIFLIX = "omniflix",
-  SEI = "sei",
   MEDIBLOC = "medibloc",
   PASSAGE = "passage",
   QUASAR = "quasar",
@@ -82,16 +81,17 @@ enum ChainId {
   NEUTRON = "neutron",
   TERRA = "terra2",
   AKASH = "akash",
-  INJECTIVE = "injective",
   DYMENSION = "dymension",
   BAND = "band",
   STARGAZE = "stargaze",
   KYVE = "kyve",
+
   //Added through other node providers
   LIKECOIN = "likecoin",
   OSMOSIS_TESTNET = "osmosis-testnet", //using lavanet
   CELESTIA_TESTNET = "celestia-testnet", //using lavanet
   COSMOSHUB_TESTNET = "cosmoshub-testnet", //using nodestake
+  INJECTIVE = "injective", //using mintscan node
 
   //Their own family
   // EGLD = "egld",
@@ -291,6 +291,8 @@ type FinalizedTransaction = {
     memo?: string;
     senders?: {
       address: string;
+      amount: bigint;
+      ticker?: string;
     }[];
     recipients?: {
       address: string;
@@ -300,10 +302,13 @@ type FinalizedTransaction = {
     validators?: {
       source?: {
         address: string;
+        amount: bigint;
+        ticker?: string;
       };
       target?: {
         address: string;
         amount: bigint;
+        ticker?: string;
       };
     };
   };

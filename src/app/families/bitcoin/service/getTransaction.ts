@@ -22,6 +22,7 @@ async function getTransaction(this: BitcoinService, transactionId: string): Prom
     },
     // Placeholder values, actual values filled below
     state: TransactionState.PENDING,
+    recipients: [],
   };
 
   const bitcoinParams = CHAINS[this.chainId].params as BitcoinChainParams;
@@ -41,13 +42,16 @@ async function getTransaction(this: BitcoinService, transactionId: string): Prom
   if (transactionData.inputs.length) {
     parsedTransaction.senders = [];
     for (const input of transactionData.inputs) {
-      parsedTransaction.senders.push({ address: input.recipient });
+      parsedTransaction.senders.push({
+        address: input.recipient,
+        amount: input.value,
+      });
     }
   }
 
   if (transactionData.outputs.length) {
     for (const output of transactionData.outputs)
-      parsedTransaction.recipients?.push({
+      parsedTransaction.recipients!.push({
         address: output.recipient,
         amount: output.value,
       });
