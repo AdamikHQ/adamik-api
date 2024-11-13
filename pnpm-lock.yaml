@@ -7298,7 +7298,7 @@ snapshots:
       '@usebruno/js': 0.20.0(@usebruno/vm2@3.9.19)(debug@4.3.7)
       '@usebruno/lang': 0.18.0
       '@usebruno/vm2': 3.9.19
-      aws4-axios: 3.3.8(axios@1.7.7)
+      aws4-axios: 3.3.8(axios@1.7.7(debug@4.3.7))
       axios: 1.7.7(debug@4.3.7)
       chai: 4.5.0
       chalk: 3.0.0
@@ -7574,7 +7574,7 @@ snapshots:
 
   aws-sign2@0.7.0: {}
 
-  aws4-axios@3.3.8(axios@1.7.7):
+  aws4-axios@3.3.8(axios@1.7.7(debug@4.3.7)):
     dependencies:
       '@aws-sdk/client-sts': 3.670.0
       aws4: 1.13.2

@@ -1,0 +1,30 @@
+{
+  "request": {
+    "url": "https://api.trongrid.io/wallet/getaccountresource",
+    "method": "POST",
+    "params": {
+      "address": "41a7a3c5046957d616614a25c378ef31f1e10e9191"
+    }
+  },
+  "response": {
+    "freeNetLimit": 600,
+    "assetNetUsed": [
+      {
+        "key": "1002000",
+        "value": 0
+      }
+    ],
+    "assetNetLimit": [
+      {
+        "key": "1002000",
+        "value": 0
+      }
+    ],
+    "TotalNetLimit": 43200000000,
+    "TotalNetWeight": 29324307570,
+    "tronPowerLimit": 7,
+    "EnergyLimit": 84,
+    "TotalEnergyLimit": 180000000000,
+    "TotalEnergyWeight": 14909882802
+  }
+}

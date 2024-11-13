@@ -1,7 +1,9 @@
 {
-  "url": "https://mainnet-api.algonode.cloud/v2/assets/31566704",
-  "method": "GET",
-  "params": null,
+  "request": {
+    "url": "https://mainnet-api.algonode.cloud/v2/assets/31566704",
+    "method": "GET",
+    "params": null
+  },
   "response": {
     "index": 31566704,
     "params": {
