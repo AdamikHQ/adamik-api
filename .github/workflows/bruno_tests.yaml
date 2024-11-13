@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: run Adamik API
-        run: pnpm run dev &
+        run: pnpm run dev > output.txt &
         env:
           EDGE_CONFIG: ${{ secrets.EDGE_CONFIG }}
           ENABLE_MSW: true
@@ -44,3 +44,10 @@ jobs:
           cat ./bruno/environments/ci.bru
           sleep 5
           pnpm run test:bruno:ci
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: adamik-test-output-${{ steps.date.outputs.date }}
+          path: output.txt
