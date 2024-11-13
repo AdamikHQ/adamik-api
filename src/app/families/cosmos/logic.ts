@@ -1,4 +1,4 @@
-import { AminoMsg, makeSignDoc, serializeSignDoc, StdFee, StdSignDoc } from "@cosmjs/amino";
+import { AminoMsg, makeSignDoc, serializeSignDoc, StdFee } from "@cosmjs/amino";
 import { Secp256k1Signature } from "@cosmjs/crypto";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
@@ -342,37 +342,6 @@ function buildMessages(transaction: TransactionData): {
   return { aminoMsgs, protoMsgs };
 }
 
-async function buildSignPayload(
-  chainId: ChainId,
-  account: CosmosAccount,
-  transaction: TransactionData
-): Promise<StdSignDoc> {
-  // useless checks to make the compiler happy, completeTransaction already validated the fields
-  if (!transaction.fees) {
-    throw new Error("Missing fees data in transaction");
-  } else if (!transaction.gas) {
-    throw new Error("Missing gas data in transaction");
-  }
-
-  const chainParams = CHAINS[chainId].params as CosmosChainParams;
-
-  const feeToEncode = {
-    amount: [
-      {
-        denom: chainParams?.denom,
-        amount: transaction.fees.toString(),
-      },
-    ],
-    gas: transaction.gas.toString(),
-  };
-
-  const networkId = await fetchNetworkId(chainId);
-
-  return chainId === ChainId.INJECTIVE
-    ? buildStdSignDocForInjective(account, transaction, networkId)
-    : buildStdSignDoc(account, transaction, networkId, feeToEncode);
-}
-
 function buildStdSignDoc(
   account: CosmosAccount,
   transaction: TransactionData,
@@ -446,21 +415,44 @@ function buildBroadcastPayload({
   return signedTx;
 }
 
+// TODO Currently providing payload for an Amino signer (like Ledger)
+// Need to support providing payload for Protobuf signer as well?...
 async function encodeToSign(
   chainId: ChainId,
   account: CosmosAccount,
   transaction: TransactionData,
   format?: EncodedTransactionFormat
 ): Promise<string> {
-  // NOTE Providing payload for an Amino signer (like Ledger)
-  // Need to provide payload for Protobuf signer as well?...
-  const signDoc = await buildSignPayload(chainId, account, transaction);
-
-  if (format === EncodedTransactionFormat.JSON) {
-    // FIXME we will need to redefine type here.
-    return signDoc as unknown as string;
+  if (!transaction.fees) {
+    throw new Error("Missing fees data in transaction");
+  } else if (!transaction.gas) {
+    throw new Error("Missing gas data in transaction");
   }
-  return Buffer.from(serializeSignDoc(signDoc)).toString("hex");
+
+  const chainParams = CHAINS[chainId].params as CosmosChainParams;
+
+  const feeToEncode = {
+    amount: [
+      {
+        denom: chainParams?.denom,
+        amount: transaction.fees.toString(),
+      },
+    ],
+    gas: transaction.gas.toString(),
+  };
+
+  const networkId = await fetchNetworkId(chainId);
+
+  const signDoc =
+    chainId === ChainId.INJECTIVE
+      ? buildStdSignDocForInjective(account, transaction, networkId)
+      : buildStdSignDoc(account, transaction, networkId, feeToEncode);
+
+  const serializedSignDoc = Buffer.from(serializeSignDoc(signDoc));
+
+  return format === EncodedTransactionFormat.JSON
+    ? JSON.parse(serializedSignDoc.toString("utf8"))
+    : serializedSignDoc.toString("hex");
 }
 
 async function encodeToBroadcast(
