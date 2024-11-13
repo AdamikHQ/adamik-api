@@ -8,7 +8,7 @@ const env = createEnv({
    */
   server: {
     EDGE_CONFIG: z.string().url(),
-    MOESIF_APPLICATION_ID: z.string().min(1),
+    MOESIF_APPLICATION_ID: z.string().min(1).optional(),
   },
 
   /*
