@@ -31,15 +31,9 @@ jobs:
         env:
           EDGE_CONFIG: ${{ secrets.EDGE_CONFIG }}
           ENABLE_MSW: true
-      - name: Create configuration file
+      - name: run tests
         env:
           ADAMIK_TESTS_API_KEY: ${{ secrets.ADAMIK_TESTS_API_KEY }}
-        run: |
-          echo "vars {
-            api_key: ${{ env.ADAMIK_TESTS_API_KEY }}
-            api_url: http://localhost:3000
-          }" > ./bruno/environments/ci.bru
-      - name: run tests
         run: |
           cat ./bruno/environments/ci.bru
           sleep 5
@@ -52,5 +46,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: adamik-test-output
+          name: adamik-test-output-${{ env.date }}
           path: output.txt
