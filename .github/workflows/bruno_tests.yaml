@@ -29,7 +29,7 @@ jobs:
       - name: run Adamik API
         env:
           EDGE_CONFIG: ${{ secrets.EDGE_CONFIG }}
-          NODE_ENV: test
+          TEST_ENV: "true"
         run: pnpm run dev &> output.txt &
       - name: run tests
         env:
