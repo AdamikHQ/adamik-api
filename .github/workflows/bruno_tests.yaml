@@ -45,10 +45,12 @@ jobs:
           sleep 5
           pnpm run test:bruno:ci
       - name: Get current date
+        if: always()
         id: date
         run: |
           echo "date={$(date +'%Y-%m-%dT%H:%M:%S')}" >> $GITHUB_STATE
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: adamik-test-output
           path: output.txt
