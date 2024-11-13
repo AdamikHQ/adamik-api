@@ -59,43 +59,48 @@ export function apiHandler<
   }: Schemas<RequestBody, ResponseBody, PathParams, QueryParams>,
   methodCall: MethodCall<RequestBody, z.input<ResponseBody>, PathParams, QueryParams>
 ) {
-  return applyMoesifMiddleware(
-    async (request: NextRequest, context: { params?: unknown }): Promise<NextResponse> => {
-      if (process.env.ENABLE_MSW === "true") {
-        server.listen();
+  const apiHandlerFunction = async (
+    request: NextRequest,
+    context: { params?: unknown }
+  ): Promise<NextResponse> => {
+    try {
+      const hasBody = !!request.body;
+      const requestBody: z.infer<RequestBody> = !hasBody
+        ? undefined // Don't use json() if the request has no body
+        : requestSchema?.parse(await request.json()) ?? (await request.json());
+
+      const pathParams = parsePathParams({ pathParams: context.params, pathParamsSchema });
+
+      const queryParams = parseQueryParams({
+        queryParams: request.nextUrl.searchParams,
+        queryParamsSchema,
+      });
+
+      // Manually call the wrapped http method (GET, POST, etc...)
+      const responseBody = await methodCall({ body: requestBody, pathParams, queryParams });
+
+      if (responseSchema) {
+        // use zod.parse on output response body to:
+        // - transform the body into the output schema (allows for type conversion like bigint -> string or number -> string)
+        // - filter the output to only keep the fields defined in the output schema (effectively removing any extraneous fields, making sure we never leak any information by accident) => https://zod.dev/?id=passthrough `By default Zod object schemas strip out unrecognized keys during parsing.`
+        // - always return a status field in the output only IF a schema is provided
+        const parsedOutput = responseSchema.parse(responseBody);
+
+        return NextResponse.json(parsedOutput);
       }
-      try {
-        const hasBody = !!request.body;
-        const requestBody: z.infer<RequestBody> = !hasBody
-          ? undefined // Don't use json() if the request has no body
-          : requestSchema?.parse(await request.json()) ?? (await request.json());
 
-        const pathParams = parsePathParams({ pathParams: context.params, pathParamsSchema });
-
-        const queryParams = parseQueryParams({
-          queryParams: request.nextUrl.searchParams,
-          queryParamsSchema,
-        });
-
-        // Manually call the wrapped http method (GET, POST, etc...)
-        const responseBody = await methodCall({ body: requestBody, pathParams, queryParams });
-
-        if (responseSchema) {
-          // use zod.parse on output response body to:
-          // - transform the body into the output schema (allows for type conversion like bigint -> string or number -> string)
-          // - filter the output to only keep the fields defined in the output schema (effectively removing any extraneous fields, making sure we never leak any information by accident) => https://zod.dev/?id=passthrough `By default Zod object schemas strip out unrecognized keys during parsing.`
-          // - always return a status field in the output only IF a schema is provided
-          const parsedOutput = responseSchema.parse(responseBody);
-
-          return NextResponse.json(parsedOutput);
-        }
-
-        return NextResponse.json(responseBody);
-      } catch (e: unknown) {
-        return handleRequestValidationError(e);
-      }
+      return NextResponse.json(responseBody);
+    } catch (e: unknown) {
+      return handleRequestValidationError(e);
     }
-  );
+  };
+
+  if (process.env.NODE_ENV === "test") {
+    server.listen();
+    return apiHandlerFunction;
+  }
+
+  return applyMoesifMiddleware(apiHandlerFunction);
 }
 
 function parsePathParams({
