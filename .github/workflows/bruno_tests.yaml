@@ -48,3 +48,8 @@ jobs:
         with:
           name: adamik-test-output-${{ steps.date.outputs.date }}
           path: output.txt
+      - name: PR comment with file
+        if: failure()
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          file-path: output.txt
