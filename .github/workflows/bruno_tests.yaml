@@ -52,4 +52,8 @@ jobs:
         if: failure()
         uses: thollander/actions-comment-pull-request@v3
         with:
-          file-path: output.txt
+          message: |
+            ❌ Bruno API Tests failed! 
+            🔍 Check the workflow run for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            You can find the full output in the artifacts of this run.
