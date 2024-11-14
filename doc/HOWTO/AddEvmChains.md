@@ -27,6 +27,7 @@
     params: {
       isL2Fees: true, // Default is false, should be set to true only for L2 chains with specific fees management (Optimism, Base...)
     },
+    supportedFeatures: EVM_FEATURES(ChainId.YOUR_CHAIN_ID),
   },
 ```
 

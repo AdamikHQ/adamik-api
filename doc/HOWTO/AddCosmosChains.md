@@ -35,6 +35,7 @@
       defaultGas: 100000, // Should be the same value for all Cosmos chains
       minGasPrice: xxx, // "average_gas_price" in chain.json
     },
+    supportedFeatures: COSMOS_FEATURES(ChainId.YOUR_CHAIN_ID),
   },
 ```
 
