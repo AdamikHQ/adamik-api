@@ -1,4 +1,4 @@
-name: generate-open-api-docs-and-validate-schema-changes
+name: Generate openapi.json
 
 on:
   pull_request: # Run on all PRs
