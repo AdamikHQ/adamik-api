@@ -7,10 +7,7 @@ import { ChainId } from "~/app/model/types_WIP";
 extendZodWithOpenApi(z);
 
 const supportedChainIds = Object.values(CHAINS)
-  .filter(
-    (chain) =>
-      chain.supportedFeatures.read.account.balances.tokens || chain.supportedFeatures.read.transaction.tokens
-  )
+  .filter((chain) => chain.supportedFeatures.read.token)
   .map((chain) => chain.id);
 
 const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]]);
