@@ -16,6 +16,7 @@ import applyMoesifMiddleware from "./moesifHandler";
 //
 // Note: some schemas are optional, but if they're not provided then the apiHandler guarantees that their data cannot be used! 🛡️✅
 //
+let isMSWTriggered = false;
 
 type MethodCall<
   RequestBody extends ZodType<unknown>,
@@ -58,12 +59,14 @@ export function apiHandler<
   }: Schemas<RequestBody, ResponseBody, PathParams, QueryParams>,
   methodCall: MethodCall<RequestBody, z.input<ResponseBody>, PathParams, QueryParams>
 ) {
+  if (process.env.TEST_ENV === "true" && !isMSWTriggered) {
+    server.listen();
+    isMSWTriggered = true;
+  }
+
   return applyMoesifMiddleware(
     async (request: NextRequest, context: { params?: unknown }): Promise<NextResponse> => {
       try {
-        if (process.env.TEST_ENV === "true") {
-          server.listen();
-        }
         const hasBody = !!request.body;
         const requestBody: z.infer<RequestBody> = !hasBody
           ? undefined // Don't use json() if the request has no body
