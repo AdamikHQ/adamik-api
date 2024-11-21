@@ -45,8 +45,7 @@
     "tweetnacl": "^1.0.3",
     "viem": "^2.14.0",
     "zod": "^3.23.8",
-    "zod-openapi": "^2.14.0",
-    "zod-validation-error": "^3.3.0"
+    "zod-openapi": "^2.14.0"
   },
   "devDependencies": {
     "@injectivelabs/ts-types": "^1.14.13",

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { tokenSchema } from "~/app/api/schemaCommon";
+import { chainIdSchemaParams, tokenSchema } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 
@@ -10,7 +10,7 @@ const supportedChainIds = Object.values(CHAINS)
   .filter((chain) => chain.supportedFeatures.read.token)
   .map((chain) => chain.id);
 
-const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]]);
+const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
 
 const pathParamsSchema = z.object({
   chainId: supportedChainIdsSchema,

@@ -3,7 +3,6 @@ import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
   checkEitherAmountOrUseMaxAmount,
   inputTransactionDataSchema,
-  outputTransactionDataSchema,
   statusSchema,
 } from "~/app/api/schemaCommon";
 
@@ -14,7 +13,6 @@ const requestSchema = z.object({
 });
 
 const responseSchema = z.object({
-  transaction: outputTransactionDataSchema,
   status: statusSchema,
 });
 
