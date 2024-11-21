@@ -101,7 +101,7 @@ async function fetchAccountTransactions(
   );
 
   if (!Array.isArray(response?.transactions)) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
+    console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
     return { cosmosTransactions: [], nextPage: null };
   }
 
@@ -135,7 +135,7 @@ function mintscanToAdamikTransaction(
 }
 
 // A lot of duplicated code between parseLegacyAminoTransaction() and parseProtobufTransaction()
-// because cosmos types are a PITA and only a few JSON keys differ...
+// because mintscan types are a PITA and only a few JSON keys differ...
 // FIXME Should refacto though, to put as much as possible in common
 
 function parseLegacyAminoTransaction(

@@ -1,7 +1,7 @@
-import { ValidationError } from "zod-validation-error";
 import { getService } from "~/app/config/services";
 import { ApiRequestFilters } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
+import { UserInputError } from "~/app/tools/handlers/errors";
 import { queryParamsSchema, requestSchema, responseSchema } from "./schema";
 
 export const POST = apiHandler(
@@ -31,7 +31,10 @@ export const POST = apiHandler(
     const isAccountIdValid = await service.validateAddress(accountId);
 
     if (!isAccountIdValid) {
-      throw new ValidationError(`Invalid accountId ${accountId} for chainId ${chainId}`);
+      throw new UserInputError(
+        "Invalid or missing fields",
+        `Invalid accountId ${accountId} for chainId ${chainId}`
+      );
     }
 
     const state = await service.getAccountState(accountId);

@@ -25,7 +25,7 @@ async function fetchStats(chainId: ChainId) {
 
   if (!response.ok) {
     console.warn(
-      `/!\\ Invalid response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
     throw new Error("Error while fetching transaction metadata from the explorer");
@@ -44,7 +44,7 @@ async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<Blockch
 
   if (response.status >= 500) {
     console.warn(
-      `/!\\ Invalid response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
     throw new Error("Error while fetching Xpub data from the explorer");
@@ -54,7 +54,7 @@ async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<Blockch
 
   if (!result.success) {
     console.warn(
-      `/!\\ Error while parsing response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
       result.error
     );
     throw new Error("Error while parsing Xpub data from the explorer");
@@ -62,7 +62,7 @@ async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<Blockch
 
   if (result.data.context.code != 200) {
     console.warn(
-      `/!\\ Error in data received from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       result.data.context.error
     );
     throw new Error("Error in Xpub data received from the explorer");
@@ -83,7 +83,7 @@ async function fetchAddressesDashboard(
 
   if (response.status >= 500) {
     console.warn(
-      `/!\\ Invalid response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
     throw new Error("Error while fetching addresses data from the explorer");
@@ -93,7 +93,7 @@ async function fetchAddressesDashboard(
 
   if (!result.success) {
     console.warn(
-      `/!\\ Error while parsing response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
       result.error
     );
     throw new Error("Error while parsing addresses data from the explorer");
@@ -106,7 +106,7 @@ async function fetchAddressesDashboard(
     };
   } else if (result.data.context.code != 200) {
     console.warn(
-      `/!\\ Error in data received from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       result.data.context.error
     );
     throw new Error("Error in addresses data received from the explorer");
@@ -127,7 +127,7 @@ async function postTransaction(chainId: ChainId, signedTransaction: string): Pro
 
   if (response.status >= 500) {
     console.warn(
-      `/!\\ Invalid response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
     throw new Error("Error during transaction broadcast to the node");
@@ -137,7 +137,7 @@ async function postTransaction(chainId: ChainId, signedTransaction: string): Pro
 
   if (!result.success) {
     console.warn(
-      `/!\\ Error while parsing response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
       result.error
     );
     throw new Error("Error while parsing response from transaction broadcast");
@@ -145,7 +145,7 @@ async function postTransaction(chainId: ChainId, signedTransaction: string): Pro
 
   if (result.data.context.code != 200 || !result.data.data?.transaction_hash) {
     console.warn(
-      `/!\\ Error in data received from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       result.data.context.error
     );
     throw new Error("Error in response data received from transaction broadcast");
@@ -163,7 +163,7 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
 
   if (!response.ok) {
     console.warn(
-      `/!\\ Invalid response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
     throw new Error("Error while fetching fee per byte data from the explorer");
@@ -173,7 +173,7 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
 
   if (result.context.code !== 200) {
     console.warn(
-      `/!\\ Error in data received from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       JSON.stringify(result)
     );
     throw new Error("Error in fee per byte data received from the explorer");
@@ -190,7 +190,7 @@ async function fetchTransaction(chainId: ChainId, txHash: string): Promise<Block
 
   if (response.status >= 500) {
     console.warn(
-      `/!\\ Invalid response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
     throw new Error("Error while fetching transaction data from the explorer");
@@ -200,7 +200,7 @@ async function fetchTransaction(chainId: ChainId, txHash: string): Promise<Block
 
   if (!result.success) {
     console.warn(
-      `/!\\ Error while parsing response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
       result.error
     );
     throw new Error("Error while parsing transaction data from the explorer");
@@ -213,7 +213,7 @@ async function fetchTransaction(chainId: ChainId, txHash: string): Promise<Block
     };
   } else if (result.data.context.code != 200) {
     console.warn(
-      `/!\\ Error in data received from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       result.data.context.error
     );
     throw new Error("Error in transaction data received from the explorer");
@@ -245,7 +245,7 @@ async function fetchTransactionMetadata(
 
   if (!response.ok) {
     console.warn(
-      `/!\\ Invalid response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
     throw new Error("Error while fetching transaction metadata from the explorer");
@@ -255,7 +255,7 @@ async function fetchTransactionMetadata(
 
   if (result.context.code !== 200) {
     console.warn(
-      `/!\\ Error in data received from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       JSON.stringify(result)
     );
     throw new Error("Error in transaction metadata received from the explorer");
@@ -281,7 +281,7 @@ async function fetchRawTransactionMetadata(
 
   if (!response.ok) {
     console.warn(
-      `/!\\ Invalid response from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
     throw new Error("Error while fetching raw transaction metadata from the explorer");
@@ -291,7 +291,7 @@ async function fetchRawTransactionMetadata(
 
   if (result.context.code !== 200) {
     console.warn(
-      `/!\\ Error in data received from ${chainId} node endpoint ${url.toString()}:`,
+      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       JSON.stringify(result)
     );
     throw new Error("Error in raw transaction metadata received from the explorer");

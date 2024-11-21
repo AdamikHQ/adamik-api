@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z, ZodError, ZodType } from "zod";
-import { fromZodIssue, ValidationError } from "zod-validation-error";
 import { Status } from "~/app/model/types_WIP";
 import { server } from "~/mock/msw";
 import { AdamikHttpError, InvalidTransactionError } from "./errors";
@@ -105,11 +104,7 @@ function parsePathParams({
   pathParams?: unknown;
   pathParamsSchema?: ZodType<unknown>;
 }) {
-  try {
-    return pathParamsSchema?.parse(pathParams);
-  } catch {
-    return pathParams;
-  }
+  return pathParamsSchema ? pathParamsSchema.parse(pathParams) : pathParams;
 }
 
 function parseQueryParams({
@@ -175,22 +170,10 @@ function handleRequestValidationError(e: unknown): NextResponse {
       { status: e.status, statusText: e.statusText }
     );
   } else if (e instanceof ZodError) {
-    // Generic catchall for all the Zod errors, parse the message through zod-validation-error for user friendliness
-
     return NextResponse.json(
       {
         status: {
-          errors: e.issues.map((issue) => ({ message: fromZodIssue(issue).toString() })), // one error per issue for maximum readability
-          warnings: [],
-        },
-      },
-      { status: 400, statusText: "Invalid or missing fields" }
-    );
-  } else if (e instanceof ValidationError) {
-    return NextResponse.json(
-      {
-        status: {
-          errors: [{ message: e.message }],
+          errors: e.issues.map((issue) => ({ message: issue.message })), // one error per issue for maximum readability
           warnings: [],
         },
       },
