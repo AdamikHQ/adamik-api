@@ -1,6 +1,7 @@
 import { UTXO } from "coinselect";
 import z from "zod";
 
+const numberOrBigint = z.bigint().or(z.number().pipe(z.coerce.bigint()));
 /**
  * Metadata that's part of all blockchair responses
  *
@@ -227,9 +228,9 @@ const BlockchairXpubData = z.record(
   z.object({
     xpub: z.object({
       address_count: z.number(),
-      balance: z.number().pipe(z.coerce.bigint()),
+      balance: numberOrBigint,
       balance_usd: z.number(),
-      received: z.number().pipe(z.coerce.bigint()),
+      received: numberOrBigint,
       received_usd: z.number().optional(),
       spent: z.number(),
       spent_usd: z.number().optional(),
@@ -432,7 +433,7 @@ const BlockchairTransactionData = z.record(
   z.object({
     transaction: z.object({
       block_id: z.number(),
-      id: z.number().pipe(z.coerce.bigint()),
+      id: numberOrBigint,
       hash: z.string(),
       date: z.string(),
       time: z.string(),
@@ -444,11 +445,11 @@ const BlockchairTransactionData = z.record(
       has_witness: z.boolean(),
       input_count: z.number(),
       output_count: z.number(),
-      input_total: z.number().pipe(z.coerce.bigint()),
+      input_total: numberOrBigint,
       input_total_usd: z.number(),
-      output_total: z.number().pipe(z.coerce.bigint()),
+      output_total: numberOrBigint,
       output_total_usd: z.number(),
-      fee: z.number().pipe(z.coerce.bigint()),
+      fee: numberOrBigint,
       fee_usd: z.number(),
       fee_per_kb: z.number(),
       fee_per_kb_usd: z.number(),
@@ -459,13 +460,13 @@ const BlockchairTransactionData = z.record(
     }),
     inputs: z
       .object({
-        block_id: z.number().pipe(z.coerce.bigint()),
-        transaction_id: z.number().pipe(z.coerce.bigint()),
+        block_id: numberOrBigint,
+        transaction_id: numberOrBigint,
         index: z.number(),
         transaction_hash: z.string(),
         date: z.string(),
         time: z.string(),
-        value: z.number().pipe(z.coerce.bigint()),
+        value: numberOrBigint,
         value_usd: z.number(),
         recipient: z.string(),
         type: z.string(),
@@ -473,8 +474,8 @@ const BlockchairTransactionData = z.record(
         is_from_coinbase: z.boolean(),
         is_spendable: z.boolean().or(z.null()),
         is_spent: z.boolean(),
-        spending_block_id: z.number().pipe(z.coerce.bigint()),
-        spending_transaction_id: z.number().pipe(z.coerce.bigint()),
+        spending_block_id: numberOrBigint,
+        spending_transaction_id: numberOrBigint,
         spending_index: z.number(),
         spending_transaction_hash: z.string(),
         spending_date: z.string(),
@@ -483,19 +484,19 @@ const BlockchairTransactionData = z.record(
         spending_sequence: z.number(),
         spending_signature_hex: z.string(),
         spending_witness: z.string(),
-        lifespan: z.number().pipe(z.coerce.bigint()),
+        lifespan: numberOrBigint,
         cdd: z.number(),
       })
       .array(),
     outputs: z
       .object({
-        block_id: z.number().pipe(z.coerce.bigint()),
-        transaction_id: z.number().pipe(z.coerce.bigint()),
+        block_id: numberOrBigint,
+        transaction_id: numberOrBigint,
         index: z.number(),
         transaction_hash: z.string(),
         date: z.string(),
         time: z.string(),
-        value: z.number().pipe(z.coerce.bigint()),
+        value: numberOrBigint,
         value_usd: z.number(),
         recipient: z.string(),
         type: z.string(),

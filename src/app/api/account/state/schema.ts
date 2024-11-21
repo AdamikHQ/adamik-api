@@ -1,6 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
-import { bigintToStringSchema, tokenSchema } from "~/app/api/schemaCommon";
+import { bigintToStringSchema, chainIdSchemaParams, tokenSchema } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, StakingStatus } from "~/app/model/types_WIP";
 
@@ -15,7 +15,7 @@ const supportedChainIds = Object.values(CHAINS)
   )
   .map((chain) => chain.id);
 
-const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]]);
+const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
 
 const requestSchema = z
   .object({

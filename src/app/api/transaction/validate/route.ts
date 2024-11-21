@@ -24,6 +24,6 @@ export const POST = apiHandler(
     if (status.errors.length) {
       throw new InvalidTransactionError(status);
     }
-    return { transaction, status };
+    return { status };
   }
 );

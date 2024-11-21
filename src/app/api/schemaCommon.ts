@@ -35,20 +35,22 @@ const stringOrNumToBigintSchema = z
 // Used for output conversion, to allow for bigints to always be returned as strings
 const bigintToStringSchema = z.bigint().pipe(z.coerce.string());
 
-const chainIdSchema = z
-  .nativeEnum(ChainId, {
-    errorMap: (issue, ctx) => {
-      if (issue.code === z.ZodIssueCode.invalid_enum_value) {
-        return { message: `Unsupported chainId "${ctx.data}"` };
-      }
-      return { message: ctx.defaultError };
-    },
-  })
-  .openapi({
-    description: "Unique adamik identifier of the chain",
-    example: ChainId.BITCOIN,
-    ref: "ChainId",
-  });
+const chainIdSchemaParams: z.RawCreateParams = {
+  errorMap: (issue, ctx) => {
+    if (issue.code === z.ZodIssueCode.invalid_enum_value) {
+      return Object.values(ChainId).includes(ctx.data)
+        ? { message: `Unsupported feature for chainId '${ctx.data}'` }
+        : { message: `Unsupported chainId '${ctx.data}'` };
+    }
+    return { message: ctx.defaultError };
+  },
+};
+
+const chainIdSchema = z.nativeEnum(ChainId, chainIdSchemaParams).openapi({
+  description: "Unique adamik identifier of the chain",
+  example: ChainId.BITCOIN,
+  ref: "ChainId",
+});
 
 const errorMsgSchema = z.object({
   message: z.string(),
@@ -255,6 +257,8 @@ const stakingClaimRewardsSchema = z
     title: "ClaimRewards",
   });
 
+// FIXME chainId should be outside of this schema,
+// and it should be filtered on supported features for each endpoint
 const inputTransactionDataSchema = z.object({
   data: z
     .object({
@@ -431,6 +435,7 @@ const paginatedResponseSchema = z.object({
 export {
   bigintToStringSchema,
   chainIdSchema,
+  chainIdSchemaParams,
   chainSchema,
   checkEitherAmountOrUseMaxAmount,
   encodedTransactionSchema,
