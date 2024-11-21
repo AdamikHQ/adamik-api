@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z, ZodError, ZodType } from "zod";
 import { Status } from "~/app/model/types_WIP";
-import { server } from "~/mock/msw";
+import { server } from "~/tests/tools/msw";
 import { AdamikHttpError, InvalidTransactionError } from "./errors";
 import applyMoesifMiddleware from "./moesifHandler";
 
