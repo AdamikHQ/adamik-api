@@ -1,0 +1,26 @@
+meta {
+  name: bitcoin
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/transaction/validate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "bitcoin",
+        "mode": "transfer",
+        "sender": "bc1pdvagvvtvs3k35zxq7hp86x6cgp5kl6np786y50p7dj2m394rhrwq236ryc",
+        "recipient": "bc1pdvagvvtvs3k35zxq7hp86x6cgp5kl6np786y50p7dj2m394rhrwq236ryc",
+        "amount": "1",
+        "useMaxAmount": false
+      }
+    }
+  }
+}

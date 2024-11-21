@@ -1,0 +1,23 @@
+meta {
+  name: ton
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{api_url}}/api/account/history
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "ton",
+    "accountId": "UQCj2rKgLdwEkDo6N6zjmuDrrKy40qERCh1wPICJbzAixpOe"
+  }
+}
+
+assert {
+  res.body.status.errors[0].message: eq "Unsupported feature for chainId 'ton'"
+  res.status: eq 400
+}

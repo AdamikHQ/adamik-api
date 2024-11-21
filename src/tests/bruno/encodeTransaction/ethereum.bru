@@ -1,0 +1,27 @@
+meta {
+  name: ethereum
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/transaction/encode
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data":   {
+        "mode": "transfer",
+        "chainId": "sepolia",
+        "sender": "0xd9Cf97a8Eb01d27B1f5A8809273137d92758C312",
+        "recipient": "0xd9Cf97a8Eb01d27B1f5A8809273137d92758C312",
+        "amount": "1000",
+        "useMaxAmount": false
+      }
+    }
+  }
+  
+}

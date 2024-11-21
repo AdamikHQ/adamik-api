@@ -1,0 +1,29 @@
+meta {
+  name: cosmoshub
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{api_url}}/api/transaction/encode
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "transfer",
+        "chainId": "celestia",
+        "recipient": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
+        "sender": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
+        "useMaxAmount": true,
+        "format": "json",
+        "params": {
+          "pubKey": "03833d5aebe72ca68e3816c4a466d395280929f07ccf5e75dc4e2d71c2c92da458"
+        }
+      }
+    }
+  }
+}

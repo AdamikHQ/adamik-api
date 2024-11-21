@@ -1,0 +1,15 @@
+meta {
+  name: ethereum
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: ethereum
+}

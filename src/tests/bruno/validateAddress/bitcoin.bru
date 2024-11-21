@@ -1,0 +1,22 @@
+meta {
+  name: bitcoin
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/address/validate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "bitcoin",
+    "address": "bc1ph2h0srpm2sfnu9dzkkdamar2e759aplhrycfvsczycdwnqzsfghsej58jh"
+  }
+}
+
+assert {
+  res.body: eq true
+}

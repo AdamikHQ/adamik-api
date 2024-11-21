@@ -1,0 +1,15 @@
+meta {
+  name: bitcoin
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: bitcoin
+}

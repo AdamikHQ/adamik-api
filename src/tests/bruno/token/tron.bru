@@ -1,0 +1,16 @@
+meta {
+  name: tron
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/token/:tokenId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: tron
+  tokenId: TZJmk51TP3YEETw7phRP581A7H3VzLDFsa
+}

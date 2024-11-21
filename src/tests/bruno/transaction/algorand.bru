@@ -1,0 +1,20 @@
+meta {
+  name: algorand
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: algorand
+  transactionId: PLHTRDNLEUL45WDRXUKKGWIDWHRC4O2Z7SZDXEYI3FXRPY4RZVMA
+}

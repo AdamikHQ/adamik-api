@@ -1,0 +1,31 @@
+meta {
+  name: tron
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{api_url}}/api/transaction/broadcast
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "tron",
+        "sender": "TCYvG9EYyHjBij8Xma6iDtLzow88888888",
+        "recipient": "TCYvG9EYyHjBij8Xma6iDtLzow88888888",
+        "useMaxAmount": false,
+        "fees": "0",
+        "params": {},
+        "mode": "transferToken",
+        "amount": "12345",
+        "tokenId": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
+      },
+      "encoded": "0a02a4ec22086ebf6a5c1ac1bd2940c8a594cbb4325aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15411c506ba436e22d4892be0a949f3f065878a38d97121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97000000000000000000000000000000000000000000000000000000000000303970e1eb90cbb432900180a3c347",
+      "signature": "DUMMY"
+    }
+  }
+}

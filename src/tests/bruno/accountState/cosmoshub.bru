@@ -1,0 +1,26 @@
+meta {
+  name: cosmoshub
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{api_url}}/api/account/state
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "cosmoshub",
+    "accountId": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl"
+  }
+}
+
+assert {
+  res.body.balances: isDefined tokens
+  res.body.balances.tokens: isArray
+  res.body.balances.native.total: eq "1638549"
+  res.body.balances.native.available: eq "58941"
+  res.body.balances.staking: isDefined
+}

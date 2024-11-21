@@ -1,0 +1,19 @@
+meta {
+  name: bitcoin
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{api_url}}/api/address/encode
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "bitcoin",
+    "pubkey": "DUMMY"
+  }
+  
+}

@@ -1,0 +1,15 @@
+meta {
+  name: tron
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/validators
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: tron
+}

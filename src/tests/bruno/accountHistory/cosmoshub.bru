@@ -1,0 +1,25 @@
+meta {
+  name: cosmoshub
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/account/history
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "cosmoshub",
+    "accountId": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl"
+  }
+}
+
+assert {
+  res.body.chainId: isDefined
+  res.body.accountId: isDefined
+  res.body.transactions: isArray
+  res.body.transactions[0].parsed: isDefined
+}

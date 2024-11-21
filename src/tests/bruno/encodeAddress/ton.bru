@@ -1,0 +1,19 @@
+meta {
+  name: ton
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{api_url}}/api/address/encode
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "ton",
+    "pubkey": "DUMMY"
+  }
+  
+}

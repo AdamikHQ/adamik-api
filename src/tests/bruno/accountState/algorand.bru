@@ -1,0 +1,24 @@
+meta {
+  name: algorand
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/account/state
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "algorand",
+    "accountId": "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM"
+  }
+}
+
+assert {
+  res.body.balances.tokens: isArray
+  res.body.balances.native.total: eq "4383925"
+  res.body.balances.native.available: eq "3983925"
+}

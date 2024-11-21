@@ -1,0 +1,31 @@
+meta {
+  name: ethereum
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/transaction/broadcast
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "transfer",
+        "sender": "0x5810169a2fC658D03DF7b9bD1084de988B3cd19F",
+        "recipient": "0x9b7E335088762aD8061C04D08C37902ABC8ACb87",
+        "amount": "2000000000000000",
+        "chainId": "sepolia",
+        "useMaxAmount": false,
+        "gas": "21000",
+        "fees": "0x01a42fc1e2e000"
+      },
+      "signature": "DUMMY",
+      "encoded": "0x02f283aa36a70e8405f5e1008502325d42ab825208949b7e335088762ad8061c04d08c37902abc8acb8787071afd498d000080c0"
+    }
+  }
+  
+}

@@ -1,0 +1,31 @@
+meta {
+  name: cosmoshub
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_url}}/api/transaction/validate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "cosmoshub",
+        "mode": "transfer",
+        "sender": "cosmos1tkepfylhl7fmkrzsvphky2z0r7upvr9t689g2u",
+        "recipient": "cosmos1tkepfylhl7fmkrzsvphky2z0r7upvr9t689g2u",
+        "amount": "1234560",
+        "useMaxAmount": false,
+        "fees": "4000",
+        "memo": "adamik-test-memo",
+        "params": {
+          "pubKey": "A4y0euEONBRjVuWle7ZQspFF6yeldNmhPk48BFDB"
+        }
+      }
+    }
+  }
+}

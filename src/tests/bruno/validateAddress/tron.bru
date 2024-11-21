@@ -1,0 +1,22 @@
+meta {
+  name: tron
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{api_url}}/api/address/validate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "tron",
+    "address": "TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre"
+  }
+}
+
+assert {
+  res.body: eq true
+}

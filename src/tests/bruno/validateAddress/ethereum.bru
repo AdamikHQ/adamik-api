@@ -1,0 +1,22 @@
+meta {
+  name: ethereum
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{api_url}}/api/address/validate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "ethereum",
+    "address": "0x8bc6922Eb94e4858efaF9F433c35Bc241F69e8a6"
+  }
+}
+
+assert {
+  res.body: eq true
+}

@@ -1,0 +1,27 @@
+meta {
+  name: ton
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{api_url}}/api/transaction/validate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "ton",
+        "tokenId": "EQAvlWFDxGF2lXm67y4yzC17wYKD9A0guwPkMs1gOsM__NOT",
+        "mode": "transferToken",
+        "sender": "EQCsgSgfeFRIrNDUa4zMRddaFk3nFHsNKgICptbKchV4mRhM",
+        "recipient": "EQCsgSgfeFRIrNDUa4zMRddaFk3nFHsNKgICptbKchV4mRhM",
+        "amount": "1234560",
+        "useMaxAmount": false
+      }
+    }
+  }
+}

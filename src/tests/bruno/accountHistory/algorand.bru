@@ -1,0 +1,23 @@
+meta {
+  name: algorand
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/account/history
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "algorand",
+    "accountId": "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM"
+  }
+}
+
+assert {
+  res.body.status.errors[0].message: eq "Unsupported feature for chainId 'algorand'"
+  res.status: eq 400
+}

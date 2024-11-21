@@ -1,0 +1,27 @@
+meta {
+  name: algorand
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_url}}/api/transaction/encode
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "algorand",
+        "mode": "transfer",
+        "sender": "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM",
+        "recipient": "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM",
+        "amount": "0",
+        "useMaxAmount": false
+      }
+    }
+  }
+  
+}

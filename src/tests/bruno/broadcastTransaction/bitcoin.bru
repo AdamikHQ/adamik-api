@@ -1,0 +1,31 @@
+meta {
+  name: bitcoin
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{api_url}}/api/transaction/broadcast
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "bitcoin",
+        "sender": "bc1pdvagvvtvs3k35zxq7hp86x6cgp5kl6np786y50p7dj2m394rhrwq236ryc",
+        "recipient": "bc1pdvagvvtvs3k35zxq7hp86x6cgp5kl6np786y50p7dj2m394rhrwq236ryc",
+        "memo": "adamik-test-memo",
+        "format": "json",
+        "mode": "transfer",
+        "amount": "1",
+        "useMaxAmount": false,
+        "fees": "989"
+      },
+      "encoded": "70736274ff0100b002000000032ede014894d8f4f1ad43b9e96af8305b6fa457d263331f10d3bbf55e4c4df8b10000000000fdffffff92f7d499b714ba5831ccd303a54af320d39ef2b354cb752338cbb0af84c2ec7d0000000000fdffffffbc006ec1c8b93b13134900ec139dbdbe6d6d51ff9a1dd4797a09cede66e626ae0000000000fdffffff0101000000000000002251206b3a86316c846d1a08c0f5c27d1b5840696fea61f1f44a3c3e6c95b896a3b8dc000000000001012b4a010000000000002251206b3a86316c846d1a08c0f5c27d1b5840696fea61f1f44a3c3e6c95b896a3b8dc0001012b4a010000000000002251206b3a86316c846d1a08c0f5c27d1b5840696fea61f1f44a3c3e6c95b896a3b8dc0001012b4a010000000000002251206b3a86316c846d1a08c0f5c27d1b5840696fea61f1f44a3c3e6c95b896a3b8dc0000",
+    "signature": "DUMMY"
+    }
+  }
+}

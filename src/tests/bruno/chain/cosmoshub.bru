@@ -1,0 +1,15 @@
+meta {
+  name: cosmoshub
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: cosmoshub
+}

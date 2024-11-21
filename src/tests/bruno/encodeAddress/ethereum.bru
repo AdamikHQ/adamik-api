@@ -1,0 +1,19 @@
+meta {
+  name: ethereum
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/address/encode
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "ethereum",
+    "pubkey": "DUMMY"
+  }
+  
+}

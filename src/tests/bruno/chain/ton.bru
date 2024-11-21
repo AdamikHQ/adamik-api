@@ -1,0 +1,15 @@
+meta {
+  name: ton
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: ton
+}

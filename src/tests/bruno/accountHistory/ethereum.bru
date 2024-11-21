@@ -1,0 +1,25 @@
+meta {
+  name: ethereum
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{api_url}}/api/account/history
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "ethereum",
+    "accountId": "0x66c4371aE8FFeD2ec1c2EBbbcCfb7E494181E1E3"
+  }
+}
+
+assert {
+  res.body.chainId: isDefined
+  res.body.accountId: isDefined 
+  res.body.transactions: isArray 
+  res.body.transactions[0].parsed: isDefined
+}

@@ -1,0 +1,20 @@
+meta {
+  name: tron
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: tron
+  transactionId: a8db786f6d231659569d4807945e02353387105a18c4497f55d474507e2020af
+}

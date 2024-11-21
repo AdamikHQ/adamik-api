@@ -1,0 +1,27 @@
+meta {
+  name: tron
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{api_url}}/api/transaction/validate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "tron",
+        "tokenId": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+        "mode": "transferToken",
+        "sender": "TCYvG9EYyHjBij8Xma6iDtLzow88888888",
+        "recipient": "TCYvG9EYyHjBij8Xma6iDtLzow88888888",
+        "amount": "12345",
+        "useMaxAmount": false
+      }
+    }
+  }
+}

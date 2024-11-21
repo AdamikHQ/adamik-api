@@ -1,0 +1,15 @@
+meta {
+  name: algorand
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: algorand
+}
