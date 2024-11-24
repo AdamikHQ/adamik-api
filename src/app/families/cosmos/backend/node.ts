@@ -232,7 +232,10 @@ async function fetchValidators(
     throw new InvalidPaginationTokenError("Provided pagination token is invalid");
   }
 
-  const url = new URL(`${getNodeRootUrl(chainId)}/cosmos/staking/v1beta1/validators`);
+  const chainParams = CHAINS[chainId].params as CosmosChainParams;
+  const chainIdForValidators = chainParams.isICS ? ChainId.COSMOSHUB : chainId;
+
+  const url = new URL(`${getNodeRootUrl(chainIdForValidators)}/cosmos/staking/v1beta1/validators`);
 
   if (paginationData) {
     url.searchParams.set("pagination.key", paginationData);
