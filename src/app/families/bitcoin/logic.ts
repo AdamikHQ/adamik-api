@@ -6,7 +6,7 @@ import { Xpub } from "./types";
 // Allows support for Taproot addresses validation: https://github.com/bitcoinjs/bitcoinjs-lib/issues/1919
 initEccLib(ecc);
 
-export function selectNetworkForChainId(chainId: ChainId): networks.Network {
+function getNetworkForChainId(chainId: ChainId): networks.Network {
   switch (chainId) {
     case ChainId.BITCOIN:
       return networks.bitcoin;
@@ -45,9 +45,8 @@ export function selectNetworkForChainId(chainId: ChainId): networks.Network {
 
 // Looks like a hack but it's actually the best way to check if the address is valid
 // https://github.com/andcoisqu/bitcoinjs-lib/blob/d4b57292995f9233fc0b4ed9e4dfda3be85d3e19/test/integration/addresses.js#L100
-
-export function isValidAddress(chainId: ChainId, address: string): boolean {
-  const network = selectNetworkForChainId(chainId);
+function isValidAddress(chainId: ChainId, address: string): boolean {
+  const network = getNetworkForChainId(chainId);
   try {
     // this will throw an error if the address is invalid
     addressSerde.toOutputScript(address, network);
@@ -61,6 +60,8 @@ const xpubRegex =
   /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!.*&c=)c=\d{10}|(?!.*&h=)h=bip\d{2,3})(?:(?=(?:&c=|&h=))&(c=\d{10}|h=bip\d{2,3}))?)?$/;
 
 // FIXME: we'll want to validate also the xpub prefix with chainId (make sure that lpub are not used for BTC for example)
-export function isValidXpub(_chainId: ChainId, str: string): str is Xpub {
+function isValidXpub(_chainId: ChainId, str: string): str is Xpub {
   return xpubRegex.test(str);
 }
+
+export { getNetworkForChainId, isValidAddress, isValidXpub };
