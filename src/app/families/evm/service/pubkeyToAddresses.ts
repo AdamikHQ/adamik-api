@@ -5,14 +5,14 @@ import { EvmAddress } from "../types";
 
 const secp256k1 = require("secp256k1");
 
-// Converts an EVM public key to an Ethereum-like address
 async function pubkeyToAddresses(this: EvmService, pubkey: string): Promise<TypedAddress[]> {
   try {
     const validatedKey = validatePublicKey(pubkey);
     const address = computeAddress("0x" + validatedKey) as EvmAddress;
     return [{ address, type: "default" }];
   } catch (error: unknown) {
-    handleError(error);
+    console.warn(`/!\\ Failed to convert public key ${pubkey} to ${this.chainId} address`);
+    throw new Error(`Failed to convert public key ${pubkey} to ${this.chainId} address`);
   }
 }
 
@@ -40,14 +40,6 @@ function uncompressPublicKey(compressedKey: string): string {
   const uncompressedKey = Buffer.from(uncompressedKeyBytes).toString("hex");
 
   return "04" + uncompressedKey.slice(2);
-}
-
-function handleError(error: unknown): never {
-  if (error instanceof Error) {
-    throw new Error(`Error in pubkeyToAddresses (EVM): ${error.message}`);
-  } else {
-    throw new Error("Failed to convert public key to EVM addresses.");
-  }
 }
 
 export { pubkeyToAddresses };
