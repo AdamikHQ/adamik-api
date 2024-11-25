@@ -19,8 +19,11 @@ async function encodeTransactionToSign(
   let psbt = new Psbt({ network: getNetworkForChainId(this.chainId) });
 
   // Enrich inputs from the explorer
+  // Note: This can use both confirmed and unconfirmed (mempool) transactions as inputs
+  // Blockchair API returns mempool transactions with block_id = -1
   for (let inputIndex = 0; inputIndex < params.inputs.length; inputIndex++) {
     const input = params.inputs[inputIndex];
+    // fetchTransactionMetadata works for both mempool and confirmed transactions
     const txMetadata = await fetchTransactionMetadata(this.chainId, input.transaction_hash);
 
     // FIXME: did I misunderstand the has_witness field?
@@ -35,6 +38,7 @@ async function encodeTransactionToSign(
         },
       });
     } else {
+      // fetchRawTransactionMetadata also works for both mempool and confirmed transactions
       const nonWitnessUtxo = (await fetchRawTransactionMetadata(this.chainId, input.transaction_hash))[
         input.transaction_hash
       ].raw_transaction;

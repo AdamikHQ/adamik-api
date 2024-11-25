@@ -31,15 +31,24 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
     const currentBlockHeight = addressesResult.context.state;
 
     for (const address of addresses) {
-      // extract unconfirmed balance from UTXOs
+      // Unconfirmed balance includes both:
+      // - Mempool transactions (block_id = -1)
+      // - Transactions in recent blocks with insufficient confirmations
       const unconfirmedBalance = addressesResult.data.utxo
         .filter((utxo) => utxo.address === address)
-        .filter((utxo) => currentBlockHeight - utxo.block_id + 1 < confirmations_required)
+        .filter((utxo) => {
+          // For mempool: currentBlockHeight - (-1) + 1 = currentBlockHeight + 2
+          // For recent blocks: currentBlockHeight - block_id + 1 = number of confirmations
+          return currentBlockHeight - utxo.block_id + 1 < confirmations_required;
+        })
         .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
 
       const balance = BigInt(addressesResult.data.addresses[address].balance);
+      // available: excludes both mempool and insufficiently confirmed transactions
       aggregatedBalances.native.available += balance - unconfirmedBalance;
+      // total: includes everything (mempool + all blocks)
       aggregatedBalances.native.total += balance;
+      // unconfirmed: includes mempool and insufficiently confirmed transactions
       aggregatedBalances.native.unconfirmed += unconfirmedBalance;
     }
   }
