@@ -69,7 +69,7 @@ const responseSchema = z.object({
         }),
         unconfirmed: bigintToStringSchema.optional().openapi({
           description:
-            "Amount of native currency that is pending (mempool) or in unconfirmed transactions (not enough block confirmations). Relevant for chains with long confirmation times (like Bitcoin).",
+            "Amount of native currency that is either pending (mempool) or not yet fully confirmed (not enough block confirmations). Relevant for chains with long confirmation times (like Bitcoin).",
         }),
         total: bigintToStringSchema.openapi({
           description:
