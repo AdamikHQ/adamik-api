@@ -62,7 +62,29 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
 }
 
 async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState> {
+  // IMPORTANT: Blockchair's xpub endpoint limitations
+  // - Only lists addresses that have confirmed transactions (included in blocks)
+  // - Pending/mempool transactions are NOT visible (unlike the address endpoint)
+  // - Returns "no data" until at least one address has a confirmed transaction
+  // Consider using fetchAddressesDashboard if mempool detection is needed
   const xpubResponse = await fetchXpubDashboard(chainId, xpub);
+
+  if (!xpubResponse.data?.[xpub]) {
+    // This could mean either:
+    // - The xpub has never been used
+    // - OR it only has pending transactions (not yet in blocks)
+    return {
+      chainId: chainId,
+      balances: {
+        native: {
+          available: 0n,
+          total: 0n,
+          unconfirmed: 0n,
+        },
+      },
+      accountId: xpub,
+    };
+  }
 
   if (!xpubResponse.context.state) {
     console.warn(`/!\\ getAddressesState - missing current block height: ${JSON.stringify(xpubResponse)}`);
