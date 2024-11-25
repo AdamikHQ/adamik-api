@@ -13,3 +13,8 @@ get {
 params:path {
   chainId: ethereum
 }
+
+assert {
+  res.status: eq 400
+}
+

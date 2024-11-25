@@ -13,3 +13,8 @@ get {
 params:path {
   chainId: bitcoin
 }
+
+assert {
+  res.status: eq 400
+}
+

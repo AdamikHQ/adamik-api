@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z, ZodError, ZodType } from "zod";
 import { Status } from "~/app/model/types_WIP";
-import { server } from "~/tests/tools/msw";
+import { mswServer } from "~/tests/tools/msw";
 import { AdamikHttpError, InvalidTransactionError } from "./errors";
 import applyMoesifMiddleware from "./moesifHandler";
 
@@ -16,7 +16,6 @@ import applyMoesifMiddleware from "./moesifHandler";
 //
 // Note: some schemas are optional, but if they're not provided then the apiHandler guarantees that their data cannot be used! 🛡️✅
 //
-let isMSWTriggered = false;
 
 type MethodCall<
   RequestBody extends ZodType<unknown>,
@@ -45,6 +44,8 @@ type Schemas<
   queryParamsSchema?: QueryParams;
 };
 
+let isMSWStarted = false;
+
 export function apiHandler<
   RequestBody extends ZodType<unknown>,
   ResponseBody extends ZodType<unknown>,
@@ -59,9 +60,9 @@ export function apiHandler<
   }: Schemas<RequestBody, ResponseBody, PathParams, QueryParams>,
   methodCall: MethodCall<RequestBody, z.input<ResponseBody>, PathParams, QueryParams>
 ) {
-  if (process.env.TEST_ENV === "true" && !isMSWTriggered) {
-    server.listen();
-    isMSWTriggered = true;
+  if (process.env.TEST_ENV === "true" && !isMSWStarted) {
+    mswServer.listen();
+    isMSWStarted = true;
   }
 
   return applyMoesifMiddleware(

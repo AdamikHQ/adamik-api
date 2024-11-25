@@ -18,6 +18,6 @@ body:json {
 }
 
 assert {
-  res.body.status.errors[0].message: eq "Unsupported feature for chainId 'ton'"
   res.status: eq 400
+  res.body.status.errors[0].message: eq "Unsupported feature for chainId 'ton'"
 }

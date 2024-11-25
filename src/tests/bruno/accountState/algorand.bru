@@ -18,6 +18,7 @@ body:json {
 }
 
 assert {
+  res.status: eq 200
   res.body.balances.tokens: isArray
   res.body.balances.native.total: eq "4383925"
   res.body.balances.native.available: eq "3983925"

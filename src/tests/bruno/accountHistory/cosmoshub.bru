@@ -18,6 +18,7 @@ body:json {
 }
 
 assert {
+  res.status: eq 200
   res.body.chainId: isDefined
   res.body.accountId: isDefined
   res.body.transactions: isArray

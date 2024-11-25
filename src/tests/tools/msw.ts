@@ -57,7 +57,7 @@ const handlers = [
           } catch (e) {
             responseReturn = await response.text();
           }
-          console.log(responseReturn);
+          //console.log(responseReturn);
           console.log("-----------------");
 
           const requestBodyString = await request.clone().text();
@@ -103,4 +103,4 @@ const handlers = [
   }),
 ];
 
-export const server = setupServer(...handlers);
+export const mswServer = setupServer(...handlers);

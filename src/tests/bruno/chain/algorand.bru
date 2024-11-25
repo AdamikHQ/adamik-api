@@ -13,3 +13,7 @@ get {
 params:path {
   chainId: algorand
 }
+
+assert {
+  res.status: eq 200
+}

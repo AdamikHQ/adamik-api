@@ -13,3 +13,8 @@ get {
 params:path {
   chainId: tron
 }
+
+assert {
+  res.status: eq 400
+}
+

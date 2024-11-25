@@ -14,6 +14,10 @@ body:json {
   {
     "chainId": "ethereum",
     "pubkey": "DUMMY"
-  }
-  
+  } 
 }
+
+assert {
+  res.status: eq 200
+}
+

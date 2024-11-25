@@ -27,5 +27,9 @@ body:json {
       "encoded": "0x02f283aa36a70e8405f5e1008502325d42ab825208949b7e335088762ad8061c04d08c37902abc8acb8787071afd498d000080c0"
     }
   }
-  
 }
+
+assert {
+  res.status: eq 400
+}
+

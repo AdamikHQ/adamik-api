@@ -13,3 +13,8 @@ get {
 params:path {
   chainId: cosmoshub
 }
+
+assert {
+  res.status: eq 200
+}
+
