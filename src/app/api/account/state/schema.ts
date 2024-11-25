@@ -67,6 +67,10 @@ const responseSchema = z.object({
           description:
             "Amount of native currency that is immediately available for using. This excludes amounts that are locked in pending transactions or staking positions.",
         }),
+        unconfirmed: bigintToStringSchema.optional().openapi({
+          description:
+            "Total amount including both available balance and pending incoming transactions. Relevant for chains with long confirmation times (like Bitcoin).",
+        }),
         total: bigintToStringSchema.openapi({
           description:
             "Total amount of native currency owned by the account, including both available and locked amounts (staking, pending transactions, etc.).",
