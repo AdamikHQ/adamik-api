@@ -14,6 +14,8 @@ type CosmosChainParams = {
   defaultGas: number;
   // May differ between chains
   minGasPrice: number;
+  // ICS chains rely on the cosmoshub chain for some features (eg. validators)
+  isICS?: boolean;
 };
 
 // Cosmos-specific fields to provide when creating Cosmos chains transactions
