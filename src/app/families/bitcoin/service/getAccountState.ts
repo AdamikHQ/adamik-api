@@ -37,18 +37,19 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
       const unconfirmedBalance = addressesResult.data.utxo
         .filter((utxo) => utxo.address === address)
         .filter((utxo) => {
-          // For mempool: currentBlockHeight - (-1) + 1 = currentBlockHeight + 2
-          // For recent blocks: currentBlockHeight - block_id + 1 = number of confirmations
+          // Pure mempool transactions should ALWAYS be counted as unconfirmed
+          if (utxo.block_id === -1) return true;
+          // For transactions in blocks, check if they have enough confirmations
           return currentBlockHeight - utxo.block_id + 1 < confirmations_required;
         })
         .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
 
       const balance = BigInt(addressesResult.data.addresses[address].balance);
-      // available: excludes both mempool and insufficiently confirmed transactions
-      aggregatedBalances.native.available += balance - unconfirmedBalance;
-      // total: includes everything (mempool + all blocks)
+      // available: includes ALL spendable amounts (both confirmed and unconfirmed)
+      aggregatedBalances.native.available += balance;
+      // total: same as available for Bitcoin (no locked amounts)
       aggregatedBalances.native.total += balance;
-      // unconfirmed: includes mempool and insufficiently confirmed transactions
+      // unconfirmed: track unconfirmed amount for information
       aggregatedBalances.native.unconfirmed += unconfirmedBalance;
     }
   }
