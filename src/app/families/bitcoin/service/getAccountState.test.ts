@@ -13,6 +13,7 @@ describe("getAccountState", () => {
         native: {
           available: 25550215769897n,
           total: 25550215769897n,
+          unconfirmed: 0n,
         },
       },
     };
@@ -49,6 +50,7 @@ describe("getAccountState", () => {
         native: {
           available: 0n,
           total: 0n,
+          unconfirmed: 0n,
         },
       },
     };
@@ -68,6 +70,7 @@ describe("getAccountState", () => {
         native: {
           available: 0n,
           total: 0n,
+          unconfirmed: 0n,
         },
       },
     };
