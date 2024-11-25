@@ -390,10 +390,12 @@
                           "type": "object",
                           "properties": {
                             "available": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Amount of native currency that is immediately available for using. This excludes amounts that are locked in staking positions."
                             },
                             "total": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Total amount of native currency owned by the account, including both available and locked amounts (staking positions)."
                             }
                           }
                         },
@@ -444,7 +446,8 @@
                                 ]
                               },
                               "amount": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Current balance of this token owned by the account. The amount is expressed in the token's smallest unit (based on its decimals)."
                               }
                             },
                             "required": [
@@ -456,16 +459,20 @@
                           "type": "object",
                           "properties": {
                             "total": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Total amount of native currency involved in staking positions (locked + unlocking + unlocked)."
                             },
                             "locked": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Amount of native currency currently locked in staking positions."
                             },
                             "unlocking": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Amount of native currency that is in the process of being unstaked (during unbonding period)."
                             },
                             "unlocked": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Amount of native currency that has completed the unbonding period and is ready to be withdrawn."
                             },
                             "positions": {
                               "type": "array",
@@ -476,10 +483,12 @@
                                     "type": "array",
                                     "items": {
                                       "type": "string"
-                                    }
+                                    },
+                                    "description": "List of validator addresses involved in staking position."
                                   },
                                   "amount": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Amount of native currency used in this specific staking position."
                                   },
                                   "status": {
                                     "type": "string",
@@ -491,14 +500,16 @@
                                     ]
                                   },
                                   "completionDate": {
-                                    "type": "number"
+                                    "type": "number",
+                                    "description": "Unix timestamp (in milliseconds) when the unbonding period will complete. Only present for positions with 'unlocking' status."
                                   }
                                 },
                                 "required": [
                                   "validatorAddresses",
                                   "status"
                                 ]
-                              }
+                              },
+                              "description": "Detailed list of individual staking positions."
                             },
                             "rewards": {
                               "type": "object",
@@ -512,13 +523,15 @@
                                         "type": "string"
                                       },
                                       "amount": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Amount of unclaimed staking rewards in native currency from this validator."
                                       }
                                     },
                                     "required": [
                                       "validatorAddress"
                                     ]
-                                  }
+                                  },
+                                  "description": "List of unclaimed staking rewards in native currency, per validator."
                                 },
                                 "tokens": {
                                   "type": "array",
@@ -570,7 +583,8 @@
                                         "type": "string"
                                       },
                                       "amount": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Amount of unclaimed staking rewards in this token. The amount is expressed in the token's smallest unit."
                                       }
                                     },
                                     "required": [
@@ -582,7 +596,8 @@
                               "required": [
                                 "native",
                                 "tokens"
-                              ]
+                              ],
+                              "description": "Information about unclaimed staking rewards, both in native currency and tokens."
                             }
                           },
                           "required": [
