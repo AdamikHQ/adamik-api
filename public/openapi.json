@@ -393,6 +393,10 @@
                               "type": "string",
                               "description": "Amount of native currency that is immediately available for using. This excludes amounts that are locked in staking positions."
                             },
+                            "unconfirmed": {
+                              "type": "string",
+                              "description": "Amount of native currency that is pending (mempool) or in unconfirmed transactions (not enough block confirmations). Relevant for chains with long confirmation times (like Bitcoin)."
+                            },
                             "total": {
                               "type": "string",
                               "description": "Total amount of native currency owned by the account, including both available and locked amounts (staking positions)."
