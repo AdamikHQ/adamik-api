@@ -33,7 +33,7 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
     for (const address of addresses) {
       // Unconfirmed balance includes both:
       // - Mempool transactions (block_id = -1)
-      // - Transactions in recent blocks with insufficient confirmations
+      // - Transactions in blocks but with insufficient confirmations
       const unconfirmedBalance = addressesResult.data.utxo
         .filter((utxo) => utxo.address === address)
         .filter((utxo) => {
@@ -73,14 +73,19 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
   // extract unconfirmed balance from UTXOs
   const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
   const unconfirmedBalance = xpubResponse.data[xpub].utxo
-    .filter((utxo) => currentBlockHeight - utxo.block_id + 1 < confirmations_required)
+    .filter((utxo) => {
+      // Pure mempool transactions should ALWAYS be counted as unconfirmed
+      if (utxo.block_id === -1) return true;
+      // For transactions in blocks, check if they have enough confirmations
+      return currentBlockHeight - utxo.block_id + 1 < confirmations_required;
+    })
     .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
 
   return {
     chainId: chainId,
     balances: {
       native: {
-        available: xpubResponse.data[xpub].xpub.balance - unconfirmedBalance,
+        available: xpubResponse.data[xpub].xpub.balance,
         total: xpubResponse.data[xpub].xpub.balance,
         unconfirmed: unconfirmedBalance,
       },
