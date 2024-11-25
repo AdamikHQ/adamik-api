@@ -863,6 +863,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000, // TODO: Verify this value for each specific chain
       minGasPrice: 0.0053,
+      isICS: true,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.NEUTRON),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/neutron/chain.json
