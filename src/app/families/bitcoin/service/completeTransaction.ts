@@ -23,6 +23,19 @@ async function completeTransaction(
     ? (await fetchXpubDashboard(this.chainId, transaction.data.sender)).data[transaction.data.sender].utxo
     : (await fetchAddressesDashboard(this.chainId, [transaction.data.sender])).data?.utxo;
 
+  // Get current block height from the appropriate dashboard
+  const blockHeightResponse = isValidXpub(this.chainId, transaction.data.sender)
+    ? await fetchXpubDashboard(this.chainId, transaction.data.sender)
+    : await fetchAddressesDashboard(this.chainId, [transaction.data.sender]);
+
+  if (!blockHeightResponse.context.state) {
+    console.warn(
+      `completeTransaction - missing current block height: ${JSON.stringify(blockHeightResponse)}`
+    );
+    throw new Error(`fetchNetworkInformations - error: missing current block height`);
+  }
+  const currentBlockHeight = blockHeightResponse.context.state;
+
   const selectionAlgorithm = transaction.data.useMaxAmount ? split : coinSelect;
   const { inputs, outputs, fee } = selectionAlgorithm(
     allUtxos ?? [],
@@ -50,8 +63,28 @@ async function completeTransaction(
     outputs: [],
   } as BitcoinTransactionParams;
 
+  // Check selected UTXOs and add warnings
   for (const input of inputs) {
-    params.inputs.push(input as UtxoWithMetadata);
+    const utxo = input as UtxoWithMetadata;
+    params.inputs.push(utxo);
+
+    // Case 1: UTXO is in mempool (block_id = -1)
+    if (utxo.block_id === -1) {
+      status.warnings.push({
+        message: `Using unconfirmed input from transaction ${utxo.transaction_hash} (still pending in mempool)`,
+      });
+    }
+    // Case 2: UTXO is in a block but has < 6 confirmations
+    else if (utxo.block_id > 0) {
+      const confirmations = currentBlockHeight - utxo.block_id + 1;
+      if (confirmations < 6) {
+        status.warnings.push({
+          message: `Using input from transaction ${
+            utxo.transaction_hash
+          } with only ${confirmations} confirmation${confirmations === 1 ? "" : "s"}`,
+        });
+      }
+    }
   }
 
   for (const out of outputs) {
