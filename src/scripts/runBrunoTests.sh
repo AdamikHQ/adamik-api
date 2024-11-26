@@ -2,7 +2,6 @@
 echo "TEST ENVIRONMENT: $1";
 
 rootFolder=$(pwd);
-echo "Root folder is: ${rootFolder}";
 
 # Default success status
 status=0;
