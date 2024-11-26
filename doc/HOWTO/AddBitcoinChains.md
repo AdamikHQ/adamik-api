@@ -32,7 +32,7 @@
 
 ## Chain-specific parameters
 
-In [/src/app/families/bitcoin/logic.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/families/bitcoin/logic.ts), in the `selectNetworkForChainId` function add the following:
+In [/src/app/families/bitcoin/logic.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/families/bitcoin/logic.ts), in the `getNetworkForChainId` function add the following:
 
 ```
 case ChainId.YOUR_CHAIN_ID:
