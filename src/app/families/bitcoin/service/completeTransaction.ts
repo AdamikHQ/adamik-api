@@ -36,6 +36,9 @@ async function completeTransaction(
 
   const currentBlockHeight = await getCurrentBlockHeight(this.chainId, blockHeightResponse);
 
+  // Select UTXOs using either:
+  // - coinSelect: finds optimal UTXOs for exact amount
+  // - split: uses all UTXOs to send maximum amount
   const selectionAlgorithm = transaction.data.useMaxAmount ? split : coinSelect;
   const { inputs, outputs, fee } = selectionAlgorithm(
     allUtxos ?? [],

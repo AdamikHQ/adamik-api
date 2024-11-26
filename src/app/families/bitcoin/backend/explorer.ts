@@ -314,6 +314,7 @@ async function fetchRawTransactionMetadata(
   return result.data;
 }
 
+// Use getCurrentBlockHeight when you have an API response context (instead of using fetchStats for fresh blockchain data)
 async function getCurrentBlockHeight(
   chainId: ChainId,
   response: { context: { state?: number } }
