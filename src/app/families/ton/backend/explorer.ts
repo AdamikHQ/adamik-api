@@ -1,4 +1,4 @@
-import { Account, Api, JettonInfo, JettonsBalances, TonApiClient, Transaction } from "@ton-api/client";
+import { Account, Api, JettonInfo, JettonsBalances, Seqno, TonApiClient, Transaction } from "@ton-api/client";
 import { Address } from "@ton/ton";
 import { TON_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
@@ -24,13 +24,14 @@ async function fetchAccount(accountId: string): Promise<Account> {
 async function getSeqno(address: string): Promise<bigint | null> {
   const tonAddress = Address.parse(address);
 
+  let seqNo: Seqno;
   try {
-    const seqNo = await api.wallet.getAccountSeqno(tonAddress);
-    return BigInt(seqNo.seqno);
+    seqNo = await api.wallet.getAccountSeqno(tonAddress);
   } catch (e) {
     console.warn(`/!\\ Failed to fetch TON seqno for wallet address '${address}':`, e);
     return null;
   }
+  return seqNo?.seqno ? BigInt(seqNo.seqno) : null;
 }
 
 async function getJettonsFromWallet(address: string): Promise<JettonsBalances | null> {
