@@ -14,13 +14,11 @@ export abstract class AdamikHttpError extends Error {
  */
 export class UserInputError extends AdamikHttpError {
   name = "UserInputError";
-  statusText;
+  statusText = "Invalid or missing fields";
   status = 400;
 
-  // FIXME Most uses of this class only provide the 'message' param, but passed as 'statusText'
-  constructor(statusText: string, message?: string) {
+  constructor(message: string) {
     super(message);
-    this.statusText = statusText;
   }
 }
 
@@ -29,7 +27,7 @@ export class UnsupportedFeatureError extends UserInputError {
   statusText = "Unsupported feature";
 
   constructor(message: string) {
-    super("Unsupported feature", message);
+    super(message);
   }
 }
 
@@ -51,7 +49,7 @@ export class TransactionIdNotFoundError extends UserInputError {
   statusText = "TransactionId not found";
 
   constructor(transactionId: string, chainId: ChainId) {
-    super("TransactionId not found", `Transaction ${transactionId} not found for chainId ${chainId}`);
+    super(`Transaction ${transactionId} not found for chainId ${chainId}`);
   }
 }
 
@@ -61,7 +59,7 @@ export class UnsupportedTokenIDError extends UserInputError {
   statusText = "Unsupported tokenId";
 
   constructor(tokenId: any, chainId: ChainId) {
-    super("Unsupported tokenId", `Token ID ${tokenId} is not supported for chain ID ${chainId}`);
+    super(`Token ID ${tokenId} is not supported for chain ID ${chainId}`);
   }
 }
 
@@ -70,7 +68,7 @@ export class InvalidPaginationTokenError extends UserInputError {
   statusText = "Invalid pagination token";
 
   constructor(message: string) {
-    super("Invalid pagination token", message);
+    super(message);
   }
 }
 
@@ -79,11 +77,10 @@ export class InvalidPaginationTokenError extends UserInputError {
  */
 export class AdamikApiServerError extends AdamikHttpError {
   name = "AdamikApiServerError";
-  statusText;
+  statusText = "Internal Error";
   status = 500;
 
-  constructor(statusText: string, message?: string) {
+  constructor(message: string) {
     super(message);
-    this.statusText = statusText;
   }
 }

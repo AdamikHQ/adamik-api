@@ -154,7 +154,7 @@ async function postTransaction(chainId: ChainId, signedTransaction: string): Pro
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       result.data.context.error
     );
-    throw new Error("Error in response data received from transaction broadcast");
+    throw new Error(`Error in response received from transaction broadcast: ${result}`);
   }
 
   return result.data.data.transaction_hash;
@@ -255,7 +255,7 @@ async function fetchTransactionMetadata(
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
-  
+
   const url = `${explorerURL}/dashboards/transaction/${txHash}?${queryParams.toString()}`;
 
   const response = await fetch(url);
