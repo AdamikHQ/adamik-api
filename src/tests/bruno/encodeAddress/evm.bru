@@ -13,11 +13,11 @@ post {
 body:json {
   {
     "chainId": "ethereum",
-    "pubkey": "DUMMY"
+    "pubkey": "0431735332d2ec846d30905be9916b895590c07b2d614e6238d697cc7aba0a7722272399995ed86988a49afbbff9693fa807e648b3a0c5e1674078aeeaab62e90b"
   } 
 }
 
 assert {
   res.status: eq 200
+  res.body.addresses[0].address: eq 0x66c4371aE8FFeD2ec1c2EBbbcCfb7E494181E1E3
 }
-

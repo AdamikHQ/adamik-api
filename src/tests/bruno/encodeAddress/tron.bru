@@ -13,11 +13,12 @@ post {
 body:json {
   {
     "chainId": "tron",
-    "pubkey": "DUMMY"
+    "pubkey": "040f944787076fdac0b1f45d15727c7e5555f721d9764817cb390bd4e8154b8afcdea14735c4b7c2292bb92441dc7be2e8d4cf3908f0ad06375b6b446edf42967e"
   }
 }
 
 assert {
-  res.status: eq 200
+  res.status: eq 500
+  res.body.status.errors[0].message: eq Not implemented
+  ~res.body.addresses[0].address: eq TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre
 }
-

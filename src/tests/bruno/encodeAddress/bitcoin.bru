@@ -19,4 +19,8 @@ body:json {
 
 assert {
   res.status: eq 200
+  res.body.addresses[0].address: eq 1PMycacnJaSqwwJqjawXBErnLsZ7RkXUAs
+  res.body.addresses[1].address: eq 3BxwGNjvG4CP14tAZodgYyZ7UTjruYDyAM
+  res.body.addresses[2].address: eq bc1q7499s50fxu4c0qg23esvm5h8elvqkm33r2tdza
+  res.body.addresses[3].address: eq bc1p5ymjdxmqesnfeg42lyjh642570nxp7dgp0uzh22uq4z3gew9yymst6pshk
 }

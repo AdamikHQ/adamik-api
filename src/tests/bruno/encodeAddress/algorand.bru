@@ -13,10 +13,11 @@ post {
 body:json {
   {
     "chainId": "algorand",
-    "pubkey": "DUMMY"
+    "pubkey": "89afdb83e3b65d9ec966e5a126a0aa41b826df9571f5bc0897efbbad8e0402f7"
   }
 }
 
 assert {
   res.status: eq 200
+  res.body.addresses[0].address: eq RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM
 }
