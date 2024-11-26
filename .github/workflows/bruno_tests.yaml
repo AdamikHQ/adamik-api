@@ -34,17 +34,15 @@ jobs:
       - name: run tests
         env:
           ADAMIK_TESTS_API_KEY: ${{ secrets.ADAMIK_TESTS_API_KEY }}
-        run: |
-          pnpm run test:bruno:local
+        run: pnpm run test:bruno:local
       - name: Get current date
         if: always()
         id: date
-        run: |
-          echo "date=$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_OUTPUT
+        run: echo "date=$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_OUTPUT
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: adamik-test-output-${{ steps.date.outputs.date }}
+          name: adamik-api-logs-${{ steps.date.outputs.date }}
           path: output.txt
       - name: PR comment with file
         if: failure()
