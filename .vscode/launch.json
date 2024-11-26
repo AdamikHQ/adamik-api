@@ -5,10 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Next.js: debug server-side",
+      "name": "Start adamik-api",
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm dev"
+    },
+    {
+      "name": "Start adamik-api [TEST ENV]",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "TEST_ENV=true pnpm dev"
     }
   ]
 }
