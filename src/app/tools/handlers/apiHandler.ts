@@ -44,8 +44,6 @@ type Schemas<
   queryParamsSchema?: QueryParams;
 };
 
-let isMSWStarted = false;
-
 export function apiHandler<
   RequestBody extends ZodType<unknown>,
   ResponseBody extends ZodType<unknown>,
@@ -60,9 +58,8 @@ export function apiHandler<
   }: Schemas<RequestBody, ResponseBody, PathParams, QueryParams>,
   methodCall: MethodCall<RequestBody, z.input<ResponseBody>, PathParams, QueryParams>
 ) {
-  if (process.env.TEST_ENV === "true" && !isMSWStarted) {
+  if (process.env.TEST_ENV === "true") {
     mswServer.listen();
-    isMSWStarted = true;
   }
 
   return applyMoesifMiddleware(
