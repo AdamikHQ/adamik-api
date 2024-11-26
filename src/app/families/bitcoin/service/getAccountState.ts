@@ -38,11 +38,7 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
     };
   }
 
-  // For mempool-only transactions (block_id = -1), the API doesn't return block height
-  const hasNonMempoolTx = addressesResult.data.utxo.some((utxo) => utxo.block_id !== -1);
-  const currentBlockHeight = hasNonMempoolTx
-    ? await getCurrentBlockHeight(chainId, addressesResult)
-    : Number.MAX_SAFE_INTEGER;
+  const currentBlockHeight = await getCurrentBlockHeight(chainId, addressesResult);
   const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
   const aggregatedBalances = {
     native: {
@@ -88,15 +84,9 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
   // 1. Get all UTXOs that are in blocks from xpub endpoint
   const xpubResponse = await fetchXpubDashboard(chainId, xpub);
 
-  // Same logic applies for xpub responses
-  // The API omits block height for mempool-only transactions
-  const hasNonMempoolTx = xpubResponse.data?.[xpub]?.utxo.some((utxo) => utxo.block_id !== -1);
-  const currentBlockHeight = hasNonMempoolTx
-    ? await getCurrentBlockHeight(chainId, xpubResponse)
-    : Number.MAX_SAFE_INTEGER;
-
-  // Calculate unconfirmed balance for UTXOs in blocks but < required confirmations
+  const currentBlockHeight = await getCurrentBlockHeight(chainId, xpubResponse);
   const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
+  // Calculate unconfirmed balance for UTXOs in blocks but < required confirmations
   const unconfirmedFromBlocks =
     xpubResponse.data?.[xpub]?.utxo
       .filter((utxo) => currentBlockHeight - utxo.block_id + 1 < confirmations_required)

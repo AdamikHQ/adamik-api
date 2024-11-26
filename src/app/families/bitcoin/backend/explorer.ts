@@ -314,11 +314,36 @@ async function fetchRawTransactionMetadata(
   return result.data;
 }
 
-// Use getCurrentBlockHeight when you have an API response context (instead of using fetchStats for fresh blockchain data)
+/**
+ * Get current block height from API response context (instead of using fetchStats for fresh blockchain data)
+ *
+ * Note: For mempool-only transactions (block_id = -1), the API doesn't return block height
+ * In this case, we return MAX_SAFE_INTEGER to ensure these are counted as unconfirmed
+ */
 async function getCurrentBlockHeight(
   chainId: ChainId,
-  response: { context: { state?: number } }
+  response: {
+    context: { state?: number };
+    data?: {
+      utxo?: { block_id: number }[];
+      [key: string]: any; // For xpub response which has a dynamic key
+    } | null;
+  }
 ): Promise<number> {
+  // Check if we have any non-mempool transactions
+  const utxos =
+    "utxo" in (response.data || {})
+      ? response.data?.utxo // Address response
+      : Object.values(response.data || {})[0]?.utxo; // Xpub response
+
+  const hasNonMempoolTx = utxos?.some((utxo: { block_id: number }) => utxo.block_id !== -1);
+
+  // For mempool-only transactions, return MAX_SAFE_INTEGER
+  if (!hasNonMempoolTx) {
+    return Number.MAX_SAFE_INTEGER;
+  }
+
+  // For transactions in blocks, we need the block height
   if (!response.context.state) {
     console.warn(`Missing current block height: ${JSON.stringify(response)}`);
     throw new Error(`Explorer error: missing current block height`);
