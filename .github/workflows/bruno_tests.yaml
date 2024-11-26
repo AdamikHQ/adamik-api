@@ -35,7 +35,7 @@ jobs:
         env:
           ADAMIK_TESTS_API_KEY: ${{ secrets.ADAMIK_TESTS_API_KEY }}
         run: |
-          pnpm run test:bruno:ci
+          pnpm run test:bruno:local
       - name: Get current date
         if: always()
         id: date
