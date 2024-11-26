@@ -36,6 +36,20 @@ async function fetchStats(chainId: ChainId) {
   return result.data;
 }
 
+/**
+ * Fetches xpub data from Blockchair API
+ *
+ * LIMITATIONS:
+ * 1. This endpoint only returns UTXOs that are included in blocks
+ *    - Includes confirmed UTXOs (confirmations >= 6)
+ *    - Includes partially confirmed UTXOs (0 < confirmations < 6)
+ *    - Does NOT include mempool transactions (confirmations = 0)
+ *
+ * 2. To get a complete view including mempool transactions:
+ *    - Use the list of checked addresses from the response
+ *    - Query these addresses via fetchAddressesDashboard()
+ *    - Filter for block_id === -1 to find mempool transactions
+ */
 async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<BlockchairXpubResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
 

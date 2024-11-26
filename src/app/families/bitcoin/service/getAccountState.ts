@@ -5,6 +5,15 @@ import { isValidXpub } from "../logic";
 import { BitcoinService } from "../service";
 import { BitcoinChainParams, Xpub } from "../types";
 
+/**
+ * Gets account state for either an xpub or individual address
+ *
+ * Note: The implementation differs between xpub and address:
+ * - For addresses: mempool transactions are directly included in the response
+ * - For xpubs: requires additional address lookup to detect mempool transactions
+ *
+ * This ensures consistent unconfirmed balance reporting regardless of account type.
+ */
 async function getAccountState(this: BitcoinService, accountId: string): Promise<AccountState> {
   return isValidXpub(this.chainId, accountId)
     ? getXpubState(this.chainId, accountId)
@@ -62,29 +71,8 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
 }
 
 async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState> {
-  // IMPORTANT: Blockchair's xpub endpoint limitations
-  // - Only lists addresses that have confirmed transactions (included in blocks)
-  // - Pending/mempool transactions are NOT visible (unlike the address endpoint)
-  // - Returns "no data" until at least one address has a confirmed transaction
-  // Consider using fetchAddressesDashboard if mempool detection is needed
+  // 1. Get all UTXOs that are in blocks from xpub endpoint
   const xpubResponse = await fetchXpubDashboard(chainId, xpub);
-
-  if (!xpubResponse.data?.[xpub]) {
-    // This could mean either:
-    // - The xpub has never been used
-    // - OR it only has pending transactions (not yet in blocks)
-    return {
-      chainId: chainId,
-      balances: {
-        native: {
-          available: 0n,
-          total: 0n,
-          unconfirmed: 0n,
-        },
-      },
-      accountId: xpub,
-    };
-  }
 
   if (!xpubResponse.context.state) {
     console.warn(`/!\\ getAddressesState - missing current block height: ${JSON.stringify(xpubResponse)}`);
@@ -92,24 +80,33 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
   }
   const currentBlockHeight = xpubResponse.context.state;
 
-  // extract unconfirmed balance from UTXOs
+  // Calculate unconfirmed balance for UTXOs in blocks but < required confirmations
   const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
-  const unconfirmedBalance = xpubResponse.data[xpub].utxo
-    .filter((utxo) => {
-      // Pure mempool transactions should ALWAYS be counted as unconfirmed
-      if (utxo.block_id === -1) return true;
-      // For transactions in blocks, check if they have enough confirmations
-      return currentBlockHeight - utxo.block_id + 1 < confirmations_required;
-    })
-    .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
+  const unconfirmedFromBlocks =
+    xpubResponse.data?.[xpub]?.utxo
+      .filter((utxo) => currentBlockHeight - utxo.block_id + 1 < confirmations_required)
+      .reduce((total, utxo) => total + BigInt(utxo.value), 0n) ?? 0n;
 
+  // 2. Get list of all checked addresses
+  const checkedAddresses = xpubResponse.context.checked.map((item) => item.split(": ")[1]);
+
+  // 3. Fetch addresses data to check for mempool transactions
+  const addressesResponse = await fetchAddressesDashboard(chainId, checkedAddresses);
+
+  // 4. Calculate unconfirmed balance from mempool transactions only
+  const mempoolBalance =
+    addressesResponse.data?.utxo
+      .filter((utxo) => utxo.block_id === -1) // Only pure mempool transactions
+      .reduce((total, utxo) => total + BigInt(utxo.value), 0n) ?? 0n;
+
+  // 5. Combine: unconfirmed = (UTXOs in blocks but unconfirmed) + (mempool UTXOs)
   return {
     chainId: chainId,
     balances: {
       native: {
-        available: xpubResponse.data[xpub].xpub.balance,
-        total: xpubResponse.data[xpub].xpub.balance,
-        unconfirmed: unconfirmedBalance,
+        available: xpubResponse.data?.[xpub]?.xpub.balance ?? 0n,
+        total: xpubResponse.data?.[xpub]?.xpub.balance ?? 0n,
+        unconfirmed: unconfirmedFromBlocks + mempoolBalance,
       },
     },
     accountId: xpub,
