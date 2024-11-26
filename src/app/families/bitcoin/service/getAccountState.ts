@@ -34,12 +34,6 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
   };
 
   if (addressesResult.data) {
-    if (!addressesResult.context.state) {
-      console.warn(`getAddressesState - missing current block height: ${JSON.stringify(addressesResult)}`);
-      throw new Error(`fetchNetworkInformations - provider error: missing current block height`);
-    }
-    const currentBlockHeight = addressesResult.context.state;
-
     for (const address of addresses) {
       // Unconfirmed balance includes both:
       // - Mempool transactions (block_id = -1)
