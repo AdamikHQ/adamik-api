@@ -35,8 +35,6 @@ jobs:
         env:
           ADAMIK_TESTS_API_KEY: ${{ secrets.ADAMIK_TESTS_API_KEY }}
         run: |
-          cat ./bruno/environments/ci.bru
-          sleep 5
           pnpm run test:bruno:ci
       - name: Get current date
         if: always()
@@ -53,7 +51,7 @@ jobs:
         uses: thollander/actions-comment-pull-request@v3
         with:
           message: |
-            ❌ Bruno API Tests failed! 
+            ❌ Bruno API Tests failed!
             🔍 Check the workflow run for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
             You can find the full output in the artifacts of this run.
