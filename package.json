@@ -12,7 +12,7 @@
     "gen:cosmos-tokens": "ts-node src/scripts/generateCosmosIBCTokensDefinitions.ts",
     "lint": "next lint",
     "start": "next start",
-    "test:bruno:ci": "bash src/scripts/runBrunoTests.sh ci",
+    "test:bruno:prod": "bash src/scripts/runBrunoTests.sh api.adamik.io",
     "test:bruno:local": "bash src/scripts/runBrunoTests.sh localhost",
     "test:jest": "jest"
   },

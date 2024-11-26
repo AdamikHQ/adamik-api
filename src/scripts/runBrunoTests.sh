@@ -1,13 +1,19 @@
 # Display current env (must be provided as param of the script)
 echo "TEST ENVIRONMENT: $1";
 
+rootFolder=$(pwd);
+echo "Root folder is: ${rootFolder}";
+
+# Default success status
+status=0;
+
 # Loop over all bruno collections
-for folder in `ls ./src/tests/bruno`;
+for folder in `ls ${rootFolder}/src/tests/bruno`;
 do
-  echo -e "\n\nRUNNING TEST SUITE: $folder" &&
+  echo -e "\n\nRUNNING COLLECTION: $folder" &&
 
   # Enter the collection's folder
-  cd ./src/tests/bruno/$folder &&
+  cd $rootFolder/src/tests/bruno/$folder &&
 
   # Run the collection
   bru run --env $1 ;
@@ -15,13 +21,25 @@ do
   # Store the exit code
   res=$? ;
 
-  # If it's different than 0 (no error) or 1 (some tests failed)
-  if [ ${res} -ne 0 -a  ${res} -ne 1 ]
+  # If it's different than 0 (no error)
+  if [ ${res} -ne 0 ]
   then
-    # Abort the script
-    exit ${res}
+    # Store the failure status
+    status=${res};
+    # And the name of the collection that failed
+    failedRuns+=(${folder});
   fi;
 
   # Exit the collection's folder
-  cd -;
+  cd $rootFolder;
 done
+
+if [ ${#failedRuns[@]} -ne 0 ]
+then
+  echo -e "\nRUNS WITH FAILURES:"
+  for collection in ${failedRuns[@]}; do
+    echo "--- ${collection}"
+  done
+fi
+
+exit ${status}
