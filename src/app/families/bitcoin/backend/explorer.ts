@@ -314,6 +314,17 @@ async function fetchRawTransactionMetadata(
   return result.data;
 }
 
+async function getCurrentBlockHeight(
+  chainId: ChainId,
+  response: { context: { state?: number } }
+): Promise<number> {
+  if (!response.context.state) {
+    console.warn(`Missing current block height: ${JSON.stringify(response)}`);
+    throw new Error(`Explorer error: missing current block height`);
+  }
+  return response.context.state;
+}
+
 export {
   fetchAddressesDashboard,
   fetchFeePerByte,
@@ -322,5 +333,6 @@ export {
   fetchTransaction,
   fetchTransactionMetadata,
   fetchXpubDashboard,
+  getCurrentBlockHeight,
   postTransaction,
 };

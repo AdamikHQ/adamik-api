@@ -1,6 +1,6 @@
 import { CHAINS } from "~/app/config/chains";
 import { AccountState, ChainId } from "~/app/model/types_WIP";
-import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
+import { fetchAddressesDashboard, fetchXpubDashboard, getCurrentBlockHeight } from "../backend/explorer";
 import { isValidXpub } from "../logic";
 import { BitcoinService } from "../service";
 import { BitcoinChainParams, Xpub } from "../types";
@@ -22,6 +22,7 @@ async function getAccountState(this: BitcoinService, accountId: string): Promise
 
 async function getAddressesState(chainId: ChainId, addresses: string[]): Promise<AccountState> {
   const addressesResult = await fetchAddressesDashboard(chainId, addresses);
+  const currentBlockHeight = await getCurrentBlockHeight(chainId, addressesResult);
 
   const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
   const aggregatedBalances = {
@@ -73,12 +74,7 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
 async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState> {
   // 1. Get all UTXOs that are in blocks from xpub endpoint
   const xpubResponse = await fetchXpubDashboard(chainId, xpub);
-
-  if (!xpubResponse.context.state) {
-    console.warn(`/!\\ getAddressesState - missing current block height: ${JSON.stringify(xpubResponse)}`);
-    throw new Error(`fetchNetworkInformations - provider error: missing current block height`);
-  }
-  const currentBlockHeight = xpubResponse.context.state;
+  const currentBlockHeight = await getCurrentBlockHeight(chainId, xpubResponse);
 
   // Calculate unconfirmed balance for UTXOs in blocks but < required confirmations
   const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;

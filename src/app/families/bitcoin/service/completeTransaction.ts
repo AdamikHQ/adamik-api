@@ -1,11 +1,17 @@
 import coinSelect from "coinselect";
 import split from "coinselect/split.js";
+import { CHAINS } from "~/app/config/chains";
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { fetchAddressesDashboard, fetchFeePerByte, fetchXpubDashboard } from "../backend/explorer";
+import {
+  fetchAddressesDashboard,
+  fetchFeePerByte,
+  fetchXpubDashboard,
+  getCurrentBlockHeight,
+} from "../backend/explorer";
 import { UtxoWithMetadata } from "../backend/types";
 import { isValidXpub } from "../logic";
 import { BitcoinService } from "../service";
-import { BitcoinTransactionParams } from "../types";
+import { BitcoinChainParams, BitcoinTransactionParams } from "../types";
 
 async function completeTransaction(
   this: BitcoinService,
@@ -28,13 +34,7 @@ async function completeTransaction(
     ? await fetchXpubDashboard(this.chainId, transaction.data.sender)
     : await fetchAddressesDashboard(this.chainId, [transaction.data.sender]);
 
-  if (!blockHeightResponse.context.state) {
-    console.warn(
-      `completeTransaction - missing current block height: ${JSON.stringify(blockHeightResponse)}`
-    );
-    throw new Error(`fetchNetworkInformations - error: missing current block height`);
-  }
-  const currentBlockHeight = blockHeightResponse.context.state;
+  const currentBlockHeight = await getCurrentBlockHeight(this.chainId, blockHeightResponse);
 
   const selectionAlgorithm = transaction.data.useMaxAmount ? split : coinSelect;
   const { inputs, outputs, fee } = selectionAlgorithm(
@@ -76,8 +76,9 @@ async function completeTransaction(
     }
     // Case 2: UTXO is in a block but has < 6 confirmations
     else if (utxo.block_id > 0) {
+      const confirmations_required = (CHAINS[this.chainId].params as BitcoinChainParams).confirmations;
       const confirmations = currentBlockHeight - utxo.block_id + 1;
-      if (confirmations < 6) {
+      if (confirmations < confirmations_required) {
         status.warnings.push({
           message: `Using input from transaction ${
             utxo.transaction_hash
