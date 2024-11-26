@@ -1,0 +1,9 @@
+{
+  "request": {
+    "url": "https://tonapi.io/v2/wallet/0:ac81281f785448acd0d46b8ccc45d75a164de7147b0d2a0202a6d6ca72157899/seqno",
+    "method": "GET"
+  },
+  "response": {
+    "error": "not a wallet"
+  }
+}

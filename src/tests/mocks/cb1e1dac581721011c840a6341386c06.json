@@ -1,0 +1,13 @@
+{
+  "request": {
+    "url": "https://lcd-cosmos.imperator.co/cosmos/staking/v1beta1/delegators/cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl/unbonding_delegations",
+    "method": "GET"
+  },
+  "response": {
+    "unbonding_responses": [],
+    "pagination": {
+      "next_key": null,
+      "total": "0"
+    }
+  }
+}

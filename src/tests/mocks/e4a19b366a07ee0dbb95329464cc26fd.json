@@ -1,0 +1,90 @@
+{
+  "request": {
+    "url": "https://deep-index.moralis.io/api/v2.2/transaction/0x7e8793f89f503d5baf69d10fef2c945d8064c05460bcb49e792d9015db7628db/verbose?chain=eth",
+    "method": "GET"
+  },
+  "response": {
+    "hash": "0x7e8793f89f503d5baf69d10fef2c945d8064c05460bcb49e792d9015db7628db",
+    "nonce": "53",
+    "transaction_index": "110",
+    "from_address_entity": null,
+    "from_address_entity_logo": null,
+    "from_address": "0xd3d9d8021b78452d69ba4c8ccaffcc7b008cde04",
+    "from_address_label": null,
+    "to_address_entity": null,
+    "to_address_entity_logo": null,
+    "to_address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+    "to_address_label": "Tether USD (USDT)",
+    "value": "0",
+    "gas": "80000",
+    "gas_price": "4243677133",
+    "input": "0xa9059cbb000000000000000000000000945e444632dd1d8f761658e2ed64796b8bb23dce00000000000000000000000000000000000000000000000000000000042c1d80",
+    "receipt_cumulative_gas_used": "12418587",
+    "receipt_gas_used": "63209",
+    "receipt_contract_address": null,
+    "receipt_root": null,
+    "receipt_status": "1",
+    "block_timestamp": "2024-09-02T07:49:59.000Z",
+    "block_number": "20661500",
+    "block_hash": "0x24964692e11f119b03437349f5b1ae50d3f729b8c5ba093896830209c2d3beb2",
+    "logs": [
+      {
+        "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        "block_number": "20661500",
+        "block_hash": "0x24964692e11f119b03437349f5b1ae50d3f729b8c5ba093896830209c2d3beb2",
+        "block_timestamp": "2024-09-02T07:49:59.000Z",
+        "data": "0x00000000000000000000000000000000000000000000000000000000042c1d80",
+        "log_index": "320",
+        "transaction_hash": "0x7e8793f89f503d5baf69d10fef2c945d8064c05460bcb49e792d9015db7628db",
+        "transaction_index": "110",
+        "transaction_value": "0",
+        "topic0": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+        "topic1": "0x000000000000000000000000d3d9d8021b78452d69ba4c8ccaffcc7b008cde04",
+        "topic2": "0x000000000000000000000000945e444632dd1d8f761658e2ed64796b8bb23dce",
+        "topic3": null,
+        "decoded_event": {
+          "label": "Transfer",
+          "signature": "Transfer(address,address,uint256)",
+          "type": "event",
+          "params": [
+            {
+              "name": "from",
+              "type": "address",
+              "value": "0xd3D9d8021B78452d69bA4c8cCAffcc7b008cde04"
+            },
+            {
+              "name": "to",
+              "type": "address",
+              "value": "0x945E444632DD1D8F761658e2Ed64796B8bB23dce"
+            },
+            {
+              "name": "value",
+              "type": "uint256",
+              "value": "70000000"
+            }
+          ]
+        }
+      }
+    ],
+    "decoded_call": {
+      "type": "function",
+      "label": "transfer",
+      "signature": "transfer(address,uint256)",
+      "params": [
+        {
+          "name": "_to",
+          "type": "address",
+          "value": "0x945E444632DD1D8F761658e2Ed64796B8bB23dce",
+          "params": []
+        },
+        {
+          "name": "_value",
+          "type": "uint256",
+          "value": "70000000",
+          "params": []
+        }
+      ]
+    },
+    "transaction_fee": "0.000268238587899797"
+  }
+}
