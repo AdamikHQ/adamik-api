@@ -89,47 +89,86 @@ async function fetchAddressesDashboard(
   addresses: string[]
 ): Promise<BlockchairAddressesResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const queryParams = new URLSearchParams({
-    key: BLOCKCHAIR_API_KEY,
-  });
+  const BATCH_SIZE = 100;
 
-  // FIXME: use POST instead of GET and put addresses in the body
-  const url = `${explorerURL}/dashboards/addresses/${addresses.join(",")}?${queryParams.toString()}`;
-
-  const response = await fetch(url);
-
-  if (response.status >= 500) {
-    console.warn(
-      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
-      await response.text()
-    );
-    throw new Error("Error while fetching addresses data from the explorer");
-  }
-
-  const result = BlockchairAddressesResponse.safeParse(await response.json());
-
-  if (!result.success) {
-    console.warn(
-      `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
-      result.error
-    );
-    throw new Error("Error while parsing addresses data from the explorer");
-  }
-
-  if (result.data.context.code == 404) {
+  // If no addresses, return early
+  if (addresses.length === 0) {
     return {
-      context: result.data.context,
+      context: { code: 200, request_cost: 1 },
       data: null,
     };
-  } else if (result.data.context.code != 200) {
-    console.warn(
-      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
-      result.data.context.error
-    );
-    throw new Error("Error in addresses data received from the explorer");
   }
 
-  return result.data;
+  // Split addresses into batches
+  const batches = [];
+  for (let i = 0; i < addresses.length; i += BATCH_SIZE) {
+    batches.push(addresses.slice(i, i + BATCH_SIZE));
+  }
+
+  // Fetch data for each batch
+  const responses = await Promise.all(
+    batches.map(async (batchAddresses) => {
+      const queryParams = new URLSearchParams({
+        key: BLOCKCHAIR_API_KEY,
+      });
+
+      // FIXME: If/when Blockchair supports it, switch to POST request with addresses in body
+      // Currently implementing batching to stay within 100-address GET limit
+      const url = `${explorerURL}/dashboards/addresses/${batchAddresses.join(",")}?${queryParams.toString()}`;
+
+      const response = await fetch(url);
+
+      if (response.status >= 500) {
+        console.warn(
+          `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+          await response.text()
+        );
+        throw new Error("Error while fetching addresses data from the explorer");
+      }
+
+      const result = BlockchairAddressesResponse.safeParse(await response.json());
+
+      if (!result.success) {
+        console.warn(
+          `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
+          result.error
+        );
+        throw new Error("Error while parsing addresses data from the explorer");
+      }
+
+      if (result.data.context.code == 404) {
+        return {
+          context: result.data.context,
+          data: null,
+        };
+      } else if (result.data.context.code != 200) {
+        console.warn(
+          `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+          result.data.context.error
+        );
+        throw new Error("Error in addresses data received from the explorer");
+      }
+
+      return result.data;
+    })
+  );
+
+  // Merge all responses
+  return responses.reduce((merged, current) => {
+    if (!merged) {
+      return current;
+    }
+
+    // Merge data from current response into accumulated result
+    if (merged.data && current.data) {
+      merged.data = {
+        ...merged.data,
+        utxo: [...(merged.data.utxo || []), ...(current.data.utxo || [])],
+      };
+    }
+
+    return merged;
+  });
 }
 
 async function postTransaction(chainId: ChainId, signedTransaction: string): Promise<string> {
