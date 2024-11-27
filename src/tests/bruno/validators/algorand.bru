@@ -1,0 +1,20 @@
+meta {
+  name: algorand
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/validators
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: algorand
+}
+
+assert {
+  res.status: eq 400
+}
+

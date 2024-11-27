@@ -1,0 +1,23 @@
+meta {
+  name: cosmoshub
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{api_url}}/api/address/encode
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "cosmoshub",
+    "pubkey": "03b642c20d53840395afbc502e229b8368e76e808da3873aca21a94cd51c9980e6"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.addresses[0].address: eq cosmos1dsx5hhngvdenhcf6shqan2ujm8y8esdye45j33
+}

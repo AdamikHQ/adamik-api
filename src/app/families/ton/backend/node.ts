@@ -1,11 +1,11 @@
 import { Address, Cell, JettonMaster, TonClient } from "@ton/ton";
-import { TON_CENTER_KEY } from "~/app/config/apiKeys";
+import { TON_CENTER_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 
 // Configure the HTTP client with your host and token
 const nodeClient = new TonClient({
   endpoint: `${CHAINS.ton.backends.nodeURL}v2/jsonRPC`,
-  apiKey: TON_CENTER_KEY,
+  apiKey: TON_CENTER_API_KEY,
 });
 
 async function estimateFees(contractAddress: string, body: Cell, init?: { code: Cell; data: Cell }) {
@@ -36,7 +36,7 @@ async function broadcast(transaction: string) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-API-KEY": TON_CENTER_KEY,
+      "X-API-KEY": TON_CENTER_API_KEY,
     },
     body: JSON.stringify({
       boc: transaction,

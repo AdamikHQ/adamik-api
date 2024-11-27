@@ -1,0 +1,298 @@
+{
+  "request": {
+    "url": "https://tonapi.io/v2/accounts/0:a3dab2a02ddc04903a3a37ace39ae0ebacacb8d2a1110a1d703c80896f3022c6/jettons",
+    "method": "GET"
+  },
+  "response": {
+    "balances": [
+      {
+        "balance": "100000000000",
+        "wallet_address": {
+          "address": "0:d174fd75c6cea3305cc3f906aff4927658539c772c48b5b2ad8e8deeacd26e9f",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:f9b72e48c55dc7102118d5b6db75deeb34d63e65c03ea40206417cb24594440f",
+          "name": "Stable Metal",
+          "symbol": "STBL",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/t-4hk54FgHpwh0ErqRSIJWyJNIMeF-9v5V2t8omKAHo/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLmliYi5jby9IWWNzaHF2L3N0YmwtMjU2LnBuZw.webp",
+          "verification": "whitelist"
+        }
+      },
+      {
+        "balance": "10000000",
+        "wallet_address": {
+          "address": "0:6e423633ea06c309a58f287e3e8fc2342c5c54ba58b7cad23a85317399da9936",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:6c2825490ee87e3ae448fd49327a206da364b205145e405d2f512d413d014a6f",
+          "name": "Kitos Ton Token",
+          "symbol": "KTC",
+          "decimals": 1,
+          "image": "https://cache.tonapi.io/imgproxy/YcVWeAozM6A46f_ObVw5ltZhMoxAZGDEvtG61lmX-LE/rs:fill:200:200:1/g:no/aHR0cHM6Ly91c2VyLWltYWdlcy5naXRodWJ1c2VyY29udGVudC5jb20vMTI1MjI0NTQzLzIxODM0MzQzNy01YmM2N2UyMS1mMTQ4LTQzNGUtOGRlNS01ZmIyMzY5ZDc4ZTAucG5n.webp",
+          "verification": "none"
+        }
+      },
+      {
+        "balance": "1000000000",
+        "wallet_address": {
+          "address": "0:d6813d601d0ff0787d61ce93083eda29ac0711b4d00f5d30b1bba54119a9bf12",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:e2d4864bc115ee81e7dad6dfadbade7d30a3c8d80a22be32e84754df2049c134",
+          "name": "SVO",
+          "symbol": "SVO",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/T8jCnq2NUbH0iDp67k7NAFn4gbvb0KYEXLaixWNeFpU/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLmliYi5jby81RzdjNmtqL0lNRy0yMDI0MDUxNi0wNjM5NTUtNzE0LmpwZw.webp",
+          "verification": "none"
+        }
+      },
+      {
+        "balance": "110000000000",
+        "wallet_address": {
+          "address": "0:e936bb8adda544ae5d906ac077c8a07e4e516ef850c765447116790e2a32b966",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:cf61583332f512e777bad567e710f904b46a12ce59e0d93a4a2121c2c62574b0",
+          "name": "BXBTON",
+          "symbol": "BXT",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/-VQFl2CcmBU5e1ag_rze1nXHToDl2QrEbhUhCZOJn7k/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLmliYi5jby8zTmJKTUJtL0JYQlRPTi5wbmc.webp",
+          "verification": "none"
+        }
+      },
+      {
+        "balance": "1000000000",
+        "wallet_address": {
+          "address": "0:5b0036a80ad14c08481bfef435aa353e620fdd564ef1e67e61e20aff52fe4444",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:87e3837bdc15c4853f34eb72802bfdbba02a26bc99e601a79bb28f9d668c80cb",
+          "name": "MMM2049",
+          "symbol": "MMM",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/qSGKGif4q3eAqXbjX3B41WBd1-1aWP1r0raNi1Fr8kE/rs:fill:200:200:1/g:no/aHR0cHM6Ly9zdGF0aWMueW91c3BhY2UuZGV2L2NpcmNsZS5wbmc.webp",
+          "verification": "whitelist"
+        }
+      },
+      {
+        "balance": "18464752996670000",
+        "wallet_address": {
+          "address": "0:9492bc4034885687c0a1a8c12ab8611bf0e92257282d4e707470c072f9dfb893",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:11756f8b72d5a6481f964e5c5d1f2d7c862414e1714aa737aa6224b95ce63e85",
+          "name": "Durov",
+          "symbol": "DPV",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/i7jumPCXC__AWJcr-0PvOjsfa-dzaZpwtIHEqQioLhE/rs:fill:200:200:1/g:no/aHR0cHM6Ly9iaXRjb2luY2FzaC1leGFtcGxlLmdpdGh1Yi5pby93ZWJzaXRlL2xvZ28ucG5n.webp",
+          "verification": "none"
+        }
+      },
+      {
+        "balance": "333000000000",
+        "wallet_address": {
+          "address": "0:a1f14209e717c1405392bf1f14585314d0cd0a10564088badab575f8ef4069ea",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:b298b457a75418c5929e9380932277240757b2e539320094293c094d7ad88ee7",
+          "name": "Meridian",
+          "symbol": "MRDN",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/IESWHWz9kcghRi2Qvuz0TmeA_6doAMYVT39-lyxyLWc/rs:fill:200:200:1/g:no/aHR0cHM6Ly9taW5lLm1lcmlkaWFuLnd0Zi9jb2luX2ltYWdlLnBuZw.webp",
+          "verification": "whitelist"
+        }
+      },
+      {
+        "balance": "1000000000000",
+        "wallet_address": {
+          "address": "0:aa8f5781bae36b5cdb4876e8dea103a2de138d17aa16c25407db98f3c2e8e43c",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:421705bcb85521f9a99d466358f4dc9e0c469e0d85ddf608091ac89ca6a55c1e",
+          "name": "DHD Coin",
+          "symbol": "DHD",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/Yfr8C1GRkQmk1XO_Ri6FzM27OM5fW-NbnD-DgzelArM/rs:fill:200:200:1/g:no/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0RIRGNvaW4vd2Vic2l0ZS9tYWluL0xPR08ucG5n.webp",
+          "verification": "whitelist"
+        }
+      },
+      {
+        "balance": "308080000000000",
+        "wallet_address": {
+          "address": "0:7f2e5981596bbec6cbed1584a9c1ba5782f807521f06898f25c3a75e189f1e60",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:65de083a0007638233b6668354e50e44cd4225f1730d66b8b1f19e5d26690751",
+          "name": "Lavandos",
+          "symbol": "LAVE",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/6tQb7LtdrchieDAM5SQdsjrKwfzS51SM9zYWi0ss9ao/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLmliYi5jby9CajVLcUs0L0lNRy0yMDIyMTIxMy0xMTU1NDUtMjA3LnBuZw.webp",
+          "verification": "whitelist"
+        }
+      },
+      {
+        "balance": "900000000000",
+        "wallet_address": {
+          "address": "0:ca645386c5f6c15868e9a2d7b76ffccf424140672801e444a3d808926ab401d7",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:daeb5ea7eb0f4e47e63f8c28ce02df9ffd795c8e60c518ed9304b425cc37b181",
+          "name": "PEPE airdrop Jetton(tonpepe.xyz)",
+          "symbol": "TONPEPE.XYZ",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/ZR5OyWa-Y8lACCL8WLEzw01hRsweq6T8_EJfQl0Ia6o/rs:fill:200:200:1/g:no/aHR0cHM6Ly9odzA0OTV1OGd3LmF1dG9zL3BlcGUucG5n.webp",
+          "verification": "none"
+        }
+      },
+      {
+        "balance": "7000000000",
+        "wallet_address": {
+          "address": "0:cb97dcdc3d62404c3adc8432974c47ef4b772a63bcd8f2cf0e335e7897b0e483",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:14d7fd40738a37c4f81498d7d1c5455865bac7ed0de2525f41a8de0055c93d85",
+          "name": "PEPPER",
+          "symbol": "PEPPER",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/OJJkXVqGTqtDwVCVj5fZrrN3HxiQuTQ_Kjm0AcR9nk0/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLmliYi5jby84NDYyTHJGL2xvZ28xMjMucG5n.webp",
+          "verification": "none"
+        }
+      },
+      {
+        "balance": "148830000000",
+        "wallet_address": {
+          "address": "0:11db971f0b01ba867568466de25116e8f92338e86cb520e65c9db6db690b57ae",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:91e3cba5183c5f94b69616282e4061f6db348f2500399b2f04261e91e9f1f8ed",
+          "name": "Amo Token",
+          "symbol": "AMT",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/wNHuzAaVdE0kICDdF0uioQ48VSYHXUOS9raoxEmMl8E/rs:fill:200:200:1/g:no/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0Ftb1Rva2VuL0FNVC9tYWluL0FNVC5wbmc.webp",
+          "verification": "none"
+        }
+      },
+      {
+        "balance": "13370000000000",
+        "wallet_address": {
+          "address": "0:c9daba4fef86f163b6d895b18fb616a1f65874b9936395f239fee7dbbe0622bf",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:21442fe867807d560325b5f36410d49d2e4b653000cf13bdf322221c2fa7acda",
+          "name": "TON Drift",
+          "symbol": "DRIFT",
+          "decimals": 10,
+          "image": "https://cache.tonapi.io/imgproxy/ou9ULzV4WJuKIYiZtid2re5F9qM7ipo9nqqwxAxJH3E/rs:fill:200:200:1/g:no/aHR0cHM6Ly9hdmF0YXJzLmdpdGh1YnVzZXJjb250ZW50LmNvbS91LzE0OTU5MzgzNT9zPTQwMCZ1PTJjNzRkZTgwYzEzYjlmZGY3NmQxZjI1NmI2MDQzZTkxNjU0Yzg2ZDgmdj00.webp",
+          "verification": "whitelist"
+        }
+      },
+      {
+        "balance": "1000000000000000",
+        "wallet_address": {
+          "address": "0:9bf82d07f80bf3fdf54652c1069d390ef5f308b6fcc219d92f7b4a497a7c9d77",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:62271027dd745fd3380b3d71a422aba9bfe647e8ca0ab1621a4ca482bc54b6f6",
+          "name": "Golden Buffalo",
+          "symbol": "GB",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/CBCjZ0rAf3HWc-KI0e5oZpqqVybMBFAJPlSlmAc1wyI/rs:fill:200:200:1/g:no/aHR0cHM6Ly9nZXRnZW1zLmlvL25mdC9FUUNWSnNCZEpMNFJMT25ROWpvd2ZqcmpKZG1wcGMzbTVDcHZCaHFLMGQxUDlHXzQ.webp",
+          "verification": "none"
+        }
+      },
+      {
+        "balance": "816326530",
+        "wallet_address": {
+          "address": "0:7502fa7ddffea58dd01cb41ea21e1f7794bd3964dfe95173b71a1686f6fa2146",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:b20e17004b0226f3e795553ccc10449801e43b7adb5ab1fb865d41b5b640f054",
+          "name": "Lucky TON",
+          "symbol": "LKY",
+          "decimals": 8,
+          "image": "https://cache.tonapi.io/imgproxy/4DGuXDEqF18fzPL9cNlSuT5DFwoa1PKx-SjWJGWZpj8/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLmliYi5jby9YN3d2RDFQL01lYW5pbmctb2YtYS1Gb3VyLWxlYWYtQ2xvdmVyLVNpZ2h0aW5nLTIuanBn.webp",
+          "verification": "whitelist"
+        }
+      },
+      {
+        "balance": "1000000000000",
+        "wallet_address": {
+          "address": "0:c6342916ff416bbe425dcbc8b8947a223edefacda49be013da123d18caa1602c",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:541a6da583333dd452ba568ee62771ced9ca481185c46a84f5bd8374f367661a",
+          "name": "🟢 600 Usernames",
+          "symbol": "t.me/domain_tg ❤️",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/IfR3EH7pKZvQBNKv4W0yTf2K1ZxjobNk0KrDfzYOf1Y/rs:fill:200:200:1/g:no/aHR0cHM6Ly90ZWxlZ3JhLnBoL2ZpbGUvMDZiYjRlZTgxM2M5YzI5NDNlMTIwLmpwZw.webp",
+          "verification": "none"
+        }
+      },
+      {
+        "balance": "305000000000",
+        "wallet_address": {
+          "address": "0:ff51ab61d794c01f8b50d8135704e8401548e878614360e5fb9c3db78a8d396f",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:a2821d07c97169a021677ca43223c8d610aeca85b12c3a93058e8de051124a3b",
+          "name": "Crystals",
+          "symbol": "CRYSTALS",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/kqnNAKVW8fPhSHF1r9jt0aA2Ri6Qn8qslmaY386IGms/rs:fill:200:200:1/g:no/aHR0cHM6Ly9jYWNoZS50b25hcGkuaW8vaW1ncHJveHkvSzhZaUtfZjM0UC1hQ0pxRklzckY0d2h1eTFfTkhyV3hoNVN2ZDNUZVpCNC9yczpmaWxsOjIwMDoyMDA6MS9nOm5vL2FIUjBjSE02THk5cGNHWnpMbWx2TDJsd1puTXZZbUZtYTNKbGFXRm9kV2syTjNGdFpHdDRNalJpY0RWeFpuaHFlalZ0YkcwMVl6UXpaalJ0Y204M1pubHhhblV5YkhFMGNITnFaalZoYVdFLndlYnA.webp",
+          "verification": "whitelist"
+        }
+      },
+      {
+        "balance": "10000000000000000",
+        "wallet_address": {
+          "address": "0:01cb4b981e721b33186f296c847f44fd879857187401bf25aedf2e1d9dc14079",
+          "is_scam": false,
+          "is_wallet": false
+        },
+        "jetton": {
+          "address": "0:bbae71c7b4c5412b28621a701bb58225cc6c52d1d7e2dd96c7131157d0b622f5",
+          "name": "@BTC25 MEMECOIN TonMiner",
+          "symbol": "@BTC25",
+          "decimals": 9,
+          "image": "https://cache.tonapi.io/imgproxy/HKMvWvqd04phh_0hJIeSR-2peOg2XyqZJhGgiZWd_y4/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLnBvc3RpbWcuY2MvTUtoNHZ5cE4vcGhvdG8tMjAyNC0wMy0wNC0xMi0zMi0wNC0xLnBuZw.webp",
+          "verification": "whitelist"
+        }
+      }
+    ]
+  }
+}

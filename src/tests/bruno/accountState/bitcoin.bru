@@ -1,0 +1,24 @@
+meta {
+  name: bitcoin
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{api_url}}/api/account/state
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "bitcoin",
+    "accountId": "xpub6BtWBf3Pu6hYwJBKvEwG7JtrTxxDrSGy39HaTgZz6GTSaFWFdoCtuEXSQtoKGaYdz1emg8xTXKYwjhu3xXRPzFnYS1z4yjKj7hLDQyNeDZr"
+  }
+}
+
+assert {
+  res.body.balances: isDefined tokens
+  res.body.balances.native.total: eq "11007"
+  res.body.balances.native.available: eq "11007"
+}

@@ -27,10 +27,7 @@ export const POST = apiHandler(
     const isAccountIdValid = await service.validateAddress(accountId);
 
     if (!isAccountIdValid) {
-      throw new UserInputError(
-        "Invalid or missing fields",
-        `Invalid accountId ${accountId} for chainId ${chainId}`
-      );
+      throw new UserInputError(`Invalid accountId ${accountId} for chainId ${chainId}`);
     }
 
     const { transactions, pagination } = await service.getAccountHistory(accountId, paginationToken);

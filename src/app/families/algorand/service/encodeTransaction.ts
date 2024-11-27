@@ -38,9 +38,10 @@ async function encodeTransactionToBroadcast(
   const transactionPayload = msgpackDecode(
     Buffer.from(signedTransaction.encoded, "hex")
   ) as AlgoEncodedTransaction;
-  const signature = Buffer.from(signedTransaction.signature, "hex");
-  const encodedTransaction = encodeToBroadcast(transactionPayload, signature);
 
+  const signature = Buffer.from(signedTransaction.signature, "hex");
+
+  const encodedTransaction = encodeToBroadcast(transactionPayload, signature);
   return encodedTransaction.toString("hex");
 }
 

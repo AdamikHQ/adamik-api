@@ -1,0 +1,23 @@
+meta {
+  name: ton
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{api_url}}/api/address/validate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "ton",
+    "address": "UQAQ113dWkP2MOfXN2uv0qPFB-097flcLBhyv0_lhgXEUhwz"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body: eq true
+}

@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "/api/transaction/encode",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

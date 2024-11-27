@@ -1,0 +1,25 @@
+meta {
+  name: ethereum
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{api_url}}/api/account/state
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "ethereum",
+    "accountId": "0x66c4371aE8FFeD2ec1c2EBbbcCfb7E494181E1E3"
+  }
+}
+
+assert {
+  res.body.balances: isDefined tokens
+  res.body.balances.tokens: isArray
+  res.body.balances.native.total: eq "46060970215113869"
+  res.body.balances.native.available: eq "46060970215113869"
+}

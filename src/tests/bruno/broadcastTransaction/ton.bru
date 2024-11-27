@@ -1,0 +1,39 @@
+meta {
+  name: ton
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{api_url}}/api/transaction/broadcast
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "ton",
+        "sender": "EQCsgSgfeFRIrNDUa4zMRddaFk3nFHsNKgICptbKchV4mRhM",
+        "recipient": "EQCsgSgfeFRIrNDUa4zMRddaFk3nFHsNKgICptbKchV4mRhM",
+        "memo": "adamik-test-memo",
+        "format": "json",
+        "mode": "transfer",
+        "amount": "1234560",
+        "useMaxAmount": false,
+        "fees": "5759419",
+        "params": {
+          "pubKey": "dummy"
+        }
+      },
+      "encoded": "80d38765775d557b8756bda8cb451f5380b391cdb0ec945bb70df5eba058ba13",
+      "signature": "DUMMY"
+    }
+  }
+}
+
+assert {
+  res.status: eq 400
+}
+
