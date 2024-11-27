@@ -1,0 +1,55 @@
+name: Bruno API tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  bruno:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: run Adamik API
+        env:
+          EDGE_CONFIG: ${{ secrets.EDGE_CONFIG }}
+          TEST_ENV: "true"
+        run: pnpm run dev &> output.txt &
+      - name: run tests
+        env:
+          ADAMIK_TESTS_API_KEY: ${{ secrets.ADAMIK_TESTS_API_KEY }}
+        run: pnpm run test:bruno:local
+      - name: Get current date
+        if: always()
+        id: date
+        run: echo "date=$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_OUTPUT
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: adamik-api-logs-${{ steps.date.outputs.date }}
+          path: output.txt
+      - name: PR comment with file
+        if: failure()
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            ❌ Bruno API Tests failed!
+            🔍 Check the workflow run for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            You can find the full output in the artifacts of this run.

@@ -1,0 +1,20 @@
+meta {
+  name: bitcoin
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/validators
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: bitcoin
+}
+
+assert {
+  res.status: eq 400
+}
+

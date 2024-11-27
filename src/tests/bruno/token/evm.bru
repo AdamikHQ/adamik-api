@@ -1,0 +1,21 @@
+meta {
+  name: ethereum
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/token/:tokenId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: ethereum
+  tokenId: 0xdAC17F958D2ee523a2206206994597C13D831ec7
+}
+
+assert {
+  res.status: eq 200
+}
+

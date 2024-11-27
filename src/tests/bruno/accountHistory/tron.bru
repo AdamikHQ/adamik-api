@@ -1,0 +1,23 @@
+meta {
+  name: tron
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{api_url}}/api/account/history
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "tron",
+    "accountId": "TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre"
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.status.errors[0].message: eq "Unsupported feature for chainId 'tron'"
+}

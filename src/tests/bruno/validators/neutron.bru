@@ -1,0 +1,19 @@
+meta {
+  name: neutron
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/validators
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: neutron
+}
+
+assert {
+  res.status: eq 200
+}

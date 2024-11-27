@@ -1,0 +1,20 @@
+meta {
+  name: tron
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: tron
+}
+
+assert {
+  res.status: eq 200
+}
+

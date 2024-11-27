@@ -9,19 +9,15 @@ import {
   TransactionBroadcastStatus,
 } from "./types";
 
-const queryParams = new URLSearchParams({
-  key: BLOCKCHAIR_API_KEY,
-});
-
 // TODO Need proper mapping between Adamik ChainID <> Blockchair ChainID (to support more than bitcoin)
 
 // FIXME: add correct fetch parsing + validation + error handling
 
 async function fetchStats(chainId: ChainId) {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const url = `/${chainId}/stats`;
+  const url = `${explorerURL}/${chainId}/stats`;
 
-  const response = await fetch(explorerURL + url);
+  const response = await fetch(url);
 
   if (!response.ok) {
     console.warn(
@@ -52,9 +48,12 @@ async function fetchStats(chainId: ChainId) {
  */
 async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<BlockchairXpubResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
 
-  const url = `/dashboards/xpub/${xpub}?${queryParams.toString()}`;
-  const response = await fetch(explorerURL + url);
+  const url = `${explorerURL}/dashboards/xpub/${xpub}?${queryParams.toString()}`;
+  const response = await fetch(url);
 
   if (response.status >= 500) {
     console.warn(
@@ -90,10 +89,14 @@ async function fetchAddressesDashboard(
   addresses: string[]
 ): Promise<BlockchairAddressesResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
-  // FIXME: use POST instead of GET and put addresses in the body
-  const url = `/dashboards/addresses/${addresses.join(",")}?${queryParams.toString()}`;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
 
-  const response = await fetch(explorerURL + url);
+  // FIXME: use POST instead of GET and put addresses in the body
+  const url = `${explorerURL}/dashboards/addresses/${addresses.join(",")}?${queryParams.toString()}`;
+
+  const response = await fetch(url);
 
   if (response.status >= 500) {
     console.warn(
@@ -131,11 +134,14 @@ async function fetchAddressesDashboard(
 
 async function postTransaction(chainId: ChainId, signedTransaction: string): Promise<string> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+    data: signedTransaction,
+  });
 
-  queryParams.set("data", signedTransaction);
-  const url = `/push/transaction?${queryParams.toString()}`;
+  const url = `${explorerURL}/push/transaction?${queryParams.toString()}`;
 
-  const response = await fetch(`${explorerURL + url}`, {
+  const response = await fetch(url, {
     method: "POST",
   });
 
@@ -162,7 +168,7 @@ async function postTransaction(chainId: ChainId, signedTransaction: string): Pro
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       result.data.context.error
     );
-    throw new Error("Error in response data received from transaction broadcast");
+    throw new Error(`Error in response received from transaction broadcast: ${result}`);
   }
 
   return result.data.data.transaction_hash;
@@ -170,10 +176,13 @@ async function postTransaction(chainId: ChainId, signedTransaction: string): Pro
 
 async function fetchFeePerByte(chainId: ChainId): Promise<number> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
 
-  const url = `/stats?${queryParams.toString()}`;
+  const url = `${explorerURL}/stats?${queryParams.toString()}`;
 
-  const response = await fetch(explorerURL + url);
+  const response = await fetch(url);
 
   if (!response.ok) {
     console.warn(
@@ -198,9 +207,13 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
 
 async function fetchTransaction(chainId: ChainId, txHash: string): Promise<BlockchairTransactionResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const url = `/dashboards/transaction/${txHash}?${queryParams.toString()}`;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
 
-  const response = await fetch(explorerURL + url);
+  const url = `${explorerURL}/dashboards/transaction/${txHash}?${queryParams.toString()}`;
+
+  const response = await fetch(url);
 
   if (response.status >= 500) {
     console.warn(
@@ -253,9 +266,13 @@ async function fetchTransactionMetadata(
   };
 }> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const url = `/dashboards/transaction/${txHash}?${queryParams.toString()}`;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
 
-  const response = await fetch(explorerURL + url);
+  const url = `${explorerURL}/dashboards/transaction/${txHash}?${queryParams.toString()}`;
+
+  const response = await fetch(url);
 
   if (!response.ok) {
     console.warn(
@@ -289,9 +306,13 @@ async function fetchRawTransactionMetadata(
   };
 }> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const url = `/raw/transaction/${txHash}?${queryParams.toString()}`;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
 
-  const response = await fetch(explorerURL + url);
+  const url = `${explorerURL}/raw/transaction/${txHash}?${queryParams.toString()}`;
+
+  const response = await fetch(url);
 
   if (!response.ok) {
     console.warn(

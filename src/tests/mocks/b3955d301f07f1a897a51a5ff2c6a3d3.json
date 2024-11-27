@@ -1,0 +1,45 @@
+{
+  "request": {
+    "url": "https://mainnet-api.algonode.cloud/v2/accounts/RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM",
+    "method": "GET"
+  },
+  "response": {
+    "address": "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM",
+    "amount": 4383925,
+    "amount-without-pending-rewards": 4383925,
+    "apps-local-state": [],
+    "apps-total-schema": {
+      "num-byte-slice": 0,
+      "num-uint": 0
+    },
+    "assets": [
+      {
+        "amount": 110,
+        "asset-id": 604,
+        "is-frozen": false
+      },
+      {
+        "amount": 110000,
+        "asset-id": 312769,
+        "is-frozen": false
+      },
+      {
+        "amount": 0,
+        "asset-id": 31566704,
+        "is-frozen": false
+      }
+    ],
+    "created-apps": [],
+    "created-assets": [],
+    "min-balance": 400000,
+    "pending-rewards": 0,
+    "reward-base": 218288,
+    "rewards": 3290710,
+    "round": 44735597,
+    "status": "Offline",
+    "total-apps-opted-in": 0,
+    "total-assets-opted-in": 3,
+    "total-created-apps": 0,
+    "total-created-assets": 0
+  }
+}

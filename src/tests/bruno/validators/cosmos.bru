@@ -1,0 +1,20 @@
+meta {
+  name: cosmoshub
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/validators
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: cosmoshub
+}
+
+assert {
+  res.status: eq 200
+}
+

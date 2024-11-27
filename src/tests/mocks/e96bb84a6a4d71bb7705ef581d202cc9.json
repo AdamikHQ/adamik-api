@@ -1,0 +1,23 @@
+{
+  "request": {
+    "url": "https://mainnet-api.algonode.cloud/v2/assets/604",
+    "method": "GET"
+  },
+  "response": {
+    "index": 604,
+    "params": {
+      "clawback": "RL6VDLXCN5G7N2GRTS7YLVDSFT4PVBBUOVTVS7T26OQ5MLXYQKRMI5ADXY",
+      "creator": "FTGQNEGQPB7PJFK6MWILALT3DSLQ2SHC23SD7R3NTG7GDTZNHRRDXVGL3Y",
+      "decimals": 0,
+      "default-frozen": false,
+      "freeze": "RL6VDLXCN5G7N2GRTS7YLVDSFT4PVBBUOVTVS7T26OQ5MLXYQKRMI5ADXY",
+      "manager": "RL6VDLXCN5G7N2GRTS7YLVDSFT4PVBBUOVTVS7T26OQ5MLXYQKRMI5ADXY",
+      "name": "IanCoin",
+      "name-b64": "SWFuQ29pbg==",
+      "reserve": "FTGQNEGQPB7PJFK6MWILALT3DSLQ2SHC23SD7R3NTG7GDTZNHRRDXVGL3Y",
+      "total": 23000000,
+      "unit-name": "IANC",
+      "unit-name-b64": "SUFOQw=="
+    }
+  }
+}

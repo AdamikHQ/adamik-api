@@ -1,0 +1,41 @@
+meta {
+  name: cosmoshub
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{api_url}}/api/transaction/broadcast
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "celestia",
+        "mode": "transfer",
+        "sender": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
+        "recipient": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
+        "useMaxAmount": false,
+        "format": "hex",
+        "tokenId": "",
+        "params": {
+          "pubKey": "A4M9WuvnLKaOOBbEpGbTlSgJKfB8z1513E4tccLJLaRY"
+        },
+        "amount": "200359",
+        "fees": "1928",
+        "gas": "96379",
+        "nonce": "5"
+      },
+      "encoded": "7b226163636f756e745f6e756d626572223a2231333935383338222c22636861696e5f6964223a2263656c6573746961222c22666565223a7b22616d6f756e74223a5b7b22616d6f756e74223a2231393238222c2264656e6f6d223a2275746961227d5d2c22676173223a223936333739227d2c226d656d6f223a22222c226d736773223a5b7b2274797065223a22636f736d6f732d73646b2f4d736753656e64222c2276616c7565223a7b22616d6f756e74223a5b7b22616d6f756e74223a22323030333539222c2264656e6f6d223a2275746961227d5d2c2266726f6d5f61646472657373223a2263656c657374696131746b657066796c686c37666d6b727a737670686b79327a307237757076723974746435637333222c22746f5f61646472657373223a2263656c657374696131746b657066796c686c37666d6b727a737670686b79327a307237757076723974746435637333227d7d5d2c2273657175656e6365223a2235227d",
+      "signature": "DUMMY"
+    }
+  }
+}
+
+assert {
+  res.status: eq 400
+}
+

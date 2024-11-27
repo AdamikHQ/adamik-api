@@ -6,7 +6,7 @@ import { env } from "~/env";
 // build their and our monitoring dashboards, and provide data to Stripe for billing
 
 const moesifOptions: MoesifOptions = {
-  applicationId: env.MOESIF_APPLICATION_ID,
+  applicationId: env.MOESIF_APPLICATION_ID as string,
   logBody: true,
   isNextJsAppRouter: true,
 
@@ -15,6 +15,11 @@ const moesifOptions: MoesifOptions = {
   },
 };
 
-const applyMoesifMiddleware = moesif(moesifOptions);
+const applyMoesifMiddleware =
+  process.env.TEST_ENV === "true"
+    ? (f: any) => {
+        return f;
+      }
+    : moesif(moesifOptions);
 
 export default applyMoesifMiddleware;
