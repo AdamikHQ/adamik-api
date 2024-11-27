@@ -1,0 +1,26 @@
+meta {
+  name: bitcoin
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{api_url}}/api/address/encode
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "bitcoin",
+    "pubkey": "0250863ad64a87ae8a2fe83c1af1a8403cb53f53e486d8511dad8a04887e5b2352"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.addresses[0].address: eq 1PMycacnJaSqwwJqjawXBErnLsZ7RkXUAs
+  res.body.addresses[1].address: eq 3BxwGNjvG4CP14tAZodgYyZ7UTjruYDyAM
+  res.body.addresses[2].address: eq bc1q7499s50fxu4c0qg23esvm5h8elvqkm33r2tdza
+  res.body.addresses[3].address: eq bc1p5ymjdxmqesnfeg42lyjh642570nxp7dgp0uzh22uq4z3gew9yymst6pshk
+}

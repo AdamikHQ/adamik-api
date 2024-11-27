@@ -1,0 +1,23 @@
+meta {
+  name: cosmoshub
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_url}}/api/address/validate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "cosmoshub",
+    "address": "cosmos1dsx5hhngvdenhcf6shqan2ujm8y8esdye45j33"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body: eq true
+}

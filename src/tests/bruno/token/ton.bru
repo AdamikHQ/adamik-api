@@ -1,0 +1,21 @@
+meta {
+  name: ton
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/token/:tokenId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: ton
+  tokenId: EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs
+}
+
+assert {
+  res.status: eq 200
+}
+

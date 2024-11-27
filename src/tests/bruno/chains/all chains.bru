@@ -1,0 +1,17 @@
+meta {
+  name: all chains
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/chains
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}
+
+

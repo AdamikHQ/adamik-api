@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z, ZodError, ZodType } from "zod";
 import { Status } from "~/app/model/types_WIP";
+import { mswServer } from "~/tests/tools/msw";
 import { AdamikHttpError, InvalidTransactionError } from "./errors";
 import applyMoesifMiddleware from "./moesifHandler";
 
@@ -57,6 +58,10 @@ export function apiHandler<
   }: Schemas<RequestBody, ResponseBody, PathParams, QueryParams>,
   methodCall: MethodCall<RequestBody, z.input<ResponseBody>, PathParams, QueryParams>
 ) {
+  if (process.env.TEST_ENV === "true") {
+    mswServer.listen();
+  }
+
   return applyMoesifMiddleware(
     async (request: NextRequest, context: { params?: unknown }): Promise<NextResponse> => {
       try {

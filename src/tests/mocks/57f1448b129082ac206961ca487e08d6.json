@@ -1,0 +1,18 @@
+{
+  "request": {
+    "url": "https://lcd-celestia.imperator.co/cosmos/bank/v1beta1/balances/celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
+    "method": "GET"
+  },
+  "response": {
+    "balances": [
+      {
+        "denom": "utia",
+        "amount": "147827"
+      }
+    ],
+    "pagination": {
+      "next_key": null,
+      "total": "1"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
-import { AdamikApiServerError, UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
+import { UnsupportedTokenIDError, UserInputError } from "~/app/tools/handlers/errors";
 import {
   AlgoAccount,
   AlgoAsset,
@@ -82,7 +82,7 @@ async function broadcast(payload: Buffer): Promise<string> {
   );
 
   if (data.message) {
-    throw new AdamikApiServerError("Transaction broadcast failed", data.message);
+    throw new UserInputError(`Transaction broadcast failed: ${data.message}`);
   }
 
   return data.txId;

@@ -1,0 +1,25 @@
+meta {
+  name: bitcoin
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: bitcoin
+  transactionId: 9a451241f56b311063b5d6434a5ea49f5eb965e4a0cc9c1676f03801019ee90c
+}
+
+assert {
+  res.status: eq 200
+}
+
