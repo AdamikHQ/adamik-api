@@ -89,7 +89,7 @@ async function fetchAddressesDashboard(
   addresses: string[]
 ): Promise<BlockchairAddressesResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const BATCH_SIZE = 100;
+  const BATCH_SIZE = 75;
 
   // If no addresses, return early
   if (addresses.length === 0) {
