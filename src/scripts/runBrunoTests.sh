@@ -35,7 +35,7 @@ done
 
 if [ ${#failedRuns[@]} -ne 0 ]
 then
-  echo -e "\nRUNS WITH FAILURES:"
+  echo -e "\nSUMMARY - RUNS WITH FAILURES (scroll above for details):"
   for collection in ${failedRuns[@]}; do
     echo "--- ${collection}"
   done
