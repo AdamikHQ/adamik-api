@@ -18,7 +18,14 @@ body:json {
 }
 
 assert {
-  res.body.balances: isDefined tokens
-  res.body.balances.native.total: eq "11007"
+  res.status: eq 200
+
+  res.body.chainId: eq "bitcoin"
+  res.body.accountId: eq "xpub6BtWBf3Pu6hYwJBKvEwG7JtrTxxDrSGy39HaTgZz6GTSaFWFdoCtuEXSQtoKGaYdz1emg8xTXKYwjhu3xXRPzFnYS1z4yjKj7hLDQyNeDZr"
+  res.body.balances: isDefined
+  res.body.balances.native: isDefined
+  
   res.body.balances.native.available: eq "11007"
+  res.body.balances.native.total: eq "11007"
+  res.body.balances.native.unconfirmed: eq "0"
 }
