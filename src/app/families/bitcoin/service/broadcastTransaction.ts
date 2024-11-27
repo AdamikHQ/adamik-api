@@ -14,6 +14,8 @@ async function broadcastTransaction(
 ): Promise<BroadcastStatus> {
   let transactionToBroadcast;
 
+  // TODO Split this between /broadcast and /broadcast/raw endpoints
+  // (i.e move the raw psbt option to encodeTransactionToBroadcast)
   // 70736274ff means that it's a raw PSBT instead of raw hex transaction: https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki#specification
   if (signedTransaction.startsWith("70736274ff")) {
     const psbt = Psbt.fromHex(signedTransaction);
