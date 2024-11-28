@@ -87,6 +87,8 @@ async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<Blockch
     throw new Error("Error in Xpub data received from the explorer");
   }
 
+  console.log("fetchXpubDashboard response:", result.data);
+
   return result.data;
 }
 
@@ -95,8 +97,9 @@ async function fetchAddressesDashboard(
   addresses: string[]
 ): Promise<BlockchairAddressesResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const BATCH_SIZE = 75;
+  const BATCH_SIZE = 100;
 
+  console.log("Addresses to fetch:", addresses);
   // If no addresses, return early
   if (addresses.length === 0) {
     return {
@@ -172,6 +175,7 @@ async function fetchAddressesDashboard(
         utxo: [...(merged.data.utxo || []), ...(current.data.utxo || [])],
       };
     }
+    console.log("fetchAddressesDashboard response:", merged);
 
     return merged;
   });
