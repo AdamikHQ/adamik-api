@@ -45,6 +45,12 @@ async function fetchStats(chainId: ChainId) {
  *    - Use the list of checked addresses from the response
  *    - Query these addresses via fetchAddressesDashboard()
  *    - Filter for block_id === -1 to find mempool transactions
+ *
+ * NOTE ON ADDRESS SCANNING:
+ * - The API automatically determines scanning depth following BIP32 standard
+ * - Addresses are processed in groups of 20
+ * - Scanning continues until finding a gap limit of unused addresses
+ * - No manual depth parameter possible - the API handles this automatically
  */
 async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<BlockchairXpubResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
