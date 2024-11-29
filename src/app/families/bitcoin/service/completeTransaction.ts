@@ -25,14 +25,22 @@ async function completeTransaction(
   const feeRate = await fetchFeePerByte(this.chainId);
 
   // safe to cast here as we already validated sender in prevalidateTransaction
-  const allUtxos = isValidXpub(this.chainId, transaction.data.sender)
-    ? (await fetchXpubDashboard(this.chainId, transaction.data.sender)).data[transaction.data.sender].utxo
-    : (await fetchAddressesDashboard(this.chainId, [transaction.data.sender])).data?.utxo;
-
   // Get current block height from the appropriate dashboard
+  interface DashboardData {
+    utxo: Array<UtxoWithMetadata>;
+  }
+
   const blockHeightResponse = isValidXpub(this.chainId, transaction.data.sender)
     ? await fetchXpubDashboard(this.chainId, transaction.data.sender)
     : await fetchAddressesDashboard(this.chainId, [transaction.data.sender]);
+
+  const allUtxos = isValidXpub(this.chainId, transaction.data.sender)
+    ? (
+        blockHeightResponse.data?.[
+          transaction.data.sender as keyof typeof blockHeightResponse.data
+        ] as DashboardData
+      )?.utxo
+    : (blockHeightResponse.data as DashboardData)?.utxo;
 
   const currentBlockHeight = await getCurrentBlockHeight(this.chainId, blockHeightResponse);
 
