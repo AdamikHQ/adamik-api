@@ -33,25 +33,16 @@ async function fetchStats(chainId: ChainId) {
 }
 
 /**
- * Fetches xpub data from Blockchair API
- *
- * LIMITATIONS:
- * 1. This endpoint only returns UTXOs that are included in blocks
- *    - Includes confirmed UTXOs (confirmations >= 6)
- *    - Includes partially confirmed UTXOs (0 < confirmations < 6)
- *    - Does NOT include mempool transactions (confirmations = 0)
- *
- * 2. To get a complete view including mempool transactions:
- *    - Use the list of checked addresses from the response
- *    - Query these addresses via fetchAddressesDashboard()
- *    - Filter for block_id === -1 to find mempool transactions
- *
+ * Fetches xpub data from Blockchair API:
  * NOTE ON ADDRESS SCANNING:
  * - The API automatically determines scanning depth following BIP32 standard
  * - Addresses are processed in groups of 20
  * - Scanning continues until finding a gap limit of unused addresses
  * - No manual depth parameter possible - the API handles this automatically
+ * - Default limit is 100 addresses (can be changed with ?limit parameter up to 10000)
+ * - Premium API users get increased limit of up to 20,000 addresses (10,000 main + 10,000 change)
  */
+
 async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<BlockchairXpubResponse> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   const queryParams = new URLSearchParams({
@@ -86,9 +77,6 @@ async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<Blockch
     );
     throw new Error("Error in Xpub data received from the explorer");
   }
-
-  console.log("fetchXpubDashboard response:", result.data);
-
   return result.data;
 }
 
@@ -123,7 +111,6 @@ async function fetchAddressesDashboard(
       // FIXME: If/when Blockchair supports it, switch to POST request with addresses in body
       // Currently implementing batching to stay within 100-address GET limit
       const url = `${explorerURL}/dashboards/addresses/${batchAddresses.join(",")}?${queryParams.toString()}`;
-
       const response = await fetch(url);
 
       if (response.status >= 500) {
@@ -174,7 +161,6 @@ async function fetchAddressesDashboard(
         utxo: [...(merged.data.utxo || []), ...(current.data.utxo || [])],
       };
     }
-
     return merged;
   });
 }

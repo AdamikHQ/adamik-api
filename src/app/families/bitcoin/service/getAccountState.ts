@@ -17,11 +17,14 @@ const createEmptyBalances = () => ({
  * Gets account state for either an xpub or individual address
  *
  * Note: The implementation differs between xpub and address:
- * - For addresses: mempool transactions are directly included in the response
- * - For xpubs: requires additional address lookup to detect mempool transactions
+ * - For addresses: mempool transactions are ALWAYS included in the response
+ * - For xpubs: mempool transactions are SOMETIMES included in the response, but may be temporarily dropped by the explorer
  *
- * This ensures consistent unconfirmed balance reporting regardless of account type.
+ * As a result, the unconfirmed balance reported for xpubs may be lower than the actual unconfirmed balance reported for addresses
+ * FIXME: This is a bug, and we should fix it by ensuring that mempool transactions are always included in the response for xpubs
+ * Currently being discussed with the Blockchain explorer team
  */
+
 async function getAccountState(this: BitcoinService, accountId: string): Promise<AccountState> {
   return isValidXpub(this.chainId, accountId)
     ? getXpubState(this.chainId, accountId)
@@ -44,6 +47,7 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
   const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
   const aggregatedBalances = createEmptyBalances();
 
+  console.log("addressesResult:", addressesResult.data.utxo);
   for (const address of addresses) {
     // Unconfirmed balance includes both:
     // - Mempool transactions (block_id = -1)
@@ -77,44 +81,39 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
 async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState> {
   // 1. Get all UTXOs that are in blocks from xpub endpoint
   const xpubResponse = await fetchXpubDashboard(chainId, xpub);
-
   const currentBlockHeight = await getCurrentBlockHeight(chainId, xpubResponse);
   const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
+
+  // Calculate confirmed balance for UTXOs with >= required confirmations
+  // Confirmed tx are always visible in the xpub dashboard response
+  const confirmedUtxos = xpubResponse.data?.[xpub]?.utxo.filter((utxo) => {
+    // Let's, exclude mempool transactions (which can SOMETIMES be visible in the xpub dashboard response)
+    if (utxo.block_id === -1) return false;
+    // Then check confirmations for transactions in blocks
+    return currentBlockHeight - utxo.block_id + 1 >= confirmations_required;
+  });
+  const confirmedUTXOsBalance = confirmedUtxos?.reduce((total, utxo) => total + BigInt(utxo.value), 0n) ?? 0n;
+
   // Calculate unconfirmed balance for UTXOs in blocks but < required confirmations
-  const unconfirmedFromBlocks =
-    xpubResponse.data?.[xpub]?.utxo
-      .filter((utxo) => currentBlockHeight - utxo.block_id + 1 < confirmations_required)
-      .reduce((total, utxo) => total + BigInt(utxo.value), 0n) ?? 0n;
+  // Because these transactions are included in a block, they are also visible in the xpub dashboard response
+  const unconfirmedUtxos = xpubResponse.data?.[xpub]?.utxo.filter(
+    (utxo) => currentBlockHeight - utxo.block_id + 1 < confirmations_required
+  );
+  const unconfirmedUtxosBalance =
+    unconfirmedUtxos?.reduce((total, utxo) => total + BigInt(utxo.value), 0n) ?? 0n;
 
-  // 2. Get list of all checked addresses
-  const checkedAddresses = xpubResponse.context.checked
-    .map((item) => {
-      const [, address] = item.split(": ");
-      if (!address) {
-        return null;
-      }
-      return address;
-    })
-    .filter((address): address is string => address !== null);
+  // Get mempool transactions
+  // Mempool transactions are SOMETIMES visible in the xpub dashboard response (but not always)
+  const mempoolUtxos = xpubResponse.data?.[xpub]?.utxo.filter((utxo) => utxo.block_id === -1);
+  const mempoolUtxosBalance = mempoolUtxos?.reduce((total, utxo) => total + BigInt(utxo.value), 0n) ?? 0n;
 
-  // 3. Fetch addresses data to check for mempool transactions
-  const addressesResponse = await fetchAddressesDashboard(chainId, checkedAddresses);
-
-  // 4. Calculate unconfirmed balance from mempool transactions only
-  const mempoolBalance =
-    addressesResponse.data?.utxo
-      .filter((utxo) => utxo.block_id === -1) // Only pure mempool transactions
-      .reduce((total, utxo) => total + BigInt(utxo.value), 0n) ?? 0n;
-  console.log("--> Mempool balance:", mempoolBalance);
-
-  // 5. Combine: unconfirmed = (UTXOs in blocks but unconfirmed) + (mempool UTXOs)
   return {
     chainId: chainId,
     balances: {
       native: {
-        available: xpubResponse.data?.[xpub]?.xpub.balance ?? 0n,
-        total: xpubResponse.data?.[xpub]?.xpub.balance ?? 0n,
-        unconfirmed: unconfirmedFromBlocks + mempoolBalance,
+        available: confirmedUTXOsBalance + unconfirmedUtxosBalance + mempoolUtxosBalance,
+        total: confirmedUTXOsBalance + unconfirmedUtxosBalance + mempoolUtxosBalance,
+        unconfirmed: unconfirmedUtxosBalance + mempoolUtxosBalance,
       },
     },
     accountId: xpub,
