@@ -62,7 +62,76 @@ async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   return fetch(url, newOptions);
 }
 
-async function fetchERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
+// Version that only fetches one single page, depending on the provided paginationToken
+async function fetchERC20TokenAmounts(
+  chainId: ChainId,
+  address: EvmAddress,
+  paginationToken?: string
+): Promise<{ tokens: TokenAmount[]; nextPage: string | null }> {
+  let tokens: TokenAmount[] = [];
+  let nextPage: string | null = null;
+
+  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  if (!moralisChainId) {
+    console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
+    return { tokens, nextPage };
+  }
+
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  if (!explorerURL) {
+    console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
+    return { tokens, nextPage };
+  }
+
+  const paginationData = paginationFromB64(paginationToken);
+  if (paginationData && typeof paginationData !== "string") {
+    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+  }
+
+  const queryParams = new URLSearchParams({
+    chain: moralisChainId,
+    exclude_spam: "false",
+    limit: "20", // Smaller pages if pagination is requested
+    cursor: paginationData,
+  });
+
+  const url = `${explorerURL}/v2.2/wallets/${address}/tokens?${queryParams}`;
+
+  const response = await fetchWithHeaders(url).then((response) => response.json());
+
+  const results: MoralisERC20TokenBalance[] = response?.result;
+  if (!Array.isArray(results)) {
+    return { tokens, nextPage };
+  }
+
+  results
+    // Moralis includes an "ETH" token in the results, labeled as native_token: true
+    // so we need to remove these from the results
+    ?.filter((tokenData: MoralisERC20TokenBalance) => !tokenData.native_token)
+    .forEach((result) =>
+      tokens.push({
+        token: {
+          chainId,
+          type: TokenType.ERC20,
+          id: result.token_address,
+          name: result.name,
+          decimals: result.decimals,
+          ticker: result.symbol,
+          contractAddress: result.token_address,
+        },
+        amount: BigInt(result.balance),
+      })
+    );
+
+  if (response?.cursor) {
+    nextPage = paginationToB64(response.cursor);
+  }
+
+  return { tokens, nextPage };
+}
+
+// Version that fully handles pagination, to return all results
+async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
   const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
@@ -76,23 +145,23 @@ async function fetchERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Pr
   }
 
   let tokenAmounts: TokenAmount[] = [];
-  let data;
+  let response;
   do {
     const queryParams = new URLSearchParams({
       chain: moralisChainId,
       exclude_spam: "false",
-      limit: "200",
+      limit: "200", // Larger pages if all pagination is handled in one request
     });
 
-    if (data?.cursor) {
-      queryParams.append("cursor", data.cursor);
+    if (response?.cursor) {
+      queryParams.append("cursor", response.cursor);
     }
 
     const url = `${explorerURL}/v2.2/wallets/${address}/tokens?${queryParams}`;
 
-    data = await fetchWithHeaders(url).then((response) => response.json());
+    response = await fetchWithHeaders(url).then((response) => response.json());
 
-    const results: MoralisERC20TokenBalance[] = data?.result;
+    const results: MoralisERC20TokenBalance[] = response?.result;
     if (!Array.isArray(results)) {
       break;
     }
@@ -115,7 +184,7 @@ async function fetchERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Pr
           amount: BigInt(result.balance),
         })
       );
-  } while (data?.cursor);
+  } while (response?.cursor);
 
   return tokenAmounts;
 }
@@ -384,6 +453,7 @@ function moralisToAdamikAccountTransaction(
 
 export {
   fetchAccountTransactions,
+  fetchAllERC20TokenAmounts,
   fetchERC20Token,
   fetchERC20TokenAmounts,
   fetchTransaction,

@@ -1,6 +1,7 @@
 import {
   AccountHistory,
   AccountState,
+  AccountTokens,
   BroadcastStatus,
   ChainId,
   ChainValidators,
@@ -70,6 +71,7 @@ function isStakingService(object: BaseChainService | StakingService): object is 
 
 interface TokenService {
   getTokenInfo(tokenId: string): Promise<Token>;
+  getAccountTokens(accountId: string, paginationToken?: string): Promise<Paginated<AccountTokens>>;
 }
 
 // Type predicate: checks that the input object implements the TokenService interface
@@ -78,6 +80,9 @@ function isTokenService(object: BaseChainService | TokenService): object is Toke
   // instance is necessary to extract members of the interface
   const dummy: TokenService = {
     getTokenInfo: (): never => {
+      throw new Error("Must not be used");
+    },
+    getAccountTokens: (): never => {
       throw new Error("Must not be used");
     },
   };

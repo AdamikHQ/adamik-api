@@ -7,6 +7,7 @@ import {
 } from "./service/encodeTransaction";
 import { getAccountHistory as getAccountHistoryFn } from "./service/getAccountHistory";
 import { getAccountState as getAccountStateFn } from "./service/getAccountState";
+import { getAccountTokens as getAccountTokensFn } from "./service/getAccountTokens";
 import { getTokenInfo as getTokenInfoFn } from "./service/getTokenInfo";
 import { getTransaction as getTransactionFn } from "./service/getTransaction";
 import { getValidators as getValidatorsFn } from "./service/getValidators";
@@ -30,7 +31,9 @@ class CosmosService extends BaseChainService implements TokenService, StakingSer
   override encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
   override broadcastTransaction = broadcastTransactionFn;
 
+  getAccountTokens = getAccountTokensFn;
   getTokenInfo = getTokenInfoFn;
+
   getValidators = getValidatorsFn;
 }
 

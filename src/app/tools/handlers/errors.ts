@@ -9,6 +9,29 @@ export abstract class AdamikHttpError extends Error {
   }
 }
 
+// FIXME Should this make the distinction with UnsupportedFeatureError ?
+/*
+export class NotImplementedError extends AdamikHttpError {
+  name = "NotImplementedError";
+  statusText = "Not implemented";
+  status = 500;
+
+  constructor(message: string) {
+    super(message);
+  }
+}
+*/
+
+export class ThirdPartyProviderError extends AdamikHttpError {
+  name = "ThirdPartyProviderError";
+  statusText = "Third Party Provider Error";
+  status = 500;
+
+  constructor(message?: string) {
+    super(message);
+  }
+}
+
 /**
  * This error should be the one used most of the time. Consider creating a custom error when reusing the same error message or statusText
  */
