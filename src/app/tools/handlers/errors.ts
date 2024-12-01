@@ -82,7 +82,7 @@ export class UnsupportedTokenIDError extends UserInputError {
   statusText = "Unsupported tokenId";
 
   constructor(tokenId: any, chainId: ChainId) {
-    super(`Token ID ${tokenId} is not supported for chain ID ${chainId}`);
+    super(`Token ID '${tokenId}' is not supported for chain ID ${chainId}`);
   }
 }
 

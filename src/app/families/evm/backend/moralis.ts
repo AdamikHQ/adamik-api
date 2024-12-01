@@ -10,7 +10,11 @@ import {
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
-import { InvalidPaginationTokenError, UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
+import {
+  InvalidPaginationTokenError,
+  ThirdPartyProviderError,
+  UnsupportedTokenIDError,
+} from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "../../common";
 import { EvmAddress } from "../types";
 import {
@@ -209,18 +213,29 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
 
   const url = `${explorerURL}/v2.2/erc20/metadata?${queryParams}`;
 
-  // (array destructuring, we only need the 1st item)
-  const [result]: [MoralisERC20Token] = await fetchWithHeaders(url).then((response) => response.json());
+  const response = await fetchWithHeaders(url).then((response) => response.json());
 
-  return {
-    chainId: chainId,
-    type: TokenType.ERC20,
-    id: result.address,
-    name: result.name,
-    ticker: result.symbol,
-    decimals: result.decimals,
-    contractAddress: result.address,
-  };
+  if (response.message === `addresses with value '${tokenId}' is not a valid hex address`) {
+    throw new UnsupportedTokenIDError(tokenId, chainId);
+  }
+
+  try {
+    // Array destructuring, we only need the 1st item
+    const [result]: [MoralisERC20Token] = response;
+
+    return {
+      chainId: chainId,
+      type: TokenType.ERC20,
+      id: result.address,
+      name: result.name,
+      ticker: result.symbol,
+      decimals: result.decimals,
+      contractAddress: result.address,
+    };
+  } catch (e) {
+    console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
+    throw new ThirdPartyProviderError(`Invalid data in response from explorer for chain ID ${chainId}`);
+  }
 }
 
 async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<MoralisTransaction | null> {
@@ -358,7 +373,7 @@ function moralisToAdamikTransaction(
         `/!\\ Invalid transaction data in response from explorer for chainId ${chainId}:`,
         moralisTransaction
       );
-      throw new Error(`Invalid data in response from explorer for chain ID ${chainId}`);
+      throw new ThirdPartyProviderError(`Invalid data in response from explorer for chain ID ${chainId}`);
     }
 
     parsedTransaction.senders = [
