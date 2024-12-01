@@ -18,7 +18,9 @@
   "paths": {
     "/api": {
       "get": {
-        "tags": [""],
+        "tags": [
+          ""
+        ],
         "summary": "OpenAPI spec",
         "description": "Provides the OpenAPI specification of the Adamik API",
         "responses": {
@@ -37,7 +39,9 @@
     },
     "/api/address/encode": {
       "post": {
-        "tags": ["address"],
+        "tags": [
+          "address"
+        ],
         "summary": "Get addresses from a public key",
         "description": "Encodes the provided public key to one or multiple addresses, for the given chain ID.       Each address is labeled with a type, which may be \"default\" when there is only one address.",
         "requestBody": {
@@ -53,7 +57,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["chainId", "pubkey"]
+                "required": [
+                  "chainId",
+                  "pubkey"
+                ]
               }
             }
           }
@@ -84,11 +91,18 @@
                             "type": "string"
                           }
                         },
-                        "required": ["type", "address"]
+                        "required": [
+                          "type",
+                          "address"
+                        ]
                       }
                     }
                   },
-                  "required": ["chainId", "pubkey", "addresses"]
+                  "required": [
+                    "chainId",
+                    "pubkey",
+                    "addresses"
+                  ]
                 }
               }
             }
@@ -98,7 +112,9 @@
     },
     "/api/address/validate": {
       "post": {
-        "tags": ["address"],
+        "tags": [
+          "address"
+        ],
         "summary": "Validate an address",
         "description": "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
         "requestBody": {
@@ -114,7 +130,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["chainId", "address"]
+                "required": [
+                  "chainId",
+                  "address"
+                ]
               }
             }
           }
@@ -135,7 +154,9 @@
     },
     "/api/account/state": {
       "post": {
-        "tags": ["account"],
+        "tags": [
+          "account"
+        ],
         "summary": "Retrieve an account's state",
         "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
         "parameters": [
@@ -247,7 +268,10 @@
                     "description": "Account identifier (address, xpub, etc) for the specified chain ID"
                   }
                 },
-                "required": ["chainId", "accountId"],
+                "required": [
+                  "chainId",
+                  "accountId"
+                ],
                 "examples": [
                   {
                     "chainId": "ethereum",
@@ -388,7 +412,14 @@
                                   },
                                   "type": {
                                     "type": "string",
-                                    "enum": ["TRC10", "TRC20", "ASA", "ERC20", "IBC", "JETTON"]
+                                    "enum": [
+                                      "TRC10",
+                                      "TRC20",
+                                      "ASA",
+                                      "ERC20",
+                                      "IBC",
+                                      "JETTON"
+                                    ]
                                   },
                                   "id": {
                                     "type": "string"
@@ -406,14 +437,22 @@
                                     "type": "string"
                                   }
                                 },
-                                "required": ["chainId", "type", "id", "name", "ticker"]
+                                "required": [
+                                  "chainId",
+                                  "type",
+                                  "id",
+                                  "name",
+                                  "ticker"
+                                ]
                               },
                               "amount": {
                                 "type": "string",
                                 "description": "Current balance of this token owned by the account. The amount is expressed in the token's smallest unit (based on its decimals)."
                               }
                             },
-                            "required": ["token"]
+                            "required": [
+                              "token"
+                            ]
                           }
                         },
                         "staking": {
@@ -453,14 +492,22 @@
                                   },
                                   "status": {
                                     "type": "string",
-                                    "enum": ["free", "locked", "unlocking", "unlocked"]
+                                    "enum": [
+                                      "free",
+                                      "locked",
+                                      "unlocking",
+                                      "unlocked"
+                                    ]
                                   },
                                   "completionDate": {
                                     "type": "number",
                                     "description": "Unix timestamp (in milliseconds) when the unbonding period will complete. Only present for positions with 'unlocking' status."
                                   }
                                 },
-                                "required": ["validatorAddresses", "status"]
+                                "required": [
+                                  "validatorAddresses",
+                                  "status"
+                                ]
                               },
                               "description": "Detailed list of individual staking positions."
                             },
@@ -480,7 +527,9 @@
                                         "description": "Amount of unclaimed staking rewards in native currency from this validator."
                                       }
                                     },
-                                    "required": ["validatorAddress"]
+                                    "required": [
+                                      "validatorAddress"
+                                    ]
                                   },
                                   "description": "List of unclaimed staking rewards in native currency, per validator."
                                 },
@@ -497,7 +546,14 @@
                                           },
                                           "type": {
                                             "type": "string",
-                                            "enum": ["TRC10", "TRC20", "ASA", "ERC20", "IBC", "JETTON"]
+                                            "enum": [
+                                              "TRC10",
+                                              "TRC20",
+                                              "ASA",
+                                              "ERC20",
+                                              "IBC",
+                                              "JETTON"
+                                            ]
                                           },
                                           "id": {
                                             "type": "string"
@@ -515,7 +571,13 @@
                                             "type": "string"
                                           }
                                         },
-                                        "required": ["chainId", "type", "id", "name", "ticker"]
+                                        "required": [
+                                          "chainId",
+                                          "type",
+                                          "id",
+                                          "name",
+                                          "ticker"
+                                        ]
                                       },
                                       "validatorAddress": {
                                         "type": "string"
@@ -525,20 +587,31 @@
                                         "description": "Amount of unclaimed staking rewards in this token. The amount is expressed in the token's smallest unit."
                                       }
                                     },
-                                    "required": ["token"]
+                                    "required": [
+                                      "token"
+                                    ]
                                   }
                                 }
                               },
-                              "required": ["native", "tokens"],
+                              "required": [
+                                "native",
+                                "tokens"
+                              ],
                               "description": "Information about unclaimed staking rewards, both in native currency and tokens."
                             }
                           },
-                          "required": ["positions"]
+                          "required": [
+                            "positions"
+                          ]
                         }
                       }
                     }
                   },
-                  "required": ["chainId", "accountId", "balances"]
+                  "required": [
+                    "chainId",
+                    "accountId",
+                    "balances"
+                  ]
                 }
               }
             }
@@ -548,7 +621,9 @@
     },
     "/api/account/state/tokens": {
       "post": {
-        "tags": ["account"],
+        "tags": [
+          "account"
+        ],
         "summary": "Retrieve an account's tokens",
         "description": "Returns the tokens (amount and details) held by a specified account identifier and chain ID. This endpoint allows for pagination over the returned tokens.",
         "parameters": [
@@ -644,7 +719,10 @@
                     "description": "Account identifier (address, xpub, etc) for the specified chain ID"
                   }
                 },
-                "required": ["chainId", "accountId"],
+                "required": [
+                  "chainId",
+                  "accountId"
+                ],
                 "examples": [
                   {
                     "chainId": "ethereum",
@@ -753,7 +831,14 @@
                                   },
                                   "type": {
                                     "type": "string",
-                                    "enum": ["TRC10", "TRC20", "ASA", "ERC20", "IBC", "JETTON"]
+                                    "enum": [
+                                      "TRC10",
+                                      "TRC20",
+                                      "ASA",
+                                      "ERC20",
+                                      "IBC",
+                                      "JETTON"
+                                    ]
                                   },
                                   "id": {
                                     "type": "string"
@@ -771,14 +856,22 @@
                                     "type": "string"
                                   }
                                 },
-                                "required": ["chainId", "type", "id", "name", "ticker"]
+                                "required": [
+                                  "chainId",
+                                  "type",
+                                  "id",
+                                  "name",
+                                  "ticker"
+                                ]
                               },
                               "amount": {
                                 "type": "string",
                                 "description": "Current balance of this token owned by the account. The amount is expressed in the token's smallest unit (based on its decimals)."
                               }
                             },
-                            "required": ["token"]
+                            "required": [
+                              "token"
+                            ]
                           }
                         }
                       }
@@ -798,10 +891,17 @@
                           "description": "Use the token from the previous response to retrieve the next page of results."
                         }
                       },
-                      "required": ["nextPage"]
+                      "required": [
+                        "nextPage"
+                      ]
                     }
                   },
-                  "required": ["chainId", "accountId", "balances", "pagination"]
+                  "required": [
+                    "chainId",
+                    "accountId",
+                    "balances",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -811,7 +911,9 @@
     },
     "/api/account/history": {
       "post": {
-        "tags": ["account"],
+        "tags": [
+          "account"
+        ],
         "summary": "Retrieve an account's history",
         "description": "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
         "parameters": [
@@ -884,7 +986,10 @@
                     "description": "Account identifier (address, xpub, etc) for the specified chain ID"
                   }
                 },
-                "required": ["chainId", "accountId"],
+                "required": [
+                  "chainId",
+                  "accountId"
+                ],
                 "examples": [
                   {
                     "chainId": "ethereum",
@@ -978,13 +1083,21 @@
                                   },
                                   {
                                     "type": "string",
-                                    "enum": ["unknown"]
+                                    "enum": [
+                                      "unknown"
+                                    ]
                                   }
                                 ]
                               },
                               "state": {
                                 "type": "string",
-                                "enum": ["pending", "unconfirmed", "confirmed", "failed", "unknown"]
+                                "enum": [
+                                  "pending",
+                                  "unconfirmed",
+                                  "confirmed",
+                                  "failed",
+                                  "unknown"
+                                ]
                               },
                               "tokenId": {
                                 "type": "string"
@@ -1033,7 +1146,9 @@
                                       "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
-                                  "required": ["address"]
+                                  "required": [
+                                    "address"
+                                  ]
                                 }
                               },
                               "recipients": {
@@ -1052,7 +1167,9 @@
                                       "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
-                                  "required": ["address"]
+                                  "required": [
+                                    "address"
+                                  ]
                                 }
                               },
                               "validators": {
@@ -1072,7 +1189,9 @@
                                         "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                       }
                                     },
-                                    "required": ["address"]
+                                    "required": [
+                                      "address"
+                                    ]
                                   },
                                   "target": {
                                     "type": "object",
@@ -1088,12 +1207,20 @@
                                         "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                       }
                                     },
-                                    "required": ["address"]
+                                    "required": [
+                                      "address"
+                                    ]
                                   }
                                 }
                               }
                             },
-                            "required": ["chainId", "id", "mode", "state", "fees"]
+                            "required": [
+                              "chainId",
+                              "id",
+                              "mode",
+                              "state",
+                              "fees"
+                            ]
                           }
                         }
                       }
@@ -1113,10 +1240,17 @@
                           "description": "Use the token from the previous response to retrieve the next page of results."
                         }
                       },
-                      "required": ["nextPage"]
+                      "required": [
+                        "nextPage"
+                      ]
                     }
                   },
-                  "required": ["chainId", "accountId", "transactions", "pagination"]
+                  "required": [
+                    "chainId",
+                    "accountId",
+                    "transactions",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -1126,7 +1260,9 @@
     },
     "/api/chains": {
       "get": {
-        "tags": ["chains"],
+        "tags": [
+          "chains"
+        ],
         "summary": "Retrieve details for all supported chains",
         "description": "Retrieves a list of all supported blockchain networks with their detailed information.",
         "responses": {
@@ -1145,7 +1281,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1185,7 +1328,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1225,7 +1375,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1265,7 +1422,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1305,7 +1469,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1345,7 +1516,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1385,7 +1563,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1425,7 +1610,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1465,7 +1657,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1505,7 +1704,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1545,7 +1751,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1585,7 +1798,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1625,7 +1845,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1665,7 +1892,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1705,7 +1939,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1745,7 +1986,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1785,7 +2033,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1825,7 +2080,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1865,7 +2127,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1905,7 +2174,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1945,7 +2221,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -1985,7 +2268,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2025,7 +2315,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2065,7 +2362,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2105,7 +2409,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2145,7 +2456,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2185,7 +2503,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2225,7 +2550,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2265,7 +2597,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2305,7 +2644,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2345,7 +2691,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2385,7 +2738,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2425,7 +2785,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2465,7 +2832,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2505,7 +2879,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2545,7 +2926,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2585,7 +2973,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2625,7 +3020,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2665,7 +3067,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2705,7 +3114,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2745,7 +3161,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2785,7 +3208,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2825,7 +3255,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2865,7 +3302,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2905,7 +3349,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2945,7 +3396,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -2985,7 +3443,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3025,7 +3490,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3065,7 +3537,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3105,7 +3584,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3145,7 +3631,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3185,7 +3678,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3225,7 +3725,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3265,7 +3772,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3305,7 +3819,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3345,7 +3866,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3385,7 +3913,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3425,7 +3960,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3465,7 +4007,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3505,7 +4054,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3545,7 +4101,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3585,7 +4148,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3625,7 +4195,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3665,7 +4242,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3705,7 +4289,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3745,7 +4336,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3785,7 +4383,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3825,7 +4430,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3865,7 +4477,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3905,7 +4524,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3945,7 +4571,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -3985,7 +4618,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -4025,7 +4665,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -4065,7 +4712,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -4105,7 +4759,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -4145,7 +4806,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -4185,7 +4853,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -4225,7 +4900,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -4265,7 +4947,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -4305,7 +4994,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -4345,7 +5041,14 @@
                           "properties": {
                             "family": {
                               "type": "string",
-                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
                             },
                             "id": {
                               "$ref": "#/components/schemas/ChainId"
@@ -4384,7 +5087,9 @@
                       "additionalProperties": false
                     }
                   },
-                  "required": ["chains"]
+                  "required": [
+                    "chains"
+                  ]
                 }
               }
             }
@@ -4394,7 +5099,9 @@
     },
     "/api/chains/{chainId}": {
       "get": {
-        "tags": ["chains"],
+        "tags": [
+          "chains"
+        ],
         "summary": "Retrieve details of one chain",
         "description": "Retrieves detailed information about a specific blockchain network identified by chain ID.",
         "parameters": [
@@ -4418,7 +5125,14 @@
                   "properties": {
                     "family": {
                       "type": "string",
-                      "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                      "enum": [
+                        "algorand",
+                        "cosmos",
+                        "evm",
+                        "bitcoin",
+                        "tron",
+                        "ton"
+                      ]
                     },
                     "id": {
                       "$ref": "#/components/schemas/ChainId"
@@ -4443,7 +5157,15 @@
                       "$ref": "#/components/schemas/ChainSupportedFeatures"
                     }
                   },
-                  "required": ["family", "id", "nativeId", "name", "ticker", "decimals", "supportedFeatures"]
+                  "required": [
+                    "family",
+                    "id",
+                    "nativeId",
+                    "name",
+                    "ticker",
+                    "decimals",
+                    "supportedFeatures"
+                  ]
                 }
               }
             }
@@ -4453,7 +5175,9 @@
     },
     "/api/chains/{chainId}/token/{tokenId}": {
       "get": {
-        "tags": ["chains"],
+        "tags": [
+          "chains"
+        ],
         "summary": "Retrieve details of one token",
         "description": "Retrieves detailed information about a specific token for a blockchain network, identified by chain ID and token ID.",
         "parameters": [
@@ -4540,7 +5264,9 @@
             "schema": {
               "type": "string",
               "description": "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
-              "examples": ["0xdAC17F958D2ee523a2206206994597C13D831ec7"]
+              "examples": [
+                "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+              ]
             },
             "required": true
           }
@@ -4558,7 +5284,14 @@
                     },
                     "type": {
                       "type": "string",
-                      "enum": ["TRC10", "TRC20", "ASA", "ERC20", "IBC", "JETTON"]
+                      "enum": [
+                        "TRC10",
+                        "TRC20",
+                        "ASA",
+                        "ERC20",
+                        "IBC",
+                        "JETTON"
+                      ]
                     },
                     "id": {
                       "type": "string"
@@ -4576,7 +5309,13 @@
                       "type": "string"
                     }
                   },
-                  "required": ["chainId", "type", "id", "name", "ticker"]
+                  "required": [
+                    "chainId",
+                    "type",
+                    "id",
+                    "name",
+                    "ticker"
+                  ]
                 }
               }
             }
@@ -4586,7 +5325,9 @@
     },
     "/api/chains/{chainId}/transaction/{transactionId}": {
       "get": {
-        "tags": ["chains"],
+        "tags": [
+          "chains"
+        ],
         "summary": "Retrieve details of one transaction",
         "description": "Retrieves detailed information about a specific transaction for a blockchain network, identified by chain ID and transaction ID.",
         "parameters": [
@@ -4647,7 +5388,9 @@
             "schema": {
               "type": "string",
               "description": "Transaction ID. Usually a hash but can be different depending on the chain.",
-              "examples": ["559c1be45865069c6070529e43c69752d73438cbb1d04e4f301e94cd68bf7422"]
+              "examples": [
+                "559c1be45865069c6070529e43c69752d73438cbb1d04e4f301e94cd68bf7422"
+              ]
             },
             "required": true
           },
@@ -4698,13 +5441,21 @@
                                 },
                                 {
                                   "type": "string",
-                                  "enum": ["unknown"]
+                                  "enum": [
+                                    "unknown"
+                                  ]
                                 }
                               ]
                             },
                             "state": {
                               "type": "string",
-                              "enum": ["pending", "unconfirmed", "confirmed", "failed", "unknown"]
+                              "enum": [
+                                "pending",
+                                "unconfirmed",
+                                "confirmed",
+                                "failed",
+                                "unknown"
+                              ]
                             },
                             "tokenId": {
                               "type": "string"
@@ -4753,7 +5504,9 @@
                                     "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 },
-                                "required": ["address"]
+                                "required": [
+                                  "address"
+                                ]
                               }
                             },
                             "recipients": {
@@ -4772,7 +5525,9 @@
                                     "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 },
-                                "required": ["address"]
+                                "required": [
+                                  "address"
+                                ]
                               }
                             },
                             "validators": {
@@ -4792,7 +5547,9 @@
                                       "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
-                                  "required": ["address"]
+                                  "required": [
+                                    "address"
+                                  ]
                                 },
                                 "target": {
                                   "type": "object",
@@ -4808,12 +5565,20 @@
                                       "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
-                                  "required": ["address"]
+                                  "required": [
+                                    "address"
+                                  ]
                                 }
                               }
                             }
                           },
-                          "required": ["chainId", "id", "mode", "state", "fees"]
+                          "required": [
+                            "chainId",
+                            "id",
+                            "mode",
+                            "state",
+                            "fees"
+                          ]
                         }
                       }
                     },
@@ -4829,7 +5594,9 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         },
                         "warnings": {
@@ -4841,18 +5608,26 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         }
                       },
-                      "required": ["errors", "warnings"],
+                      "required": [
+                        "errors",
+                        "warnings"
+                      ],
                       "default": {
                         "errors": [],
                         "warnings": []
                       }
                     }
                   },
-                  "required": ["transaction", "status"]
+                  "required": [
+                    "transaction",
+                    "status"
+                  ]
                 }
               }
             }
@@ -4862,7 +5637,9 @@
     },
     "/api/chains/{chainId}/validators": {
       "get": {
-        "tags": ["chains"],
+        "tags": [
+          "chains"
+        ],
         "summary": "Retrieve the list of existing validators",
         "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Useful for delegation operations on proof-of-stake blockchains.",
         "parameters": [
@@ -5000,7 +5777,10 @@
                             "type": "number"
                           }
                         },
-                        "required": ["address", "name"]
+                        "required": [
+                          "address",
+                          "name"
+                        ]
                       }
                     },
                     "pagination": {
@@ -5018,10 +5798,16 @@
                           "description": "Use the token from the previous response to retrieve the next page of results."
                         }
                       },
-                      "required": ["nextPage"]
+                      "required": [
+                        "nextPage"
+                      ]
                     }
                   },
-                  "required": ["chainId", "validators", "pagination"]
+                  "required": [
+                    "chainId",
+                    "validators",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -5031,7 +5817,9 @@
     },
     "/api/transaction/broadcast": {
       "post": {
-        "tags": ["transaction"],
+        "tags": [
+          "transaction"
+        ],
         "summary": "Broadcast a signed transaction",
         "description": "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
         "requestBody": {
@@ -5094,7 +5882,10 @@
                                   },
                                   "format": {
                                     "type": "string",
-                                    "enum": ["json", "hex"]
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
                                   },
                                   "params": {
                                     "anyOf": [
@@ -5150,19 +5941,27 @@
                                                                   "type": "number"
                                                                 }
                                                               },
-                                                              "required": ["owner_address"]
+                                                              "required": [
+                                                                "owner_address"
+                                                              ]
                                                             },
                                                             "type_url": {
                                                               "type": "string"
                                                             }
                                                           },
-                                                          "required": ["value", "type_url"]
+                                                          "required": [
+                                                            "value",
+                                                            "type_url"
+                                                          ]
                                                         },
                                                         "type": {
                                                           "type": "string"
                                                         }
                                                       },
-                                                      "required": ["parameter", "type"]
+                                                      "required": [
+                                                        "parameter",
+                                                        "type"
+                                                      ]
                                                     }
                                                   },
                                                   "ref_block_bytes": {
@@ -5193,7 +5992,11 @@
                                                 "type": "string"
                                               }
                                             },
-                                            "required": ["txID", "raw_data", "raw_data_hex"]
+                                            "required": [
+                                              "txID",
+                                              "raw_data",
+                                              "raw_data_hex"
+                                            ]
                                           },
                                           {
                                             "type": "object",
@@ -5213,7 +6016,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["chainId", "sender", "recipient"]
+                                "required": [
+                                  "chainId",
+                                  "sender",
+                                  "recipient"
+                                ]
                               },
                               {
                                 "oneOf": [
@@ -5222,7 +6029,9 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": ["transfer"]
+                                        "enum": [
+                                          "transfer"
+                                        ]
                                       },
                                       "amount": {
                                         "anyOf": [
@@ -5235,7 +6044,9 @@
                                         ]
                                       }
                                     },
-                                    "required": ["mode"],
+                                    "required": [
+                                      "mode"
+                                    ],
                                     "title": "Transfer",
                                     "description": "Transfer chain native coins"
                                   },
@@ -5244,7 +6055,9 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": ["delegate"]
+                                        "enum": [
+                                          "delegate"
+                                        ]
                                       },
                                       "validatorAddress": {
                                         "type": "string"
@@ -5260,7 +6073,10 @@
                                         ]
                                       }
                                     },
-                                    "required": ["mode", "validatorAddress"],
+                                    "required": [
+                                      "mode",
+                                      "validatorAddress"
+                                    ],
                                     "title": "Delegate"
                                   },
                                   {
@@ -5268,7 +6084,9 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": ["transferToken"]
+                                        "enum": [
+                                          "transferToken"
+                                        ]
                                       },
                                       "tokenId": {
                                         "type": "string"
@@ -5284,7 +6102,10 @@
                                         ]
                                       }
                                     },
-                                    "required": ["mode", "tokenId"],
+                                    "required": [
+                                      "mode",
+                                      "tokenId"
+                                    ],
                                     "title": "TransferToken",
                                     "description": "Transfer chain tokens"
                                   },
@@ -5293,7 +6114,9 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": ["undelegate"]
+                                        "enum": [
+                                          "undelegate"
+                                        ]
                                       },
                                       "validatorAddress": {
                                         "type": "string"
@@ -5309,7 +6132,10 @@
                                         ]
                                       }
                                     },
-                                    "required": ["mode", "validatorAddress"],
+                                    "required": [
+                                      "mode",
+                                      "validatorAddress"
+                                    ],
                                     "title": "Undelegate"
                                   },
                                   {
@@ -5317,7 +6143,9 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": ["redelegate"]
+                                        "enum": [
+                                          "redelegate"
+                                        ]
                                       },
                                       "sourceValidatorAddress": {
                                         "type": "string"
@@ -5336,7 +6164,11 @@
                                         ]
                                       }
                                     },
-                                    "required": ["mode", "sourceValidatorAddress", "targetValidatorAddress"],
+                                    "required": [
+                                      "mode",
+                                      "sourceValidatorAddress",
+                                      "targetValidatorAddress"
+                                    ],
                                     "title": "Redelegate"
                                   },
                                   {
@@ -5344,7 +6176,9 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": ["claimRewards"]
+                                        "enum": [
+                                          "claimRewards"
+                                        ]
                                       },
                                       "validatorAddress": {
                                         "type": "string"
@@ -5353,7 +6187,10 @@
                                         "type": "boolean"
                                       }
                                     },
-                                    "required": ["mode", "validatorAddress"],
+                                    "required": [
+                                      "mode",
+                                      "validatorAddress"
+                                    ],
                                     "title": "ClaimRewards"
                                   }
                                 ]
@@ -5361,7 +6198,9 @@
                             ]
                           }
                         },
-                        "required": ["data"]
+                        "required": [
+                          "data"
+                        ]
                       },
                       {
                         "type": "object",
@@ -5378,12 +6217,16 @@
                             "type": "string"
                           }
                         },
-                        "required": ["signature"]
+                        "required": [
+                          "signature"
+                        ]
                       }
                     ]
                   }
                 },
-                "required": ["transaction"]
+                "required": [
+                  "transaction"
+                ]
               }
             }
           }
@@ -5434,7 +6277,10 @@
                                 },
                                 "format": {
                                   "type": "string",
-                                  "enum": ["json", "hex"]
+                                  "enum": [
+                                    "json",
+                                    "hex"
+                                  ]
                                 },
                                 "params": {
                                   "anyOf": [
@@ -5490,19 +6336,27 @@
                                                                 "type": "number"
                                                               }
                                                             },
-                                                            "required": ["owner_address"]
+                                                            "required": [
+                                                              "owner_address"
+                                                            ]
                                                           },
                                                           "type_url": {
                                                             "type": "string"
                                                           }
                                                         },
-                                                        "required": ["value", "type_url"]
+                                                        "required": [
+                                                          "value",
+                                                          "type_url"
+                                                        ]
                                                       },
                                                       "type": {
                                                         "type": "string"
                                                       }
                                                     },
-                                                    "required": ["parameter", "type"]
+                                                    "required": [
+                                                      "parameter",
+                                                      "type"
+                                                    ]
                                                   }
                                                 },
                                                 "ref_block_bytes": {
@@ -5533,7 +6387,11 @@
                                               "type": "string"
                                             }
                                           },
-                                          "required": ["txID", "raw_data", "raw_data_hex"]
+                                          "required": [
+                                            "txID",
+                                            "raw_data",
+                                            "raw_data_hex"
+                                          ]
                                         },
                                         {
                                           "type": "object",
@@ -5549,7 +6407,12 @@
                                   ]
                                 }
                               },
-                              "required": ["chainId", "sender", "recipient", "useMaxAmount"]
+                              "required": [
+                                "chainId",
+                                "sender",
+                                "recipient",
+                                "useMaxAmount"
+                              ]
                             },
                             {
                               "oneOf": [
@@ -5558,13 +6421,17 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["transfer"]
+                                      "enum": [
+                                        "transfer"
+                                      ]
                                     },
                                     "amount": {
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode"],
+                                  "required": [
+                                    "mode"
+                                  ],
                                   "title": "Transfer",
                                   "description": "Transfer chain native coins"
                                 },
@@ -5573,7 +6440,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["delegate"]
+                                      "enum": [
+                                        "delegate"
+                                      ]
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -5582,7 +6451,10 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "validatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
                                   "title": "Delegate"
                                 },
                                 {
@@ -5590,7 +6462,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["transferToken"]
+                                      "enum": [
+                                        "transferToken"
+                                      ]
                                     },
                                     "amount": {
                                       "type": "string"
@@ -5599,7 +6473,10 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "tokenId"],
+                                  "required": [
+                                    "mode",
+                                    "tokenId"
+                                  ],
                                   "title": "TransferToken",
                                   "description": "Transfer chain tokens"
                                 },
@@ -5608,7 +6485,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["undelegate"]
+                                      "enum": [
+                                        "undelegate"
+                                      ]
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -5617,7 +6496,10 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "validatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
                                   "title": "Undelegate"
                                 },
                                 {
@@ -5625,7 +6507,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["redelegate"]
+                                      "enum": [
+                                        "redelegate"
+                                      ]
                                     },
                                     "sourceValidatorAddress": {
                                       "type": "string"
@@ -5637,7 +6521,11 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "sourceValidatorAddress", "targetValidatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "sourceValidatorAddress",
+                                    "targetValidatorAddress"
+                                  ],
                                   "title": "Redelegate"
                                 },
                                 {
@@ -5645,7 +6533,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["claimRewards"]
+                                      "enum": [
+                                        "claimRewards"
+                                      ]
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -5654,7 +6544,10 @@
                                       "type": "boolean"
                                     }
                                   },
-                                  "required": ["mode", "validatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
                                   "title": "ClaimRewards"
                                 }
                               ]
@@ -5662,7 +6555,9 @@
                           ]
                         }
                       },
-                      "required": ["data"]
+                      "required": [
+                        "data"
+                      ]
                     },
                     "status": {
                       "type": "object",
@@ -5676,7 +6571,9 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         },
                         "warnings": {
@@ -5688,18 +6585,26 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         }
                       },
-                      "required": ["errors", "warnings"],
+                      "required": [
+                        "errors",
+                        "warnings"
+                      ],
                       "default": {
                         "errors": [],
                         "warnings": []
                       }
                     }
                   },
-                  "required": ["transaction", "status"]
+                  "required": [
+                    "transaction",
+                    "status"
+                  ]
                 }
               }
             }
@@ -5709,7 +6614,9 @@
     },
     "/api/transaction/broadcast/raw": {
       "post": {
-        "tags": ["transaction"],
+        "tags": [
+          "transaction"
+        ],
         "summary": "Broadcast a signed transaction (raw format)",
         "description": "Broadcasts a signed transaction to the blockchain in raw format.         Unlike the standard broadcast, which builds the broadcast payload for you, this endpoint requires the final payload, ready for submission.         Returns the transaction receipt (hash) or error details in case of failure.",
         "requestBody": {
@@ -5725,7 +6632,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["chainId", "payload"]
+                "required": [
+                  "chainId",
+                  "payload"
+                ]
               }
             }
           }
@@ -5751,7 +6661,9 @@
     },
     "/api/transaction/encode": {
       "post": {
-        "tags": ["transaction"],
+        "tags": [
+          "transaction"
+        ],
         "summary": "Complete, validate and encode a transaction to sign",
         "description": "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.        It also completes the input transaction with computed data, such as fees and max spendable amount, and performs some chain-specific validation checks on the transaction.",
         "requestBody": {
@@ -5812,7 +6724,10 @@
                               },
                               "format": {
                                 "type": "string",
-                                "enum": ["json", "hex"]
+                                "enum": [
+                                  "json",
+                                  "hex"
+                                ]
                               },
                               "params": {
                                 "anyOf": [
@@ -5868,19 +6783,27 @@
                                                               "type": "number"
                                                             }
                                                           },
-                                                          "required": ["owner_address"]
+                                                          "required": [
+                                                            "owner_address"
+                                                          ]
                                                         },
                                                         "type_url": {
                                                           "type": "string"
                                                         }
                                                       },
-                                                      "required": ["value", "type_url"]
+                                                      "required": [
+                                                        "value",
+                                                        "type_url"
+                                                      ]
                                                     },
                                                     "type": {
                                                       "type": "string"
                                                     }
                                                   },
-                                                  "required": ["parameter", "type"]
+                                                  "required": [
+                                                    "parameter",
+                                                    "type"
+                                                  ]
                                                 }
                                               },
                                               "ref_block_bytes": {
@@ -5911,7 +6834,11 @@
                                             "type": "string"
                                           }
                                         },
-                                        "required": ["txID", "raw_data", "raw_data_hex"]
+                                        "required": [
+                                          "txID",
+                                          "raw_data",
+                                          "raw_data_hex"
+                                        ]
                                       },
                                       {
                                         "type": "object",
@@ -5931,7 +6858,11 @@
                                 "default": false
                               }
                             },
-                            "required": ["chainId", "sender", "recipient"]
+                            "required": [
+                              "chainId",
+                              "sender",
+                              "recipient"
+                            ]
                           },
                           {
                             "oneOf": [
@@ -5940,7 +6871,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["transfer"]
+                                    "enum": [
+                                      "transfer"
+                                    ]
                                   },
                                   "amount": {
                                     "anyOf": [
@@ -5953,7 +6886,9 @@
                                     ]
                                   }
                                 },
-                                "required": ["mode"],
+                                "required": [
+                                  "mode"
+                                ],
                                 "title": "Transfer",
                                 "description": "Transfer chain native coins"
                               },
@@ -5962,7 +6897,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["delegate"]
+                                    "enum": [
+                                      "delegate"
+                                    ]
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -5978,7 +6915,10 @@
                                     ]
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
                                 "title": "Delegate"
                               },
                               {
@@ -5986,7 +6926,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["transferToken"]
+                                    "enum": [
+                                      "transferToken"
+                                    ]
                                   },
                                   "tokenId": {
                                     "type": "string"
@@ -6002,7 +6944,10 @@
                                     ]
                                   }
                                 },
-                                "required": ["mode", "tokenId"],
+                                "required": [
+                                  "mode",
+                                  "tokenId"
+                                ],
                                 "title": "TransferToken",
                                 "description": "Transfer chain tokens"
                               },
@@ -6011,7 +6956,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["undelegate"]
+                                    "enum": [
+                                      "undelegate"
+                                    ]
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -6027,7 +6974,10 @@
                                     ]
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
                                 "title": "Undelegate"
                               },
                               {
@@ -6035,7 +6985,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["redelegate"]
+                                    "enum": [
+                                      "redelegate"
+                                    ]
                                   },
                                   "sourceValidatorAddress": {
                                     "type": "string"
@@ -6054,7 +7006,11 @@
                                     ]
                                   }
                                 },
-                                "required": ["mode", "sourceValidatorAddress", "targetValidatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "sourceValidatorAddress",
+                                  "targetValidatorAddress"
+                                ],
                                 "title": "Redelegate"
                               },
                               {
@@ -6062,7 +7018,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["claimRewards"]
+                                    "enum": [
+                                      "claimRewards"
+                                    ]
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -6071,7 +7029,10 @@
                                     "type": "boolean"
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
                                 "title": "ClaimRewards"
                               }
                             ]
@@ -6079,10 +7040,14 @@
                         ]
                       }
                     },
-                    "required": ["data"]
+                    "required": [
+                      "data"
+                    ]
                   }
                 },
-                "required": ["transaction"]
+                "required": [
+                  "transaction"
+                ]
               }
             }
           }
@@ -6130,7 +7095,10 @@
                                 },
                                 "format": {
                                   "type": "string",
-                                  "enum": ["json", "hex"]
+                                  "enum": [
+                                    "json",
+                                    "hex"
+                                  ]
                                 },
                                 "params": {
                                   "anyOf": [
@@ -6186,19 +7154,27 @@
                                                                 "type": "number"
                                                               }
                                                             },
-                                                            "required": ["owner_address"]
+                                                            "required": [
+                                                              "owner_address"
+                                                            ]
                                                           },
                                                           "type_url": {
                                                             "type": "string"
                                                           }
                                                         },
-                                                        "required": ["value", "type_url"]
+                                                        "required": [
+                                                          "value",
+                                                          "type_url"
+                                                        ]
                                                       },
                                                       "type": {
                                                         "type": "string"
                                                       }
                                                     },
-                                                    "required": ["parameter", "type"]
+                                                    "required": [
+                                                      "parameter",
+                                                      "type"
+                                                    ]
                                                   }
                                                 },
                                                 "ref_block_bytes": {
@@ -6229,7 +7205,11 @@
                                               "type": "string"
                                             }
                                           },
-                                          "required": ["txID", "raw_data", "raw_data_hex"]
+                                          "required": [
+                                            "txID",
+                                            "raw_data",
+                                            "raw_data_hex"
+                                          ]
                                         },
                                         {
                                           "type": "object",
@@ -6245,7 +7225,12 @@
                                   ]
                                 }
                               },
-                              "required": ["chainId", "sender", "recipient", "useMaxAmount"]
+                              "required": [
+                                "chainId",
+                                "sender",
+                                "recipient",
+                                "useMaxAmount"
+                              ]
                             },
                             {
                               "oneOf": [
@@ -6254,13 +7239,17 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["transfer"]
+                                      "enum": [
+                                        "transfer"
+                                      ]
                                     },
                                     "amount": {
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode"],
+                                  "required": [
+                                    "mode"
+                                  ],
                                   "title": "Transfer",
                                   "description": "Transfer chain native coins"
                                 },
@@ -6269,7 +7258,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["delegate"]
+                                      "enum": [
+                                        "delegate"
+                                      ]
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -6278,7 +7269,10 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "validatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
                                   "title": "Delegate"
                                 },
                                 {
@@ -6286,7 +7280,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["transferToken"]
+                                      "enum": [
+                                        "transferToken"
+                                      ]
                                     },
                                     "amount": {
                                       "type": "string"
@@ -6295,7 +7291,10 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "tokenId"],
+                                  "required": [
+                                    "mode",
+                                    "tokenId"
+                                  ],
                                   "title": "TransferToken",
                                   "description": "Transfer chain tokens"
                                 },
@@ -6304,7 +7303,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["undelegate"]
+                                      "enum": [
+                                        "undelegate"
+                                      ]
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -6313,7 +7314,10 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "validatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
                                   "title": "Undelegate"
                                 },
                                 {
@@ -6321,7 +7325,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["redelegate"]
+                                      "enum": [
+                                        "redelegate"
+                                      ]
                                     },
                                     "sourceValidatorAddress": {
                                       "type": "string"
@@ -6333,7 +7339,11 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "sourceValidatorAddress", "targetValidatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "sourceValidatorAddress",
+                                    "targetValidatorAddress"
+                                  ],
                                   "title": "Redelegate"
                                 },
                                 {
@@ -6341,7 +7351,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["claimRewards"]
+                                      "enum": [
+                                        "claimRewards"
+                                      ]
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -6350,7 +7362,10 @@
                                       "type": "boolean"
                                     }
                                   },
-                                  "required": ["mode", "validatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
                                   "title": "ClaimRewards"
                                 }
                               ]
@@ -6366,7 +7381,9 @@
                           ]
                         }
                       },
-                      "required": ["data"]
+                      "required": [
+                        "data"
+                      ]
                     },
                     "status": {
                       "type": "object",
@@ -6380,7 +7397,9 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         },
                         "warnings": {
@@ -6392,18 +7411,26 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         }
                       },
-                      "required": ["errors", "warnings"],
+                      "required": [
+                        "errors",
+                        "warnings"
+                      ],
                       "default": {
                         "errors": [],
                         "warnings": []
                       }
                     }
                   },
-                  "required": ["transaction", "status"]
+                  "required": [
+                    "transaction",
+                    "status"
+                  ]
                 }
               }
             }
@@ -6450,7 +7477,10 @@
                                 },
                                 "format": {
                                   "type": "string",
-                                  "enum": ["json", "hex"]
+                                  "enum": [
+                                    "json",
+                                    "hex"
+                                  ]
                                 },
                                 "params": {
                                   "anyOf": [
@@ -6506,19 +7536,27 @@
                                                                 "type": "number"
                                                               }
                                                             },
-                                                            "required": ["owner_address"]
+                                                            "required": [
+                                                              "owner_address"
+                                                            ]
                                                           },
                                                           "type_url": {
                                                             "type": "string"
                                                           }
                                                         },
-                                                        "required": ["value", "type_url"]
+                                                        "required": [
+                                                          "value",
+                                                          "type_url"
+                                                        ]
                                                       },
                                                       "type": {
                                                         "type": "string"
                                                       }
                                                     },
-                                                    "required": ["parameter", "type"]
+                                                    "required": [
+                                                      "parameter",
+                                                      "type"
+                                                    ]
                                                   }
                                                 },
                                                 "ref_block_bytes": {
@@ -6549,7 +7587,11 @@
                                               "type": "string"
                                             }
                                           },
-                                          "required": ["txID", "raw_data", "raw_data_hex"]
+                                          "required": [
+                                            "txID",
+                                            "raw_data",
+                                            "raw_data_hex"
+                                          ]
                                         },
                                         {
                                           "type": "object",
@@ -6565,7 +7607,12 @@
                                   ]
                                 }
                               },
-                              "required": ["chainId", "sender", "recipient", "useMaxAmount"]
+                              "required": [
+                                "chainId",
+                                "sender",
+                                "recipient",
+                                "useMaxAmount"
+                              ]
                             },
                             {
                               "oneOf": [
@@ -6574,13 +7621,17 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["transfer"]
+                                      "enum": [
+                                        "transfer"
+                                      ]
                                     },
                                     "amount": {
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode"],
+                                  "required": [
+                                    "mode"
+                                  ],
                                   "title": "Transfer",
                                   "description": "Transfer chain native coins"
                                 },
@@ -6589,7 +7640,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["delegate"]
+                                      "enum": [
+                                        "delegate"
+                                      ]
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -6598,7 +7651,10 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "validatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
                                   "title": "Delegate"
                                 },
                                 {
@@ -6606,7 +7662,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["transferToken"]
+                                      "enum": [
+                                        "transferToken"
+                                      ]
                                     },
                                     "amount": {
                                       "type": "string"
@@ -6615,7 +7673,10 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "tokenId"],
+                                  "required": [
+                                    "mode",
+                                    "tokenId"
+                                  ],
                                   "title": "TransferToken",
                                   "description": "Transfer chain tokens"
                                 },
@@ -6624,7 +7685,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["undelegate"]
+                                      "enum": [
+                                        "undelegate"
+                                      ]
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -6633,7 +7696,10 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "validatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
                                   "title": "Undelegate"
                                 },
                                 {
@@ -6641,7 +7707,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["redelegate"]
+                                      "enum": [
+                                        "redelegate"
+                                      ]
                                     },
                                     "sourceValidatorAddress": {
                                       "type": "string"
@@ -6653,7 +7721,11 @@
                                       "type": "string"
                                     }
                                   },
-                                  "required": ["mode", "sourceValidatorAddress", "targetValidatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "sourceValidatorAddress",
+                                    "targetValidatorAddress"
+                                  ],
                                   "title": "Redelegate"
                                 },
                                 {
@@ -6661,7 +7733,9 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": ["claimRewards"]
+                                      "enum": [
+                                        "claimRewards"
+                                      ]
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -6670,7 +7744,10 @@
                                       "type": "boolean"
                                     }
                                   },
-                                  "required": ["mode", "validatorAddress"],
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
                                   "title": "ClaimRewards"
                                 }
                               ]
@@ -6678,7 +7755,9 @@
                           ]
                         }
                       },
-                      "required": ["data"]
+                      "required": [
+                        "data"
+                      ]
                     },
                     "status": {
                       "type": "object",
@@ -6692,7 +7771,9 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         },
                         "warnings": {
@@ -6704,18 +7785,26 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         }
                       },
-                      "required": ["errors", "warnings"],
+                      "required": [
+                        "errors",
+                        "warnings"
+                      ],
                       "default": {
                         "errors": [],
                         "warnings": []
                       }
                     }
                   },
-                  "required": ["transaction", "status"]
+                  "required": [
+                    "transaction",
+                    "status"
+                  ]
                 }
               }
             }
@@ -6725,7 +7814,9 @@
     },
     "/api/transaction/validate": {
       "post": {
-        "tags": ["transaction"],
+        "tags": [
+          "transaction"
+        ],
         "summary": "Validate a transaction",
         "description": "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
         "requestBody": {
@@ -6786,7 +7877,10 @@
                               },
                               "format": {
                                 "type": "string",
-                                "enum": ["json", "hex"]
+                                "enum": [
+                                  "json",
+                                  "hex"
+                                ]
                               },
                               "params": {
                                 "anyOf": [
@@ -6842,19 +7936,27 @@
                                                               "type": "number"
                                                             }
                                                           },
-                                                          "required": ["owner_address"]
+                                                          "required": [
+                                                            "owner_address"
+                                                          ]
                                                         },
                                                         "type_url": {
                                                           "type": "string"
                                                         }
                                                       },
-                                                      "required": ["value", "type_url"]
+                                                      "required": [
+                                                        "value",
+                                                        "type_url"
+                                                      ]
                                                     },
                                                     "type": {
                                                       "type": "string"
                                                     }
                                                   },
-                                                  "required": ["parameter", "type"]
+                                                  "required": [
+                                                    "parameter",
+                                                    "type"
+                                                  ]
                                                 }
                                               },
                                               "ref_block_bytes": {
@@ -6885,7 +7987,11 @@
                                             "type": "string"
                                           }
                                         },
-                                        "required": ["txID", "raw_data", "raw_data_hex"]
+                                        "required": [
+                                          "txID",
+                                          "raw_data",
+                                          "raw_data_hex"
+                                        ]
                                       },
                                       {
                                         "type": "object",
@@ -6905,7 +8011,11 @@
                                 "default": false
                               }
                             },
-                            "required": ["chainId", "sender", "recipient"]
+                            "required": [
+                              "chainId",
+                              "sender",
+                              "recipient"
+                            ]
                           },
                           {
                             "oneOf": [
@@ -6914,7 +8024,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["transfer"]
+                                    "enum": [
+                                      "transfer"
+                                    ]
                                   },
                                   "amount": {
                                     "anyOf": [
@@ -6927,7 +8039,9 @@
                                     ]
                                   }
                                 },
-                                "required": ["mode"],
+                                "required": [
+                                  "mode"
+                                ],
                                 "title": "Transfer",
                                 "description": "Transfer chain native coins"
                               },
@@ -6936,7 +8050,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["delegate"]
+                                    "enum": [
+                                      "delegate"
+                                    ]
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -6952,7 +8068,10 @@
                                     ]
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
                                 "title": "Delegate"
                               },
                               {
@@ -6960,7 +8079,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["transferToken"]
+                                    "enum": [
+                                      "transferToken"
+                                    ]
                                   },
                                   "tokenId": {
                                     "type": "string"
@@ -6976,7 +8097,10 @@
                                     ]
                                   }
                                 },
-                                "required": ["mode", "tokenId"],
+                                "required": [
+                                  "mode",
+                                  "tokenId"
+                                ],
                                 "title": "TransferToken",
                                 "description": "Transfer chain tokens"
                               },
@@ -6985,7 +8109,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["undelegate"]
+                                    "enum": [
+                                      "undelegate"
+                                    ]
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -7001,7 +8127,10 @@
                                     ]
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
                                 "title": "Undelegate"
                               },
                               {
@@ -7009,7 +8138,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["redelegate"]
+                                    "enum": [
+                                      "redelegate"
+                                    ]
                                   },
                                   "sourceValidatorAddress": {
                                     "type": "string"
@@ -7028,7 +8159,11 @@
                                     ]
                                   }
                                 },
-                                "required": ["mode", "sourceValidatorAddress", "targetValidatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "sourceValidatorAddress",
+                                  "targetValidatorAddress"
+                                ],
                                 "title": "Redelegate"
                               },
                               {
@@ -7036,7 +8171,9 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": ["claimRewards"]
+                                    "enum": [
+                                      "claimRewards"
+                                    ]
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -7045,7 +8182,10 @@
                                     "type": "boolean"
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "validatorAddress"
+                                ],
                                 "title": "ClaimRewards"
                               }
                             ]
@@ -7053,10 +8193,14 @@
                         ]
                       }
                     },
-                    "required": ["data"]
+                    "required": [
+                      "data"
+                    ]
                   }
                 },
-                "required": ["transaction"]
+                "required": [
+                  "transaction"
+                ]
               }
             }
           }
@@ -7081,7 +8225,9 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         },
                         "warnings": {
@@ -7093,18 +8239,25 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         }
                       },
-                      "required": ["errors", "warnings"],
+                      "required": [
+                        "errors",
+                        "warnings"
+                      ],
                       "default": {
                         "errors": [],
                         "warnings": []
                       }
                     }
                   },
-                  "required": ["status"]
+                  "required": [
+                    "status"
+                  ]
                 }
               }
             }
@@ -7235,7 +8388,11 @@
                     "type": "boolean"
                   }
                 },
-                "required": ["native", "tokens", "staking"]
+                "required": [
+                  "native",
+                  "tokens",
+                  "staking"
+                ]
               },
               "account": {
                 "type": "object",
@@ -7253,7 +8410,11 @@
                         "type": "boolean"
                       }
                     },
-                    "required": ["native", "tokens", "staking"]
+                    "required": [
+                      "native",
+                      "tokens",
+                      "staking"
+                    ]
                   },
                   "transactions": {
                     "type": "object",
@@ -7268,13 +8429,25 @@
                         "type": "boolean"
                       }
                     },
-                    "required": ["native", "tokens", "staking"]
+                    "required": [
+                      "native",
+                      "tokens",
+                      "staking"
+                    ]
                   }
                 },
-                "required": ["balances", "transactions"]
+                "required": [
+                  "balances",
+                  "transactions"
+                ]
               }
             },
-            "required": ["token", "validators", "transaction", "account"]
+            "required": [
+              "token",
+              "validators",
+              "transaction",
+              "account"
+            ]
           },
           "write": {
             "type": "object",
@@ -7295,7 +8468,11 @@
                         "type": "boolean"
                       }
                     },
-                    "required": ["native", "tokens", "staking"]
+                    "required": [
+                      "native",
+                      "tokens",
+                      "staking"
+                    ]
                   },
                   "field": {
                     "type": "object",
@@ -7304,16 +8481,26 @@
                         "type": "boolean"
                       }
                     },
-                    "required": ["memo"]
+                    "required": [
+                      "memo"
+                    ]
                   }
                 },
-                "required": ["type", "field"]
+                "required": [
+                  "type",
+                  "field"
+                ]
               }
             },
-            "required": ["transaction"]
+            "required": [
+              "transaction"
+            ]
           }
         },
-        "required": ["read", "write"],
+        "required": [
+          "read",
+          "write"
+        ],
         "description": "List of supported features for the chain"
       }
     }
