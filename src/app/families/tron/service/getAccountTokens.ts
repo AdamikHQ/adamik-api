@@ -1,0 +1,25 @@
+import { AccountTokens, Paginated, TokenAmount } from "~/app/model/types_WIP";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
+import { TronService } from "../service";
+
+async function getAccountTokens(
+  this: TronService,
+  accountId: string,
+  paginationToken?: string
+): Promise<Paginated<AccountTokens>> {
+  const accountTokenAmounts: TokenAmount[] = [];
+
+  // TODO
+  throw new UnsupportedFeatureError("Not implemented yet");
+
+  return {
+    chainId: this.chainId,
+    accountId,
+    tokens: accountTokenAmounts,
+    pagination: {
+      nextPage: null,
+    },
+  };
+}
+
+export { getAccountTokens };

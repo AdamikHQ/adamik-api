@@ -1,0 +1,28 @@
+meta {
+  name: ethereum
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{api_url}}/api/account/state/tokens
+  body: json
+  auth: none
+}
+
+params:query {
+  ~nextPage: ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp3WVdkbElqbzJMQ0p3WVdkbFUybDZaU0k2TWpBc0luTnVZWEJ6YUc5MFNXUWlPaUk0WkRFNFlUQXpNeTB3TmpVMkxUUmlNekV0WWpsbE1DMWpNekZpT0RFd05XVTNOV1FpTENKcFlYUWlPakUzTXpJNE9UVTFPVFI5LkVEZ1RNRFZENC1pYWhlVkxpM3pVX3N0TThEMnI3b0pmTE5qTmlERVluLXMi
+}
+
+body:json {
+  {
+    "chainId": "ethereum",
+    "accountId": "0xfc43f5f9dd45258b3aff31bdbe6561d97e8b71de"
+  }
+}
+
+assert {
+  res.body.balances: isDefined tokens
+  res.body.balances.tokens: isArray
+  res.status: eq 200
+}
