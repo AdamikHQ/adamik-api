@@ -55,7 +55,7 @@ const responseSchema = z
   })
   .merge(paginatedResponseSchema);
 
-const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
+const accountStateTokensOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/account/state/tokens": {
     post: {
       tags: ["account"],
@@ -83,4 +83,4 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { accountStateOpenAPIPath, queryParamsSchema, requestSchema, responseSchema };
+export { accountStateTokensOpenAPIPath, queryParamsSchema, requestSchema, responseSchema };
