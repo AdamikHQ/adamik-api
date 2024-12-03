@@ -46,12 +46,6 @@ importers:
       '@ton/ton':
         specifier: ^15.0.0
         version: 15.0.0(@ton/core@0.57.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
-      '@vercel/edge-config':
-        specifier: ^1.1.0
-        version: 1.1.0(typescript@5.0.2)
-      '@vercel/kv':
-        specifier: ^3.0.0
-        version: 3.0.0
       algo-msgpack-with-bigint:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1693,9 +1687,6 @@ packages:
     resolution: {integrity: sha512-OGznFs0eAQXJsp+xSd6k/O1UbFi/K/L7WjqeRoFE7vadjAF9y0uppXhYNQNEqygjou782maGClOoZwPqF0Drlw==}
     engines: {node: ^16.0.0 || >=18.0.0}
 
-  '@upstash/redis@1.34.3':
-    resolution: {integrity: sha512-VT25TyODGy/8ljl7GADnJoMmtmJ1F8d84UXfGonRRF8fWYJz7+2J6GzW+a6ETGtk4OyuRTt7FRSvFG5GvrfSdQ==}
-
   '@usebruno/cli@1.33.0':
     resolution: {integrity: sha512-KUyomOI+ckIhZywJ3PI3p/Y3BylGDV30BcUGZHItDlT4fM2K6QpJiDHOTkG/JonN89DwcXEC8kuX0uhzSbB9gg==}
     hasBin: true
@@ -1718,22 +1709,6 @@ packages:
     resolution: {integrity: sha512-WIrR9ODN2xkwUEoJb3awhCZO2dTgq8NWoObofAGuzFQOQ27rw96d2GJU/T8OKcygjfJiNei9nuqidyMh81kiug==}
     engines: {node: '>=6.0'}
     hasBin: true
-
-  '@vercel/edge-config-fs@0.1.0':
-    resolution: {integrity: sha512-NRIBwfcS0bUoUbRWlNGetqjvLSwgYH/BqKqDN7vK1g32p7dN96k0712COgaz6VFizAm9b0g6IG6hR6+hc0KCPg==}
-
-  '@vercel/edge-config@1.1.0':
-    resolution: {integrity: sha512-es/4BzzKfyUilL5E1knR42MZHJqHMRfqitrnv18gVZZUha9ywrX3qNoCrPsNMJ1HS8xAAz/FJEyel7YFIDfKoQ==}
-    engines: {node: '>=14.6'}
-    peerDependencies:
-      '@opentelemetry/api': ^1.7.0
-    peerDependenciesMeta:
-      '@opentelemetry/api':
-        optional: true
-
-  '@vercel/kv@3.0.0':
-    resolution: {integrity: sha512-pKT8fRnfyYk2MgvyB6fn6ipJPCdfZwiKDdw7vB+HL50rjboEBHDVBEcnwfkEpVSp2AjNtoaOUH7zG+bVC/rvSg==}
-    engines: {node: '>=14.6'}
 
   '@wry/caches@1.0.1':
     resolution: {integrity: sha512-bXuaUNLVVkD20wcGBWRyo7j9N3TxePEWFZj2Y+r9OoUzfqmavM84+mFykRicNsBqatba5JLay1t48wxaXaWnlA==}
@@ -4371,14 +4346,6 @@ packages:
     engines: {node: '>=16.13.0'}
     peerDependencies:
       typescript: '>=4.2.0'
-
-  ts-essentials@9.4.1:
-    resolution: {integrity: sha512-oke0rI2EN9pzHsesdmrOrnqv1eQODmJpd/noJjwj2ZPC3Z4N2wbjrOEqnsEgmvlO2+4fBb0a794DCna2elEVIQ==}
-    peerDependencies:
-      typescript: '>=4.1.0'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
 
   ts-invariant@0.10.3:
     resolution: {integrity: sha512-uivwYcQaxAucv1CzRp2n/QdYPo4ILf9VXgH19zEIjFx2EJufV16P0JtJVpYHy89DItG6Kwj2oIUjrcK5au+4tQ==}
@@ -7329,10 +7296,6 @@ snapshots:
       '@typescript-eslint/types': 6.13.2
       eslint-visitor-keys: 3.4.3
 
-  '@upstash/redis@1.34.3':
-    dependencies:
-      crypto-js: 4.2.0
-
   '@usebruno/cli@1.33.0':
     dependencies:
       '@aws-sdk/credential-providers': 3.525.0
@@ -7406,19 +7369,6 @@ snapshots:
     dependencies:
       acorn: 8.11.2
       acorn-walk: 8.3.1
-
-  '@vercel/edge-config-fs@0.1.0': {}
-
-  '@vercel/edge-config@1.1.0(typescript@5.0.2)':
-    dependencies:
-      '@vercel/edge-config-fs': 0.1.0
-      ts-essentials: 9.4.1(typescript@5.0.2)
-    transitivePeerDependencies:
-      - typescript
-
-  '@vercel/kv@3.0.0':
-    dependencies:
-      '@upstash/redis': 1.34.3
 
   '@wry/caches@1.0.1':
     dependencies:
@@ -10608,10 +10558,6 @@ snapshots:
 
   ts-api-utils@1.0.3(typescript@5.0.2):
     dependencies:
-      typescript: 5.0.2
-
-  ts-essentials@9.4.1(typescript@5.0.2):
-    optionalDependencies:
       typescript: 5.0.2
 
   ts-invariant@0.10.3:

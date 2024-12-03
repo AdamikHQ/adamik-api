@@ -28,8 +28,6 @@
     "@ton-api/client": "^0.1.0",
     "@ton/core": "^0.57.0",
     "@ton/ton": "^15.0.0",
-    "@vercel/edge-config": "^1.1.0",
-    "@vercel/kv": "^3.0.0",
     "algo-msgpack-with-bigint": "^2.1.1",
     "algosdk": "^2.7.0",
     "bech32": "^2.0.0",
