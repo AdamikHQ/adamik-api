@@ -10,6 +10,8 @@ const env = createEnv({
     EDGE_CONFIG: z.string().url(),
     MOESIF_APPLICATION_ID: z.string().min(1).optional(),
     TEST_ENV: z.string().optional(),
+    REDIS_URL: z.string().min(1),
+    HOST_URL: z.string().url(),
   },
 
   /*
@@ -22,6 +24,8 @@ const env = createEnv({
     EDGE_CONFIG: process.env.EDGE_CONFIG,
     MOESIF_APPLICATION_ID: process.env.MOESIF_APPLICATION_ID,
     TEST_ENV: process.env.TEST_ENV,
+    REDIS_URL: process.env.REDIS_URL,
+    HOST_URL: process.env.HOST_URL,
   },
 });
 
