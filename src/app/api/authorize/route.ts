@@ -2,7 +2,7 @@ import { Redis } from "ioredis";
 import { NextRequest, NextResponse } from "next/server";
 import { env } from "~/env";
 
-export const redis = new Redis(env.REDIS_URL);
+const redis = new Redis(env.REDIS_URL);
 
 export const GET = async (request: NextRequest, response: NextResponse) => {
   const apiKey = request.nextUrl.searchParams.get("apiKey");

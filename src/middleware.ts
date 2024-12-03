@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { env } from "~/env";
+
 export async function middleware(request: NextRequest) {
   const isPreflight = request.method === "OPTIONS";
   if (isPreflight) {
@@ -7,9 +8,6 @@ export async function middleware(request: NextRequest) {
   }
 
   const apiKey = request.headers.get("Authorization");
-  // TODO Use postgres instead of edge config
-  // const clients: readonly ClientData[] | undefined = await getVercelEdgeConfig("clients");
-  // const client = clients?.find((client) => client.apiKey === apiKey);
   const response = await fetch(`${env.HOST_URL}/api/authorize?apiKey=${apiKey}`);
   const client: { clientId: string | undefined } = await response.json();
 
