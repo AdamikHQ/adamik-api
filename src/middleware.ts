@@ -11,11 +11,18 @@ export async function middleware(request: NextRequest) {
   // FIXME: This is a temporary solution to check if the API key is valid
   // https://github.com/vercel/next.js/discussions/71727
   // We hope that NextJS team will fix this issue soon
-  const authorizeResponse = await fetch(
-    `https://${
-      process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL ?? "localhost:3000"
-    }/api/authorize?apiKey=${apiKey}`
-  );
+
+  const authorizeBaseUrl = process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000";
+
+  const authorizeUrl = `${authorizeBaseUrl}/api/authorize?apiKey=${apiKey}`;
+
+  const authorizeResponse = await fetch(authorizeUrl, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   const client: { clientId: string | undefined } = await authorizeResponse.json();
 
   // NOTE No additional checks for now
