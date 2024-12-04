@@ -12,14 +12,14 @@ export const GET = async (request: NextRequest) => {
   const apiKey = request.nextUrl.searchParams.get("apiKey");
 
   if (!apiKey) {
-    return NextResponse.json({ exist: false }, { status: 400 });
+    return NextResponse.json({ clientId: undefined }, { status: 400 });
   }
 
   const clientId = await redis.hGet(`clients:${apiKey}`, "clientId");
 
   if (!clientId) {
-    return NextResponse.json({ exist: false }, { status: 401 });
+    return NextResponse.json({ clientId: undefined }, { status: 401 });
   }
 
-  return NextResponse.json({ exist: true, clientId });
+  return NextResponse.json({ clientId });
 };

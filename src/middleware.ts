@@ -12,15 +12,15 @@ export async function middleware(request: NextRequest) {
   // https://github.com/vercel/next.js/discussions/71727
   // We hope that NextJS team will fix this issue soon
   const authorizeResponse = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL ?? "http://localhost:3000"
+    `https://${
+      process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL ?? "localhost:3000"
     }/api/authorize?apiKey=${apiKey}`
   );
-  const client: { exist: boolean; clientId: string | undefined } = await authorizeResponse.json();
+  const client: { clientId: string | undefined } = await authorizeResponse.json();
 
   // NOTE No additional checks for now
   // In the future we could apply rate limits, or special access rights
-  if (!client.exist) {
+  if (!client.clientId) {
     return NextResponse.json(
       { message: `Missing or invalid API key` },
       { status: 401, statusText: `Unauthorized` }
