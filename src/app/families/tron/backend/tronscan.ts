@@ -7,7 +7,8 @@ const RETRY_DELAY = 500;
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// used to check if the error absolutely matches the fetch failed error from tronscan
+//FIXME: this is a temporary solution to handle the fetch failed error from tronscan
+//TODO: remove this once tronscan is fixed
 const isFetchFailedError = (error: any): boolean => {
   return error?.status?.errors?.[0]?.message === "fetch failed";
 };
