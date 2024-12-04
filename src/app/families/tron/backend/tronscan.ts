@@ -2,7 +2,17 @@ import { TRONSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { TronscanAccountResponse, TronScanTransactionInfo } from "./types";
 
-async function fetchTronscanAccountData(address: string): Promise<TronscanAccountResponse> {
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 500;
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// used to check if the error absolutely matches the fetch failed error from tronscan
+const isFetchFailedError = (error: any): boolean => {
+  return error?.status?.errors?.[0]?.message === "fetch failed";
+};
+
+async function fetchTronscanAccountData(address: string, retryCount = 0): Promise<TronscanAccountResponse> {
   const apiUrl = `${CHAINS.tron.backends["explorerURL"]}/api/accountv2?address=${address}`;
 
   try {
@@ -14,6 +24,13 @@ async function fetchTronscanAccountData(address: string): Promise<TronscanAccoun
     return data;
   } catch (error) {
     console.error("Error fetching Tronscan account data:", error);
+
+    if (isFetchFailedError(error) && retryCount < MAX_RETRIES) {
+      console.log(`Retrying Tronscan API call (attempt ${retryCount + 1}/${MAX_RETRIES})...`);
+      await delay(RETRY_DELAY);
+      return fetchTronscanAccountData(address, retryCount + 1);
+    }
+
     throw error;
   }
 }
