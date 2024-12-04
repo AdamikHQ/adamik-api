@@ -1,21 +1,25 @@
-import { Redis } from "ioredis";
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "redis";
 import { env } from "~/env";
 
-const redis = new Redis(env.REDIS_URL);
+const redis = createClient({
+  url: env.REDIS_URL,
+});
 
-export const GET = async (request: NextRequest, response: NextResponse) => {
+redis.connect();
+
+export const GET = async (request: NextRequest) => {
   const apiKey = request.nextUrl.searchParams.get("apiKey");
 
   if (!apiKey) {
-    return NextResponse.json({ clientId: undefined }, { status: 400 });
+    return NextResponse.json({ exist: false }, { status: 400 });
   }
 
-  const client = await redis.hgetall(`clients:${apiKey}`);
+  const clientId = await redis.hGet(`clients:${apiKey}`, "clientId");
 
-  if (Object.keys(client).length === 0) {
-    return NextResponse.json({ clientId: undefined }, { status: 401 });
+  if (!clientId) {
+    return NextResponse.json({ exist: false }, { status: 401 });
   }
 
-  return NextResponse.json({ ...client });
+  return NextResponse.json({ exist: true, clientId });
 };

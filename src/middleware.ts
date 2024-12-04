@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { env } from "~/env";
 
 export async function middleware(request: NextRequest) {
   const isPreflight = request.method === "OPTIONS";
@@ -8,12 +7,20 @@ export async function middleware(request: NextRequest) {
   }
 
   const apiKey = request.headers.get("Authorization");
-  const response = await fetch(`${env.HOST_URL}/api/authorize?apiKey=${apiKey}`);
-  const client: { clientId: string | undefined } = await response.json();
+
+  // FIXME: This is a temporary solution to check if the API key is valid
+  // https://github.com/vercel/next.js/discussions/71727
+  // We hope that NextJS team will fix this issue soon
+  const authorizeResponse = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL ?? "http://localhost:3000"
+    }/api/authorize?apiKey=${apiKey}`
+  );
+  const client: { exist: boolean; clientId: string | undefined } = await authorizeResponse.json();
 
   // NOTE No additional checks for now
   // In the future we could apply rate limits, or special access rights
-  if (!client.clientId) {
+  if (!client.exist) {
     return NextResponse.json(
       { message: `Missing or invalid API key` },
       { status: 401, statusText: `Unauthorized` }

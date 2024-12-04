@@ -29,7 +29,6 @@ jobs:
       - name: run Adamik API
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
-          HOST_URL: http://localhost:3000
           TEST_ENV: "true"
         run: pnpm run dev &> output.txt &
       - name: run tests
