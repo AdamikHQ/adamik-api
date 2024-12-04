@@ -6,6 +6,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.json({});
   }
 
+  // Skip authorization in test environment
+  if (process.env.TEST_ENV === "true") {
+    return NextResponse.next();
+  }
+
   const apiKey = request.headers.get("Authorization");
 
   // FIXME: This is a temporary solution to check if the API key is valid
@@ -16,7 +21,7 @@ export async function middleware(request: NextRequest) {
     ? `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
     : "http://localhost:3000";
 
-  const authorizeUrl = `${authorizeBaseUrl}/api/authorize?apiKey=${apiKey}`;
+  const authorizeUrl = `${authorizeBaseUrl}/authorize?apiKey=${apiKey}`;
 
   const authorizeResponse = await fetch(authorizeUrl, {
     headers: {
