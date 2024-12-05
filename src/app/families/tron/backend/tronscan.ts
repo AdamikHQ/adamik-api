@@ -27,7 +27,7 @@ async function fetchTronscanAccountData(address: string, retryCount = 0): Promis
     console.error("Error fetching Tronscan account data:", error);
 
     if (isFetchFailedError(error) && retryCount < MAX_RETRIES) {
-      console.warn(`Retrying Tronscan API call (attempt ${retryCount + 1}/${MAX_RETRIES})...`);
+      console.warn(`Retrying Tronscan API call (attempt ${retryCount + 1}/${MAX_RETRIES + 1})...`);
       await delay(RETRY_DELAY);
       return fetchTronscanAccountData(address, retryCount + 1);
     }
