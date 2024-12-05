@@ -47,7 +47,6 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
   const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
   const aggregatedBalances = createEmptyBalances();
 
-  console.log("addressesResult:", addressesResult.data.utxo);
   for (const address of addresses) {
     // Unconfirmed balance includes both:
     // - Mempool transactions (block_id = -1)
