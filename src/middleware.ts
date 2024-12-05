@@ -1,11 +1,4 @@
-import { get as getVercelEdgeConfig } from "@vercel/edge-config";
 import { NextRequest, NextResponse } from "next/server";
-
-type ClientData = {
-  clientId: string; // adamik generated ID
-  apiKey: string;
-  creationDate: number;
-};
 
 export async function middleware(request: NextRequest) {
   const isPreflight = request.method === "OPTIONS";
@@ -13,14 +6,33 @@ export async function middleware(request: NextRequest) {
     return NextResponse.json({});
   }
 
+  // Skip authorization in test environment
+  if (process.env.TEST_ENV === "true") {
+    return NextResponse.next();
+  }
+
   const apiKey = request.headers.get("Authorization");
-  // TODO Use postgres instead of edge config
-  const clients: readonly ClientData[] | undefined = await getVercelEdgeConfig("clients");
-  const client = clients?.find((client) => client.apiKey === apiKey);
+
+  // FIXME: This is a temporary solution to check if the API key is valid
+  // https://github.com/vercel/next.js/discussions/71727
+  // We hope that NextJS team will fix this issue soon
+
+  const authorizeBaseUrl = process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000";
+
+  const authorizeUrl = `${authorizeBaseUrl}/authorize?apiKey=${apiKey}`;
+
+  const authorizeResponse = await fetch(authorizeUrl, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const client: { clientId: string | undefined } = await authorizeResponse.json();
 
   // NOTE No additional checks for now
   // In the future we could apply rate limits, or special access rights
-  if (!client) {
+  if (!client.clientId) {
     return NextResponse.json(
       { message: `Missing or invalid API key` },
       { status: 401, statusText: `Unauthorized` }

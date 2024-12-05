@@ -28,7 +28,7 @@ jobs:
         run: pnpm install
       - name: run Adamik API
         env:
-          EDGE_CONFIG: ${{ secrets.EDGE_CONFIG }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
           TEST_ENV: "true"
         run: pnpm run dev &> output.txt &
       - name: run tests
