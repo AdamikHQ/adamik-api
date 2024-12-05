@@ -42,6 +42,7 @@
     "moesif-nodejs": "^3.8.2",
     "next": "14.0.3",
     "secp256k1": "^5.0.0",
+    "starknet": "^6.11.0",
     "tronweb": "^6.0.0",
     "tsx": "^4.16.5",
     "tweetnacl": "^1.0.3",

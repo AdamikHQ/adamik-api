@@ -1,3 +1,4 @@
+import { STARKNET_FEATURES } from "../families/starknet/features";
 import { Chain, ChainFamily, ChainId, TransactionMode } from "../model/types_WIP";
 import {
   ALGORAND_FEATURES,
@@ -1529,6 +1530,20 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.KAVA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kava/chain.json
+  },
+  starknet: {
+    family: ChainFamily.STARKNET,
+    id: ChainId.STARKNET,
+    nativeId: "starknet",
+    name: "Starknet",
+    ticker: "STRK",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://starknet-mainnet.public.blastapi.io/rpc/v0_7", //FIXME: find a better node
+      explorerURL: "https://starkscan.co/",
+    },
+    params: {},
+    supportedFeatures: STARKNET_FEATURES,
   },
 } as const;
 

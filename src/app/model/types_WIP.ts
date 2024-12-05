@@ -43,7 +43,7 @@ enum ChainId {
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
   DOGECOIN = "dogecoin",
-
+  STARKNET = "starknet",
   //All Cosmos based chains
   //Added through Polkachu nodes
   BITSONG = "bitsong",
@@ -107,6 +107,7 @@ enum ChainFamily {
   BITCOIN = "bitcoin",
   TRON = "tron",
   TON = "ton",
+  STARKNET = "starknet",
 }
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
