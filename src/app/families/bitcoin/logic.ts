@@ -1,10 +1,32 @@
 import ecc from "@bitcoinerlab/secp256k1";
 import { address as addressSerde, initEccLib, networks } from "bitcoinjs-lib";
 import { ChainId } from "~/app/model/types_WIP";
+import { BlockchairResponseContext } from "./backend/types";
 import { Xpub } from "./types";
 
 // Allows support for Taproot addresses validation: https://github.com/bitcoinjs/bitcoinjs-lib/issues/1919
 initEccLib(ecc);
+
+const xpubRegex =
+  /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!.*&c=)c=\d{10}|(?!.*&h=)h=bip\d{2,3})(?:(?=(?:&c=|&h=))&(c=\d{10}|h=bip\d{2,3}))?)?$/;
+
+// FIXME: we'll want to validate also the xpub prefix with chainId (make sure that lpub are not used for BTC for example)
+function isValidXpub(_chainId: ChainId, str: string): str is Xpub {
+  return xpubRegex.test(str);
+}
+
+// Looks like a hack but it's actually the best way to check if the address is valid
+// https://github.com/andcoisqu/bitcoinjs-lib/blob/d4b57292995f9233fc0b4ed9e4dfda3be85d3e19/test/integration/addresses.js#L100
+function isValidAddress(chainId: ChainId, address: string): boolean {
+  const network = getNetworkForChainId(chainId);
+  try {
+    // this will throw an error if the address is invalid
+    addressSerde.toOutputScript(address, network);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
 
 function getNetworkForChainId(chainId: ChainId): networks.Network {
   switch (chainId) {
@@ -43,25 +65,34 @@ function getNetworkForChainId(chainId: ChainId): networks.Network {
   }
 }
 
-// Looks like a hack but it's actually the best way to check if the address is valid
-// https://github.com/andcoisqu/bitcoinjs-lib/blob/d4b57292995f9233fc0b4ed9e4dfda3be85d3e19/test/integration/addresses.js#L100
-function isValidAddress(chainId: ChainId, address: string): boolean {
-  const network = getNetworkForChainId(chainId);
-  try {
-    // this will throw an error if the address is invalid
-    addressSerde.toOutputScript(address, network);
-    return true;
-  } catch (error) {
-    return false;
+/**
+ * Get current block height from API response context (instead of using fetchStats for fresh blockchain data)
+ *
+ * Note: For mempool-only transactions (block_id = -1), the API doesn't return block height
+ * In this case, we return MAX_SAFE_INTEGER to ensure these are counted as unconfirmed
+ */
+function getCurrentBlockHeight(
+  chainId: ChainId,
+  utxoData: { block_id: number }[],
+  responseContext: BlockchairResponseContext
+): number {
+  const hasNonMempoolTx = utxoData?.some((utxo) => utxo.block_id !== -1);
+
+  // For mempool-only transactions, return MAX_SAFE_INTEGER
+  if (!hasNonMempoolTx) {
+    return Number.MAX_SAFE_INTEGER;
   }
+
+  // For transactions in blocks, we need the block height
+  if (!responseContext.state) {
+    console.warn(
+      `Missing current block height for chain ID ${chainId} in: ${JSON.stringify(responseContext)}`
+    );
+    // TODO Use ThirdPartyProviderError here instead
+    throw new Error(`Missing current block height in data returned from explorer`);
+  }
+
+  return responseContext.state;
 }
 
-const xpubRegex =
-  /^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})(?:(?:$|\?)((?!.*&c=)c=\d{10}|(?!.*&h=)h=bip\d{2,3})(?:(?=(?:&c=|&h=))&(c=\d{10}|h=bip\d{2,3}))?)?$/;
-
-// FIXME: we'll want to validate also the xpub prefix with chainId (make sure that lpub are not used for BTC for example)
-function isValidXpub(_chainId: ChainId, str: string): str is Xpub {
-  return xpubRegex.test(str);
-}
-
-export { getNetworkForChainId, isValidAddress, isValidXpub };
+export { getCurrentBlockHeight, getNetworkForChainId, isValidAddress, isValidXpub };

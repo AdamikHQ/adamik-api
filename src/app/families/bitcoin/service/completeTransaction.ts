@@ -2,14 +2,9 @@ import coinSelect from "coinselect";
 import split from "coinselect/split.js";
 import { CHAINS } from "~/app/config/chains";
 import { Status, Transaction } from "~/app/model/types_WIP";
-import {
-  fetchAddressesDashboard,
-  fetchFeePerByte,
-  fetchXpubDashboard,
-  getCurrentBlockHeight,
-} from "../backend/explorer";
+import { fetchAddressesDashboard, fetchFeePerByte, fetchXpubDashboard } from "../backend/explorer";
 import { UtxoWithMetadata } from "../backend/types";
-import { isValidXpub } from "../logic";
+import { getCurrentBlockHeight, isValidXpub } from "../logic";
 import { BitcoinService } from "../service";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../types";
 
@@ -24,25 +19,33 @@ async function completeTransaction(
 
   const feeRate = await fetchFeePerByte(this.chainId);
 
-  // safe to cast here as we already validated sender in prevalidateTransaction
-  // Get current block height from the appropriate dashboard
-  interface DashboardData {
-    utxo: Array<UtxoWithMetadata>;
-  }
+  const { allUtxos, currentBlockHeight } = await (async () => {
+    if (isValidXpub(this.chainId, transaction.data.sender)) {
+      const blockHeightResponse = await fetchXpubDashboard(this.chainId, transaction.data.sender);
+      const allUtxos = blockHeightResponse.data?.[transaction.data.sender]?.utxo;
 
-  const blockHeightResponse = isValidXpub(this.chainId, transaction.data.sender)
-    ? await fetchXpubDashboard(this.chainId, transaction.data.sender)
-    : await fetchAddressesDashboard(this.chainId, [transaction.data.sender]);
+      const currentBlockHeight = getCurrentBlockHeight(this.chainId, allUtxos, blockHeightResponse.context);
 
-  const allUtxos = isValidXpub(this.chainId, transaction.data.sender)
-    ? (
-        blockHeightResponse.data?.[
-          transaction.data.sender as keyof typeof blockHeightResponse.data
-        ] as DashboardData
-      )?.utxo
-    : (blockHeightResponse.data as DashboardData)?.utxo;
+      return {
+        allUtxos,
+        currentBlockHeight,
+      };
+    } else {
+      const blockHeightResponse = await fetchAddressesDashboard(this.chainId, [transaction.data.sender]);
+      const allUtxos = blockHeightResponse.data?.utxo;
 
-  const currentBlockHeight = await getCurrentBlockHeight(this.chainId, blockHeightResponse);
+      const currentBlockHeight = getCurrentBlockHeight(
+        this.chainId,
+        allUtxos || [],
+        blockHeightResponse.context
+      );
+
+      return {
+        allUtxos,
+        currentBlockHeight,
+      };
+    }
+  })();
 
   // Select UTXOs using either:
   // - coinSelect: finds optimal UTXOs for exact amount
@@ -69,13 +72,15 @@ async function completeTransaction(
   }
 
   // Store inputs and outputs in the transaction, as they'll be needed later to encode it
-  const params = {
+  const params: BitcoinTransactionParams = {
     inputs: [],
     outputs: [],
-  } as BitcoinTransactionParams;
+  };
 
   // Check selected UTXOs and add warnings
   for (const input of inputs) {
+    // NOTE The published 'UTXO' type from coinselect is WRONG!
+    // The runtime data actually matches the UtxoWithMetadata type
     const utxo = input as UtxoWithMetadata;
     params.inputs.push(utxo);
 
@@ -85,6 +90,7 @@ async function completeTransaction(
         message: `Using unconfirmed input from transaction ${utxo.transaction_hash} (still pending in mempool)`,
       });
     }
+
     // Case 2: UTXO is in a block but has < 6 confirmations
     else if (utxo.block_id > 0) {
       const confirmations_required = (CHAINS[this.chainId].params as BitcoinChainParams).confirmations;

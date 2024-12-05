@@ -4,9 +4,9 @@ import { ChainId } from "~/app/model/types_WIP";
 import { Xpub } from "../types";
 import {
   BlockchairAddressesResponse,
+  BlockchairTransactionBroadcastStatus,
   BlockchairTransactionResponse,
   BlockchairXpubResponse,
-  TransactionBroadcastStatus,
 } from "./types";
 
 // TODO Need proper mapping between Adamik ChainID <> Blockchair ChainID (to support more than bitcoin)
@@ -96,7 +96,7 @@ async function fetchAddressesDashboard(
   }
 
   // Split addresses into batches
-  const batches = [];
+  const batches: string[][] = [];
   for (let i = 0; i < addresses.length; i += BATCH_SIZE) {
     batches.push(addresses.slice(i, i + BATCH_SIZE));
   }
@@ -186,7 +186,7 @@ async function postTransaction(chainId: ChainId, signedTransaction: string): Pro
     throw new Error("Error during transaction broadcast to the node");
   }
 
-  const result = TransactionBroadcastStatus.safeParse(await response.json());
+  const result = BlockchairTransactionBroadcastStatus.safeParse(await response.json());
 
   if (!result.success) {
     console.warn(
@@ -282,21 +282,22 @@ async function fetchTransaction(chainId: ChainId, txHash: string): Promise<Block
   return result.data;
 }
 
+// This function works for both mempool and confirmed transactions
 async function fetchTransactionMetadata(
   chainId: ChainId,
   txHash: string
-): Promise<{
-  [key: string]: {
+): // TODO This should be put in its own type in ./types.ts
+Promise<{
+  transaction: {
     has_witness: boolean;
-    outputs: [
-      {
-        index: number;
-        script_hex: string;
-        // ... other fields are not used for now
-      }
-    ];
-    // ... other fields are not used for now
   };
+  outputs: [
+    {
+      index: number;
+      script_hex: string;
+      spending_witness: string;
+    }
+  ];
 }> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   const queryParams = new URLSearchParams({
@@ -317,7 +318,7 @@ async function fetchTransactionMetadata(
 
   const result = await response.json();
 
-  if (result.context.code !== 200) {
+  if (result.context.code !== 200 || !result.data || !result.data[txHash]) {
     console.warn(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       JSON.stringify(result)
@@ -325,19 +326,11 @@ async function fetchTransactionMetadata(
     throw new Error("Error in transaction metadata received from the explorer");
   }
 
-  return result.data;
+  return result.data[txHash];
 }
 
-async function fetchRawTransactionMetadata(
-  chainId: ChainId,
-  txHash: string
-): Promise<{
-  [key: string]: {
-    // key is tx_hash
-    raw_transaction: string;
-    /// ... other fields are not used for now
-  };
-}> {
+// This function works for both mempool and confirmed transactions
+async function fetchRawTransactionMetadata(chainId: ChainId, txHash: string): Promise<string> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
@@ -357,7 +350,7 @@ async function fetchRawTransactionMetadata(
 
   const result = await response.json();
 
-  if (result.context.code !== 200) {
+  if (result.context.code !== 200 || !result.data || !result.data[txHash]) {
     console.warn(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       JSON.stringify(result)
@@ -365,44 +358,7 @@ async function fetchRawTransactionMetadata(
     throw new Error("Error in raw transaction metadata received from the explorer");
   }
 
-  return result.data;
-}
-
-/**
- * Get current block height from API response context (instead of using fetchStats for fresh blockchain data)
- *
- * Note: For mempool-only transactions (block_id = -1), the API doesn't return block height
- * In this case, we return MAX_SAFE_INTEGER to ensure these are counted as unconfirmed
- */
-async function getCurrentBlockHeight(
-  chainId: ChainId,
-  response: {
-    context: { state?: number };
-    data?: {
-      utxo?: { block_id: number }[];
-      [key: string]: any; // For xpub response which has a dynamic key
-    } | null;
-  }
-): Promise<number> {
-  // Check if we have any non-mempool transactions
-  const utxos =
-    "utxo" in (response.data || {})
-      ? response.data?.utxo // Address response
-      : Object.values(response.data || {})[0]?.utxo; // Xpub response
-
-  const hasNonMempoolTx = utxos?.some((utxo: { block_id: number }) => utxo.block_id !== -1);
-
-  // For mempool-only transactions, return MAX_SAFE_INTEGER
-  if (!hasNonMempoolTx) {
-    return Number.MAX_SAFE_INTEGER;
-  }
-
-  // For transactions in blocks, we need the block height
-  if (!response.context.state) {
-    console.warn(`Missing current block height: ${JSON.stringify(response)}`);
-    throw new Error(`Explorer error: missing current block height`);
-  }
-  return response.context.state;
+  return result.data[txHash].raw_transaction;
 }
 
 export {
@@ -413,6 +369,5 @@ export {
   fetchTransaction,
   fetchTransactionMetadata,
   fetchXpubDashboard,
-  getCurrentBlockHeight,
   postTransaction,
 };

@@ -1,5 +1,5 @@
 import { Psbt } from "bitcoinjs-lib";
-import { Status, Transaction } from "~/app/model/types_WIP";
+import { ChainId, Status, Transaction } from "~/app/model/types_WIP";
 import { fetchRawTransactionMetadata, fetchTransactionMetadata } from "../backend/explorer";
 import { getNetworkForChainId } from "../logic";
 import { BitcoinService } from "../service";
@@ -21,37 +21,37 @@ async function encodeTransactionToSign(
   // Enrich inputs from the explorer
   // Note: This can use both confirmed and unconfirmed (mempool) transactions as inputs
   // Blockchair API returns mempool transactions with block_id = -1
-  for (let inputIndex = 0; inputIndex < params.inputs.length; inputIndex++) {
-    const input = params.inputs[inputIndex];
-    // fetchTransactionMetadata works for both mempool and confirmed transactions
-    const txMetadata = await fetchTransactionMetadata(this.chainId, input.transaction_hash);
+  for (const input of params.inputs) {
+    // - BTC addresses are segwit-compatible if their type is not "legacy"
+    // - Legacy addresses all start with '1'
+    // - Only Bitcoin supports SegWit
+    // https://bitcoin.design/guide/glossary/address/
+    const isSegwitInput =
+      (this.chainId === ChainId.BITCOIN || this.chainId === ChainId.BITCOIN_TESTNET) &&
+      !input.address.startsWith("1");
 
-    // FIXME: did I misunderstand the has_witness field?
-    // TODO: Add link to documentation here
-    if (!txMetadata[input.transaction_hash].has_witness) {
+    if (isSegwitInput) {
+      const txMetadata = await fetchTransactionMetadata(this.chainId, input.transaction_hash);
       psbt.addInput({
         ...input,
         hash: input.transaction_hash,
         witnessUtxo: {
-          script: Buffer.from(txMetadata[input.transaction_hash].outputs[input.index].script_hex, "hex"),
+          script: Buffer.from(txMetadata.outputs[input.index].script_hex, "hex"),
           value: input.value,
         },
       });
     } else {
-      // fetchRawTransactionMetadata also works for both mempool and confirmed transactions
-      const nonWitnessUtxo = (await fetchRawTransactionMetadata(this.chainId, input.transaction_hash))[
-        input.transaction_hash
-      ].raw_transaction;
-
+      const nonWitnessUtxo = await fetchRawTransactionMetadata(this.chainId, input.transaction_hash);
       psbt.addInput({
         ...input,
         hash: input.transaction_hash,
         nonWitnessUtxo: Buffer.from(nonWitnessUtxo, "hex"),
       });
     }
-    // Enables RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
+
+    // Enable RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
     // 0xfffffffd is stricly smaller than 0xffffffff - 1
-    psbt.setInputSequence(inputIndex, 0xfffffffd);
+    psbt.setInputSequence(input.index, 0xfffffffd);
   }
 
   psbt.addOutputs(params.outputs);
@@ -72,6 +72,7 @@ async function encodeTransactionToBroadcast(
   if (!signedTransaction.signature) {
     throw new Error("missing transaction signature");
   }
+
   return signedTransaction.signature;
 }
 

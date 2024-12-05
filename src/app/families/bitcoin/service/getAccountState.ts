@@ -1,7 +1,7 @@
 import { CHAINS } from "~/app/config/chains";
 import { AccountState, ChainId } from "~/app/model/types_WIP";
-import { fetchAddressesDashboard, fetchXpubDashboard, getCurrentBlockHeight } from "../backend/explorer";
-import { isValidXpub } from "../logic";
+import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
+import { getCurrentBlockHeight, isValidXpub } from "../logic";
 import { BitcoinService } from "../service";
 import { BitcoinChainParams, Xpub } from "../types";
 
@@ -32,10 +32,10 @@ async function getAccountState(this: BitcoinService, accountId: string): Promise
 }
 
 async function getAddressesState(chainId: ChainId, addresses: string[]): Promise<AccountState> {
-  const addressesResult = await fetchAddressesDashboard(chainId, addresses);
+  const addressesResponse = await fetchAddressesDashboard(chainId, addresses);
 
   // Return zero balances if no data found
-  if (!addressesResult.data) {
+  if (!addressesResponse.data) {
     return {
       chainId,
       accountId: addresses.join(","),
@@ -43,7 +43,8 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
     };
   }
 
-  const currentBlockHeight = await getCurrentBlockHeight(chainId, addressesResult);
+  const allUtxos = addressesResponse.data?.utxo;
+  const currentBlockHeight = getCurrentBlockHeight(chainId, allUtxos, addressesResponse.context);
   const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
   const aggregatedBalances = createEmptyBalances();
 
@@ -51,7 +52,7 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
     // Unconfirmed balance includes both:
     // - Mempool transactions (block_id = -1)
     // - Transactions in blocks but with insufficient confirmations
-    const unconfirmedBalance = addressesResult.data.utxo
+    const unconfirmedBalance = addressesResponse.data.utxo
       .filter((utxo) => utxo.address === address)
       .filter((utxo) => {
         // Pure mempool transactions should ALWAYS be counted as unconfirmed
@@ -61,7 +62,7 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
       })
       .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
 
-    const balance = BigInt(addressesResult.data.addresses[address].balance);
+    const balance = BigInt(addressesResponse.data.addresses[address].balance);
     // available: includes ALL spendable amounts (both confirmed and unconfirmed)
     aggregatedBalances.native.available += balance;
     // total: same as available for Bitcoin (no locked amounts)
@@ -78,10 +79,14 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
 }
 
 async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState> {
-  // 1. Get all UTXOs that are in blocks from xpub endpoint
+  const chainParams = CHAINS[chainId].params as BitcoinChainParams;
+
+  // Get all UTXOs that are in blocks from xpub endpoint
   const xpubResponse = await fetchXpubDashboard(chainId, xpub);
-  const currentBlockHeight = await getCurrentBlockHeight(chainId, xpubResponse);
-  const confirmations_required = (CHAINS[chainId].params as BitcoinChainParams).confirmations;
+
+  const allUtxos = Object.values(xpubResponse.data)[0]?.utxo;
+
+  const currentBlockHeight = getCurrentBlockHeight(chainId, allUtxos, xpubResponse.context);
 
   // Calculate confirmed balance for UTXOs with >= required confirmations
   // Confirmed tx are always visible in the xpub dashboard response
@@ -89,14 +94,14 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
     // Let's, exclude mempool transactions (which can SOMETIMES be visible in the xpub dashboard response)
     if (utxo.block_id === -1) return false;
     // Then check confirmations for transactions in blocks
-    return currentBlockHeight - utxo.block_id + 1 >= confirmations_required;
+    return currentBlockHeight - utxo.block_id + 1 >= chainParams.confirmations;
   });
   const confirmedUTXOsBalance = confirmedUtxos?.reduce((total, utxo) => total + BigInt(utxo.value), 0n) ?? 0n;
 
   // Calculate unconfirmed balance for UTXOs in blocks but < required confirmations
   // Because these transactions are included in a block, they are also visible in the xpub dashboard response
   const unconfirmedUtxos = xpubResponse.data?.[xpub]?.utxo.filter(
-    (utxo) => currentBlockHeight - utxo.block_id + 1 < confirmations_required
+    (utxo) => currentBlockHeight - utxo.block_id + 1 < chainParams.confirmations
   );
   const unconfirmedUtxosBalance =
     unconfirmedUtxos?.reduce((total, utxo) => total + BigInt(utxo.value), 0n) ?? 0n;

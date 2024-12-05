@@ -15,7 +15,7 @@ type BitcoinTransactionParams = {
   outputs: PsbtOutputExtended[];
 };
 
-// extract type from Psbt.addOutput as it's not exported by bitcoinjs
+// Extract type from Psbt.addOutput as it's not exported by bitcoinjs
 type PsbtOutputExtended = Parameters<typeof Psbt.prototype.addOutput>[0];
 
 /**

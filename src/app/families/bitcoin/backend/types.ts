@@ -2,6 +2,7 @@ import { UTXO } from "coinselect";
 import z from "zod";
 
 const numberOrBigint = z.bigint().or(z.number().pipe(z.coerce.bigint()));
+
 /**
  * Metadata that's part of all blockchair responses
  *
@@ -34,7 +35,7 @@ const numberOrBigint = z.bigint().or(z.number().pipe(z.coerce.bigint()));
         }
  }
  */
-const requestContextSchema = z.object({
+const BlockchairResponseContext = z.object({
   code: z.number(),
   error: z.string().optional(),
   state: z.number().optional(),
@@ -63,7 +64,9 @@ const requestContextSchema = z.object({
   request_cost: z.number(),
 });
 
-const BlockchairUtxoData = z
+type BlockchairResponseContext = z.infer<typeof BlockchairResponseContext>;
+
+const UtxoWithMetadata = z
   .object({
     block_id: z.number(),
     transaction_hash: z.string(),
@@ -73,14 +76,16 @@ const BlockchairUtxoData = z
   })
   .transform((data) => {
     return {
-      /** add fields for compatibility with coinselect @see {@link UTXO} */
+      /** Add fields for compatibility with coinselect @see {@link UTXO} */
+      // NOTE The published 'UTXO' type from coinselect is WRONG!
+      // The runtime data actually matches this UtxoWithMetadata type
       txid: data.transaction_hash,
       vout: data.index,
       ...data,
     };
   });
 
-type BlockchairUtxoData = z.infer<typeof BlockchairUtxoData>;
+type UtxoWithMetadata = z.infer<typeof UtxoWithMetadata>;
 
 const BlockchairAddressData = z.object({
   type: z.string(),
@@ -110,14 +115,14 @@ const BlockchairAddressesResponse = z.object({
       }),
       addresses: z.record(z.string(), BlockchairAddressData),
       transactions: z.array(z.string()),
-      utxo: BlockchairUtxoData.and(
+      utxo: UtxoWithMetadata.and(
         z.object({
           address: z.string(),
         })
       ).array(),
     })
     .nullable(),
-  context: requestContextSchema,
+  context: BlockchairResponseContext,
 });
 
 type BlockchairAddressesResponse = z.infer<typeof BlockchairAddressesResponse>;
@@ -251,7 +256,7 @@ const BlockchairXpubData = z.record(
       )
     ),
     transactions: z.array(z.string()),
-    utxo: BlockchairUtxoData.array(),
+    utxo: UtxoWithMetadata.array(),
   })
 );
 
@@ -260,7 +265,7 @@ const BlockchairXpubResponse = z.object({
     .nullable()
     .transform((data) => (!data || Array.isArray(data) ? {} : data))
     .pipe(BlockchairXpubData),
-  context: requestContextSchema.and(
+  context: BlockchairResponseContext.and(
     // not part of the typical context answer, only happens in the xpub dashboard
     z.object({
       checked: z.array(z.string()),
@@ -508,7 +513,7 @@ const BlockchairTransactionData = z.record(
 
 const BlockchairTransactionResponse = z.object({
   data: BlockchairTransactionData.or(z.tuple([])).nullable(),
-  context: requestContextSchema,
+  context: BlockchairResponseContext,
 });
 
 type BlockchairTransactionResponse = z.infer<typeof BlockchairTransactionResponse>;
@@ -535,21 +540,22 @@ type BlockchairTransactionResponse = z.infer<typeof BlockchairTransactionRespons
     ```
  *
  */
-const TransactionBroadcastStatus = z.object({
+const BlockchairTransactionBroadcastStatus = z.object({
   data: z
     .object({
       transaction_hash: z.string(),
     })
     .nullish(),
-  context: requestContextSchema,
+  context: BlockchairResponseContext,
 });
 
-type TransactionBroadcastStatus = z.infer<typeof TransactionBroadcastStatus>;
+type BlockchairTransactionBroadcastStatus = z.infer<typeof BlockchairTransactionBroadcastStatus>;
 
 export {
   BlockchairAddressesResponse,
+  BlockchairResponseContext,
+  BlockchairTransactionBroadcastStatus,
   BlockchairTransactionResponse,
   BlockchairXpubResponse,
-  TransactionBroadcastStatus,
-  BlockchairUtxoData as UtxoWithMetadata,
+  UtxoWithMetadata,
 };
