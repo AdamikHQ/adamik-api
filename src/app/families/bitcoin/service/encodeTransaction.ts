@@ -21,7 +21,7 @@ async function encodeTransactionToSign(
   // Enrich inputs from the explorer
   // Note: This can use both confirmed and unconfirmed (mempool) transactions as inputs
   // Blockchair API returns mempool transactions with block_id = -1
-  for (const input of params.inputs) {
+  for (const [inputIndex, input] of params.inputs.entries()) {
     // - BTC addresses are segwit-compatible if their type is not "legacy"
     // - Legacy addresses all start with '1'
     // - Only Bitcoin supports SegWit
@@ -51,7 +51,7 @@ async function encodeTransactionToSign(
 
     // Enable RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
     // 0xfffffffd is stricly smaller than 0xffffffff - 1
-    psbt.setInputSequence(input.index, 0xfffffffd);
+    psbt.setInputSequence(inputIndex, 0xfffffffd);
   }
 
   psbt.addOutputs(params.outputs);
