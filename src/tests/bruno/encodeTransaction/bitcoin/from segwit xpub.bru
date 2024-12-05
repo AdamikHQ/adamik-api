@@ -1,0 +1,30 @@
+meta {
+  name: from segwit xpub
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_url}}/api/transaction/encode
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "bitcoin",
+        "mode": "transfer",
+        "sender": "zpub6qYbSn4b2fJB73UgjXLVMZ44v7fXWqjaQP2CA5gfkwBqm6qGBAn5bMZCgg9gVxQ8APCbj11GAynqJFQ5A32Zq38VtRdhp8tQoxqCQBNguFC",
+        "recipient": "bc1q4gwr68h0sqqwca8p40kamch69ynttq4ypw8pwu",
+        "amount": "1000",
+        "useMaxAmount": false
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+}

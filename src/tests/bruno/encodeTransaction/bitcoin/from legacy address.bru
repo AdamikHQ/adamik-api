@@ -1,0 +1,30 @@
+meta {
+  name: from legacy address
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/transaction/encode
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "chainId": "bitcoin",
+        "mode": "transfer",
+        "sender": "18ZFhkAfeSfwi3uTLZXYunPzdqCabLYCL9",
+        "recipient": "bc1qekphvuz20qvdhkzywfe29r9vvtwxrszvaxzmqm",
+        "amount": "1000",
+        "useMaxAmount": false
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+}

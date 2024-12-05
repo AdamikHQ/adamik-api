@@ -1,7 +1,7 @@
 meta {
-  name: bitcoin
+  name: from segwit address
   type: http
-  seq: 4
+  seq: 1
 }
 
 post {
@@ -16,7 +16,7 @@ body:json {
       "data": {
         "chainId": "bitcoin",
         "mode": "transfer",
-        "sender": "bc1qekphvuz20qvdhkzywfe29r9vvtwxrszvaxzmqm",
+        "sender": "bc1q4gwr68h0sqqwca8p40kamch69ynttq4ypw8pwu",
         "recipient": "bc1qekphvuz20qvdhkzywfe29r9vvtwxrszvaxzmqm",
         "amount": "1000",
         "useMaxAmount": false
@@ -28,4 +28,3 @@ body:json {
 assert {
   res.status: eq 200
 }
-
