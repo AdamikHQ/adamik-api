@@ -2,7 +2,7 @@ import { TRONSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { TronscanAccountResponse, TronScanTransactionInfo } from "./types";
 
-const MAX_RETRIES = 3;
+const MAX_RETRIES = 2;
 const RETRY_DELAY = 500;
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -27,7 +27,7 @@ async function fetchTronscanAccountData(address: string, retryCount = 0): Promis
     console.error("Error fetching Tronscan account data:", error);
 
     if (isFetchFailedError(error) && retryCount < MAX_RETRIES) {
-      console.log(`Retrying Tronscan API call (attempt ${retryCount + 1}/${MAX_RETRIES})...`);
+      console.warn(`Retrying Tronscan API call (attempt ${retryCount + 1}/${MAX_RETRIES})...`);
       await delay(RETRY_DELAY);
       return fetchTronscanAccountData(address, retryCount + 1);
     }
