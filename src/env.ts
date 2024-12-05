@@ -7,9 +7,9 @@ const env = createEnv({
    * Will throw if you access these variables on the client.
    */
   server: {
-    EDGE_CONFIG: z.string().url(),
     MOESIF_APPLICATION_ID: z.string().min(1).optional(),
     TEST_ENV: z.string().optional(),
+    REDIS_URL: z.string().min(1),
   },
 
   /*
@@ -19,9 +19,9 @@ const env = createEnv({
    * 💡 You'll get type errors if not all variables from `server` & `client` are included here.
    */
   runtimeEnv: {
-    EDGE_CONFIG: process.env.EDGE_CONFIG,
     MOESIF_APPLICATION_ID: process.env.MOESIF_APPLICATION_ID,
     TEST_ENV: process.env.TEST_ENV,
+    REDIS_URL: process.env.REDIS_URL,
   },
 });
 
