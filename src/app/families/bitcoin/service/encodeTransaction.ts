@@ -7,13 +7,9 @@ import { BitcoinTransactionParams } from "../types";
 
 async function encodeTransactionToSign(
   this: BitcoinService,
-  _: {
-    transaction: Transaction;
-    status: Status;
-  }
+  _: { transaction: Transaction; status: Status }
 ): Promise<void> {
   const { transaction, status } = _;
-
   const params = transaction.data.params as BitcoinTransactionParams;
 
   let psbt = new Psbt({ network: getNetworkForChainId(this.chainId) });
@@ -22,35 +18,53 @@ async function encodeTransactionToSign(
   // Note: This can use both confirmed and unconfirmed (mempool) transactions as inputs
   // Blockchair API returns mempool transactions with block_id = -1
   for (const [inputIndex, input] of params.inputs.entries()) {
-    // - BTC addresses are segwit-compatible if their type is not "legacy"
-    // - Legacy addresses all start with '1'
-    // - Only Bitcoin supports SegWit
-    // https://bitcoin.design/guide/glossary/address/
-    const txMetadata = await fetchTransactionMetadata(this.chainId, input.transaction_hash);
-    const outputScript = txMetadata.outputs[input.index].script_hex;
-    const isWitnessInput = isWitnessScript(outputScript);
+    try {
+      const txMetadata = await fetchTransactionMetadata(this.chainId, input.transaction_hash);
+      const outputScript = txMetadata.outputs[input.index]?.script_hex;
+      const value = input.value;
 
-    if (isWitnessInput) {
-      psbt.addInput({
-        ...input,
-        hash: input.transaction_hash,
-        witnessUtxo: {
-          script: Buffer.from(outputScript, "hex"),
-          value: input.value,
-        },
-      });
-    } else {
-      const nonWitnessUtxo = await fetchRawTransactionMetadata(this.chainId, input.transaction_hash);
-      psbt.addInput({
-        ...input,
-        hash: input.transaction_hash,
-        nonWitnessUtxo: Buffer.from(nonWitnessUtxo, "hex"),
-      });
+      if (!outputScript || value == null) {
+        throw new Error(`Missing metadata for input ${inputIndex}`);
+      }
+
+      const isWitness = isWitnessScript(outputScript);
+
+      if (isWitness) {
+        psbt.addInput({
+          hash: input.transaction_hash,
+          index: input.index,
+          witnessUtxo: {
+            script: Buffer.from(outputScript, "hex"),
+            value,
+          },
+        });
+      } else if (isP2SH(outputScript)) {
+        // Keep P2SH case separate as we might need special handling in the future:
+        // - Detecting P2SH-wrapped SegWit programs
+        // - Handling specific redeem script requirements
+        // - Adding P2SH-specific signing logic
+        const nonWitnessUtxo = await fetchRawTransactionMetadata(this.chainId, input.transaction_hash);
+        psbt.addInput({
+          hash: input.transaction_hash,
+          index: input.index,
+          nonWitnessUtxo: Buffer.from(nonWitnessUtxo, "hex"),
+        });
+      } else {
+        const nonWitnessUtxo = await fetchRawTransactionMetadata(this.chainId, input.transaction_hash);
+        psbt.addInput({
+          hash: input.transaction_hash,
+          index: input.index,
+          nonWitnessUtxo: Buffer.from(nonWitnessUtxo, "hex"),
+        });
+      }
+
+      // Enable RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
+      // 0xfffffffd is stricly smaller than 0xffffffff - 1
+      psbt.setInputSequence(inputIndex, 0xfffffffd);
+    } catch (error: unknown) {
+      console.error(`Failed to process input ${inputIndex}:`, error instanceof Error ? error.message : error);
+      throw error;
     }
-
-    // Enable RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
-    // 0xfffffffd is stricly smaller than 0xffffffff - 1
-    psbt.setInputSequence(inputIndex, 0xfffffffd);
   }
 
   psbt.addOutputs(params.outputs);
@@ -79,7 +93,7 @@ async function encodeTransactionToBroadcast(
 function isWitnessScript(scriptHex: string): boolean {
   const script = Buffer.from(scriptHex, "hex");
 
-  // Native Witness program: version 0 (P2WPKH/P2WSH) or version 1 (P2TR)
+  // Witness program: version 0 (P2WPKH/P2WSH) or version 1 (P2TR)
   // Format: OP_n (version) followed by a push of 20 or 32 bytes
   if (script.length === 22 && script[0] === 0x00 && script[1] === 0x14) {
     return true; // P2WPKH
@@ -91,16 +105,13 @@ function isWitnessScript(scriptHex: string): boolean {
     return true; // P2TR (Taproot)
   }
 
-  // P2SH detection - we should NOT assume it's a witness program
-  if (script.length === 23 && script[0] === 0xa9 && script[1] === 0x14 && script[22] === 0x87) {
-    // TODO: For P2SH inputs, we need to:
-    // 1. Get the redeem script (requires signing wallet's input)
-    // 2. Check if the redeem script itself is a witness program
-    // For now, treat P2SH as non-witness to be safe
-    return false;
-  }
-
   return false;
+}
+
+// Helper function to detect P2SH scripts
+function isP2SH(scriptHex: string): boolean {
+  const script = Buffer.from(scriptHex, "hex");
+  return script.length === 23 && script[0] === 0xa9 && script[1] === 0x14 && script[22] === 0x87;
 }
 
 export { encodeTransactionToBroadcast, encodeTransactionToSign };
