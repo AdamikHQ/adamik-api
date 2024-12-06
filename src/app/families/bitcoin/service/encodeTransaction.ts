@@ -79,7 +79,7 @@ async function encodeTransactionToBroadcast(
 function isWitnessScript(scriptHex: string): boolean {
   const script = Buffer.from(scriptHex, "hex");
 
-  // Witness program: version 0 (P2WPKH/P2WSH) or version 1 (P2TR)
+  // Native Witness program: version 0 (P2WPKH/P2WSH) or version 1 (P2TR)
   // Format: OP_n (version) followed by a push of 20 or 32 bytes
   if (script.length === 22 && script[0] === 0x00 && script[1] === 0x14) {
     return true; // P2WPKH
@@ -91,9 +91,13 @@ function isWitnessScript(scriptHex: string): boolean {
     return true; // P2TR (Taproot)
   }
 
-  // P2SH-wrapped witness programs
+  // P2SH detection - we should NOT assume it's a witness program
   if (script.length === 23 && script[0] === 0xa9 && script[1] === 0x14 && script[22] === 0x87) {
-    return true; // P2SH (might contain a witness program)
+    // TODO: For P2SH inputs, we need to:
+    // 1. Get the redeem script (requires signing wallet's input)
+    // 2. Check if the redeem script itself is a witness program
+    // For now, treat P2SH as non-witness to be safe
+    return false;
   }
 
   return false;
