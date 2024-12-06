@@ -1,5 +1,5 @@
 import { Psbt } from "bitcoinjs-lib";
-import { ChainId, Status, Transaction } from "~/app/model/types_WIP";
+import { Status, Transaction } from "~/app/model/types_WIP";
 import { fetchRawTransactionMetadata, fetchTransactionMetadata } from "../backend/explorer";
 import { getNetworkForChainId } from "../logic";
 import { BitcoinService } from "../service";
@@ -26,17 +26,16 @@ async function encodeTransactionToSign(
     // - Legacy addresses all start with '1'
     // - Only Bitcoin supports SegWit
     // https://bitcoin.design/guide/glossary/address/
-    const isSegwitInput =
-      (this.chainId === ChainId.BITCOIN || this.chainId === ChainId.BITCOIN_TESTNET) &&
-      !input.address.startsWith("1");
+    const txMetadata = await fetchTransactionMetadata(this.chainId, input.transaction_hash);
+    const outputScript = txMetadata.outputs[input.index].script_hex;
+    const isWitnessInput = isWitnessScript(outputScript);
 
-    if (isSegwitInput) {
-      const txMetadata = await fetchTransactionMetadata(this.chainId, input.transaction_hash);
+    if (isWitnessInput) {
       psbt.addInput({
         ...input,
         hash: input.transaction_hash,
         witnessUtxo: {
-          script: Buffer.from(txMetadata.outputs[input.index].script_hex, "hex"),
+          script: Buffer.from(outputScript, "hex"),
           value: input.value,
         },
       });
@@ -74,6 +73,30 @@ async function encodeTransactionToBroadcast(
   }
 
   return signedTransaction.signature;
+}
+
+// Helper function to determine if a script is a witness program
+function isWitnessScript(scriptHex: string): boolean {
+  const script = Buffer.from(scriptHex, "hex");
+
+  // Witness program: version 0 (P2WPKH/P2WSH) or version 1 (P2TR)
+  // Format: OP_n (version) followed by a push of 20 or 32 bytes
+  if (script.length === 22 && script[0] === 0x00 && script[1] === 0x14) {
+    return true; // P2WPKH
+  }
+  if (script.length === 34 && script[0] === 0x00 && script[1] === 0x20) {
+    return true; // P2WSH
+  }
+  if (script.length === 34 && script[0] === 0x51 && script[1] === 0x20) {
+    return true; // P2TR (Taproot)
+  }
+
+  // P2SH-wrapped witness programs
+  if (script.length === 23 && script[0] === 0xa9 && script[1] === 0x14 && script[22] === 0x87) {
+    return true; // P2SH (might contain a witness program)
+  }
+
+  return false;
 }
 
 export { encodeTransactionToBroadcast, encodeTransactionToSign };
