@@ -361,8 +361,62 @@ async function fetchRawTransactionMetadata(chainId: ChainId, txHash: string): Pr
   return result.data[txHash].raw_transaction;
 }
 
+/**
+ * Fetches metadata for multiple transactions in a single request
+ * Note: Blockchair API allows batching transactions with comma-separated hashes
+ */
+async function fetchBatchTransactionMetadata(
+  chainId: ChainId,
+  txHashes: string[]
+): Promise<
+  Record<
+    string,
+    {
+      transaction: {
+        has_witness: boolean;
+      };
+      outputs: Array<{
+        index: number;
+        script_hex: string;
+        spending_witness: string;
+      }>;
+    }
+  >
+> {
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
+
+  // Join transaction hashes with commas for batch request
+  const url = `${explorerURL}/dashboards/transactions/${txHashes.join(",")}?${queryParams.toString()}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new Error("Error while fetching transaction metadata from the explorer");
+  }
+
+  const result = await response.json();
+
+  if (result.context.code !== 200) {
+    console.warn(
+      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+      JSON.stringify(result)
+    );
+    throw new Error("Error in transaction metadata received from the explorer");
+  }
+
+  return result.data;
+}
+
 export {
   fetchAddressesDashboard,
+  fetchBatchTransactionMetadata,
   fetchFeePerByte,
   fetchRawTransactionMetadata,
   fetchStats,

@@ -1,6 +1,6 @@
 import { Psbt } from "bitcoinjs-lib";
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { fetchRawTransactionMetadata, fetchTransactionMetadata } from "../backend/explorer";
+import { fetchBatchTransactionMetadata, fetchRawTransactionMetadata } from "../backend/explorer";
 import { getNetworkForChainId } from "../logic";
 import { BitcoinService } from "../service";
 import { BitcoinTransactionParams } from "../types";
@@ -14,12 +14,17 @@ async function encodeTransactionToSign(
 
   let psbt = new Psbt({ network: getNetworkForChainId(this.chainId) });
 
-  // Enrich inputs from the explorer
-  // Note: This can use both confirmed and unconfirmed (mempool) transactions as inputs
-  // Blockchair API returns mempool transactions with block_id = -1
-  for (const [inputIndex, input] of params.inputs.entries()) {
-    try {
-      const txMetadata = await fetchTransactionMetadata(this.chainId, input.transaction_hash);
+  try {
+    // Batch fetch all transaction metadata upfront
+    const uniqueTransactionHashes = [...new Set(params.inputs.map((input) => input.transaction_hash))];
+    const txMetadataMap = await fetchBatchTransactionMetadata(this.chainId, uniqueTransactionHashes);
+    const rawTxMetadataMap = new Map();
+
+    // Enrich inputs from the explorer
+    // Note: This can use both confirmed and unconfirmed (mempool) transactions as inputs
+    // Blockchair API returns mempool transactions with block_id = -1
+    for (const [inputIndex, input] of params.inputs.entries()) {
+      const txMetadata = txMetadataMap[input.transaction_hash];
       const outputScript = txMetadata.outputs[input.index]?.script_hex;
       const value = input.value;
 
@@ -43,33 +48,42 @@ async function encodeTransactionToSign(
         // - Detecting P2SH-wrapped SegWit programs
         // - Handling specific redeem script requirements
         // - Adding P2SH-specific signing logic
-        const nonWitnessUtxo = await fetchRawTransactionMetadata(this.chainId, input.transaction_hash);
+        if (!rawTxMetadataMap.has(input.transaction_hash)) {
+          rawTxMetadataMap.set(
+            input.transaction_hash,
+            await fetchRawTransactionMetadata(this.chainId, input.transaction_hash)
+          );
+        }
         psbt.addInput({
           hash: input.transaction_hash,
           index: input.index,
-          nonWitnessUtxo: Buffer.from(nonWitnessUtxo, "hex"),
+          nonWitnessUtxo: Buffer.from(rawTxMetadataMap.get(input.transaction_hash)!, "hex"),
         });
       } else {
-        const nonWitnessUtxo = await fetchRawTransactionMetadata(this.chainId, input.transaction_hash);
+        if (!rawTxMetadataMap.has(input.transaction_hash)) {
+          rawTxMetadataMap.set(
+            input.transaction_hash,
+            await fetchRawTransactionMetadata(this.chainId, input.transaction_hash)
+          );
+        }
         psbt.addInput({
           hash: input.transaction_hash,
           index: input.index,
-          nonWitnessUtxo: Buffer.from(nonWitnessUtxo, "hex"),
+          nonWitnessUtxo: Buffer.from(rawTxMetadataMap.get(input.transaction_hash)!, "hex"),
         });
       }
 
       // Enable RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
       // 0xfffffffd is stricly smaller than 0xffffffff - 1
       psbt.setInputSequence(inputIndex, 0xfffffffd);
-    } catch (error: unknown) {
-      console.error(`Failed to process input ${inputIndex}:`, error instanceof Error ? error.message : error);
-      throw error;
     }
+
+    psbt.addOutputs(params.outputs);
+    transaction.encoded = psbt.toHex();
+  } catch (error: unknown) {
+    console.error("Failed to encode transaction:", error instanceof Error ? error.message : error);
+    throw error;
   }
-
-  psbt.addOutputs(params.outputs);
-
-  transaction.encoded = psbt.toHex();
 }
 
 async function encodeTransactionToBroadcast(
