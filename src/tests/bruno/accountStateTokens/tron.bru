@@ -5,24 +5,24 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/account/state/tokens
+  url: {{api_url}}/api/account/state/tokens?nextPage=IjIwIg==
   body: json
   auth: none
+}
+
+params:query {
+  nextPage: IjIwIg==
 }
 
 body:json {
   {
     "chainId": "tron",
-    "accountId": "TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre"
+    "accountId": "TT2T17KZhoDu47i2E4FWxfG79zdkEWkU9N"
   }
 }
 
 assert {
-  res.status: eq 400
-  res.body.status.errors[0].message: eq "Not implemented yet"
-  ~res.status: eq 200
-  ~res.body.balances: isDefined tokens
-  ~res.body.balances.tokens: isArray
-  ~res.body.balances.native.total: eq "431111753"
-  ~res.body.balances.native.available: eq "431111753"
+  res.status: eq 200
+  res.body.balances.tokens: isArray
+  res.body.pagination.nextPage: eq IjQwIg==
 }
