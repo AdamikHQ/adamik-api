@@ -227,18 +227,19 @@ async function fetchValidators(
   chainId: ChainId,
   paginationToken?: string
 ): Promise<{ validators: CosmosValidator[]; nextPage: string | null }> {
-  const paginationData = paginationFromB64(paginationToken);
-  if (paginationData && typeof paginationData !== "string") {
-    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
-  }
-
   const chainParams = CHAINS[chainId].params as CosmosChainParams;
   const chainIdForValidators = chainParams.isICS ? ChainId.COSMOSHUB : chainId;
 
   const url = new URL(`${getNodeRootUrl(chainIdForValidators)}/cosmos/staking/v1beta1/validators`);
 
+  const paginationData = paginationFromB64(paginationToken);
+
   if (paginationData) {
-    url.searchParams.set("pagination.key", paginationData);
+    if (typeof paginationData === "string") {
+      url.searchParams.set("pagination.key", paginationData);
+    } else {
+      throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+    }
   }
 
   const response = await fetchWithHeaders(url.toString()).then((response) => response.json());

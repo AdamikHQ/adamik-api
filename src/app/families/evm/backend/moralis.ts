@@ -87,19 +87,22 @@ async function fetchERC20TokenAmounts(
     return { tokens, nextPage };
   }
 
-  const paginationData = paginationFromB64(paginationToken);
-  if (paginationData && typeof paginationData !== "string") {
-    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
-  }
-
-  const queryParams = new URLSearchParams({
+  const searchParams = new URLSearchParams({
     chain: moralisChainId,
     exclude_spam: "false",
-    limit: "20", // Smaller pages if pagination is requested
-    cursor: paginationData,
+    limit: "20", // Smaller pages when pagination is requested
   });
 
-  const url = `${explorerURL}/v2.2/wallets/${address}/tokens?${queryParams}`;
+  const paginationData = paginationFromB64(paginationToken);
+  if (paginationData) {
+    if (typeof paginationData === "string") {
+      searchParams.set("cursor", paginationData);
+    } else {
+      throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+    }
+  }
+
+  const url = `${explorerURL}/v2.2/wallets/${address}/tokens?${searchParams}`;
 
   const response = await fetchWithHeaders(url).then((response) => response.json());
 
@@ -285,21 +288,24 @@ async function fetchAccountTransactions(
     return { evmTransactions: [], nextPage: null };
   }
 
-  const paginationData = paginationFromB64(paginationToken);
-  if (paginationData && typeof paginationData !== "string") {
-    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
-  }
-
-  const queryParams = new URLSearchParams({
+  const searchParams = new URLSearchParams({
     chain: moralisChainId,
     order: "DESC",
-    cursor: paginationData,
     // For now, we're not interested in internal transactions and NFTs
     include_internal_transactions: "false",
     nft_metadata: "false",
   });
 
-  const url = `${explorerURL}/v2.2/wallets/${address}/history?${queryParams}`;
+  const paginationData = paginationFromB64(paginationToken);
+  if (paginationData) {
+    if (typeof paginationData === "string") {
+      searchParams.set("cursor", paginationData);
+    } else {
+      throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+    }
+  }
+
+  const url = `${explorerURL}/v2.2/wallets/${address}/history?${searchParams}`;
 
   const response: MoralisAccountTransactionsResponse = await fetchWithHeaders(url.toString()).then(
     (response) => response.json()

@@ -53,10 +53,7 @@ async function fetchAllAccountASA(address: string): Promise<AlgoAccountAsset[]> 
 
   let response;
   do {
-    const searchParams = new URLSearchParams({
-      limit: "20",
-    });
-
+    const searchParams = new URLSearchParams();
     if (response && response["next-token"]) {
       searchParams.set("next", response["next-token"]);
     }
@@ -94,14 +91,17 @@ async function fetchAccountASA(
   paginationToken?: string
 ): Promise<{ accountAssets: AlgoAccountAsset[]; nextPage: string | null }> {
   const paginationData = paginationFromB64(paginationToken);
-  if (paginationData && typeof paginationData !== "string") {
-    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
-  }
-
   const searchParams = new URLSearchParams({
-    limit: "20",
+    limit: "20", // Smaller pages when pagination is requested
   });
-  paginationData && searchParams.set("next", paginationData);
+
+  if (paginationData) {
+    if (typeof paginationData === "string") {
+      searchParams.set("next", paginationData);
+    } else {
+      throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+    }
+  }
 
   const url = `${ROOT_URL}/accounts/${address}/assets?${searchParams}`;
 

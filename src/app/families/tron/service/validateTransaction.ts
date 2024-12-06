@@ -1,7 +1,7 @@
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { prevalidateTransactionCommon } from "../../common";
 import { isValidAddress } from "../backend/node";
-import { fetchTronscanAccountData } from "../backend/tronscan";
+import { fetchAccountData } from "../backend/tronscan";
 import { TronService } from "../service";
 
 async function prevalidateTransaction(
@@ -24,7 +24,7 @@ async function validateTransaction(
   const { transaction, status } = _;
 
   const transactionData = transaction.data;
-  const accountData = await fetchTronscanAccountData(transactionData.sender);
+  const accountData = await fetchAccountData(transactionData.sender);
   const availableBalance = accountData.balance;
   const amount = transactionData.amount as bigint;
   const fees = transactionData.fees as bigint;
