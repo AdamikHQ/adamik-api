@@ -16,11 +16,7 @@ const createEmptyBalances = () => ({
 /**
  * Gets account state for either an xpub or individual address
  *
- * Note: The implementation differs between xpub and address:
- * - For addresses: mempool transactions are ALWAYS included in the response
- * - For xpubs: mempool transactions are SOMETIMES included in the response, but may be temporarily dropped by the explorer
- *
- * As a result, the unconfirmed balance reported for xpubs may be lower than the actual unconfirmed balance reported for addresses
+ * NOTE: we noticed some inconsistencies in the data returned by the explorer for xpubs and addresses (sometimes mempool transactions are missing)
  * FIXME: This is a bug, and we should fix it by ensuring that mempool transactions are always included in the response for xpubs
  * Currently being discussed with the Blockchain explorer team
  */
