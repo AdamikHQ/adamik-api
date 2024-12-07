@@ -54,11 +54,55 @@ async function encodeTransactionToSign(
             await fetchRawTransactionMetadata(this.chainId, input.transaction_hash)
           );
         }
-        psbt.addInput({
+
+        const rawTxData = rawTxMetadataMap.get(input.transaction_hash)!;
+        console.log("Raw TX Data:", {
           hash: input.transaction_hash,
-          index: input.index,
-          nonWitnessUtxo: Buffer.from(rawTxMetadataMap.get(input.transaction_hash)!, "hex"),
+          data: rawTxData,
+          type: typeof rawTxData,
+          isString: typeof rawTxData === "string",
+          stringLength: typeof rawTxData === "string" ? rawTxData.length : 0,
         });
+
+        let inputData: any;
+        if (typeof rawTxData === "string" && rawTxData.length > 0) {
+          inputData = {
+            hash: input.transaction_hash,
+            index: input.index,
+            nonWitnessUtxo: Buffer.from(rawTxData, "hex"),
+          };
+        } else if (rawTxData?.data?.[input.transaction_hash]?.raw_transaction) {
+          inputData = {
+            hash: input.transaction_hash,
+            index: input.index,
+            nonWitnessUtxo: Buffer.from(rawTxData.data[input.transaction_hash].raw_transaction, "hex"),
+          };
+
+          if (isP2SH(outputScript)) {
+            const decodedTx = rawTxData.data[input.transaction_hash].decoded_raw_transaction;
+            const scriptSigHex = decodedTx?.vin?.[input.index]?.scriptSig?.hex;
+
+            if (scriptSigHex && isWitnessScript(scriptSigHex)) {
+              inputData.witnessUtxo = {
+                script: Buffer.from(outputScript, "hex"),
+                value,
+              };
+              inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
+            } else if (scriptSigHex) {
+              inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
+            } else {
+              throw new Error(`Missing scriptSig for P2SH input at index ${inputIndex}`);
+            }
+          }
+        } else {
+          throw new Error(`Missing or invalid raw transaction data for hash: ${input.transaction_hash}`);
+        }
+
+        if (!inputData) {
+          throw new Error(`Failed to create input data for hash: ${input.transaction_hash}`);
+        }
+
+        psbt.addInput(inputData);
       } else {
         if (!rawTxMetadataMap.has(input.transaction_hash)) {
           rawTxMetadataMap.set(
@@ -66,11 +110,55 @@ async function encodeTransactionToSign(
             await fetchRawTransactionMetadata(this.chainId, input.transaction_hash)
           );
         }
-        psbt.addInput({
+
+        const rawTxData = rawTxMetadataMap.get(input.transaction_hash)!;
+        console.log("Raw TX Data:", {
           hash: input.transaction_hash,
-          index: input.index,
-          nonWitnessUtxo: Buffer.from(rawTxMetadataMap.get(input.transaction_hash)!, "hex"),
+          data: rawTxData,
+          type: typeof rawTxData,
+          isString: typeof rawTxData === "string",
+          stringLength: typeof rawTxData === "string" ? rawTxData.length : 0,
         });
+
+        let inputData: any;
+        if (typeof rawTxData === "string" && rawTxData.length > 0) {
+          inputData = {
+            hash: input.transaction_hash,
+            index: input.index,
+            nonWitnessUtxo: Buffer.from(rawTxData, "hex"),
+          };
+        } else if (rawTxData?.data?.[input.transaction_hash]?.raw_transaction) {
+          inputData = {
+            hash: input.transaction_hash,
+            index: input.index,
+            nonWitnessUtxo: Buffer.from(rawTxData.data[input.transaction_hash].raw_transaction, "hex"),
+          };
+
+          if (isP2SH(outputScript)) {
+            const decodedTx = rawTxData.data[input.transaction_hash].decoded_raw_transaction;
+            const scriptSigHex = decodedTx?.vin?.[input.index]?.scriptSig?.hex;
+
+            if (scriptSigHex && isWitnessScript(scriptSigHex)) {
+              inputData.witnessUtxo = {
+                script: Buffer.from(outputScript, "hex"),
+                value,
+              };
+              inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
+            } else if (scriptSigHex) {
+              inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
+            } else {
+              throw new Error(`Missing scriptSig for P2SH input at index ${inputIndex}`);
+            }
+          }
+        } else {
+          throw new Error(`Missing or invalid raw transaction data for hash: ${input.transaction_hash}`);
+        }
+
+        if (!inputData) {
+          throw new Error(`Failed to create input data for hash: ${input.transaction_hash}`);
+        }
+
+        psbt.addInput(inputData);
       }
 
       // Enable RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
