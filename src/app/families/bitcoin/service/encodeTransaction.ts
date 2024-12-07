@@ -11,8 +11,7 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction, status } = _;
   const params = transaction.data.params as BitcoinTransactionParams;
-
-  let psbt = new Psbt({ network: getNetworkForChainId(this.chainId) });
+  const psbt = new Psbt({ network: getNetworkForChainId(this.chainId) });
 
   try {
     // Batch fetch all transaction metadata upfront
@@ -56,13 +55,6 @@ async function encodeTransactionToSign(
         }
 
         const rawTxData = rawTxMetadataMap.get(input.transaction_hash)!;
-        console.log("Raw TX Data:", {
-          hash: input.transaction_hash,
-          data: rawTxData,
-          type: typeof rawTxData,
-          isString: typeof rawTxData === "string",
-          stringLength: typeof rawTxData === "string" ? rawTxData.length : 0,
-        });
 
         let inputData: any;
         if (typeof rawTxData === "string" && rawTxData.length > 0) {
@@ -112,13 +104,6 @@ async function encodeTransactionToSign(
         }
 
         const rawTxData = rawTxMetadataMap.get(input.transaction_hash)!;
-        console.log("Raw TX Data:", {
-          hash: input.transaction_hash,
-          data: rawTxData,
-          type: typeof rawTxData,
-          isString: typeof rawTxData === "string",
-          stringLength: typeof rawTxData === "string" ? rawTxData.length : 0,
-        });
 
         let inputData: any;
         if (typeof rawTxData === "string" && rawTxData.length > 0) {
