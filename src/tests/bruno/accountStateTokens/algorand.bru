@@ -4,7 +4,6 @@ meta {
   seq: 3
 }
 
-# Initial token fetch
 post {
   name: Initial fetch
   url: {{api_url}}/api/account/state/tokens
@@ -28,7 +27,6 @@ assert {
   res.body.pagination.nextPage: isDefined
 }
 
-# Paginated token fetch
 post {
   name: Paginated fetch
   url: {{api_url}}/api/account/state/tokens
