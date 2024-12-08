@@ -4,7 +4,9 @@ meta {
   seq: 3
 }
 
+# Initial token fetch
 post {
+  name: Initial fetch
   url: {{api_url}}/api/account/state/tokens
   body: json
   auth: none
@@ -13,11 +15,40 @@ post {
 body:json {
   {
     "chainId": "algorand",
-    "accountId": "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM"
+    "accountId": "5TOOCJSAZBPBV4LFH26JBJYPJXGQ4XCYAT44Z6ETZT6DHQIEIBTYBYW4CM"
   }
 }
 
 assert {
   res.status: eq 200
+  res.body.chainId: eq "algorand"
+  res.body.accountId: isDefined
+  res.body.balances: isDefined
   res.body.balances.tokens: isArray
+  res.body.pagination.nextPage: isDefined
+}
+
+# Paginated token fetch
+post {
+  name: Paginated fetch
+  url: {{api_url}}/api/account/state/tokens
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "chainId": "algorand",
+    "accountId": "5TOOCJSAZBPBV4LFH26JBJYPJXGQ4XCYAT44Z6ETZT6DHQIEIBTYBYW4CM",
+    "paginationToken": "{{res.body.pagination.nextPage}}"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.chainId: eq "algorand"
+  res.body.accountId: isDefined
+  res.body.balances: isDefined
+  res.body.balances.tokens: isArray
+  res.body.pagination: isDefined
 }
