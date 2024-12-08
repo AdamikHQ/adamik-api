@@ -5,10 +5,13 @@ meta {
 }
 
 post {
-  name: Initial fetch
-  url: {{api_url}}/api/account/state/tokens
+  url: {{api_url}}/api/account/state/tokens?nextPage=IjE5MzA1MzcwMSI=
   body: json
   auth: none
+}
+
+params:query {
+  nextPage: IjE5MzA1MzcwMSI=
 }
 
 body:json {
@@ -22,31 +25,6 @@ assert {
   res.status: eq 200
   res.body.chainId: eq "algorand"
   res.body.accountId: isDefined
-  res.body.balances: isDefined
   res.body.balances.tokens: isArray
-  res.body.pagination.nextPage: isDefined
-}
-
-post {
-  name: Paginated fetch
-  url: {{api_url}}/api/account/state/tokens
-  body: json
-  auth: none
-}
-
-body:json {
-  {
-    "chainId": "algorand",
-    "accountId": "5TOOCJSAZBPBV4LFH26JBJYPJXGQ4XCYAT44Z6ETZT6DHQIEIBTYBYW4CM",
-    "paginationToken": "{{res.body.pagination.nextPage}}"
-  }
-}
-
-assert {
-  res.status: eq 200
-  res.body.chainId: eq "algorand"
-  res.body.accountId: isDefined
-  res.body.balances: isDefined
-  res.body.balances.tokens: isArray
-  res.body.pagination: isDefined
+  res.body.pagination.nextPage: eq IjIyMDkzODk1NiI=
 }
