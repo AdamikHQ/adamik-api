@@ -62,24 +62,27 @@ async function fetchAllAccountASA(address: string): Promise<AlgoAccountAsset[]> 
 
     response = await fetch(url).then((response) => response.json());
 
-    if (response.message) {
+    if (response.message || !response["asset-holdings"]) {
       console.warn(`/!\\ Failed to fetch tokens data for algorand account '${address}':`, response.message);
       throw new ThirdPartyProviderError(`Failed to fetch tokens data for algorand account '${address}'`);
     }
 
     response["asset-holdings"].forEach((asset: any) => {
-      accountAssets.push({
-        assetHolding: {
-          assetId: asset["asset-holding"]["asset-id"].toString(),
-          amount: asset["asset-holding"].amount,
-        },
-        assetParams: {
-          assetId: asset["asset-holding"]["asset-id"].toString(),
-          name: asset["asset-params"].name,
-          unitName: asset["asset-params"]["unit-name"],
-          decimals: asset["asset-params"].decimals,
-        },
-      });
+      // Rare, but data is sometimes missing... should not happen but it does
+      if (asset["asset-holding"] && asset["asset-params"]) {
+        accountAssets.push({
+          assetHolding: {
+            assetId: asset["asset-holding"]["asset-id"].toString(),
+            amount: asset["asset-holding"].amount,
+          },
+          assetParams: {
+            assetId: asset["asset-holding"]["asset-id"].toString(),
+            name: asset["asset-params"].name || "",
+            unitName: asset["asset-params"]["unit-name"] || "",
+            decimals: asset["asset-params"].decimals,
+          },
+        });
+      }
     });
   } while (response["next-token"]);
 
@@ -107,25 +110,29 @@ async function fetchAccountASA(
 
   const response = await fetch(url).then((response) => response.json());
 
-  if (response.message) {
+  if (response.message || !response["asset-holdings"]) {
     console.warn(`/!\\ Failed to fetch tokens data for algorand account '${address}':`, response.message);
     throw new ThirdPartyProviderError(`Failed to fetch tokens data for algorand account '${address}'`);
   }
 
-  const accountAssets: AlgoAccountAsset[] = response["asset-holdings"].map(
-    (asset: any): AlgoAccountAsset => ({
-      assetHolding: {
-        assetId: asset["asset-holding"]["asset-id"].toString(),
-        amount: asset["asset-holding"].amount,
-      },
-      assetParams: {
-        assetId: asset["asset-holding"]["asset-id"].toString(),
-        name: asset["asset-params"].name,
-        unitName: asset["asset-params"]["unit-name"],
-        decimals: asset["asset-params"].decimals,
-      },
-    })
-  );
+  const accountAssets: AlgoAccountAsset[] = [];
+  response["asset-holdings"].forEach((asset: any) => {
+    // Rare, but data is sometimes missing... should not happen but it does
+    if (asset["asset-holding"] && asset["asset-params"]) {
+      accountAssets.push({
+        assetHolding: {
+          assetId: asset["asset-holding"]["asset-id"].toString(),
+          amount: asset["asset-holding"].amount,
+        },
+        assetParams: {
+          assetId: asset["asset-holding"]["asset-id"].toString(),
+          name: asset["asset-params"].name || "",
+          unitName: asset["asset-params"]["unit-name"] || "",
+          decimals: asset["asset-params"].decimals,
+        },
+      });
+    }
+  });
 
   const nextPage = response["next-token"] ? paginationToB64(response["next-token"]) : null;
 
@@ -134,6 +141,8 @@ async function fetchAccountASA(
     nextPage,
   };
 }
+
+function buildAcccountAssets() {}
 
 async function fetchASA(assetId: string): Promise<AlgoAsset> {
   const url = `${ROOT_URL}/assets/${assetId}`;
