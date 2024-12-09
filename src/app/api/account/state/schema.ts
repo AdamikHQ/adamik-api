@@ -17,25 +17,12 @@ const supportedChainIds = Object.values(CHAINS)
 
 const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
 
-const requestSchema = z
-  .object({
-    chainId: supportedChainIdsSchema,
-    accountId: z.string().openapi({
-      description: "Account identifier (address, xpub, etc) for the specified chain ID",
-    }),
-  })
-  .openapi({
-    examples: [
-      {
-        chainId: ChainId.ETHEREUM,
-        accountId: "0x0000000000000000000000000000000000000000",
-      },
-      {
-        chainId: ChainId.BITCOIN,
-        accountId: "xpub",
-      },
-    ],
-  });
+const pathParamsSchema = z.object({
+  chainId: supportedChainIdsSchema,
+  accountId: z.string().openapi({
+    description: "Account identifier (address, xpub, etc) for the specified chain ID",
+  }),
+});
 
 const includeValues: readonly string[] = ["native", "tokens", "staking"] as const;
 const queryParamsSchema = z.object({
@@ -152,19 +139,15 @@ const responseSchema = z.object({
 });
 
 const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/account/state": {
-    post: {
+  "/api/{chainId}/account/{accountId}/state": {
+    get: {
       tags: ["account"],
       summary: "Retrieve an account's state",
       description:
         "Returns the state of a specified account identifier (address or xpub) and chain ID, focusing on balance information. The response includes details on native asset balances, token balances, and staking balances. This endpoint supports optional filters to refine the results, making it essential for wallet applications to display accurate and tailored account information.",
       requestParams: {
+        path: pathParamsSchema,
         query: queryParamsSchema,
-      },
-      requestBody: {
-        content: {
-          "application/json": { schema: requestSchema },
-        },
       },
       responses: {
         "200": {
@@ -179,4 +162,4 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { accountStateOpenAPIPath, queryParamsSchema, requestSchema, responseSchema };
+export { accountStateOpenAPIPath, pathParamsSchema, queryParamsSchema, responseSchema };
