@@ -1,5 +1,5 @@
-import { AccountState, TokenAmount } from "~/app/model/types_WIP";
-import { fetchERC20TokenAmounts } from "../backend/moralis";
+import { AccountState } from "~/app/model/types_WIP";
+import { fetchAllERC20TokenAmounts } from "../backend/moralis";
 import { fetchBalance } from "../backend/node";
 import { EvmService } from "../service";
 import { EvmAddress } from "../types";
@@ -15,7 +15,7 @@ async function getAccountState(this: EvmService, accountId: EvmAddress): Promise
   //*
   // Moralis implementation
 
-  const tokenAmounts: TokenAmount[] = await fetchERC20TokenAmounts(this.chainId, accountId);
+  const tokenAmounts = await fetchAllERC20TokenAmounts(this.chainId, accountId);
 
   /*/
   // Etherscan implementation

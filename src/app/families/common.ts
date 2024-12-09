@@ -17,7 +17,7 @@ function paginationToB64(data: unknown): string | null {
 
 // Convert back a base64 pagination token provided in an API request, to the original pagination data
 // ("next" cursor, from/to timestamp, offset/limit parameters, etc...)
-function paginationFromB64(tokenB64?: string): any | null {
+function paginationFromB64(tokenB64?: string): unknown | null {
   if (!tokenB64) {
     return null;
   }

@@ -1,0 +1,21 @@
+meta {
+  name: negative 1
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId/token/:tokenId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: ethereum
+  tokenId: invalid token id
+}
+
+assert {
+  res.status: eq 400
+  res.body.status.errors[0].message: contains Token ID 'invalid token id' is not supported for chain ID ethereum
+}

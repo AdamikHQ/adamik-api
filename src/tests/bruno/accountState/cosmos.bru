@@ -1,7 +1,7 @@
 meta {
   name: cosmoshub
   type: http
-  seq: 4
+  seq: 1
 }
 
 post {
@@ -27,9 +27,9 @@ assert {
   res.body.balances.staking.locked: eq "1579608"
   res.body.balances.staking.unlocking: eq "0"
   res.body.balances.staking.unlocked: eq "0"
-  res.body.balances.staking.positions: isArray 
-  res.body.balances.staking.rewards: isDefined 
-  res.body.balances.staking.rewards.native: isArray 
-  res.body.balances.staking.rewards.tokens: isArray 
+  res.body.balances.staking.positions: isArray
+  res.body.balances.staking.rewards: isDefined
+  res.body.balances.staking.rewards.native: isArray
+  res.body.balances.staking.rewards.tokens: isArray
   res.status: eq 200
 }
