@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{api_url}}/api/chains/:chainId
+  url: {{api_url}}/api/:chainId/chain
   body: none
   auth: none
 }
@@ -16,5 +16,5 @@ params:path {
 
 assert {
   res.status: eq 200
+  res.body.family: eq tron
 }
-

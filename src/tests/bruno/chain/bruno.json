@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "/api/chains/[chainId]",
+  "name": "/api/[chainId]/chain",
   "type": "collection",
   "ignore": [
     "node_modules",
