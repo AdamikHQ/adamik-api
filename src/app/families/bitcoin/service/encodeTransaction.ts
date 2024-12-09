@@ -1,5 +1,6 @@
 import { Psbt } from "bitcoinjs-lib";
 import { Status, Transaction } from "~/app/model/types_WIP";
+import { AdamikApiServerError } from "~/app/tools/handlers/errors";
 import { fetchBatchTransactionMetadata, fetchRawTransactionMetadata } from "../backend/explorer";
 import { getNetworkForChainId } from "../logic";
 import { BitcoinService } from "../service";
@@ -28,7 +29,7 @@ async function encodeTransactionToSign(
       const value = input.value;
 
       if (!outputScript || value == null) {
-        throw new Error(`Missing metadata for input ${inputIndex}`);
+        throw new AdamikApiServerError(`Missing metadata for input ${inputIndex}`);
       }
 
       const isWitness = isWitnessScript(outputScript);
@@ -83,15 +84,17 @@ async function encodeTransactionToSign(
             } else if (scriptSigHex) {
               inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
             } else {
-              throw new Error(`Missing scriptSig for P2SH input at index ${inputIndex}`);
+              throw new AdamikApiServerError(`Missing scriptSig for P2SH input at index ${inputIndex}`);
             }
           }
         } else {
-          throw new Error(`Missing or invalid raw transaction data for hash: ${input.transaction_hash}`);
+          throw new AdamikApiServerError(
+            `Missing or invalid raw transaction data for hash: ${input.transaction_hash}`
+          );
         }
 
         if (!inputData) {
-          throw new Error(`Failed to create input data for hash: ${input.transaction_hash}`);
+          throw new AdamikApiServerError(`Failed to create input data for hash: ${input.transaction_hash}`);
         }
 
         psbt.addInput(inputData);
@@ -132,15 +135,17 @@ async function encodeTransactionToSign(
             } else if (scriptSigHex) {
               inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
             } else {
-              throw new Error(`Missing scriptSig for P2SH input at index ${inputIndex}`);
+              throw new AdamikApiServerError(`Missing scriptSig for P2SH input at index ${inputIndex}`);
             }
           }
         } else {
-          throw new Error(`Missing or invalid raw transaction data for hash: ${input.transaction_hash}`);
+          throw new AdamikApiServerError(
+            `Missing or invalid raw transaction data for hash: ${input.transaction_hash}`
+          );
         }
 
         if (!inputData) {
-          throw new Error(`Failed to create input data for hash: ${input.transaction_hash}`);
+          throw new AdamikApiServerError(`Failed to create input data for hash: ${input.transaction_hash}`);
         }
 
         psbt.addInput(inputData);
@@ -170,7 +175,7 @@ async function encodeTransactionToBroadcast(
 
   // useless check to make the compiler happy, zod already validated the fields
   if (!signedTransaction.signature) {
-    throw new Error("missing transaction signature");
+    throw new AdamikApiServerError("missing transaction signature");
   }
 
   return signedTransaction.signature;
