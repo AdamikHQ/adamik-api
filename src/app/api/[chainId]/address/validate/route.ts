@@ -17,6 +17,7 @@ export const POST = apiHandler(
     const isValid = await service.validateAddress(address);
 
     return {
+      chainId,
       valid: isValid,
     };
   }

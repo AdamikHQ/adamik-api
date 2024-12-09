@@ -5,19 +5,22 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/address/validate
+  url: {{api_url}}/api/:chainId/address/validate
   body: json
   auth: none
 }
 
+params:path {
+  chainId: ethereum
+}
+
 body:json {
   {
-    "chainId": "ethereum",
     "address": "0x8bc6922Eb94e4858efaF9F433c35Bc241F69e8a6"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body: eq true
+  res.body.valid: eq true
 }

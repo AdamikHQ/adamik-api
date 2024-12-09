@@ -11,6 +11,7 @@ const requestSchema = z.object({
 });
 
 const responseSchema = z.object({
+  chainId: chainIdSchema,
   valid: z.boolean(),
 });
 
