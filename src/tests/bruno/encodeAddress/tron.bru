@@ -18,7 +18,7 @@ body:json {
 }
 
 assert {
-  res.status: eq 500
-  res.body.status.errors[0].message: eq Not implemented yet
+  res.status: eq 400
+  res.body.status.errors[0].message: contains Unsupported feature 
   ~res.body.addresses[0].address: eq TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre
 }
