@@ -1,4 +1,3 @@
-import { STARKNET_FEATURES } from "../families/starknet/features";
 import { Chain, ChainFamily, ChainId, TransactionMode } from "../model/types_WIP";
 import {
   ALGORAND_FEATURES,
@@ -7,6 +6,7 @@ import {
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
   NATIVE_READ_WRITE_ONLY,
+  STARKNET_FEATURES,
   TON_FEATURES,
   TRON_FEATURES,
 } from "./features";

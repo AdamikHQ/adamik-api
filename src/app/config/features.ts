@@ -2,6 +2,7 @@ import { ALGORAND_FEATURES } from "../families/algorand/features";
 import { BITCOIN_FEATURES } from "../families/bitcoin/features";
 import { COSMOS_FEATURES } from "../families/cosmos/features";
 import { EVM_FEATURES } from "../families/evm/features";
+import { STARKNET_FEATURES } from "../families/starknet/features";
 import { TON_FEATURES } from "../families/ton/features";
 import { TRON_FEATURES } from "../families/tron/features";
 import { ChainSupportedFeatures } from "../model/types_WIP";
@@ -56,6 +57,7 @@ export {
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
   NATIVE_READ_WRITE_ONLY,
+  STARKNET_FEATURES,
   TON_FEATURES,
   TRON_FEATURES,
 };
