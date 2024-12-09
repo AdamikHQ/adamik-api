@@ -283,53 +283,6 @@ async function fetchTransaction(chainId: ChainId, txHash: string): Promise<Block
 }
 
 // This function works for both mempool and confirmed transactions
-async function fetchTransactionMetadata(
-  chainId: ChainId,
-  txHash: string
-): // TODO This should be put in its own type in ./types.ts
-Promise<{
-  transaction: {
-    has_witness: boolean;
-  };
-  outputs: [
-    {
-      index: number;
-      script_hex: string;
-      spending_witness: string;
-    }
-  ];
-}> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const queryParams = new URLSearchParams({
-    key: BLOCKCHAIR_API_KEY,
-  });
-
-  const url = `${explorerURL}/dashboards/transaction/${txHash}?${queryParams.toString()}`;
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    console.warn(
-      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
-      await response.text()
-    );
-    throw new Error("Error while fetching transaction metadata from the explorer");
-  }
-
-  const result = await response.json();
-
-  if (result.context.code !== 200 || !result.data || !result.data[txHash]) {
-    console.warn(
-      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
-      JSON.stringify(result)
-    );
-    throw new Error("Error in transaction metadata received from the explorer");
-  }
-
-  return result.data[txHash];
-}
-
-// This function works for both mempool and confirmed transactions
 async function fetchRawTransactionMetadata(chainId: ChainId, txHash: string): Promise<string> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   const queryParams = new URLSearchParams({
@@ -421,7 +374,6 @@ export {
   fetchRawTransactionMetadata,
   fetchStats,
   fetchTransaction,
-  fetchTransactionMetadata,
   fetchXpubDashboard,
   postTransaction,
 };
