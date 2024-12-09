@@ -1,0 +1,28 @@
+meta {
+  name: ethereum
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/account/state/tokens?nextPage=ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp3WVdkbElqb3hMQ0p3WVdkbFUybDZaU0k2TWpBc0luTnVZWEJ6YUc5MFNXUWlPaUpqWTJFM1pHSmpPUzB4TXpZMkxUUXlabUl0WVRSaFpTMW1ZVGhsWXpOaFltTTFNRFFpTENKcFlYUWlPakUzTXpNMU1ETTFNREo5LmNVN2F3OWJ4NllWRUxsYjFiZmxSU0pheEhIQTQ0U0l1S05TaFJWNXdUcEEi
+  body: json
+  auth: none
+}
+
+params:query {
+  nextPage: ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp3WVdkbElqb3hMQ0p3WVdkbFUybDZaU0k2TWpBc0luTnVZWEJ6YUc5MFNXUWlPaUpqWTJFM1pHSmpPUzB4TXpZMkxUUXlabUl0WVRSaFpTMW1ZVGhsWXpOaFltTTFNRFFpTENKcFlYUWlPakUzTXpNMU1ETTFNREo5LmNVN2F3OWJ4NllWRUxsYjFiZmxSU0pheEhIQTQ0U0l1S05TaFJWNXdUcEEi
+}
+
+body:json {
+  {
+    "chainId": "ethereum",
+    "accountId": "0xfc43f5f9dd45258b3aff31bdbe6561d97e8b71de"
+  }
+}
+
+assert {
+  res.body.balances.tokens: isArray
+  res.body.pagination.nextPage: eq "ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp3WVdkbElqb3lMQ0p3WVdkbFUybDZaU0k2TWpBc0luTnVZWEJ6YUc5MFNXUWlPaUpqWTJFM1pHSmpPUzB4TXpZMkxUUXlabUl0WVRSaFpTMW1ZVGhsWXpOaFltTTFNRFFpTENKcFlYUWlPakUzTXpNMU1ETTJNVGg5LmNQRFNwX29qcGxvZFk4c1VmWVo3c1BGWWxyelJBUU1iMl9DQVBza3ZFc1Ui"
+  res.status: eq 200
+}

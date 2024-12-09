@@ -245,6 +245,12 @@ type AccountState = {
   };
 };
 
+type AccountTokens = {
+  chainId: ChainId;
+  accountId: string;
+  tokens: TokenAmount[];
+};
+
 type AccountHistory = {
   chainId: ChainId;
   accountId: string;
@@ -434,6 +440,7 @@ export {
 export type {
   AccountHistory,
   AccountState,
+  AccountTokens,
   ApiRequestFilters,
   BroadcastStatus,
   Chain,

@@ -83,12 +83,15 @@ async function fetchAccountTransactions(
   }
 
   const paginationData = paginationFromB64(paginationToken);
-  if (paginationData && typeof paginationData !== "string") {
-    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
-  }
 
   const searchParams = new URLSearchParams();
-  paginationData && searchParams.set("searchAfter", paginationData);
+  if (paginationData) {
+    if (typeof paginationData === "string") {
+      searchParams.set("searchAfter", paginationData);
+    } else {
+      throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+    }
+  }
 
   // For some reason, providing either 'fromDateTime' or 'toDateTime' is mandatory
   // or the endpoint returns aberrant results... hence this default value

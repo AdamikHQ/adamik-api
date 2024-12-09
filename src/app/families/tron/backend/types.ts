@@ -1,4 +1,4 @@
-type TronscanAccountResponse = {
+type TronscanAccountInfo = {
   address: string;
   balance: number;
   totalFrozenV2: number;
@@ -32,7 +32,7 @@ type TronscanAccountResponse = {
   }>;
 };
 
-type TronScanTransactionInfo = {
+type TronscanTransactionInfo = {
   contract_map: {
     [address: string]: boolean;
   };
@@ -170,4 +170,38 @@ type TronScanTransactionInfo = {
   contract_type?: string;
 };
 
-export type { TronScanTransactionInfo, TronscanAccountResponse };
+interface TronscanAccountTokensInfo {
+  total: number;
+  data: Array<{
+    amount?: string;
+    quantity: number | string;
+    tokenId: string;
+    tokenPriceInUsd?: number;
+    tokenName: string;
+    tokenAbbr: string;
+    tokenCanShow: number;
+    tokenLogo: string;
+    tokenPriceInTrx?: number;
+    amountInUsd?: number;
+    balance: string;
+    tokenDecimal: number;
+    tokenType: string;
+    vip: boolean;
+    owner_address?: string;
+    transferCount?: number;
+    nrOfTokenHolders?: number;
+    project?: string;
+  }>;
+  contractMap: Record<string, boolean>;
+  contractInfo: Record<
+    string,
+    {
+      tag1: string;
+      tag1Url: string;
+      name: string;
+      vip: boolean;
+    }
+  >;
+}
+
+export type { TronscanAccountInfo, TronscanAccountTokensInfo, TronscanTransactionInfo };
