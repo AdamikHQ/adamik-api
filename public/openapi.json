@@ -158,7 +158,7 @@
           "account"
         ],
         "summary": "Retrieve an account's state",
-        "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
+        "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, focusing on balance information. The response includes details on native asset balances, token balances, and staking balances. This endpoint supports optional filters to refine the results, making it essential for wallet applications to display accurate and tailored account information.",
         "parameters": [
           {
             "in": "query",
@@ -619,6 +619,296 @@
         }
       }
     },
+    "/api/account/state/tokens": {
+      "post": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Retrieve an account's tokens",
+        "description": "Returns the tokens (amount and details) held by a specified account identifier and chain ID. This endpoint allows for pagination over the returned tokens.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "nextPage",
+            "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results.",
+            "schema": {
+              "type": "string",
+              "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results."
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chainId": {
+                    "type": "string",
+                    "enum": [
+                      "algorand",
+                      "cosmoshub",
+                      "cosmoshub-testnet",
+                      "osmosis",
+                      "osmosis-testnet",
+                      "celestia",
+                      "celestia-testnet",
+                      "dydx",
+                      "axelar",
+                      "ethereum",
+                      "sepolia",
+                      "holesky",
+                      "base",
+                      "base-sepolia",
+                      "optimism",
+                      "arbitrum",
+                      "polygon",
+                      "polygon-amoy",
+                      "bsc",
+                      "bsc-testnet",
+                      "linea",
+                      "linea-sepolia",
+                      "avalanche",
+                      "gnosis",
+                      "gnosis-chiado",
+                      "moonbeam",
+                      "moonriver",
+                      "moonbase",
+                      "fantom",
+                      "ton",
+                      "injective",
+                      "akash",
+                      "band",
+                      "dymension",
+                      "kyve",
+                      "neutron",
+                      "terra2",
+                      "stargaze",
+                      "tron",
+                      "evmos",
+                      "irisnet",
+                      "juno",
+                      "lum-network",
+                      "omniflix",
+                      "sei",
+                      "medibloc",
+                      "passage",
+                      "quasar",
+                      "seda",
+                      "sommelier",
+                      "shentu",
+                      "stride",
+                      "chihuahua",
+                      "bitsong",
+                      "persistence",
+                      "comdex",
+                      "fetch-ai",
+                      "humans-ai",
+                      "ki",
+                      "likecoin",
+                      "mars-hub",
+                      "provenance",
+                      "quicksilver",
+                      "saga",
+                      "ux-chain",
+                      "kava"
+                    ]
+                  },
+                  "accountId": {
+                    "type": "string",
+                    "description": "Account identifier (address, xpub, etc) for the specified chain ID"
+                  }
+                },
+                "required": [
+                  "chainId",
+                  "accountId"
+                ],
+                "examples": [
+                  {
+                    "chainId": "ethereum",
+                    "accountId": "0x0000000000000000000000000000000000000000"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns the current tokens information for the specified address and chain ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "cosmoshub-testnet",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "arbitrum",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "ton",
+                        "injective",
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze",
+                        "tron",
+                        "evmos",
+                        "irisnet",
+                        "juno",
+                        "lum-network",
+                        "omniflix",
+                        "sei",
+                        "medibloc",
+                        "passage",
+                        "quasar",
+                        "seda",
+                        "sommelier",
+                        "shentu",
+                        "stride",
+                        "chihuahua",
+                        "bitsong",
+                        "persistence",
+                        "comdex",
+                        "fetch-ai",
+                        "humans-ai",
+                        "ki",
+                        "likecoin",
+                        "mars-hub",
+                        "provenance",
+                        "quicksilver",
+                        "saga",
+                        "ux-chain",
+                        "kava"
+                      ]
+                    },
+                    "accountId": {
+                      "type": "string"
+                    },
+                    "balances": {
+                      "type": "object",
+                      "properties": {
+                        "tokens": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "token": {
+                                "type": "object",
+                                "properties": {
+                                  "chainId": {
+                                    "$ref": "#/components/schemas/ChainId"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "enum": [
+                                      "TRC10",
+                                      "TRC20",
+                                      "ASA",
+                                      "ERC20",
+                                      "IBC",
+                                      "JETTON"
+                                    ]
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string"
+                                  },
+                                  "decimals": {
+                                    "type": "string"
+                                  },
+                                  "contractAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "chainId",
+                                  "type",
+                                  "id",
+                                  "name",
+                                  "ticker"
+                                ]
+                              },
+                              "amount": {
+                                "type": "string",
+                                "description": "Current balance of this token owned by the account. The amount is expressed in the token's smallest unit (based on its decimals)."
+                              }
+                            },
+                            "required": [
+                              "token"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextPage": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "description": "Use the token from the previous response to retrieve the next page of results."
+                        }
+                      },
+                      "required": [
+                        "nextPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "accountId",
+                    "balances",
+                    "pagination"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/account/history": {
       "post": {
         "tags": [
@@ -630,10 +920,10 @@
           {
             "in": "query",
             "name": "nextPage",
-            "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint",
+            "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results.",
             "schema": {
               "type": "string",
-              "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint"
+              "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results."
             }
           },
           {
@@ -5409,10 +5699,10 @@
           {
             "in": "query",
             "name": "nextPage",
-            "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint",
+            "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results.",
             "schema": {
               "type": "string",
-              "description": "Token that is provided in a previous response from this endpoint.     Just provide it here to get the next page of results from the endpoint"
+              "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results."
             }
           }
         ],

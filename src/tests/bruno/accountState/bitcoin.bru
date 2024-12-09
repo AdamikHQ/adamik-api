@@ -1,7 +1,7 @@
 meta {
   name: bitcoin
   type: http
-  seq: 5
+  seq: 3
 }
 
 post {
@@ -21,4 +21,5 @@ assert {
   res.body.balances: isDefined tokens
   res.body.balances.native.total: eq "11007"
   res.body.balances.native.available: eq "11007"
+  res.status: eq 200
 }

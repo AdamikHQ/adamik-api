@@ -157,7 +157,7 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
       tags: ["account"],
       summary: "Retrieve an account's state",
       description:
-        "Returns the state of a specified account identifier (address or xpub) and chain ID, primarily focusing on available balances. Essential for wallet applications to display up-to-date balance information.",
+        "Returns the state of a specified account identifier (address or xpub) and chain ID, focusing on balance information. The response includes details on native asset balances, token balances, and staking balances. This endpoint supports optional filters to refine the results, making it essential for wallet applications to display accurate and tailored account information.",
       requestParams: {
         query: queryParamsSchema,
       },

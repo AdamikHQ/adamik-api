@@ -1,0 +1,28 @@
+meta {
+  name: tron
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{api_url}}/api/account/state/tokens?nextPage=IjIwIg==
+  body: json
+  auth: none
+}
+
+params:query {
+  nextPage: IjIwIg==
+}
+
+body:json {
+  {
+    "chainId": "tron",
+    "accountId": "TT2T17KZhoDu47i2E4FWxfG79zdkEWkU9N"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.balances.tokens: isArray
+  res.body.pagination.nextPage: eq IjQwIg==
+}

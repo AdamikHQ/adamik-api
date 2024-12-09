@@ -1,9 +1,9 @@
 import { AccountState, TokenAmount, TokenType } from "~/app/model/types_WIP";
-import { fetchTronscanAccountData } from "../backend/tronscan";
+import { fetchAccountData } from "../backend/tronscan";
 import { TronService } from "../service";
 
 async function getAccountState(this: TronService, accountId: string): Promise<AccountState> {
-  const accountInfo = await fetchTronscanAccountData(accountId);
+  const accountInfo = await fetchAccountData(accountId);
 
   const nativeBalance = accountInfo?.balance ? BigInt(accountInfo.balance) : BigInt(0);
 
