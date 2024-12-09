@@ -37,1231 +37,10 @@
         }
       }
     },
-    "/api/address/encode": {
-      "post": {
-        "tags": [
-          "address"
-        ],
-        "summary": "Get addresses from a public key",
-        "description": "Encodes the provided public key to one or multiple addresses, for the given chain ID.       Each address is labeled with a type, which may be \"default\" when there is only one address.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "chainId": {
-                    "$ref": "#/components/schemas/ChainId"
-                  },
-                  "pubkey": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "chainId",
-                  "pubkey"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200 OK - Returns true if the encoded result",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "chainId": {
-                      "$ref": "#/components/schemas/ChainId"
-                    },
-                    "pubkey": {
-                      "type": "string"
-                    },
-                    "addresses": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "type": {
-                            "type": "string"
-                          },
-                          "address": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "type",
-                          "address"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "chainId",
-                    "pubkey",
-                    "addresses"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/address/validate": {
-      "post": {
-        "tags": [
-          "address"
-        ],
-        "summary": "Validate an address",
-        "description": "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "chainId": {
-                    "$ref": "#/components/schemas/ChainId"
-                  },
-                  "address": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "chainId",
-                  "address"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200 OK - Returns true if the address is valid for the specified chain ID, otherwise false.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/account/state": {
-      "post": {
-        "tags": [
-          "account"
-        ],
-        "summary": "Retrieve an account's state",
-        "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, focusing on balance information. The response includes details on native asset balances, token balances, and staking balances. This endpoint supports optional filters to refine the results, making it essential for wallet applications to display accurate and tailored account information.",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "include",
-            "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
-            "schema": {
-              "type": "string",
-              "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
-              "example": "native,tokens,staking"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "chainId": {
-                    "type": "string",
-                    "enum": [
-                      "algorand",
-                      "cosmoshub",
-                      "cosmoshub-testnet",
-                      "osmosis",
-                      "osmosis-testnet",
-                      "celestia",
-                      "celestia-testnet",
-                      "dydx",
-                      "axelar",
-                      "ethereum",
-                      "sepolia",
-                      "holesky",
-                      "zksync",
-                      "zksync-sepolia",
-                      "injective-evm-testnet",
-                      "base",
-                      "base-sepolia",
-                      "optimism",
-                      "optimism-sepolia",
-                      "arbitrum",
-                      "arbitrum-sepolia",
-                      "bitcoin",
-                      "bitcoin-testnet",
-                      "polygon",
-                      "polygon-amoy",
-                      "bsc",
-                      "bsc-testnet",
-                      "linea",
-                      "linea-sepolia",
-                      "avalanche",
-                      "avalanche-fuji",
-                      "gnosis",
-                      "gnosis-chiado",
-                      "moonbeam",
-                      "moonriver",
-                      "moonbase",
-                      "fantom",
-                      "mantle",
-                      "rootstock",
-                      "rootstock-testnet",
-                      "litecoin",
-                      "dogecoin",
-                      "ton",
-                      "chiliz",
-                      "chiliz-testnet",
-                      "injective",
-                      "akash",
-                      "band",
-                      "dymension",
-                      "kyve",
-                      "neutron",
-                      "terra2",
-                      "stargaze",
-                      "tron",
-                      "evmos",
-                      "irisnet",
-                      "juno",
-                      "lum-network",
-                      "omniflix",
-                      "sei",
-                      "medibloc",
-                      "passage",
-                      "quasar",
-                      "seda",
-                      "sommelier",
-                      "shentu",
-                      "stride",
-                      "chihuahua",
-                      "bitsong",
-                      "persistence",
-                      "comdex",
-                      "fetch-ai",
-                      "humans-ai",
-                      "ki",
-                      "likecoin",
-                      "mars-hub",
-                      "provenance",
-                      "quicksilver",
-                      "saga",
-                      "ux-chain",
-                      "kava"
-                    ]
-                  },
-                  "accountId": {
-                    "type": "string",
-                    "description": "Account identifier (address, xpub, etc) for the specified chain ID"
-                  }
-                },
-                "required": [
-                  "chainId",
-                  "accountId"
-                ],
-                "examples": [
-                  {
-                    "chainId": "ethereum",
-                    "accountId": "0x0000000000000000000000000000000000000000"
-                  },
-                  {
-                    "chainId": "bitcoin",
-                    "accountId": "xpub"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200 OK - Returns the current balance information for the specified address and chain ID.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "chainId": {
-                      "type": "string",
-                      "enum": [
-                        "algorand",
-                        "cosmoshub",
-                        "cosmoshub-testnet",
-                        "osmosis",
-                        "osmosis-testnet",
-                        "celestia",
-                        "celestia-testnet",
-                        "dydx",
-                        "axelar",
-                        "ethereum",
-                        "sepolia",
-                        "holesky",
-                        "zksync",
-                        "zksync-sepolia",
-                        "injective-evm-testnet",
-                        "base",
-                        "base-sepolia",
-                        "optimism",
-                        "optimism-sepolia",
-                        "arbitrum",
-                        "arbitrum-sepolia",
-                        "bitcoin",
-                        "bitcoin-testnet",
-                        "polygon",
-                        "polygon-amoy",
-                        "bsc",
-                        "bsc-testnet",
-                        "linea",
-                        "linea-sepolia",
-                        "avalanche",
-                        "avalanche-fuji",
-                        "gnosis",
-                        "gnosis-chiado",
-                        "moonbeam",
-                        "moonriver",
-                        "moonbase",
-                        "fantom",
-                        "mantle",
-                        "rootstock",
-                        "rootstock-testnet",
-                        "litecoin",
-                        "dogecoin",
-                        "ton",
-                        "chiliz",
-                        "chiliz-testnet",
-                        "injective",
-                        "akash",
-                        "band",
-                        "dymension",
-                        "kyve",
-                        "neutron",
-                        "terra2",
-                        "stargaze",
-                        "tron",
-                        "evmos",
-                        "irisnet",
-                        "juno",
-                        "lum-network",
-                        "omniflix",
-                        "sei",
-                        "medibloc",
-                        "passage",
-                        "quasar",
-                        "seda",
-                        "sommelier",
-                        "shentu",
-                        "stride",
-                        "chihuahua",
-                        "bitsong",
-                        "persistence",
-                        "comdex",
-                        "fetch-ai",
-                        "humans-ai",
-                        "ki",
-                        "likecoin",
-                        "mars-hub",
-                        "provenance",
-                        "quicksilver",
-                        "saga",
-                        "ux-chain",
-                        "kava"
-                      ]
-                    },
-                    "accountId": {
-                      "type": "string"
-                    },
-                    "balances": {
-                      "type": "object",
-                      "properties": {
-                        "native": {
-                          "type": "object",
-                          "properties": {
-                            "available": {
-                              "type": "string",
-                              "description": "Amount of native currency that is immediately available for using. This excludes amounts that are locked in staking positions."
-                            },
-                            "total": {
-                              "type": "string",
-                              "description": "Total amount of native currency owned by the account, including both available and locked amounts (staking positions)."
-                            }
-                          }
-                        },
-                        "tokens": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "token": {
-                                "type": "object",
-                                "properties": {
-                                  "chainId": {
-                                    "$ref": "#/components/schemas/ChainId"
-                                  },
-                                  "type": {
-                                    "type": "string",
-                                    "enum": [
-                                      "TRC10",
-                                      "TRC20",
-                                      "ASA",
-                                      "ERC20",
-                                      "IBC",
-                                      "JETTON"
-                                    ]
-                                  },
-                                  "id": {
-                                    "type": "string"
-                                  },
-                                  "name": {
-                                    "type": "string"
-                                  },
-                                  "ticker": {
-                                    "type": "string"
-                                  },
-                                  "decimals": {
-                                    "type": "string"
-                                  },
-                                  "contractAddress": {
-                                    "type": "string"
-                                  }
-                                },
-                                "required": [
-                                  "chainId",
-                                  "type",
-                                  "id",
-                                  "name",
-                                  "ticker"
-                                ]
-                              },
-                              "amount": {
-                                "type": "string",
-                                "description": "Current balance of this token owned by the account. The amount is expressed in the token's smallest unit (based on its decimals)."
-                              }
-                            },
-                            "required": [
-                              "token"
-                            ]
-                          }
-                        },
-                        "staking": {
-                          "type": "object",
-                          "properties": {
-                            "total": {
-                              "type": "string",
-                              "description": "Total amount of native currency involved in staking positions (locked + unlocking + unlocked)."
-                            },
-                            "locked": {
-                              "type": "string",
-                              "description": "Amount of native currency currently locked in staking positions."
-                            },
-                            "unlocking": {
-                              "type": "string",
-                              "description": "Amount of native currency that is in the process of being unstaked (during unbonding period)."
-                            },
-                            "unlocked": {
-                              "type": "string",
-                              "description": "Amount of native currency that has completed the unbonding period and is ready to be withdrawn."
-                            },
-                            "positions": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "properties": {
-                                  "validatorAddresses": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "string"
-                                    },
-                                    "description": "List of validator addresses involved in staking position."
-                                  },
-                                  "amount": {
-                                    "type": "string",
-                                    "description": "Amount of native currency used in this specific staking position."
-                                  },
-                                  "status": {
-                                    "type": "string",
-                                    "enum": [
-                                      "free",
-                                      "locked",
-                                      "unlocking",
-                                      "unlocked"
-                                    ]
-                                  },
-                                  "completionDate": {
-                                    "type": "number",
-                                    "description": "Unix timestamp (in milliseconds) when the unbonding period will complete. Only present for positions with 'unlocking' status."
-                                  }
-                                },
-                                "required": [
-                                  "validatorAddresses",
-                                  "status"
-                                ]
-                              },
-                              "description": "Detailed list of individual staking positions."
-                            },
-                            "rewards": {
-                              "type": "object",
-                              "properties": {
-                                "native": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "validatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "type": "string",
-                                        "description": "Amount of unclaimed staking rewards in native currency from this validator."
-                                      }
-                                    },
-                                    "required": [
-                                      "validatorAddress"
-                                    ]
-                                  },
-                                  "description": "List of unclaimed staking rewards in native currency, per validator."
-                                },
-                                "tokens": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "token": {
-                                        "type": "object",
-                                        "properties": {
-                                          "chainId": {
-                                            "$ref": "#/components/schemas/ChainId"
-                                          },
-                                          "type": {
-                                            "type": "string",
-                                            "enum": [
-                                              "TRC10",
-                                              "TRC20",
-                                              "ASA",
-                                              "ERC20",
-                                              "IBC",
-                                              "JETTON"
-                                            ]
-                                          },
-                                          "id": {
-                                            "type": "string"
-                                          },
-                                          "name": {
-                                            "type": "string"
-                                          },
-                                          "ticker": {
-                                            "type": "string"
-                                          },
-                                          "decimals": {
-                                            "type": "string"
-                                          },
-                                          "contractAddress": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": [
-                                          "chainId",
-                                          "type",
-                                          "id",
-                                          "name",
-                                          "ticker"
-                                        ]
-                                      },
-                                      "validatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "type": "string",
-                                        "description": "Amount of unclaimed staking rewards in this token. The amount is expressed in the token's smallest unit."
-                                      }
-                                    },
-                                    "required": [
-                                      "token"
-                                    ]
-                                  }
-                                }
-                              },
-                              "required": [
-                                "native",
-                                "tokens"
-                              ],
-                              "description": "Information about unclaimed staking rewards, both in native currency and tokens."
-                            }
-                          },
-                          "required": [
-                            "positions"
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  "required": [
-                    "chainId",
-                    "accountId",
-                    "balances"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/account/state/tokens": {
-      "post": {
-        "tags": [
-          "account"
-        ],
-        "summary": "Retrieve an account's tokens",
-        "description": "Returns the tokens (amount and details) held by a specified account identifier and chain ID. This endpoint allows for pagination over the returned tokens.",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "nextPage",
-            "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results.",
-            "schema": {
-              "type": "string",
-              "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results."
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "chainId": {
-                    "type": "string",
-                    "enum": [
-                      "algorand",
-                      "cosmoshub",
-                      "cosmoshub-testnet",
-                      "osmosis",
-                      "osmosis-testnet",
-                      "celestia",
-                      "celestia-testnet",
-                      "dydx",
-                      "axelar",
-                      "ethereum",
-                      "sepolia",
-                      "holesky",
-                      "base",
-                      "base-sepolia",
-                      "optimism",
-                      "arbitrum",
-                      "polygon",
-                      "polygon-amoy",
-                      "bsc",
-                      "bsc-testnet",
-                      "linea",
-                      "linea-sepolia",
-                      "avalanche",
-                      "gnosis",
-                      "gnosis-chiado",
-                      "moonbeam",
-                      "moonriver",
-                      "moonbase",
-                      "fantom",
-                      "ton",
-                      "injective",
-                      "akash",
-                      "band",
-                      "dymension",
-                      "kyve",
-                      "neutron",
-                      "terra2",
-                      "stargaze",
-                      "tron",
-                      "evmos",
-                      "irisnet",
-                      "juno",
-                      "lum-network",
-                      "omniflix",
-                      "sei",
-                      "medibloc",
-                      "passage",
-                      "quasar",
-                      "seda",
-                      "sommelier",
-                      "shentu",
-                      "stride",
-                      "chihuahua",
-                      "bitsong",
-                      "persistence",
-                      "comdex",
-                      "fetch-ai",
-                      "humans-ai",
-                      "ki",
-                      "likecoin",
-                      "mars-hub",
-                      "provenance",
-                      "quicksilver",
-                      "saga",
-                      "ux-chain",
-                      "kava"
-                    ]
-                  },
-                  "accountId": {
-                    "type": "string",
-                    "description": "Account identifier (address, xpub, etc) for the specified chain ID"
-                  }
-                },
-                "required": [
-                  "chainId",
-                  "accountId"
-                ],
-                "examples": [
-                  {
-                    "chainId": "ethereum",
-                    "accountId": "0x0000000000000000000000000000000000000000"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200 OK - Returns the current tokens information for the specified address and chain ID.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "chainId": {
-                      "type": "string",
-                      "enum": [
-                        "algorand",
-                        "cosmoshub",
-                        "cosmoshub-testnet",
-                        "osmosis",
-                        "osmosis-testnet",
-                        "celestia",
-                        "celestia-testnet",
-                        "dydx",
-                        "axelar",
-                        "ethereum",
-                        "sepolia",
-                        "holesky",
-                        "base",
-                        "base-sepolia",
-                        "optimism",
-                        "arbitrum",
-                        "polygon",
-                        "polygon-amoy",
-                        "bsc",
-                        "bsc-testnet",
-                        "linea",
-                        "linea-sepolia",
-                        "avalanche",
-                        "gnosis",
-                        "gnosis-chiado",
-                        "moonbeam",
-                        "moonriver",
-                        "moonbase",
-                        "fantom",
-                        "ton",
-                        "injective",
-                        "akash",
-                        "band",
-                        "dymension",
-                        "kyve",
-                        "neutron",
-                        "terra2",
-                        "stargaze",
-                        "tron",
-                        "evmos",
-                        "irisnet",
-                        "juno",
-                        "lum-network",
-                        "omniflix",
-                        "sei",
-                        "medibloc",
-                        "passage",
-                        "quasar",
-                        "seda",
-                        "sommelier",
-                        "shentu",
-                        "stride",
-                        "chihuahua",
-                        "bitsong",
-                        "persistence",
-                        "comdex",
-                        "fetch-ai",
-                        "humans-ai",
-                        "ki",
-                        "likecoin",
-                        "mars-hub",
-                        "provenance",
-                        "quicksilver",
-                        "saga",
-                        "ux-chain",
-                        "kava"
-                      ]
-                    },
-                    "accountId": {
-                      "type": "string"
-                    },
-                    "balances": {
-                      "type": "object",
-                      "properties": {
-                        "tokens": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "token": {
-                                "type": "object",
-                                "properties": {
-                                  "chainId": {
-                                    "$ref": "#/components/schemas/ChainId"
-                                  },
-                                  "type": {
-                                    "type": "string",
-                                    "enum": [
-                                      "TRC10",
-                                      "TRC20",
-                                      "ASA",
-                                      "ERC20",
-                                      "IBC",
-                                      "JETTON"
-                                    ]
-                                  },
-                                  "id": {
-                                    "type": "string"
-                                  },
-                                  "name": {
-                                    "type": "string"
-                                  },
-                                  "ticker": {
-                                    "type": "string"
-                                  },
-                                  "decimals": {
-                                    "type": "string"
-                                  },
-                                  "contractAddress": {
-                                    "type": "string"
-                                  }
-                                },
-                                "required": [
-                                  "chainId",
-                                  "type",
-                                  "id",
-                                  "name",
-                                  "ticker"
-                                ]
-                              },
-                              "amount": {
-                                "type": "string",
-                                "description": "Current balance of this token owned by the account. The amount is expressed in the token's smallest unit (based on its decimals)."
-                              }
-                            },
-                            "required": [
-                              "token"
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    "pagination": {
-                      "type": "object",
-                      "properties": {
-                        "nextPage": {
-                          "anyOf": [
-                            {
-                              "type": "string"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "description": "Use the token from the previous response to retrieve the next page of results."
-                        }
-                      },
-                      "required": [
-                        "nextPage"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "chainId",
-                    "accountId",
-                    "balances",
-                    "pagination"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/account/history": {
-      "post": {
-        "tags": [
-          "account"
-        ],
-        "summary": "Retrieve an account's history",
-        "description": "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "nextPage",
-            "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results.",
-            "schema": {
-              "type": "string",
-              "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results."
-            }
-          },
-          {
-            "in": "query",
-            "name": "include",
-            "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
-            "schema": {
-              "type": "string",
-              "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
-              "example": "parsed,raw"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "chainId": {
-                    "type": "string",
-                    "enum": [
-                      "cosmoshub",
-                      "osmosis",
-                      "celestia",
-                      "dydx",
-                      "axelar",
-                      "ethereum",
-                      "sepolia",
-                      "holesky",
-                      "base",
-                      "base-sepolia",
-                      "optimism",
-                      "arbitrum",
-                      "polygon",
-                      "polygon-amoy",
-                      "bsc",
-                      "bsc-testnet",
-                      "linea",
-                      "linea-sepolia",
-                      "avalanche",
-                      "gnosis",
-                      "gnosis-chiado",
-                      "moonbeam",
-                      "moonriver",
-                      "moonbase",
-                      "fantom",
-                      "injective",
-                      "akash",
-                      "neutron",
-                      "evmos",
-                      "juno",
-                      "sei",
-                      "stride",
-                      "kava"
-                    ]
-                  },
-                  "accountId": {
-                    "type": "string",
-                    "description": "Account identifier (address, xpub, etc) for the specified chain ID"
-                  }
-                },
-                "required": [
-                  "chainId",
-                  "accountId"
-                ],
-                "examples": [
-                  {
-                    "chainId": "ethereum",
-                    "accountId": "0x0000000000000000000000000000000000000000"
-                  },
-                  {
-                    "chainId": "bitcoin",
-                    "accountId": "xpub"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200 OK - Returns the current list of transactions for the specified address and chain ID.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "chainId": {
-                      "type": "string",
-                      "enum": [
-                        "cosmoshub",
-                        "osmosis",
-                        "celestia",
-                        "dydx",
-                        "axelar",
-                        "ethereum",
-                        "sepolia",
-                        "holesky",
-                        "base",
-                        "base-sepolia",
-                        "optimism",
-                        "arbitrum",
-                        "polygon",
-                        "polygon-amoy",
-                        "bsc",
-                        "bsc-testnet",
-                        "linea",
-                        "linea-sepolia",
-                        "avalanche",
-                        "gnosis",
-                        "gnosis-chiado",
-                        "moonbeam",
-                        "moonriver",
-                        "moonbase",
-                        "fantom",
-                        "injective",
-                        "akash",
-                        "neutron",
-                        "evmos",
-                        "juno",
-                        "sei",
-                        "stride",
-                        "kava"
-                      ]
-                    },
-                    "accountId": {
-                      "type": "string"
-                    },
-                    "transactions": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "raw": {},
-                          "parsed": {
-                            "type": "object",
-                            "properties": {
-                              "chainId": {
-                                "$ref": "#/components/schemas/ChainId"
-                              },
-                              "id": {
-                                "type": "string"
-                              },
-                              "mode": {
-                                "anyOf": [
-                                  {
-                                    "type": "string",
-                                    "enum": [
-                                      "transfer",
-                                      "transferToken",
-                                      "delegate",
-                                      "redelegate",
-                                      "undelegate",
-                                      "claimRewards"
-                                    ]
-                                  },
-                                  {
-                                    "type": "string",
-                                    "enum": [
-                                      "unknown"
-                                    ]
-                                  }
-                                ]
-                              },
-                              "state": {
-                                "type": "string",
-                                "enum": [
-                                  "pending",
-                                  "unconfirmed",
-                                  "confirmed",
-                                  "failed",
-                                  "unknown"
-                                ]
-                              },
-                              "tokenId": {
-                                "type": "string"
-                              },
-                              "blockHeight": {
-                                "type": "string"
-                              },
-                              "timestamp": {
-                                "type": "string",
-                                "description": "Timestamp in milliseconds"
-                              },
-                              "fees": {
-                                "type": "object",
-                                "properties": {
-                                  "amount": {
-                                    "type": "string"
-                                  },
-                                  "ticker": {
-                                    "type": "string",
-                                    "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
-                                  }
-                                }
-                              },
-                              "gas": {
-                                "type": "string"
-                              },
-                              "nonce": {
-                                "type": "string"
-                              },
-                              "memo": {
-                                "type": "string"
-                              },
-                              "senders": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "address": {
-                                      "type": "string"
-                                    },
-                                    "amount": {
-                                      "type": "string"
-                                    },
-                                    "ticker": {
-                                      "type": "string",
-                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
-                                    }
-                                  },
-                                  "required": [
-                                    "address"
-                                  ]
-                                }
-                              },
-                              "recipients": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "address": {
-                                      "type": "string"
-                                    },
-                                    "amount": {
-                                      "type": "string"
-                                    },
-                                    "ticker": {
-                                      "type": "string",
-                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
-                                    }
-                                  },
-                                  "required": [
-                                    "address"
-                                  ]
-                                }
-                              },
-                              "validators": {
-                                "type": "object",
-                                "properties": {
-                                  "source": {
-                                    "type": "object",
-                                    "properties": {
-                                      "address": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "type": "string"
-                                      },
-                                      "ticker": {
-                                        "type": "string",
-                                        "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
-                                      }
-                                    },
-                                    "required": [
-                                      "address"
-                                    ]
-                                  },
-                                  "target": {
-                                    "type": "object",
-                                    "properties": {
-                                      "address": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "type": "string"
-                                      },
-                                      "ticker": {
-                                        "type": "string",
-                                        "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
-                                      }
-                                    },
-                                    "required": [
-                                      "address"
-                                    ]
-                                  }
-                                }
-                              }
-                            },
-                            "required": [
-                              "chainId",
-                              "id",
-                              "mode",
-                              "state",
-                              "fees"
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    "pagination": {
-                      "type": "object",
-                      "properties": {
-                        "nextPage": {
-                          "anyOf": [
-                            {
-                              "type": "string"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ],
-                          "description": "Use the token from the previous response to retrieve the next page of results."
-                        }
-                      },
-                      "required": [
-                        "nextPage"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "chainId",
-                    "accountId",
-                    "transactions",
-                    "pagination"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/chains": {
       "get": {
         "tags": [
-          "chains"
+          "chain"
         ],
         "summary": "Retrieve details for all supported chains",
         "description": "Retrieves a list of all supported blockchain networks with their detailed information.",
@@ -5097,10 +3876,10 @@
         }
       }
     },
-    "/api/chains/{chainId}": {
+    "/api/{chainId}/chain": {
       "get": {
         "tags": [
-          "chains"
+          "chain"
         ],
         "summary": "Retrieve details of one chain",
         "description": "Retrieves detailed information about a specific blockchain network identified by chain ID.",
@@ -5173,10 +3952,10 @@
         }
       }
     },
-    "/api/chains/{chainId}/token/{tokenId}": {
+    "/api/{chainId}/token/{tokenId}": {
       "get": {
         "tags": [
-          "chains"
+          "chain"
         ],
         "summary": "Retrieve details of one token",
         "description": "Retrieves detailed information about a specific token for a blockchain network, identified by chain ID and token ID.",
@@ -5323,10 +4102,190 @@
         }
       }
     },
-    "/api/chains/{chainId}/transaction/{transactionId}": {
+    "/api/{chainId}/validators": {
       "get": {
         "tags": [
-          "chains"
+          "chain"
+        ],
+        "summary": "Retrieve the list of existing validators",
+        "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Useful for delegation operations on proof-of-stake blockchains.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "cosmoshub",
+                "cosmoshub-testnet",
+                "osmosis",
+                "osmosis-testnet",
+                "celestia",
+                "celestia-testnet",
+                "dydx",
+                "axelar",
+                "injective",
+                "akash",
+                "band",
+                "dymension",
+                "kyve",
+                "neutron",
+                "terra2",
+                "stargaze",
+                "evmos",
+                "irisnet",
+                "juno",
+                "lum-network",
+                "omniflix",
+                "sei",
+                "medibloc",
+                "passage",
+                "quasar",
+                "seda",
+                "sommelier",
+                "shentu",
+                "stride",
+                "chihuahua",
+                "bitsong",
+                "persistence",
+                "comdex",
+                "fetch-ai",
+                "humans-ai",
+                "ki",
+                "likecoin",
+                "mars-hub",
+                "provenance",
+                "quicksilver",
+                "saga",
+                "ux-chain",
+                "kava"
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "nextPage",
+            "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results.",
+            "schema": {
+              "type": "string",
+              "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns a list of validators, their status, and commission details for the specified chain ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "type": "string",
+                      "enum": [
+                        "cosmoshub",
+                        "cosmoshub-testnet",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "axelar",
+                        "injective",
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze",
+                        "evmos",
+                        "irisnet",
+                        "juno",
+                        "lum-network",
+                        "omniflix",
+                        "sei",
+                        "medibloc",
+                        "passage",
+                        "quasar",
+                        "seda",
+                        "sommelier",
+                        "shentu",
+                        "stride",
+                        "chihuahua",
+                        "bitsong",
+                        "persistence",
+                        "comdex",
+                        "fetch-ai",
+                        "humans-ai",
+                        "ki",
+                        "likecoin",
+                        "mars-hub",
+                        "provenance",
+                        "quicksilver",
+                        "saga",
+                        "ux-chain",
+                        "kava"
+                      ]
+                    },
+                    "validators": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "commission": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "name"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "nextPage": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "description": "Use the token from the previous response to retrieve the next page of results."
+                        }
+                      },
+                      "required": [
+                        "nextPage"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "validators",
+                    "pagination"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{chainId}/transaction/{transactionId}": {
+      "get": {
+        "tags": [
+          "chain"
         ],
         "summary": "Retrieve details of one transaction",
         "description": "Retrieves detailed information about a specific transaction for a blockchain network, identified by chain ID and transaction ID.",
@@ -5635,13 +4594,154 @@
         }
       }
     },
-    "/api/chains/{chainId}/validators": {
+    "/api/{chainId}/address/encode": {
+      "post": {
+        "tags": [
+          "address"
+        ],
+        "summary": "Get addresses from a public key",
+        "description": "Encodes the provided public key to one or multiple addresses, for the given chain ID.       Each address is labeled with a type, which may be \"default\" when there is only one address.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "description": "Unique adamik identifier of the chain",
+            "schema": {
+              "$ref": "#/components/schemas/ChainId"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pubkey": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "pubkey"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns true if the encoded result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "$ref": "#/components/schemas/ChainId"
+                    },
+                    "pubkey": {
+                      "type": "string"
+                    },
+                    "addresses": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "address"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "pubkey",
+                    "addresses"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{chainId}/address/validate": {
+      "post": {
+        "tags": [
+          "address"
+        ],
+        "summary": "Validate an address",
+        "description": "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "description": "Unique adamik identifier of the chain",
+            "schema": {
+              "$ref": "#/components/schemas/ChainId"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "address"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns true if the address is valid for the specified chain ID, otherwise false.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "$ref": "#/components/schemas/ChainId"
+                    },
+                    "valid": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "valid"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{chainId}/account/{accountId}/state": {
       "get": {
         "tags": [
-          "chains"
+          "account"
         ],
-        "summary": "Retrieve the list of existing validators",
-        "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Useful for delegation operations on proof-of-stake blockchains.",
+        "summary": "Retrieve an account's state",
+        "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, focusing on balance information. The response includes details on native asset balances, token balances, and staking balances. This endpoint supports optional filters to refine the results, making it essential for wallet applications to display accurate and tailored account information.",
         "parameters": [
           {
             "in": "path",
@@ -5649,6 +4749,7 @@
             "schema": {
               "type": "string",
               "enum": [
+                "algorand",
                 "cosmoshub",
                 "cosmoshub-testnet",
                 "osmosis",
@@ -5657,6 +4758,42 @@
                 "celestia-testnet",
                 "dydx",
                 "axelar",
+                "ethereum",
+                "sepolia",
+                "holesky",
+                "zksync",
+                "zksync-sepolia",
+                "injective-evm-testnet",
+                "base",
+                "base-sepolia",
+                "optimism",
+                "optimism-sepolia",
+                "arbitrum",
+                "arbitrum-sepolia",
+                "bitcoin",
+                "bitcoin-testnet",
+                "polygon",
+                "polygon-amoy",
+                "bsc",
+                "bsc-testnet",
+                "linea",
+                "linea-sepolia",
+                "avalanche",
+                "avalanche-fuji",
+                "gnosis",
+                "gnosis-chiado",
+                "moonbeam",
+                "moonriver",
+                "moonbase",
+                "fantom",
+                "mantle",
+                "rootstock",
+                "rootstock-testnet",
+                "litecoin",
+                "dogecoin",
+                "ton",
+                "chiliz",
+                "chiliz-testnet",
                 "injective",
                 "akash",
                 "band",
@@ -5665,6 +4802,7 @@
                 "neutron",
                 "terra2",
                 "stargaze",
+                "tron",
                 "evmos",
                 "irisnet",
                 "juno",
@@ -5697,18 +4835,29 @@
             "required": true
           },
           {
-            "in": "query",
-            "name": "nextPage",
-            "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results.",
+            "in": "path",
+            "name": "accountId",
+            "description": "Account identifier (address, xpub, etc) for the specified chain ID",
             "schema": {
               "type": "string",
-              "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results."
+              "description": "Account identifier (address, xpub, etc) for the specified chain ID"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
+            "schema": {
+              "type": "string",
+              "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
+              "example": "native,tokens,staking"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "200 OK - Returns a list of validators, their status, and commission details for the specified chain ID.",
+            "description": "200 OK - Returns the current balance information for the specified address and chain ID.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5717,6 +4866,7 @@
                     "chainId": {
                       "type": "string",
                       "enum": [
+                        "algorand",
                         "cosmoshub",
                         "cosmoshub-testnet",
                         "osmosis",
@@ -5725,6 +4875,42 @@
                         "celestia-testnet",
                         "dydx",
                         "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "zksync",
+                        "zksync-sepolia",
+                        "injective-evm-testnet",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "optimism-sepolia",
+                        "arbitrum",
+                        "arbitrum-sepolia",
+                        "bitcoin",
+                        "bitcoin-testnet",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "avalanche-fuji",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "mantle",
+                        "rootstock",
+                        "rootstock-testnet",
+                        "litecoin",
+                        "dogecoin",
+                        "ton",
+                        "chiliz",
+                        "chiliz-testnet",
                         "injective",
                         "akash",
                         "band",
@@ -5733,6 +4919,7 @@
                         "neutron",
                         "terra2",
                         "stargaze",
+                        "tron",
                         "evmos",
                         "irisnet",
                         "juno",
@@ -5762,25 +4949,490 @@
                         "kava"
                       ]
                     },
-                    "validators": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "address": {
-                            "type": "string"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "commission": {
-                            "type": "number"
+                    "accountId": {
+                      "type": "string"
+                    },
+                    "balances": {
+                      "type": "object",
+                      "properties": {
+                        "native": {
+                          "type": "object",
+                          "properties": {
+                            "available": {
+                              "type": "string",
+                              "description": "Amount of native currency that is immediately available for using. This excludes amounts that are locked in staking positions."
+                            },
+                            "total": {
+                              "type": "string",
+                              "description": "Total amount of native currency owned by the account, including both available and locked amounts (staking positions)."
+                            }
                           }
                         },
-                        "required": [
-                          "address",
-                          "name"
-                        ]
+                        "tokens": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "token": {
+                                "type": "object",
+                                "properties": {
+                                  "chainId": {
+                                    "$ref": "#/components/schemas/ChainId"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "enum": [
+                                      "TRC10",
+                                      "TRC20",
+                                      "ASA",
+                                      "ERC20",
+                                      "IBC",
+                                      "JETTON"
+                                    ]
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string"
+                                  },
+                                  "decimals": {
+                                    "type": "string"
+                                  },
+                                  "contractAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "chainId",
+                                  "type",
+                                  "id",
+                                  "name",
+                                  "ticker"
+                                ]
+                              },
+                              "amount": {
+                                "type": "string",
+                                "description": "Current balance of this token owned by the account. The amount is expressed in the token's smallest unit (based on its decimals)."
+                              }
+                            },
+                            "required": [
+                              "token"
+                            ]
+                          }
+                        },
+                        "staking": {
+                          "type": "object",
+                          "properties": {
+                            "total": {
+                              "type": "string",
+                              "description": "Total amount of native currency involved in staking positions (locked + unlocking + unlocked)."
+                            },
+                            "locked": {
+                              "type": "string",
+                              "description": "Amount of native currency currently locked in staking positions."
+                            },
+                            "unlocking": {
+                              "type": "string",
+                              "description": "Amount of native currency that is in the process of being unstaked (during unbonding period)."
+                            },
+                            "unlocked": {
+                              "type": "string",
+                              "description": "Amount of native currency that has completed the unbonding period and is ready to be withdrawn."
+                            },
+                            "positions": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "validatorAddresses": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "description": "List of validator addresses involved in staking position."
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Amount of native currency used in this specific staking position."
+                                  },
+                                  "status": {
+                                    "type": "string",
+                                    "enum": [
+                                      "free",
+                                      "locked",
+                                      "unlocking",
+                                      "unlocked"
+                                    ]
+                                  },
+                                  "completionDate": {
+                                    "type": "number",
+                                    "description": "Unix timestamp (in milliseconds) when the unbonding period will complete. Only present for positions with 'unlocking' status."
+                                  }
+                                },
+                                "required": [
+                                  "validatorAddresses",
+                                  "status"
+                                ]
+                              },
+                              "description": "Detailed list of individual staking positions."
+                            },
+                            "rewards": {
+                              "type": "object",
+                              "properties": {
+                                "native": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "validatorAddress": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "type": "string",
+                                        "description": "Amount of unclaimed staking rewards in native currency from this validator."
+                                      }
+                                    },
+                                    "required": [
+                                      "validatorAddress"
+                                    ]
+                                  },
+                                  "description": "List of unclaimed staking rewards in native currency, per validator."
+                                },
+                                "tokens": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "token": {
+                                        "type": "object",
+                                        "properties": {
+                                          "chainId": {
+                                            "$ref": "#/components/schemas/ChainId"
+                                          },
+                                          "type": {
+                                            "type": "string",
+                                            "enum": [
+                                              "TRC10",
+                                              "TRC20",
+                                              "ASA",
+                                              "ERC20",
+                                              "IBC",
+                                              "JETTON"
+                                            ]
+                                          },
+                                          "id": {
+                                            "type": "string"
+                                          },
+                                          "name": {
+                                            "type": "string"
+                                          },
+                                          "ticker": {
+                                            "type": "string"
+                                          },
+                                          "decimals": {
+                                            "type": "string"
+                                          },
+                                          "contractAddress": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "chainId",
+                                          "type",
+                                          "id",
+                                          "name",
+                                          "ticker"
+                                        ]
+                                      },
+                                      "validatorAddress": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "type": "string",
+                                        "description": "Amount of unclaimed staking rewards in this token. The amount is expressed in the token's smallest unit."
+                                      }
+                                    },
+                                    "required": [
+                                      "token"
+                                    ]
+                                  }
+                                }
+                              },
+                              "required": [
+                                "native",
+                                "tokens"
+                              ],
+                              "description": "Information about unclaimed staking rewards, both in native currency and tokens."
+                            }
+                          },
+                          "required": [
+                            "positions"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "chainId",
+                    "accountId",
+                    "balances"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{chainId}/account/{accountId}/state/tokens": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Retrieve an account's tokens",
+        "description": "Returns the tokens (amount and details) held by a specified account identifier and chain ID. This endpoint allows for pagination over the returned tokens.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "algorand",
+                "cosmoshub",
+                "cosmoshub-testnet",
+                "osmosis",
+                "osmosis-testnet",
+                "celestia",
+                "celestia-testnet",
+                "dydx",
+                "axelar",
+                "ethereum",
+                "sepolia",
+                "holesky",
+                "base",
+                "base-sepolia",
+                "optimism",
+                "arbitrum",
+                "polygon",
+                "polygon-amoy",
+                "bsc",
+                "bsc-testnet",
+                "linea",
+                "linea-sepolia",
+                "avalanche",
+                "gnosis",
+                "gnosis-chiado",
+                "moonbeam",
+                "moonriver",
+                "moonbase",
+                "fantom",
+                "ton",
+                "injective",
+                "akash",
+                "band",
+                "dymension",
+                "kyve",
+                "neutron",
+                "terra2",
+                "stargaze",
+                "tron",
+                "evmos",
+                "irisnet",
+                "juno",
+                "lum-network",
+                "omniflix",
+                "sei",
+                "medibloc",
+                "passage",
+                "quasar",
+                "seda",
+                "sommelier",
+                "shentu",
+                "stride",
+                "chihuahua",
+                "bitsong",
+                "persistence",
+                "comdex",
+                "fetch-ai",
+                "humans-ai",
+                "ki",
+                "likecoin",
+                "mars-hub",
+                "provenance",
+                "quicksilver",
+                "saga",
+                "ux-chain",
+                "kava"
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "accountId",
+            "description": "Account identifier (address, xpub, etc) for the specified chain ID",
+            "schema": {
+              "type": "string",
+              "description": "Account identifier (address, xpub, etc) for the specified chain ID"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "nextPage",
+            "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results.",
+            "schema": {
+              "type": "string",
+              "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns the current tokens information for the specified address and chain ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "chainId": {
+                      "type": "string",
+                      "enum": [
+                        "algorand",
+                        "cosmoshub",
+                        "cosmoshub-testnet",
+                        "osmosis",
+                        "osmosis-testnet",
+                        "celestia",
+                        "celestia-testnet",
+                        "dydx",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "arbitrum",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "ton",
+                        "injective",
+                        "akash",
+                        "band",
+                        "dymension",
+                        "kyve",
+                        "neutron",
+                        "terra2",
+                        "stargaze",
+                        "tron",
+                        "evmos",
+                        "irisnet",
+                        "juno",
+                        "lum-network",
+                        "omniflix",
+                        "sei",
+                        "medibloc",
+                        "passage",
+                        "quasar",
+                        "seda",
+                        "sommelier",
+                        "shentu",
+                        "stride",
+                        "chihuahua",
+                        "bitsong",
+                        "persistence",
+                        "comdex",
+                        "fetch-ai",
+                        "humans-ai",
+                        "ki",
+                        "likecoin",
+                        "mars-hub",
+                        "provenance",
+                        "quicksilver",
+                        "saga",
+                        "ux-chain",
+                        "kava"
+                      ]
+                    },
+                    "accountId": {
+                      "type": "string"
+                    },
+                    "balances": {
+                      "type": "object",
+                      "properties": {
+                        "tokens": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "token": {
+                                "type": "object",
+                                "properties": {
+                                  "chainId": {
+                                    "$ref": "#/components/schemas/ChainId"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "enum": [
+                                      "TRC10",
+                                      "TRC20",
+                                      "ASA",
+                                      "ERC20",
+                                      "IBC",
+                                      "JETTON"
+                                    ]
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string"
+                                  },
+                                  "decimals": {
+                                    "type": "string"
+                                  },
+                                  "contractAddress": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "chainId",
+                                  "type",
+                                  "id",
+                                  "name",
+                                  "ticker"
+                                ]
+                              },
+                              "amount": {
+                                "type": "string",
+                                "description": "Current balance of this token owned by the account. The amount is expressed in the token's smallest unit (based on its decimals)."
+                              }
+                            },
+                            "required": [
+                              "token"
+                            ]
+                          }
+                        }
                       }
                     },
                     "pagination": {
@@ -5805,7 +5457,8 @@
                   },
                   "required": [
                     "chainId",
-                    "validators",
+                    "accountId",
+                    "balances",
                     "pagination"
                   ]
                 }
@@ -5815,795 +5468,333 @@
         }
       }
     },
-    "/api/transaction/broadcast": {
-      "post": {
+    "/api/{chainId}/account/{accountId}/history": {
+      "get": {
         "tags": [
-          "transaction"
+          "account"
         ],
-        "summary": "Broadcast a signed transaction",
-        "description": "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "transaction": {
-                    "allOf": [
-                      {
-                        "type": "object",
-                        "properties": {
-                          "data": {
-                            "allOf": [
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "chainId": {
-                                    "$ref": "#/components/schemas/ChainId"
-                                  },
-                                  "sender": {
-                                    "type": "string"
-                                  },
-                                  "recipient": {
-                                    "type": "string"
-                                  },
-                                  "fees": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
-                                  },
-                                  "gas": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
-                                  },
-                                  "nonce": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
-                                  },
-                                  "memo": {
-                                    "type": "string"
-                                  },
-                                  "format": {
-                                    "type": "string",
-                                    "enum": [
-                                      "json",
-                                      "hex"
-                                    ]
-                                  },
-                                  "params": {
-                                    "anyOf": [
-                                      {
-                                        "anyOf": [
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "pubKey": {
-                                                "type": "string"
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "visible": {
-                                                "type": "boolean"
-                                              },
-                                              "txID": {
-                                                "type": "string"
-                                              },
-                                              "raw_data": {
-                                                "type": "object",
-                                                "properties": {
-                                                  "contract": {
-                                                    "type": "array",
-                                                    "items": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "parameter": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "value": {
-                                                              "type": "object",
-                                                              "properties": {
-                                                                "data": {
-                                                                  "type": "string"
-                                                                },
-                                                                "owner_address": {
-                                                                  "type": "string"
-                                                                },
-                                                                "asset_name": {
-                                                                  "type": "string"
-                                                                },
-                                                                "contract_address": {
-                                                                  "type": "string"
-                                                                },
-                                                                "to_address": {
-                                                                  "type": "string"
-                                                                },
-                                                                "amount": {
-                                                                  "type": "number"
-                                                                }
-                                                              },
-                                                              "required": [
-                                                                "owner_address"
-                                                              ]
-                                                            },
-                                                            "type_url": {
-                                                              "type": "string"
-                                                            }
-                                                          },
-                                                          "required": [
-                                                            "value",
-                                                            "type_url"
-                                                          ]
-                                                        },
-                                                        "type": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "required": [
-                                                        "parameter",
-                                                        "type"
-                                                      ]
-                                                    }
-                                                  },
-                                                  "ref_block_bytes": {
-                                                    "type": "string"
-                                                  },
-                                                  "ref_block_hash": {
-                                                    "type": "string"
-                                                  },
-                                                  "expiration": {
-                                                    "type": "number"
-                                                  },
-                                                  "fee_limit": {
-                                                    "type": "number"
-                                                  },
-                                                  "timestamp": {
-                                                    "type": "number"
-                                                  }
-                                                },
-                                                "required": [
-                                                  "contract",
-                                                  "ref_block_bytes",
-                                                  "ref_block_hash",
-                                                  "expiration",
-                                                  "timestamp"
-                                                ]
-                                              },
-                                              "raw_data_hex": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "txID",
-                                              "raw_data",
-                                              "raw_data_hex"
-                                            ]
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "pubKey": {
-                                                "type": "string"
-                                              }
-                                            }
-                                          }
-                                        ]
-                                      },
-                                      {}
-                                    ]
-                                  },
-                                  "useMaxAmount": {
-                                    "type": "boolean",
-                                    "default": false
-                                  }
-                                },
-                                "required": [
-                                  "chainId",
-                                  "sender",
-                                  "recipient"
-                                ]
-                              },
-                              {
-                                "oneOf": [
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "enum": [
-                                          "transfer"
-                                        ]
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode"
-                                    ],
-                                    "title": "Transfer",
-                                    "description": "Transfer chain native coins"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "enum": [
-                                          "delegate"
-                                        ]
-                                      },
-                                      "validatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "validatorAddress"
-                                    ],
-                                    "title": "Delegate"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "enum": [
-                                          "transferToken"
-                                        ]
-                                      },
-                                      "tokenId": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "tokenId"
-                                    ],
-                                    "title": "TransferToken",
-                                    "description": "Transfer chain tokens"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "enum": [
-                                          "undelegate"
-                                        ]
-                                      },
-                                      "validatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "validatorAddress"
-                                    ],
-                                    "title": "Undelegate"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "enum": [
-                                          "redelegate"
-                                        ]
-                                      },
-                                      "sourceValidatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "targetValidatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "sourceValidatorAddress",
-                                      "targetValidatorAddress"
-                                    ],
-                                    "title": "Redelegate"
-                                  },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "enum": [
-                                          "claimRewards"
-                                        ]
-                                      },
-                                      "validatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "compound": {
-                                        "type": "boolean"
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "validatorAddress"
-                                    ],
-                                    "title": "ClaimRewards"
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        },
-                        "required": [
-                          "data"
-                        ]
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "encoded": {
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {}
-                            ]
-                          },
-                          "signature": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "signature"
-                        ]
-                      }
-                    ]
-                  }
-                },
-                "required": [
-                  "transaction"
-                ]
-              }
+        "summary": "Retrieve an account's history",
+        "description": "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "cosmoshub",
+                "osmosis",
+                "celestia",
+                "dydx",
+                "axelar",
+                "ethereum",
+                "sepolia",
+                "holesky",
+                "base",
+                "base-sepolia",
+                "optimism",
+                "arbitrum",
+                "polygon",
+                "polygon-amoy",
+                "bsc",
+                "bsc-testnet",
+                "linea",
+                "linea-sepolia",
+                "avalanche",
+                "gnosis",
+                "gnosis-chiado",
+                "moonbeam",
+                "moonriver",
+                "moonbase",
+                "fantom",
+                "injective",
+                "akash",
+                "neutron",
+                "evmos",
+                "juno",
+                "sei",
+                "stride",
+                "kava"
+              ]
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "accountId",
+            "description": "Account identifier (address, xpub, etc) for the specified chain ID",
+            "schema": {
+              "type": "string",
+              "description": "Account identifier (address, xpub, etc) for the specified chain ID"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "nextPage",
+            "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results.",
+            "schema": {
+              "type": "string",
+              "description": "Token from the previous response of this endpoint. Provide it here to fetch the next page of results."
+            }
+          },
+          {
+            "in": "query",
+            "name": "include",
+            "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
+            "schema": {
+              "type": "string",
+              "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
+              "example": "parsed,raw"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
-            "description": "200 OK - Returns a transaction receipt or error details if the transaction fails.",
+            "description": "200 OK - Returns the current list of transactions for the specified address and chain ID.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "hash": {
+                    "chainId": {
+                      "type": "string",
+                      "enum": [
+                        "cosmoshub",
+                        "osmosis",
+                        "celestia",
+                        "dydx",
+                        "axelar",
+                        "ethereum",
+                        "sepolia",
+                        "holesky",
+                        "base",
+                        "base-sepolia",
+                        "optimism",
+                        "arbitrum",
+                        "polygon",
+                        "polygon-amoy",
+                        "bsc",
+                        "bsc-testnet",
+                        "linea",
+                        "linea-sepolia",
+                        "avalanche",
+                        "gnosis",
+                        "gnosis-chiado",
+                        "moonbeam",
+                        "moonriver",
+                        "moonbase",
+                        "fantom",
+                        "injective",
+                        "akash",
+                        "neutron",
+                        "evmos",
+                        "juno",
+                        "sei",
+                        "stride",
+                        "kava"
+                      ]
+                    },
+                    "accountId": {
                       "type": "string"
                     },
-                    "transaction": {
-                      "type": "object",
-                      "properties": {
-                        "data": {
-                          "allOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "chainId": {
-                                  "$ref": "#/components/schemas/ChainId"
-                                },
-                                "sender": {
-                                  "type": "string"
-                                },
-                                "recipient": {
-                                  "type": "string"
-                                },
-                                "useMaxAmount": {
-                                  "type": "boolean",
-                                  "default": false
-                                },
-                                "fees": {
-                                  "type": "string"
-                                },
-                                "gas": {
-                                  "type": "string"
-                                },
-                                "nonce": {
-                                  "type": "string"
-                                },
-                                "memo": {
-                                  "type": "string"
-                                },
-                                "format": {
-                                  "type": "string",
-                                  "enum": [
-                                    "json",
-                                    "hex"
-                                  ]
-                                },
-                                "params": {
-                                  "anyOf": [
-                                    {
-                                      "anyOf": [
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "pubKey": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        },
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "visible": {
-                                              "type": "boolean"
-                                            },
-                                            "txID": {
-                                              "type": "string"
-                                            },
-                                            "raw_data": {
-                                              "type": "object",
-                                              "properties": {
-                                                "contract": {
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "parameter": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "value": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                              "data": {
-                                                                "type": "string"
-                                                              },
-                                                              "owner_address": {
-                                                                "type": "string"
-                                                              },
-                                                              "asset_name": {
-                                                                "type": "string"
-                                                              },
-                                                              "contract_address": {
-                                                                "type": "string"
-                                                              },
-                                                              "to_address": {
-                                                                "type": "string"
-                                                              },
-                                                              "amount": {
-                                                                "type": "number"
-                                                              }
-                                                            },
-                                                            "required": [
-                                                              "owner_address"
-                                                            ]
-                                                          },
-                                                          "type_url": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "required": [
-                                                          "value",
-                                                          "type_url"
-                                                        ]
-                                                      },
-                                                      "type": {
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "required": [
-                                                      "parameter",
-                                                      "type"
-                                                    ]
-                                                  }
-                                                },
-                                                "ref_block_bytes": {
-                                                  "type": "string"
-                                                },
-                                                "ref_block_hash": {
-                                                  "type": "string"
-                                                },
-                                                "expiration": {
-                                                  "type": "number"
-                                                },
-                                                "fee_limit": {
-                                                  "type": "number"
-                                                },
-                                                "timestamp": {
-                                                  "type": "number"
-                                                }
-                                              },
-                                              "required": [
-                                                "contract",
-                                                "ref_block_bytes",
-                                                "ref_block_hash",
-                                                "expiration",
-                                                "timestamp"
-                                              ]
-                                            },
-                                            "raw_data_hex": {
-                                              "type": "string"
-                                            }
-                                          },
-                                          "required": [
-                                            "txID",
-                                            "raw_data",
-                                            "raw_data_hex"
-                                          ]
-                                        },
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "pubKey": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        }
-                                      ]
+                    "transactions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "raw": {},
+                          "parsed": {
+                            "type": "object",
+                            "properties": {
+                              "chainId": {
+                                "$ref": "#/components/schemas/ChainId"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "mode": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "transfer",
+                                      "transferToken",
+                                      "delegate",
+                                      "redelegate",
+                                      "undelegate",
+                                      "claimRewards"
+                                    ]
+                                  },
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "unknown"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "state": {
+                                "type": "string",
+                                "enum": [
+                                  "pending",
+                                  "unconfirmed",
+                                  "confirmed",
+                                  "failed",
+                                  "unknown"
+                                ]
+                              },
+                              "tokenId": {
+                                "type": "string"
+                              },
+                              "blockHeight": {
+                                "type": "string"
+                              },
+                              "timestamp": {
+                                "type": "string",
+                                "description": "Timestamp in milliseconds"
+                              },
+                              "fees": {
+                                "type": "object",
+                                "properties": {
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "ticker": {
+                                    "type": "string",
+                                    "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
+                                  }
+                                }
+                              },
+                              "gas": {
+                                "type": "string"
+                              },
+                              "nonce": {
+                                "type": "string"
+                              },
+                              "memo": {
+                                "type": "string"
+                              },
+                              "senders": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "address": {
+                                      "type": "string"
                                     },
-                                    {}
+                                    "amount": {
+                                      "type": "string"
+                                    },
+                                    "ticker": {
+                                      "type": "string",
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
+                                    }
+                                  },
+                                  "required": [
+                                    "address"
                                   ]
                                 }
                               },
-                              "required": [
-                                "chainId",
-                                "sender",
-                                "recipient",
-                                "useMaxAmount"
-                              ]
-                            },
-                            {
-                              "oneOf": [
-                                {
+                              "recipients": {
+                                "type": "array",
+                                "items": {
                                   "type": "object",
                                   "properties": {
-                                    "mode": {
-                                      "type": "string",
-                                      "enum": [
-                                        "transfer"
-                                      ]
-                                    },
-                                    "amount": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "required": [
-                                    "mode"
-                                  ],
-                                  "title": "Transfer",
-                                  "description": "Transfer chain native coins"
-                                },
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "mode": {
-                                      "type": "string",
-                                      "enum": [
-                                        "delegate"
-                                      ]
-                                    },
-                                    "validatorAddress": {
+                                    "address": {
                                       "type": "string"
                                     },
                                     "amount": {
                                       "type": "string"
-                                    }
-                                  },
-                                  "required": [
-                                    "mode",
-                                    "validatorAddress"
-                                  ],
-                                  "title": "Delegate"
-                                },
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "mode": {
+                                    },
+                                    "ticker": {
                                       "type": "string",
-                                      "enum": [
-                                        "transferToken"
-                                      ]
-                                    },
-                                    "amount": {
-                                      "type": "string"
-                                    },
-                                    "tokenId": {
-                                      "type": "string"
+                                      "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
                                   "required": [
-                                    "mode",
-                                    "tokenId"
-                                  ],
-                                  "title": "TransferToken",
-                                  "description": "Transfer chain tokens"
-                                },
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "mode": {
-                                      "type": "string",
-                                      "enum": [
-                                        "undelegate"
-                                      ]
-                                    },
-                                    "validatorAddress": {
-                                      "type": "string"
-                                    },
-                                    "amount": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "required": [
-                                    "mode",
-                                    "validatorAddress"
-                                  ],
-                                  "title": "Undelegate"
-                                },
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "mode": {
-                                      "type": "string",
-                                      "enum": [
-                                        "redelegate"
-                                      ]
-                                    },
-                                    "sourceValidatorAddress": {
-                                      "type": "string"
-                                    },
-                                    "targetValidatorAddress": {
-                                      "type": "string"
-                                    },
-                                    "amount": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "required": [
-                                    "mode",
-                                    "sourceValidatorAddress",
-                                    "targetValidatorAddress"
-                                  ],
-                                  "title": "Redelegate"
-                                },
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "mode": {
-                                      "type": "string",
-                                      "enum": [
-                                        "claimRewards"
-                                      ]
-                                    },
-                                    "validatorAddress": {
-                                      "type": "string"
-                                    },
-                                    "compound": {
-                                      "type": "boolean"
-                                    }
-                                  },
-                                  "required": [
-                                    "mode",
-                                    "validatorAddress"
-                                  ],
-                                  "title": "ClaimRewards"
+                                    "address"
+                                  ]
                                 }
-                              ]
-                            }
-                          ]
+                              },
+                              "validators": {
+                                "type": "object",
+                                "properties": {
+                                  "source": {
+                                    "type": "object",
+                                    "properties": {
+                                      "address": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      },
+                                      "ticker": {
+                                        "type": "string",
+                                        "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
+                                      }
+                                    },
+                                    "required": [
+                                      "address"
+                                    ]
+                                  },
+                                  "target": {
+                                    "type": "object",
+                                    "properties": {
+                                      "address": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "type": "string"
+                                      },
+                                      "ticker": {
+                                        "type": "string",
+                                        "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
+                                      }
+                                    },
+                                    "required": [
+                                      "address"
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            "required": [
+                              "chainId",
+                              "id",
+                              "mode",
+                              "state",
+                              "fees"
+                            ]
+                          }
                         }
-                      },
-                      "required": [
-                        "data"
-                      ]
+                      }
                     },
-                    "status": {
+                    "pagination": {
                       "type": "object",
                       "properties": {
-                        "errors": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "message": {
-                                "type": "string"
-                              }
+                        "nextPage": {
+                          "anyOf": [
+                            {
+                              "type": "string"
                             },
-                            "required": [
-                              "message"
-                            ]
-                          }
-                        },
-                        "warnings": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "message": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "message"
-                            ]
-                          }
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "description": "Use the token from the previous response to retrieve the next page of results."
                         }
                       },
                       "required": [
-                        "errors",
-                        "warnings"
-                      ],
-                      "default": {
-                        "errors": [],
-                        "warnings": []
-                      }
+                        "nextPage"
+                      ]
                     }
                   },
                   "required": [
-                    "transaction",
-                    "status"
+                    "chainId",
+                    "accountId",
+                    "transactions",
+                    "pagination"
                   ]
                 }
               }
@@ -6612,60 +5803,24 @@
         }
       }
     },
-    "/api/transaction/broadcast/raw": {
-      "post": {
-        "tags": [
-          "transaction"
-        ],
-        "summary": "Broadcast a signed transaction (raw format)",
-        "description": "Broadcasts a signed transaction to the blockchain in raw format.         Unlike the standard broadcast, which builds the broadcast payload for you, this endpoint requires the final payload, ready for submission.         Returns the transaction receipt (hash) or error details in case of failure.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "chainId": {
-                    "$ref": "#/components/schemas/ChainId"
-                  },
-                  "payload": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "chainId",
-                  "payload"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200 OK - Returns a transaction receipt or error details if the transaction fails.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "hash": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/transaction/encode": {
+    "/api/{chainId}/transaction/encode": {
       "post": {
         "tags": [
           "transaction"
         ],
         "summary": "Complete, validate and encode a transaction to sign",
         "description": "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.        It also completes the input transaction with computed data, such as fees and max spendable amount, and performs some chain-specific validation checks on the transaction.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "description": "Unique adamik identifier of the chain",
+            "schema": {
+              "$ref": "#/components/schemas/ChainId"
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -7812,13 +6967,24 @@
         }
       }
     },
-    "/api/transaction/validate": {
+    "/api/{chainId}/transaction/validate": {
       "post": {
         "tags": [
           "transaction"
         ],
         "summary": "Validate a transaction",
         "description": "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "description": "Unique adamik identifier of the chain",
+            "schema": {
+              "$ref": "#/components/schemas/ChainId"
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -8258,6 +7424,872 @@
                   "required": [
                     "status"
                   ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{chainId}/transaction/broadcast": {
+      "post": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Broadcast a signed transaction",
+        "description": "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "description": "Unique adamik identifier of the chain",
+            "schema": {
+              "$ref": "#/components/schemas/ChainId"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transaction": {
+                    "allOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "data": {
+                            "allOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "chainId": {
+                                    "$ref": "#/components/schemas/ChainId"
+                                  },
+                                  "sender": {
+                                    "type": "string"
+                                  },
+                                  "recipient": {
+                                    "type": "string"
+                                  },
+                                  "fees": {
+                                    "anyOf": [
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "string"
+                                      }
+                                    ]
+                                  },
+                                  "gas": {
+                                    "anyOf": [
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "string"
+                                      }
+                                    ]
+                                  },
+                                  "nonce": {
+                                    "anyOf": [
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "string"
+                                      }
+                                    ]
+                                  },
+                                  "memo": {
+                                    "type": "string"
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "json",
+                                      "hex"
+                                    ]
+                                  },
+                                  "params": {
+                                    "anyOf": [
+                                      {
+                                        "anyOf": [
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "pubKey": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          },
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "visible": {
+                                                "type": "boolean"
+                                              },
+                                              "txID": {
+                                                "type": "string"
+                                              },
+                                              "raw_data": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "contract": {
+                                                    "type": "array",
+                                                    "items": {
+                                                      "type": "object",
+                                                      "properties": {
+                                                        "parameter": {
+                                                          "type": "object",
+                                                          "properties": {
+                                                            "value": {
+                                                              "type": "object",
+                                                              "properties": {
+                                                                "data": {
+                                                                  "type": "string"
+                                                                },
+                                                                "owner_address": {
+                                                                  "type": "string"
+                                                                },
+                                                                "asset_name": {
+                                                                  "type": "string"
+                                                                },
+                                                                "contract_address": {
+                                                                  "type": "string"
+                                                                },
+                                                                "to_address": {
+                                                                  "type": "string"
+                                                                },
+                                                                "amount": {
+                                                                  "type": "number"
+                                                                }
+                                                              },
+                                                              "required": [
+                                                                "owner_address"
+                                                              ]
+                                                            },
+                                                            "type_url": {
+                                                              "type": "string"
+                                                            }
+                                                          },
+                                                          "required": [
+                                                            "value",
+                                                            "type_url"
+                                                          ]
+                                                        },
+                                                        "type": {
+                                                          "type": "string"
+                                                        }
+                                                      },
+                                                      "required": [
+                                                        "parameter",
+                                                        "type"
+                                                      ]
+                                                    }
+                                                  },
+                                                  "ref_block_bytes": {
+                                                    "type": "string"
+                                                  },
+                                                  "ref_block_hash": {
+                                                    "type": "string"
+                                                  },
+                                                  "expiration": {
+                                                    "type": "number"
+                                                  },
+                                                  "fee_limit": {
+                                                    "type": "number"
+                                                  },
+                                                  "timestamp": {
+                                                    "type": "number"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "contract",
+                                                  "ref_block_bytes",
+                                                  "ref_block_hash",
+                                                  "expiration",
+                                                  "timestamp"
+                                                ]
+                                              },
+                                              "raw_data_hex": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "txID",
+                                              "raw_data",
+                                              "raw_data_hex"
+                                            ]
+                                          },
+                                          {
+                                            "type": "object",
+                                            "properties": {
+                                              "pubKey": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      {}
+                                    ]
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "chainId",
+                                  "sender",
+                                  "recipient"
+                                ]
+                              },
+                              {
+                                "oneOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                          "transfer"
+                                        ]
+                                      },
+                                      "amount": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "string"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "mode"
+                                    ],
+                                    "title": "Transfer",
+                                    "description": "Transfer chain native coins"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                          "delegate"
+                                        ]
+                                      },
+                                      "validatorAddress": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "string"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "validatorAddress"
+                                    ],
+                                    "title": "Delegate"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                          "transferToken"
+                                        ]
+                                      },
+                                      "tokenId": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "string"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "tokenId"
+                                    ],
+                                    "title": "TransferToken",
+                                    "description": "Transfer chain tokens"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                          "undelegate"
+                                        ]
+                                      },
+                                      "validatorAddress": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "string"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "validatorAddress"
+                                    ],
+                                    "title": "Undelegate"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                          "redelegate"
+                                        ]
+                                      },
+                                      "sourceValidatorAddress": {
+                                        "type": "string"
+                                      },
+                                      "targetValidatorAddress": {
+                                        "type": "string"
+                                      },
+                                      "amount": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "string"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "sourceValidatorAddress",
+                                      "targetValidatorAddress"
+                                    ],
+                                    "title": "Redelegate"
+                                  },
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                          "claimRewards"
+                                        ]
+                                      },
+                                      "validatorAddress": {
+                                        "type": "string"
+                                      },
+                                      "compound": {
+                                        "type": "boolean"
+                                      }
+                                    },
+                                    "required": [
+                                      "mode",
+                                      "validatorAddress"
+                                    ],
+                                    "title": "ClaimRewards"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "data"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "encoded": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {}
+                            ]
+                          },
+                          "signature": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "signature"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "transaction"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns a transaction receipt or error details if the transaction fails.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "hash": {
+                      "type": "string"
+                    },
+                    "transaction": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "allOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "chainId": {
+                                  "$ref": "#/components/schemas/ChainId"
+                                },
+                                "sender": {
+                                  "type": "string"
+                                },
+                                "recipient": {
+                                  "type": "string"
+                                },
+                                "useMaxAmount": {
+                                  "type": "boolean",
+                                  "default": false
+                                },
+                                "fees": {
+                                  "type": "string"
+                                },
+                                "gas": {
+                                  "type": "string"
+                                },
+                                "nonce": {
+                                  "type": "string"
+                                },
+                                "memo": {
+                                  "type": "string"
+                                },
+                                "format": {
+                                  "type": "string",
+                                  "enum": [
+                                    "json",
+                                    "hex"
+                                  ]
+                                },
+                                "params": {
+                                  "anyOf": [
+                                    {
+                                      "anyOf": [
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "pubKey": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "visible": {
+                                              "type": "boolean"
+                                            },
+                                            "txID": {
+                                              "type": "string"
+                                            },
+                                            "raw_data": {
+                                              "type": "object",
+                                              "properties": {
+                                                "contract": {
+                                                  "type": "array",
+                                                  "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "parameter": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "value": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                              "data": {
+                                                                "type": "string"
+                                                              },
+                                                              "owner_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "asset_name": {
+                                                                "type": "string"
+                                                              },
+                                                              "contract_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "to_address": {
+                                                                "type": "string"
+                                                              },
+                                                              "amount": {
+                                                                "type": "number"
+                                                              }
+                                                            },
+                                                            "required": [
+                                                              "owner_address"
+                                                            ]
+                                                          },
+                                                          "type_url": {
+                                                            "type": "string"
+                                                          }
+                                                        },
+                                                        "required": [
+                                                          "value",
+                                                          "type_url"
+                                                        ]
+                                                      },
+                                                      "type": {
+                                                        "type": "string"
+                                                      }
+                                                    },
+                                                    "required": [
+                                                      "parameter",
+                                                      "type"
+                                                    ]
+                                                  }
+                                                },
+                                                "ref_block_bytes": {
+                                                  "type": "string"
+                                                },
+                                                "ref_block_hash": {
+                                                  "type": "string"
+                                                },
+                                                "expiration": {
+                                                  "type": "number"
+                                                },
+                                                "fee_limit": {
+                                                  "type": "number"
+                                                },
+                                                "timestamp": {
+                                                  "type": "number"
+                                                }
+                                              },
+                                              "required": [
+                                                "contract",
+                                                "ref_block_bytes",
+                                                "ref_block_hash",
+                                                "expiration",
+                                                "timestamp"
+                                              ]
+                                            },
+                                            "raw_data_hex": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "txID",
+                                            "raw_data",
+                                            "raw_data_hex"
+                                          ]
+                                        },
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "pubKey": {
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    {}
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "chainId",
+                                "sender",
+                                "recipient",
+                                "useMaxAmount"
+                              ]
+                            },
+                            {
+                              "oneOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "transfer"
+                                      ]
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "mode"
+                                  ],
+                                  "title": "Transfer",
+                                  "description": "Transfer chain native coins"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "delegate"
+                                      ]
+                                    },
+                                    "validatorAddress": {
+                                      "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
+                                  "title": "Delegate"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "transferToken"
+                                      ]
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    },
+                                    "tokenId": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "tokenId"
+                                  ],
+                                  "title": "TransferToken",
+                                  "description": "Transfer chain tokens"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "undelegate"
+                                      ]
+                                    },
+                                    "validatorAddress": {
+                                      "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
+                                  "title": "Undelegate"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "redelegate"
+                                      ]
+                                    },
+                                    "sourceValidatorAddress": {
+                                      "type": "string"
+                                    },
+                                    "targetValidatorAddress": {
+                                      "type": "string"
+                                    },
+                                    "amount": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "sourceValidatorAddress",
+                                    "targetValidatorAddress"
+                                  ],
+                                  "title": "Redelegate"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "enum": [
+                                        "claimRewards"
+                                      ]
+                                    },
+                                    "validatorAddress": {
+                                      "type": "string"
+                                    },
+                                    "compound": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "validatorAddress"
+                                  ],
+                                  "title": "ClaimRewards"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "data"
+                      ]
+                    },
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "message": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "message"
+                            ]
+                          }
+                        },
+                        "warnings": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "message": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "message"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "errors",
+                        "warnings"
+                      ],
+                      "default": {
+                        "errors": [],
+                        "warnings": []
+                      }
+                    }
+                  },
+                  "required": [
+                    "transaction",
+                    "status"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{chainId}/transaction/broadcast/raw": {
+      "post": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Broadcast a signed transaction (raw format)",
+        "description": "Broadcasts a signed transaction to the blockchain in raw format.         Unlike the standard broadcast, which builds the broadcast payload for you, this endpoint requires the final payload, ready for submission.         Returns the transaction receipt (hash) or error details in case of failure.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chainId",
+            "description": "Unique adamik identifier of the chain",
+            "schema": {
+              "$ref": "#/components/schemas/ChainId"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chainId": {
+                    "$ref": "#/components/schemas/ChainId"
+                  },
+                  "payload": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "chainId",
+                  "payload"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 OK - Returns a transaction receipt or error details if the transaction fails.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "hash": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
