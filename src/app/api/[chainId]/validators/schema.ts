@@ -33,7 +33,7 @@ const responseSchema = z
 const validatorsOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/{chainId}/validators": {
     get: {
-      tags: ["chains"],
+      tags: ["chain"],
       summary: "Retrieve the list of existing validators",
       description:
         "Lists validators for a specified chain ID, including their operational status and commission rates. Useful for delegation operations on proof-of-stake blockchains.",

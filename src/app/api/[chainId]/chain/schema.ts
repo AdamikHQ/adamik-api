@@ -9,9 +9,9 @@ const pathParamsSchema = z.object({
 const responseSchema = chainSchema;
 
 const chainOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/chains/{chainId}": {
+  "/api/{chainId}/chain": {
     get: {
-      tags: ["chains"],
+      tags: ["chain"],
       summary: "Retrieve details of one chain",
       description:
         "Retrieves detailed information about a specific blockchain network identified by chain ID.",
