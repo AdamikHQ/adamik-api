@@ -15,7 +15,7 @@ const responseSchema = z.object({
   hash: z.string().optional(),
 });
 
-const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
+const transactionBroadcastRawOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/{chainId}/transaction/broadcast/raw": {
     post: {
       tags: ["transaction"],
@@ -44,4 +44,4 @@ const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { pathParamsSchema, requestSchema, responseSchema, transactionBroadcastOpenAPIPath };
+export { pathParamsSchema, requestSchema, responseSchema, transactionBroadcastRawOpenAPIPath };

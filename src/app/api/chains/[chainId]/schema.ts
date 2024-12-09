@@ -5,9 +5,10 @@ import { chainIdSchema, chainSchema } from "~/app/api/schemaCommon";
 const pathParamsSchema = z.object({
   chainId: chainIdSchema,
 });
+
 const responseSchema = chainSchema;
 
-const chainsChainIdOpenAPIPath: ZodOpenApiPathsObject = {
+const chainOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}": {
     get: {
       tags: ["chains"],
@@ -30,4 +31,4 @@ const chainsChainIdOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { chainsChainIdOpenAPIPath, pathParamsSchema, responseSchema };
+export { chainOpenAPIPath, pathParamsSchema, responseSchema };

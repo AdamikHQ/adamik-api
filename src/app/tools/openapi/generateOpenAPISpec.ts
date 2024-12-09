@@ -3,18 +3,18 @@ import { createDocument, oas31 } from "zod-openapi";
 import { accountHistoryOpenAPIPath } from "~/app/api/[chainId]/account/[accountId]/history/schema";
 import { accountStateOpenAPIPath } from "~/app/api/[chainId]/account/[accountId]/state/schema";
 import { accountStateTokensOpenAPIPath } from "~/app/api/[chainId]/account/[accountId]/state/tokens/schema";
-import { addressEncodeOpenAPIPath } from "~/app/api/address/encode/schema";
-import { addressValidateOpenAPIPath } from "~/app/api/address/validate/schema";
-import { chainsChainIdOpenAPIPath } from "~/app/api/chains/[chainId]/schema";
-import { chainsChainIdTokenTokenIdOpenAPIPath } from "~/app/api/chains/[chainId]/token/[tokenId]/schema";
-import { chainsChainIdTransactionTransactionIdOpenAPIPath } from "~/app/api/chains/[chainId]/transaction/[transactionId]/schema";
-import { chainsChainIdValidatorsOpenAPIPath } from "~/app/api/chains/[chainId]/validators/schema";
+import { addressEncodeOpenAPIPath } from "~/app/api/[chainId]/address/encode/schema";
+import { addressValidateOpenAPIPath } from "~/app/api/[chainId]/address/validate/schema";
+import { tokenOpenAPIPath } from "~/app/api/[chainId]/token/[tokenId]/schema";
+import { transactionOpenAPIPath } from "~/app/api/[chainId]/transaction/[transactionId]/schema";
+import { transactionBroadcastRawOpenAPIPath } from "~/app/api/[chainId]/transaction/broadcast/raw/schema";
+import { transactionBroadcastOpenAPIPath } from "~/app/api/[chainId]/transaction/broadcast/schema";
+import { transactionEncodeOpenAPIPath } from "~/app/api/[chainId]/transaction/encode/schema";
+import { transactionValidateOpenAPIPath } from "~/app/api/[chainId]/transaction/validate/schema";
+import { validatorsOpenAPIPath } from "~/app/api/[chainId]/validators/schema";
+import { chainOpenAPIPath } from "~/app/api/chains/[chainId]/schema";
 import { chainsOpenAPIPath } from "~/app/api/chains/schema";
 import { apiOpenAPIPath } from "~/app/api/schema";
-import { transactionBroadcastOpenAPIPath as transactionBroadcastRawOpenAPIPath } from "~/app/api/transaction/broadcast/raw/schema";
-import { transactionBroadcastOpenAPIPath } from "~/app/api/transaction/broadcast/schema";
-import { transactionEncodeOpenAPIPath } from "~/app/api/transaction/encode/schema";
-import { transactionValidateOpenAPIPath } from "~/app/api/transaction/validate/schema";
 
 // Vercel env vars don't contain the "https://" part
 const VERCEL_URL: string | undefined =
@@ -51,20 +51,20 @@ function generateOpenAPISpec(): oas31.OpenAPIObject {
     ],
     paths: {
       ...apiOpenAPIPath,
+      ...chainsOpenAPIPath,
+      ...chainOpenAPIPath,
+      ...tokenOpenAPIPath,
+      ...validatorsOpenAPIPath,
+      ...transactionOpenAPIPath,
       ...addressEncodeOpenAPIPath,
       ...addressValidateOpenAPIPath,
       ...accountStateOpenAPIPath,
       ...accountStateTokensOpenAPIPath,
       ...accountHistoryOpenAPIPath,
-      ...chainsOpenAPIPath,
-      ...chainsChainIdOpenAPIPath,
-      ...chainsChainIdTokenTokenIdOpenAPIPath,
-      ...chainsChainIdTransactionTransactionIdOpenAPIPath,
-      ...chainsChainIdValidatorsOpenAPIPath,
-      ...transactionBroadcastOpenAPIPath,
-      ...transactionBroadcastRawOpenAPIPath,
       ...transactionEncodeOpenAPIPath,
       ...transactionValidateOpenAPIPath,
+      ...transactionBroadcastOpenAPIPath,
+      ...transactionBroadcastRawOpenAPIPath,
     },
   });
 

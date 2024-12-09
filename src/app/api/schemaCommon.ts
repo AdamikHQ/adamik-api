@@ -57,11 +57,7 @@ const chainIdSchema = z.nativeEnum(ChainId, chainIdSchemaParams).openapi({
 });
 
 const getSupportedChainIdsSchema = (supportedChainIds: ChainId[]) =>
-  z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams).openapi({
-    description: "Unique adamik identifier of the chain",
-    example: supportedChainIds[0],
-    ref: "ChainId",
-  });
+  z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
 
 const errorMsgSchema = z.object({
   message: z.string(),
