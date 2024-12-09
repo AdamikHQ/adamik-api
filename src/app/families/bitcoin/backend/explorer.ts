@@ -341,30 +341,45 @@ async function fetchBatchTransactionMetadata(
     key: BLOCKCHAIR_API_KEY,
   });
 
-  // Join transaction hashes with commas for batch request
-  const url = `${explorerURL}/dashboards/transactions/${txHashes.join(",")}?${queryParams.toString()}`;
+  const BATCH_SIZE = 10; // Max size accepted by Blockchair
+  const batches: string[][] = [];
 
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    console.warn(
-      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
-      await response.text()
-    );
-    throw new Error("Error while fetching transaction metadata from the explorer");
+  // Split txHashes into batches
+  for (let i = 0; i < txHashes.length; i += BATCH_SIZE) {
+    batches.push(txHashes.slice(i, i + BATCH_SIZE));
   }
 
-  const result = await response.json();
+  const results: Record<string, any> = {};
 
-  if (result.context.code !== 200) {
-    console.warn(
-      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
-      JSON.stringify(result)
-    );
-    throw new Error("Error in transaction metadata received from the explorer");
+  // Fetch data for each batch
+  for (const batch of batches) {
+    // Join transaction hashes with commas for batch request
+    const url = `${explorerURL}/dashboards/transactions/${batch.join(",")}?${queryParams.toString()}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      console.warn(
+        `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+        await response.text()
+      );
+      throw new Error("Error while fetching transaction metadata from the explorer");
+    }
+
+    const result = await response.json();
+
+    if (result.context.code !== 200) {
+      console.warn(
+        `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+        JSON.stringify(result)
+      );
+      throw new Error("Error in transaction metadata received from the explorer");
+    }
+
+    // Merge the current batch result into the final results
+    Object.assign(results, result.data);
   }
 
-  return result.data;
+  return results;
 }
 
 export {
