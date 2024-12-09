@@ -5,9 +5,13 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/transaction/encode
+  url: {{api_url}}/api/:chainId/transaction/encode
   body: json
   auth: none
+}
+
+params:path {
+  chainId: ethereum
 }
 
 body:json {
@@ -27,4 +31,5 @@ body:json {
 
 assert {
   res.status: eq 200
+  res.body.transaction.encoded: eq "0x02ec83aa36a780830f42408502945a320982520894d9cf97a8eb01d27b1f5a8809273137d92758c3128203e880c0"
 }
