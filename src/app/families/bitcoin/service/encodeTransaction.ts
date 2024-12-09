@@ -6,6 +6,40 @@ import { getNetworkForChainId, isP2SHScript, isWitnessScript } from "../logic";
 import { BitcoinService } from "../service";
 import { BitcoinTransactionParams } from "../types";
 
+// Helper functions
+function createWitnessInput(input: any, outputScript: string, value: number) {
+  return {
+    hash: input.transaction_hash,
+    index: input.index,
+    witnessUtxo: {
+      script: Buffer.from(outputScript, "hex"),
+      value,
+    },
+  };
+}
+
+function createNonWitnessInput(input: any, rawTxData: any): any {
+  if (typeof rawTxData === "string" && rawTxData.length > 0) {
+    return {
+      hash: input.transaction_hash,
+      index: input.index,
+      nonWitnessUtxo: Buffer.from(rawTxData, "hex"),
+    };
+  }
+
+  if (!rawTxData?.data?.[input.transaction_hash]?.raw_transaction) {
+    throw new AdamikApiServerError(
+      `Missing or invalid raw transaction data for hash: ${input.transaction_hash}`
+    );
+  }
+
+  return {
+    hash: input.transaction_hash,
+    index: input.index,
+    nonWitnessUtxo: Buffer.from(rawTxData.data[input.transaction_hash].raw_transaction, "hex"),
+  };
+}
+
 async function encodeTransactionToSign(
   this: BitcoinService,
   _: { transaction: Transaction; status: Status }
@@ -31,72 +65,8 @@ async function encodeTransactionToSign(
       throw new AdamikApiServerError(`Missing metadata for input ${inputIndex}`);
     }
 
-    const isWitness = isWitnessScript(outputScript);
-
-    if (isWitness) {
-      psbt.addInput({
-        hash: input.transaction_hash,
-        index: input.index,
-        witnessUtxo: {
-          script: Buffer.from(outputScript, "hex"),
-          value,
-        },
-      });
-    } else if (isP2SHScript(outputScript)) {
-      // Keep P2SH case separate as we might need special handling in the future:
-      // - Detecting P2SH-wrapped SegWit programs
-      // - Handling specific redeem script requirements
-      // - Adding P2SH-specific signing logic
-      if (!rawTxMetadataMap.has(input.transaction_hash)) {
-        rawTxMetadataMap.set(
-          input.transaction_hash,
-          await fetchRawTransactionMetadata(this.chainId, input.transaction_hash)
-        );
-      }
-
-      const rawTxData = rawTxMetadataMap.get(input.transaction_hash)!;
-
-      let inputData: any;
-      if (typeof rawTxData === "string" && rawTxData.length > 0) {
-        inputData = {
-          hash: input.transaction_hash,
-          index: input.index,
-          nonWitnessUtxo: Buffer.from(rawTxData, "hex"),
-        };
-      } else if (rawTxData?.data?.[input.transaction_hash]?.raw_transaction) {
-        inputData = {
-          hash: input.transaction_hash,
-          index: input.index,
-          nonWitnessUtxo: Buffer.from(rawTxData.data[input.transaction_hash].raw_transaction, "hex"),
-        };
-
-        if (isP2SHScript(outputScript)) {
-          const decodedTx = rawTxData.data[input.transaction_hash].decoded_raw_transaction;
-          const scriptSigHex = decodedTx?.vin?.[input.index]?.scriptSig?.hex;
-
-          if (scriptSigHex && isWitnessScript(scriptSigHex)) {
-            inputData.witnessUtxo = {
-              script: Buffer.from(outputScript, "hex"),
-              value,
-            };
-            inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
-          } else if (scriptSigHex) {
-            inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
-          } else {
-            throw new AdamikApiServerError(`Missing scriptSig for P2SH input at index ${inputIndex}`);
-          }
-        }
-      } else {
-        throw new AdamikApiServerError(
-          `Missing or invalid raw transaction data for hash: ${input.transaction_hash}`
-        );
-      }
-
-      if (!inputData) {
-        throw new AdamikApiServerError(`Failed to create input data for hash: ${input.transaction_hash}`);
-      }
-
-      psbt.addInput(inputData);
+    if (isWitnessScript(outputScript)) {
+      psbt.addInput(createWitnessInput(input, outputScript, value));
     } else {
       if (!rawTxMetadataMap.has(input.transaction_hash)) {
         rawTxMetadataMap.set(
@@ -106,45 +76,23 @@ async function encodeTransactionToSign(
       }
 
       const rawTxData = rawTxMetadataMap.get(input.transaction_hash)!;
+      let inputData = createNonWitnessInput(input, rawTxData);
 
-      let inputData: any;
-      if (typeof rawTxData === "string" && rawTxData.length > 0) {
-        inputData = {
-          hash: input.transaction_hash,
-          index: input.index,
-          nonWitnessUtxo: Buffer.from(rawTxData, "hex"),
-        };
-      } else if (rawTxData?.data?.[input.transaction_hash]?.raw_transaction) {
-        inputData = {
-          hash: input.transaction_hash,
-          index: input.index,
-          nonWitnessUtxo: Buffer.from(rawTxData.data[input.transaction_hash].raw_transaction, "hex"),
-        };
+      if (isP2SHScript(outputScript)) {
+        const decodedTx = rawTxData.data?.[input.transaction_hash]?.decoded_raw_transaction;
+        const scriptSigHex = decodedTx?.vin?.[input.index]?.scriptSig?.hex;
 
-        if (isP2SHScript(outputScript)) {
-          const decodedTx = rawTxData.data[input.transaction_hash].decoded_raw_transaction;
-          const scriptSigHex = decodedTx?.vin?.[input.index]?.scriptSig?.hex;
-
-          if (scriptSigHex && isWitnessScript(scriptSigHex)) {
-            inputData.witnessUtxo = {
-              script: Buffer.from(outputScript, "hex"),
-              value,
-            };
-            inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
-          } else if (scriptSigHex) {
-            inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
-          } else {
-            throw new AdamikApiServerError(`Missing scriptSig for P2SH input at index ${inputIndex}`);
-          }
+        if (scriptSigHex && isWitnessScript(scriptSigHex)) {
+          inputData.witnessUtxo = {
+            script: Buffer.from(outputScript, "hex"),
+            value,
+          };
+          inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
+        } else if (scriptSigHex) {
+          inputData.redeemScript = Buffer.from(scriptSigHex, "hex");
+        } else {
+          throw new AdamikApiServerError(`Missing scriptSig for P2SH input at index ${inputIndex}`);
         }
-      } else {
-        throw new AdamikApiServerError(
-          `Missing or invalid raw transaction data for hash: ${input.transaction_hash}`
-        );
-      }
-
-      if (!inputData) {
-        throw new AdamikApiServerError(`Failed to create input data for hash: ${input.transaction_hash}`);
       }
 
       psbt.addInput(inputData);
