@@ -21,6 +21,9 @@ const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
       },
     },
   },
+  utils: {
+    addresses: true,
+  },
 });
 
 export { EVM_FEATURES };

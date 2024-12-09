@@ -18,6 +18,9 @@ const TON_FEATURES: ChainSupportedFeatures = {
       },
     },
   },
+  utils: {
+    addresses: true,
+  },
 };
 
 export { TON_FEATURES };

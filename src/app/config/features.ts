@@ -27,6 +27,9 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
       },
     },
   },
+  utils: {
+    addresses: false,
+  },
 };
 
 const EVM_ROOTSTOCK_FEATURES: ChainSupportedFeatures = {
@@ -47,6 +50,9 @@ const EVM_ROOTSTOCK_FEATURES: ChainSupportedFeatures = {
         memo: false,
       },
     },
+  },
+  utils: {
+    addresses: true,
   },
 };
 

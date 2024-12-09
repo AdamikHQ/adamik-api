@@ -29,6 +29,9 @@ const COSMOS_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
       },
     },
   },
+  utils: {
+    addresses: true,
+  },
 });
 
 export { COSMOS_FEATURES };

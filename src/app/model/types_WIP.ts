@@ -136,6 +136,9 @@ type ChainSupportedFeatures = {
       };
     };
   };
+  utils: {
+    addresses: boolean;
+  };
 };
 
 // Define filters as flags: anything put in the object is true to flag that the filter is "ON"

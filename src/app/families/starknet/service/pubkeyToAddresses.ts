@@ -1,6 +1,6 @@
 import { TypedAddress } from "~/app/model/types_WIP";
-import { Argent } from "../contracts/argent";
-import { Bravoos } from "../contracts/bravoos";
+import { ArgentX } from "../contracts/argentx";
+import { Braavos } from "../contracts/braavos";
 import { OpenZeppelin } from "../contracts/openzeppelin";
 import { StarknetService } from "../service";
 
@@ -12,11 +12,11 @@ async function pubkeyToAddresses(this: StarknetService, pubkey: string): Promise
     },
     {
       type: "argent",
-      address: Argent.generateAddress(pubkey),
+      address: ArgentX.generateAddress(pubkey),
     },
     {
       type: "bravoos",
-      address: Bravoos.generateAddress(pubkey),
+      address: Braavos.generateAddress(pubkey),
     },
   ];
 }

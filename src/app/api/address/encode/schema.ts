@@ -1,14 +1,22 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema } from "../../schemaCommon";
+import { CHAINS } from "~/app/config/chains";
+import { ChainId } from "~/app/model/types_WIP";
+import { chainIdSchemaParams } from "../../schemaCommon";
+
+const supportedChainIds = Object.values(CHAINS)
+  .filter((chain) => chain.supportedFeatures.utils.addresses)
+  .map((chain) => chain.id);
+
+const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
 
 const requestSchema = z.object({
-  chainId: chainIdSchema,
+  chainId: supportedChainIdsSchema,
   pubkey: z.string(),
 });
 
 const responseSchema = z.object({
-  chainId: chainIdSchema,
+  chainId: supportedChainIdsSchema,
   pubkey: z.string(),
   addresses: z
     .object({

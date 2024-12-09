@@ -1,6 +1,6 @@
 import { ec } from "starknet";
-import { Argent } from "../contracts/argent";
-import { Bravoos } from "../contracts/bravoos";
+import { ArgentX } from "../contracts/argentx";
+import { Braavos } from "../contracts/braavos";
 import { OpenZeppelin } from "../contracts/openzeppelin";
 
 describe("pubkeyToAddresses", () => {
@@ -18,7 +18,7 @@ describe("pubkeyToAddresses", () => {
     // pubkey : 0x2d3cccf309a128d4722f652da707cc78ed05c056142b6c1b42eba1e5096f002
     const pubkey = ec.starkCurve.getStarkKey(randomEmptyPrivateKey);
 
-    const address = Argent.generateAddress(pubkey);
+    const address = ArgentX.generateAddress(pubkey);
     expect(address).toBe("0x16df623f0dcdd34c67c1fe9625303b74028c55f8df268193fdbc6b535694301");
   });
 
@@ -26,7 +26,7 @@ describe("pubkeyToAddresses", () => {
     // pubkey : 0x2d3cccf309a128d4722f652da707cc78ed05c056142b6c1b42eba1e5096f002
     const pubkey = ec.starkCurve.getStarkKey(randomEmptyPrivateKey);
 
-    const address = Bravoos.generateAddress(pubkey);
+    const address = Braavos.generateAddress(pubkey);
     expect(address).toBe("0xc4dca78cd9760f31df71fc2687fca5625e7a07350b5c47da88f8d15b4c548c");
   });
 });

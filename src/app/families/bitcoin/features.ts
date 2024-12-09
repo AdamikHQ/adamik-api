@@ -18,6 +18,9 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
       },
     },
   },
+  utils: {
+    addresses: true,
+  },
 };
 
 export { BITCOIN_FEATURES };

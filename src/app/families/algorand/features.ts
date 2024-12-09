@@ -18,6 +18,9 @@ const ALGORAND_FEATURES: ChainSupportedFeatures = {
       },
     },
   },
+  utils: {
+    addresses: true,
+  },
 };
 
 export { ALGORAND_FEATURES };

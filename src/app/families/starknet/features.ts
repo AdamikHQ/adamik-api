@@ -18,6 +18,9 @@ const STARKNET_FEATURES: ChainSupportedFeatures = {
       },
     },
   },
+  utils: {
+    addresses: true,
+  },
 };
 
 export { STARKNET_FEATURES };

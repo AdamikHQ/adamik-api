@@ -3,17 +3,17 @@ import { Contract } from "./types";
 
 class OpenZeppelin implements Contract {
   static generateAddress(pubkey: string): string {
-    const OZaccountClassHash = "0x061dac032f228abef9c6626f995015233097ae253a7f72d68552db02f2971b8f";
+    const ozAccountClassHash = "0x061dac032f228abef9c6626f995015233097ae253a7f72d68552db02f2971b8f";
     // Calculate future address of the account
-    const OZaccountConstructorCallData = CallData.compile({ publicKey: pubkey });
-    const OZcontractAddress = hash.calculateContractAddressFromHash(
+    const ozAccountConstructorCallData = CallData.compile({ publicKey: pubkey });
+    const ozContractAddress = hash.calculateContractAddressFromHash(
       pubkey,
-      OZaccountClassHash,
-      OZaccountConstructorCallData,
+      ozAccountClassHash,
+      ozAccountConstructorCallData,
       0
     );
 
-    return OZcontractAddress;
+    return ozContractAddress;
   }
 }
 

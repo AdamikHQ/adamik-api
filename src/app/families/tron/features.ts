@@ -18,6 +18,9 @@ const TRON_FEATURES: ChainSupportedFeatures = {
       },
     },
   },
+  utils: {
+    addresses: false,
+  },
 };
 
 export { TRON_FEATURES };
