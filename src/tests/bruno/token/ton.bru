@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{api_url}}/api/chains/:chainId/token/:tokenId
+  url: {{api_url}}/api/:chainId/token/:tokenId
   body: none
   auth: none
 }
@@ -17,4 +17,5 @@ params:path {
 
 assert {
   res.status: eq 200
+  res.body.ticker: eq USD₮
 }

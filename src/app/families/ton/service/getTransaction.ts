@@ -20,10 +20,10 @@ async function getTransaction(this: TonService, transactionId: string): Promise<
     state: TransactionState.UNKNOWN,
   };
 
-  parsedTransaction.timestamp = new Date(tonTransaction.outMsgs[0].createdAt).getTime();
+  parsedTransaction.timestamp = new Date(tonTransaction.outMsgs[0].createdAt * 1000).getTime();
 
-  // TON block value is weirdly formatted (e.g "(0,8000000000000000,26209049)")
-  // Assuming our block height is the last of the three values... :
+  // TON block value is weirdly formatted (e.g: "(0,8000000000000000,26209049)")
+  // Assuming our block height is the last of the three values...
   const tonBlockId = tonTransaction.block
     .slice(1, tonTransaction.block.length - 1) // remove the parenthesis
     .split(",") // split the 3 values

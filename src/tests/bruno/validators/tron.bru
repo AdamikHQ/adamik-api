@@ -1,11 +1,11 @@
 meta {
   name: tron
   type: http
-  seq: 5
+  seq: 3
 }
 
 get {
-  url: {{api_url}}/api/chains/:chainId/validators
+  url: {{api_url}}/api/:chainId/validators
   body: none
   auth: none
 }
@@ -17,4 +17,3 @@ params:path {
 assert {
   res.status: eq 400
 }
-

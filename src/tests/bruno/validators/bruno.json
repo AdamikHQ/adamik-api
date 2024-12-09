@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "/api/chains/[chainId]/validators",
+  "name": "/api/[chainId]/validators",
   "type": "collection",
   "ignore": [
     "node_modules",
