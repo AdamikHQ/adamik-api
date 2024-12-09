@@ -1,9 +1,12 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema } from "../../schemaCommon";
+import { chainIdSchema } from "~/app/api/schemaCommon";
+
+const pathParamsSchema = z.object({
+  chainId: chainIdSchema,
+});
 
 const requestSchema = z.object({
-  chainId: chainIdSchema,
   pubkey: z.string(),
 });
 
@@ -31,6 +34,9 @@ const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
           "application/json": { schema: requestSchema },
         },
       },
+      requestParams: {
+        path: pathParamsSchema,
+      },
       responses: {
         "200": {
           description: "200 OK - Returns true if the encoded result",
@@ -43,4 +49,4 @@ const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { addressEncodeOpenAPIPath, requestSchema, responseSchema };
+export { addressEncodeOpenAPIPath, pathParamsSchema, requestSchema, responseSchema };

@@ -1,14 +1,17 @@
 import { getService } from "~/app/config/services";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import { requestSchema, responseSchema } from "./schema";
+import { pathParamsSchema, requestSchema, responseSchema } from "./schema";
 
 export const POST = apiHandler(
   {
+    pathParamsSchema,
     requestSchema,
     responseSchema,
   },
-  async ({ body }) => {
-    const { chainId, pubkey } = body;
+  async ({ pathParams, body }) => {
+    const { chainId } = pathParams;
+    const { pubkey } = body;
+
     const service = getService(chainId);
 
     const addresses = await service.pubkeyToAddresses(pubkey);

@@ -1,13 +1,18 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema } from "../../schemaCommon";
+import { chainIdSchema } from "~/app/api/schemaCommon";
+
+const pathParamsSchema = z.object({
+  chainId: chainIdSchema,
+});
 
 const requestSchema = z.object({
-  chainId: chainIdSchema,
   address: z.string(),
 });
 
-const responseSchema = z.boolean();
+const responseSchema = z.object({
+  valid: z.boolean(),
+});
 
 const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/validate": {
@@ -16,6 +21,9 @@ const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
       summary: "Validate an address",
       description:
         "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
+      requestParams: {
+        path: pathParamsSchema,
+      },
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -34,4 +42,4 @@ const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { addressValidateOpenAPIPath, requestSchema, responseSchema };
+export { addressValidateOpenAPIPath, pathParamsSchema, requestSchema, responseSchema };
