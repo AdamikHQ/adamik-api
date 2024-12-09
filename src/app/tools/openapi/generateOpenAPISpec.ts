@@ -1,8 +1,8 @@
 import { createDocument, oas31 } from "zod-openapi";
 
-import { accountHistoryOpenAPIPath } from "~/app/api/account/history/schema";
-import { accountStateOpenAPIPath } from "~/app/api/account/state/schema";
-import { accountStateTokensOpenAPIPath } from "~/app/api/account/state/tokens/schema";
+import { accountHistoryOpenAPIPath } from "~/app/api/[chainId]/account/[accountId]/history/schema";
+import { accountStateOpenAPIPath } from "~/app/api/[chainId]/account/[accountId]/state/schema";
+import { accountStateTokensOpenAPIPath } from "~/app/api/[chainId]/account/[accountId]/state/tokens/schema";
 import { addressEncodeOpenAPIPath } from "~/app/api/address/encode/schema";
 import { addressValidateOpenAPIPath } from "~/app/api/address/validate/schema";
 import { chainsChainIdOpenAPIPath } from "~/app/api/chains/[chainId]/schema";

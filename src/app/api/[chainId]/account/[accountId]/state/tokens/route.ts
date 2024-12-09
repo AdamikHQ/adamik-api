@@ -2,16 +2,16 @@ import { getService } from "~/app/config/services";
 import { isTokenService } from "~/app/model/service";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
-import { queryParamsSchema, requestSchema, responseSchema } from "./schema";
+import { pathParamsSchema, queryParamsSchema, responseSchema } from "./schema";
 
-export const POST = apiHandler(
+export const GET = apiHandler(
   {
-    requestSchema,
     responseSchema,
+    pathParamsSchema,
     queryParamsSchema,
   },
-  async ({ body, queryParams }) => {
-    const { chainId, accountId } = body;
+  async ({ pathParams, queryParams }) => {
+    const { chainId, accountId } = pathParams;
     const paginationToken = queryParams.nextPage;
 
     const service = getService(chainId);

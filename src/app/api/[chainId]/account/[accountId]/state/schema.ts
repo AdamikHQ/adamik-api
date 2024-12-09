@@ -1,8 +1,13 @@
 import z from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
-import { bigintToStringSchema, chainIdSchemaParams, tokenSchema } from "~/app/api/schemaCommon";
+import {
+  accountIdSchema,
+  bigintToStringSchema,
+  getSupportedChainIdsSchema,
+  tokenSchema,
+} from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, StakingStatus } from "~/app/model/types_WIP";
+import { StakingStatus } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
@@ -15,13 +20,9 @@ const supportedChainIds = Object.values(CHAINS)
   )
   .map((chain) => chain.id);
 
-const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
-
 const pathParamsSchema = z.object({
-  chainId: supportedChainIdsSchema,
-  accountId: z.string().openapi({
-    description: "Account identifier (address, xpub, etc) for the specified chain ID",
-  }),
+  chainId: getSupportedChainIdsSchema(supportedChainIds),
+  accountId: accountIdSchema,
 });
 
 const includeValues: readonly string[] = ["native", "tokens", "staking"] as const;
@@ -45,7 +46,7 @@ const queryParamsSchema = z.object({
 });
 
 const responseSchema = z.object({
-  chainId: supportedChainIdsSchema,
+  chainId: getSupportedChainIdsSchema(supportedChainIds),
   accountId: z.string(),
   balances: z.object({
     native: z

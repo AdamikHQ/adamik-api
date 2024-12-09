@@ -1,13 +1,13 @@
 import z from "zod";
 import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
 import {
-  chainIdSchemaParams,
+  accountIdSchema,
   finalizedTransactionSchema,
+  getSupportedChainIdsSchema,
   paginatedResponseSchema,
   paginationQueryParamsSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
@@ -20,27 +20,10 @@ const supportedChainIds = Object.values(CHAINS)
   )
   .map((chain) => chain.id);
 
-const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
-
-const requestSchema = z
-  .object({
-    chainId: supportedChainIdsSchema,
-    accountId: z.string().openapi({
-      description: "Account identifier (address, xpub, etc) for the specified chain ID",
-    }),
-  })
-  .openapi({
-    examples: [
-      {
-        chainId: ChainId.ETHEREUM,
-        accountId: "0x0000000000000000000000000000000000000000",
-      },
-      {
-        chainId: ChainId.BITCOIN,
-        accountId: "xpub",
-      },
-    ],
-  });
+const pathParamsSchema = z.object({
+  chainId: getSupportedChainIdsSchema(supportedChainIds),
+  accountId: accountIdSchema,
+});
 
 // NOTE Need to manually add new modes here, when they start being supported
 const includeValues = ["parsed", "raw"] as const;
@@ -90,7 +73,7 @@ const queryParamsSchema = paginationQueryParamsSchema.merge(
 
 const responseSchema = z
   .object({
-    chainId: supportedChainIdsSchema,
+    chainId: getSupportedChainIdsSchema(supportedChainIds),
     accountId: z.string(),
     transactions: finalizedTransactionSchema.array(),
     //status: statusSchema, TODO Should all endpoints have a status?
@@ -98,19 +81,15 @@ const responseSchema = z
   .merge(paginatedResponseSchema);
 
 const accountHistoryOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/account/history": {
-    post: {
+  "/api/{chainId}/account/{accountId}/history": {
+    get: {
       tags: ["account"],
       summary: "Retrieve an account's history",
       description:
         "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
       requestParams: {
+        path: pathParamsSchema,
         query: queryParamsSchema,
-      },
-      requestBody: {
-        content: {
-          "application/json": { schema: requestSchema },
-        },
       },
       responses: {
         "200": {
@@ -125,4 +104,4 @@ const accountHistoryOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { accountHistoryOpenAPIPath, queryParamsSchema, requestSchema, responseSchema };
+export { accountHistoryOpenAPIPath, pathParamsSchema, queryParamsSchema, responseSchema };

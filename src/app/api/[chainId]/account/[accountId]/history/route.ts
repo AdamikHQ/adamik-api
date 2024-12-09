@@ -2,16 +2,16 @@ import { getService } from "~/app/config/services";
 import { ApiRequestFilters } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { UserInputError } from "~/app/tools/handlers/errors";
-import { queryParamsSchema, requestSchema, responseSchema } from "./schema";
+import { pathParamsSchema, queryParamsSchema, responseSchema } from "./schema";
 
-export const POST = apiHandler(
+export const GET = apiHandler(
   {
-    requestSchema,
+    pathParamsSchema,
     responseSchema,
     queryParamsSchema,
   },
-  async ({ body, queryParams }) => {
-    const { chainId, accountId } = body;
+  async ({ pathParams, queryParams }) => {
+    const { chainId, accountId } = pathParams;
 
     // Parse supported query params like : /.../...?include=parsed,raw
     // to build an ApiRequestFilters object like : { parsed?: true, raw?: true }

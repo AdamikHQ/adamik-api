@@ -35,6 +35,10 @@ const stringOrNumToBigintSchema = z
 // Used for output conversion, to allow for bigints to always be returned as strings
 const bigintToStringSchema = z.bigint().pipe(z.coerce.string());
 
+const accountIdSchema = z.string().openapi({
+  description: "Account identifier (address, xpub, etc) for the specified chain ID",
+});
+
 const chainIdSchemaParams: z.RawCreateParams = {
   errorMap: (issue, ctx) => {
     if (issue.code === z.ZodIssueCode.invalid_enum_value) {
@@ -51,6 +55,9 @@ const chainIdSchema = z.nativeEnum(ChainId, chainIdSchemaParams).openapi({
   example: ChainId.BITCOIN,
   ref: "ChainId",
 });
+
+const getSupportedChainIdsSchema = (supportedChainIds: ChainId[]) =>
+  z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
 
 const errorMsgSchema = z.object({
   message: z.string(),
@@ -432,6 +439,7 @@ const paginatedResponseSchema = z.object({
 });
 
 export {
+  accountIdSchema,
   bigintToStringSchema,
   chainIdSchema,
   chainIdSchemaParams,
@@ -439,6 +447,7 @@ export {
   checkEitherAmountOrUseMaxAmount,
   encodedTransactionSchema,
   finalizedTransactionSchema,
+  getSupportedChainIdsSchema,
   inputTransactionDataSchema,
   outputTransactionDataSchema,
   paginatedResponseSchema,
