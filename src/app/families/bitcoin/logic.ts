@@ -95,4 +95,44 @@ function getCurrentBlockHeight(
   return responseContext.state;
 }
 
-export { getCurrentBlockHeight, getNetworkForChainId, isValidAddress, isValidXpub };
+/**
+ * Determines if a script is a witness program (P2WPKH, P2WSH, or P2TR)
+ * @param scriptHex - The script in hex format
+ * @returns boolean indicating if the script is a witness program
+ */
+function isWitnessScript(scriptHex: string): boolean {
+  const script = Buffer.from(scriptHex, "hex");
+
+  // Witness program: version 0 (P2WPKH/P2WSH) or version 1 (P2TR)
+  // Format: OP_n (version) followed by a push of 20 or 32 bytes
+  if (script.length === 22 && script[0] === 0x00 && script[1] === 0x14) {
+    return true; // P2WPKH
+  }
+  if (script.length === 34 && script[0] === 0x00 && script[1] === 0x20) {
+    return true; // P2WSH
+  }
+  if (script.length === 34 && script[0] === 0x51 && script[1] === 0x20) {
+    return true; // P2TR (Taproot)
+  }
+
+  return false;
+}
+
+/**
+ * Detects if a script is a Pay-to-Script-Hash (P2SH) type
+ * @param scriptHex - The script in hex format
+ * @returns boolean indicating if the script is P2SH
+ */
+function isP2SHScript(scriptHex: string): boolean {
+  const script = Buffer.from(scriptHex, "hex");
+  return script.length === 23 && script[0] === 0xa9 && script[1] === 0x14 && script[22] === 0x87;
+}
+
+export {
+  getCurrentBlockHeight,
+  getNetworkForChainId,
+  isP2SHScript,
+  isValidAddress,
+  isValidXpub,
+  isWitnessScript,
+};

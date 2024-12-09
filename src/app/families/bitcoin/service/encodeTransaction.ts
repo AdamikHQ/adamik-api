@@ -2,7 +2,7 @@ import { Psbt } from "bitcoinjs-lib";
 import { Status, Transaction } from "~/app/model/types_WIP";
 import { AdamikApiServerError } from "~/app/tools/handlers/errors";
 import { fetchBatchTransactionMetadata, fetchRawTransactionMetadata } from "../backend/explorer";
-import { getNetworkForChainId } from "../logic";
+import { getNetworkForChainId, isP2SHScript, isWitnessScript } from "../logic";
 import { BitcoinService } from "../service";
 import { BitcoinTransactionParams } from "../types";
 
@@ -43,7 +43,7 @@ async function encodeTransactionToSign(
             value,
           },
         });
-      } else if (isP2SH(outputScript)) {
+      } else if (isP2SHScript(outputScript)) {
         // Keep P2SH case separate as we might need special handling in the future:
         // - Detecting P2SH-wrapped SegWit programs
         // - Handling specific redeem script requirements
@@ -71,7 +71,7 @@ async function encodeTransactionToSign(
             nonWitnessUtxo: Buffer.from(rawTxData.data[input.transaction_hash].raw_transaction, "hex"),
           };
 
-          if (isP2SH(outputScript)) {
+          if (isP2SHScript(outputScript)) {
             const decodedTx = rawTxData.data[input.transaction_hash].decoded_raw_transaction;
             const scriptSigHex = decodedTx?.vin?.[input.index]?.scriptSig?.hex;
 
@@ -122,7 +122,7 @@ async function encodeTransactionToSign(
             nonWitnessUtxo: Buffer.from(rawTxData.data[input.transaction_hash].raw_transaction, "hex"),
           };
 
-          if (isP2SH(outputScript)) {
+          if (isP2SHScript(outputScript)) {
             const decodedTx = rawTxData.data[input.transaction_hash].decoded_raw_transaction;
             const scriptSigHex = decodedTx?.vin?.[input.index]?.scriptSig?.hex;
 
@@ -179,31 +179,6 @@ async function encodeTransactionToBroadcast(
   }
 
   return signedTransaction.signature;
-}
-
-// Helper function to determine if a script is a witness program
-function isWitnessScript(scriptHex: string): boolean {
-  const script = Buffer.from(scriptHex, "hex");
-
-  // Witness program: version 0 (P2WPKH/P2WSH) or version 1 (P2TR)
-  // Format: OP_n (version) followed by a push of 20 or 32 bytes
-  if (script.length === 22 && script[0] === 0x00 && script[1] === 0x14) {
-    return true; // P2WPKH
-  }
-  if (script.length === 34 && script[0] === 0x00 && script[1] === 0x20) {
-    return true; // P2WSH
-  }
-  if (script.length === 34 && script[0] === 0x51 && script[1] === 0x20) {
-    return true; // P2TR (Taproot)
-  }
-
-  return false;
-}
-
-// Helper function to detect P2SH scripts
-function isP2SH(scriptHex: string): boolean {
-  const script = Buffer.from(scriptHex, "hex");
-  return script.length === 23 && script[0] === 0xa9 && script[1] === 0x14 && script[22] === 0x87;
 }
 
 export { encodeTransactionToBroadcast, encodeTransactionToSign };
