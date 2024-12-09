@@ -419,8 +419,7 @@ const finalizedTransactionSchema = z.object({
 const paginationQueryParamsSchema = z.object({
   nextPage: z.string().optional().openapi({
     description:
-      "Token that is provided in a previous response from this endpoint. \
-    Just provide it here to get the next page of results from the endpoint",
+      "Token from the previous response of this endpoint. Provide it here to fetch the next page of results.",
   }),
 });
 

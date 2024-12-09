@@ -21,6 +21,11 @@ type AlgoAccount = {
   assetAmounts: AlgoAssetAmount[];
 };
 
+type AlgoAccountAsset = {
+  assetHolding: AlgoAssetAmount;
+  assetParams: AlgoAsset;
+};
+
 type AlgoTransactionParams = {
   fee: number;
   minFee: number;
@@ -63,6 +68,7 @@ type AlgoTransaction = {
 
 export type {
   AlgoAccount,
+  AlgoAccountAsset,
   AlgoAsset,
   AlgoAssetAmount,
   AlgoTransaction,

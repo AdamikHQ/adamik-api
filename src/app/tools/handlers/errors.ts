@@ -9,6 +9,29 @@ export abstract class AdamikHttpError extends Error {
   }
 }
 
+// FIXME Should this make the distinction with UnsupportedFeatureError ?
+/*
+export class NotImplementedError extends AdamikHttpError {
+  name = "NotImplementedError";
+  statusText = "Not implemented";
+  status = 500;
+
+  constructor(message: string) {
+    super(message);
+  }
+}
+*/
+
+export class ThirdPartyProviderError extends AdamikHttpError {
+  name = "ThirdPartyProviderError";
+  statusText = "Third Party Provider Error";
+  status = 500;
+
+  constructor(message?: string) {
+    super(message);
+  }
+}
+
 /**
  * This error should be the one used most of the time. Consider creating a custom error when reusing the same error message or statusText
  */
@@ -59,7 +82,7 @@ export class UnsupportedTokenIDError extends UserInputError {
   statusText = "Unsupported tokenId";
 
   constructor(tokenId: any, chainId: ChainId) {
-    super(`Token ID ${tokenId} is not supported for chain ID ${chainId}`);
+    super(`Token ID '${tokenId}' is not supported for chain ID ${chainId}`);
   }
 }
 

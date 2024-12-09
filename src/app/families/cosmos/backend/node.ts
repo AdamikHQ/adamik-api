@@ -10,7 +10,7 @@ import {
   TokenStakingReward,
   TokenType,
 } from "~/app/model/types_WIP";
-import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
+import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "../../common";
 import { CosmosChainParams, IBCToken } from "../types";
 import {
@@ -227,18 +227,19 @@ async function fetchValidators(
   chainId: ChainId,
   paginationToken?: string
 ): Promise<{ validators: CosmosValidator[]; nextPage: string | null }> {
-  const paginationData = paginationFromB64(paginationToken);
-  if (paginationData && typeof paginationData !== "string") {
-    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
-  }
-
   const chainParams = CHAINS[chainId].params as CosmosChainParams;
   const chainIdForValidators = chainParams.isICS ? ChainId.COSMOSHUB : chainId;
 
   const url = new URL(`${getNodeRootUrl(chainIdForValidators)}/cosmos/staking/v1beta1/validators`);
 
+  const paginationData = paginationFromB64(paginationToken);
+
   if (paginationData) {
-    url.searchParams.set("pagination.key", paginationData);
+    if (typeof paginationData === "string") {
+      url.searchParams.set("pagination.key", paginationData);
+    } else {
+      throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+    }
   }
 
   const response = await fetchWithHeaders(url.toString()).then((response) => response.json());
@@ -249,7 +250,7 @@ async function fetchValidators(
 
   if (!Array.isArray(response?.validators)) {
     console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
-    throw new Error(`Error while fetching ${chainId} validators from the node`);
+    throw new ThirdPartyProviderError(`Error while fetching ${chainId} validators from the node`);
   }
 
   return {
@@ -290,7 +291,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
     }
   } catch (e) {
     console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
-    throw new Error(`Error while fetching ${chainId} account info from the node`);
+    throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
   }
 
   return account;
@@ -316,7 +317,7 @@ async function fetchNetworkId(chainId: ChainId): Promise<CosmosChainId> {
   const data = await fetchWithHeaders(url).then((response) => response.json());
   if (!data?.default_node_info?.network) {
     console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
-    throw new Error(`Error while fetching ${chainId} network ID from the node`);
+    throw new ThirdPartyProviderError(`Error while fetching ${chainId} network ID from the node`);
   }
 
   return data.default_node_info.network;
@@ -333,7 +334,7 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
 
   if (!data?.gas_info?.gas_used) {
     console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
-    throw new Error("Error while getting gas estimate from the node");
+    throw new ThirdPartyProviderError("Error while getting gas estimate from the node");
   }
 
   return BigInt(data.gas_info.gas_used);
@@ -355,7 +356,7 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
     }, message: '${data?.tx_response?.raw_log || ""}')`;
 
     console.warn("/!\\ " + errorMessage);
-    throw new Error(errorMessage);
+    throw new ThirdPartyProviderError(errorMessage);
   }
 
   return data.tx_response.txhash;

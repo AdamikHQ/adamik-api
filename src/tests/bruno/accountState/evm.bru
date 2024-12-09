@@ -1,7 +1,7 @@
 meta {
   name: ethereum
   type: http
-  seq: 4
+  seq: 2
 }
 
 post {
@@ -22,4 +22,5 @@ assert {
   res.body.balances.tokens: isArray
   res.body.balances.native.total: eq "46060970215113869"
   res.body.balances.native.available: eq "46060970215113869"
+  res.status: eq 200
 }
