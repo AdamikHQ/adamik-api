@@ -19,10 +19,11 @@ body:json {
     "transaction": {
       "data":   {
         "mode": "transfer",
-        "chainId": "sepolia",
-        "sender": "0xd9Cf97a8Eb01d27B1f5A8809273137d92758C312",
-        "recipient": "0xd9Cf97a8Eb01d27B1f5A8809273137d92758C312",
-        "amount": "1000",
+        "chainId": "arbitrum",
+        "tokenId": "",
+        "recipient": "0x8bc6922Eb94e4858efaF9F433c35Bc241F69e8a6",
+        "sender": "0x8bc6922eb94e4858efaf9f433c35bc241f69e8a6",
+        "amount": "1000000000000000",
         "useMaxAmount": false
       }
     }
@@ -31,5 +32,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.transaction.encoded: eq "0x02ec83aa36a780830f42408502945a320982520894d9cf97a8eb01d27b1f5a8809273137d92758c3128203e880c0"
+  res.body.transaction.encoded: eq "0x02ee01028393cd8a85076bf98862825208948bc6922eb94e4858efaf9f433c35bc241f69e8a687038d7ea4c6800080c0"
 }
