@@ -1,6 +1,10 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema } from "../../../schemaCommon";
+import { chainIdSchema } from "~/app/api/schemaCommon";
+
+const pathParamsSchema = z.object({
+  chainId: chainIdSchema,
+});
 
 const requestSchema = z.object({
   chainId: chainIdSchema,
@@ -12,7 +16,7 @@ const responseSchema = z.object({
 });
 
 const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/transaction/broadcast/raw": {
+  "/api/{chainId}/transaction/broadcast/raw": {
     post: {
       tags: ["transaction"],
       summary: "Broadcast a signed transaction (raw format)",
@@ -20,6 +24,9 @@ const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
         "Broadcasts a signed transaction to the blockchain in raw format. \
         Unlike the standard broadcast, which builds the broadcast payload for you, this endpoint requires the final payload, ready for submission. \
         Returns the transaction receipt (hash) or error details in case of failure.",
+      requestParams: {
+        path: pathParamsSchema,
+      },
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -37,4 +44,4 @@ const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, transactionBroadcastOpenAPIPath };
+export { pathParamsSchema, requestSchema, responseSchema, transactionBroadcastOpenAPIPath };

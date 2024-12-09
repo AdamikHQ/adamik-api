@@ -2,17 +2,18 @@ import { getService } from "~/app/config/services";
 import { Transaction } from "~/app/model/types_WIP";
 import { apiHandler, statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
-import { requestSchema, responseSchema } from "./schema";
+import { pathParamsSchema, requestSchema, responseSchema } from "./schema";
 
 export const POST = apiHandler(
   {
+    pathParamsSchema,
     requestSchema,
     responseSchema,
   },
-  async ({ body }) => {
+  async ({ pathParams, body }) => {
+    const { chainId } = pathParams;
     const transaction: Transaction = body.transaction;
 
-    const chainId = transaction.data.chainId;
     const service = getService(chainId);
 
     const broadcastPayload = await (async () => {

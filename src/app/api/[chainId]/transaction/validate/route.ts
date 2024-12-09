@@ -2,17 +2,19 @@ import { getService } from "~/app/config/services";
 import { Status, Transaction, TransactionData } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
-import { requestSchema, responseSchema } from "./schema";
+import { pathParamsSchema, requestSchema, responseSchema } from "./schema";
 
 export const POST = apiHandler(
   {
     requestSchema,
+    pathParamsSchema,
     responseSchema,
   },
-  async ({ body }) => {
+  async ({ pathParams, body }) => {
+    const { chainId } = pathParams;
     const transactionData: TransactionData = body.transaction.data;
 
-    const service = getService(transactionData.chainId);
+    const service = getService(chainId);
 
     let transaction: Transaction = {
       data: transactionData,

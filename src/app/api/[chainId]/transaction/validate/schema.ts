@@ -1,10 +1,15 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
+  chainIdSchema,
   checkEitherAmountOrUseMaxAmount,
   inputTransactionDataSchema,
   statusSchema,
 } from "~/app/api/schemaCommon";
+
+const pathParamsSchema = z.object({
+  chainId: chainIdSchema,
+});
 
 const requestSchema = z.object({
   transaction: inputTransactionDataSchema
@@ -17,12 +22,15 @@ const responseSchema = z.object({
 });
 
 const transactionValidateOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/transaction/validate": {
+  "/api/{chainId}/transaction/validate": {
     post: {
       tags: ["transaction"],
       summary: "Validate a transaction",
       description:
         "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
+      requestParams: {
+        path: pathParamsSchema,
+      },
       requestBody: {
         content: {
           "application/json": { schema: requestSchema },
@@ -41,4 +49,4 @@ const transactionValidateOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { requestSchema, responseSchema, transactionValidateOpenAPIPath };
+export { pathParamsSchema, requestSchema, responseSchema, transactionValidateOpenAPIPath };
