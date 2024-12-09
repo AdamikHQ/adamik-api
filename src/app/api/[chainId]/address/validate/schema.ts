@@ -16,7 +16,7 @@ const responseSchema = z.object({
 });
 
 const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/address/validate": {
+  "/api/{chainId}/address/validate": {
     post: {
       tags: ["address"],
       summary: "Validate an address",

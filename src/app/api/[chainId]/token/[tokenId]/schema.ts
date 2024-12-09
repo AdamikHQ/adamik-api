@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchemaParams, tokenSchema } from "~/app/api/schemaCommon";
+import { getSupportedChainIdsSchema, tokenSchema } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
@@ -10,19 +9,18 @@ const supportedChainIds = Object.values(CHAINS)
   .filter((chain) => chain.supportedFeatures.read.token)
   .map((chain) => chain.id);
 
-const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
-
 const pathParamsSchema = z.object({
-  chainId: supportedChainIdsSchema,
+  chainId: getSupportedChainIdsSchema(supportedChainIds),
   tokenId: z.string().openapi({
     description: "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
     examples: ["0xdAC17F958D2ee523a2206206994597C13D831ec7"],
   }),
 });
+
 const responseSchema = tokenSchema;
 
-const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/chains/{chainId}/token/{tokenId}": {
+const tokenOpenAPIPath: ZodOpenApiPathsObject = {
+  "/api/{chainId}/token/{tokenId}": {
     get: {
       tags: ["chains"],
       summary: "Retrieve details of one token",
@@ -44,4 +42,4 @@ const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { chainsChainIdTokenTokenIdOpenAPIPath, pathParamsSchema, responseSchema };
+export { pathParamsSchema, responseSchema, tokenOpenAPIPath };

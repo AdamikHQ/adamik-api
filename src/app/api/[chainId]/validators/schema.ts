@@ -1,28 +1,25 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
-  chainIdSchemaParams,
+  getSupportedChainIdsSchema,
   paginatedResponseSchema,
   paginationQueryParamsSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId } from "~/app/model/types_WIP";
 
 const supportedChainIds = Object.values(CHAINS)
   .filter((chain) => chain.supportedFeatures.read.validators)
   .map((chain) => chain.id);
 
-const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
-
 const pathParamsSchema = z.object({
-  chainId: supportedChainIdsSchema,
+  chainId: getSupportedChainIdsSchema(supportedChainIds),
 });
 
 const queryParamsSchema = paginationQueryParamsSchema;
 
 const responseSchema = z
   .object({
-    chainId: supportedChainIdsSchema,
+    chainId: getSupportedChainIdsSchema(supportedChainIds),
     validators: z
       .object({
         address: z.string(),
@@ -33,8 +30,8 @@ const responseSchema = z
   })
   .merge(paginatedResponseSchema);
 
-const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/chains/{chainId}/validators": {
+const validatorsOpenAPIPath: ZodOpenApiPathsObject = {
+  "/api/{chainId}/validators": {
     get: {
       tags: ["chains"],
       summary: "Retrieve the list of existing validators",
@@ -57,4 +54,4 @@ const chainsChainIdValidatorsOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { chainsChainIdValidatorsOpenAPIPath, pathParamsSchema, queryParamsSchema, responseSchema };
+export { pathParamsSchema, queryParamsSchema, responseSchema, validatorsOpenAPIPath };

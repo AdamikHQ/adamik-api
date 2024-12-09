@@ -22,7 +22,7 @@ const responseSchema = z.object({
 });
 
 const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/address/encode": {
+  "/api/{chainId}/address/encode": {
     post: {
       tags: ["address"],
       summary: "Get addresses from a public key",

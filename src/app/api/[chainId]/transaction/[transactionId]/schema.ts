@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchemaParams, finalizedTransactionSchema, statusSchema } from "~/app/api/schemaCommon";
+import { finalizedTransactionSchema, getSupportedChainIdsSchema, statusSchema } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId } from "~/app/model/types_WIP";
 
 extendZodWithOpenApi(z);
 
@@ -15,10 +14,8 @@ const supportedChainIds = Object.values(CHAINS)
   )
   .map((chain) => chain.id);
 
-const supportedChainIdsSchema = z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
-
 const pathParamsSchema = z.object({
-  chainId: supportedChainIdsSchema,
+  chainId: getSupportedChainIdsSchema(supportedChainIds),
   transactionId: z.string().openapi({
     description: "Transaction ID. Usually a hash but can be different depending on the chain.",
     examples: ["559c1be45865069c6070529e43c69752d73438cbb1d04e4f301e94cd68bf7422"],
@@ -51,8 +48,8 @@ const queryParamsSchema = z.object({
 
 const responseSchema = z.object({ transaction: finalizedTransactionSchema, status: statusSchema });
 
-const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/chains/{chainId}/transaction/{transactionId}": {
+const transactionOpenAPIPath: ZodOpenApiPathsObject = {
+  "/api/{chainId}/transaction/{transactionId}": {
     get: {
       tags: ["chains"],
       summary: "Retrieve details of one transaction",
@@ -75,9 +72,4 @@ const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = 
   },
 };
 
-export {
-  chainsChainIdTransactionTransactionIdOpenAPIPath,
-  pathParamsSchema,
-  queryParamsSchema,
-  responseSchema,
-};
+export { pathParamsSchema, queryParamsSchema, responseSchema, transactionOpenAPIPath };
