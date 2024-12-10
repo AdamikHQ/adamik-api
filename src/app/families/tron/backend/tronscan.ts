@@ -42,13 +42,13 @@ async function fetchWithRetry<T>(url: string, retryCount = 0): Promise<T> {
 }
 
 async function fetchTransaction(transactionId: string): Promise<TronscanTransactionInfo> {
-  const url = `${CHAINS.tron.backends["explorerURL"]}/api/transaction-info?hash=${transactionId}`;
+  const url = `${CHAINS.tron.backends.explorerURL}/api/transaction-info?hash=${transactionId}`;
 
   return await fetchWithRetry<TronscanTransactionInfo>(url);
 }
 
 async function fetchAccountData(address: string): Promise<TronscanAccountInfo> {
-  const url = `${CHAINS.tron.backends["explorerURL"]}/api/accountv2?address=${address}`;
+  const url = `${CHAINS.tron.backends.explorerURL}/api/accountv2?address=${address}`;
 
   return await fetchWithRetry<TronscanAccountInfo>(url);
 }
@@ -75,7 +75,7 @@ async function fetchAccountTokensData(
     }
   }
 
-  const url = `${CHAINS.tron.backends["explorerURL"]}/api/account/tokens?${searchParams}`;
+  const url = `${CHAINS.tron.backends.explorerURL}/api/account/tokens?${searchParams}`;
 
   const tokensInfo = await fetchWithRetry<TronscanAccountTokensInfo>(url);
 
