@@ -58,7 +58,7 @@ const responseSchema = z
 const accountStateTokensOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/account/state/tokens": {
     post: {
-      tags: ["account"],
+      tags: ["Account"],
       summary: "Get Account Tokens (paginated)",
       description:
         "Returns the tokens (amount and details) held by a specified account identifier and chain ID. This endpoint allows for pagination over the returned tokens.",

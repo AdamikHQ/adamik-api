@@ -100,7 +100,7 @@ const responseSchema = z
 const accountHistoryOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/account/history": {
     post: {
-      tags: ["account"],
+      tags: ["Account"],
       summary: "Get Account History",
       description:
         "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
