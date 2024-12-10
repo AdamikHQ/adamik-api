@@ -155,7 +155,7 @@ const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/account/state": {
     post: {
       tags: ["account"],
-      summary: "Retrieve an account's state",
+      summary: "Get Account State (Balances)",
       description:
         "Returns the state of a specified account identifier (address or xpub) and chain ID, focusing on balance information. The response includes details on native asset balances, token balances, and staking balances. This endpoint supports optional filters to refine the results, making it essential for wallet applications to display accurate and tailored account information.",
       requestParams: {
