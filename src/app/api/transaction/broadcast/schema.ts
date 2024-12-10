@@ -21,7 +21,7 @@ const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/broadcast": {
     post: {
       tags: ["transaction"],
-      summary: "Broadcast a signed transaction",
+      summary: "Broadcast Transaction",
       description:
         "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
       requestBody: {

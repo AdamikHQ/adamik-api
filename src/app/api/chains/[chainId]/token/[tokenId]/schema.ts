@@ -25,7 +25,7 @@ const chainsChainIdTokenTokenIdOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}/token/{tokenId}": {
     get: {
       tags: ["chains"],
-      summary: "Retrieve details of one token",
+      summary: "Get Token Details",
       description:
         "Retrieves detailed information about a specific token for a blockchain network, identified by chain ID and token ID.",
       requestParams: {
