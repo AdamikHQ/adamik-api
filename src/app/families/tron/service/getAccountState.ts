@@ -7,7 +7,7 @@ async function getAccountState(this: TronService, accountId: string): Promise<Ac
   const accountData = await fetchAccountData(accountId);
 
   // Tronscan instability... in rare cases some data seems wrong or missing?...
-  if (!accountData?.balance || !accountData?.withPriceTokens) {
+  if (accountData?.balance === undefined || accountData?.withPriceTokens === undefined) {
     console.warn(`/!\\ Invalid account data from tron explorer:`, accountData);
     throw new ThirdPartyProviderError("Invalid response received from tron explorer");
   }
