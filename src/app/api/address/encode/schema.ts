@@ -21,7 +21,7 @@ const responseSchema = z.object({
 const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/encode": {
     post: {
-      tags: ["address"],
+      tags: ["Address"],
       summary: "Encode an Address",
       description:
         'Encodes the provided public key to one or multiple addresses, for the given chain ID. \

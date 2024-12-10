@@ -14,7 +14,7 @@ const responseSchema = z.object({
 const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/transaction/broadcast/raw": {
     post: {
-      tags: ["transaction"],
+      tags: ["Transaction"],
       summary: "Broadcast Raw Transaction",
       description:
         "Broadcasts a signed transaction to the blockchain in raw format. \

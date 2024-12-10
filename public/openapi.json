@@ -40,7 +40,7 @@
     "/api/address/encode": {
       "post": {
         "tags": [
-          "address"
+          "Address"
         ],
         "summary": "Encode an Address",
         "description": "Encodes the provided public key to one or multiple addresses, for the given chain ID.       Each address is labeled with a type, which may be \"default\" when there is only one address.",
@@ -113,7 +113,7 @@
     "/api/address/validate": {
       "post": {
         "tags": [
-          "address"
+          "Address"
         ],
         "summary": "Validate Address",
         "description": "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
@@ -155,7 +155,7 @@
     "/api/account/state": {
       "post": {
         "tags": [
-          "account"
+          "Account"
         ],
         "summary": "Get Account State (Balances)",
         "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, focusing on balance information. The response includes details on native asset balances, token balances, and staking balances. This endpoint supports optional filters to refine the results, making it essential for wallet applications to display accurate and tailored account information.",
@@ -622,7 +622,7 @@
     "/api/account/state/tokens": {
       "post": {
         "tags": [
-          "account"
+          "Account"
         ],
         "summary": "Get Account Tokens (paginated)",
         "description": "Returns the tokens (amount and details) held by a specified account identifier and chain ID. This endpoint allows for pagination over the returned tokens.",
@@ -912,7 +912,7 @@
     "/api/account/history": {
       "post": {
         "tags": [
-          "account"
+          "Account"
         ],
         "summary": "Get Account History",
         "description": "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
@@ -1261,7 +1261,7 @@
     "/api/chains": {
       "get": {
         "tags": [
-          "chains"
+          "Chain"
         ],
         "summary": "Get Supported Chains",
         "description": "Retrieves a list of all supported blockchain networks with their detailed information.",
@@ -5100,7 +5100,7 @@
     "/api/chains/{chainId}": {
       "get": {
         "tags": [
-          "chains"
+          "Chain"
         ],
         "summary": "Get Chain Details",
         "description": "Retrieves detailed information about a specific blockchain network identified by chain ID.",
@@ -5176,7 +5176,7 @@
     "/api/chains/{chainId}/token/{tokenId}": {
       "get": {
         "tags": [
-          "chains"
+          "Chain"
         ],
         "summary": "Get Token Details",
         "description": "Retrieves detailed information about a specific token for a blockchain network, identified by chain ID and token ID.",
@@ -5326,7 +5326,7 @@
     "/api/chains/{chainId}/transaction/{transactionId}": {
       "get": {
         "tags": [
-          "chains"
+          "Chain"
         ],
         "summary": "Get Transaction Details",
         "description": "Retrieves detailed information about a specific transaction for a blockchain network, identified by chain ID and transaction ID.",
@@ -5638,7 +5638,7 @@
     "/api/chains/{chainId}/validators": {
       "get": {
         "tags": [
-          "chains"
+          "Chain"
         ],
         "summary": "Get Chain Validators",
         "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Useful for delegation operations on proof-of-stake blockchains.",
@@ -5818,7 +5818,7 @@
     "/api/transaction/broadcast": {
       "post": {
         "tags": [
-          "transaction"
+          "Transaction"
         ],
         "summary": "Broadcast Transaction",
         "description": "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
@@ -6615,7 +6615,7 @@
     "/api/transaction/broadcast/raw": {
       "post": {
         "tags": [
-          "transaction"
+          "Transaction"
         ],
         "summary": "Broadcast Raw Transaction",
         "description": "Broadcasts a signed transaction to the blockchain in raw format.         Unlike the standard broadcast, which builds the broadcast payload for you, this endpoint requires the final payload, ready for submission.         Returns the transaction receipt (hash) or error details in case of failure.",
@@ -6662,7 +6662,7 @@
     "/api/transaction/encode": {
       "post": {
         "tags": [
-          "transaction"
+          "Transaction"
         ],
         "summary": "Encode a Transaction",
         "description": "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.        It also completes the input transaction with computed data, such as fees and max spendable amount, and performs some chain-specific validation checks on the transaction.",
@@ -7815,7 +7815,7 @@
     "/api/transaction/validate": {
       "post": {
         "tags": [
-          "transaction"
+          "Transaction"
         ],
         "summary": "Validate Transaction",
         "description": "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
