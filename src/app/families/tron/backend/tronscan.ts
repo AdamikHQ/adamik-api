@@ -24,7 +24,7 @@ async function fetchWithRetry<T>(url: string, retryCount = 0): Promise<T> {
     if (retryCount < MAX_RETRIES) {
       console.warn(`Retrying Tronscan API call (attempt ${retryCount + 1}/${MAX_RETRIES + 1})...`);
       await delay(RETRY_DELAY);
-      return fetchWithRetry(url, retryCount + 1);
+      return await fetchWithRetry(url, retryCount + 1);
     } else {
       console.warn(`/!\\ Invalid response from tron explorer endpoint: ${url.toString()}:`, response);
       throw new ThirdPartyProviderError("Invalid response received from tron explorer");
@@ -33,7 +33,7 @@ async function fetchWithRetry<T>(url: string, retryCount = 0): Promise<T> {
     if (retryCount < MAX_RETRIES) {
       console.warn(`Retrying Tronscan API call (attempt ${retryCount + 1}/${MAX_RETRIES + 1})...`);
       await delay(RETRY_DELAY);
-      return fetchWithRetry(url, retryCount + 1);
+      return await fetchWithRetry(url, retryCount + 1);
     } else {
       console.warn(`/!\\ Error received from tron explorer endpoint: ${url.toString()}:`, error);
       throw new ThirdPartyProviderError("Error received from tron explorer");
@@ -44,13 +44,13 @@ async function fetchWithRetry<T>(url: string, retryCount = 0): Promise<T> {
 async function fetchTransaction(transactionId: string): Promise<TronscanTransactionInfo> {
   const url = `${CHAINS.tron.backends["explorerURL"]}/api/transaction-info?hash=${transactionId}`;
 
-  return fetchWithRetry<TronscanTransactionInfo>(url);
+  return await fetchWithRetry<TronscanTransactionInfo>(url);
 }
 
 async function fetchAccountData(address: string): Promise<TronscanAccountInfo> {
   const url = `${CHAINS.tron.backends["explorerURL"]}/api/accountv2?address=${address}`;
 
-  return fetchWithRetry<TronscanAccountInfo>(url);
+  return await fetchWithRetry<TronscanAccountInfo>(url);
 }
 
 // TODO Test this
