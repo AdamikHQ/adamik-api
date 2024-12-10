@@ -12,7 +12,7 @@ const responseSchema = z.boolean();
 const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/address/validate": {
     post: {
-      tags: ["address"],
+      tags: ["Address"],
       summary: "Validate Address",
       description:
         "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",

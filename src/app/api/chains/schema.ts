@@ -9,7 +9,7 @@ const responseSchema = z.object({
 const chainsOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains": {
     get: {
-      tags: ["chains"],
+      tags: ["Chain"],
       summary: "Get Supported Chains",
       description: "Retrieves a list of all supported blockchain networks with their detailed information.",
       responses: {

@@ -54,7 +54,7 @@ const responseSchema = z.object({ transaction: finalizedTransactionSchema, statu
 const chainsChainIdTransactionTransactionIdOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}/transaction/{transactionId}": {
     get: {
-      tags: ["chains"],
+      tags: ["Chain"],
       summary: "Get Transaction Details",
       description:
         "Retrieves detailed information about a specific transaction for a blockchain network, identified by chain ID and transaction ID.",
