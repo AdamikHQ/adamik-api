@@ -1,37 +1,37 @@
 import { AccountState, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { fetchAccountData } from "../backend/tronscan";
 import { TronService } from "../service";
 
 async function getAccountState(this: TronService, accountId: string): Promise<AccountState> {
-  const accountInfo = await fetchAccountData(accountId);
+  const accountData = await fetchAccountData(accountId);
 
-  const nativeBalance = accountInfo?.balance ? BigInt(accountInfo.balance) : BigInt(0);
+  // Tronscan instability... in rare cases some data seems wrong or missing?...
+  if (!accountData?.balance || !accountData?.withPriceTokens) {
+    console.warn(`/!\\ Invalid account data from tron explorer:`, accountData);
+    throw new ThirdPartyProviderError("Invalid response received from tron explorer");
+  }
 
-  const tokens: TokenAmount[] = accountInfo.withPriceTokens
-    .map((tokenInfo) => {
-      if (tokenInfo.tokenAbbr === "trx") {
-        return null;
-      }
+  const nativeBalance = BigInt(accountData.balance);
 
-      if (tokenInfo.tokenType === "trc10" || tokenInfo.tokenType === "trc20") {
-        return {
-          token: {
-            chainId: this.chainId,
-            type: tokenInfo.tokenType === "trc10" ? TokenType.TRC10 : TokenType.TRC20,
-            id: tokenInfo.tokenId,
-            name: tokenInfo.tokenName,
-            ticker: tokenInfo.tokenAbbr,
-            decimals: tokenInfo.tokenDecimal,
-            contractAddress: tokenInfo.tokenId,
-            logo: tokenInfo.tokenLogo,
-          },
-          amount: BigInt(tokenInfo.balance),
-        };
-      }
-
-      return null;
-    })
-    .filter(Boolean) as TokenAmount[];
+  const tokens: TokenAmount[] = accountData.withPriceTokens
+    .filter(
+      (tokenData) =>
+        (tokenData.tokenType === "trc10" || tokenData.tokenType === "trc20") && tokenData.tokenAbbr !== "trx"
+    )
+    .map((tokenData) => ({
+      token: {
+        chainId: this.chainId,
+        type: tokenData.tokenType === "trc10" ? TokenType.TRC10 : TokenType.TRC20,
+        id: tokenData.tokenId,
+        name: tokenData.tokenName,
+        ticker: tokenData.tokenAbbr,
+        decimals: tokenData.tokenDecimal,
+        contractAddress: tokenData.tokenId,
+        logo: tokenData.tokenLogo,
+      },
+      amount: BigInt(tokenData.balance),
+    }));
 
   return {
     chainId: this.chainId,
