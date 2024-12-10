@@ -155,7 +155,7 @@
     "/api/account/state": {
       "post": {
         "tags": [
-          "account"
+          "Account"
         ],
         "summary": "Get Account State (Balances)",
         "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, focusing on balance information. The response includes details on native asset balances, token balances, and staking balances. This endpoint supports optional filters to refine the results, making it essential for wallet applications to display accurate and tailored account information.",
@@ -622,7 +622,7 @@
     "/api/account/state/tokens": {
       "post": {
         "tags": [
-          "account"
+          "Account"
         ],
         "summary": "Get Account Tokens (paginated)",
         "description": "Returns the tokens (amount and details) held by a specified account identifier and chain ID. This endpoint allows for pagination over the returned tokens.",
@@ -912,7 +912,7 @@
     "/api/account/history": {
       "post": {
         "tags": [
-          "account"
+          "Account"
         ],
         "summary": "Get Account History",
         "description": "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
