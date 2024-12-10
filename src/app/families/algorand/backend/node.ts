@@ -6,7 +6,7 @@ import {
   UnsupportedTokenIDError,
   UserInputError,
 } from "~/app/tools/handlers/errors";
-import { paginationFromB64, paginationToB64 } from "../../common";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/utils";
 import {
   AlgoAccount,
   AlgoAccountAsset,

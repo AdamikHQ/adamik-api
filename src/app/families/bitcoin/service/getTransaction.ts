@@ -1,6 +1,7 @@
 import { CHAINS } from "~/app/config/chains";
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
+import { getUTCTimestamp } from "~/app/tools/utils";
 import { fetchStats, fetchTransaction } from "../backend/explorer";
 import { BitcoinService } from "../service";
 import { BitcoinChainParams } from "../types";
@@ -35,7 +36,7 @@ async function getTransaction(this: BitcoinService, transactionId: string): Prom
     parsedTransaction.state = isTransactionConfirmed
       ? TransactionState.CONFIRMED
       : TransactionState.UNCONFIRMED;
-    parsedTransaction.timestamp = new Date(transactionData.transaction.time).getTime();
+    parsedTransaction.timestamp = getUTCTimestamp(transactionData.transaction.time);
     parsedTransaction.blockHeight = BigInt(transactionData.transaction.block_id);
   }
 

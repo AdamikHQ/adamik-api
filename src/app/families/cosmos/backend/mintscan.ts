@@ -2,7 +2,7 @@ import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
-import { paginationFromB64, paginationToB64 } from "../../common";
+import { getUTCTimestamp, paginationFromB64, paginationToB64 } from "~/app/tools/utils";
 import { CosmosChainParams } from "../types";
 import { MintscanAccountTransactionsResponse, MintscanTransaction } from "./types";
 
@@ -174,7 +174,7 @@ function parseLegacyAminoTransaction(
   };
 
   if (mintscanTransaction.height !== "") {
-    parsedTransaction.timestamp = new Date(mintscanTransaction.timestamp).getTime();
+    parsedTransaction.timestamp = getUTCTimestamp(mintscanTransaction.timestamp);
     parsedTransaction.blockHeight = BigInt(mintscanTransaction.height);
 
     if (mintscanTransaction.code === 0) {
@@ -357,7 +357,7 @@ function parseProtobufTransaction(
   };
 
   if (mintscanTransaction.height !== "") {
-    parsedTransaction.timestamp = new Date(mintscanTransaction.timestamp).getTime();
+    parsedTransaction.timestamp = getUTCTimestamp(mintscanTransaction.timestamp);
     parsedTransaction.blockHeight = BigInt(mintscanTransaction.height);
 
     if (mintscanTransaction.code === 0) {

@@ -15,7 +15,7 @@ import {
   ThirdPartyProviderError,
   UnsupportedTokenIDError,
 } from "~/app/tools/handlers/errors";
-import { paginationFromB64, paginationToB64 } from "../../common";
+import { getUTCTimestamp, paginationFromB64, paginationToB64 } from "~/app/tools/utils";
 import { EvmAddress } from "../types";
 import {
   MoralisAccountTransaction,
@@ -335,7 +335,7 @@ function moralisToAdamikTransaction(
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId,
     id: moralisTransaction.hash,
-    timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
+    timestamp: getUTCTimestamp(moralisTransaction.block_timestamp),
     fees: {
       amount: feesAmount,
     },
@@ -413,7 +413,7 @@ function moralisToAdamikAccountTransaction(
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId,
     id: moralisTransaction.hash,
-    timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
+    timestamp: getUTCTimestamp(moralisTransaction.block_timestamp),
     fees: {
       amount: feesAmount,
     },
