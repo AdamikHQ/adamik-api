@@ -5,7 +5,6 @@ import { accountStateOpenAPIPath } from "~/app/api/[chainId]/account/[accountId]
 import { accountStateTokensOpenAPIPath } from "~/app/api/[chainId]/account/[accountId]/state/tokens/schema";
 import { addressEncodeOpenAPIPath } from "~/app/api/[chainId]/address/encode/schema";
 import { addressValidateOpenAPIPath } from "~/app/api/[chainId]/address/validate/schema";
-import { chainOpenAPIPath } from "~/app/api/[chainId]/chain/schema";
 import { tokenOpenAPIPath } from "~/app/api/[chainId]/token/[tokenId]/schema";
 import { transactionOpenAPIPath } from "~/app/api/[chainId]/transaction/[transactionId]/schema";
 import { transactionBroadcastRawOpenAPIPath } from "~/app/api/[chainId]/transaction/broadcast/raw/schema";
@@ -13,6 +12,7 @@ import { transactionBroadcastOpenAPIPath } from "~/app/api/[chainId]/transaction
 import { transactionEncodeOpenAPIPath } from "~/app/api/[chainId]/transaction/encode/schema";
 import { transactionValidateOpenAPIPath } from "~/app/api/[chainId]/transaction/validate/schema";
 import { validatorsOpenAPIPath } from "~/app/api/[chainId]/validators/schema";
+import { chainOpenAPIPath } from "~/app/api/chains/[chainId]/schema";
 import { chainsOpenAPIPath } from "~/app/api/chains/schema";
 import { apiOpenAPIPath } from "~/app/api/schema";
 

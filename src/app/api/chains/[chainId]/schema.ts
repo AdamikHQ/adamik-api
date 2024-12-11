@@ -9,7 +9,7 @@ const pathParamsSchema = z.object({
 const responseSchema = chainSchema;
 
 const chainOpenAPIPath: ZodOpenApiPathsObject = {
-  "/api/{chainId}/chain": {
+  "/api/chains/{chainId}": {
     get: {
       tags: ["chain"],
       summary: "Retrieve details of one chain",
