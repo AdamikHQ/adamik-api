@@ -12,6 +12,7 @@ export const POST = apiHandler(
   },
   async ({ pathParams, body }) => {
     const { chainId } = pathParams;
+
     const transactionData: TransactionData = body.transaction.data;
 
     const service = getService(chainId);
@@ -22,10 +23,10 @@ export const POST = apiHandler(
     let status: Status = { errors: [], warnings: [] };
 
     await service.prevalidateTransaction({ transaction, status });
-
     if (status.errors.length) {
       throw new InvalidTransactionError(status);
     }
-    return { status };
+
+    return { chainId, status };
   }
 );

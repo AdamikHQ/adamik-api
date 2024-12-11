@@ -10,7 +10,6 @@ async function getTransaction(this: TonService, transactionId: string): Promise<
   }
 
   let parsedTransaction: FinalizedTransaction["parsed"] = {
-    chainId: this.chainId,
     id: tonTransaction.hash,
     fees: {
       amount: BigInt(tonTransaction.totalFees || 0n),

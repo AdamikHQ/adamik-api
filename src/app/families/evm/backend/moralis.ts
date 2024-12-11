@@ -118,7 +118,6 @@ async function fetchERC20TokenAmounts(
     .forEach((result) =>
       tokens.push({
         token: {
-          chainId,
           type: TokenType.ERC20,
           id: result.token_address,
           name: result.name,
@@ -180,7 +179,6 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
       .forEach((result) =>
         tokenAmounts.push({
           token: {
-            chainId,
             type: TokenType.ERC20,
             id: result.token_address,
             name: result.name,
@@ -227,7 +225,6 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
     const [result]: [MoralisERC20Token] = response;
 
     return {
-      chainId: chainId,
       type: TokenType.ERC20,
       id: result.address,
       name: result.name,
@@ -333,7 +330,6 @@ function moralisToAdamikTransaction(
   const feesAmount = feesBN.isNaN() ? 0n : BigInt(feesBN.toFixed());
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
-    chainId,
     id: moralisTransaction.hash,
     timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
     fees: {
@@ -411,7 +407,6 @@ function moralisToAdamikAccountTransaction(
   const feesAmount = feesBN.isNaN() ? 0n : BigInt(feesBN.toFixed());
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
-    chainId,
     id: moralisTransaction.hash,
     timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
     fees: {

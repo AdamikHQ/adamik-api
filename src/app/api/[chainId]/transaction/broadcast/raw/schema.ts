@@ -1,18 +1,30 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { chainIdSchema } from "~/app/api/schemaCommon";
+import { getSupportedChainIdsSchema } from "~/app/api/schemaCommon";
+import { CHAINS } from "~/app/config/chains";
+
+const supportedChainIds = Object.values(CHAINS)
+  .filter(
+    (chain) =>
+      chain.supportedFeatures.write.transaction.type.native ||
+      chain.supportedFeatures.write.transaction.type.tokens ||
+      chain.supportedFeatures.write.transaction.type.staking
+  )
+  .map((chain) => chain.id);
 
 const pathParamsSchema = z.object({
-  chainId: chainIdSchema,
+  chainId: getSupportedChainIdsSchema(supportedChainIds),
 });
 
 const requestSchema = z.object({
-  chainId: chainIdSchema,
   payload: z.string(),
 });
 
 const responseSchema = z.object({
+  chainId: getSupportedChainIdsSchema(supportedChainIds),
   hash: z.string().optional(),
+  // TODO Implement proper status for broadcast endpoints
+  //status: statusSchema
 });
 
 const transactionBroadcastRawOpenAPIPath: ZodOpenApiPathsObject = {

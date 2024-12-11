@@ -12,6 +12,7 @@ export const POST = apiHandler(
   },
   async ({ pathParams, body }) => {
     const { chainId } = pathParams;
+
     const transaction: Transaction = body.transaction;
 
     const service = getService(chainId);
@@ -21,23 +22,23 @@ export const POST = apiHandler(
         return await service.encodeTransactionToBroadcast({ signedTransaction: transaction });
       } catch (error) {
         console.warn(`/!\\ Encode to broadcast failed for transaction:`, transaction);
-        console.warn("Error is:", error);
+        console.warn("//! Error is:", error);
         throw new UserInputError(
           `Failed to encode transaction for broadcast, verify that signature is valid`
         );
       }
     })();
 
-    const broadcastStatus = await (async () => {
+    const transactionHash = await (async () => {
       try {
         return await service.broadcastTransaction(broadcastPayload);
       } catch (error) {
         console.warn("/!\\ Transaction broadcast failed for transaction:", transaction);
-        console.warn("Error is:", error);
+        console.warn("/!\\ Error is:", error);
         throw new InvalidTransactionError(statusFromMessage("Transaction broadcast failed"));
       }
     })();
 
-    return { hash: broadcastStatus.hash, transaction };
+    return { chainId, transaction, hash: transactionHash };
   }
 );

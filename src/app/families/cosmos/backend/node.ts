@@ -202,7 +202,6 @@ async function fetchRewards(
             validatorAddress,
             amount,
             token: {
-              chainId: chainId,
               type: TokenType.IBC,
               id: denom,
               name: token.symbol,

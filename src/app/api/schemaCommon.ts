@@ -8,7 +8,6 @@ import {
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
-import { getSupportedTransactionModes } from "../config/chains";
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 import { tonTransactionParamsSchema } from "../families/ton/types";
 import { tronTransactionParamsSchema } from "../families/tron/types";
@@ -63,12 +62,10 @@ const errorMsgSchema = z.object({
   message: z.string(),
 });
 
-const statusSchema = z
-  .object({
-    errors: z.array(errorMsgSchema),
-    warnings: z.array(errorMsgSchema),
-  })
-  .default({ errors: [], warnings: [] });
+const statusSchema = z.object({
+  errors: z.array(errorMsgSchema),
+  warnings: z.array(errorMsgSchema),
+});
 
 const featuresSetSchema = z.object({
   native: z.boolean(),
@@ -114,9 +111,7 @@ const chainSchema = z.object({
   supportedFeatures: chainSupportedFeaturesSchema,
 });
 
-// FIXME chainId should be outside of this schema,
 const tokenSchema = z.object({
-  chainId: chainIdSchema,
   type: z.nativeEnum(TokenType),
   id: z.string(),
   name: z.string(),
@@ -265,12 +260,9 @@ const stakingClaimRewardsSchema = z
     title: "ClaimRewards",
   });
 
-// FIXME chainId should be outside of this schema,
-// and it should be filtered on supported features for each endpoint
 const inputTransactionDataSchema = z.object({
   data: z
     .object({
-      chainId: chainIdSchema,
       sender: z.string(),
       recipient: z.string(),
       fees: stringOrNumToBigintSchema.optional(),
@@ -293,26 +285,12 @@ const inputTransactionDataSchema = z.object({
         stakingRedelegateSchema,
         stakingClaimRewardsSchema,
       ])
-    )
-    // validation of transaction mode VS chain features
-    .refine(
-      (data) => getSupportedTransactionModes(data.chainId).includes(data.mode),
-      (data) => {
-        return {
-          message: `Transaction mode ${data.mode} is not supported for ${data.chainId}`,
-          fatal: true,
-          code: z.ZodIssueCode.invalid_enum_value,
-          path: ["mode"],
-          options: getSupportedTransactionModes(data.chainId),
-        };
-      }
     ),
 });
 
 const outputTransactionDataSchema = z.object({
   data: z
     .object({
-      chainId: chainIdSchema,
       sender: z.string(),
       recipient: z.string(),
       useMaxAmount: z.boolean().default(false),
@@ -366,7 +344,6 @@ const finalizedTransactionSchema = z.object({
     .pipe(z.unknown()),
   parsed: z
     .object({
-      chainId: chainIdSchema,
       id: z.string(),
       mode: z.nativeEnum(TransactionMode).or(z.literal("unknown")),
       state: z.nativeEnum(TransactionState),

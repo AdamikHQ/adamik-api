@@ -12,6 +12,7 @@ export const POST = apiHandler(
   },
   async ({ pathParams, body }) => {
     const { chainId } = pathParams;
+
     const transactionData: TransactionData = body.transaction.data;
 
     const service = getService(chainId);
@@ -41,6 +42,6 @@ export const POST = apiHandler(
       throw new InvalidTransactionError(status);
     }
 
-    return { transaction, status };
+    return { chainId, transaction, status };
   }
 );

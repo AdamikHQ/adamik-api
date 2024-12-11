@@ -15,13 +15,16 @@ export const POST = apiHandler(
 
     const service = getService(chainId);
 
-    // FIXME Rework error handling for broadcast
-    try {
-      const broadcastStatus = await service.broadcastTransaction(broadcastPayload);
-      return broadcastStatus;
-    } catch {
-      console.warn(`/!\\ Raw transaction broadcast failed for payload '${broadcastPayload}'`);
-      throw new InvalidTransactionError(statusFromMessage("Transaction broadcast failed"));
-    }
+    const transactionHash = await (async () => {
+      try {
+        return await service.broadcastTransaction(broadcastPayload);
+      } catch (error) {
+        console.warn("/!\\ Transaction broadcast failed for transaction:", broadcastPayload);
+        console.warn("/!\\ Error is:", error);
+        throw new InvalidTransactionError(statusFromMessage("Transaction broadcast failed"));
+      }
+    })();
+
+    return { chainId, hash: transactionHash };
   }
 );

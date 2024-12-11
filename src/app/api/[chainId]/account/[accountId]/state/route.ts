@@ -48,6 +48,10 @@ export const GET = apiHandler(
       ...(includeStaking && { staking: state.balances.staking }),
     };
 
-    return state;
+    return {
+      chainId,
+      accountId,
+      ...state,
+    };
   }
 );

@@ -14,7 +14,6 @@ async function getTransaction(this: BitcoinService, transactionId: string): Prom
 
   const transactionData = bitcoinTransaction.data[transactionId];
   const parsedTransaction: FinalizedTransaction["parsed"] = {
-    chainId: this.chainId,
     id: transactionId,
     mode: TransactionMode.TRANSFER,
     fees: {

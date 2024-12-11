@@ -157,7 +157,6 @@ function parseLegacyAminoTransaction(
   const transactionFees = tx.value.fee.amount[0];
 
   let parsedTransaction: FinalizedTransaction["parsed"] = {
-    chainId: chainId,
     id: mintscanTransaction.txhash,
     fees: transactionFees
       ? {
@@ -340,7 +339,6 @@ function parseProtobufTransaction(
   const transactionFees = tx?.auth_info?.fee?.amount[0];
 
   let parsedTransaction: FinalizedTransaction["parsed"] = {
-    chainId: chainId,
     id: mintscanTransaction.txhash,
     fees: transactionFees
       ? {

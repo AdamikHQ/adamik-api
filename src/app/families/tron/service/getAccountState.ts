@@ -1,4 +1,4 @@
-import { AccountState, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import { AccountState, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { fetchAccountData } from "../backend/tronscan";
 import { TronService } from "../service";
@@ -14,28 +14,38 @@ async function getAccountState(this: TronService, accountId: string): Promise<Ac
 
   const nativeBalance = BigInt(accountData.balance);
 
-  const tokens: TokenAmount[] = accountData.withPriceTokens
-    .filter(
+  const tokens: TokenAmount[] = [];
+  accountData.withPriceTokens
+    ?.filter(
       (tokenData) =>
-        (tokenData.tokenType === "trc10" || tokenData.tokenType === "trc20") && tokenData.tokenAbbr !== "trx"
+        // We only support TRC10 and TRC20 token types
+        ["trc10", "trc20"].includes(tokenData.tokenType) &&
+        // Some special case tokens are irrelevant (e.g main currency TRX is listed as a special TRC10)
+        tokenData.tokenId !== "_"
     )
-    .map((tokenData) => ({
-      token: {
-        chainId: this.chainId,
-        type: tokenData.tokenType === "trc10" ? TokenType.TRC10 : TokenType.TRC20,
+    .forEach((tokenData) => {
+      const tokenType = tokenData.tokenType === "trc10" ? TokenType.TRC10 : TokenType.TRC20;
+
+      const token: Token = {
+        type: tokenType,
         id: tokenData.tokenId,
         name: tokenData.tokenName,
         ticker: tokenData.tokenAbbr,
         decimals: tokenData.tokenDecimal,
-        contractAddress: tokenData.tokenId,
         logo: tokenData.tokenLogo,
-      },
-      amount: BigInt(tokenData.balance),
-    }));
+      };
+
+      if (tokenType === TokenType.TRC20) {
+        token.contractAddress = tokenData.tokenId;
+      }
+
+      tokens.push({
+        token,
+        amount: BigInt(tokenData.balance),
+      });
+    });
 
   return {
-    chainId: this.chainId,
-    accountId: accountId,
     balances: {
       native: {
         available: nativeBalance,

@@ -1,12 +1,17 @@
-import { Status, TransactionData, TransactionMode } from "../model/types_WIP";
+import { ChainId, Status, TransactionData, TransactionMode } from "../model/types_WIP";
+import { UnsupportedFeatureError } from "../tools/handlers/errors";
 
 // Validations that couldn't have been done with Zod
-async function prevalidateTransactionCommon(_: {
-  transactionData: TransactionData;
-  status: Status;
-  addressValidationFn: (address: string) => Promise<boolean>;
-}): Promise<Status> {
+async function prevalidateTransactionCommon(
+  chainId: ChainId,
+  _: {
+    transactionData: TransactionData;
+    addressValidationFn: (address: string) => Promise<boolean>;
+    status: Status;
+  }
+): Promise<Status> {
   const { transactionData, addressValidationFn, status } = _;
+  const { mode } = transactionData;
 
   // Logic validation
   const validSender = await addressValidationFn(transactionData.sender);
@@ -14,7 +19,7 @@ async function prevalidateTransactionCommon(_: {
     status.errors.push({ message: "Sender address is invalid" });
   }
 
-  switch (transactionData.mode) {
+  switch (mode) {
     case TransactionMode.TRANSFER:
     case TransactionMode.TRANSFER_TOKEN:
       const validRecipient = await addressValidationFn(transactionData.recipient);
@@ -51,9 +56,11 @@ async function prevalidateTransactionCommon(_: {
         status.errors.push({ message: "Target validator address is invalid" });
       }
       break;
-    default: // ensure exhaustive check, both at compile time and runtime: https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
+    default:
+      // Ensure exhaustive check, both at compile time and runtime
+      // https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
       const assertNever = (x: never): never => {
-        throw new Error(`Encountered unexpected/unknown transaction mode: ${(transactionData as any).mode}`);
+        throw new UnsupportedFeatureError(`Transaction mode ${mode} is not supported for chainId ${chainId}`);
       };
       assertNever(transactionData);
   }
