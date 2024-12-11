@@ -24,8 +24,8 @@ const responseSchema = z.object({
 const transactionValidateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/{chainId}/transaction/validate": {
     post: {
-      tags: ["transaction"],
-      summary: "Validate a transaction",
+      tags: ["Transaction"],
+      summary: "Validate Transaction",
       description:
         "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
       requestParams: {

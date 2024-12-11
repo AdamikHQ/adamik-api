@@ -11,8 +11,8 @@ const responseSchema = chainSchema;
 const chainOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}": {
     get: {
-      tags: ["chain"],
-      summary: "Retrieve details of one chain",
+      tags: ["Chain"],
+      summary: "Get Chain Details",
       description:
         "Retrieves detailed information about a specific blockchain network identified by chain ID.",
       requestParams: {
