@@ -10,12 +10,12 @@ import {
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/convertors/pagination";
 import {
   InvalidPaginationTokenError,
   ThirdPartyProviderError,
   UnsupportedTokenIDError,
 } from "~/app/tools/handlers/errors";
-import { getUTCTimestamp, paginationFromB64, paginationToB64 } from "~/app/tools/utils";
 import { EvmAddress } from "../types";
 import {
   MoralisAccountTransaction,
@@ -335,7 +335,7 @@ function moralisToAdamikTransaction(
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId,
     id: moralisTransaction.hash,
-    timestamp: getUTCTimestamp(moralisTransaction.block_timestamp),
+    timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
     fees: {
       amount: feesAmount,
     },
@@ -413,7 +413,7 @@ function moralisToAdamikAccountTransaction(
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     chainId,
     id: moralisTransaction.hash,
-    timestamp: getUTCTimestamp(moralisTransaction.block_timestamp),
+    timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
     fees: {
       amount: feesAmount,
     },

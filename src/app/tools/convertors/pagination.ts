@@ -1,10 +1,4 @@
-import { InvalidPaginationTokenError } from "./handlers/errors";
-
-// Safety function, because a simple Date().getTime() seems
-// to produce different results on different timezones...
-function getUTCTimestamp(time: number | string | Date): number {
-  return new Date(new Date(time).toUTCString()).getTime();
-}
+import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
 
 // Convert any pagination data ("next" cursor, from/to timestamp, offset/limit parameters, etc...)
 // to a base64 string, that can be conveniently included in API responses
@@ -34,4 +28,4 @@ function paginationFromB64(tokenB64?: string): unknown | null {
   }
 }
 
-export { getUTCTimestamp, paginationFromB64, paginationToB64 };
+export { paginationFromB64, paginationToB64 };

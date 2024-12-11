@@ -10,8 +10,8 @@ import {
   TokenStakingReward,
   TokenType,
 } from "~/app/model/types_WIP";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/convertors/pagination";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
-import { getUTCTimestamp, paginationFromB64, paginationToB64 } from "~/app/tools/utils";
 import { CosmosChainParams, IBCToken } from "../types";
 import {
   CosmosAccount,
@@ -128,7 +128,7 @@ async function fetchRedelegations(chainId: ChainId, address: string): Promise<St
         validatorAddresses: [redelegation.validator_dst_address],
         amount: BigInt(initialBalance),
         status: StakingStatus.LOCKED,
-        completionDate: getUTCTimestamp(completionTime),
+        completionDate: new Date(completionTime).getTime(),
       });
     }
   }
@@ -153,7 +153,7 @@ async function fetchUnbondingDelegations(chainId: ChainId, address: string): Pro
         validatorAddresses: [validatorAddress],
         amount: BigInt(initialBalance),
         status: StakingStatus.UNLOCKING,
-        completionDate: getUTCTimestamp(completionTime),
+        completionDate: new Date(completionTime).getTime(),
       });
     }
   }

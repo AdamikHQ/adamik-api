@@ -1,7 +1,7 @@
 import { TRONSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/convertors/pagination";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
-import { paginationFromB64, paginationToB64 } from "~/app/tools/utils";
 import { TronscanAccountInfo, TronscanAccountTokensInfo, TronscanTransactionInfo } from "./types";
 
 const TRONSCAN_PAGE_SIZE = 20;

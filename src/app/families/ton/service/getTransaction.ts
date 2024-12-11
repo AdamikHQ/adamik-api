@@ -1,6 +1,5 @@
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { getUTCTimestamp } from "~/app/tools/utils";
 import { fetchTransaction } from "../backend/explorer";
 import { TonService } from "../service";
 
@@ -21,7 +20,7 @@ async function getTransaction(this: TonService, transactionId: string): Promise<
     state: TransactionState.UNKNOWN,
   };
 
-  parsedTransaction.timestamp = getUTCTimestamp(tonTransaction.outMsgs[0].createdAt * 1000);
+  parsedTransaction.timestamp = new Date(tonTransaction.outMsgs[0].createdAt * 1000).getTime();
 
   // TON block value is weirdly formatted (e.g: "(0,8000000000000000,26209049)")
   // Assuming our block height is the last of the three values...

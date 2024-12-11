@@ -1,4 +1,4 @@
-import { deepBigintToString } from "./deepBigintToString";
+import { deepBigintToString } from "./bigint";
 
 // Tests
 describe("deepBigintToString", () => {

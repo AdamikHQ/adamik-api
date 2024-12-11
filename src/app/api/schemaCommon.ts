@@ -12,7 +12,7 @@ import { getSupportedTransactionModes } from "../config/chains";
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 import { tonTransactionParamsSchema } from "../families/ton/types";
 import { tronTransactionParamsSchema } from "../families/tron/types";
-import { deepBigintToString } from "../tools/convertors/deepBigintToString";
+import { deepBigintToString } from "../tools/convertors/bigint";
 
 extendZodWithOpenApi(z);
 

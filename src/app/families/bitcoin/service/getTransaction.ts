@@ -1,7 +1,6 @@
 import { CHAINS } from "~/app/config/chains";
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { getUTCTimestamp } from "~/app/tools/utils";
 import { fetchStats, fetchTransaction } from "../backend/explorer";
 import { BitcoinService } from "../service";
 import { BitcoinChainParams } from "../types";
@@ -36,7 +35,11 @@ async function getTransaction(this: BitcoinService, transactionId: string): Prom
     parsedTransaction.state = isTransactionConfirmed
       ? TransactionState.CONFIRMED
       : TransactionState.UNCONFIRMED;
-    parsedTransaction.timestamp = getUTCTimestamp(transactionData.transaction.time);
+
+    // NOTE Blockchair returns transaction time in a bad format, e.g: "2024-09-10 11:05:14"
+    // instead of a timestamp or a proper ISO string: "2024-09-10T11:05:14.000Z"
+    // This format is ambiguous about the timezone, so we have to append 'UTC' for Date to handle it correctly...
+    parsedTransaction.timestamp = new Date(transactionData.transaction.time + " UTC").getTime();
     parsedTransaction.blockHeight = BigInt(transactionData.transaction.block_id);
   }
 
