@@ -39,7 +39,7 @@ const addressEncodeOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description: "200 OK - Returns true if the encoded result",
+          description: "Returns a set of addresses, one for each supported type, depending on the chain",
           content: {
             "application/json": { schema: responseSchema },
           },

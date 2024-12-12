@@ -32,8 +32,7 @@ const addressValidateOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description:
-            "200 OK - Returns true if the address is valid for the specified chain ID, otherwise false.",
+          description: "Returns true if the address is valid for the specified chain ID, otherwise false.",
           content: {
             "application/json": { schema: responseSchema },
           },

@@ -50,7 +50,7 @@ const transactionValidateOpenAPIPath: ZodOpenApiPathsObject = {
       responses: {
         "200": {
           description:
-            "200 OK - Provides validation results, including any errors or warnings related to the transaction.",
+            "Provides validation results, including any errors or warnings related to the transaction.",
           content: {
             "application/json": { schema: responseSchema },
           },

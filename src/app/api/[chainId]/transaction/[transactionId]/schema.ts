@@ -62,7 +62,7 @@ const transactionOpenAPIPath: ZodOpenApiPathsObject = {
       responses: {
         "200": {
           description:
-            "200 OK - Successfully returns detailed data about the transaction on the specified blockchain.",
+            "Successfully returns detailed data about the transaction on the specified blockchain.",
           content: {
             "application/json": { schema: responseSchema },
           },

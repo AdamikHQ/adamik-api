@@ -11,7 +11,7 @@ const apiOpenAPIPath: ZodOpenApiPathsObject = {
       description: "Provides the Open API specification of the Adamik API",
       responses: {
         "200": {
-          description: "200 OK - Returns the OpenAPI spec of the Adamik API, in JSON format",
+          description: "Returns the OpenAPI spec of the Adamik API, in JSON format",
           content: {
             "application/json": { schema: responseSchema },
           },

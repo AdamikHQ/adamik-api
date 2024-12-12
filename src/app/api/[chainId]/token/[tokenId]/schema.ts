@@ -17,7 +17,9 @@ const pathParamsSchema = z.object({
   }),
 });
 
-const responseSchema = tokenSchema;
+const responseSchema = z.object({
+  token: tokenSchema,
+});
 
 const tokenOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/{chainId}/token/{tokenId}": {
@@ -31,8 +33,7 @@ const tokenOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description:
-            "200 OK - Successfully returns detailed data about the token on the specified blockchain.",
+          description: "Returns detailed data about the token on the specified blockchain.",
           content: {
             "application/json": { schema: responseSchema },
           },

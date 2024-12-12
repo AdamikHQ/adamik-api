@@ -44,7 +44,7 @@ const validatorsOpenAPIPath: ZodOpenApiPathsObject = {
       responses: {
         "200": {
           description:
-            "200 OK - Returns a list of validators, their status, and commission details for the specified chain ID.",
+            "Returns a list of validators, their status, and commission details for the specified chain ID.",
           content: {
             "application/json": { schema: responseSchema },
           },

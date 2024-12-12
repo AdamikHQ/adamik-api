@@ -6,7 +6,9 @@ const pathParamsSchema = z.object({
   chainId: chainIdSchema,
 });
 
-const responseSchema = chainSchema;
+const responseSchema = z.object({
+  chain: chainSchema,
+});
 
 const chainOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}": {
@@ -21,7 +23,7 @@ const chainOpenAPIPath: ZodOpenApiPathsObject = {
       responses: {
         "200": {
           description:
-            "200 OK - Successfully returns detailed data about the specified blockchain, including its identifier, name, family classification, supported units of currency, and additional configuration parameters.",
+            "Successfully returns detailed data about the specified blockchain, including its identifier, name, family classification, supported units of currency, and additional configuration parameters.",
           content: {
             "application/json": { schema: responseSchema },
           },

@@ -46,7 +46,7 @@ const transactionBroadcastRawOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description: "200 OK - Returns a transaction receipt or error details if the transaction fails.",
+          description: "Returns a transaction receipt or error details if the transaction fails.",
           content: {
             "application/json": { schema: responseSchema },
           },

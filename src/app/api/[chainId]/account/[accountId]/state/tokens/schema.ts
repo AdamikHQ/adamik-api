@@ -55,8 +55,7 @@ const accountStateTokensOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description:
-            "200 OK - Returns the current tokens information for the specified address and chain ID.",
+          description: "Returns the current tokens information for the specified address and chain ID.",
           content: {
             "application/json": { schema: responseSchema },
           },

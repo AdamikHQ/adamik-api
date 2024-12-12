@@ -52,10 +52,9 @@ const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
         },
       },
       responses: {
-        // FIXME Test this, then apply to all endpoints
-        default: {
+        "200": {
           description:
-            "200 OK - Returns the transaction data encoded into a blockchain-specific format, ready for broadcasting.",
+            "Returns the transaction data encoded into a blockchain-specific format, ready for broadcasting.",
           content: {
             "application/json": { schema: responseSchema },
           },

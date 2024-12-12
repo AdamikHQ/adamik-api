@@ -37,7 +37,7 @@ const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
       tags: ["Transaction"],
       summary: "Broadcast Transaction",
       description:
-        "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
+        "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.\n\n\nNote: the exact same 'data' and 'encoded' fields that were retrieved with the /transaction/encode endpoint, must be provided here.",
       requestParams: {
         path: pathParamsSchema,
       },
@@ -48,7 +48,7 @@ const transactionBroadcastOpenAPIPath: ZodOpenApiPathsObject = {
       },
       responses: {
         "200": {
-          description: "200 OK - Returns a transaction receipt or error details if the transaction fails.",
+          description: "Returns a transaction receipt or error details if the transaction fails.",
           content: {
             "application/json": { schema: responseSchema },
           },

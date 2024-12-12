@@ -319,6 +319,8 @@ const outputTransactionDataSchema = z.object({
 const encodedTransactionSchema = z.object({
   // NOTE: 'any' here because 'encoded' can also be JSON
   // Improvement could be to properly type all possible encoded formats for every family
+  // FIXME 'any' with zod always makes the field optional... which is a problem here, but found no easy worakround
+  // Best fix is probably to enforce only string, by using JSON.stringify with anything else
   encoded: z.string().or(
     z
       .any()

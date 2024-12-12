@@ -20,6 +20,8 @@ export const GET = apiHandler(
 
     const token = await service.getTokenInfo(tokenId);
 
-    return token;
+    return {
+      token,
+    };
   }
 );
