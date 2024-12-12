@@ -7,7 +7,7 @@ const apiOpenAPIPath: ZodOpenApiPathsObject = {
   "/api": {
     get: {
       tags: [""],
-      summary: "Open API specification",
+      summary: "Open API Specification",
       description: "Provides the Open API specification of the Adamik API",
       responses: {
         "200": {
