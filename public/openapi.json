@@ -25,7 +25,7 @@
         "description": "Provides the Open API specification of the Adamik API",
         "responses": {
           "200": {
-            "description": "200 OK - Returns the OpenAPI spec of the Adamik API, in JSON format",
+            "description": "Returns the OpenAPI spec of the Adamik API, in JSON format",
             "content": {
               "application/json": {
                 "schema": {
@@ -46,7 +46,7 @@
         "description": "Retrieves a list of all supported blockchain networks with their detailed information.",
         "responses": {
           "200": {
-            "description": "200 OK - Returns a list of names and detailed information for all supported blockchain networks.",
+            "description": "Returns a list of names and detailed information for all supported blockchain networks.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3896,54 +3896,62 @@
         ],
         "responses": {
           "200": {
-            "description": "200 OK - Successfully returns detailed data about the specified blockchain, including its identifier, name, family classification, supported units of currency, and additional configuration parameters.",
+            "description": "Successfully returns detailed data about the specified blockchain, including its identifier, name, family classification, supported units of currency, and additional configuration parameters.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "family": {
-                      "type": "string",
-                      "enum": [
-                        "algorand",
-                        "cosmos",
-                        "evm",
-                        "bitcoin",
-                        "tron",
-                        "ton"
+                    "chain": {
+                      "type": "object",
+                      "properties": {
+                        "family": {
+                          "type": "string",
+                          "enum": [
+                            "algorand",
+                            "cosmos",
+                            "evm",
+                            "bitcoin",
+                            "tron",
+                            "ton"
+                          ]
+                        },
+                        "id": {
+                          "$ref": "#/components/schemas/ChainId"
+                        },
+                        "nativeId": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "ticker": {
+                          "type": "string"
+                        },
+                        "decimals": {
+                          "type": "number"
+                        },
+                        "isTestnetFor": {
+                          "type": "string"
+                        },
+                        "params": {},
+                        "supportedFeatures": {
+                          "$ref": "#/components/schemas/ChainSupportedFeatures"
+                        }
+                      },
+                      "required": [
+                        "family",
+                        "id",
+                        "nativeId",
+                        "name",
+                        "ticker",
+                        "decimals",
+                        "supportedFeatures"
                       ]
-                    },
-                    "id": {
-                      "$ref": "#/components/schemas/ChainId"
-                    },
-                    "nativeId": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "ticker": {
-                      "type": "string"
-                    },
-                    "decimals": {
-                      "type": "number"
-                    },
-                    "isTestnetFor": {
-                      "type": "string"
-                    },
-                    "params": {},
-                    "supportedFeatures": {
-                      "$ref": "#/components/schemas/ChainSupportedFeatures"
                     }
                   },
                   "required": [
-                    "family",
-                    "id",
-                    "nativeId",
-                    "name",
-                    "ticker",
-                    "decimals",
-                    "supportedFeatures"
+                    "chain"
                   ]
                 }
               }
@@ -4052,44 +4060,52 @@
         ],
         "responses": {
           "200": {
-            "description": "200 OK - Successfully returns detailed data about the token on the specified blockchain.",
+            "description": "Returns detailed data about the token on the specified blockchain.",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "type": {
-                      "type": "string",
-                      "enum": [
-                        "TRC10",
-                        "TRC20",
-                        "ASA",
-                        "ERC20",
-                        "IBC",
-                        "JETTON"
+                    "token": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "TRC10",
+                            "TRC20",
+                            "ASA",
+                            "ERC20",
+                            "IBC",
+                            "JETTON"
+                          ]
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "ticker": {
+                          "type": "string"
+                        },
+                        "decimals": {
+                          "type": "string"
+                        },
+                        "contractAddress": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "id",
+                        "name",
+                        "ticker"
                       ]
-                    },
-                    "id": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "ticker": {
-                      "type": "string"
-                    },
-                    "decimals": {
-                      "type": "string"
-                    },
-                    "contractAddress": {
-                      "type": "string"
                     }
                   },
                   "required": [
-                    "type",
-                    "id",
-                    "name",
-                    "ticker"
+                    "token"
                   ]
                 }
               }
@@ -4171,7 +4187,7 @@
         ],
         "responses": {
           "200": {
-            "description": "200 OK - Returns a list of validators, their status, and commission details for the specified chain ID.",
+            "description": "Returns a list of validators, their status, and commission details for the specified chain ID.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4362,7 +4378,7 @@
         ],
         "responses": {
           "200": {
-            "description": "200 OK - Successfully returns detailed data about the transaction on the specified blockchain.",
+            "description": "Successfully returns detailed data about the transaction on the specified blockchain.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4619,7 +4635,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK - Returns true if the encoded result",
+            "description": "Returns a set of addresses, one for each supported type, depending on the chain",
             "content": {
               "application/json": {
                 "schema": {
@@ -4699,7 +4715,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK - Returns true if the address is valid for the specified chain ID, otherwise false.",
+            "description": "Returns true if the address is valid for the specified chain ID, otherwise false.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4845,7 +4861,7 @@
         ],
         "responses": {
           "200": {
-            "description": "200 OK - Returns the current balance information for the specified address and chain ID.",
+            "description": "Returns the current balance information for the specified address and chain ID.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5274,7 +5290,7 @@
         ],
         "responses": {
           "200": {
-            "description": "200 OK - Returns the current tokens information for the specified address and chain ID.",
+            "description": "Returns the current tokens information for the specified address and chain ID.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5527,7 +5543,7 @@
         ],
         "responses": {
           "200": {
-            "description": "200 OK - Returns the current list of transactions for the specified address and chain ID.",
+            "description": "Returns the current list of transactions for the specified address and chain ID.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6256,8 +6272,8 @@
           }
         },
         "responses": {
-          "default": {
-            "description": "200 OK - Returns the transaction data encoded into a blockchain-specific format, ready for broadcasting.",
+          "200": {
+            "description": "Returns the transaction data encoded into a blockchain-specific format, ready for broadcasting.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7200,7 +7216,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK - Provides validation results, including any errors or warnings related to the transaction.",
+            "description": "Provides validation results, including any errors or warnings related to the transaction.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7345,7 +7361,7 @@
           "Transaction"
         ],
         "summary": "Broadcast Transaction",
-        "description": "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.",
+        "description": "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.\n\n\nNote: the exact same 'data' and 'encoded' fields that were retrieved with the /transaction/encode endpoint, must be provided here.",
         "parameters": [
           {
             "in": "path",
@@ -7844,7 +7860,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK - Returns a transaction receipt or error details if the transaction fails.",
+            "description": "Returns a transaction receipt or error details if the transaction fails.",
             "content": {
               "application/json": {
                 "schema": {
@@ -8065,7 +8081,7 @@
         },
         "responses": {
           "200": {
-            "description": "200 OK - Returns a transaction receipt or error details if the transaction fails.",
+            "description": "Returns a transaction receipt or error details if the transaction fails.",
             "content": {
               "application/json": {
                 "schema": {
