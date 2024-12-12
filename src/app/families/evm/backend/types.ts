@@ -95,6 +95,7 @@ type MoralisAccountTransactionsResponse = {
   page_size: string;
   cursor: string;
   result: MoralisAccountTransaction[];
+  message?: string;
 };
 
 type MoralisAccountTransaction = {

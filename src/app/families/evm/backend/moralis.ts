@@ -106,6 +106,11 @@ async function fetchERC20TokenAmounts(
 
   const response = await fetchWithHeaders(url).then((response) => response.json());
 
+  if (response.message === "Cursor is invalid or expired") {
+    console.warn(`/!\\ Error response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
+    throw new InvalidPaginationTokenError(`Pagination token is invalid or expired`);
+  }
+
   const results: MoralisERC20TokenBalance[] = response?.result;
   if (!Array.isArray(results)) {
     return { tokens, nextPage };
@@ -307,6 +312,11 @@ async function fetchAccountTransactions(
   const response: MoralisAccountTransactionsResponse = await fetchWithHeaders(url.toString()).then(
     (response) => response.json()
   );
+
+  if (response?.message === "Cursor is invalid or expired") {
+    console.warn(`/!\\ Error response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
+    throw new InvalidPaginationTokenError(`Pagination token is invalid or expired`);
+  }
 
   if (!Array.isArray(response?.result)) {
     console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
