@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main # Run for any commit on main branch
+      - develop
 
 jobs:
   generate-open-api-docs:
