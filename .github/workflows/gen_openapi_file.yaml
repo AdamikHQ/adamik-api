@@ -4,9 +4,7 @@ on:
   pull_request: # Run on all PRs
   workflow_dispatch: # Allow to run manually
   push:
-    branches:
-      - main # Run for any commit on main branch
-      - develop
+    branches: [main, develop] # Run for any commit on the main branches
 
 jobs:
   generate-open-api-docs:
@@ -56,6 +54,8 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
+      # FIXME This doesn't work for direct pushes on main branches,
+      # because instead of comparing with another branch we need to compare with HEAD of the same branch...
       - name: Check for Changes
         id: check_changes
         working-directory: head
