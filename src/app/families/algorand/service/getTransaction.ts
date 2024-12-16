@@ -14,7 +14,6 @@ async function getTransaction(
   }
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
-    chainId: this.chainId,
     id: algoTransaction.id,
     fees: {
       amount: BigInt(algoTransaction.fee),

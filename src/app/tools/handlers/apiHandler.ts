@@ -180,8 +180,12 @@ function handleRequestValidationError(e: unknown): NextResponse {
       },
       { status: 400, statusText: "Invalid or missing fields" }
     );
-  } else if (e instanceof Error) {
+
+    // NOTE 'Dynamic server usage': NextJS seems to be smoke-testing the project during the build process,
+    // and some expected errors end up being logged here, so we'd rather filter them as it's just noise
+  } else if (e instanceof Error && !e.message.includes("Dynamic server usage")) {
     console.error("handleRequestValidationError - unexpected error:", e);
+
     return NextResponse.json(
       { status: statusFromMessage(e.message) },
       { status: 500, statusText: "Unexpected server error" }

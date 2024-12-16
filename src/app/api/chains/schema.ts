@@ -15,7 +15,7 @@ const chainsOpenAPIPath: ZodOpenApiPathsObject = {
       responses: {
         "200": {
           description:
-            "200 OK - Returns a list of names and detailed information for all supported blockchain networks.",
+            "Returns a list of names and detailed information for all supported blockchain networks.",
           content: {
             "application/json": { schema: responseSchema },
           },

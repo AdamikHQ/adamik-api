@@ -5,14 +5,17 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/address/encode
+  url: {{api_url}}/api/:chainId/address/encode
   body: json
   auth: none
 }
 
+params:path {
+  chainId: cosmoshub
+}
+
 body:json {
   {
-    "chainId": "cosmoshub",
     "pubkey": "03b642c20d53840395afbc502e229b8368e76e808da3873aca21a94cd51c9980e6"
   }
 }

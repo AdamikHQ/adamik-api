@@ -4,14 +4,19 @@ meta {
   seq: 5
 }
 
-post {
-  url: {{api_url}}/api/account/state/tokens?nextPage=IjIwIg==
-  body: json
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state/tokens?nextPage=IjIwIg==
+  body: none
   auth: none
 }
 
 params:query {
   nextPage: IjIwIg==
+}
+
+params:path {
+  chainId: tron
+  accountId: TT2T17KZhoDu47i2E4FWxfG79zdkEWkU9N
 }
 
 body:json {

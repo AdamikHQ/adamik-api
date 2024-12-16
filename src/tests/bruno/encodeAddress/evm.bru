@@ -5,14 +5,17 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/address/encode
+  url: {{api_url}}/api/:chainId/address/encode
   body: json
   auth: none
 }
 
+params:path {
+  chainId: ethereum
+}
+
 body:json {
   {
-    "chainId": "ethereum",
     "pubkey": "0431735332d2ec846d30905be9916b895590c07b2d614e6238d697cc7aba0a7722272399995ed86988a49afbbff9693fa807e648b3a0c5e1674078aeeaab62e90b"
   } 
 }

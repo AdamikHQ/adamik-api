@@ -28,7 +28,6 @@ async function getAccountState(this: CosmosService, accountId: string): Promise<
         tokenBalances.push({
           amount: BigInt(balance.amount),
           token: {
-            chainId: this.chainId,
             type: TokenType.IBC,
             id: token.denom,
             name: token.symbol,
@@ -56,8 +55,6 @@ async function getAccountState(this: CosmosService, accountId: string): Promise<
   const positions: StakingPosition[] = delegations.concat(unbondings);
 
   return {
-    chainId: this.chainId,
-    accountId,
     balances: {
       native: {
         available: nativeBalance,

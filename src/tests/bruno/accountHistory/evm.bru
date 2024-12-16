@@ -4,10 +4,15 @@ meta {
   seq: 4
 }
 
-post {
-  url: {{api_url}}/api/account/history
-  body: json
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/history
+  body: none
   auth: none
+}
+
+params:path {
+  chainId: ethereum
+  accountId: 0x66c4371aE8FFeD2ec1c2EBbbcCfb7E494181E1E3
 }
 
 body:json {
@@ -20,7 +25,7 @@ body:json {
 assert {
   res.status: eq 200
   res.body.chainId: isDefined
-  res.body.accountId: isDefined 
-  res.body.transactions: isArray 
+  res.body.accountId: isDefined
+  res.body.transactions: isArray
   res.body.transactions[0].parsed: isDefined
 }

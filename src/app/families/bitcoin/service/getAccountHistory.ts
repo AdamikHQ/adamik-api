@@ -11,8 +11,6 @@ async function getAccountHistory(
   throw new UnsupportedFeatureError("Not implemented yet");
 
   return {
-    chainId: this.chainId,
-    accountId,
     transactions: [],
     pagination: {
       nextPage: null,

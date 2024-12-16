@@ -25,8 +25,6 @@ async function getAccountHistory(
   }
 
   return {
-    chainId: this.chainId,
-    accountId,
     transactions,
     pagination: {
       nextPage,

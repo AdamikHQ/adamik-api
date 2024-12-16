@@ -10,8 +10,8 @@ import {
   TokenStakingReward,
   TokenType,
 } from "~/app/model/types_WIP";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/convertors/pagination";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
-import { paginationFromB64, paginationToB64 } from "../../common";
 import { CosmosChainParams, IBCToken } from "../types";
 import {
   CosmosAccount,
@@ -202,7 +202,6 @@ async function fetchRewards(
             validatorAddress,
             amount,
             token: {
-              chainId: chainId,
               type: TokenType.IBC,
               id: denom,
               name: token.symbol,

@@ -15,7 +15,7 @@ async function prevalidateTransaction(
 ): Promise<void> {
   const { transaction, status } = args;
 
-  await prevalidateTransactionCommon({
+  await prevalidateTransactionCommon(this.chainId, {
     transactionData: transaction.data,
     status,
     addressValidationFn: async (address: string) => isValidAddress(address, this.chainId),

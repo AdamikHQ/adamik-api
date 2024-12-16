@@ -79,7 +79,7 @@ async function completeTransaction(
     }
   }
 
-  const updatedAccount = resolvePubKey(account, transaction);
+  const updatedAccount = resolvePubKey(this.chainId, account, transaction);
 
   transaction.data.nonce = account.sequence;
   transaction.data.params = {
