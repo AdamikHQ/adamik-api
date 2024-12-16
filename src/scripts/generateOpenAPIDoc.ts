@@ -12,5 +12,12 @@ const fileName = "openapi.json";
 const filePath = path.join(dir, fileName);
 
 console.log(`Generating ${filePath}...`);
+// Get the API URL from environment variable
+const apiUrl = process.env.API_URL || "https://api.adamik.io";
 
-fs.writeFileSync(filePath, JSON.stringify(generateOpenAPISpec(), null, 2));
+const spec = generateOpenAPISpec();
+spec.servers = [{ url: apiUrl }];
+
+console.log(`Generating ${filePath} with API URL: ${apiUrl}...`);
+
+fs.writeFileSync(filePath, JSON.stringify(spec, null, 2));
