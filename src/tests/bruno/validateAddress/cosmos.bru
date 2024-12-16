@@ -5,19 +5,22 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/address/validate
+  url: {{api_url}}/api/:chainId/address/validate
   body: json
   auth: none
 }
 
+params:path {
+  chainId: cosmoshub
+}
+
 body:json {
   {
-    "chainId": "cosmoshub",
     "address": "cosmos1dsx5hhngvdenhcf6shqan2ujm8y8esdye45j33"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body: eq true
+  res.body.valid: eq true
 }

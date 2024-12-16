@@ -1,0 +1,25 @@
+meta {
+  name: cosmoshub
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{api_url}}/api/:chainId/validators?nextPage=IkZEQUVVT2RpcG1naVk3MDViRWhUcnRiT082SU0i
+  body: none
+  auth: none
+}
+
+params:query {
+  nextPage: IkZEQUVVT2RpcG1naVk3MDViRWhUcnRiT082SU0i
+}
+
+params:path {
+  chainId: cosmoshub
+}
+
+assert {
+  res.status: eq 200
+  res.body.validators: isArray
+  res.body.pagination.nextPage: eq IkZHRVJ1OGExKzFoUVpUQ0JjMjhoRUptRDBmNWYi
+}

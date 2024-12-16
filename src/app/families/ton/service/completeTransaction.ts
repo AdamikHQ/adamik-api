@@ -8,7 +8,9 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
   const maxSpendable = await computeMaxSpendable(transaction.data);
 
   const seqNo = await getSeqno(transaction.data.sender);
-  transaction.data.nonce = seqNo || undefined;
+  if (seqNo) {
+    transaction.data.nonce = seqNo;
+  }
 
   transaction.data.fees = await computeFees(transaction.data);
 
