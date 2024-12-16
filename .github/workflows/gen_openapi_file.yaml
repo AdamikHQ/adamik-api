@@ -35,8 +35,18 @@ jobs:
         working-directory: head
         run: pnpm install --frozen-lockfile
 
+      - name: Set API URL
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "API_URL=https://api.adamik.io" >> $GITHUB_ENV
+          else
+            echo "API_URL=https://api-staging.adamik.io" >> $GITHUB_ENV
+          fi
+
       - name: Run script to generate OpenAPI docs
         working-directory: head
+        env:
+          API_URL: ${{ env.API_URL }}
         run: pnpm run doc:openapi
 
       - name: Configure git
