@@ -1,11 +1,11 @@
 meta {
   name: ton
   type: http
-  seq: 6
+  seq: 4
 }
 
 get {
-  url: {{api_url}}/api/chains/:chainId/validators
+  url: {{api_url}}/api/:chainId/validators
   body: none
   auth: none
 }
@@ -17,4 +17,3 @@ params:path {
 assert {
   res.status: eq 400
 }
-

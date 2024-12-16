@@ -1,4 +1,4 @@
-import { AccountState, TokenType } from "~/app/model/types_WIP";
+import { AccountState, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { fetchAccount, getJettonsFromWallet } from "../backend/explorer";
 import { TonService } from "../service";
 
@@ -9,30 +9,29 @@ async function getAccountState(this: TonService, accountId: string): Promise<Acc
 
   const jettons = await getJettonsFromWallet(accountId);
 
-  const tokenAmounts = jettons?.balances.map((balance) => {
+  const tokenAmounts: TokenAmount[] = jettons.balances.map((balance) => {
+    const token: Token = {
+      type: TokenType.JETTON,
+      id: balance.jetton.address.toString(),
+      name: balance.jetton.name,
+      ticker: balance.jetton.symbol,
+      decimals: balance.jetton.decimals,
+      logo: balance.jetton.image,
+    };
+
     return {
-      token: {
-        chainId: this.chainId,
-        type: TokenType.JETTON,
-        id: balance.jetton.address.toString(),
-        name: balance.jetton.name,
-        ticker: balance.jetton.symbol,
-        decimals: balance.jetton.decimals,
-        logo: balance.jetton.image,
-      },
+      token,
       amount: BigInt(balance.balance),
     };
   });
 
   return {
-    chainId: this.chainId,
-    accountId: accountId,
     balances: {
       native: {
         available: nativeBalance,
         total: nativeBalance,
       },
-      ...(tokenAmounts && { tokens: tokenAmounts }),
+      tokens: tokenAmounts,
     },
   };
 }

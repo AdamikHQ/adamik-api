@@ -5,19 +5,22 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/address/validate
+  url: {{api_url}}/api/:chainId/address/validate
   body: json
   auth: none
 }
 
+params:path {
+  chainId: bitcoin
+}
+
 body:json {
   {
-    "chainId": "bitcoin",
     "address": "bc1ph2h0srpm2sfnu9dzkkdamar2e759aplhrycfvsczycdwnqzsfghsej58jh"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body: eq true
+  res.body.valid: eq true
 }

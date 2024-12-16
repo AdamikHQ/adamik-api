@@ -21,7 +21,6 @@ async function getTransaction(this: TronService, transactionId: string): Promise
   }
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
-    chainId: this.chainId,
     id: tronTransaction.hash,
     mode: tronTransaction.contractData.tokenInfo ? TransactionMode.TRANSFER_TOKEN : TransactionMode.TRANSFER,
     tokenId:
@@ -52,7 +51,10 @@ async function getTransaction(this: TronService, transactionId: string): Promise
     blockHeight: BigInt(tronTransaction.block),
   };
 
-  return { parsed: parsedTransaction, raw: tronTransaction };
+  return {
+    parsed: parsedTransaction,
+    raw: tronTransaction,
+  };
 }
 
 export { getTransaction };

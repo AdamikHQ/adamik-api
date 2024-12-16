@@ -4,10 +4,15 @@ meta {
   seq: 4
 }
 
-post {
-  url: {{api_url}}/api/account/state
-  body: json
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state
+  body: none
   auth: none
+}
+
+params:path {
+  chainId: tron
+  accountId: TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre
 }
 
 body:json {

@@ -5,9 +5,13 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/transaction/broadcast
+  url: {{api_url}}/api/:chainId/transaction/broadcast
   body: json
   auth: none
+}
+
+params:path {
+  chainId: cosmoshub
 }
 
 body:json {
@@ -38,4 +42,3 @@ body:json {
 assert {
   res.status: eq 400
 }
-

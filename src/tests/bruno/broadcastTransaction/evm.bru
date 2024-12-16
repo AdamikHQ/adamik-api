@@ -5,9 +5,13 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/transaction/broadcast
+  url: {{api_url}}/api/:chainId/transaction/broadcast
   body: json
   auth: none
+}
+
+params:path {
+  chainId: ethereum
 }
 
 body:json {

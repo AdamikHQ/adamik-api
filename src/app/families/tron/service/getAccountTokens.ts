@@ -1,4 +1,4 @@
-import { AccountTokens, Paginated, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import { AccountTokens, Paginated, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { fetchAccountTokensData } from "../backend/tronscan";
 import { TronService } from "../service";
 
@@ -7,10 +7,9 @@ async function getAccountTokens(
   accountId: string,
   paginationToken?: string
 ): Promise<Paginated<AccountTokens>> {
-  const accountTokenAmounts: TokenAmount[] = [];
-
   const { tokensInfo, nextPage } = await fetchAccountTokensData(accountId, paginationToken);
 
+  const tokens: TokenAmount[] = [];
   tokensInfo?.data
     // FIXME Flaw in that logic: number of results may vary depending on the filtering below
     // Maybe an issue for customers... maybe not?
@@ -23,33 +22,29 @@ async function getAccountTokens(
         // Some special case tokens are irrelevant (e.g main currency TRX is listed as a special TRC10)
         tokenInfo.tokenId !== "_"
     )
-    .map((tokenInfo) => {
+    .forEach((tokenInfo) => {
       const tokenType = tokenInfo.tokenType === "trc10" ? TokenType.TRC10 : TokenType.TRC20;
 
-      const token = {
-        chainId: this.chainId,
+      const token: Token = {
         type: tokenType,
         id: tokenInfo.tokenId,
         name: tokenInfo.tokenName,
         ticker: tokenInfo.tokenAbbr,
         decimals: tokenInfo.tokenDecimal,
-        contractAddress: tokenInfo.tokenId,
       };
 
       if (tokenType === TokenType.TRC20) {
         token.contractAddress = tokenInfo.tokenId;
       }
 
-      accountTokenAmounts.push({
+      tokens.push({
         token,
         amount: BigInt(tokenInfo.balance),
       });
     });
 
   return {
-    chainId: this.chainId,
-    accountId,
-    tokens: accountTokenAmounts,
+    tokens,
     pagination: {
       nextPage,
     },

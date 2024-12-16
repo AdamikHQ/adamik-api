@@ -5,9 +5,13 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/transaction/validate
+  url: {{api_url}}/api/:chainId/transaction/validate
   body: json
   auth: none
+}
+
+params:path {
+  chainId: bitcoin
 }
 
 body:json {
@@ -27,4 +31,6 @@ body:json {
 
 assert {
   res.status: eq 200
+  res.body.status.errors: isEmpty 
+  res.body.status.warnings: isEmpty 
 }

@@ -1,41 +1,17 @@
-import { Status, TransactionData, TransactionMode } from "../model/types_WIP";
-import { InvalidPaginationTokenError } from "../tools/handlers/errors";
-
-// Convert any pagination data ("next" cursor, from/to timestamp, offset/limit parameters, etc...)
-// to a base64 string, that can be conveniently included in API responses
-function paginationToB64(data: unknown): string | null {
-  if (!data) {
-    return null;
-  }
-
-  try {
-    return Buffer.from(JSON.stringify(data)).toString("base64");
-  } catch (e) {
-    return null;
-  }
-}
-
-// Convert back a base64 pagination token provided in an API request, to the original pagination data
-// ("next" cursor, from/to timestamp, offset/limit parameters, etc...)
-function paginationFromB64(tokenB64?: string): unknown | null {
-  if (!tokenB64) {
-    return null;
-  }
-
-  try {
-    return JSON.parse(Buffer.from(tokenB64, "base64").toString("utf8"));
-  } catch (e) {
-    throw new InvalidPaginationTokenError("Provided pagination token is invalid");
-  }
-}
+import { ChainId, Status, TransactionData, TransactionMode } from "../model/types_WIP";
+import { UnsupportedFeatureError } from "../tools/handlers/errors";
 
 // Validations that couldn't have been done with Zod
-async function prevalidateTransactionCommon(_: {
-  transactionData: TransactionData;
-  status: Status;
-  addressValidationFn: (address: string) => Promise<boolean>;
-}): Promise<Status> {
+async function prevalidateTransactionCommon(
+  chainId: ChainId,
+  _: {
+    transactionData: TransactionData;
+    addressValidationFn: (address: string) => Promise<boolean>;
+    status: Status;
+  }
+): Promise<Status> {
   const { transactionData, addressValidationFn, status } = _;
+  const { mode } = transactionData;
 
   // Logic validation
   const validSender = await addressValidationFn(transactionData.sender);
@@ -43,7 +19,7 @@ async function prevalidateTransactionCommon(_: {
     status.errors.push({ message: "Sender address is invalid" });
   }
 
-  switch (transactionData.mode) {
+  switch (mode) {
     case TransactionMode.TRANSFER:
     case TransactionMode.TRANSFER_TOKEN:
       const validRecipient = await addressValidationFn(transactionData.recipient);
@@ -80,13 +56,15 @@ async function prevalidateTransactionCommon(_: {
         status.errors.push({ message: "Target validator address is invalid" });
       }
       break;
-    default: // ensure exhaustive check, both at compile time and runtime: https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
+    default:
+      // Ensure exhaustive check, both at compile time and runtime
+      // https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
       const assertNever = (x: never): never => {
-        throw new Error(`Encountered unexpected/unknown transaction mode: ${(transactionData as any).mode}`);
+        throw new UnsupportedFeatureError(`Transaction mode ${mode} is not supported for chainId ${chainId}`);
       };
       assertNever(transactionData);
   }
   return status;
 }
 
-export { paginationFromB64, paginationToB64, prevalidateTransactionCommon };
+export { prevalidateTransactionCommon };

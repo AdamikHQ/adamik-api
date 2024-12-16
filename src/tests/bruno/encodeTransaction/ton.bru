@@ -1,13 +1,17 @@
 meta {
   name: ton
   type: http
-  seq: 4
+  seq: 3
 }
 
 post {
-  url: {{api_url}}/api/transaction/encode
+  url: {{api_url}}/api/:chainId/transaction/encode
   body: json
   auth: none
+}
+
+params:path {
+  chainId: ton
 }
 
 body:json {
@@ -28,4 +32,5 @@ body:json {
 
 assert {
   res.status: eq 200
+  res.body.transaction.encoded: eq "c37fa95e1cbafd1e57fc086d60d353bfe2416cc09d5f87d5c689b079ed9e533e"
 }

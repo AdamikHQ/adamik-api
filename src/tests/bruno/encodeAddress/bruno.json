@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "/api/address/encode",
+  "name": "/api/[chainId]/address/encode",
   "type": "collection",
   "ignore": [
     "node_modules",

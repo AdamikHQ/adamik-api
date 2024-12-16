@@ -26,7 +26,6 @@ async function getValidators(
   });
 
   return {
-    chainId: this.chainId,
     validators,
     pagination: {
       nextPage,

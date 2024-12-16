@@ -1,12 +1,12 @@
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/convertors/pagination";
 import {
   InvalidPaginationTokenError,
   ThirdPartyProviderError,
   UnsupportedTokenIDError,
   UserInputError,
 } from "~/app/tools/handlers/errors";
-import { paginationFromB64, paginationToB64 } from "../../common";
 import {
   AlgoAccount,
   AlgoAccountAsset,

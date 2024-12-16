@@ -11,7 +11,6 @@ async function getTokenInfo(this: CosmosService, tokenId: string): Promise<Token
   }
 
   return {
-    chainId: this.chainId,
     type: TokenType.IBC,
     id: token.denom,
     name: token.symbol,

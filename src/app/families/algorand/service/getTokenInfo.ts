@@ -12,7 +12,6 @@ async function getTokenInfo(this: AlgorandService, tokenId: string): Promise<Tok
   const { name, unitName, decimals } = algoAsset;
 
   const token: Token = {
-    chainId: this.chainId,
     type: TokenType.ASA,
     id: tokenId,
     name,
