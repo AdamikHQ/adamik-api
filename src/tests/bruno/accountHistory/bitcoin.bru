@@ -4,10 +4,15 @@ meta {
   seq: 5
 }
 
-post {
-  url: {{api_url}}/api/account/history
-  body: json
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/history
+  body: none
   auth: none
+}
+
+params:path {
+  chainId: bitcoin
+  accountId: xpub6BtWBf3Pu6hYwJBKvEwG7JtrTxxDrSGy39HaTgZz6GTSaFWFdoCtuEXSQtoKGaYdz1emg8xTXKYwjhu3xXRPzFnYS1z4yjKj7hLDQyNeDZr
 }
 
 body:json {

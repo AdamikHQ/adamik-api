@@ -45,8 +45,6 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
   }
 
   return {
-    chainId,
-    accountId: addresses.join(","),
     balances: aggregatedBalances,
   };
 }
@@ -67,7 +65,6 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
     .reduce((total, utxo) => total + BigInt(utxo.value), 0n);
 
   return {
-    chainId: chainId,
     balances: {
       native: {
         available: xpubResponse.data[xpub].xpub.balance - unconfirmedBalance,
@@ -75,7 +72,6 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
         unconfirmed: unconfirmedBalance,
       },
     },
-    accountId: xpub,
   };
 }
 

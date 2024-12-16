@@ -10,7 +10,6 @@ async function getTokenInfo(this: TronService, tokenId: string): Promise<Token> 
       const tokenInfo = await getTRC10TokenInfo(tokenId);
 
       return {
-        chainId: this.chainId,
         type: TokenType.TRC10,
         id: tokenId,
         name: tokenInfo.name,
@@ -23,7 +22,6 @@ async function getTokenInfo(this: TronService, tokenId: string): Promise<Token> 
       const tokenInfo = await getTRC20TokenInfo(tokenId);
 
       return {
-        chainId: this.chainId,
         type: TokenType.TRC20,
         id: tokenId,
         name: tokenInfo.name,

@@ -5,9 +5,12 @@ import { chainIdSchema, chainSchema } from "~/app/api/schemaCommon";
 const pathParamsSchema = z.object({
   chainId: chainIdSchema,
 });
-const responseSchema = chainSchema;
 
-const chainsChainIdOpenAPIPath: ZodOpenApiPathsObject = {
+const responseSchema = z.object({
+  chain: chainSchema,
+});
+
+const chainOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/chains/{chainId}": {
     get: {
       tags: ["Chain"],
@@ -20,7 +23,7 @@ const chainsChainIdOpenAPIPath: ZodOpenApiPathsObject = {
       responses: {
         "200": {
           description:
-            "200 OK - Successfully returns detailed data about the specified blockchain, including its identifier, name, family classification, supported units of currency, and additional configuration parameters.",
+            "Successfully returns detailed data about the specified blockchain, including its identifier, name, family classification, supported units of currency, and additional configuration parameters.",
           content: {
             "application/json": { schema: responseSchema },
           },
@@ -30,4 +33,4 @@ const chainsChainIdOpenAPIPath: ZodOpenApiPathsObject = {
   },
 };
 
-export { chainsChainIdOpenAPIPath, pathParamsSchema, responseSchema };
+export { chainOpenAPIPath, pathParamsSchema, responseSchema };

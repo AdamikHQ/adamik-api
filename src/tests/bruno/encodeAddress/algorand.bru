@@ -5,14 +5,17 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/address/encode
+  url: {{api_url}}/api/:chainId/address/encode
   body: json
   auth: none
 }
 
+params:path {
+  chainId: algorand
+}
+
 body:json {
   {
-    "chainId": "algorand",
     "pubkey": "89afdb83e3b65d9ec966e5a126a0aa41b826df9571f5bc0897efbbad8e0402f7"
   }
 }

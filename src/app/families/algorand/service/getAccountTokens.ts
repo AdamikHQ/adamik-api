@@ -14,7 +14,6 @@ async function getAccountTokens(
   accountAssets.forEach((asset) => {
     accountTokenAmounts.push({
       token: {
-        chainId: this.chainId,
         type: TokenType.ASA,
         id: asset.assetParams.assetId,
         name: asset.assetParams.name,
@@ -26,8 +25,6 @@ async function getAccountTokens(
   });
 
   return {
-    chainId: this.chainId,
-    accountId,
     tokens: accountTokenAmounts,
     pagination: {
       nextPage,

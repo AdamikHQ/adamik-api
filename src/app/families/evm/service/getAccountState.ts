@@ -52,8 +52,6 @@ async function getAccountState(this: EvmService, accountId: EvmAddress): Promise
   //*/
 
   return {
-    chainId: this.chainId,
-    accountId,
     balances: {
       native: {
         available: nativeBalance,

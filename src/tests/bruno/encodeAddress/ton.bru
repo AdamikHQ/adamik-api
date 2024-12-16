@@ -5,18 +5,25 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/address/encode
+  url: {{api_url}}/api/:chainId/address/encode
   body: json
   auth: none
 }
 
+params:path {
+  chainId: ton
+}
+
 body:json {
   {
-    "chainId": "ton",
     "pubkey": "cb0812e999bdcc447009b47f15391d1970ef6414269eaf54b3f510a63142c443"
   }
 }
 
 assert {
   res.status: eq 200
+  res.body.addresses[0].address: eq EQBDomkFmavVI-dh4YNenn8T4G8efdt1t59XbZ4CBI-KkFcc
+  res.body.addresses[1].address: eq EQAIts4q_-vI1bpv6yRF1psfK-KAOxoWV5eea5ifUbGFnnn8
+  res.body.addresses[2].address: eq EQCZ6jM3nIKm6AevVcZWeJsrnSkgDvKjPxYCxPlbua1VwaWa
+  res.body.addresses[3].address: eq EQAXGm8h_nvQfDwrC7Feb2KYcGGSA3PkZ0TQUzzDFOrqezFo
 }

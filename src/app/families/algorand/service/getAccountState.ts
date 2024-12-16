@@ -18,7 +18,6 @@ async function getAccountState(this: AlgorandService, accountId: string): Promis
   accountAssets.forEach((asset) => {
     accountTokenAmounts.push({
       token: {
-        chainId: this.chainId,
         type: TokenType.ASA,
         id: asset.assetParams.assetId,
         name: asset.assetParams.name,
@@ -30,8 +29,6 @@ async function getAccountState(this: AlgorandService, accountId: string): Promis
   });
 
   return {
-    chainId: this.chainId,
-    accountId,
     balances: {
       native: {
         available: nativeBalanceAvailable,

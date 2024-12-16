@@ -40,7 +40,7 @@ async function encodeTransactionToBroadcast(
   }
 
   const account = await fetchAccount(this.chainId, signedTransaction.data.sender);
-  const updatedAccount = resolvePubKey(account, signedTransaction);
+  const updatedAccount = resolvePubKey(this.chainId, account, signedTransaction);
 
   return await encodeToBroadcast(this.chainId, updatedAccount, signedTransaction);
 }

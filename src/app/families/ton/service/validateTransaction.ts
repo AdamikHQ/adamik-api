@@ -12,7 +12,7 @@ async function prevalidateTransaction(
 ): Promise<void> {
   const { transaction, status } = _;
 
-  await prevalidateTransactionCommon({
+  await prevalidateTransactionCommon(this.chainId, {
     transactionData: transaction.data,
     status,
     addressValidationFn: isAddressValid,

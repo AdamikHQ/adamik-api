@@ -5,19 +5,22 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/address/validate
+  url: {{api_url}}/api/:chainId/address/validate
   body: json
   auth: none
 }
 
+params:path {
+  chainId: algorand
+}
+
 body:json {
   {
-    "chainId": "algorand",
     "address": "466VT6W5MGDSU24FXJ7ASW4GBHR5DP2XL4QRZ2KFSCL6FEOBONGKQHN2BQ"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body: eq true
+  res.body.valid: eq true
 }

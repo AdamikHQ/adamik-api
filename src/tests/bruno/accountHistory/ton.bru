@@ -4,10 +4,15 @@ meta {
   seq: 7
 }
 
-post {
-  url: {{api_url}}/api/account/history
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/history
   body: json
   auth: none
+}
+
+params:path {
+  chainId: ton
+  accountId: UQCj2rKgLdwEkDo6N6zjmuDrrKy40qERCh1wPICJbzAixpOe
 }
 
 body:json {
