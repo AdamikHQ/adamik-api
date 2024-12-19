@@ -1,6 +1,7 @@
 import ecc from "@bitcoinerlab/secp256k1";
 import { address as addressSerde, initEccLib, networks } from "bitcoinjs-lib";
 import { ChainId } from "~/app/model/types_WIP";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { BlockchairResponseContext } from "./backend/types";
 import { Xpub } from "./types";
 
@@ -71,6 +72,7 @@ function getNetworkForChainId(chainId: ChainId): networks.Network {
  * Note: For mempool-only transactions (block_id = -1), the API doesn't return block height
  * In this case, we return MAX_SAFE_INTEGER to ensure these are counted as unconfirmed
  */
+// FIXME Function's signature and purpose are neither natural nor clear, should be refacto and/or removed
 function getCurrentBlockHeight(
   chainId: ChainId,
   utxoData: { block_id: number }[],
@@ -88,8 +90,7 @@ function getCurrentBlockHeight(
     console.warn(
       `Missing current block height for chain ID ${chainId} in: ${JSON.stringify(responseContext)}`
     );
-    // TODO Use ThirdPartyProviderError here instead
-    throw new Error(`Missing current block height in data returned from explorer`);
+    throw new ThirdPartyProviderError(`Missing current block height in data returned from explorer`);
   }
 
   return responseContext.state;
@@ -105,12 +106,15 @@ function isWitnessScript(scriptHex: string): boolean {
 
   // Witness program: version 0 (P2WPKH/P2WSH) or version 1 (P2TR)
   // Format: OP_n (version) followed by a push of 20 or 32 bytes
+
   if (script.length === 22 && script[0] === 0x00 && script[1] === 0x14) {
     return true; // P2WPKH
   }
+
   if (script.length === 34 && script[0] === 0x00 && script[1] === 0x20) {
     return true; // P2WSH
   }
+
   if (script.length === 34 && script[0] === 0x51 && script[1] === 0x20) {
     return true; // P2TR (Taproot)
   }

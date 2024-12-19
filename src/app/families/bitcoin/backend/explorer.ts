@@ -1,36 +1,22 @@
 import { BLOCKCHAIR_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { Xpub } from "../types";
 import {
   BlockchairAddressesResponse,
+  BlockchairRawTransactionData,
+  BlockchairRawTransactionResponse,
+  BlockchairResponseContext,
+  BlockchairStatsData,
   BlockchairTransactionBroadcastStatus,
-  BlockchairTransactionResponse,
+  BlockchairTransactionData,
+  BlockchairTransactionsResponse,
+  BlockchairXpubData,
   BlockchairXpubResponse,
 } from "./types";
 
 // TODO Need proper mapping between Adamik ChainID <> Blockchair ChainID (to support more than bitcoin)
-
-// FIXME: add correct fetch parsing + validation + error handling
-
-async function fetchStats(chainId: ChainId) {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const url = `${explorerURL}/${chainId}/stats`;
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    console.warn(
-      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
-      await response.text()
-    );
-    throw new Error("Error while fetching transaction metadata from the explorer");
-  }
-
-  const result = await response.json();
-
-  return result.data;
-}
 
 /**
  * Fetches xpub data from Blockchair API:
@@ -42,8 +28,10 @@ async function fetchStats(chainId: ChainId) {
  * - Default limit is 100 addresses (can be changed with ?limit parameter up to 10000)
  * - Premium API users get increased limit of up to 20,000 addresses (10,000 main + 10,000 change)
  */
-
-async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<BlockchairXpubResponse> {
+async function fetchXpubDashboard(
+  chainId: ChainId,
+  xpub: Xpub
+): Promise<{ data: BlockchairXpubData; context: BlockchairResponseContext }> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
@@ -60,151 +48,287 @@ async function fetchXpubDashboard(chainId: ChainId, xpub: Xpub): Promise<Blockch
     throw new Error("Error while fetching Xpub data from the explorer");
   }
 
-  const result = BlockchairXpubResponse.safeParse(await response.json());
+  const parsedResponse = BlockchairXpubResponse.safeParse(await response.json());
 
-  if (!result.success) {
+  if (!parsedResponse.success) {
     console.warn(
       `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
-      result.error
+      parsedResponse.error
     );
     throw new Error("Error while parsing Xpub data from the explorer");
   }
 
-  if (result.data.context.code != 200) {
+  const context = parsedResponse.data.context;
+
+  if (context.code != 200 || !parsedResponse.data.data[xpub]) {
     console.warn(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
-      result.data.context.error
+      parsedResponse.data
     );
     throw new Error("Error in Xpub data received from the explorer");
   }
-  return result.data;
+
+  if (!context.state) {
+    console.warn(`Missing current block height for chain ID ${chainId} in: ${JSON.stringify(context)}`);
+    throw new ThirdPartyProviderError(`Missing current block height in data returned from explorer`);
+  }
+
+  return {
+    data: parsedResponse.data.data[xpub],
+    context: parsedResponse.data.context,
+  };
 }
 
-async function fetchAddressesDashboard(
+async function fetchAddressesBatch(
   chainId: ChainId,
-  addresses: string[]
-): Promise<BlockchairAddressesResponse> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const BATCH_SIZE = 100;
-
-  // If no addresses, return early
-  if (addresses.length === 0) {
-    return {
-      context: { code: 200, request_cost: 1 },
-      data: null,
-    };
-  }
-
-  // Split addresses into batches
-  const batches: string[][] = [];
-  for (let i = 0; i < addresses.length; i += BATCH_SIZE) {
-    batches.push(addresses.slice(i, i + BATCH_SIZE));
-  }
-
-  // Fetch data for each batch
-  const responses = await Promise.all(
-    batches.map(async (batchAddresses) => {
-      const queryParams = new URLSearchParams({
-        key: BLOCKCHAIR_API_KEY,
-      });
-
-      // FIXME: If/when Blockchair supports it, switch to POST request with addresses in body
-      // Currently implementing batching to stay within 100-address GET limit
-      const url = `${explorerURL}/dashboards/addresses/${batchAddresses.join(",")}?${queryParams.toString()}`;
-      const response = await fetch(url);
-
-      if (response.status >= 500) {
-        console.warn(
-          `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
-          await response.text()
-        );
-        throw new Error("Error while fetching addresses data from the explorer");
-      }
-
-      const result = BlockchairAddressesResponse.safeParse(await response.json());
-
-      if (!result.success) {
-        console.warn(
-          `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
-          result.error
-        );
-        throw new Error("Error while parsing addresses data from the explorer");
-      }
-
-      if (result.data.context.code == 404) {
-        return {
-          context: result.data.context,
-          data: null,
-        };
-      } else if (result.data.context.code != 200) {
-        console.warn(
-          `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
-          result.data.context.error
-        );
-        throw new Error("Error in addresses data received from the explorer");
-      }
-
-      return result.data;
-    })
-  );
-
-  // Merge all responses
-  return responses.reduce((merged, current) => {
-    if (!merged) {
-      return current;
-    }
-
-    // Merge data from current response into accumulated result
-    if (merged.data && current.data) {
-      merged.data = {
-        ...merged.data,
-        utxo: [...(merged.data.utxo || []), ...(current.data.utxo || [])],
-      };
-    }
-    return merged;
-  });
-}
-
-async function postTransaction(chainId: ChainId, signedTransaction: string): Promise<string> {
+  addressesBatch: string[]
+): Promise<BlockchairAddressesResponse | null> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
-    data: signedTransaction,
   });
 
-  const url = `${explorerURL}/push/transaction?${queryParams.toString()}`;
+  // TODO If/when Blockchair supports it, switch to POST request with addresses in body
+  // Currently implementing batching to stay within 100-address GET limit
+  const url = `${explorerURL}/dashboards/addresses/${addressesBatch.join(",")}?${queryParams.toString()}`;
 
-  const response = await fetch(url, {
-    method: "POST",
-  });
+  const response = await fetch(url);
 
   if (response.status >= 500) {
     console.warn(
       `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
-    throw new Error("Error during transaction broadcast to the node");
+    throw new Error("Error while fetching addresses data from the explorer");
   }
 
-  const result = BlockchairTransactionBroadcastStatus.safeParse(await response.json());
+  const parsedResponse = BlockchairAddressesResponse.safeParse(await response.json());
 
-  if (!result.success) {
+  if (!parsedResponse.success) {
     console.warn(
       `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
-      result.error
+      parsedResponse.error
     );
-    throw new Error("Error while parsing response from transaction broadcast");
+    throw new Error("Error while parsing addresses data from the explorer");
   }
 
-  if (result.data.context.code != 200 || !result.data.data?.transaction_hash) {
+  const context = parsedResponse.data.context;
+
+  if (context.code == 404) {
+    return null;
+  } else if (context.code != 200) {
     console.warn(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
-      result.data.context.error
+      parsedResponse.data
     );
-    throw new Error(`Error in response received from transaction broadcast: ${result}`);
+    throw new Error("Error in addresses data received from the explorer");
   }
 
-  return result.data.data.transaction_hash;
+  if (!context.state) {
+    console.warn(`Missing current block height for chain ID ${chainId} in: ${JSON.stringify(context)}`);
+    throw new ThirdPartyProviderError(`Missing current block height in data returned from explorer`);
+  }
+
+  return parsedResponse.data;
+}
+
+async function fetchAddressesDashboard(
+  chainId: ChainId,
+  addresses: string[]
+): Promise<BlockchairAddressesResponse> {
+  // Split addresses into batches
+  const BATCH_SIZE = 100;
+  const batches: string[][] = [];
+  for (let i = 0; i < addresses.length; i += BATCH_SIZE) {
+    batches.push(addresses.slice(i, i + BATCH_SIZE));
+  }
+
+  // Fetch data for each batch
+  const responses: BlockchairAddressesResponse[] = await Promise.all(
+    batches
+      .map(async (addressesBatch) => fetchAddressesBatch(chainId, addressesBatch))
+      // Filter-out cases where null was returned
+      .filter(Boolean) as Promise<BlockchairAddressesResponse>[]
+  );
+
+  // Merge all responses
+  return responses.reduce(
+    (merged, current) => ({
+      ...merged,
+      ...current,
+    }),
+    responses[0]
+  );
+}
+
+async function fetchTransaction(
+  chainId: ChainId,
+  txHash: string
+): Promise<BlockchairTransactionsResponse | null> {
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
+
+  const url = `${explorerURL}/dashboards/transaction/${txHash}?${queryParams.toString()}`;
+
+  const response = await fetch(url);
+
+  if (response.status >= 500) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new Error("Error while fetching transaction data from the explorer");
+  }
+
+  const parsedResponse = BlockchairTransactionsResponse.safeParse(await response.json());
+
+  if (!parsedResponse.success) {
+    console.warn(
+      `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
+      parsedResponse.error
+    );
+    throw new Error("Error while parsing transaction data from the explorer");
+  }
+
+  const context = parsedResponse.data.context;
+
+  if (context.code == 404 || context.results === 0) {
+    return null;
+  } else if (context.code != 200) {
+    console.warn(
+      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+      parsedResponse.data
+    );
+    throw new Error("Error in transaction data received from the explorer");
+  }
+
+  return parsedResponse.data;
+}
+
+// Fetches metadata for multiple transactions in a single request
+// Note: Blockchair API allows batching transactions with comma-separated hashes
+async function fetchTransactionsMetadataBatched(
+  chainId: ChainId,
+  txHashes: string[]
+): Promise<BlockchairTransactionData[]> {
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
+
+  // Split txHashes into batches
+  const BATCH_SIZE = 10; // Max size accepted by Blockchair
+  const batches: string[][] = [];
+  for (let i = 0; i < txHashes.length; i += BATCH_SIZE) {
+    batches.push(txHashes.slice(i, i + BATCH_SIZE));
+  }
+
+  let results: BlockchairTransactionData[] = [];
+
+  // Fetch data for each batch
+  for (const batch of batches) {
+    // Join transaction hashes with commas for batch request
+    const url = `${explorerURL}/dashboards/transactions/${batch.join(",")}?${queryParams.toString()}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      console.warn(
+        `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+        await response.text()
+      );
+      throw new Error("Error while fetching transaction metadata from the explorer");
+    }
+
+    const parsedResponse = BlockchairTransactionsResponse.safeParse(await response.json());
+
+    if (!parsedResponse.success) {
+      console.warn(
+        `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
+        parsedResponse.error
+      );
+      throw new Error("Error while parsing transaction data from the explorer");
+    }
+
+    const context = parsedResponse.data.context;
+
+    if (context.code !== 200) {
+      console.warn(
+        `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+        parsedResponse.data
+      );
+      throw new Error("Error in transaction metadata received from the explorer");
+    }
+
+    results = results.concat(Object.values(parsedResponse.data.data));
+  }
+
+  return results;
+}
+
+// This function works for both mempool and confirmed transactions
+// Note: No support of batching for this endpoint
+async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<BlockchairRawTransactionData> {
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
+
+  const url = `${explorerURL}/raw/transaction/${txHash}?${queryParams.toString()}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new Error("Error while fetching raw transaction metadata from the explorer");
+  }
+
+  const parsedResponse = BlockchairRawTransactionResponse.safeParse(await response.json());
+
+  if (!parsedResponse.success) {
+    console.warn(
+      `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
+      parsedResponse.error
+    );
+    throw new Error("Error while parsing transaction data from the explorer");
+  }
+
+  if (
+    parsedResponse.data.context.code !== 200 ||
+    !parsedResponse.data.data ||
+    !parsedResponse.data.data[txHash]
+  ) {
+    console.warn(
+      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+      parsedResponse.data
+    );
+    throw new Error("Error in raw transaction metadata received from the explorer");
+  }
+
+  return parsedResponse.data.data[txHash];
+}
+
+async function fetchStats(chainId: ChainId): Promise<BlockchairStatsData> {
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const url = `${explorerURL}/${chainId}/stats`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new Error("Error while fetching transaction metadata from the explorer");
+  }
+
+  const result = await response.json();
+
+  return result.data;
 }
 
 async function fetchFeePerByte(chainId: ChainId): Promise<number> {
@@ -238,157 +362,55 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
   return result.data.suggested_transaction_fee_per_byte_sat;
 }
 
-async function fetchTransaction(chainId: ChainId, txHash: string): Promise<BlockchairTransactionResponse> {
+async function postTransaction(chainId: ChainId, signedTransaction: string): Promise<string> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
+    data: signedTransaction,
   });
 
-  const url = `${explorerURL}/dashboards/transaction/${txHash}?${queryParams.toString()}`;
+  const url = `${explorerURL}/push/transaction?${queryParams.toString()}`;
 
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    method: "POST",
+  });
 
   if (response.status >= 500) {
     console.warn(
       `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
-    throw new Error("Error while fetching transaction data from the explorer");
+    throw new Error("Error during transaction broadcast to the node");
   }
 
-  const result = BlockchairTransactionResponse.safeParse(await response.json());
+  const parsedResponse = BlockchairTransactionBroadcastStatus.safeParse(await response.json());
 
-  if (!result.success) {
+  if (!parsedResponse.success) {
     console.warn(
       `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
-      result.error
+      parsedResponse.error
     );
-    throw new Error("Error while parsing transaction data from the explorer");
+    throw new Error("Error while parsing response from transaction broadcast");
   }
 
-  if (result.data.context.code == 404 || result.data.context.results === 0) {
-    return {
-      context: result.data.context,
-      data: null,
-    };
-  } else if (result.data.context.code != 200) {
+  if (parsedResponse.data.context.code != 200 || !parsedResponse.data.data?.transaction_hash) {
     console.warn(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
-      result.data.context.error
+      parsedResponse.data
     );
-    throw new Error("Error in transaction data received from the explorer");
+    throw new Error(`Error received from transaction broadcast: ${parsedResponse}`);
   }
 
-  return result.data;
-}
-
-// This function works for both mempool and confirmed transactions
-async function fetchRawTransactionMetadata(chainId: ChainId, txHash: string): Promise<string> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const queryParams = new URLSearchParams({
-    key: BLOCKCHAIR_API_KEY,
-  });
-
-  const url = `${explorerURL}/raw/transaction/${txHash}?${queryParams.toString()}`;
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    console.warn(
-      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
-      await response.text()
-    );
-    throw new Error("Error while fetching raw transaction metadata from the explorer");
-  }
-
-  const result = await response.json();
-
-  if (result.context.code !== 200 || !result.data || !result.data[txHash]) {
-    console.warn(
-      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
-      JSON.stringify(result)
-    );
-    throw new Error("Error in raw transaction metadata received from the explorer");
-  }
-
-  return result.data[txHash].raw_transaction;
-}
-
-/**
- * Fetches metadata for multiple transactions in a single request
- * Note: Blockchair API allows batching transactions with comma-separated hashes
- */
-async function fetchBatchTransactionMetadata(
-  chainId: ChainId,
-  txHashes: string[]
-): Promise<
-  Record<
-    string,
-    {
-      transaction: {
-        has_witness: boolean;
-      };
-      outputs: Array<{
-        index: number;
-        script_hex: string;
-        spending_witness: string;
-      }>;
-    }
-  >
-> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
-  const queryParams = new URLSearchParams({
-    key: BLOCKCHAIR_API_KEY,
-  });
-
-  const BATCH_SIZE = 10; // Max size accepted by Blockchair
-  const batches: string[][] = [];
-
-  // Split txHashes into batches
-  for (let i = 0; i < txHashes.length; i += BATCH_SIZE) {
-    batches.push(txHashes.slice(i, i + BATCH_SIZE));
-  }
-
-  const results: Record<string, any> = {};
-
-  // Fetch data for each batch
-  for (const batch of batches) {
-    // Join transaction hashes with commas for batch request
-    const url = `${explorerURL}/dashboards/transactions/${batch.join(",")}?${queryParams.toString()}`;
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      console.warn(
-        `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
-        await response.text()
-      );
-      throw new Error("Error while fetching transaction metadata from the explorer");
-    }
-
-    const result = await response.json();
-
-    if (result.context.code !== 200) {
-      console.warn(
-        `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
-        JSON.stringify(result)
-      );
-      throw new Error("Error in transaction metadata received from the explorer");
-    }
-
-    // Merge the current batch result into the final results
-    Object.assign(results, result.data);
-  }
-
-  return results;
+  return parsedResponse.data.data.transaction_hash;
 }
 
 export {
   fetchAddressesDashboard,
-  fetchBatchTransactionMetadata,
   fetchFeePerByte,
-  fetchRawTransactionMetadata,
+  fetchRawTransaction,
   fetchStats,
   fetchTransaction,
+  fetchTransactionsMetadataBatched,
   fetchXpubDashboard,
   postTransaction,
 };

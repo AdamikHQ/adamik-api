@@ -15,7 +15,8 @@ type BitcoinTransactionParams = {
   outputs: PsbtOutputExtended[];
 };
 
-// Extract type from Psbt.addOutput as it's not exported by bitcoinjs
+// Extract internal types from Psbt class, that are not exported by bitcoinjs...
+type PsbtInputExtended = Parameters<typeof Psbt.prototype.addInput>[0];
 type PsbtOutputExtended = Parameters<typeof Psbt.prototype.addOutput>[0];
 
 /**
@@ -30,4 +31,11 @@ type Branded<T, B> = T & Brand<B>;
 /**  Defines Xpub as a branded string, {@link isValidXpub} has to be used to check if a string is an Xpub */
 type Xpub = Branded<string, "Xpub">;
 
-export type { BitcoinChainParams, BitcoinTransactionParams, Branded, Xpub };
+export type {
+  BitcoinChainParams,
+  BitcoinTransactionParams,
+  Branded,
+  PsbtInputExtended,
+  PsbtOutputExtended,
+  Xpub,
+};

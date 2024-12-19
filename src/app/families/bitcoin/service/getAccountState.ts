@@ -78,15 +78,15 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
   const chainParams = CHAINS[chainId].params as BitcoinChainParams;
 
   // Get all UTXOs that are in blocks from xpub endpoint
-  const xpubResponse = await fetchXpubDashboard(chainId, xpub);
+  const { data, context } = await fetchXpubDashboard(chainId, xpub);
 
-  const allUtxos = Object.values(xpubResponse.data)[0]?.utxo;
+  const allUtxos = data.utxo;
 
-  const currentBlockHeight = getCurrentBlockHeight(chainId, allUtxos, xpubResponse.context);
+  const currentBlockHeight = getCurrentBlockHeight(chainId, allUtxos, context);
 
   // Calculate confirmed balance for UTXOs with >= required confirmations
   // Confirmed tx are always visible in the xpub dashboard response
-  const confirmedUtxos = xpubResponse.data?.[xpub]?.utxo.filter((utxo) => {
+  const confirmedUtxos = allUtxos.filter((utxo) => {
     // Let's, exclude mempool transactions (which can SOMETIMES be visible in the xpub dashboard response)
     if (utxo.block_id === -1) return false;
     // Then check confirmations for transactions in blocks
@@ -96,7 +96,7 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
 
   // Calculate unconfirmed balance for UTXOs in blocks but < required confirmations
   // Because these transactions are included in a block, they are also visible in the xpub dashboard response
-  const unconfirmedUtxos = xpubResponse.data?.[xpub]?.utxo.filter(
+  const unconfirmedUtxos = allUtxos.filter(
     (utxo) => currentBlockHeight - utxo.block_id + 1 < chainParams.confirmations
   );
   const unconfirmedUtxosBalance =
@@ -104,7 +104,7 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
 
   // Get mempool transactions
   // Mempool transactions are SOMETIMES visible in the xpub dashboard response (but not always)
-  const mempoolUtxos = xpubResponse.data?.[xpub]?.utxo.filter((utxo) => utxo.block_id === -1);
+  const mempoolUtxos = allUtxos.filter((utxo) => utxo.block_id === -1);
   const mempoolUtxosBalance = mempoolUtxos?.reduce((total, utxo) => total + BigInt(utxo.value), 0n) ?? 0n;
 
   return {

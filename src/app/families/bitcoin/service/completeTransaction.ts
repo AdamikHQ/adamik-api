@@ -19,40 +19,21 @@ async function completeTransaction(
 
   const feeRate = await fetchFeePerByte(this.chainId);
 
-  const { allUtxos, currentBlockHeight } = await (async () => {
-    if (isValidXpub(this.chainId, transaction.data.sender)) {
-      const blockHeightResponse = await fetchXpubDashboard(this.chainId, transaction.data.sender);
-      const allUtxos = blockHeightResponse.data?.[transaction.data.sender]?.utxo;
-
-      const currentBlockHeight = getCurrentBlockHeight(this.chainId, allUtxos, blockHeightResponse.context);
-
-      return {
-        allUtxos,
-        currentBlockHeight,
-      };
-    } else {
-      const blockHeightResponse = await fetchAddressesDashboard(this.chainId, [transaction.data.sender]);
-      const allUtxos = blockHeightResponse.data?.utxo;
-
-      const currentBlockHeight = getCurrentBlockHeight(
-        this.chainId,
-        allUtxos || [],
-        blockHeightResponse.context
-      );
-
-      return {
-        allUtxos,
-        currentBlockHeight,
-      };
-    }
+  const { data, context } = await (async () => {
+    return isValidXpub(this.chainId, transaction.data.sender)
+      ? await fetchXpubDashboard(this.chainId, transaction.data.sender)
+      : await fetchAddressesDashboard(this.chainId, [transaction.data.sender]);
   })();
+
+  let allUtxos: UtxoWithMetadata[] = data?.utxo || [];
+  const currentBlockHeight = getCurrentBlockHeight(this.chainId, allUtxos, context);
 
   // Select UTXOs using either:
   // - coinSelect: finds optimal UTXOs for exact amount
   // - split: uses all UTXOs to send maximum amount
   const selectionAlgorithm = transaction.data.useMaxAmount ? split : coinSelect;
   const { inputs, outputs, fee } = selectionAlgorithm(
-    allUtxos ?? [],
+    allUtxos,
     [
       {
         address: transaction.data.recipient,
@@ -62,7 +43,7 @@ async function completeTransaction(
     feeRate
   );
 
-  // .inputs and .outputs will be undefined if no solution was found
+  // inputs and outputs will be undefined if no solution was found
   if (!inputs || !outputs) {
     status.errors.push({
       message:
