@@ -20,7 +20,6 @@ const createEmptyBalances = () => ({
  * FIXME: This is a bug, and we should fix it by ensuring that mempool transactions are always included in the response for xpubs
  * Currently being discussed with the Blockchain explorer team
  */
-
 async function getAccountState(this: BitcoinService, accountId: string): Promise<AccountState> {
   return isValidXpub(this.chainId, accountId)
     ? getXpubState(this.chainId, accountId)
@@ -33,8 +32,6 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
   // Return zero balances if no data found
   if (!addressesResponse.data) {
     return {
-      chainId,
-      accountId: addresses.join(","),
       balances: createEmptyBalances(),
     };
   }
