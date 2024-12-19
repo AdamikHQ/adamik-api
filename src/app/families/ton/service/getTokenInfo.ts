@@ -11,7 +11,6 @@ async function getTokenInfo(this: TonService, tokenId: string): Promise<Token> {
     }
 
     const token: Token = {
-      chainId: this.chainId,
       type: TokenType.JETTON,
       id: tokenId,
       name: jettonInfo.metadata.name,

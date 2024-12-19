@@ -15,8 +15,6 @@ async function getAccountTokens(
   );
 
   return {
-    chainId: this.chainId,
-    accountId,
     tokens,
     pagination: {
       nextPage,

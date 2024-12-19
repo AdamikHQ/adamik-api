@@ -4,10 +4,15 @@ meta {
   seq: 2
 }
 
-post {
-  url: {{api_url}}/api/account/state/tokens
-  body: json
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state/tokens
+  body: none
   auth: none
+}
+
+params:path {
+  chainId: cosmoshub
+  accountId: cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl
 }
 
 body:json {

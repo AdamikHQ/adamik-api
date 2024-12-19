@@ -86,8 +86,8 @@ function isValidAddress(address: string, chainId: ChainId): boolean {
 
 // Returns the provided CosmosAccount with updated pubKeyType and pubKey,
 // depending on account and transaction data
-function resolvePubKey(account: CosmosAccount, transaction: Transaction): CosmosAccount {
-  const chainParams = CHAINS[transaction.data.chainId].params as CosmosChainParams;
+function resolvePubKey(chainId: ChainId, account: CosmosAccount, transaction: Transaction): CosmosAccount {
+  const chainParams = CHAINS[chainId].params as CosmosChainParams;
   const transactionParams = transaction.data.params as CosmosTransactionParams;
 
   // pubKeyType and pubKey are provided by the blockchain only when the address has already done some transaction(s)
@@ -119,7 +119,7 @@ async function getEstimatedFees(
 }> {
   const chainParams = CHAINS[chainId].params as CosmosChainParams;
 
-  const { protoMsgs } = buildMessages(transaction);
+  const { protoMsgs } = buildMessages(chainId, transaction);
 
   const txBytes = buildBroadcastPayload({
     protoMsgs,
@@ -158,11 +158,14 @@ async function getEstimatedFees(
   return { gasWanted: BigInt(gasWanted.toFixed()), gasWantedFees: BigInt(gasWantedFees.toFixed()) };
 }
 
-function buildMessages(transaction: TransactionData): {
+function buildMessages(
+  chainId: ChainId,
+  transaction: TransactionData
+): {
   aminoMsgs: AminoMsg[];
   protoMsgs: ProtoMsg[];
 } {
-  const chainParams = CHAINS[transaction.chainId].params as CosmosChainParams;
+  const chainParams = CHAINS[chainId].params as CosmosChainParams;
   // amount is safe to cast as it's guaranteed to be filed in by completeTransaction
   const amount = transaction.amount as bigint;
 
@@ -343,12 +346,13 @@ function buildMessages(transaction: TransactionData): {
 }
 
 function buildStdSignDoc(
+  chainId: ChainId,
   account: CosmosAccount,
   transaction: TransactionData,
   networkId: string,
   feeToEncode: StdFee
 ) {
-  const { aminoMsgs } = buildMessages(transaction);
+  const { aminoMsgs } = buildMessages(chainId, transaction);
 
   return makeSignDoc(
     aminoMsgs,
@@ -446,7 +450,7 @@ async function encodeToSign(
   const signDoc =
     chainId === ChainId.INJECTIVE
       ? buildStdSignDocForInjective(account, transaction, networkId)
-      : buildStdSignDoc(account, transaction, networkId, feeToEncode);
+      : buildStdSignDoc(chainId, account, transaction, networkId, feeToEncode);
 
   const serializedSignDoc = Buffer.from(serializeSignDoc(signDoc));
 
@@ -474,7 +478,7 @@ async function encodeToBroadcast(
     ? Buffer.from(Secp256k1Signature.fromDer(fromHex(signedTransaction.signature)).toFixedLength())
     : Buffer.from(fromBase64(signedTransaction.signature));
 
-  const { protoMsgs } = buildMessages(transactionData);
+  const { protoMsgs } = buildMessages(chainId, transactionData);
 
   const chainParams = chainId && (CHAINS[chainId].params as CosmosChainParams);
 

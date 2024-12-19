@@ -16,13 +16,13 @@ async function prevalidateTransaction(
     !isValidAddress(this.chainId, transaction.data.sender)
   ) {
     status.errors.push({
-      message: `Sender address ${transaction.data.sender} is invalid for ${transaction.data.chainId}`,
+      message: `Sender address ${transaction.data.sender} is invalid for ${this.chainId}`,
     });
   }
 
   if (!isValidAddress(this.chainId, transaction.data.recipient)) {
     status.errors.push({
-      message: `Recipient address ${transaction.data.recipient} is invalid for ${transaction.data.chainId}`,
+      message: `Recipient address ${transaction.data.recipient} is invalid for ${this.chainId}`,
     });
   }
 }

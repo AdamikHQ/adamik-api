@@ -68,8 +68,6 @@ async function getAddressesState(chainId: ChainId, addresses: string[]): Promise
   }
 
   return {
-    chainId,
-    accountId: addresses.join(","),
     balances: aggregatedBalances,
   };
 }
@@ -108,7 +106,6 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
   const mempoolUtxosBalance = mempoolUtxos?.reduce((total, utxo) => total + BigInt(utxo.value), 0n) ?? 0n;
 
   return {
-    chainId: chainId,
     balances: {
       native: {
         available: confirmedUTXOsBalance + unconfirmedUtxosBalance + mempoolUtxosBalance,
@@ -116,7 +113,6 @@ async function getXpubState(chainId: ChainId, xpub: Xpub): Promise<AccountState>
         unconfirmed: unconfirmedUtxosBalance + mempoolUtxosBalance,
       },
     },
-    accountId: xpub,
   };
 }
 

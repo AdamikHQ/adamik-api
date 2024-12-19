@@ -47,7 +47,7 @@ async function encodeTransactionToSign(
         break;
       default:
         throw new UnsupportedFeatureError(
-          `Unsupported encoding format '${transaction.data.format}' for chainId ${transaction.data.chainId}`
+          `Unsupported encoding format '${transaction.data.format}' for chainId ${this.chainId}`
         );
     }
   } catch (e: any) {

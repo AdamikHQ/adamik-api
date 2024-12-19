@@ -2,7 +2,6 @@ import {
   AccountHistory,
   AccountState,
   AccountTokens,
-  BroadcastStatus,
   ChainId,
   ChainValidators,
   FinalizedTransaction,
@@ -45,7 +44,7 @@ abstract class BaseChainService {
   abstract encodeTransactionToBroadcast(_: { signedTransaction: Transaction }): Promise<string>;
 
   // Broadcast
-  abstract broadcastTransaction(payload: string): Promise<BroadcastStatus>;
+  abstract broadcastTransaction(payload: string): Promise<string>;
 }
 
 // STAKING ////////////////////////////////////////////////////////////////////////////////////

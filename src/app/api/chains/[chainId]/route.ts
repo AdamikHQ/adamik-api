@@ -4,8 +4,10 @@ import { pathParamsSchema, responseSchema } from "./schema";
 
 export const GET = apiHandler(
   {
-    responseSchema,
     pathParamsSchema,
+    responseSchema,
   },
-  async ({ pathParams }) => CHAINS[pathParams.chainId]
+  async ({ pathParams }) => ({
+    chain: CHAINS[pathParams.chainId],
+  })
 );

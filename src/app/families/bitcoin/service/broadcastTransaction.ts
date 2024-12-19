@@ -1,5 +1,4 @@
 import { Psbt } from "bitcoinjs-lib";
-import { BroadcastStatus } from "~/app/model/types_WIP";
 import { postTransaction } from "../backend/explorer";
 import { BitcoinService } from "../service";
 
@@ -8,10 +7,7 @@ import { BitcoinService } from "../service";
  *
  * TODO: make it explicit that it's a PSBT or raw hex?
  */
-async function broadcastTransaction(
-  this: BitcoinService,
-  signedTransaction: string
-): Promise<BroadcastStatus> {
+async function broadcastTransaction(this: BitcoinService, signedTransaction: string): Promise<string> {
   let transactionToBroadcast;
 
   // TODO Split this between /broadcast and /broadcast/raw endpoints
@@ -24,9 +20,7 @@ async function broadcastTransaction(
     transactionToBroadcast = signedTransaction;
   }
 
-  return {
-    hash: await postTransaction(this.chainId, transactionToBroadcast),
-  };
+  return await postTransaction(this.chainId, transactionToBroadcast);
 }
 
 export { broadcastTransaction };

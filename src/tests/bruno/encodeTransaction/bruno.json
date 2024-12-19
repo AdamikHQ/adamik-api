@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "/api/transaction/encode",
+  "name": "/api/[chainId]/transaction/encode",
   "type": "collection",
   "ignore": [
     "node_modules",
