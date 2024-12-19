@@ -5,16 +5,19 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/transaction/encode
+  url: {{api_url}}/api/:chainId/transaction/encode
   body: json
   auth: none
+}
+
+params:path {
+  chainId: bitcoin
 }
 
 body:json {
   {
     "transaction": {
       "data": {
-        "chainId": "bitcoin",
         "mode": "transfer",
         "sender": "xpub6CwcRtE4ePo1jQ6Shrb9FPsBPcrTEneP6w9pcbPxML6yRvCC5cH49Xkm68Tw3sNYtw3fzi1PbEHDVfXFnePmJp3YHd9hzCYGToaNEVbNQWa",
         "recipient": "bc1q4gwr68h0sqqwca8p40kamch69ynttq4ypw8pwu",
