@@ -55,6 +55,10 @@ const responseSchema = z.object({
           description:
             "Amount of native currency that is immediately available for using. This excludes amounts that are locked in staking positions.",
         }),
+        unconfirmed: bigintToStringSchema.optional().openapi({
+          description:
+            "Amount of native currency that is either pending (mempool) or not yet fully confirmed (not enough block confirmations). Relevant for chains with long confirmation times (like Bitcoin).",
+        }),
         total: bigintToStringSchema.openapi({
           description:
             "Total amount of native currency owned by the account, including both available and locked amounts (staking positions).",

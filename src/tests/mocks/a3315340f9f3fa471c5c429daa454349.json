@@ -1,0 +1,93 @@
+{
+  "request": {
+    "url": "https://api.blockchair.com/bitcoin/raw/transaction/1d607ea6ba6b4341e52125384c15a977ca46d83170e673528cdbe6a2f9c3f821?key=B___w6qlc1o9vh18WuolPZcFGtGslRxY",
+    "method": "GET"
+  },
+  "response": {
+    "data": {
+      "1d607ea6ba6b4341e52125384c15a977ca46d83170e673528cdbe6a2f9c3f821": {
+        "raw_transaction": "020000000001013a40d9b207cefd9fd8663839b7775afbb5c22be699ea5bfc5568897359fac0070100000000fdffffff02e0680300000000001976a91452e276db2d63019ad320e5598628fa0a66b202eb88acff7d040000000000160014cd8376704a7818dbd8447272a28cac62dc61c04c02483045022100f2793c540c333b13b59ffbab2727355af7c025cb7795c31ffed9f00a932f427902204f475ffd5b18b026756735060af29591e07d87b4110301e0754681552a61b470012103d14c088f9a2f63f02173be720c7ced7f0cc254d7dea3d5bb4cef1d8ccc61030800000000",
+        "decoded_raw_transaction": {
+          "txid": "1d607ea6ba6b4341e52125384c15a977ca46d83170e673528cdbe6a2f9c3f821",
+          "hash": "750e1b7331b6f73a70c61d36436619ce16071647a87d8b12d36067d1484d9715",
+          "version": 2,
+          "size": 226,
+          "vsize": 144,
+          "weight": 574,
+          "locktime": 0,
+          "vin": [
+            {
+              "txid": "07c0fa5973896855fc5bea99e62bc2b5fb5a77b7393866d89ffdce07b2d9403a",
+              "vout": 1,
+              "scriptSig": {
+                "asm": "",
+                "hex": ""
+              },
+              "txinwitness": [
+                "3045022100f2793c540c333b13b59ffbab2727355af7c025cb7795c31ffed9f00a932f427902204f475ffd5b18b026756735060af29591e07d87b4110301e0754681552a61b47001",
+                "03d14c088f9a2f63f02173be720c7ced7f0cc254d7dea3d5bb4cef1d8ccc610308"
+              ],
+              "sequence": 4294967293
+            }
+          ],
+          "vout": [
+            {
+              "value": 0.00223456,
+              "n": 0,
+              "scriptPubKey": {
+                "asm": "OP_DUP OP_HASH160 52e276db2d63019ad320e5598628fa0a66b202eb OP_EQUALVERIFY OP_CHECKSIG",
+                "hex": "76a91452e276db2d63019ad320e5598628fa0a66b202eb88ac",
+                "address": "18ZFhkAfeSfwi3uTLZXYunPzdqCabLYCL9",
+                "type": "pubkeyhash",
+                "addresses": [
+                  "18ZFhkAfeSfwi3uTLZXYunPzdqCabLYCL9"
+                ],
+                "reqSigs": 1
+              }
+            },
+            {
+              "value": 0.00294399,
+              "n": 1,
+              "scriptPubKey": {
+                "asm": "0 cd8376704a7818dbd8447272a28cac62dc61c04c",
+                "hex": "0014cd8376704a7818dbd8447272a28cac62dc61c04c",
+                "address": "bc1qekphvuz20qvdhkzywfe29r9vvtwxrszvaxzmqm",
+                "type": "witness_v0_keyhash",
+                "addresses": [
+                  "bc1qekphvuz20qvdhkzywfe29r9vvtwxrszvaxzmqm"
+                ],
+                "reqSigs": 1
+              }
+            }
+          ]
+        }
+      }
+    },
+    "context": {
+      "code": 200,
+      "source": "R",
+      "results": 1,
+      "state": 873395,
+      "market_price_usd": 100692,
+      "cache": {
+        "live": true,
+        "duration": 120,
+        "since": "2024-12-05 17:30:15",
+        "until": "2024-12-05 17:32:15",
+        "time": null
+      },
+      "api": {
+        "version": "2.0.95-ie",
+        "last_major_update": "2022-11-07 02:00:00",
+        "next_major_update": "2023-11-12 02:00:00",
+        "documentation": "https://blockchair.com/api/docs",
+        "notice": "Try out our new API v.3: https://3xpl.com/data"
+      },
+      "servers": "API4,BTC5,BTC5",
+      "time": 0.0017619132995605469,
+      "render_time": 0.014655113220214844,
+      "full_time": 0.01641702651977539,
+      "request_cost": 1
+    }
+  }
+}

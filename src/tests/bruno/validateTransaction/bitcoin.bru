@@ -18,7 +18,6 @@ body:json {
   {
     "transaction": {
       "data": {
-        "chainId": "bitcoin",
         "mode": "transfer",
         "sender": "bc1pdvagvvtvs3k35zxq7hp86x6cgp5kl6np786y50p7dj2m394rhrwq236ryc",
         "recipient": "bc1pdvagvvtvs3k35zxq7hp86x6cgp5kl6np786y50p7dj2m394rhrwq236ryc",
@@ -31,6 +30,6 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.status.errors: isEmpty 
-  res.body.status.warnings: isEmpty 
+  res.body.status.errors: isEmpty
+  res.body.status.warnings: isEmpty
 }
