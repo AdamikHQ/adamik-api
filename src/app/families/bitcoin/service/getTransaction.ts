@@ -8,7 +8,7 @@ import { BitcoinChainParams } from "../types";
 async function getTransaction(this: BitcoinService, transactionId: string): Promise<FinalizedTransaction> {
   const bitcoinTransaction = await fetchTransaction(this.chainId, transactionId);
 
-  if (!bitcoinTransaction.data || Array.isArray(bitcoinTransaction.data)) {
+  if (!bitcoinTransaction?.data || Array.isArray(bitcoinTransaction.data)) {
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 

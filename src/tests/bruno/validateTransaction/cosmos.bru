@@ -18,7 +18,6 @@ body:json {
   {
     "transaction": {
       "data": {
-        "chainId": "cosmoshub",
         "mode": "transfer",
         "sender": "cosmos1tkepfylhl7fmkrzsvphky2z0r7upvr9t689g2u",
         "recipient": "cosmos1tkepfylhl7fmkrzsvphky2z0r7upvr9t689g2u",
@@ -36,6 +35,6 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.status.errors: isEmpty 
+  res.body.status.errors: isEmpty
   res.body.status.warnings[0].message: eq "Same sender and recipient address"
 }
