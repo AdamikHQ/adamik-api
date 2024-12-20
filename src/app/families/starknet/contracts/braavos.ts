@@ -1,26 +1,27 @@
-import { CallData, hash } from "starknet";
-import { Contract } from "./types";
+import { CallData, encode, hash } from "starknet";
+import { generateAddress } from "./types";
 
-class Braavos implements Contract {
-  static generateAddress(pubkey: string): string {
-    const braavosProxyClassHash = "0x03131fa018d520a037686ce3efddeab8f28895662f019ca3ca18a626650f7d1e";
-    const braavosInitialClassHash = "0x5aa23d5bb71ddaa783da7ea79d405315bafa7cf0387a74f4593578c3e9e6570";
+class Braavos {
+  static generateAddress: generateAddress = (pubkey: string): string => {
+    const BraavosInitialClassHash = "0x5aa23d5bb71ddaa783da7ea79d405315bafa7cf0387a74f4593578c3e9e6570";
+    const BraavosProxyClassHash = "0x03131fa018d520a037686ce3efddeab8f28895662f019ca3ca18a626650f7d1e";
 
-    const braavosInitializer = CallData.compile({ public_key: pubkey });
-
-    const braavosProxyConstructorCallData = CallData.compile({
-      implementation_address: braavosInitialClassHash,
-      initializer_selector: hash.getSelectorFromName("initializer"),
-      calldata: [...braavosInitializer],
+    const braavosSigner = CallData.compile({ public_key: encode.sanitizeHex(pubkey) });
+    const braavosConstructorCallData = CallData.compile({
+      implementation_address: BraavosInitialClassHash,
+      initializer_selector: hash.getSelectorFromName("initialize"),
+      calldata: [...braavosSigner],
     });
 
-    return hash.calculateContractAddressFromHash(
-      pubkey,
-      braavosProxyClassHash,
-      braavosProxyConstructorCallData,
+    const address = hash.calculateContractAddressFromHash(
+      encode.sanitizeHex(pubkey),
+      BraavosProxyClassHash,
+      braavosConstructorCallData,
       0
     );
-  }
+
+    return encode.sanitizeHex(address);
+  };
 }
 
 export { Braavos };

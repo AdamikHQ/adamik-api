@@ -1,8 +1,8 @@
 import { CallData, hash } from "starknet";
-import { Contract } from "./types";
+import { generateAddress } from "./types";
 
-class OpenZeppelin implements Contract {
-  static generateAddress(pubkey: string): string {
+class OpenZeppelin {
+  static generateAddress: generateAddress = (pubkey: string): string => {
     const ozAccountClassHash = "0x061dac032f228abef9c6626f995015233097ae253a7f72d68552db02f2971b8f";
     // Calculate future address of the account
     const ozAccountConstructorCallData = CallData.compile({ publicKey: pubkey });
@@ -14,7 +14,7 @@ class OpenZeppelin implements Contract {
     );
 
     return ozContractAddress;
-  }
+  };
 }
 
 export { OpenZeppelin };

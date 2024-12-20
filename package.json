@@ -42,7 +42,7 @@
     "next": "14.0.3",
     "redis": "^4.7.0",
     "secp256k1": "^5.0.0",
-    "starknet": "^6.11.0",
+    "starknet": "github:AdamikHQ/starknet.js",
     "tronweb": "^6.0.0",
     "tsx": "^4.16.5",
     "tweetnacl": "^1.0.3",
