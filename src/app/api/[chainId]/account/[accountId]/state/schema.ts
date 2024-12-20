@@ -145,7 +145,7 @@ const responseSchema = z.object({
 
 const accountStateOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/{chainId}/account/{accountId}/state": {
-    post: {
+    get: {
       tags: ["Account"],
       summary: "Get Account State (Balances)",
       description:
