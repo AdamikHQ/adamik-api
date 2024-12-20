@@ -17,23 +17,23 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       '@cosmjs/amino':
-        specifier: ^0.32.2
-        version: 0.32.2
+        specifier: ^0.32.4
+        version: 0.32.4
       '@cosmjs/crypto':
-        specifier: ^0.32.2
-        version: 0.32.2
+        specifier: ^0.32.4
+        version: 0.32.4
       '@cosmjs/encoding':
-        specifier: ^0.32.2
+        specifier: ^0.32.4
         version: 0.32.4
       '@cosmjs/proto-signing':
-        specifier: ^0.32.2
-        version: 0.32.2
+        specifier: ^0.32.4
+        version: 0.32.4
       '@cosmjs/stargate':
-        specifier: ^0.32.2
-        version: 0.32.2
+        specifier: ^0.32.4
+        version: 0.32.4
       '@injectivelabs/sdk-ts':
-        specifier: ^1.14.13
-        version: 1.14.13(@types/react@18.3.3)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: ^1.14.33
+        version: 1.14.33(@types/react@18.3.3)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@t3-oss/env-nextjs':
         specifier: ^0.10.1
         version: 0.10.1(typescript@5.0.2)(zod@3.23.8)
@@ -160,13 +160,13 @@ packages:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
     engines: {node: '>=6.0.0'}
 
-  '@apollo/client@3.11.8':
-    resolution: {integrity: sha512-CgG1wbtMjsV2pRGe/eYITmV5B8lXUCYljB2gB/6jWTFQcrvirUVvKg7qtFdjYkQSFbIffU1IDyxgeaN81eTjbA==}
+  '@apollo/client@3.12.4':
+    resolution: {integrity: sha512-S/eC9jxEW9Jg1BjD6AZonE1fHxYuvC3gFHop8FRQkUdeK63MmBD5r0DOrN2WlJbwha1MSD6A97OwXwjaujEQpA==}
     peerDependencies:
       graphql: ^15.0.0 || ^16.0.0
       graphql-ws: ^5.5.5
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc <19.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc
       subscriptions-transport-ws: ^0.9.0 || ^0.11.0
     peerDependenciesMeta:
       graphql-ws:
@@ -364,14 +364,8 @@ packages:
   '@confio/ics23@0.6.8':
     resolution: {integrity: sha512-wB6uo+3A50m0sW/EWcU64xpV/8wShZ6bMTa7pF8eYsTrSkQA7oLUIJcs/wb8g4y2Oyq701BaGiO6n/ak5WXO1w==}
 
-  '@cosmjs/amino@0.32.2':
-    resolution: {integrity: sha512-lcK5RCVm4OfdAooxKcF2+NwaDVVpghOq6o/A40c2mHXDUzUoRZ33VAHjVJ9Me6vOFxshrw/XEFn1f4KObntjYA==}
-
   '@cosmjs/amino@0.32.4':
     resolution: {integrity: sha512-zKYOt6hPy8obIFtLie/xtygCkH9ZROiQ12UHfKsOkWaZfPQUvVbtgmu6R4Kn1tFLI/SRkw7eqhaogmW/3NYu/Q==}
-
-  '@cosmjs/crypto@0.32.2':
-    resolution: {integrity: sha512-RuxrYKzhrPF9g6NmU7VEq++Hn1vZJjqqJpZ9Tmw9lOYOV8BUsv+j/0BE86kmWi7xVJ7EwxiuxYsKuM8IR18CIA==}
 
   '@cosmjs/crypto@0.32.4':
     resolution: {integrity: sha512-zicjGU051LF1V9v7bp8p7ovq+VyC91xlaHdsFOTo2oVry3KQikp8L/81RkXmUIT8FxMwdx1T7DmFwVQikcSDIw==}
@@ -379,50 +373,26 @@ packages:
   '@cosmjs/encoding@0.32.4':
     resolution: {integrity: sha512-tjvaEy6ZGxJchiizzTn7HVRiyTg1i4CObRRaTRPknm5EalE13SV+TCHq38gIDfyUeden4fCuaBVEdBR5+ti7Hw==}
 
-  '@cosmjs/json-rpc@0.32.2':
-    resolution: {integrity: sha512-lan2lOgmz4yVE/HR8eCOSiII/1OudIulk8836koyIDCsPEpt6eKBuctnAD168vABGArKccLAo7Mr2gy9nrKrOQ==}
-
   '@cosmjs/json-rpc@0.32.4':
     resolution: {integrity: sha512-/jt4mBl7nYzfJ2J/VJ+r19c92mUKF0Lt0JxM3MXEJl7wlwW5haHAWtzRujHkyYMXOwIR+gBqT2S0vntXVBRyhQ==}
-
-  '@cosmjs/math@0.32.2':
-    resolution: {integrity: sha512-b8+ruAAY8aKtVKWSft2IvtCVCUH1LigIlf9ALIiY8n9jtM4kMASiaRbQ/27etnSAInV88IaezKK9rQZrtxTjcw==}
 
   '@cosmjs/math@0.32.4':
     resolution: {integrity: sha512-++dqq2TJkoB8zsPVYCvrt88oJWsy1vMOuSOKcdlnXuOA/ASheTJuYy4+oZlTQ3Fr8eALDLGGPhJI02W2HyAQaw==}
 
-  '@cosmjs/proto-signing@0.32.2':
-    resolution: {integrity: sha512-UV4WwkE3W3G3s7wwU9rizNcUEz2g0W8jQZS5J6/3fiN0mRPwtPKQ6EinPN9ASqcAJ7/VQH4/9EPOw7d6XQGnqw==}
-
   '@cosmjs/proto-signing@0.32.4':
     resolution: {integrity: sha512-QdyQDbezvdRI4xxSlyM1rSVBO2st5sqtbEIl3IX03uJ7YiZIQHyv6vaHVf1V4mapusCqguiHJzm4N4gsFdLBbQ==}
-
-  '@cosmjs/socket@0.32.2':
-    resolution: {integrity: sha512-Qc8jaw4uSBJm09UwPgkqe3g9TBFx4ZR9HkXpwT6Z9I+6kbLerXPR0Gy3NSJFSUgxIfTpO8O1yqoWAyf0Ay17Mw==}
 
   '@cosmjs/socket@0.32.4':
     resolution: {integrity: sha512-davcyYziBhkzfXQTu1l5NrpDYv0K9GekZCC9apBRvL1dvMc9F/ygM7iemHjUA+z8tJkxKxrt/YPjJ6XNHzLrkw==}
 
-  '@cosmjs/stargate@0.32.2':
-    resolution: {integrity: sha512-AsJa29fT7Jd4xt9Ai+HMqhyj7UQu7fyYKdXj/8+/9PD74xe6lZSYhQPcitUmMLJ1ckKPgXSk5Dd2LbsQT0IhZg==}
-
   '@cosmjs/stargate@0.32.4':
     resolution: {integrity: sha512-usj08LxBSsPRq9sbpCeVdyLx2guEcOHfJS9mHGCLCXpdAPEIEQEtWLDpEUc0LEhWOx6+k/ChXTc5NpFkdrtGUQ==}
-
-  '@cosmjs/stream@0.32.2':
-    resolution: {integrity: sha512-gpCufLfHAD8Zp1ZKge7AHbDf4RA0TZp66wZY6JaQR5bSiEF2Drjtp4mwXZPGejtaUMnaAgff3LrUzPJfKYdQwg==}
 
   '@cosmjs/stream@0.32.4':
     resolution: {integrity: sha512-Gih++NYHEiP+oyD4jNEUxU9antoC0pFSg+33Hpp0JlHwH0wXhtD3OOKnzSfDB7OIoEbrzLJUpEjOgpCp5Z+W3A==}
 
-  '@cosmjs/tendermint-rpc@0.32.2':
-    resolution: {integrity: sha512-DXyJHDmcAfCix4H/7/dKR0UMdshP01KxJOXHdHxBCbLIpck94BsWD3B2ZTXwfA6sv98so9wOzhp7qGQa5malxg==}
-
   '@cosmjs/tendermint-rpc@0.32.4':
     resolution: {integrity: sha512-MWvUUno+4bCb/LmlMIErLypXxy7ckUuzEmpufYYYd9wgbdCXaTaO08SZzyFM5PI8UJ/0S2AmUrgWhldlbxO8mw==}
-
-  '@cosmjs/utils@0.32.2':
-    resolution: {integrity: sha512-Gg5t+eR7vPJMAmhkFt6CZrzPd0EKpAslWwk5rFVYZpJsM8JG5KT9XQ99hgNM3Ov6ScNoIWbXkpX27F6A9cXR4Q==}
 
   '@cosmjs/utils@0.32.4':
     resolution: {integrity: sha512-D1Yc+Zy8oL/hkUkFUL/bwxvuDBzRGpc4cF7/SkdhxX4iHpSLgdOuTt1mhCh9+kl6NQREy9t7SYZ6xeW5gFe60w==}
@@ -575,14 +545,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@injectivelabs/core-proto-ts@0.0.21':
-    resolution: {integrity: sha512-RBxSkRBCty60R/l55/D1jsSW0Aof5dyGFhCFdN3A010KjMv/SzZGGr+6DZPY/hflyFeaJzDv/VTopCymKNRBvQ==}
+  '@injectivelabs/core-proto-ts@1.13.4':
+    resolution: {integrity: sha512-81+bwey0qzNgOzUASsxYghSahcWzH5l6bSceW8FdR7w42+Knp+bAgbg12sSyS1hiOO2kMXx6tBvmYkCmnghM1Q==}
 
-  '@injectivelabs/dmm-proto-ts@1.0.20':
-    resolution: {integrity: sha512-S9vGOAZbNNa+N5QDW2HcXn7ohvU/4qze6wELA9gF8zu8uWbE+UKWTqzkZ+B4XuG1MkJwoHL7pVcj3M+nC9Qe4A==}
-
-  '@injectivelabs/exceptions@1.14.13':
-    resolution: {integrity: sha512-yFtB0jQtZI6D3AuaP6ObYtlVgDB4vriCWuV+6GY3frduv7i3kz1ZYVsPKsKSKBCOD5QegZXcEmGJL4RiDi1OKA==}
+  '@injectivelabs/exceptions@1.14.33':
+    resolution: {integrity: sha512-2c8YzLgwTOOsyc1WheqdM8jEfgGBhVrXN4cZ0jsikFVsLF619IDRn3hjIYqTeNERaEpeRPiuJGfZDu0DomwFrQ==}
 
   '@injectivelabs/grpc-web-node-http-transport@0.0.2':
     resolution: {integrity: sha512-rpyhXLiGY/UMs6v6YmgWHJHiO9l0AgDyVNv+jcutNVt4tQrmNvnpvz2wCAGOFtq5LuX/E9ChtTVpk3gWGqXcGA==}
@@ -599,26 +566,32 @@ packages:
     peerDependencies:
       google-protobuf: ^3.14.0
 
-  '@injectivelabs/indexer-proto-ts@1.11.42':
-    resolution: {integrity: sha512-6ejCpcWZWOSsELFIfUf2+xuJPOH+YdiJtwtB3d9x2H7dnrCBjXMxlPCSxoKEUbDH6w/lY2mO6TJm65rNy9piew==}
+  '@injectivelabs/indexer-proto-ts@1.13.3':
+    resolution: {integrity: sha512-rLesVPCARl+OC82vj063/pUawYu0ISty/2+xg6ya4Lwk6PDbXmtRvw8wpNP6K+pAsBOKaSkRnO4ThP5qbX+E6A==}
 
-  '@injectivelabs/mito-proto-ts@1.0.65':
-    resolution: {integrity: sha512-kceZP68QrgFop387RYyO7tkfJCYxoktuceHTs9DQP3dJceLqj/V2mz0NlpkkacjgE5NhYkQ/zc0Z40hr8tnYqQ==}
+  '@injectivelabs/mito-proto-ts@1.13.0':
+    resolution: {integrity: sha512-DE9iK7PkEnkWAMTDJDH01R8jxkxVCNuurfVp/09Te9wY3dm3mRx9M6R756JywP2Sd/ggJl2UbavGAQe2pZ7v1w==}
 
-  '@injectivelabs/networks@1.14.13':
-    resolution: {integrity: sha512-P+eCQXWpbk4LbPxgTmi2gY7OzdZTNsIEUvDoh59Ma0CkqSFaYMtgB8fZVxpkKM0UPla587EDlEEIVxprDBcnZg==}
+  '@injectivelabs/networks@1.14.33':
+    resolution: {integrity: sha512-XDhAYwWYKdKBRfwO/MIfMyKjKRWz/AliMJG9yaM1C/cDlGHmA3EY7Au2Nf+PdkRhuxl2FzLV2Hp4uWeC0g8BYw==}
 
-  '@injectivelabs/sdk-ts@1.14.13':
-    resolution: {integrity: sha512-qcLoIu+hEMpuvdG0iXGNJvWQD05NkcO59tL3ijEhYmshlJWBMWJtpJJGt/E/hV9YxJfNTl20Rhi/5i7l0y8Hfg==}
+  '@injectivelabs/olp-proto-ts@1.13.1':
+    resolution: {integrity: sha512-dKxse7mZpmvRhm00Wn8Yy93EVEvFD7FPWeWFfxga0Patow3HK0D7k43VV7fE5kX9CDM1bxTatEVQ7WYGq4w0Eg==}
 
-  '@injectivelabs/test-utils@1.14.13':
-    resolution: {integrity: sha512-wa5TQcWLvORRm36mw4Hee+XF7lBlArVK3DM1ebC0uBvVcUgrmm3g/nh1pV/NzLN16WtrLLsvnTsE5uiNEcgYdw==}
+  '@injectivelabs/sdk-ts@1.14.33':
+    resolution: {integrity: sha512-qEuu6yzhy8t8rtviCBqV1VMR+JAaDSy59Eebd23i+1P5zqQ9X2lZLLLxz+gWjiglWb8uQYsoLN3TFh2509WNzQ==}
+
+  '@injectivelabs/test-utils@1.14.33':
+    resolution: {integrity: sha512-1SfIRsMnWcJAYNrrpY+ZUWmbD62lWWdIvD6c+FYmFKS14zU3yDIK9NXe9g1lTM/GdUVkVKQgGg2QAYZ5f2G/xA==}
 
   '@injectivelabs/ts-types@1.14.13':
     resolution: {integrity: sha512-jkR4+JnQ91n7LWAdt+cZuvXFfqhv9RVlTE2pezAjZab7z7VeDonYwktjia5OcbqTKjlirvVHFALIZ0pmYd0j+A==}
 
-  '@injectivelabs/utils@1.14.13':
-    resolution: {integrity: sha512-djmSq28R7HDSb2Mezan+EFjqQgmDRydY+fLOmkODwOCYA04xOGQo7yna+WVovV85aKpwPjn864AWPy65xiHUZg==}
+  '@injectivelabs/ts-types@1.14.33':
+    resolution: {integrity: sha512-sJZzMNJtZFFZoPKZ91G09bxrZqQ5aS9omoTjQWy+7OxfiRAakzhsarTueX47hm6oTaN0XeBgD3wkMukkWUaobw==}
+
+  '@injectivelabs/utils@1.14.33':
+    resolution: {integrity: sha512-zsezML4dTujF0xGLhcGmWBCghfJiy9MW+r6VqR8zJUlxnmnEdNpmsvBhBI6cmmov6Se4FL+yALAIFRvTm3txbg==}
 
   '@inquirer/confirm@3.2.0':
     resolution: {integrity: sha512-oOIwPs0Dvq5220Z8lGL/6LHRTEr9TgLHmiI99Rj1PJ1p1czTys+olrgBqZk4E2qC0YTzeHprxSQmoHioVdJ7Lw==}
@@ -1337,9 +1310,6 @@ packages:
   axios-retry@3.9.1:
     resolution: {integrity: sha512-8PJDLJv7qTTMMwdnbMvrLYuvB47M81wRtxQmEdV5w4rgbTXTt+vtPkXwajOfOdSyv/wZICJOC+/UhXH4aQ/R+w==}
 
-  axios@1.6.5:
-    resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
-
   axios@1.7.7:
     resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
 
@@ -2015,6 +1985,7 @@ packages:
 
   ethereumjs-abi@0.6.8:
     resolution: {integrity: sha512-Tx0r/iXI6r+lRsdvkFDlut0N08jWMnKRZ6Gkq+Nmw75lZe4e6o3EkSnkaBP5NF6+m5PTGAr9JP43N3LyeoglsA==}
+    deprecated: This library has been deprecated and usage is discouraged.
 
   ethereumjs-util@6.2.1:
     resolution: {integrity: sha512-W2Ktez4L01Vexijrm5EB6w7dg4n/TgpoYU4avuT5T3Vmnw/eCRtiBrJfQYS/DCSvDIOLn2k57GcHdeBcgVxAqw==}
@@ -2090,15 +2061,6 @@ packages:
 
   flatted@3.2.9:
     resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
-
-  follow-redirects@1.15.5:
-    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
 
   follow-redirects@1.15.9:
     resolution: {integrity: sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==}
@@ -4078,7 +4040,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.20
 
-  '@apollo/client@3.11.8(@types/react@18.3.3)(graphql@16.9.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@apollo/client@3.12.4(@types/react@18.3.3)(graphql@16.9.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.9.0)
       '@wry/caches': 1.0.1
@@ -4093,7 +4055,7 @@ snapshots:
       response-iterator: 0.2.6
       symbol-observable: 4.0.0
       ts-invariant: 0.10.3
-      tslib: 2.6.2
+      tslib: 2.8.1
       zen-observable-ts: 1.2.5
     optionalDependencies:
       react: 18.2.0
@@ -4324,15 +4286,8 @@ snapshots:
 
   '@confio/ics23@0.6.8':
     dependencies:
-      '@noble/hashes': 1.3.3
+      '@noble/hashes': 1.5.0
       protobufjs: 6.11.4
-
-  '@cosmjs/amino@0.32.2':
-    dependencies:
-      '@cosmjs/crypto': 0.32.2
-      '@cosmjs/encoding': 0.32.4
-      '@cosmjs/math': 0.32.2
-      '@cosmjs/utils': 0.32.2
 
   '@cosmjs/amino@0.32.4':
     dependencies:
@@ -4341,22 +4296,12 @@ snapshots:
       '@cosmjs/math': 0.32.4
       '@cosmjs/utils': 0.32.4
 
-  '@cosmjs/crypto@0.32.2':
-    dependencies:
-      '@cosmjs/encoding': 0.32.4
-      '@cosmjs/math': 0.32.2
-      '@cosmjs/utils': 0.32.2
-      '@noble/hashes': 1.3.3
-      bn.js: 5.2.1
-      elliptic: 6.5.4
-      libsodium-wrappers-sumo: 0.7.13
-
   '@cosmjs/crypto@0.32.4':
     dependencies:
       '@cosmjs/encoding': 0.32.4
       '@cosmjs/math': 0.32.4
       '@cosmjs/utils': 0.32.4
-      '@noble/hashes': 1.3.3
+      '@noble/hashes': 1.5.0
       bn.js: 5.2.1
       elliptic: 6.5.4
       libsodium-wrappers-sumo: 0.7.13
@@ -4367,32 +4312,14 @@ snapshots:
       bech32: 1.1.4
       readonly-date: 1.0.0
 
-  '@cosmjs/json-rpc@0.32.2':
-    dependencies:
-      '@cosmjs/stream': 0.32.2
-      xstream: 11.14.0
-
   '@cosmjs/json-rpc@0.32.4':
     dependencies:
       '@cosmjs/stream': 0.32.4
       xstream: 11.14.0
 
-  '@cosmjs/math@0.32.2':
-    dependencies:
-      bn.js: 5.2.1
-
   '@cosmjs/math@0.32.4':
     dependencies:
       bn.js: 5.2.1
-
-  '@cosmjs/proto-signing@0.32.2':
-    dependencies:
-      '@cosmjs/amino': 0.32.2
-      '@cosmjs/crypto': 0.32.2
-      '@cosmjs/encoding': 0.32.4
-      '@cosmjs/math': 0.32.2
-      '@cosmjs/utils': 0.32.2
-      cosmjs-types: 0.9.0
 
   '@cosmjs/proto-signing@0.32.4':
     dependencies:
@@ -4403,16 +4330,6 @@ snapshots:
       '@cosmjs/utils': 0.32.4
       cosmjs-types: 0.9.0
 
-  '@cosmjs/socket@0.32.2':
-    dependencies:
-      '@cosmjs/stream': 0.32.2
-      isomorphic-ws: 4.0.1(ws@7.5.9)
-      ws: 7.5.9
-      xstream: 11.14.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
   '@cosmjs/socket@0.32.4':
     dependencies:
       '@cosmjs/stream': 0.32.4
@@ -4421,23 +4338,6 @@ snapshots:
       xstream: 11.14.0
     transitivePeerDependencies:
       - bufferutil
-      - utf-8-validate
-
-  '@cosmjs/stargate@0.32.2':
-    dependencies:
-      '@confio/ics23': 0.6.8
-      '@cosmjs/amino': 0.32.2
-      '@cosmjs/encoding': 0.32.4
-      '@cosmjs/math': 0.32.2
-      '@cosmjs/proto-signing': 0.32.2
-      '@cosmjs/stream': 0.32.2
-      '@cosmjs/tendermint-rpc': 0.32.2
-      '@cosmjs/utils': 0.32.2
-      cosmjs-types: 0.9.0
-      xstream: 11.14.0
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
       - utf-8-validate
 
   '@cosmjs/stargate@0.32.4':
@@ -4457,30 +4357,9 @@ snapshots:
       - debug
       - utf-8-validate
 
-  '@cosmjs/stream@0.32.2':
-    dependencies:
-      xstream: 11.14.0
-
   '@cosmjs/stream@0.32.4':
     dependencies:
       xstream: 11.14.0
-
-  '@cosmjs/tendermint-rpc@0.32.2':
-    dependencies:
-      '@cosmjs/crypto': 0.32.2
-      '@cosmjs/encoding': 0.32.4
-      '@cosmjs/json-rpc': 0.32.2
-      '@cosmjs/math': 0.32.2
-      '@cosmjs/socket': 0.32.2
-      '@cosmjs/stream': 0.32.2
-      '@cosmjs/utils': 0.32.2
-      axios: 1.6.5
-      readonly-date: 1.0.0
-      xstream: 11.14.0
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - utf-8-validate
 
   '@cosmjs/tendermint-rpc@0.32.4':
     dependencies:
@@ -4498,8 +4377,6 @@ snapshots:
       - bufferutil
       - debug
       - utf-8-validate
-
-  '@cosmjs/utils@0.32.2': {}
 
   '@cosmjs/utils@0.32.4': {}
 
@@ -4630,26 +4507,18 @@ snapshots:
   '@img/sharp-win32-x64@0.33.5':
     optional: true
 
-  '@injectivelabs/core-proto-ts@0.0.21':
+  '@injectivelabs/core-proto-ts@1.13.4':
     dependencies:
       '@injectivelabs/grpc-web': 0.0.1(google-protobuf@3.21.4)
       google-protobuf: 3.21.4
       protobufjs: 7.4.0
       rxjs: 7.8.1
 
-  '@injectivelabs/dmm-proto-ts@1.0.20':
+  '@injectivelabs/exceptions@1.14.33(google-protobuf@3.21.4)':
     dependencies:
       '@injectivelabs/grpc-web': 0.0.1(google-protobuf@3.21.4)
-      google-protobuf: 3.21.4
-      protobufjs: 7.4.0
-      rxjs: 7.8.1
-
-  '@injectivelabs/exceptions@1.14.13(google-protobuf@3.21.4)':
-    dependencies:
-      '@injectivelabs/grpc-web': 0.0.1(google-protobuf@3.21.4)
-      '@injectivelabs/ts-types': 1.14.13
+      '@injectivelabs/ts-types': 1.14.33
       http-status-codes: 2.3.0
-      link-module-alias: 1.2.0
       shx: 0.3.4
     transitivePeerDependencies:
       - google-protobuf
@@ -4667,50 +4536,56 @@ snapshots:
       browser-headers: 0.4.1
       google-protobuf: 3.21.4
 
-  '@injectivelabs/indexer-proto-ts@1.11.42':
+  '@injectivelabs/indexer-proto-ts@1.13.3':
     dependencies:
       '@injectivelabs/grpc-web': 0.0.1(google-protobuf@3.21.4)
       google-protobuf: 3.21.4
       protobufjs: 7.4.0
       rxjs: 7.8.1
 
-  '@injectivelabs/mito-proto-ts@1.0.65':
+  '@injectivelabs/mito-proto-ts@1.13.0':
     dependencies:
       '@injectivelabs/grpc-web': 0.0.1(google-protobuf@3.21.4)
       google-protobuf: 3.21.4
       protobufjs: 7.4.0
       rxjs: 7.8.1
 
-  '@injectivelabs/networks@1.14.13(google-protobuf@3.21.4)':
+  '@injectivelabs/networks@1.14.33(google-protobuf@3.21.4)':
     dependencies:
-      '@injectivelabs/exceptions': 1.14.13(google-protobuf@3.21.4)
-      '@injectivelabs/ts-types': 1.14.13
-      '@injectivelabs/utils': 1.14.13(google-protobuf@3.21.4)
-      link-module-alias: 1.2.0
+      '@injectivelabs/exceptions': 1.14.33(google-protobuf@3.21.4)
+      '@injectivelabs/ts-types': 1.14.33
+      '@injectivelabs/utils': 1.14.33(google-protobuf@3.21.4)
       shx: 0.3.4
     transitivePeerDependencies:
       - debug
       - google-protobuf
 
-  '@injectivelabs/sdk-ts@1.14.13(@types/react@18.3.3)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@injectivelabs/olp-proto-ts@1.13.1':
     dependencies:
-      '@apollo/client': 3.11.8(@types/react@18.3.3)(graphql@16.9.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@injectivelabs/grpc-web': 0.0.1(google-protobuf@3.21.4)
+      google-protobuf: 3.21.4
+      protobufjs: 7.4.0
+      rxjs: 7.8.1
+
+  '@injectivelabs/sdk-ts@1.14.33(@types/react@18.3.3)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@apollo/client': 3.12.4(@types/react@18.3.3)(graphql@16.9.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@cosmjs/amino': 0.32.4
       '@cosmjs/proto-signing': 0.32.4
       '@cosmjs/stargate': 0.32.4
       '@ethersproject/bytes': 5.7.0
-      '@injectivelabs/core-proto-ts': 0.0.21
-      '@injectivelabs/dmm-proto-ts': 1.0.20
-      '@injectivelabs/exceptions': 1.14.13(google-protobuf@3.21.4)
+      '@injectivelabs/core-proto-ts': 1.13.4
+      '@injectivelabs/exceptions': 1.14.33(google-protobuf@3.21.4)
       '@injectivelabs/grpc-web': 0.0.1(google-protobuf@3.21.4)
       '@injectivelabs/grpc-web-node-http-transport': 0.0.2(@injectivelabs/grpc-web@0.0.1(google-protobuf@3.21.4))
       '@injectivelabs/grpc-web-react-native-transport': 0.0.2(@injectivelabs/grpc-web@0.0.1(google-protobuf@3.21.4))
-      '@injectivelabs/indexer-proto-ts': 1.11.42
-      '@injectivelabs/mito-proto-ts': 1.0.65
-      '@injectivelabs/networks': 1.14.13(google-protobuf@3.21.4)
-      '@injectivelabs/test-utils': 1.14.13
-      '@injectivelabs/ts-types': 1.14.13
-      '@injectivelabs/utils': 1.14.13(google-protobuf@3.21.4)
+      '@injectivelabs/indexer-proto-ts': 1.13.3
+      '@injectivelabs/mito-proto-ts': 1.13.0
+      '@injectivelabs/networks': 1.14.33(google-protobuf@3.21.4)
+      '@injectivelabs/olp-proto-ts': 1.13.1
+      '@injectivelabs/test-utils': 1.14.33(google-protobuf@3.21.4)
+      '@injectivelabs/ts-types': 1.14.33
+      '@injectivelabs/utils': 1.14.33(google-protobuf@3.21.4)
       '@metamask/eth-sig-util': 4.0.1
       '@noble/curves': 1.6.0
       axios: 1.7.7
@@ -4725,7 +4600,6 @@ snapshots:
       js-sha3: 0.8.0
       jscrypto: 1.0.3
       keccak256: 1.0.6
-      link-module-alias: 1.2.0
       secp256k1: 4.0.3
       shx: 0.3.4
       snakecase-keys: 5.5.0
@@ -4739,30 +4613,37 @@ snapshots:
       - subscriptions-transport-ws
       - utf-8-validate
 
-  '@injectivelabs/test-utils@1.14.13':
+  '@injectivelabs/test-utils@1.14.33(google-protobuf@3.21.4)':
     dependencies:
+      '@injectivelabs/exceptions': 1.14.33(google-protobuf@3.21.4)
+      '@injectivelabs/networks': 1.14.33(google-protobuf@3.21.4)
+      '@injectivelabs/ts-types': 1.14.33
+      '@injectivelabs/utils': 1.14.33(google-protobuf@3.21.4)
       axios: 1.7.7
       bignumber.js: 9.1.2
-      link-module-alias: 1.2.0
       shx: 0.3.4
       snakecase-keys: 5.5.0
       store2: 2.14.3
     transitivePeerDependencies:
       - debug
+      - google-protobuf
 
   '@injectivelabs/ts-types@1.14.13':
     dependencies:
       link-module-alias: 1.2.0
       shx: 0.3.4
 
-  '@injectivelabs/utils@1.14.13(google-protobuf@3.21.4)':
+  '@injectivelabs/ts-types@1.14.33':
     dependencies:
-      '@injectivelabs/exceptions': 1.14.13(google-protobuf@3.21.4)
-      '@injectivelabs/ts-types': 1.14.13
+      shx: 0.3.4
+
+  '@injectivelabs/utils@1.14.33(google-protobuf@3.21.4)':
+    dependencies:
+      '@injectivelabs/exceptions': 1.14.33(google-protobuf@3.21.4)
+      '@injectivelabs/ts-types': 1.14.33
       axios: 1.7.7
       bignumber.js: 9.1.2
       http-status-codes: 2.3.0
-      link-module-alias: 1.2.0
       shx: 0.3.4
       snakecase-keys: 5.5.0
       store2: 2.14.3
@@ -5446,23 +5327,23 @@ snapshots:
 
   '@wry/caches@1.0.1':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@wry/context@0.7.4':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@wry/equality@0.5.7':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@wry/trie@0.4.3':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@wry/trie@0.5.0':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   abab@2.0.6: {}
 
@@ -5644,14 +5525,6 @@ snapshots:
       '@babel/runtime': 7.23.5
       is-retry-allowed: 2.2.0
 
-  axios@1.6.5:
-    dependencies:
-      follow-redirects: 1.15.5
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
   axios@1.7.7:
     dependencies:
       follow-redirects: 1.15.9
@@ -5734,7 +5607,7 @@ snapshots:
 
   bip39@3.1.0:
     dependencies:
-      '@noble/hashes': 1.3.3
+      '@noble/hashes': 1.5.0
 
   bitcoinjs-lib@6.1.6:
     dependencies:
@@ -6105,7 +5978,7 @@ snapshots:
   dot-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   dunder-proto@1.0.1:
     dependencies:
@@ -6322,8 +6195,8 @@ snapshots:
       '@typescript-eslint/parser': 6.13.2(eslint@8.0.0)(typescript@5.0.2)
       eslint: 8.0.0
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.0.0)
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-typescript@3.6.1)(eslint@8.0.0)
+      eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint@8.0.0))(eslint@8.0.0)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint@8.0.0))(eslint@8.0.0))(eslint@8.0.0)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.0.0)
       eslint-plugin-react: 7.37.2(eslint@8.0.0)
       eslint-plugin-react-hooks: 5.1.0(eslint@8.0.0)
@@ -6341,13 +6214,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.0.0):
+  eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint@8.0.0))(eslint@8.0.0):
     dependencies:
       debug: 4.3.7
       enhanced-resolve: 5.15.0
       eslint: 8.0.0
-      eslint-module-utils: 2.8.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.0.0))(eslint@8.0.0)
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-typescript@3.6.1)(eslint@8.0.0)
+      eslint-module-utils: 2.8.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint@8.0.0))(eslint@8.0.0))(eslint@8.0.0)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint@8.0.0))(eslint@8.0.0))(eslint@8.0.0)
       fast-glob: 3.3.2
       get-tsconfig: 4.7.2
       is-core-module: 2.13.1
@@ -6358,29 +6231,29 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.0.0))(eslint@8.0.0):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint@8.0.0))(eslint@8.0.0))(eslint@8.0.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 6.13.2(eslint@8.0.0)(typescript@5.0.2)
       eslint: 8.0.0
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.0.0)
+      eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint@8.0.0))(eslint@8.0.0)
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.8.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.0.0))(eslint@8.0.0):
+  eslint-module-utils@2.8.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint@8.0.0))(eslint@8.0.0))(eslint@8.0.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 6.13.2(eslint@8.0.0)(typescript@5.0.2)
       eslint: 8.0.0
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.0.0)
+      eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint@8.0.0))(eslint@8.0.0)
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-typescript@3.6.1)(eslint@8.0.0):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint@8.0.0))(eslint@8.0.0))(eslint@8.0.0):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -6391,7 +6264,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.0.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@8.0.0))(eslint@8.0.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0(@typescript-eslint/parser@6.13.2(eslint@8.0.0)(typescript@5.0.2))(eslint@8.0.0))(eslint@8.0.0))(eslint@8.0.0)
       hasown: 2.0.2
       is-core-module: 2.16.0
       is-glob: 4.0.3
@@ -6679,8 +6552,6 @@ snapshots:
 
   flatted@3.2.9: {}
 
-  follow-redirects@1.15.5: {}
-
   follow-redirects@1.15.9: {}
 
   for-each@0.3.3:
@@ -6831,7 +6702,7 @@ snapshots:
   graphql-tag@2.12.6(graphql@16.9.0):
     dependencies:
       graphql: 16.9.0
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   graphql@16.9.0: {}
 
@@ -7695,7 +7566,7 @@ snapshots:
 
   lower-case@2.0.2:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   lru-cache@5.1.1:
     dependencies:
@@ -7842,7 +7713,7 @@ snapshots:
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   node-addon-api@2.0.2: {}
 
@@ -7922,7 +7793,7 @@ snapshots:
       '@wry/caches': 1.0.1
       '@wry/context': 0.7.4
       '@wry/trie': 0.4.3
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   optionator@0.9.3:
     dependencies:
@@ -8202,7 +8073,7 @@ snapshots:
 
   rxjs@7.8.1:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   safe-array-concat@1.0.1:
     dependencies:
@@ -8387,7 +8258,7 @@ snapshots:
   snake-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   snakecase-keys@5.5.0:
     dependencies:
@@ -8612,7 +8483,7 @@ snapshots:
 
   ts-invariant@0.10.3:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   ts-jest@29.1.1(@babel/core@7.23.6)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.23.6))(jest@29.7.0(@types/node@18.19.3)(ts-node@10.4.0(@types/node@18.19.3)(typescript@5.0.2)))(typescript@5.0.2):
     dependencies:
@@ -8663,7 +8534,8 @@ snapshots:
 
   tslib@2.4.0: {}
 
-  tslib@2.6.2: {}
+  tslib@2.6.2:
+    optional: true
 
   tslib@2.8.1: {}
 
@@ -8935,7 +8807,7 @@ snapshots:
 
   xstream@11.14.0:
     dependencies:
-      globalthis: 1.0.3
+      globalthis: 1.0.4
       symbol-observable: 2.0.3
 
   y18n@5.0.8: {}
