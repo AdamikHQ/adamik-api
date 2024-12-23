@@ -26,15 +26,6 @@ type AlgoAccountAsset = {
   assetParams: AlgoAsset;
 };
 
-type AlgoTransactionParams = {
-  fee: number;
-  minFee: number;
-  firstRound: number;
-  lastRound: number;
-  genesisHash: string;
-  genesisID: string;
-};
-
 type AlgoTransactionBroadcastResponse = {
   txId: string;
   message?: string;
@@ -73,5 +64,4 @@ export type {
   AlgoAssetAmount,
   AlgoTransaction,
   AlgoTransactionBroadcastResponse,
-  AlgoTransactionParams,
 };
