@@ -38,14 +38,14 @@ importers:
         specifier: ^0.10.1
         version: 0.10.1(typescript@5.0.2)(zod@3.23.8)
       '@ton-api/client':
-        specifier: ^0.1.0
-        version: 0.1.1(@ton/core@0.57.0(@ton/crypto@3.3.0))
+        specifier: ^0.3.0
+        version: 0.3.0(@ton/core@0.59.1(@ton/crypto@3.3.0))
       '@ton/core':
-        specifier: ^0.57.0
-        version: 0.57.0(@ton/crypto@3.3.0)
+        specifier: ^0.59.1
+        version: 0.59.1(@ton/crypto@3.3.0)
       '@ton/ton':
-        specifier: ^15.0.0
-        version: 15.0.0(@ton/core@0.57.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
+        specifier: ^15.1.0
+        version: 15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
       algosdk:
         specifier: ^3.0.0
         version: 3.0.0
@@ -923,13 +923,13 @@ packages:
       typescript:
         optional: true
 
-  '@ton-api/client@0.1.1':
-    resolution: {integrity: sha512-vtc9689IECIZ9z+42C1nRX+d9q7eZaO1qCsn22cuM38SC+e19eXWJakz949+tXMF+LWBYf9eFQKyskXAx0C4Cg==}
+  '@ton-api/client@0.3.0':
+    resolution: {integrity: sha512-Dnq2XaGRAd+SyyTeTeMqMI3AgsbilAxqK4mGNGHRUbECLD4TwzMKEtPcS3XA0hwBnPdT1PczjW2/+Th0Zt4Ntw==}
     peerDependencies:
-      '@ton/core': '>=0.56.0'
+      '@ton/core': '>=0.59.0'
 
-  '@ton/core@0.57.0':
-    resolution: {integrity: sha512-UOehEXEV5yqi+17qmmWdD01YfVgQlYtitSm5OfN/WMg6PAMkt+Uf91JRC4mdPNtkKDhyKuujJuhYs6QiOsHPfw==}
+  '@ton/core@0.59.1':
+    resolution: {integrity: sha512-SxFBAvutYJaIllTkv82vbHTJhJI6NxzqUhi499CDEjJEZ9i6i9lHJiK2df4dlLAb/4SiWX6+QUzESkK4DEdnCw==}
     peerDependencies:
       '@ton/crypto': '>=3.2.0'
 
@@ -939,10 +939,10 @@ packages:
   '@ton/crypto@3.3.0':
     resolution: {integrity: sha512-/A6CYGgA/H36OZ9BbTaGerKtzWp50rg67ZCH2oIjV1NcrBaCK9Z343M+CxedvM7Haf3f/Ee9EhxyeTp0GKMUpA==}
 
-  '@ton/ton@15.0.0':
-    resolution: {integrity: sha512-0xBivkN0u0+vczt3mKJrx5yqkCxRR00wM8gXCmN/eOzzHKXRFWDEjJp8EEs5J/mq1Op/OhCOFExmOZkr58wgOA==}
+  '@ton/ton@15.1.0':
+    resolution: {integrity: sha512-almetcfTu7jLjcNcEEPB7wAc8yl90ES1M//sOr1QE+kv7RbmEvMkaPSc7kFxzs10qrjIPKxlodBJlMSWP5LuVQ==}
     peerDependencies:
-      '@ton/core': '>=0.56.0'
+      '@ton/core': '>=0.59.0'
       '@ton/crypto': '>=3.2.0'
 
   '@tootallnate/once@2.0.0':
@@ -5073,12 +5073,12 @@ snapshots:
     optionalDependencies:
       typescript: 5.0.2
 
-  '@ton-api/client@0.1.1(@ton/core@0.57.0(@ton/crypto@3.3.0))':
+  '@ton-api/client@0.3.0(@ton/core@0.59.1(@ton/crypto@3.3.0))':
     dependencies:
-      '@ton/core': 0.57.0(@ton/crypto@3.3.0)
+      '@ton/core': 0.59.1(@ton/crypto@3.3.0)
       core-js-pure: 3.38.1
 
-  '@ton/core@0.57.0(@ton/crypto@3.3.0)':
+  '@ton/core@0.59.1(@ton/crypto@3.3.0)':
     dependencies:
       '@ton/crypto': 3.3.0
       symbol.inspect: 1.0.1
@@ -5093,9 +5093,9 @@ snapshots:
       jssha: 3.2.0
       tweetnacl: 1.0.3
 
-  '@ton/ton@15.0.0(@ton/core@0.57.0(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)':
+  '@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)':
     dependencies:
-      '@ton/core': 0.57.0(@ton/crypto@3.3.0)
+      '@ton/core': 0.59.1(@ton/crypto@3.3.0)
       '@ton/crypto': 3.3.0
       axios: 1.7.7
       dataloader: 2.2.2
