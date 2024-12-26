@@ -4100,7 +4100,8 @@
                         "type",
                         "id",
                         "name",
-                        "ticker"
+                        "ticker",
+                        "decimals"
                       ]
                     }
                   },
@@ -4409,9 +4410,7 @@
                                 },
                                 {
                                   "type": "string",
-                                  "enum": [
-                                    "unknown"
-                                  ]
+                                  "const": "unknown"
                                 }
                               ]
                             },
@@ -4445,7 +4444,10 @@
                                   "type": "string",
                                   "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                 }
-                              }
+                              },
+                              "required": [
+                                "amount"
+                              ]
                             },
                             "gas": {
                               "type": "string"
@@ -4473,7 +4475,8 @@
                                   }
                                 },
                                 "required": [
-                                  "address"
+                                  "address",
+                                  "amount"
                                 ]
                               }
                             },
@@ -4494,7 +4497,8 @@
                                   }
                                 },
                                 "required": [
-                                  "address"
+                                  "address",
+                                  "amount"
                                 ]
                               }
                             },
@@ -4516,7 +4520,8 @@
                                     }
                                   },
                                   "required": [
-                                    "address"
+                                    "address",
+                                    "amount"
                                   ]
                                 },
                                 "target": {
@@ -4534,7 +4539,8 @@
                                     }
                                   },
                                   "required": [
-                                    "address"
+                                    "address",
+                                    "amount"
                                   ]
                                 }
                               }
@@ -4974,7 +4980,11 @@
                               "type": "string",
                               "description": "Total amount of native currency owned by the account, including both available and locked amounts (staking positions)."
                             }
-                          }
+                          },
+                          "required": [
+                            "available",
+                            "total"
+                          ]
                         },
                         "tokens": {
                           "type": "array",
@@ -5015,7 +5025,8 @@
                                   "type",
                                   "id",
                                   "name",
-                                  "ticker"
+                                  "ticker",
+                                  "decimals"
                                 ]
                               },
                               "amount": {
@@ -5024,7 +5035,8 @@
                               }
                             },
                             "required": [
-                              "token"
+                              "token",
+                              "amount"
                             ]
                           }
                         },
@@ -5079,6 +5091,7 @@
                                 },
                                 "required": [
                                   "validatorAddresses",
+                                  "amount",
                                   "status"
                                 ]
                               },
@@ -5101,7 +5114,8 @@
                                       }
                                     },
                                     "required": [
-                                      "validatorAddress"
+                                      "validatorAddress",
+                                      "amount"
                                     ]
                                   },
                                   "description": "List of unclaimed staking rewards in native currency, per validator."
@@ -5145,7 +5159,8 @@
                                           "type",
                                           "id",
                                           "name",
-                                          "ticker"
+                                          "ticker",
+                                          "decimals"
                                         ]
                                       },
                                       "validatorAddress": {
@@ -5157,7 +5172,8 @@
                                       }
                                     },
                                     "required": [
-                                      "token"
+                                      "token",
+                                      "amount"
                                     ]
                                   }
                                 }
@@ -5170,6 +5186,10 @@
                             }
                           },
                           "required": [
+                            "total",
+                            "locked",
+                            "unlocking",
+                            "unlocked",
                             "positions"
                           ]
                         }
@@ -5416,7 +5436,8 @@
                                   "type",
                                   "id",
                                   "name",
-                                  "ticker"
+                                  "ticker",
+                                  "decimals"
                                 ]
                               },
                               "amount": {
@@ -5425,7 +5446,8 @@
                               }
                             },
                             "required": [
-                              "token"
+                              "token",
+                              "amount"
                             ]
                           }
                         }
@@ -5621,9 +5643,7 @@
                                   },
                                   {
                                     "type": "string",
-                                    "enum": [
-                                      "unknown"
-                                    ]
+                                    "const": "unknown"
                                   }
                                 ]
                               },
@@ -5657,7 +5677,10 @@
                                     "type": "string",
                                     "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
-                                }
+                                },
+                                "required": [
+                                  "amount"
+                                ]
                               },
                               "gas": {
                                 "type": "string"
@@ -5685,7 +5708,8 @@
                                     }
                                   },
                                   "required": [
-                                    "address"
+                                    "address",
+                                    "amount"
                                   ]
                                 }
                               },
@@ -5706,7 +5730,8 @@
                                     }
                                   },
                                   "required": [
-                                    "address"
+                                    "address",
+                                    "amount"
                                   ]
                                 }
                               },
@@ -5728,7 +5753,8 @@
                                       }
                                     },
                                     "required": [
-                                      "address"
+                                      "address",
+                                      "amount"
                                     ]
                                   },
                                   "target": {
@@ -5746,7 +5772,8 @@
                                       }
                                     },
                                     "required": [
-                                      "address"
+                                      "address",
+                                      "amount"
                                     ]
                                   }
                                 }
@@ -6094,9 +6121,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "transfer"
-                                    ]
+                                    "const": "transfer"
                                   },
                                   "amount": {
                                     "anyOf": [
@@ -6120,9 +6145,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "delegate"
-                                    ]
+                                    "const": "delegate"
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -6149,9 +6172,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "transferToken"
-                                    ]
+                                    "const": "transferToken"
                                   },
                                   "tokenId": {
                                     "type": "string"
@@ -6179,9 +6200,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "undelegate"
-                                    ]
+                                    "const": "undelegate"
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -6208,9 +6227,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "redelegate"
-                                    ]
+                                    "const": "redelegate"
                                   },
                                   "sourceValidatorAddress": {
                                     "type": "string"
@@ -6241,9 +6258,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "claimRewards"
-                                    ]
+                                    "const": "claimRewards"
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -6542,9 +6557,7 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": [
-                                        "transfer"
-                                      ]
+                                      "const": "transfer"
                                     },
                                     "amount": {
                                       "type": "string"
@@ -6561,9 +6574,7 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": [
-                                        "delegate"
-                                      ]
+                                      "const": "delegate"
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -6583,9 +6594,7 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": [
-                                        "transferToken"
-                                      ]
+                                      "const": "transferToken"
                                     },
                                     "amount": {
                                       "type": "string"
@@ -6606,9 +6615,7 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": [
-                                        "undelegate"
-                                      ]
+                                      "const": "undelegate"
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -6628,9 +6635,7 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": [
-                                        "redelegate"
-                                      ]
+                                      "const": "redelegate"
                                     },
                                     "sourceValidatorAddress": {
                                       "type": "string"
@@ -6654,9 +6659,7 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "enum": [
-                                        "claimRewards"
-                                      ]
+                                      "const": "claimRewards"
                                     },
                                     "validatorAddress": {
                                       "type": "string"
@@ -7037,9 +7040,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "transfer"
-                                    ]
+                                    "const": "transfer"
                                   },
                                   "amount": {
                                     "anyOf": [
@@ -7063,9 +7064,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "delegate"
-                                    ]
+                                    "const": "delegate"
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -7092,9 +7091,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "transferToken"
-                                    ]
+                                    "const": "transferToken"
                                   },
                                   "tokenId": {
                                     "type": "string"
@@ -7122,9 +7119,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "undelegate"
-                                    ]
+                                    "const": "undelegate"
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -7151,9 +7146,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "redelegate"
-                                    ]
+                                    "const": "redelegate"
                                   },
                                   "sourceValidatorAddress": {
                                     "type": "string"
@@ -7184,9 +7177,7 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "claimRewards"
-                                    ]
+                                    "const": "claimRewards"
                                   },
                                   "validatorAddress": {
                                     "type": "string"
@@ -7660,9 +7651,7 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": [
-                                          "transfer"
-                                        ]
+                                        "const": "transfer"
                                       },
                                       "amount": {
                                         "anyOf": [
@@ -7686,9 +7675,7 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": [
-                                          "delegate"
-                                        ]
+                                        "const": "delegate"
                                       },
                                       "validatorAddress": {
                                         "type": "string"
@@ -7715,9 +7702,7 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": [
-                                          "transferToken"
-                                        ]
+                                        "const": "transferToken"
                                       },
                                       "tokenId": {
                                         "type": "string"
@@ -7745,9 +7730,7 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": [
-                                          "undelegate"
-                                        ]
+                                        "const": "undelegate"
                                       },
                                       "validatorAddress": {
                                         "type": "string"
@@ -7774,9 +7757,7 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": [
-                                          "redelegate"
-                                        ]
+                                        "const": "redelegate"
                                       },
                                       "sourceValidatorAddress": {
                                         "type": "string"
@@ -7807,9 +7788,7 @@
                                     "properties": {
                                       "mode": {
                                         "type": "string",
-                                        "enum": [
-                                          "claimRewards"
-                                        ]
+                                        "const": "claimRewards"
                                       },
                                       "validatorAddress": {
                                         "type": "string"

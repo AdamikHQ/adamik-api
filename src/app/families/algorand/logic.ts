@@ -1,52 +1,20 @@
-import { encode as msgpackEncode } from "algo-msgpack-with-bigint";
 import {
-  EncodedSignedTransaction as AlgoEncodedSignedTransaction,
-  EncodedTransaction as AlgoEncodedTransaction,
   Transaction as AlgoTransaction,
   decodeSignedTransaction,
-  makeAssetTransferTxnWithSuggestedParams,
-  makePaymentTxnWithSuggestedParams,
+  encodeMsgpack,
+  makeAssetTransferTxnWithSuggestedParamsFromObject,
+  makePaymentTxnWithSuggestedParamsFromObject,
 } from "algosdk";
-import base32 from "hi-base32";
-import sha512 from "js-sha512";
-import nacl from "tweetnacl";
 import { fetchAccount, fetchTransactionParams } from "~/app/families/algorand/backend/node";
 import { TransactionData, TransactionMode, TransactionSpendableAmounts } from "~/app/model/types_WIP";
+import { AdamikApiServerError, UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 
-// TODO Keep this file as a fourre-tout or split it?
-
-// FIXME Do we really need nacl just for this?
-const PUBLIC_KEY_LENGTH = nacl.sign.publicKeyLength;
-const ALGORAND_ADDRESS_LENGTH = 58;
-const ALGORAND_CHECKSUM_BYTE_LENGTH = 4;
 const ALGORAND_MIN_ACCOUNT_BALANCE = 100000;
 const ALGORAND_MAX_MEMO_SIZE = 32;
 
 // This is only true for a single signature. If we ever support different type of signatures
 // (e.g multi signatures), we will have to add the correct corresponding number of bytes.
 const SINGLE_SIGNATURE_SIZE = 71;
-
-function encodeAddress(address: Uint8Array): string {
-  const checksum = sha512.sha512_256
-    .array(address)
-    .slice(PUBLIC_KEY_LENGTH - ALGORAND_CHECKSUM_BYTE_LENGTH, PUBLIC_KEY_LENGTH);
-  const addr = base32.encode(concatArrays(address, checksum));
-
-  return addr.toString().slice(0, ALGORAND_ADDRESS_LENGTH);
-}
-
-function concatArrays(...arrs: ArrayLike<number>[]): Uint8Array {
-  const size = arrs.reduce((sum, arr) => sum + arr.length, 0);
-  const c = new Uint8Array(size);
-
-  let offset = 0;
-  for (let i = 0; i < arrs.length; i++) {
-    c.set(arrs[i], offset);
-    offset += arrs[i].length;
-  }
-
-  return c;
-}
 
 function computeAlgoMaxSpendable({
   accountBalance,
@@ -115,69 +83,62 @@ async function computeFees(transaction: TransactionData): Promise<bigint> {
       amount: transaction.amount || 0n,
     });
     const encoded = encodeToSign(rawTransaction);
-    suggestedFees = params.fee * (Buffer.from(encoded, "hex").length + SINGLE_SIGNATURE_SIZE);
+    suggestedFees = Number(params.fee) * (Buffer.from(encoded, "hex").length + SINGLE_SIGNATURE_SIZE);
   }
 
-  return BigInt(Math.max(suggestedFees, params.minFee));
+  return BigInt(Math.max(suggestedFees, Number(params.minFee)));
 }
 
-async function buildRawTransaction(transaction: TransactionData): Promise<AlgoEncodedTransaction> {
+async function buildRawTransaction(transaction: TransactionData): Promise<AlgoTransaction> {
   const { sender, recipient, amount, mode, memo } = transaction;
   if (amount === undefined) {
     // Should never happen
-    // TODO Proper error management should handle this kind of error as an HTTP 500 at API level
-    throw new Error("amount required to build raw transaction");
+    throw new AdamikApiServerError("Missing amount is required to build raw transaction");
   }
 
   const note = memo ? new TextEncoder().encode(memo) : undefined;
 
-  const params = await fetchTransactionParams();
+  const suggestedParams = await fetchTransactionParams();
 
-  const algoTxn: AlgoTransaction =
-    mode === TransactionMode.TRANSFER_TOKEN
-      ? makeAssetTransferTxnWithSuggestedParams(
-          sender,
-          recipient,
-          undefined,
-          undefined,
-          amount,
-          note,
-          Number(transaction.tokenId),
-          params,
-          undefined
-        )
-      : makePaymentTxnWithSuggestedParams(sender, recipient, amount, undefined, note, params);
-
-  // Bit of safety: set tx validity to the next 1000 blocks
-  algoTxn.firstRound = params.lastRound;
-  algoTxn.lastRound = params.lastRound + 1000;
-
-  // Flaw in the SDK: payload isn't sorted, but it needs to be for msgPack encoding
-  const sorted = Object.fromEntries(
-    Object.entries(algoTxn.get_obj_for_encoding()).sort()
-  ) as AlgoEncodedTransaction;
-
-  return sorted;
+  switch (mode) {
+    case TransactionMode.TRANSFER: {
+      return makePaymentTxnWithSuggestedParamsFromObject({
+        sender,
+        receiver: recipient,
+        amount,
+        note,
+        suggestedParams,
+      });
+    }
+    case TransactionMode.TRANSFER_TOKEN: {
+      return makeAssetTransferTxnWithSuggestedParamsFromObject({
+        assetIndex: Number(transaction.tokenId),
+        sender,
+        receiver: recipient,
+        amount,
+        note,
+        suggestedParams,
+      });
+    }
+    default: {
+      throw new UnsupportedFeatureError(`Transaction mode ${mode} is not supported for chainId algorand`);
+    }
+  }
 }
 
-function encodeToSign(payload: AlgoEncodedTransaction): string {
-  const msgPackEncoded = msgpackEncode(payload);
+function encodeToSign(payload: AlgoTransaction): string {
+  const msgPackEncoded = encodeMsgpack(payload);
 
   return Buffer.from(msgPackEncoded).toString("hex");
 }
 
-function encodeToBroadcast(payload: AlgoEncodedTransaction, signature: Buffer): Buffer {
+function encodeToBroadcast(payload: AlgoTransaction, signature: Buffer): Buffer {
   const isSignatureEncoded = decodeSignedTransaction(signature);
   if (isSignatureEncoded.sig) {
-    return Buffer.from(signature);
+    return signature;
   } else {
-    const signedPayload: AlgoEncodedSignedTransaction = {
-      sig: signature,
-      txn: payload,
-    };
-    const msgPackEncoded = msgpackEncode(signedPayload);
-
-    return Buffer.from(msgPackEncoded);
+    payload.attachSignature(payload.sender, signature);
+    return Buffer.from(encodeMsgpack(payload));
   }
 }
 
@@ -188,7 +149,6 @@ export {
   computeAlgoMaxSpendable,
   computeFees,
   computeMaxSpendable,
-  encodeAddress,
   encodeToBroadcast,
   encodeToSign,
   isAmountValidForRecipient,

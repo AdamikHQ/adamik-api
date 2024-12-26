@@ -63,14 +63,14 @@ export function apiHandler<
   }
 
   return applyMoesifMiddleware(
-    async (request: NextRequest, context: { params?: unknown }): Promise<NextResponse> => {
+    async (request: NextRequest, context: { params?: Promise<unknown> }): Promise<NextResponse> => {
       try {
         const hasBody = !!request.body;
         const requestBody: z.infer<RequestBody> = !hasBody
           ? undefined // Don't use json() if the request has no body
           : requestSchema?.parse(await request.json()) ?? (await request.json());
 
-        const pathParams = parsePathParams({ pathParams: context.params, pathParamsSchema });
+        const pathParams = parsePathParams({ pathParams: await context.params, pathParamsSchema });
 
         const queryParams = parseQueryParams({
           queryParams: request.nextUrl.searchParams,
