@@ -43,7 +43,7 @@ const responseSchema = z
 
 const accountStateTokensOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/{chainId}/account/{accountId}/state/tokens": {
-    post: {
+    get: {
       tags: ["Account"],
       summary: "Get Account Tokens (paginated)",
       description:

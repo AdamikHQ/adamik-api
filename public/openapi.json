@@ -4746,7 +4746,7 @@
       }
     },
     "/api/{chainId}/account/{accountId}/state": {
-      "post": {
+      "get": {
         "tags": [
           "Account"
         ],
@@ -5209,7 +5209,7 @@
       }
     },
     "/api/{chainId}/account/{accountId}/state/tokens": {
-      "post": {
+      "get": {
         "tags": [
           "Account"
         ],
@@ -5487,7 +5487,7 @@
       }
     },
     "/api/{chainId}/account/{accountId}/history": {
-      "post": {
+      "get": {
         "tags": [
           "Account"
         ],

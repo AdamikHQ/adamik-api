@@ -81,7 +81,7 @@ const responseSchema = z
 
 const accountHistoryOpenAPIPath: ZodOpenApiPathsObject = {
   "/api/{chainId}/account/{accountId}/history": {
-    post: {
+    get: {
       tags: ["Account"],
       summary: "Get Account History",
       description:
