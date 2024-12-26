@@ -1,9 +1,11 @@
 import * as crypto from "crypto";
 import fs from "fs";
-import jq from "jq-web";
 import { bypass, http, HttpResponse, passthrough } from "msw";
 import { setupServer } from "msw/node";
 import path from "path";
+
+const jqLib = require("jq-web");
+const jq = await jqLib;
 
 const MOCKS_FOLDER_ROOT = "/src/tests/mocks";
 
@@ -27,7 +29,7 @@ const computeMockFilepath = async (request: Request) => {
   })();
 
   const filteredBody = fieldsToFilter
-    ? await jq.promised.json(JSON.parse(requestBody), `del(${fieldsToFilter})`)
+    ? jq.json(JSON.parse(requestBody), `del(${fieldsToFilter})`)
     : requestBody;
 
   const hash = crypto.createHash("md5");

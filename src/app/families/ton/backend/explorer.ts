@@ -1,15 +1,13 @@
-import { Account, Api, JettonInfo, JettonsBalances, Seqno, TonApiClient, Transaction } from "@ton-api/client";
+import { Account, JettonInfo, JettonsBalances, Seqno, TonApiClient, Transaction } from "@ton-api/client";
 import { Address } from "@ton/ton";
 import { TON_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 
-const http = new TonApiClient({
+const api = new TonApiClient({
   baseUrl: `${CHAINS.ton.backends.explorerURL}`,
   apiKey: TON_API_KEY,
 });
-
-const api = new Api(http);
 
 async function fetchAccount(address: string): Promise<Account> {
   const tonAddress = Address.parse(address);

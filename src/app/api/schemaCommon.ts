@@ -1,5 +1,5 @@
 import z from "zod";
-import { extendZodWithOpenApi } from "zod-openapi";
+import "zod-openapi/extend";
 import {
   ChainFamily,
   ChainId,
@@ -12,8 +12,6 @@ import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 import { tonTransactionParamsSchema } from "../families/ton/types";
 import { tronTransactionParamsSchema } from "../families/tron/types";
 import { deepBigintToString } from "../tools/convertors/bigint";
-
-extendZodWithOpenApi(z);
 
 // Used for input conversion, to allow for strings or numbers
 const stringOrNumToBigintSchema = z

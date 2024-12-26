@@ -1,8 +1,6 @@
 import { CHAINS } from "~/app/config/chains";
 import { AlgoTransaction } from "./types";
 
-// TODO Caching !
-
 const ROOT_URL = CHAINS.algorand.backends.explorerURL;
 
 async function fetchTransaction(transactionId: string): Promise<AlgoTransaction | null> {
