@@ -1,5 +1,6 @@
 import z from "zod";
-import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
+import { ZodOpenApiPathsObject } from "zod-openapi";
+import "zod-openapi/extend";
 import {
   accountIdSchema,
   bigintToStringSchema,
@@ -8,8 +9,6 @@ import {
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 import { StakingStatus } from "~/app/model/types_WIP";
-
-extendZodWithOpenApi(z);
 
 const supportedChainIds = Object.values(CHAINS)
   .filter(

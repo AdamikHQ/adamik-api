@@ -1,5 +1,6 @@
 import z from "zod";
-import { ZodOpenApiPathsObject, extendZodWithOpenApi } from "zod-openapi";
+import { ZodOpenApiPathsObject } from "zod-openapi";
+import "zod-openapi/extend";
 import {
   accountIdSchema,
   finalizedTransactionSchema,
@@ -8,8 +9,6 @@ import {
   paginationQueryParamsSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
-
-extendZodWithOpenApi(z);
 
 const supportedChainIds = Object.values(CHAINS)
   .filter(

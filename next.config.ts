@@ -1,5 +1,7 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  serverExternalPackages: ["jq-web"], // Fix for build error: "ENOENT: no such file or directory, open ....next/server/chunks/jq.wasm"
   logging: {
     fetches: {
       fullUrl: true,
@@ -20,4 +22,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
