@@ -739,7 +739,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: {
       //nodeURL: "https://apis.mintscan.io/injective/lcd", // Error when computing tx fees
-      nodeURL: "https://lcd-injective.imperator.co",
+      nodeURL: "https://lcd-injective.imperator.co", // FIXME Frequent HTTP 502 errors!
       explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
