@@ -1,6 +1,6 @@
 import { CHAINS } from "~/app/config/chains";
 import { AccountState, ChainId } from "~/app/model/types_WIP";
-import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/explorer";
+import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/blockchair";
 import { getCurrentBlockHeight, isValidXpub } from "../logic";
 import { BitcoinService } from "../service";
 import { BitcoinChainParams, Xpub } from "../types";

@@ -1,7 +1,7 @@
 import { Psbt } from "bitcoinjs-lib";
 import { Status, Transaction } from "~/app/model/types_WIP";
 import { AdamikApiServerError } from "~/app/tools/handlers/errors";
-import { fetchRawTransaction, fetchTransactionsMetadataBatched } from "../backend/explorer";
+import { fetchRawTransaction, fetchTransactionsMetadataBatched } from "../backend/blockchair";
 import { BlockchairRawTransactionData } from "../backend/types";
 import { getNetworkForChainId, isP2SHScript, isWitnessScript } from "../logic";
 import { BitcoinService } from "../service";

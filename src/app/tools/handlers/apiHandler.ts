@@ -4,6 +4,8 @@ import { Status } from "~/app/model/types_WIP";
 import { mswServer } from "~/tests/tools/msw";
 import { AdamikHttpError, InvalidTransactionError } from "./errors";
 import applyMoesifMiddleware from "./moesifHandler";
+// This patch is required for seamless conversion of bigint values to string in API responses
+import "~/app/tools/bigint";
 
 // HOW TO USE
 //
