@@ -1,7 +1,7 @@
 import { Address, beginCell, Builder, Cell, external, internal, storeMessage, toNano } from "@ton/core";
 import { TransactionData, TransactionMode } from "~/app/model/types_WIP";
-import { fetchAccount } from "./backend/explorer";
 import { estimateFees, getWalletJetonAddress } from "./backend/node";
+import { fetchAccount } from "./backend/tonapi";
 import { TonTransactionParams } from "./types";
 import { createWalletTransferV4, initWalletV4 } from "./wallets/walletv4";
 

@@ -65,7 +65,9 @@ const handlers = [
           return passthrough();
         }
 
-        responseBody = await fetch(bypass(request.clone())).then((response) => {
+        // FIXME Weird infinite loop may happen with this fetch() in some cases where the endpoint returns an error...
+        // (since msw v2.7.0, need to check later if a newer version fixes this)
+        responseBody = await fetch(bypass(request)).then((response) => {
           try {
             return response.json();
           } catch (e) {
@@ -81,7 +83,7 @@ const handlers = [
               return JSON.parse(requestString);
             } catch (e) {
               if (!!request.body) {
-                console.error("Error: failed to parse response body as JSON");
+                console.error("Error: failed to parse request body as JSON");
                 throw e;
               }
             }

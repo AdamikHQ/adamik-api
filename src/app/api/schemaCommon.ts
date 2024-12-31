@@ -11,7 +11,6 @@ import {
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 import { tonTransactionParamsSchema } from "../families/ton/types";
 import { tronTransactionParamsSchema } from "../families/tron/types";
-import { deepBigintToString } from "../tools/convertors/bigint";
 
 // Used for input conversion, to allow for strings or numbers
 const stringOrNumToBigintSchema = z
@@ -319,12 +318,7 @@ const encodedTransactionSchema = z.object({
   // Improvement could be to properly type all possible encoded formats for every family
   // FIXME 'any' with zod always makes the field optional... which is a problem here, but found no easy worakround
   // Best fix is probably to enforce only string, by using JSON.stringify with anything else
-  encoded: z.string().or(
-    z
-      .any()
-      .transform((data) => deepBigintToString(data))
-      .pipe(z.any())
-  ),
+  encoded: z.string().or(z.any()),
 });
 
 const signedAndEncodedTransactionSchema = encodedTransactionSchema.extend({
@@ -338,10 +332,7 @@ const optionalTickerSchema = z.string().optional().openapi({
 
 // FIXME Not convenient to manually maintain this aligned with FinalizedTransaction...
 const finalizedTransactionSchema = z.object({
-  raw: z
-    .any()
-    .transform((data) => deepBigintToString(data))
-    .pipe(z.unknown()),
+  raw: z.unknown(),
   parsed: z
     .object({
       id: z.string(),

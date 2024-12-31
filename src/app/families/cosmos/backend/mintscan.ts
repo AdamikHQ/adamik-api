@@ -1,8 +1,8 @@
 import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
-import { paginationFromB64, paginationToB64 } from "~/app/tools/convertors/pagination";
 import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { CosmosChainParams } from "../types";
 import { MintscanAccountTransactionsResponse, MintscanTransaction } from "./types";
 

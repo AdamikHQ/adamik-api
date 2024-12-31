@@ -45,7 +45,7 @@ async function fetchXpubDashboard(
       `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
-    throw new Error("Error while fetching Xpub data from the explorer");
+    throw new ThirdPartyProviderError("Error while fetching Xpub data from the explorer");
   }
 
   const parsedResponse = BlockchairXpubResponse.safeParse(await response.json());
@@ -55,7 +55,7 @@ async function fetchXpubDashboard(
       `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.error
     );
-    throw new Error("Error while parsing Xpub data from the explorer");
+    throw new ThirdPartyProviderError("Error while parsing Xpub data from the explorer");
   }
 
   const context = parsedResponse.data.context;
@@ -65,7 +65,7 @@ async function fetchXpubDashboard(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.data
     );
-    throw new Error("Error in Xpub data received from the explorer");
+    throw new ThirdPartyProviderError("Error in Xpub data received from the explorer");
   }
 
   if (!context.state) {
@@ -99,7 +99,7 @@ async function fetchAddressesBatch(
       `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
-    throw new Error("Error while fetching addresses data from the explorer");
+    throw new ThirdPartyProviderError("Error while fetching addresses data from the explorer");
   }
 
   const parsedResponse = BlockchairAddressesResponse.safeParse(await response.json());
@@ -109,7 +109,7 @@ async function fetchAddressesBatch(
       `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.error
     );
-    throw new Error("Error while parsing addresses data from the explorer");
+    throw new ThirdPartyProviderError("Error while parsing addresses data from the explorer");
   }
 
   const context = parsedResponse.data.context;
@@ -121,7 +121,7 @@ async function fetchAddressesBatch(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.data
     );
-    throw new Error("Error in addresses data received from the explorer");
+    throw new ThirdPartyProviderError("Error in addresses data received from the explorer");
   }
 
   if (!context.state) {
@@ -179,7 +179,7 @@ async function fetchTransaction(
       `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
-    throw new Error("Error while fetching transaction data from the explorer");
+    throw new ThirdPartyProviderError("Error while fetching transaction data from the explorer");
   }
 
   const parsedResponse = BlockchairTransactionsResponse.safeParse(await response.json());
@@ -189,7 +189,7 @@ async function fetchTransaction(
       `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.error
     );
-    throw new Error("Error while parsing transaction data from the explorer");
+    throw new ThirdPartyProviderError("Error while parsing transaction data from the explorer");
   }
 
   const context = parsedResponse.data.context;
@@ -201,7 +201,7 @@ async function fetchTransaction(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.data
     );
-    throw new Error("Error in transaction data received from the explorer");
+    throw new ThirdPartyProviderError("Error in transaction data received from the explorer");
   }
 
   return parsedResponse.data;
@@ -238,7 +238,7 @@ async function fetchTransactionsMetadataBatched(
         `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
         await response.text()
       );
-      throw new Error("Error while fetching transaction metadata from the explorer");
+      throw new ThirdPartyProviderError("Error while fetching transaction metadata from the explorer");
     }
 
     const parsedResponse = BlockchairTransactionsResponse.safeParse(await response.json());
@@ -248,7 +248,7 @@ async function fetchTransactionsMetadataBatched(
         `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
         parsedResponse.error
       );
-      throw new Error("Error while parsing transaction data from the explorer");
+      throw new ThirdPartyProviderError("Error while parsing transaction data from the explorer");
     }
 
     const context = parsedResponse.data.context;
@@ -258,7 +258,7 @@ async function fetchTransactionsMetadataBatched(
         `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
         parsedResponse.data
       );
-      throw new Error("Error in transaction metadata received from the explorer");
+      throw new ThirdPartyProviderError("Error in transaction metadata received from the explorer");
     }
 
     results = results.concat(Object.values(parsedResponse.data.data));
@@ -284,7 +284,7 @@ async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<Bl
       `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
-    throw new Error("Error while fetching raw transaction metadata from the explorer");
+    throw new ThirdPartyProviderError("Error while fetching raw transaction metadata from the explorer");
   }
 
   const parsedResponse = BlockchairRawTransactionResponse.safeParse(await response.json());
@@ -294,7 +294,7 @@ async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<Bl
       `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.error
     );
-    throw new Error("Error while parsing transaction data from the explorer");
+    throw new ThirdPartyProviderError("Error while parsing transaction data from the explorer");
   }
 
   if (
@@ -306,7 +306,7 @@ async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<Bl
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.data
     );
-    throw new Error("Error in raw transaction metadata received from the explorer");
+    throw new ThirdPartyProviderError("Error in raw transaction metadata received from the explorer");
   }
 
   return parsedResponse.data.data[txHash];
@@ -323,7 +323,7 @@ async function fetchStats(chainId: ChainId): Promise<BlockchairStatsData> {
       `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
-    throw new Error("Error while fetching transaction metadata from the explorer");
+    throw new ThirdPartyProviderError("Error while fetching transaction metadata from the explorer");
   }
 
   const result = await response.json();
@@ -346,7 +346,7 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
       `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
-    throw new Error("Error while fetching fee per byte data from the explorer");
+    throw new ThirdPartyProviderError("Error while fetching fee per byte data from the explorer");
   }
 
   const result = await response.json();
@@ -356,7 +356,7 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       JSON.stringify(result)
     );
-    throw new Error("Error in fee per byte data received from the explorer");
+    throw new ThirdPartyProviderError("Error in fee per byte data received from the explorer");
   }
 
   return result.data.suggested_transaction_fee_per_byte_sat;
@@ -380,7 +380,7 @@ async function postTransaction(chainId: ChainId, signedTransaction: string): Pro
       `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
       await response.text()
     );
-    throw new Error("Error during transaction broadcast to the node");
+    throw new ThirdPartyProviderError("Error during transaction broadcast to the node");
   }
 
   const parsedResponse = BlockchairTransactionBroadcastStatus.safeParse(await response.json());
@@ -390,7 +390,7 @@ async function postTransaction(chainId: ChainId, signedTransaction: string): Pro
       `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.error
     );
-    throw new Error("Error while parsing response from transaction broadcast");
+    throw new ThirdPartyProviderError("Error while parsing response from transaction broadcast");
   }
 
   if (parsedResponse.data.context.code != 200 || !parsedResponse.data.data?.transaction_hash) {
