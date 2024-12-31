@@ -1,7 +1,7 @@
 import { CHAINS } from "~/app/config/chains";
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { fetchStats, fetchTransaction } from "../backend/explorer";
+import { fetchStats, fetchTransaction } from "../backend/blockchair";
 import { BitcoinService } from "../service";
 import { BitcoinChainParams } from "../types";
 

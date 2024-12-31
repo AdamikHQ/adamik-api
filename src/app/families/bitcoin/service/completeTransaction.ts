@@ -2,7 +2,7 @@ import coinSelect from "coinselect";
 import split from "coinselect/split.js";
 import { CHAINS } from "~/app/config/chains";
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { fetchAddressesDashboard, fetchFeePerByte, fetchXpubDashboard } from "../backend/explorer";
+import { fetchAddressesDashboard, fetchFeePerByte, fetchXpubDashboard } from "../backend/blockchair";
 import { UtxoWithMetadata } from "../backend/types";
 import { getCurrentBlockHeight, isValidXpub } from "../logic";
 import { BitcoinService } from "../service";
