@@ -1,11 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import {
-  checkEitherAmountOrUseMaxAmount,
-  getSupportedChainIdsSchema,
-  inputTransactionDataSchema,
-  statusSchema,
-} from "~/app/api/schemaCommon";
+import { getSupportedChainIdsSchema, inputTransactionDataSchema, statusSchema } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 
 const supportedChainIds = Object.values(CHAINS)
@@ -22,9 +17,7 @@ const pathParamsSchema = z.object({
 });
 
 const requestSchema = z.object({
-  transaction: inputTransactionDataSchema
-    // TODO: once we use Zod 4, we can move the superRefine to the amountFieldSchema (cf: https://github.com/colinhacks/zod/issues/2474#issuecomment-2101077363)
-    .superRefine((transaction, ctx) => checkEitherAmountOrUseMaxAmount(transaction.data, ctx)),
+  transaction: inputTransactionDataSchema,
 });
 
 const responseSchema = z.object({
