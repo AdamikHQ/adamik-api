@@ -173,7 +173,6 @@ enum TokenType {
 }
 
 type Token = {
-  chainId: ChainId;
   type: TokenType;
   id: string;
   name: string;
@@ -196,7 +195,6 @@ type Validator = {
 };
 
 type ChainValidators = {
-  chainId: ChainId;
   validators: Validator[];
 };
 
@@ -225,8 +223,6 @@ type TokenStakingReward = StakingReward & {
 };
 
 type AccountState = {
-  chainId: ChainId;
-  accountId: string;
   balances: {
     native?: {
       available: bigint; // Cosmos, Polkadot, Solana : all provide available, need to deduce total from staking
@@ -250,14 +246,10 @@ type AccountState = {
 };
 
 type AccountTokens = {
-  chainId: ChainId;
-  accountId: string;
   tokens: TokenAmount[];
 };
 
 type AccountHistory = {
-  chainId: ChainId;
-  accountId: string;
   transactions: FinalizedTransaction[];
 };
 
@@ -285,7 +277,6 @@ enum TransactionState {
 
 type FinalizedTransaction = {
   parsed?: {
-    chainId: ChainId;
     id: string;
     mode: TransactionMode | "unknown";
     tokenId?: string;
@@ -341,7 +332,6 @@ type TransactionParams =
 // - alternative: an explicit field for each chain? or family? = 'cosmosParams', 'evmParams', etc
 type CommonTransaction = {
   mode: TransactionMode;
-  chainId: ChainId;
   sender: string;
   recipient: string;
   useMaxAmount: boolean;
@@ -405,8 +395,6 @@ type TransactionSpendableAmounts = {
   token?: bigint;
 };
 
-type BroadcastStatus = { hash: string };
-
 enum EncodedTransactionFormat {
   JSON = "json",
   HEX = "hex",
@@ -446,7 +434,6 @@ export type {
   AccountState,
   AccountTokens,
   ApiRequestFilters,
-  BroadcastStatus,
   Chain,
   ChainParams,
   ChainSupportedFeatures,

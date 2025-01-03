@@ -1,0 +1,23 @@
+meta {
+  name: normal account
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state
+  body: none
+  auth: none
+}
+
+params:path {
+  accountId: RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM
+  chainId: algorand
+}
+
+assert {
+  res.status: eq 200
+  res.body.balances.tokens: isArray
+  res.body.balances.native.total: eq "4383925"
+  res.body.balances.native.available: eq "3983925"
+}

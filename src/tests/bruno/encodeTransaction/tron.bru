@@ -1,20 +1,23 @@
 meta {
   name: tron
   type: http
-  seq: 5
+  seq: 4
 }
 
 post {
-  url: {{api_url}}/api/transaction/encode
+  url: {{api_url}}/api/:chainId/transaction/encode
   body: json
   auth: none
+}
+
+params:path {
+  chainId: tron
 }
 
 body:json {
   {
     "transaction": {
       "data": {
-        "chainId": "tron",
         "tokenId": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
         "mode": "transferToken",
         "sender": "TCYvG9EYyHjBij8Xma6iDtLzow88888888",
@@ -28,4 +31,5 @@ body:json {
 
 assert {
   res.status: eq 200
+  res.body.transaction.encoded: eq "0a0256ef2208d7d24d86045493834088a6f6c7b6325aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15411c506ba436e22d4892be0a949f3f065878a38d97121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97000000000000000000000000000000000000000000000000000000000000303970e6d9f2c7b632900180a3c347"
 }

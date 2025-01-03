@@ -1,6 +1,6 @@
 import { FinalizedTransaction, Status, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { fetchTransaction } from "../backend/explorer";
+import { fetchTransaction } from "../backend/indexer";
 import { AlgorandService } from "../service";
 
 async function getTransaction(
@@ -14,7 +14,6 @@ async function getTransaction(
   }
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
-    chainId: this.chainId,
     id: algoTransaction.id,
     fees: {
       amount: BigInt(algoTransaction.fee),

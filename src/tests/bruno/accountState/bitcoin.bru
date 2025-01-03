@@ -1,13 +1,18 @@
 meta {
   name: bitcoin
   type: http
-  seq: 3
+  seq: 2
 }
 
-post {
-  url: {{api_url}}/api/account/state
-  body: json
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state
+  body: none
   auth: none
+}
+
+params:path {
+  chainId: bitcoin
+  accountId: xpub6BtWBf3Pu6hYwJBKvEwG7JtrTxxDrSGy39HaTgZz6GTSaFWFdoCtuEXSQtoKGaYdz1emg8xTXKYwjhu3xXRPzFnYS1z4yjKj7hLDQyNeDZr
 }
 
 body:json {
@@ -18,8 +23,10 @@ body:json {
 }
 
 assert {
-  res.body.balances: isDefined tokens
-  res.body.balances.native.total: eq "11007"
-  res.body.balances.native.available: eq "11007"
   res.status: eq 200
+  res.body.chainId: eq "bitcoin"
+  res.body.accountId: eq "xpub6BtWBf3Pu6hYwJBKvEwG7JtrTxxDrSGy39HaTgZz6GTSaFWFdoCtuEXSQtoKGaYdz1emg8xTXKYwjhu3xXRPzFnYS1z4yjKj7hLDQyNeDZr"
+  res.body.balances.native.available: eq "11007"
+  res.body.balances.native.total: eq "11007"
+  res.body.balances.native.unconfirmed: eq "0"
 }

@@ -11,7 +11,7 @@ import {
   TokenType,
 } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
-import { paginationFromB64, paginationToB64 } from "../../common";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { CosmosChainParams, IBCToken } from "../types";
 import {
   CosmosAccount,
@@ -24,42 +24,46 @@ import {
 
 const getNodeRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
 
-async function fetchWithHeaders(url: string, options: RequestInit = {}) {
-  const defaultOptions: RequestInit = {
-    ...options,
+async function fetchWithHeaders(chainId: ChainId, url: string, defaultOptions: RequestInit = {}) {
+  const options: RequestInit = {
+    ...defaultOptions,
     headers: {
-      ...options.headers,
+      ...defaultOptions.headers,
+      ...(url.includes("apis.mintscan.io") && { Authorization: MINTSCAN_API_KEY }),
       // Custom header requested by imperator.co to identify and whitelist our traffic
-      ...(url.includes("imperator.co") && {
-        adamik: "6aPJgGeL2jHcNG7PaW4y",
-      }),
-      ...(url.includes("apis.mintscan.io") && {
-        Authorization: MINTSCAN_API_KEY,
-      }),
+      ...(url.includes("imperator.co") && { adamik: "6aPJgGeL2jHcNG7PaW4y" }),
     },
   };
-  return fetch(url, defaultOptions);
+
+  const data = await fetch(url, options);
+
+  if (!data.ok) {
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`, await data.text());
+    throw new ThirdPartyProviderError("Error while fetching data from the node");
+  }
+
+  return await data.json();
 }
 
 async function fetchAllWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string): Promise<T[]> {
   const url = new URL(urlString);
 
   let data: T[] = [];
-  let response;
+  let result;
   do {
-    if (response?.pagination?.next_key) {
-      url.searchParams.set("pagination.key", response.pagination.next_key);
+    if (result?.pagination?.next_key) {
+      url.searchParams.set("pagination.key", result.pagination.next_key);
     }
 
-    response = await fetchWithHeaders(url.toString()).then((response) => response.json());
+    result = await fetchWithHeaders(chainId, url.toString());
 
-    if (!response || !Array.isArray(response[dataKey])) {
-      console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
+    if (!result || !Array.isArray(result[dataKey])) {
+      console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url.toString()}:`, result);
       break;
     }
 
-    data = data.concat(response[dataKey]);
-  } while (response?.pagination?.next_key);
+    data = data.concat(result[dataKey]);
+  } while (result?.pagination?.next_key);
 
   return data;
 }
@@ -69,13 +73,13 @@ async function fetchAllWithPagination<T>(chainId: ChainId, urlString: string, da
 async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<CosmosTransaction | null> {
   const url = `${getRootUrl(chainId)}/cosmos/tx/v1beta1/txs/${transactionId}`;
 
-  const response = await fetchWithHeaders(url).then((response) => response.json());
+  const data = await fetchWithHeaders(url);
 
-  if ("message" in response) {
+  if ("message" in data) {
     return null;
   }
 
-  return response.tx_response;
+  return data.tx_response;
 }
 */
 
@@ -168,9 +172,10 @@ async function fetchRewards(
   const url = `${getNodeRootUrl(chainId)}/cosmos/distribution/v1beta1/delegators/${address}/rewards`;
 
   // (Note: this endpoint is not paginated)
-  const data: CosmosRewards = await fetchWithHeaders(url).then((response) => response.json());
+  const data: CosmosRewards = await fetchWithHeaders(chainId, url);
+
   if (!data?.rewards) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
     return { native: [], tokens: [] };
   }
 
@@ -202,7 +207,6 @@ async function fetchRewards(
             validatorAddress,
             amount,
             token: {
-              chainId: chainId,
               type: TokenType.IBC,
               id: denom,
               name: token.symbol,
@@ -242,20 +246,20 @@ async function fetchValidators(
     }
   }
 
-  const response = await fetchWithHeaders(url.toString()).then((response) => response.json());
+  const data = await fetchWithHeaders(chainId, url.toString());
 
-  if (response?.message === "illegal base64 data at input byte 4") {
+  if (data?.message === "illegal base64 data at input byte 4") {
     throw new InvalidPaginationTokenError("Provided pagination token is invalid");
   }
 
-  if (!Array.isArray(response?.validators)) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url.toString()}:`, response);
+  if (!Array.isArray(data?.validators)) {
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url.toString()}:`, data);
     throw new ThirdPartyProviderError(`Error while fetching ${chainId} validators from the node`);
   }
 
   return {
-    validators: response.validators,
-    nextPage: paginationToB64(response.pagination.next_key),
+    validators: data.validators,
+    nextPage: paginationToB64(data.pagination.next_key),
   };
 }
 
@@ -271,7 +275,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
 
   const url = `${getNodeRootUrl(chainId)}/cosmos/auth/v1beta1/accounts/${address}`;
 
-  const data = await fetchWithHeaders(url).then((response) => response.json());
+  const data = await fetchWithHeaders(chainId, url);
 
   try {
     // We use base_account for Ethermint chains and account for the rest
@@ -290,7 +294,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
       account.pubKeyType = accountData.pub_key["@type"];
     }
   } catch (e) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
     throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
   }
 
@@ -302,9 +306,9 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
 async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promise<string> {
   const url = `${getNodeRootUrl(chainId)}/ibc/apps/transfer/v1/denom_traces/${ibcTokenId}`;
 
-  const data = await fetchWithHeaders(url).then((response) => response.json());
+  const data = await fetchWithHeaders(url);
   if (!data?.denom_trace?.base_denom) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
     return "";
   }
 
@@ -312,11 +316,12 @@ async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promis
 }
 */
 
+// FIXME Don't need this call, using our hardcoded chain.nativeId should be enough
 async function fetchNetworkId(chainId: ChainId): Promise<CosmosChainId> {
   const url = `${getNodeRootUrl(chainId)}/cosmos/base/tendermint/v1beta1/node_info`;
-  const data = await fetchWithHeaders(url).then((response) => response.json());
+  const data = await fetchWithHeaders(chainId, url);
   if (!data?.default_node_info?.network) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
     throw new ThirdPartyProviderError(`Error while fetching ${chainId} network ID from the node`);
   }
 
@@ -330,10 +335,10 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
     body: payload,
   };
 
-  const data = await fetchWithHeaders(url, options).then((response) => response.json());
+  const data = await fetchWithHeaders(chainId, url, options);
 
   if (!data?.gas_info?.gas_used) {
-    console.warn(`/!\\ Invalid response from ${chainId} node endpoint: ${url}:`, data);
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
     throw new ThirdPartyProviderError("Error while getting gas estimate from the node");
   }
 
@@ -347,11 +352,11 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
     body: payload,
   };
 
-  const data = await fetchWithHeaders(url, options).then((response) => response.json());
+  const data = await fetchWithHeaders(chainId, url, options);
 
-  if (data?.tx_response?.code || !data?.tx_response?.txhash) {
+  if (data?.tx_data?.code || !data?.tx_data?.txhash) {
     // error codes: https://github.com/cosmos/cosmos-sdk/blob/master/types/errors/errors.go
-    const errorMessage = `Invalid response from broadcast on ${chainId} node (code: ${
+    const errorMessage = `Invalid data returned from broadcast on ${chainId} node (code: ${
       data?.tx_response?.code || "?"
     }, message: '${data?.tx_response?.raw_log || ""}')`;
 

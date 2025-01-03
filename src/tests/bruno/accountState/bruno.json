@@ -1,6 +1,9 @@
 {
   "version": "1",
-  "name": "/api/account/state",
+  "name": "/api/[chainId]/account/[accountId]/state",
   "type": "collection",
-  "ignore": ["node_modules", ".git"]
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
 }

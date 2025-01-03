@@ -13,8 +13,6 @@ async function getAccountTokens(
   throw new UnsupportedFeatureError("Not implemented yet");
 
   return {
-    chainId: this.chainId,
-    accountId,
     tokens: accountTokenAmounts,
     pagination: {
       nextPage: null,

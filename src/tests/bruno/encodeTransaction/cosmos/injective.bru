@@ -1,0 +1,35 @@
+meta {
+  name: injective
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: injective
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "transfer",
+        "sender": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
+        "recipient": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
+        "amount": "10000",
+        "memo": "adamik-test-memo",
+        "format": "json"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded.sequence: eq "86202057"
+}

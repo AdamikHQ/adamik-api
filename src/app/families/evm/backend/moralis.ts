@@ -15,7 +15,7 @@ import {
   ThirdPartyProviderError,
   UnsupportedTokenIDError,
 } from "~/app/tools/handlers/errors";
-import { paginationFromB64, paginationToB64 } from "../../common";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { EvmAddress } from "../types";
 import {
   MoralisAccountTransaction,
@@ -106,6 +106,11 @@ async function fetchERC20TokenAmounts(
 
   const response = await fetchWithHeaders(url).then((response) => response.json());
 
+  if (response.message === "Cursor is invalid or expired") {
+    console.warn(`/!\\ Error response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
+    throw new InvalidPaginationTokenError(`Pagination token is invalid or expired`);
+  }
+
   const results: MoralisERC20TokenBalance[] = response?.result;
   if (!Array.isArray(results)) {
     return { tokens, nextPage };
@@ -118,7 +123,6 @@ async function fetchERC20TokenAmounts(
     .forEach((result) =>
       tokens.push({
         token: {
-          chainId,
           type: TokenType.ERC20,
           id: result.token_address,
           name: result.name,
@@ -180,7 +184,6 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
       .forEach((result) =>
         tokenAmounts.push({
           token: {
-            chainId,
             type: TokenType.ERC20,
             id: result.token_address,
             name: result.name,
@@ -227,7 +230,6 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
     const [result]: [MoralisERC20Token] = response;
 
     return {
-      chainId: chainId,
       type: TokenType.ERC20,
       id: result.address,
       name: result.name,
@@ -311,6 +313,11 @@ async function fetchAccountTransactions(
     (response) => response.json()
   );
 
+  if (response?.message === "Cursor is invalid or expired") {
+    console.warn(`/!\\ Error response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
+    throw new InvalidPaginationTokenError(`Pagination token is invalid or expired`);
+  }
+
   if (!Array.isArray(response?.result)) {
     console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
     return { evmTransactions: [], nextPage: null };
@@ -333,7 +340,6 @@ function moralisToAdamikTransaction(
   const feesAmount = feesBN.isNaN() ? 0n : BigInt(feesBN.toFixed());
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
-    chainId,
     id: moralisTransaction.hash,
     timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
     fees: {
@@ -411,7 +417,6 @@ function moralisToAdamikAccountTransaction(
   const feesAmount = feesBN.isNaN() ? 0n : BigInt(feesBN.toFixed());
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
-    chainId,
     id: moralisTransaction.hash,
     timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
     fees: {

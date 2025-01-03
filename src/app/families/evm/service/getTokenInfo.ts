@@ -16,7 +16,6 @@ async function getTokenInfo(this: EvmService, tokenId: string): Promise<Token> {
     const ticker = await fetchERC20Ticker(this.chainId, contractAddress);
 
     const token: Token = {
-      chainId: this.chainId,
       type: TokenType.ERC20,
       id: contractAddress,
       name,

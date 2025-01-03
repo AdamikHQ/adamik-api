@@ -5,16 +5,19 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/transaction/broadcast
+  url: {{api_url}}/api/:chainId/transaction/broadcast
   body: json
   auth: none
+}
+
+params:path {
+  chainId: ethereum
 }
 
 body:json {
   {
     "transaction": {
       "data": {
-        "chainId": "sepolia",
         "sender": "0xd9Cf97a8Eb01d27B1f5A8809273137d92758C312",
         "recipient": "0xd9Cf97a8Eb01d27B1f5A8809273137d92758C312",
         "useMaxAmount": false,

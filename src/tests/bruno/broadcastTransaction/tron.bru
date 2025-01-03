@@ -5,16 +5,19 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/transaction/broadcast
+  url: {{api_url}}/api/:chainId/transaction/broadcast
   body: json
   auth: none
+}
+
+params:path {
+  chainId: tron
 }
 
 body:json {
   {
     "transaction": {
       "data": {
-        "chainId": "tron",
         "sender": "TCYvG9EYyHjBij8Xma6iDtLzow88888888",
         "recipient": "TCYvG9EYyHjBij8Xma6iDtLzow88888888",
         "useMaxAmount": false,
@@ -33,4 +36,3 @@ body:json {
 assert {
   res.status: eq 400
 }
-

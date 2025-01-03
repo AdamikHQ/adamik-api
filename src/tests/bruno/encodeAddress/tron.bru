@@ -5,14 +5,17 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/address/encode
+  url: {{api_url}}/api/:chainId/address/encode
   body: json
   auth: none
 }
 
+params:path {
+  chainId: tron
+}
+
 body:json {
   {
-    "chainId": "tron",
     "pubkey": "040f944787076fdac0b1f45d15727c7e5555f721d9764817cb390bd4e8154b8afcdea14735c4b7c2292bb92441dc7be2e8d4cf3908f0ad06375b6b446edf42967e"
   }
 }

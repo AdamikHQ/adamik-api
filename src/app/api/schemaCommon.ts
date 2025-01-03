@@ -1,5 +1,5 @@
 import z from "zod";
-import { extendZodWithOpenApi } from "zod-openapi";
+import "zod-openapi/extend";
 import {
   ChainFamily,
   ChainId,
@@ -8,13 +8,9 @@ import {
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
-import { getSupportedTransactionModes } from "../config/chains";
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 import { tonTransactionParamsSchema } from "../families/ton/types";
 import { tronTransactionParamsSchema } from "../families/tron/types";
-import { deepBigintToString } from "../tools/convertors/deepBigintToString";
-
-extendZodWithOpenApi(z);
 
 // Used for input conversion, to allow for strings or numbers
 const stringOrNumToBigintSchema = z
@@ -35,6 +31,10 @@ const stringOrNumToBigintSchema = z
 // Used for output conversion, to allow for bigints to always be returned as strings
 const bigintToStringSchema = z.bigint().pipe(z.coerce.string());
 
+const accountIdSchema = z.string().openapi({
+  description: "Account identifier (address, xpub, etc) for the specified chain ID",
+});
+
 const chainIdSchemaParams: z.RawCreateParams = {
   errorMap: (issue, ctx) => {
     if (issue.code === z.ZodIssueCode.invalid_enum_value) {
@@ -52,16 +52,17 @@ const chainIdSchema = z.nativeEnum(ChainId, chainIdSchemaParams).openapi({
   ref: "ChainId",
 });
 
+const getSupportedChainIdsSchema = (supportedChainIds: ChainId[]) =>
+  z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
+
 const errorMsgSchema = z.object({
   message: z.string(),
 });
 
-const statusSchema = z
-  .object({
-    errors: z.array(errorMsgSchema),
-    warnings: z.array(errorMsgSchema),
-  })
-  .default({ errors: [], warnings: [] });
+const statusSchema = z.object({
+  errors: z.array(errorMsgSchema),
+  warnings: z.array(errorMsgSchema),
+});
 
 const featuresSetSchema = z.object({
   native: z.boolean(),
@@ -108,7 +109,6 @@ const chainSchema = z.object({
 });
 
 const tokenSchema = z.object({
-  chainId: chainIdSchema,
   type: z.nativeEnum(TokenType),
   id: z.string(),
   name: z.string(),
@@ -257,12 +257,9 @@ const stakingClaimRewardsSchema = z
     title: "ClaimRewards",
   });
 
-// FIXME chainId should be outside of this schema,
-// and it should be filtered on supported features for each endpoint
 const inputTransactionDataSchema = z.object({
   data: z
     .object({
-      chainId: chainIdSchema,
       sender: z.string(),
       recipient: z.string(),
       fees: stringOrNumToBigintSchema.optional(),
@@ -285,26 +282,12 @@ const inputTransactionDataSchema = z.object({
         stakingRedelegateSchema,
         stakingClaimRewardsSchema,
       ])
-    )
-    // validation of transaction mode VS chain features
-    .refine(
-      (data) => getSupportedTransactionModes(data.chainId).includes(data.mode),
-      (data) => {
-        return {
-          message: `Transaction mode ${data.mode} is not supported for ${data.chainId}`,
-          fatal: true,
-          code: z.ZodIssueCode.invalid_enum_value,
-          path: ["mode"],
-          options: getSupportedTransactionModes(data.chainId),
-        };
-      }
     ),
 });
 
 const outputTransactionDataSchema = z.object({
   data: z
     .object({
-      chainId: chainIdSchema,
       sender: z.string(),
       recipient: z.string(),
       useMaxAmount: z.boolean().default(false),
@@ -333,12 +316,9 @@ const outputTransactionDataSchema = z.object({
 const encodedTransactionSchema = z.object({
   // NOTE: 'any' here because 'encoded' can also be JSON
   // Improvement could be to properly type all possible encoded formats for every family
-  encoded: z.string().or(
-    z
-      .any()
-      .transform((data) => deepBigintToString(data))
-      .pipe(z.any())
-  ),
+  // FIXME 'any' with zod always makes the field optional... which is a problem here, but found no easy worakround
+  // Best fix is probably to enforce only string, by using JSON.stringify with anything else
+  encoded: z.string().or(z.any()),
 });
 
 const signedAndEncodedTransactionSchema = encodedTransactionSchema.extend({
@@ -352,13 +332,9 @@ const optionalTickerSchema = z.string().optional().openapi({
 
 // FIXME Not convenient to manually maintain this aligned with FinalizedTransaction...
 const finalizedTransactionSchema = z.object({
-  raw: z
-    .any()
-    .transform((data) => deepBigintToString(data))
-    .pipe(z.unknown()),
+  raw: z.unknown(),
   parsed: z
     .object({
-      chainId: chainIdSchema,
       id: z.string(),
       mode: z.nativeEnum(TransactionMode).or(z.literal("unknown")),
       state: z.nativeEnum(TransactionState),
@@ -432,6 +408,7 @@ const paginatedResponseSchema = z.object({
 });
 
 export {
+  accountIdSchema,
   bigintToStringSchema,
   chainIdSchema,
   chainIdSchemaParams,
@@ -439,6 +416,7 @@ export {
   checkEitherAmountOrUseMaxAmount,
   encodedTransactionSchema,
   finalizedTransactionSchema,
+  getSupportedChainIdsSchema,
   inputTransactionDataSchema,
   outputTransactionDataSchema,
   paginatedResponseSchema,

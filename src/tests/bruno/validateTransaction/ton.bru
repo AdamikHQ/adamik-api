@@ -5,16 +5,19 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/transaction/validate
+  url: {{api_url}}/api/:chainId/transaction/validate
   body: json
   auth: none
+}
+
+params:path {
+  chainId: ton
 }
 
 body:json {
   {
     "transaction": {
       "data": {
-        "chainId": "ton",
         "tokenId": "EQAvlWFDxGF2lXm67y4yzC17wYKD9A0guwPkMs1gOsM__NOT",
         "mode": "transferToken",
         "sender": "EQCsgSgfeFRIrNDUa4zMRddaFk3nFHsNKgICptbKchV4mRhM",
@@ -28,4 +31,6 @@ body:json {
 
 assert {
   res.status: eq 200
+  res.body.status.errors: isEmpty
+  res.body.status.warnings[0].message: eq "Same sender and recipient address"
 }

@@ -5,16 +5,19 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/transaction/broadcast
+  url: {{api_url}}/api/:chainId/transaction/broadcast
   body: json
   auth: none
+}
+
+params:path {
+  chainId: ton
 }
 
 body:json {
   {
     "transaction": {
       "data": {
-        "chainId": "ton",
         "sender": "EQCsgSgfeFRIrNDUa4zMRddaFk3nFHsNKgICptbKchV4mRhM",
         "recipient": "EQCsgSgfeFRIrNDUa4zMRddaFk3nFHsNKgICptbKchV4mRhM",
         "memo": "adamik-test-memo",
@@ -36,4 +39,3 @@ body:json {
 assert {
   res.status: eq 400
 }
-

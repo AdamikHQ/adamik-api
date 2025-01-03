@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "/api/transaction/broadcast/raw",
+  "name": "/api/[chainId]/transaction/broadcast/raw",
   "type": "collection",
   "ignore": [
     "node_modules",

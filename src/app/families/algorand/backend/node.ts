@@ -1,3 +1,4 @@
+import { SuggestedParams as AlgoSuggestedParams } from "algosdk";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import {
@@ -6,14 +7,13 @@ import {
   UnsupportedTokenIDError,
   UserInputError,
 } from "~/app/tools/handlers/errors";
-import { paginationFromB64, paginationToB64 } from "../../common";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import {
   AlgoAccount,
   AlgoAccountAsset,
   AlgoAsset,
   AlgoAssetAmount,
   AlgoTransactionBroadcastResponse,
-  AlgoTransactionParams,
 } from "./types";
 
 // TODO Sanitize data from backend
@@ -142,8 +142,6 @@ async function fetchAccountASA(
   };
 }
 
-function buildAcccountAssets() {}
-
 async function fetchASA(assetId: string): Promise<AlgoAsset> {
   const url = `${ROOT_URL}/assets/${assetId}`;
 
@@ -162,7 +160,7 @@ async function fetchASA(assetId: string): Promise<AlgoAsset> {
   };
 }
 
-async function fetchTransactionParams(): Promise<AlgoTransactionParams> {
+async function fetchTransactionParams(): Promise<AlgoSuggestedParams> {
   const url = `${ROOT_URL}/transactions/params`;
 
   const response = await fetch(url).then((response) => response.json());
@@ -170,10 +168,11 @@ async function fetchTransactionParams(): Promise<AlgoTransactionParams> {
   return {
     fee: response["fee"],
     minFee: response["min-fee"],
-    firstRound: response["first-round"] ?? 0,
-    lastRound: response["last-round"],
+    firstValid: response["last-round"],
+    // Bit of safety: set tx validity to the next 1000 blocks
+    lastValid: response["last-round"] + 1000,
     genesisID: response["genesis-id"],
-    genesisHash: response["genesis-hash"],
+    genesisHash: new Uint8Array(Buffer.from(response["genesis-hash"], "base64")),
   };
 }
 
