@@ -257,33 +257,40 @@ const stakingClaimRewardsSchema = z
     title: "ClaimRewards",
   });
 
-const inputTransactionDataSchema = z.object({
-  data: z
-    .object({
-      sender: z.string(),
-      recipient: z.string(),
-      fees: stringOrNumToBigintSchema.optional(),
-      gas: stringOrNumToBigintSchema.optional(),
-      nonce: stringOrNumToBigintSchema.optional(),
-      memo: z.string().optional(),
-      format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
-      params: z
-        .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
-        .or(z.any())
-        .optional(),
-      useMaxAmount: z.boolean().default(false),
-    })
-    .and(
-      z.discriminatedUnion("mode", [
-        inputTransferNativeSchema,
-        stakingDelegateSchema,
-        transferTokenSchema,
-        stakingUndelegateSchema,
-        stakingRedelegateSchema,
-        stakingClaimRewardsSchema,
-      ])
-    ),
-});
+const inputTransactionDataSchema = z
+  .object({
+    data: z
+      .object({
+        sender: z.string(),
+        recipient: z.string(),
+        fees: stringOrNumToBigintSchema.optional(),
+        gas: stringOrNumToBigintSchema.optional(),
+        nonce: stringOrNumToBigintSchema.optional(),
+        memo: z.string().optional(),
+        format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
+        params: z
+          .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
+          .or(z.any())
+          .optional(),
+        useMaxAmount: z.boolean().default(false),
+      })
+      .and(
+        z.discriminatedUnion("mode", [
+          inputTransferNativeSchema,
+          stakingDelegateSchema,
+          transferTokenSchema,
+          stakingUndelegateSchema,
+          stakingRedelegateSchema,
+          stakingClaimRewardsSchema,
+        ])
+      ),
+  })
+  // TODO: once we use Zod 4, we can move the superRefine to the amountFieldSchema (cf: https://github.com/colinhacks/zod/issues/2474#issuecomment-2101077363)
+  .superRefine(
+    (transaction, ctx) =>
+      transaction.data.mode != TransactionMode.CLAIM_REWARDS &&
+      checkEitherAmountOrUseMaxAmount(transaction.data, ctx)
+  );
 
 const outputTransactionDataSchema = z.object({
   data: z
@@ -413,7 +420,6 @@ export {
   chainIdSchema,
   chainIdSchemaParams,
   chainSchema,
-  checkEitherAmountOrUseMaxAmount,
   encodedTransactionSchema,
   finalizedTransactionSchema,
   getSupportedChainIdsSchema,
