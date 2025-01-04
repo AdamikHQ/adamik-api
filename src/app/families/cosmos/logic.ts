@@ -29,7 +29,7 @@ import {
 } from "~/app/model/types_WIP";
 import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
-import { fetchNetworkId, simulateTransaction } from "./backend/node";
+import { simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
 import { buildStdSignDocForInjective } from "./chains/injective";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
@@ -433,7 +433,8 @@ async function encodeToSign(
     throw new Error("Missing gas data in transaction");
   }
 
-  const chainParams = CHAINS[chainId].params as CosmosChainParams;
+  const chain = CHAINS[chainId];
+  const chainParams = chain.params as CosmosChainParams;
 
   const feeToEncode = {
     amount: [
@@ -445,12 +446,10 @@ async function encodeToSign(
     gas: transaction.gas.toString(),
   };
 
-  const networkId = await fetchNetworkId(chainId);
-
   const signDoc =
     chainId === ChainId.INJECTIVE
-      ? buildStdSignDocForInjective(account, transaction, networkId)
-      : buildStdSignDoc(chainId, account, transaction, networkId, feeToEncode);
+      ? buildStdSignDocForInjective(account, transaction, chain.nativeId)
+      : buildStdSignDoc(chainId, account, transaction, chain.nativeId, feeToEncode);
 
   const serializedSignDoc = Buffer.from(serializeSignDoc(signDoc));
 
