@@ -1,4 +1,3 @@
-import { ChainId as CosmosChainId } from "@injectivelabs/ts-types";
 import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
@@ -316,8 +315,9 @@ async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promis
 }
 */
 
-// FIXME Don't need this call, using our hardcoded chain.nativeId should be enough
-async function fetchNetworkId(chainId: ChainId): Promise<CosmosChainId> {
+// NOTE Unneeded, we rely on hardcoded 'nativeId' in chains configs
+/*
+async function fetchNetworkId(chainId: ChainId): Promise<string> {
   const url = `${getNodeRootUrl(chainId)}/cosmos/base/tendermint/v1beta1/node_info`;
   const data = await fetchWithHeaders(chainId, url);
   if (!data?.default_node_info?.network) {
@@ -327,6 +327,7 @@ async function fetchNetworkId(chainId: ChainId): Promise<CosmosChainId> {
 
   return data.default_node_info.network;
 }
+*/
 
 async function simulateTransaction(chainId: ChainId, payload: string): Promise<bigint> {
   const url = `${getNodeRootUrl(chainId)}/cosmos/tx/v1beta1/simulate`;
@@ -372,7 +373,6 @@ export {
   fetchAccount,
   fetchBalances,
   fetchDelegations,
-  fetchNetworkId,
   fetchRewards,
   fetchUnbondingDelegations,
   fetchValidators,

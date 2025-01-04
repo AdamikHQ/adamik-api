@@ -14,12 +14,12 @@ import { CosmosAccount } from "../backend/types";
 function buildStdSignDocForInjective(
   account: CosmosAccount,
   transaction: TransactionData,
-  networkId: CosmosChainId
+  networkId: string
 ): StdSignDoc {
   const msgs = buildMessagesForInjective(transaction);
 
   return getAminoStdSignDoc({
-    chainId: networkId,
+    chainId: networkId as CosmosChainId,
     msgs,
     sequence: Number(account.sequence),
     accountNumber: Number(account.accountNumber),
