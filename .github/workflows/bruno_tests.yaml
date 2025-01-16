@@ -29,7 +29,9 @@ jobs:
         env:
           REDIS_URL: ${{ secrets.REDIS_URL }}
           TEST_ENV: "true"
-        run: \`pnpm run dev &> output.txt &\` && sleep 5
+        run: pnpm run dev &> output.txt &
+      - name: wait for API to start
+        run: sleep 5
       - name: run tests
         env:
           ADAMIK_TESTS_API_KEY: ${{ secrets.ADAMIK_TESTS_API_KEY }}
