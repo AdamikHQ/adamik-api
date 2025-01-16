@@ -1,0 +1,134 @@
+{
+  "request": {
+    "url": "https://api.trongrid.io/walletsolidity/getaccount",
+    "method": "POST",
+    "params": {
+      "address": "411c506ba436e22d4892be0a949f3f065878a38d97"
+    }
+  },
+  "response": {
+    "address": "411c506ba436e22d4892be0a949f3f065878a38d97",
+    "balance": 63442382,
+    "create_time": 1727671140000,
+    "latest_opration_time": 1736875836000,
+    "latest_consume_free_time": 1736875836000,
+    "net_window_size": 28800000,
+    "net_window_optimized": true,
+    "account_resource": {
+      "latest_consume_time_for_energy": 1736879403000,
+      "energy_window_size": 28800000,
+      "energy_window_optimized": true
+    },
+    "owner_permission": {
+      "permission_name": "owner",
+      "threshold": 1,
+      "keys": [
+        {
+          "address": "415857805c57370c090ca8dc74305a2c82ef999850",
+          "weight": 1
+        }
+      ]
+    },
+    "active_permission": [
+      {
+        "type": "Active",
+        "id": 2,
+        "permission_name": "active",
+        "threshold": 1,
+        "operations": "7fff1fc0033ec30f000000000000000000000000000000000000000000000000",
+        "keys": [
+          {
+            "address": "415857805c57370c090ca8dc74305a2c82ef999850",
+            "weight": 1
+          }
+        ]
+      }
+    ],
+    "frozenV2": [
+      {},
+      {
+        "type": "ENERGY"
+      },
+      {
+        "type": "TRON_POWER"
+      }
+    ],
+    "assetV2": [
+      {
+        "key": "1004989",
+        "value": 1111111
+      },
+      {
+        "key": "1005027",
+        "value": 8888880000
+      },
+      {
+        "key": "1005026",
+        "value": 8888880000
+      },
+      {
+        "key": "1005047",
+        "value": 888800000
+      },
+      {
+        "key": "1005002",
+        "value": 20000000
+      },
+      {
+        "key": "1005023",
+        "value": 9990
+      },
+      {
+        "key": "1005043",
+        "value": 9999
+      },
+      {
+        "key": "1005065",
+        "value": 8888880000
+      },
+      {
+        "key": "1005041",
+        "value": 21000
+      }
+    ],
+    "free_asset_net_usageV2": [
+      {
+        "key": "1004989",
+        "value": 0
+      },
+      {
+        "key": "1005027",
+        "value": 0
+      },
+      {
+        "key": "1005026",
+        "value": 0
+      },
+      {
+        "key": "1005047",
+        "value": 0
+      },
+      {
+        "key": "1005002",
+        "value": 0
+      },
+      {
+        "key": "1005023",
+        "value": 0
+      },
+      {
+        "key": "1005043",
+        "value": 0
+      },
+      {
+        "key": "1005065",
+        "value": 0
+      },
+      {
+        "key": "1005041",
+        "value": 0
+      }
+    ],
+    "asset_optimized": true
+  }
+}

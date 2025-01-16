@@ -40,19 +40,19 @@
         ]
       ],
       "exit_code": 0,
-      "@extra": "1732633213.4124086:2:0.0757330622591672",
+      "@extra": "1737051491.8680985:9:0.5337829507635394",
       "block_id": {
         "@type": "ton.blockIdExt",
         "workchain": -1,
         "shard": "-9223372036854775808",
-        "seqno": 42376054,
-        "root_hash": "hl0+ekiqQKOBEQ+EDQqidNLNVBmDHq5RtrJ8SD/v3XM=",
-        "file_hash": "HKCbCtfWAudQHeO58FcDeuuejhOuR6yWA5wY2OS+OGY="
+        "seqno": 44018525,
+        "root_hash": "ZBWuY850ECso+03GzFIkA6p5+iqD4D/eTp1zrD7wkLI=",
+        "file_hash": "bxjJ9NmyE567BHzbTnPBed2dfF9nq6+WiEH2d4SU+PY="
       },
       "last_transaction_id": {
         "@type": "internal.transactionId",
-        "lt": "51275831000003",
-        "hash": "320GIWliFFs2qamBq1TwDxO5Jw7PUkinuX0zfOnTIak="
+        "lt": "52980305000003",
+        "hash": "xtcHNbkuwPZ12TAtrFjhQedW5lZzDBhffk/CilSXQJ0="
       }
     },
     "id": "1",
