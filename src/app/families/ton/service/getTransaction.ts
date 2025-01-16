@@ -1,6 +1,6 @@
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { fetchTransaction } from "../backend/explorer";
+import { fetchTransaction } from "../backend/tonapi";
 import { TonService } from "../service";
 
 async function getTransaction(this: TonService, transactionId: string): Promise<FinalizedTransaction> {

@@ -1,5 +1,5 @@
 import { AccountState, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
-import { fetchAccount, getJettonsFromWallet } from "../backend/explorer";
+import { fetchAccount, getJettonsFromWallet } from "../backend/tonapi";
 import { TonService } from "../service";
 
 async function getAccountState(this: TonService, accountId: string): Promise<AccountState> {

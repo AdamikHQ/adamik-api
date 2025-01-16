@@ -1,5 +1,5 @@
 import { Psbt } from "bitcoinjs-lib";
-import { postTransaction } from "../backend/explorer";
+import { postTransaction } from "../backend/blockchair";
 import { BitcoinService } from "../service";
 
 /**

@@ -1,5 +1,5 @@
 import z from "zod";
-import { extendZodWithOpenApi } from "zod-openapi";
+import "zod-openapi/extend";
 import {
   ChainFamily,
   ChainId,
@@ -11,9 +11,6 @@ import {
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
 import { tonTransactionParamsSchema } from "../families/ton/types";
 import { tronTransactionParamsSchema } from "../families/tron/types";
-import { deepBigintToString } from "../tools/convertors/bigint";
-
-extendZodWithOpenApi(z);
 
 // Used for input conversion, to allow for strings or numbers
 const stringOrNumToBigintSchema = z
@@ -260,33 +257,40 @@ const stakingClaimRewardsSchema = z
     title: "ClaimRewards",
   });
 
-const inputTransactionDataSchema = z.object({
-  data: z
-    .object({
-      sender: z.string(),
-      recipient: z.string(),
-      fees: stringOrNumToBigintSchema.optional(),
-      gas: stringOrNumToBigintSchema.optional(),
-      nonce: stringOrNumToBigintSchema.optional(),
-      memo: z.string().optional(),
-      format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
-      params: z
-        .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
-        .or(z.any())
-        .optional(),
-      useMaxAmount: z.boolean().default(false),
-    })
-    .and(
-      z.discriminatedUnion("mode", [
-        inputTransferNativeSchema,
-        stakingDelegateSchema,
-        transferTokenSchema,
-        stakingUndelegateSchema,
-        stakingRedelegateSchema,
-        stakingClaimRewardsSchema,
-      ])
-    ),
-});
+const inputTransactionDataSchema = z
+  .object({
+    data: z
+      .object({
+        sender: z.string(),
+        recipient: z.string(),
+        fees: stringOrNumToBigintSchema.optional(),
+        gas: stringOrNumToBigintSchema.optional(),
+        nonce: stringOrNumToBigintSchema.optional(),
+        memo: z.string().optional(),
+        format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
+        params: z
+          .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
+          .or(z.any())
+          .optional(),
+        useMaxAmount: z.boolean().default(false),
+      })
+      .and(
+        z.discriminatedUnion("mode", [
+          inputTransferNativeSchema,
+          stakingDelegateSchema,
+          transferTokenSchema,
+          stakingUndelegateSchema,
+          stakingRedelegateSchema,
+          stakingClaimRewardsSchema,
+        ])
+      ),
+  })
+  // TODO: once we use Zod 4, we can move the superRefine to the amountFieldSchema (cf: https://github.com/colinhacks/zod/issues/2474#issuecomment-2101077363)
+  .superRefine(
+    (transaction, ctx) =>
+      transaction.data.mode != TransactionMode.CLAIM_REWARDS &&
+      checkEitherAmountOrUseMaxAmount(transaction.data, ctx)
+  );
 
 const outputTransactionDataSchema = z.object({
   data: z
@@ -321,12 +325,7 @@ const encodedTransactionSchema = z.object({
   // Improvement could be to properly type all possible encoded formats for every family
   // FIXME 'any' with zod always makes the field optional... which is a problem here, but found no easy worakround
   // Best fix is probably to enforce only string, by using JSON.stringify with anything else
-  encoded: z.string().or(
-    z
-      .any()
-      .transform((data) => deepBigintToString(data))
-      .pipe(z.any())
-  ),
+  encoded: z.string().or(z.any()),
 });
 
 const signedAndEncodedTransactionSchema = encodedTransactionSchema.extend({
@@ -340,10 +339,7 @@ const optionalTickerSchema = z.string().optional().openapi({
 
 // FIXME Not convenient to manually maintain this aligned with FinalizedTransaction...
 const finalizedTransactionSchema = z.object({
-  raw: z
-    .any()
-    .transform((data) => deepBigintToString(data))
-    .pipe(z.unknown()),
+  raw: z.unknown(),
   parsed: z
     .object({
       id: z.string(),
@@ -424,7 +420,6 @@ export {
   chainIdSchema,
   chainIdSchemaParams,
   chainSchema,
-  checkEitherAmountOrUseMaxAmount,
   encodedTransactionSchema,
   finalizedTransactionSchema,
   getSupportedChainIdsSchema,

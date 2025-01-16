@@ -1,5 +1,4 @@
-import { decode as msgpackDecode } from "algo-msgpack-with-bigint";
-import { EncodedTransaction as AlgoEncodedTransaction } from "algosdk";
+import { Transaction as AlgoTransaction, decodeMsgpack } from "algosdk";
 import { buildRawTransaction, encodeToBroadcast, encodeToSign } from "~/app/families/algorand/logic";
 import { Status, Transaction } from "~/app/model/types_WIP";
 import { AlgorandService } from "../service";
@@ -35,9 +34,7 @@ async function encodeTransactionToBroadcast(
     throw new Error("missing transaction signature");
   }
 
-  const transactionPayload = msgpackDecode(
-    Buffer.from(signedTransaction.encoded, "hex")
-  ) as AlgoEncodedTransaction;
+  const transactionPayload = decodeMsgpack(Buffer.from(signedTransaction.encoded, "hex"), AlgoTransaction);
 
   const signature = Buffer.from(signedTransaction.signature, "hex");
 

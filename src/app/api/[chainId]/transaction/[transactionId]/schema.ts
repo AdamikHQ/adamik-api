@@ -1,9 +1,8 @@
 import { z } from "zod";
-import { extendZodWithOpenApi, ZodOpenApiPathsObject } from "zod-openapi";
+import { ZodOpenApiPathsObject } from "zod-openapi";
+import "zod-openapi/extend";
 import { finalizedTransactionSchema, getSupportedChainIdsSchema, statusSchema } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
-
-extendZodWithOpenApi(z);
 
 const supportedChainIds = Object.values(CHAINS)
   .filter(
