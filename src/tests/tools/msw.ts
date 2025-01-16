@@ -4,9 +4,7 @@ import { bypass, http, HttpResponse, passthrough } from "msw";
 import { setupServer } from "msw/node";
 import path from "path";
 
-// FIXME DEBUG TBR
-//const jqLib = require("jq-web");
-//const jq = await jqLib;
+import { evaluate, parse } from "@jq-tools/jq";
 
 const MOCKS_FOLDER_ROOT = "/src/tests/mocks";
 
@@ -18,25 +16,41 @@ const BLACKLIST_CHANGING_FIELDS: Record<string, string> = {
   "https://site1.moralis-nodes.com": ".id", // some kind of nonce per request
 };
 
-const computeMockFilepath = async (request: Request) => {
-  const requestBody = await request.text();
+async function applyFilters(requestUrl: string, requestBody: string): Promise<string> {
+  if (!requestBody?.length) {
+    return requestBody;
+  }
 
   const fieldsToFilter = (() => {
     for (const entry of Object.entries(BLACKLIST_CHANGING_FIELDS)) {
-      if (request.url.includes(entry[0])) {
+      if (requestUrl.includes(entry[0])) {
         return entry[1];
       }
     }
   })();
 
-  // FIXME DEBUG TBR
-  // const filteredBody = fieldsToFilter
-  //   ? jq.json(JSON.parse(requestBody), `del(${fieldsToFilter})`)
-  //   : requestBody;
-  const filteredBody = requestBody;
+  if (!fieldsToFilter) {
+    return requestBody;
+  }
+
+  try {
+    const json = JSON.parse(requestBody);
+    // Use jq to apply JSON filters on the request body
+    const filter = parse(`del(${fieldsToFilter})`);
+    const result = evaluate(filter, [json]).next().value;
+    return JSON.stringify(result);
+  } catch (e) {
+    throw new Error(`Error while using jq to filter request body: ${e}`);
+  }
+}
+
+const computeMockFilepath = async (request: Request) => {
+  const requestBody = await request.text();
+
+  const filteredBody = await applyFilters(request.url, requestBody);
 
   const hash = crypto.createHash("md5");
-  hash.update(request.url + JSON.stringify(filteredBody));
+  hash.update(request.url + filteredBody);
   const fileName = hash.digest("hex") + ".json";
 
   return path.join(path.join(process.cwd() + MOCKS_FOLDER_ROOT), fileName);
