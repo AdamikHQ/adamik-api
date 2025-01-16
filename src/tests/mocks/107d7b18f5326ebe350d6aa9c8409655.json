@@ -1,0 +1,33 @@
+{
+  "request": {
+    "url": "https://api.blockchair.com/bitcoin/push/transaction?key=B___w6qlc1o9vh18WuolPZcFGtGslRxY&data=DUMMY",
+    "method": "POST"
+  },
+  "response": {
+    "data": null,
+    "context": {
+      "code": 400,
+      "error": "Invalid request",
+      "market_price_usd": 99929,
+      "cache": {
+        "live": true,
+        "duration": 120,
+        "since": "2025-01-16 18:17:30",
+        "until": "2025-01-16 18:19:30",
+        "time": null
+      },
+      "api": {
+        "version": "2.0.95-ie",
+        "last_major_update": "2022-11-07 02:00:00",
+        "next_major_update": "2023-11-12 02:00:00",
+        "documentation": "https://blockchair.com/api/docs",
+        "notice": "Try out our new API v.3: https://3xpl.com/data"
+      },
+      "servers": "API4",
+      "time": 0.00004696846008300781,
+      "render_time": 0.008089065551757812,
+      "full_time": 0.00813603401184082,
+      "request_cost": 1
+    }
+  }
+}

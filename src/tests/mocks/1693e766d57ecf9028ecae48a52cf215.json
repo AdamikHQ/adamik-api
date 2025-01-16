@@ -1,0 +1,34 @@
+{
+  "request": {
+    "url": "https://lcd-injective.imperator.co/cosmos/distribution/v1beta1/delegators/inj1vmzrwxhgllkjaswzawaue7m7f9qcrc0rfth2v2/rewards",
+    "method": "GET"
+  },
+  "response": {
+    "rewards": [
+      {
+        "validator_address": "injvaloper1ntn4j2lsu3k60g8xj9pqshqvdj2q5tygyvczpy",
+        "reward": [
+          {
+            "denom": "inj",
+            "amount": "649673507848435.830000000000000000"
+          }
+        ]
+      },
+      {
+        "validator_address": "injvaloper1h37jxecva2xgm78ejw3683vrw932j6nuzgdxgj",
+        "reward": [
+          {
+            "denom": "inj",
+            "amount": "15224259450159376.999999999999999999"
+          }
+        ]
+      }
+    ],
+    "total": [
+      {
+        "denom": "inj",
+        "amount": "15873932958007812.829999999999999999"
+      }
+    ]
+  }
+}

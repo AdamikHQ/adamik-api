@@ -1,0 +1,49 @@
+{
+  "request": {
+    "url": "https://api.trongrid.io/wallet/triggerconstantcontract",
+    "method": "POST",
+    "params": {
+      "contract_address": "41fffe20a96a6fd1c366743bebc8bd1da3687f3c8c",
+      "owner_address": "41fffe20a96a6fd1c366743bebc8bd1da3687f3c8c",
+      "function_selector": "name()",
+      "parameter": "",
+      "call_value": 0
+    }
+  },
+  "response": {
+    "result": {
+      "result": true
+    },
+    "energy_used": 870,
+    "constant_result": [
+      "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001145555220416c746557617920546f6b656e000000000000000000000000000000"
+    ],
+    "transaction": {
+      "ret": [
+        {}
+      ],
+      "visible": false,
+      "txID": "d4b78c51bb3c7cf73e356683087ea4cc81576e65f107d534e71e8d68088ee43f",
+      "raw_data": {
+        "contract": [
+          {
+            "parameter": {
+              "value": {
+                "data": "06fdde03",
+                "owner_address": "41fffe20a96a6fd1c366743bebc8bd1da3687f3c8c",
+                "contract_address": "41fffe20a96a6fd1c366743bebc8bd1da3687f3c8c"
+              },
+              "type_url": "type.googleapis.com/protocol.TriggerSmartContract"
+            },
+            "type": "TriggerSmartContract"
+          }
+        ],
+        "ref_block_bytes": "ce0d",
+        "ref_block_hash": "6210f3dfca2960a4",
+        "expiration": 1737051546000,
+        "timestamp": 1737051488987
+      },
+      "raw_data_hex": "0a02ce0d22086210f3dfca2960a44090c3dc82c7325a6d081f12690a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412340a1541fffe20a96a6fd1c366743bebc8bd1da3687f3c8c121541fffe20a96a6fd1c366743bebc8bd1da3687f3c8c220406fdde0370db85d982c732"
+    }
+  }
+}
