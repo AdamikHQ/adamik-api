@@ -1,9 +1,11 @@
 import * as crypto from "crypto";
 import fs from "fs";
-import jq from "jq-web";
 import { bypass, http, HttpResponse, passthrough } from "msw";
 import { setupServer } from "msw/node";
 import path from "path";
+
+const jqLib = require("jq-web");
+const jq = await jqLib;
 
 const MOCKS_FOLDER_ROOT = "/src/tests/mocks";
 
@@ -27,7 +29,7 @@ const computeMockFilepath = async (request: Request) => {
   })();
 
   const filteredBody = fieldsToFilter
-    ? await jq.promised.json(JSON.parse(requestBody), `del(${fieldsToFilter})`)
+    ? jq.json(JSON.parse(requestBody), `del(${fieldsToFilter})`)
     : requestBody;
 
   const hash = crypto.createHash("md5");
@@ -63,7 +65,9 @@ const handlers = [
           return passthrough();
         }
 
-        responseBody = await fetch(bypass(request.clone())).then((response) => {
+        // FIXME Weird infinite loop may happen with this fetch() in some cases where the endpoint returns an error...
+        // (since msw v2.7.0, need to check later if a newer version fixes this)
+        responseBody = await fetch(bypass(request)).then((response) => {
           try {
             return response.json();
           } catch (e) {
@@ -79,7 +83,7 @@ const handlers = [
               return JSON.parse(requestString);
             } catch (e) {
               if (!!request.body) {
-                console.error("Error: failed to parse response body as JSON");
+                console.error("Error: failed to parse request body as JSON");
                 throw e;
               }
             }

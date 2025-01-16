@@ -1,5 +1,5 @@
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { getSeqno } from "../backend/explorer";
+import { getSeqno } from "../backend/tonapi";
 import { computeFees, computeMaxSpendable } from "../logic";
 
 async function completeTransaction(_: { transaction: Transaction; status: Status }): Promise<void> {
