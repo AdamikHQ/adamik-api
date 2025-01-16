@@ -4,8 +4,9 @@ import { bypass, http, HttpResponse, passthrough } from "msw";
 import { setupServer } from "msw/node";
 import path from "path";
 
-const jqLib = require("jq-web");
-const jq = await jqLib;
+// FIXME DEBUG TBR
+//const jqLib = require("jq-web");
+//const jq = await jqLib;
 
 const MOCKS_FOLDER_ROOT = "/src/tests/mocks";
 
@@ -28,9 +29,11 @@ const computeMockFilepath = async (request: Request) => {
     }
   })();
 
-  const filteredBody = fieldsToFilter
-    ? jq.json(JSON.parse(requestBody), `del(${fieldsToFilter})`)
-    : requestBody;
+  // FIXME DEBUG TBR
+  // const filteredBody = fieldsToFilter
+  //   ? jq.json(JSON.parse(requestBody), `del(${fieldsToFilter})`)
+  //   : requestBody;
+  const filteredBody = requestBody;
 
   const hash = crypto.createHash("md5");
   hash.update(request.url + JSON.stringify(filteredBody));
