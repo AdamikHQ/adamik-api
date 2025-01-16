@@ -1,0 +1,61 @@
+{
+  "request": {
+    "url": "https://api.trongrid.io/wallet/triggerconstantcontract",
+    "method": "POST",
+    "params": {
+      "contract_address": "41a614f803b6fd780986a42c78ec9c7f77e6ded13c",
+      "owner_address": "411c506ba436e22d4892be0a949f3f065878a38d97",
+      "function_selector": "transfer(address,uint256)",
+      "parameter": "0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d970000000000000000000000000000000000000000000000000000000000003039",
+      "call_value": 0
+    }
+  },
+  "response": {
+    "result": {
+      "result": true
+    },
+    "energy_used": 64285,
+    "constant_result": [
+      "0000000000000000000000000000000000000000000000000000000000000000"
+    ],
+    "logs": [
+      {
+        "address": "a614f803b6fd780986a42c78ec9c7f77e6ded13c",
+        "data": "0000000000000000000000000000000000000000000000000000000000003039",
+        "topics": [
+          "ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          "0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97",
+          "0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97"
+        ]
+      }
+    ],
+    "energy_penalty": 49635,
+    "transaction": {
+      "ret": [
+        {}
+      ],
+      "visible": false,
+      "txID": "2a606e053bf1fe15fa12cdad1cee1ed000f2e0abeb086cb4476402ebbf38b3cd",
+      "raw_data": {
+        "contract": [
+          {
+            "parameter": {
+              "value": {
+                "data": "a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d970000000000000000000000000000000000000000000000000000000000003039",
+                "owner_address": "411c506ba436e22d4892be0a949f3f065878a38d97",
+                "contract_address": "41a614f803b6fd780986a42c78ec9c7f77e6ded13c"
+              },
+              "type_url": "type.googleapis.com/protocol.TriggerSmartContract"
+            },
+            "type": "TriggerSmartContract"
+          }
+        ],
+        "ref_block_bytes": "ce0b",
+        "ref_block_hash": "709cb5dbc989f6f2",
+        "expiration": 1737051540000,
+        "timestamp": 1737051482435
+      },
+      "raw_data_hex": "0a02ce0b2208709cb5dbc989f6f240a094dc82c7325aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15411c506ba436e22d4892be0a949f3f065878a38d97121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97000000000000000000000000000000000000000000000000000000000000303970c3d2d882c732"
+    }
+  }
+}

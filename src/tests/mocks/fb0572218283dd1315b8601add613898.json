@@ -1,0 +1,35 @@
+{
+  "request": {
+    "url": "https://mainnet-idx.algonode.cloud/v2/transactions/PLHTRDNLEUL45WDRXUKKGWIDWHRC4O2Z7SZDXEYI3FXRPY4RZVMA",
+    "method": "GET"
+  },
+  "response": {
+    "current-round": 46299598,
+    "transaction": {
+      "asset-transfer-transaction": {
+        "amount": 0,
+        "asset-id": 31566704,
+        "close-amount": 0,
+        "receiver": "TJBEPZ4BMQJDVSCSGT6MCQM2UJYMDXIVW66U7TFSAXNI66QSXEKYQWNILU"
+      },
+      "close-rewards": 0,
+      "closing-amount": 0,
+      "confirmed-round": 42050022,
+      "fee": 1000,
+      "first-valid": 42050020,
+      "genesis-hash": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+      "genesis-id": "mainnet-v1.0",
+      "id": "PLHTRDNLEUL45WDRXUKKGWIDWHRC4O2Z7SZDXEYI3FXRPY4RZVMA",
+      "intra-round-offset": 110,
+      "last-valid": 42051020,
+      "receiver-rewards": 0,
+      "round-time": 1724939668,
+      "sender": "TJBEPZ4BMQJDVSCSGT6MCQM2UJYMDXIVW66U7TFSAXNI66QSXEKYQWNILU",
+      "sender-rewards": 0,
+      "signature": {
+        "sig": "Eq9KuIDS7i5XJXifltijd5gbWzDBBzW3Sk/ve8vgcAle5lUFvBiuQDKfhgnyg1OSkchNPAaDH74q6N+fgFJuDw=="
+      },
+      "tx-type": "axfer"
+    }
+  }
+}
