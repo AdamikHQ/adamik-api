@@ -412,6 +412,20 @@ const CHAINS: { [key in ChainId]: Chain } = {
     nativeId: "bitcoin",
     supportedFeatures: BITCOIN_FEATURES,
   },
+  "monad-private-testnet": {
+    id: ChainId.MONAD_PRIVATE_TESTNET,
+    name: "Monad Private Testnet",
+    family: ChainFamily.EVM,
+    nativeId: "10143",
+    ticker: "MON",
+    decimals: 18,
+    backends: {
+      nodeURL: "",
+      //explorerURL: "https://monad.xyz",
+    },
+    supportedFeatures: EVM_FEATURES(ChainId.MONAD_PRIVATE_TESTNET),
+    isTestnetFor: "monad",
+  },
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,
     name: "Bitcoin Testnet",
@@ -419,7 +433,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "BTC",
     decimals: 8,
     backends: {
-      nodeURL: "",
+      nodeURL: "https://rpc.monad-testnet.category.xyz/rpc/gw3K5ihInuOcijq3jnRO7JKyo7LmOltg6NZTfL7R",
       explorerURL: "https://api.blockchair.com/bitcoin/testnet",
     },
     isTestnetFor: ChainId.BITCOIN,
