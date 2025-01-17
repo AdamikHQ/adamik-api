@@ -420,7 +420,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "MON",
     decimals: 18,
     backends: {
-      nodeURL: "",
+      nodeURL: "https://rpc.monad-testnet.category.xyz/rpc/gw3K5ihInuOcijq3jnRO7JKyo7LmOltg6NZTfL7R",
       //explorerURL: "https://monad.xyz",
     },
     supportedFeatures: EVM_FEATURES(ChainId.MONAD_PRIVATE_TESTNET),
@@ -433,7 +433,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "BTC",
     decimals: 8,
     backends: {
-      nodeURL: "https://rpc.monad-testnet.category.xyz/rpc/gw3K5ihInuOcijq3jnRO7JKyo7LmOltg6NZTfL7R",
+      nodeURL: "",
       explorerURL: "https://api.blockchair.com/bitcoin/testnet",
     },
     isTestnetFor: ChainId.BITCOIN,
