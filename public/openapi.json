@@ -1841,6 +1841,53 @@
                             "supportedFeatures"
                           ]
                         },
+                        "monad-private-testnet": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
                         "bitsong": {
                           "type": "object",
                           "properties": {
@@ -4781,6 +4828,7 @@
                 "arbitrum",
                 "arbitrum-sepolia",
                 "bitcoin",
+                "monad-private-testnet",
                 "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
@@ -4898,6 +4946,7 @@
                         "arbitrum",
                         "arbitrum-sepolia",
                         "bitcoin",
+                        "monad-private-testnet",
                         "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
@@ -5858,6 +5907,7 @@
                 "arbitrum",
                 "arbitrum-sepolia",
                 "bitcoin",
+                "monad-private-testnet",
                 "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
@@ -6323,6 +6373,7 @@
                         "arbitrum",
                         "arbitrum-sepolia",
                         "bitcoin",
+                        "monad-private-testnet",
                         "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
@@ -6777,6 +6828,7 @@
                 "arbitrum",
                 "arbitrum-sepolia",
                 "bitcoin",
+                "monad-private-testnet",
                 "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
@@ -7242,6 +7294,7 @@
                         "arbitrum",
                         "arbitrum-sepolia",
                         "bitcoin",
+                        "monad-private-testnet",
                         "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
@@ -7386,6 +7439,7 @@
                 "arbitrum",
                 "arbitrum-sepolia",
                 "bitcoin",
+                "monad-private-testnet",
                 "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
@@ -7874,6 +7928,7 @@
                         "arbitrum",
                         "arbitrum-sepolia",
                         "bitcoin",
+                        "monad-private-testnet",
                         "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
@@ -7983,6 +8038,7 @@
                 "arbitrum",
                 "arbitrum-sepolia",
                 "bitcoin",
+                "monad-private-testnet",
                 "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
@@ -8095,6 +8151,7 @@
                         "arbitrum",
                         "arbitrum-sepolia",
                         "bitcoin",
+                        "monad-private-testnet",
                         "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
@@ -8219,6 +8276,7 @@
           "bitcoin-testnet",
           "litecoin",
           "dogecoin",
+          "monad-private-testnet",
           "bitsong",
           "chihuahua",
           "seda",
