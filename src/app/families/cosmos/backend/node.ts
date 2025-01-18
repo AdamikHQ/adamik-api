@@ -9,7 +9,11 @@ import {
   TokenStakingReward,
   TokenType,
 } from "~/app/model/types_WIP";
-import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
+import {
+  InvalidPaginationTokenError,
+  ThirdPartyProviderError,
+  UserInputError,
+} from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { CosmosChainParams, IBCToken } from "../types";
 import {
@@ -23,25 +27,18 @@ import {
 
 const getNodeRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
 
-async function fetchWithHeaders(chainId: ChainId, url: string, defaultOptions: RequestInit = {}) {
+async function fetchWithHeaders(url: string, customOptions: RequestInit = {}) {
   const options: RequestInit = {
-    ...defaultOptions,
+    ...customOptions,
     headers: {
-      ...defaultOptions.headers,
+      ...customOptions.headers,
       ...(url.includes("apis.mintscan.io") && { Authorization: MINTSCAN_API_KEY }),
       // Custom header requested by imperator.co to identify and whitelist our traffic
       ...(url.includes("imperator.co") && { adamik: "6aPJgGeL2jHcNG7PaW4y" }),
     },
   };
 
-  const data = await fetch(url, options);
-
-  if (!data.ok) {
-    console.warn(`/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`, await data.text());
-    throw new ThirdPartyProviderError("Error while fetching data from the node");
-  }
-
-  return await data.json();
+  return fetch(url, options);
 }
 
 async function fetchAllWithPagination<T>(chainId: ChainId, urlString: string, dataKey: string): Promise<T[]> {
@@ -54,7 +51,17 @@ async function fetchAllWithPagination<T>(chainId: ChainId, urlString: string, da
       url.searchParams.set("pagination.key", result.pagination.next_key);
     }
 
-    result = await fetchWithHeaders(chainId, url.toString());
+    const response = await fetchWithHeaders(url.toString());
+
+    if (!response.ok) {
+      console.warn(
+        `/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`,
+        await response.text()
+      );
+      throw new ThirdPartyProviderError("Error while fetching data from the node");
+    }
+
+    result = await response.json();
 
     if (!result || !Array.isArray(result[dataKey])) {
       console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url.toString()}:`, result);
@@ -171,7 +178,17 @@ async function fetchRewards(
   const url = `${getNodeRootUrl(chainId)}/cosmos/distribution/v1beta1/delegators/${address}/rewards`;
 
   // (Note: this endpoint is not paginated)
-  const data: CosmosRewards = await fetchWithHeaders(chainId, url);
+  const response = await fetchWithHeaders(url);
+
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new ThirdPartyProviderError("Error while fetching data from the node");
+  }
+
+  const data: CosmosRewards = await response.json();
 
   if (!data?.rewards) {
     console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
@@ -245,7 +262,17 @@ async function fetchValidators(
     }
   }
 
-  const data = await fetchWithHeaders(chainId, url.toString());
+  const response = await fetchWithHeaders(url.toString());
+
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new ThirdPartyProviderError(`Error while fetching ${chainId} validators from the node`);
+  }
+
+  const data = await response.json();
 
   if (data?.message === "illegal base64 data at input byte 4") {
     throw new InvalidPaginationTokenError("Provided pagination token is invalid");
@@ -274,7 +301,31 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
 
   const url = `${getNodeRootUrl(chainId)}/cosmos/auth/v1beta1/accounts/${address}`;
 
-  const data = await fetchWithHeaders(chainId, url);
+  const response = await fetchWithHeaders(url);
+
+  // prettier-ignore
+  if (response.status === 404) {
+    let data = undefined;
+
+    try {
+      data = await response.json();
+    } catch (e) {
+      console.warn(`/!\\ Error while parsing data returned from ${chainId} node endpoint ${url}:`, JSON.stringify(e));
+      throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
+    }
+
+    // Node answers 404 with "code 5" when address is valid but account has just never been used onchain yet
+    // We translate this to a "not enough funds" error for the user
+    if (data?.code === 5) {
+      console.warn(`/!\\ Account ${address} not found on chain ${chainId}:`, data);
+      throw new UserInputError(`Balance is too low`);
+    }
+  } else if (!response.ok) {
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`, await response.text());
+    throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
+  }
+
+  const data = await response.json();
 
   try {
     // We use base_account for Ethermint chains and account for the rest
@@ -336,7 +387,17 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
     body: payload,
   };
 
-  const data = await fetchWithHeaders(chainId, url, options);
+  const response = await fetchWithHeaders(url, options);
+
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new ThirdPartyProviderError(`Error while fetching ${chainId} validators from the node`);
+  }
+
+  const data = await response.json();
 
   if (!data?.gas_info?.gas_used) {
     console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
@@ -353,15 +414,24 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
     body: payload,
   };
 
-  const data = await fetchWithHeaders(chainId, url, options);
+  const response = await fetchWithHeaders(url, options);
 
-  if (data?.tx_data?.code || !data?.tx_data?.txhash) {
-    // error codes: https://github.com/cosmos/cosmos-sdk/blob/master/types/errors/errors.go
-    const errorMessage = `Invalid data returned from broadcast on ${chainId} node (code: ${
-      data?.tx_response?.code || "?"
-    }, message: '${data?.tx_response?.raw_log || ""}')`;
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new ThirdPartyProviderError(`Error while fetching ${chainId} validators from the node`);
+  }
 
-    console.warn("/!\\ " + errorMessage);
+  const data = await response.json();
+
+  // TODO We could return more detailed error messages using
+  // error codes in https://github.com/cosmos/cosmos-sdk/blob/main/types/errors/errors.go
+  if (data?.tx_response?.code || !data?.tx_response?.txhash) {
+    const errorMessage = `Broadcast on ${chainId} node returned invalid data`;
+
+    console.warn(`/!\\ ${errorMessage}: ${JSON.stringify(data)}`);
     throw new ThirdPartyProviderError(errorMessage);
   }
 

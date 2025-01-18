@@ -35,6 +35,7 @@ import { ChainId } from "~/app/model/types_WIP";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { chilizTestnet } from "../chains/chiliz-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
+import { monadPrivateTestnet } from "../chains/monad-private-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
 
 // FIXME Couldn't find a proper type that works besides 'any'
@@ -106,7 +107,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: rootstockTestnet, transport };
     case ChainId.AVALANCHE_FUJI:
       return { chain: avalancheFujiTesnet, transport };
-
+    case ChainId.MONAD_PRIVATE_TESTNET:
+      return { chain: monadPrivateTestnet, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }
