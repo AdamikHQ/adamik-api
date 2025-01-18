@@ -355,13 +355,12 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
 
   const data = await fetchWithHeaders(chainId, url, options);
 
-  if (data?.tx_data?.code || !data?.tx_data?.txhash) {
-    // error codes: https://github.com/cosmos/cosmos-sdk/blob/master/types/errors/errors.go
-    const errorMessage = `Invalid data returned from broadcast on ${chainId} node (code: ${
-      data?.tx_response?.code || "?"
-    }, message: '${data?.tx_response?.raw_log || ""}')`;
+  // TODO We could return more detailed error messages using
+  // error codes in https://github.com/cosmos/cosmos-sdk/blob/main/types/errors/errors.go
+  if (data?.tx_response?.code || !data?.tx_response?.txhash) {
+    const errorMessage = `Broadcast on ${chainId} node returned invalid data`;
 
-    console.warn("/!\\ " + errorMessage);
+    console.warn(`/!\\ ${errorMessage}: ${JSON.stringify(data)}`);
     throw new ThirdPartyProviderError(errorMessage);
   }
 
