@@ -1,6 +1,5 @@
 import { CHAINS } from "~/app/config/chains";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { fetchAccount, fetchBalances, fetchDelegations } from "../backend/node";
 import { COSMOS_MOCK_FEES } from "../constants";
 import { getDelegation, getEstimatedFees, resolvePubKey } from "../logic";
@@ -41,10 +40,7 @@ async function completeTransaction(
         return stakedBalance.amount;
 
       default:
-        // should never happen, zod already validated the mode per chain
-        throw new UnsupportedFeatureError(
-          `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chainId}`
-        );
+        return 0n;
     }
   })();
 
