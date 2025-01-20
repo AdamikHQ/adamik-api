@@ -1,4 +1,4 @@
-import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { DeployContractType, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { ArgentX } from "../contracts/argentx";
 import { estimateTransferFees, getNonce } from "../contracts/logic";
@@ -11,15 +11,15 @@ async function completeTransaction({
   status: Status;
 }): Promise<void> {
   switch (transaction.data.mode) {
-    case TransactionMode.DEPLOY_WALLET_CONTRACT:
-      switch (transaction.data.type) {
-        case "argentX":
-          const nonce = await getNonce(ArgentX.generateAddress(transaction.data.pubkey));
+    case TransactionMode.DEPLOY_ACCOUNT:
+      switch (transaction.data.contractType) {
+        case DeployContractType.ARGENTX:
+          const nonce = await getNonce(ArgentX.generateAddress(transaction.data.senderPubKey));
           transaction.data.nonce = BigInt(nonce);
           if (transaction.data.nonce !== 0n) {
             throw new Error("Nonce is not 0, can't deploy wallet contract");
           }
-          transaction.data.fees = await ArgentX.estimateDeployFees(transaction.data.pubkey);
+          transaction.data.fees = await ArgentX.estimateDeployFees(transaction.data.senderPubKey);
           break;
         default:
           break;
@@ -32,8 +32,8 @@ async function completeTransaction({
       }
 
       transaction.data.fees = await estimateTransferFees(
-        transaction.data.sender,
-        transaction.data.recipient,
+        transaction.data.senderAddress,
+        transaction.data.recipientAddress,
         transaction.data.amount,
         STARK_TOKEN_CONTRACT_ID
       );
@@ -45,8 +45,8 @@ async function completeTransaction({
       }
 
       transaction.data.fees = await estimateTransferFees(
-        transaction.data.sender,
-        transaction.data.recipient,
+        transaction.data.senderAddress,
+        transaction.data.recipientAddress,
         transaction.data.amount,
         transaction.data.tokenId
       );

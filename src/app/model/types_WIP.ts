@@ -268,7 +268,6 @@ enum TransactionMode {
   REDELEGATE = "redelegate",
   UNDELEGATE = "undelegate",
   CLAIM_REWARDS = "claimRewards",
-  DEPLOY_WALLET_CONTRACT = "deployWalletContract",
 }
 
 enum TransactionState {
@@ -383,12 +382,6 @@ type ClaimRewardsTransaction = CommonTransaction & {
   compound?: boolean;
 };
 
-type DeployWalletContractTransaction = CommonTransaction & {
-  mode: TransactionMode.DEPLOY_WALLET_CONTRACT;
-  type: string;
-  pubkey: string;
-};
-
 type TransactionData =
   | DeployAccountTransaction
   | TransferTransaction
@@ -396,8 +389,7 @@ type TransactionData =
   | DelegateTransaction
   | UndelegateTransaction
   | RedelegateTransaction
-  | ClaimRewardsTransaction
-  | DeployWalletContractTransaction;
+  | ClaimRewardsTransaction;
 
 type Transaction = {
   data: TransactionData;
