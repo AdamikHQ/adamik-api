@@ -1,5 +1,3 @@
-import z from "zod";
-
 // Params that exist only for cosmos chains
 type CosmosChainParams = {
   // Prefix of addresses
@@ -18,18 +16,6 @@ type CosmosChainParams = {
   isICS?: boolean;
 };
 
-// Cosmos-specific fields to provide when creating Cosmos chains transactions
-type CosmosTransactionParams =
-  | {
-      // Public key of the sender address, necessary when it never made a transaction yet
-      pubKey?: string;
-    }
-  | undefined; // undefined is for type safety, since the data will be coming from requests
-
-const cosmosTransactionParamsSchema = z.object({
-  pubKey: z.string().optional(),
-});
-
 type IBCToken = {
   denom: string;
   type: string;
@@ -37,5 +23,4 @@ type IBCToken = {
   decimals: number;
 };
 
-export { cosmosTransactionParamsSchema };
-export type { CosmosChainParams, CosmosTransactionParams, IBCToken };
+export type { CosmosChainParams, IBCToken };

@@ -7,7 +7,7 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
 
   const maxSpendable = await computeMaxSpendable(transaction.data);
 
-  const seqNo = await getSeqno(transaction.data.sender);
+  const seqNo = await getSeqno(transaction.data.senderAddress);
   if (seqNo) {
     transaction.data.nonce = seqNo;
   }

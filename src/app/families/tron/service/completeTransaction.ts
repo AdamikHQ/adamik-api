@@ -6,7 +6,7 @@ import { buildTransaction, calculateTransactionLength, isTRC10Token } from "../l
 async function completeTransaction(_: { transaction: Transaction; status: Status }): Promise<void> {
   const { transaction } = _;
 
-  const accountResources = await getAccountResources(transaction.data.sender);
+  const accountResources = await getAccountResources(transaction.data.senderAddress);
   const usableBandwidth = accountResources.freeNetUsed
     ? accountResources.freeNetLimit - accountResources.freeNetUsed
     : accountResources.NetLimit - accountResources.NetUsed;
@@ -19,7 +19,7 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
   const bandwidthPoints = calculateTransactionLength(buildedTransaction.raw_data_hex);
   transaction.data.fees = BigInt(0);
 
-  const targetedAccount = await getAccount(transaction.data.recipient);
+  const targetedAccount = await getAccount(transaction.data.recipientAddress);
   if (!targetedAccount.balance) {
     const accountCreationFee = chainParameters.find((p) => p.key === "createAccountFee")?.value || 0;
     const createNewAccountFeeInSystemContract =
@@ -37,8 +37,8 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
     const { energy_used } = await estimateEnergyContract(
       transaction.data.tokenId,
       transaction.data.amount as bigint,
-      transaction.data.recipient,
-      transaction.data.sender
+      transaction.data.recipientAddress,
+      transaction.data.senderAddress
     );
 
     // Calculate available energy

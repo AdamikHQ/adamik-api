@@ -24,7 +24,7 @@ async function validateTransaction(
   const { transaction, status } = _;
 
   const transactionData = transaction.data;
-  const accountData = await fetchAccountData(transactionData.sender);
+  const accountData = await fetchAccountData(transactionData.senderAddress);
   const availableBalance = accountData.balance;
   const amount = transactionData.amount as bigint;
   const fees = transactionData.fees as bigint;
