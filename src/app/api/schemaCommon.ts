@@ -3,6 +3,7 @@ import "zod-openapi/extend";
 import {
   ChainFamily,
   ChainId,
+  DeployContractType,
   EncodedTransactionFormat,
   TokenType,
   TransactionMode,
@@ -102,67 +103,72 @@ const tokenSchema = z.object({
 // Transactions fields schemas
 
 const senderPubKeySchema = z.string().openapi({
-  description: "TODO",
+  description:
+    "Public key of the sender account, required in some situations. It is advised to provide it by default if you can.",
 });
 
 const senderAddressSchema = z.string().openapi({
-  description: "TODO",
+  description: "Address of the sender account.",
 });
 
 const recipientAddressSchema = z.string().openapi({
-  description: "TODO",
+  description: "Address of the recipient account.",
 });
 
-const contractTypeSchema = z.string().openapi({
-  description: "TODO",
+const contractTypeSchema = z.nativeEnum(DeployContractType).openapi({
+  description: "Provider of the account contract. Only ArgentX is supported at the moment.",
 });
 
 const tokenIdSchema = z.string().openapi({
-  description: "TODO",
+  description: "Unique ID of the token to transfer (e.g contract address for EVM chains)",
 });
 
 const inputAmountSchema = stringToBigIntSchema.openapi({
-  description: "TODO",
+  description: "Optional amount to use (always in smallest unit). Use either this or useMaxAmount.",
 });
 
 const outputAmountSchema = bigintToStringSchema.openapi({
-  description: "TODO",
+  description: "Amount to use, either provided or computed by the API",
 });
 
 const useMaxAmountSchema = z.boolean().openapi({
-  description: "TODO",
+  description:
+    "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
 });
 
 const feesSchema = bigintToStringSchema.openapi({
-  description: "TODO",
+  description: "Transaction fees computed by the API.",
 });
 
 const gasSchema = bigintToStringSchema.openapi({
-  description: "TODO",
+  description: "Transaction gas computed by the API, when relevant for the chain.",
 });
 
 const nonceSchema = bigintToStringSchema.openapi({
-  description: "TODO",
+  description: "Transaction sequence number computed by the API, when relevant for the chain.",
 });
 
 const memoSchema = z.string().openapi({
-  description: "TODO",
+  description: "Optional free text field, that is supported for some chains.",
 });
 
 const formatSchema = z.nativeEnum(EncodedTransactionFormat).openapi({
-  description: "TODO",
+  description:
+    "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point.",
 });
 
 const paramsSchema = z.unknown().openapi({
-  description: "TODO",
+  description:
+    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast enpoint.",
 });
 
-const validatorSchema = z.string().openapi({
-  description: "TODO",
+const validatorAddressSchema = z.string().openapi({
+  description: "Address or ID of a validator",
 });
 
 const stakingCompoundSchema = z.boolean().openapi({
-  description: "TODO",
+  description:
+    "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
 });
 
 // Transactions schemas
@@ -171,7 +177,7 @@ const inputDeployAccountSchema = z
   .object({
     mode: z.literal(TransactionMode.DEPLOY_ACCOUNT),
     senderPubKey: senderPubKeySchema,
-    contractType: contractTypeSchema,
+    contractType: contractTypeSchema.optional().default(DeployContractType.ARGENTX),
   })
   .openapi({
     title: "Deploy Account",
@@ -252,13 +258,13 @@ const inputStakingDelegateSchema = z
     mode: z.literal(TransactionMode.DELEGATE),
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
-    validatorAddress: validatorSchema,
+    validatorAddress: validatorAddressSchema,
     amount: inputAmountSchema.optional(),
     useMaxAmount: useMaxAmountSchema.default(false),
   })
   .openapi({
     title: "Delegate",
-    description: "TODO",
+    description: "Put some funds at stake",
   });
 
 const outputStakingDelegateSchema = z
@@ -266,13 +272,13 @@ const outputStakingDelegateSchema = z
     mode: z.literal(TransactionMode.DELEGATE),
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
-    validatorAddress: validatorSchema,
+    validatorAddress: validatorAddressSchema,
     amount: outputAmountSchema,
     useMaxAmount: useMaxAmountSchema,
   })
   .openapi({
     title: "Delegate",
-    description: "TODO",
+    description: "Put some funds at stake",
   });
 
 const inputStakingUndelegateSchema = z
@@ -280,13 +286,13 @@ const inputStakingUndelegateSchema = z
     mode: z.literal(TransactionMode.UNDELEGATE),
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
-    validatorAddress: validatorSchema,
+    validatorAddress: validatorAddressSchema,
     amount: inputAmountSchema.optional(),
     useMaxAmount: useMaxAmountSchema.default(false),
   })
   .openapi({
     title: "Undelegate",
-    description: "TODO",
+    description: "Stop staking some funds",
   });
 
 const outputStakingUndelegateSchema = z
@@ -294,13 +300,13 @@ const outputStakingUndelegateSchema = z
     mode: z.literal(TransactionMode.UNDELEGATE),
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
-    validatorAddress: validatorSchema,
+    validatorAddress: validatorAddressSchema,
     amount: outputAmountSchema,
     useMaxAmount: useMaxAmountSchema,
   })
   .openapi({
     title: "Undelegate",
-    description: "TODO",
+    description: "Stop staking some funds",
   });
 
 const inputStakingRedelegateSchema = z
@@ -308,14 +314,14 @@ const inputStakingRedelegateSchema = z
     mode: z.literal(TransactionMode.REDELEGATE),
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
-    sourceValidatorAddress: validatorSchema,
-    targetValidatorAddress: validatorSchema,
+    sourceValidatorAddress: validatorAddressSchema,
+    targetValidatorAddress: validatorAddressSchema,
     amount: inputAmountSchema.optional(),
     useMaxAmount: useMaxAmountSchema.default(false),
   })
   .openapi({
     title: "Redelegate",
-    description: "TODO",
+    description: "Assign some staked funds to a different validator",
   });
 
 const outputStakingRedelegateSchema = z
@@ -323,14 +329,14 @@ const outputStakingRedelegateSchema = z
     mode: z.literal(TransactionMode.REDELEGATE),
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
-    sourceValidatorAddress: validatorSchema,
-    targetValidatorAddress: validatorSchema,
+    sourceValidatorAddress: validatorAddressSchema,
+    targetValidatorAddress: validatorAddressSchema,
     amount: outputAmountSchema,
     useMaxAmount: useMaxAmountSchema,
   })
   .openapi({
     title: "Redelegate",
-    description: "TODO",
+    description: "Assign some staked funds to a different validator",
   });
 
 const inputStakingClaimRewardsSchema = z
@@ -338,12 +344,12 @@ const inputStakingClaimRewardsSchema = z
     mode: z.literal(TransactionMode.CLAIM_REWARDS),
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
-    validatorAddress: validatorSchema,
+    validatorAddress: validatorAddressSchema,
     compound: stakingCompoundSchema.default(false),
   })
   .openapi({
     title: "ClaimRewards",
-    description: "TODO",
+    description: "Retrieve rewards from staking",
   });
 
 const outputStakingClaimRewardsSchema = z
@@ -351,18 +357,19 @@ const outputStakingClaimRewardsSchema = z
     mode: z.literal(TransactionMode.CLAIM_REWARDS),
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
-    validatorAddress: validatorSchema,
+    validatorAddress: validatorAddressSchema,
     compound: stakingCompoundSchema,
   })
   .openapi({
     title: "ClaimRewards",
-    description: "TODO",
+    description: "Retrieve rewards from staking",
   });
 
 const inputTransactionDataSchema = z
   .object({
     memo: memoSchema.optional(),
     format: formatSchema.optional(),
+    params: paramsSchema.optional(),
   })
   .and(
     z.discriminatedUnion("mode", [
