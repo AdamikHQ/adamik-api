@@ -1,7 +1,6 @@
-import { CosmosChainParams, CosmosTransactionParams } from "~/app/families/cosmos/types";
+import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
-import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
@@ -255,6 +254,7 @@ type TypedAddress = {
 };
 
 enum TransactionMode {
+  DEPLOY_ACCOUNT = "deployAccount",
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
@@ -313,31 +313,31 @@ type FinalizedTransaction = {
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
-type TransactionParams =
-  | CosmosTransactionParams
-  | BitcoinTransactionParams
-  | TonTransactionParams
-  | TronTransactionParams;
+type TransactionParams = BitcoinTransactionParams | TronTransactionParams;
 
 // TODO WIP
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
 // FIXME one 'TransactionData' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
-// FIXME Does the 'params' field make sense? It allows chain-specific data into the model...
-// - alternative: all data could be flat?
-// - alternative: an explicit field for each chain? or family? = 'cosmosParams', 'evmParams', etc
 type CommonTransaction = {
   mode: TransactionMode;
-  sender: string;
-  recipient: string;
-  useMaxAmount: boolean;
+  senderAddress: string;
+  senderPubKey?: string;
+  recipientAddress: string;
   amount?: bigint;
+  useMaxAmount?: boolean;
   fees?: bigint;
   gas?: bigint;
   nonce?: bigint;
   memo?: string;
   format?: EncodedTransactionFormat;
   params?: TransactionParams;
+};
+
+type DeployAccountTransaction = CommonTransaction & {
+  mode: TransactionMode.DEPLOY_ACCOUNT;
+  senderPubKey: string; // Not optional for deploy account transactions
+  contractType: string; // FIXME Should be an enum? With values coming from different families?
 };
 
 type TransferTransaction = CommonTransaction & {
@@ -372,6 +372,7 @@ type ClaimRewardsTransaction = CommonTransaction & {
 };
 
 type TransactionData =
+  | DeployAccountTransaction
   | TransferTransaction
   | TransferTokenTransaction
   | DelegateTransaction
