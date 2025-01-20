@@ -136,16 +136,28 @@ const useMaxAmountSchema = z.boolean().openapi({
     "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
 });
 
-const feesSchema = bigintToStringSchema.openapi({
+const inputFeesSchema = stringToBigIntSchema.openapi({
+  description: "Transaction fees.",
+});
+
+const outputFeesSchema = bigintToStringSchema.openapi({
   description: "Transaction fees computed by the API.",
 });
 
-const gasSchema = bigintToStringSchema.openapi({
+const inputGasSchema = stringToBigIntSchema.openapi({
+  description: "Transaction gas, when relevant for the chain.",
+});
+
+const outputGasSchema = bigintToStringSchema.openapi({
   description: "Transaction gas computed by the API, when relevant for the chain.",
 });
 
-const nonceSchema = bigintToStringSchema.openapi({
+const inputNonceSchema = stringToBigIntSchema.openapi({
   description: "Transaction sequence number computed by the API, when relevant for the chain.",
+});
+
+const outputNonceSchema = bigintToStringSchema.openapi({
+  description: "Transaction sequence number, when relevant for the chain.",
 });
 
 const memoSchema = z.string().openapi({
@@ -370,50 +382,7 @@ const outputStakingClaimRewardsSchema = z
     description: "Retrieve rewards from staking",
   });
 
-const inputTransactionDataSchema = z
-  .object({
-    memo: memoSchema.optional(),
-    format: formatSchema.optional(),
-    params: inputParamsSchema.optional(),
-  })
-  .and(
-    z.discriminatedUnion("mode", [
-      inputDeployAccountSchema,
-      inputTransferNativeSchema,
-      inputStakingDelegateSchema,
-      inputTransferTokenSchema,
-      inputStakingUndelegateSchema,
-      inputStakingRedelegateSchema,
-      inputStakingClaimRewardsSchema,
-    ])
-  );
-
-const outputTransactionDataSchema = z
-  .object({
-    fees: feesSchema,
-    gas: gasSchema.optional(),
-    nonce: nonceSchema.optional(),
-    memo: memoSchema.optional(),
-    format: formatSchema.optional(),
-    params: outputParamsSchema.optional(),
-  })
-  .and(
-    z.discriminatedUnion("mode", [
-      outputDeployAccountSchema,
-      outputTransferNativeSchema,
-      outputTransferTokenSchema,
-      outputStakingDelegateSchema,
-      outputStakingUndelegateSchema,
-      outputStakingRedelegateSchema,
-      outputStakingClaimRewardsSchema,
-    ])
-  );
-
-// NOTE: 'any' here because 'encoded' can also be JSON
-// Improvement could be to properly type all possible encoded formats for every family
-// FIXME 'any' with zod always makes the field optional... which is a problem here, but found no easy worakround
-// Best fix is probably to enforce only string, by using JSON.stringify with anything else
-const encodedTransactionSchema = z.string().or(z.any());
+const encodedTransactionSchema = z.string();
 
 const signatureSchema = z.string();
 
@@ -443,8 +412,8 @@ const finalizedTransactionSchema = z.object({
         amount: outputAmountSchema,
         ticker: optionalTickerSchema,
       }),
-      gas: gasSchema.optional(),
-      nonce: nonceSchema.optional(),
+      gas: outputGasSchema.optional(),
+      nonce: outputNonceSchema.optional(),
       memo: memoSchema.optional(),
       senders: z
         .object({
@@ -514,14 +483,46 @@ export {
   chainIdSchema,
   chainIdSchemaParams,
   chainSchema,
+  contractTypeSchema,
   encodedTransactionSchema,
   finalizedTransactionSchema,
+  formatSchema,
   getSupportedChainIdsSchema,
-  inputTransactionDataSchema,
-  outputTransactionDataSchema,
+  inputAmountSchema,
+  inputDeployAccountSchema,
+  inputFeesSchema,
+  inputGasSchema,
+  inputNonceSchema,
+  inputParamsSchema,
+  inputStakingClaimRewardsSchema,
+  inputStakingDelegateSchema,
+  inputStakingRedelegateSchema,
+  inputStakingUndelegateSchema,
+  inputTransferNativeSchema,
+  inputTransferTokenSchema,
+  memoSchema,
+  outputAmountSchema,
+  outputDeployAccountSchema,
+  outputFeesSchema,
+  outputGasSchema,
+  outputNonceSchema,
+  outputParamsSchema,
+  outputStakingClaimRewardsSchema,
+  outputStakingDelegateSchema,
+  outputStakingRedelegateSchema,
+  outputStakingUndelegateSchema,
+  outputTransferNativeSchema,
+  outputTransferTokenSchema,
   paginatedResponseSchema,
   paginationQueryParamsSchema,
+  recipientAddressSchema,
+  senderAddressSchema,
+  senderPubKeySchema,
   signatureSchema,
+  stakingCompoundSchema,
   statusSchema,
+  tokenIdSchema,
   tokenSchema,
+  useMaxAmountSchema,
+  validatorAddressSchema,
 };

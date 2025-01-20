@@ -7,7 +7,6 @@ import {
   Signature,
   toHex,
   TransactionSerializable,
-  TransactionSerialized,
   BaseError as ViemError,
 } from "viem";
 import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
@@ -91,7 +90,7 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
     to: recipient,
     value: amount,
     data,
-  }) as TransactionSerialized;
+  });
 }
 
 async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transaction): Promise<void> {
@@ -112,11 +111,11 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
 
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER: {
-      transaction.encoded = {
+      transaction.encoded = JSON.stringify({
         ...commonData,
         value: toHex(transaction.data.amount!),
         to: transaction.data.recipientAddress,
-      } as any;
+      });
       break;
     }
     case TransactionMode.TRANSFER_TOKEN: {
@@ -126,12 +125,12 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
         args: [transaction.data.recipientAddress as EvmAddress, transaction.data.amount!],
       });
 
-      transaction.encoded = {
+      transaction.encoded = JSON.stringify({
         ...commonData,
         value: toHex(0n),
         to: transaction.data.tokenId,
         data,
-      } as any;
+      });
       break;
     }
   }
@@ -193,7 +192,7 @@ async function encodeTransactionToBroadcast(
   })();
 
   const parsedTansaction: TransactionSerializable = isHexString(signedTransaction.encoded)
-    ? parseTransaction(signedTransaction.encoded as TransactionSerialized)
+    ? parseTransaction(signedTransaction.encoded)
     : (signedTransaction.encoded as TransactionSerializable);
 
   const chainParams = CHAINS[this.chainId].params as EvmChainParams;
