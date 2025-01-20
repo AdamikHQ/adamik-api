@@ -2,8 +2,20 @@ import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
   encodedTransactionSchema,
+  formatSchema,
   getSupportedChainIdsSchema,
-  inputTransactionDataSchema,
+  inputDeployAccountSchema,
+  inputFeesSchema,
+  inputGasSchema,
+  inputNonceSchema,
+  inputParamsSchema,
+  inputStakingClaimRewardsSchema,
+  inputStakingDelegateSchema,
+  inputStakingRedelegateSchema,
+  inputStakingUndelegateSchema,
+  inputTransferNativeSchema,
+  inputTransferTokenSchema,
+  memoSchema,
   signatureSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
@@ -23,7 +35,26 @@ const pathParamsSchema = z.object({
 
 const requestSchema = z.object({
   transaction: z.object({
-    data: inputTransactionDataSchema,
+    data: z
+      .object({
+        fees: inputFeesSchema,
+        gas: inputGasSchema.optional(),
+        nonce: inputNonceSchema.optional(),
+        memo: memoSchema.optional(),
+        format: formatSchema.optional(),
+        params: inputParamsSchema.optional(),
+      })
+      .and(
+        z.discriminatedUnion("mode", [
+          inputDeployAccountSchema,
+          inputTransferNativeSchema,
+          inputStakingDelegateSchema,
+          inputTransferTokenSchema,
+          inputStakingUndelegateSchema,
+          inputStakingRedelegateSchema,
+          inputStakingClaimRewardsSchema,
+        ])
+      ),
     encoded: encodedTransactionSchema,
     signature: signatureSchema,
   }),

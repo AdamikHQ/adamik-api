@@ -11,12 +11,11 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
     ? accountResources.freeNetLimit - accountResources.freeNetUsed
     : accountResources.NetLimit - accountResources.NetUsed;
 
-  const buildedTransaction = await buildTransaction(transaction);
-  transaction.encoded = buildedTransaction.raw_data_hex;
   const chainParameters = await getChainParameters();
   const bandwidthPrice = chainParameters.find((p) => p.key === "getTransactionFee")?.value || 0 / 1000_000;
 
-  const bandwidthPoints = calculateTransactionLength(buildedTransaction.raw_data_hex);
+  const builtTransaction = await buildTransaction(transaction);
+  const bandwidthPoints = calculateTransactionLength(builtTransaction.raw_data_hex);
   transaction.data.fees = BigInt(0);
 
   const targetedAccount = await getAccount(transaction.data.recipientAddress);

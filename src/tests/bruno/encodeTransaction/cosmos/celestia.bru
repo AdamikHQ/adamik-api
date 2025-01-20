@@ -19,8 +19,8 @@ body:json {
     "transaction": {
       "data": {
         "mode": "transfer",
-        "recipientAddress": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
         "senderAddress": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
+        "recipientAddress": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
         "useMaxAmount": true,
         "format": "json",
         "params": {
@@ -33,5 +33,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.transaction.encoded.sequence: eq "7"
+  res.body.transaction.encoded: eq "{"account_number":"1395838","chain_id":"celestia","fee":{"amount":[{"amount":"1928","denom":"utia"}],"gas":"96366"},"memo":"","msgs":[{"type":"cosmos-sdk/MsgSend","value":{"amount":[{"amount":"145899","denom":"utia"}],"from_address":"celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3","to_address":"celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3"}}],"sequence":"7"}"
 }
