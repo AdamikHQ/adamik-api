@@ -157,9 +157,14 @@ const formatSchema = z.nativeEnum(EncodedTransactionFormat).openapi({
     "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point.",
 });
 
-const paramsSchema = z.unknown().openapi({
+const inputParamsSchema = z.any().openapi({
   description:
-    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast enpoint.",
+    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint.",
+});
+
+const outputParamsSchema = z.unknown().openapi({
+  description:
+    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint.",
 });
 
 const validatorAddressSchema = z.string().openapi({
@@ -369,7 +374,7 @@ const inputTransactionDataSchema = z
   .object({
     memo: memoSchema.optional(),
     format: formatSchema.optional(),
-    params: paramsSchema.optional(),
+    params: inputParamsSchema.optional(),
   })
   .and(
     z.discriminatedUnion("mode", [
@@ -390,7 +395,7 @@ const outputTransactionDataSchema = z
     nonce: nonceSchema.optional(),
     memo: memoSchema.optional(),
     format: formatSchema.optional(),
-    params: paramsSchema.optional(),
+    params: outputParamsSchema.optional(),
   })
   .and(
     z.discriminatedUnion("mode", [
