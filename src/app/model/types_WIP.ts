@@ -316,6 +316,10 @@ type FinalizedTransaction = {
 
 type TransactionParams = BitcoinTransactionParams | TronTransactionParams;
 
+enum DeployContractType {
+  ARGENTX = "argentx",
+}
+
 // TODO WIP
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
 // FIXME one 'TransactionData' type with everything in it, or composition of specific types
@@ -338,7 +342,7 @@ type CommonTransaction = {
 type DeployAccountTransaction = CommonTransaction & {
   mode: TransactionMode.DEPLOY_ACCOUNT;
   senderPubKey: string; // Not optional for deploy account transactions
-  contractType: string; // FIXME Should be an enum? With values coming from different families?
+  contractType: DeployContractType;
 };
 
 type TransferTransaction = CommonTransaction & {
@@ -420,6 +424,7 @@ type Status = {
 export {
   ChainFamily,
   ChainId,
+  DeployContractType,
   EncodedTransactionFormat,
   StakingStatus,
   TokenType,
