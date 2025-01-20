@@ -1,11 +1,8 @@
-import { BroadcastStatus } from "~/app/model/types_WIP";
+import { broadcast } from "../backend/node";
 import { StarknetService } from "../service";
 
-async function broadcastTransaction(
-  this: StarknetService,
-  signedTransaction: string
-): Promise<BroadcastStatus> {
-  throw new Error("Not implemented");
+async function broadcastTransaction(this: StarknetService, signedTransaction: string): Promise<string> {
+  return await broadcast(signedTransaction);
 }
 
 export { broadcastTransaction };

@@ -7,9 +7,7 @@ async function prevalidateTransaction(
     transaction: Transaction;
     status: Status;
   }
-): Promise<void> {
-  throw new Error("Not implemented");
-}
+): Promise<void> {}
 
 async function validateTransaction(
   this: StarknetService,

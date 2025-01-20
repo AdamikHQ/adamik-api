@@ -12,7 +12,7 @@ const STARKNET_FEATURES: ChainSupportedFeatures = {
   },
   write: {
     transaction: {
-      type: { native: false, tokens: false, staking: false },
+      type: { native: true, tokens: true, staking: true },
       field: {
         memo: false,
       },

@@ -1540,7 +1540,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "STRK",
     decimals: 18,
     backends: {
-      nodeURL: "https://starknet-mainnet.public.blastapi.io/rpc/v0_7", //FIXME: find a better node
+      nodeURL: "https://free-rpc.nethermind.io/sepolia-juno/v0_7", //FIXME: find a better node
       explorerURL: "https://starkscan.co/",
     },
     params: {},

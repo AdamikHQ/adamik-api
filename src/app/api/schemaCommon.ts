@@ -9,6 +9,7 @@ import {
   TransactionState,
 } from "~/app/model/types_WIP";
 import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
+import { starknetTransactionParamsSchema } from "../families/starknet/types";
 import { tonTransactionParamsSchema } from "../families/ton/types";
 import { tronTransactionParamsSchema } from "../families/tron/types";
 
@@ -247,6 +248,16 @@ const outputStakingRedelegateSchema = z
     title: "Redelegate",
   });
 
+const outputDeployWalletContractSchema = z
+  .object({
+    mode: z.literal(TransactionMode.DEPLOY_WALLET_CONTRACT),
+    pubkey: z.string(),
+    type: z.string(),
+  })
+  .openapi({
+    title: "DeployWalletContract",
+  });
+
 const stakingClaimRewardsSchema = z
   .object({
     mode: z.literal(TransactionMode.CLAIM_REWARDS),
@@ -260,15 +271,20 @@ const stakingClaimRewardsSchema = z
 const inputTransactionDataSchema = z.object({
   data: z
     .object({
-      sender: z.string(),
-      recipient: z.string(),
+      sender: z.string().optional(),
+      recipient: z.string().optional(),
       fees: stringOrNumToBigintSchema.optional(),
       gas: stringOrNumToBigintSchema.optional(),
       nonce: stringOrNumToBigintSchema.optional(),
       memo: z.string().optional(),
       format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
       params: z
-        .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
+        .union([
+          starknetTransactionParamsSchema,
+          tronTransactionParamsSchema,
+          cosmosTransactionParamsSchema,
+          tonTransactionParamsSchema,
+        ])
         .or(z.any())
         .optional(),
       useMaxAmount: z.boolean().default(false),
@@ -281,6 +297,7 @@ const inputTransactionDataSchema = z.object({
         stakingUndelegateSchema,
         stakingRedelegateSchema,
         stakingClaimRewardsSchema,
+        outputDeployWalletContractSchema,
       ])
     ),
 });
@@ -288,8 +305,8 @@ const inputTransactionDataSchema = z.object({
 const outputTransactionDataSchema = z.object({
   data: z
     .object({
-      sender: z.string(),
-      recipient: z.string(),
+      sender: z.string().optional(),
+      recipient: z.string().optional(),
       useMaxAmount: z.boolean().default(false),
       fees: bigintToStringSchema.optional(),
       gas: bigintToStringSchema.optional(),
@@ -297,7 +314,12 @@ const outputTransactionDataSchema = z.object({
       memo: z.string().optional(),
       format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
       params: z
-        .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
+        .union([
+          starknetTransactionParamsSchema,
+          tronTransactionParamsSchema,
+          cosmosTransactionParamsSchema,
+          tonTransactionParamsSchema,
+        ])
         .or(z.any())
         .optional(), // FIXME: remove any and replace with BitcoinTransactionParams. For some reason, using it breaks the type system
     })
@@ -309,6 +331,7 @@ const outputTransactionDataSchema = z.object({
         outputStakingUndelegateSchema,
         outputStakingRedelegateSchema,
         stakingClaimRewardsSchema,
+        outputDeployWalletContractSchema,
       ])
     ),
 });

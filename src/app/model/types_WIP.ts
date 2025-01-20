@@ -1,6 +1,7 @@
 import { CosmosChainParams, CosmosTransactionParams } from "~/app/families/cosmos/types";
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
+import { StarknetTransactionParams } from "../families/starknet/types";
 import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
 
@@ -265,6 +266,7 @@ enum TransactionMode {
   REDELEGATE = "redelegate",
   UNDELEGATE = "undelegate",
   CLAIM_REWARDS = "claimRewards",
+  DEPLOY_WALLET_CONTRACT = "deployWalletContract",
 }
 
 enum TransactionState {
@@ -321,7 +323,8 @@ type TransactionParams =
   | CosmosTransactionParams
   | BitcoinTransactionParams
   | TonTransactionParams
-  | TronTransactionParams;
+  | TronTransactionParams
+  | StarknetTransactionParams;
 
 // TODO WIP
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
@@ -375,13 +378,20 @@ type ClaimRewardsTransaction = CommonTransaction & {
   compound?: boolean;
 };
 
+type DeployWalletContractTransaction = CommonTransaction & {
+  mode: TransactionMode.DEPLOY_WALLET_CONTRACT;
+  type: string;
+  pubkey: string;
+};
+
 type TransactionData =
   | TransferTransaction
   | TransferTokenTransaction
   | DelegateTransaction
   | UndelegateTransaction
   | RedelegateTransaction
-  | ClaimRewardsTransaction;
+  | ClaimRewardsTransaction
+  | DeployWalletContractTransaction;
 
 type Transaction = {
   data: TransactionData;
