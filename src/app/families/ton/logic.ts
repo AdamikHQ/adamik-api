@@ -88,8 +88,8 @@ async function buildTransaction(transaction: TransactionData) {
       body: messageBody || transaction.memo,
       bounce: true,
       init:
-        transaction.nonce === BigInt(0) && transactionParams?.pubKey
-          ? initWalletV4(transactionParams.pubKey)
+        transaction.nonce === BigInt(0) && transaction.senderPubKey
+          ? initWalletV4(transaction.senderPubKey)
           : undefined,
     });
     return createWalletTransferV4({ seqno: Number(transaction.nonce || 0), messages: [message] });
