@@ -12,17 +12,17 @@ async function prevalidateTransaction(
   const { transaction, status } = _;
 
   if (
-    !isValidXpub(this.chainId, transaction.data.sender) &&
-    !isValidAddress(this.chainId, transaction.data.sender)
+    !isValidXpub(this.chainId, transaction.data.senderAddress) &&
+    !isValidAddress(this.chainId, transaction.data.senderAddress)
   ) {
     status.errors.push({
-      message: `Sender address ${transaction.data.sender} is invalid for ${this.chainId}`,
+      message: `Sender address ${transaction.data.senderAddress} is invalid for ${this.chainId}`,
     });
   }
 
-  if (!isValidAddress(this.chainId, transaction.data.recipient)) {
+  if (!isValidAddress(this.chainId, transaction.data.recipientAddress)) {
     status.errors.push({
-      message: `Recipient address ${transaction.data.recipient} is invalid for ${this.chainId}`,
+      message: `Recipient address ${transaction.data.recipientAddress} is invalid for ${this.chainId}`,
     });
   }
 }

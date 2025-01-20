@@ -19,8 +19,8 @@ body:json {
     "transaction": {
       "data": {
         "mode": "transfer",
-        "sender": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
-        "recipient": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
+        "senderAddress": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
+        "recipientAddress": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
         "amount": "10000",
         "memo": "adamik-test-memo",
         "format": "json"
@@ -31,5 +31,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.transaction.encoded.sequence: eq "86202057"
+  res.body.transaction.encoded.sequence: eq "86202068"
 }

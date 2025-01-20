@@ -46,7 +46,7 @@ async function validateTransaction(
 
   // FIXME Already called by completeTransaction,
   // should ideally be put in some common context, or at least some cache
-  const balances = await fetchBalances(this.chainId, transactionData.sender);
+  const balances = await fetchBalances(this.chainId, transactionData.senderAddress);
 
   const availableBalance = balances.find((balance) => balance.denom === chainParams?.denom)?.amount;
 
@@ -72,7 +72,7 @@ async function validateTransaction(
     case TransactionMode.UNDELEGATE:
       // FIXME Costly to call "just" for validation, could be skipped to reduce costs
       // should ideally be put in some common context, or at least some cache
-      const delegations = await fetchDelegations(this.chainId, transactionData.sender);
+      const delegations = await fetchDelegations(this.chainId, transactionData.senderAddress);
 
       const delegationBalance = getDelegation(delegations, transactionData)?.amount;
 

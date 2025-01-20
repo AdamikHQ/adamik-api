@@ -13,7 +13,7 @@ const getAccount = async (address: string) => {
   return account;
 };
 
-const createTransaction = async (to: string, amount: bigint, from: string) => {
+const createTransaction = async (from: string, to: string, amount: bigint) => {
   const transaction = await tronWeb.transactionBuilder.sendTrx(to, Number(amount), from);
 
   return transaction;

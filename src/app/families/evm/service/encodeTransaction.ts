@@ -71,14 +71,14 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
       ? encodeFunctionData({
           abi: erc20Abi,
           functionName: "transfer",
-          args: [transaction.data.recipient as EvmAddress, amount],
+          args: [transaction.data.recipientAddress as EvmAddress, amount],
         })
       : undefined;
 
   const recipient =
     transaction.data.mode === TransactionMode.TRANSFER_TOKEN
       ? (transaction.data.tokenId as EvmAddress)
-      : (transaction.data.recipient as EvmAddress);
+      : (transaction.data.recipientAddress as EvmAddress);
 
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
@@ -106,7 +106,7 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
     maxPriorityFeePerGas: toHex(maxPriorityFeePerGas),
     maxFeePerGas: toHex(maxFeePerGas),
     gas: toHex(transaction.data.gas!),
-    from: transaction.data.sender,
+    from: transaction.data.senderAddress,
     nonce: toHex(transaction.data.nonce!),
   };
 
@@ -115,7 +115,7 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
       transaction.encoded = {
         ...commonData,
         value: toHex(transaction.data.amount!),
-        to: transaction.data.recipient,
+        to: transaction.data.recipientAddress,
       } as any;
       break;
     }
@@ -123,7 +123,7 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
       const data = encodeFunctionData({
         abi: erc20Abi,
         functionName: "transfer",
-        args: [transaction.data.recipient as EvmAddress, transaction.data.amount!],
+        args: [transaction.data.recipientAddress as EvmAddress, transaction.data.amount!],
       });
 
       transaction.encoded = {

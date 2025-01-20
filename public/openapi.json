@@ -76,7 +76,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -116,7 +115,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -156,7 +154,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -196,7 +193,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -236,7 +232,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -276,7 +271,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -316,7 +310,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -356,7 +349,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -396,7 +388,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -436,7 +427,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -476,7 +466,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -516,7 +505,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -556,7 +544,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -596,7 +583,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -636,7 +622,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -676,7 +661,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -716,7 +700,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -756,7 +739,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -796,7 +778,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -836,7 +817,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -876,7 +856,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -916,7 +895,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -956,7 +934,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -996,7 +973,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1036,7 +1012,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1076,7 +1051,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1116,7 +1090,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1156,7 +1129,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1196,7 +1168,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1236,7 +1207,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1276,7 +1246,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1316,7 +1285,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1356,7 +1324,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1396,7 +1363,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1436,7 +1402,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1476,7 +1441,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1516,7 +1480,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1596,7 +1559,45 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
+                        "monad-private-testnet": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": ["algorand", "cosmos", "evm", "bitcoin", "tron", "ton"]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1636,7 +1637,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1676,7 +1676,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1716,7 +1715,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1756,7 +1754,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1796,7 +1793,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1836,7 +1832,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1876,7 +1871,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1916,7 +1910,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1956,7 +1949,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1996,7 +1988,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2036,7 +2027,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2076,7 +2066,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2116,7 +2105,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2156,7 +2144,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2196,7 +2183,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2236,7 +2222,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2276,7 +2261,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2316,7 +2300,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2356,7 +2339,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2396,7 +2378,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2436,7 +2417,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2476,7 +2456,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2516,7 +2495,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2556,7 +2534,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2596,7 +2573,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2636,7 +2612,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2676,7 +2651,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2716,7 +2690,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2756,7 +2729,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2796,7 +2768,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2836,7 +2807,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2876,7 +2846,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2916,7 +2885,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2956,7 +2924,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2996,7 +2963,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3036,7 +3002,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3076,7 +3041,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3116,7 +3080,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3156,7 +3119,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3196,7 +3158,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3236,7 +3197,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3276,7 +3236,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3316,7 +3275,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3392,7 +3350,6 @@
                         "isTestnetFor": {
                           "type": "string"
                         },
-                        "params": {},
                         "supportedFeatures": {
                           "$ref": "#/components/schemas/ChainSupportedFeatures"
                         }
@@ -3822,6 +3779,7 @@
                                 {
                                   "type": "string",
                                   "enum": [
+                                    "deployAccount",
                                     "transfer",
                                     "transferToken",
                                     "delegate",
@@ -3854,7 +3812,8 @@
                               "type": "object",
                               "properties": {
                                 "amount": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Amount to use, either provided or computed by the API"
                                 },
                                 "ticker": {
                                   "type": "string",
@@ -3864,13 +3823,16 @@
                               "required": ["amount"]
                             },
                             "gas": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Transaction gas computed by the API, when relevant for the chain."
                             },
                             "nonce": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Transaction sequence number computed by the API, when relevant for the chain."
                             },
                             "memo": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "Optional free text field, that is supported for some chains."
                             },
                             "senders": {
                               "type": "array",
@@ -3881,7 +3843,8 @@
                                     "type": "string"
                                   },
                                   "amount": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Amount to use, either provided or computed by the API"
                                   },
                                   "ticker": {
                                     "type": "string",
@@ -3900,7 +3863,8 @@
                                     "type": "string"
                                   },
                                   "amount": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Amount to use, either provided or computed by the API"
                                   },
                                   "ticker": {
                                     "type": "string",
@@ -3920,7 +3884,8 @@
                                       "type": "string"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -3936,7 +3901,8 @@
                                       "type": "string"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -4148,6 +4114,7 @@
                 "arbitrum",
                 "arbitrum-sepolia",
                 "bitcoin",
+                "monad-private-testnet",
                 "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
@@ -4265,6 +4232,7 @@
                         "arbitrum",
                         "arbitrum-sepolia",
                         "bitcoin",
+                        "monad-private-testnet",
                         "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
@@ -4913,6 +4881,7 @@
                                   {
                                     "type": "string",
                                     "enum": [
+                                      "deployAccount",
                                       "transfer",
                                       "transferToken",
                                       "delegate",
@@ -4945,7 +4914,8 @@
                                 "type": "object",
                                 "properties": {
                                   "amount": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Amount to use, either provided or computed by the API"
                                   },
                                   "ticker": {
                                     "type": "string",
@@ -4955,13 +4925,16 @@
                                 "required": ["amount"]
                               },
                               "gas": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Transaction gas computed by the API, when relevant for the chain."
                               },
                               "nonce": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Transaction sequence number computed by the API, when relevant for the chain."
                               },
                               "memo": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Optional free text field, that is supported for some chains."
                               },
                               "senders": {
                                 "type": "array",
@@ -4972,7 +4945,8 @@
                                       "type": "string"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -4991,7 +4965,8 @@
                                       "type": "string"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -5011,7 +4986,8 @@
                                         "type": "string"
                                       },
                                       "amount": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Amount to use, either provided or computed by the API"
                                       },
                                       "ticker": {
                                         "type": "string",
@@ -5027,7 +5003,8 @@
                                         "type": "string"
                                       },
                                       "amount": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "Amount to use, either provided or computed by the API"
                                       },
                                       "ticker": {
                                         "type": "string",
@@ -5104,6 +5081,7 @@
                 "arbitrum",
                 "arbitrum-sepolia",
                 "bitcoin",
+                "monad-private-testnet",
                 "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
@@ -5180,167 +5158,19 @@
                           {
                             "type": "object",
                             "properties": {
-                              "sender": {
-                                "type": "string"
-                              },
-                              "recipient": {
-                                "type": "string"
-                              },
-                              "fees": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "gas": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "nonce": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
                               "memo": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Optional free text field, that is supported for some chains."
                               },
                               "format": {
                                 "type": "string",
-                                "enum": ["json", "hex"]
+                                "enum": ["json", "hex"],
+                                "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                               },
                               "params": {
-                                "anyOf": [
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "pubKey": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "visible": {
-                                            "type": "boolean"
-                                          },
-                                          "txID": {
-                                            "type": "string"
-                                          },
-                                          "raw_data": {
-                                            "type": "object",
-                                            "properties": {
-                                              "contract": {
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "parameter": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "value": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "data": {
-                                                              "type": "string"
-                                                            },
-                                                            "owner_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "asset_name": {
-                                                              "type": "string"
-                                                            },
-                                                            "contract_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "to_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "amount": {
-                                                              "type": "number"
-                                                            }
-                                                          },
-                                                          "required": ["owner_address"]
-                                                        },
-                                                        "type_url": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "required": ["value", "type_url"]
-                                                    },
-                                                    "type": {
-                                                      "type": "string"
-                                                    }
-                                                  },
-                                                  "required": ["parameter", "type"]
-                                                }
-                                              },
-                                              "ref_block_bytes": {
-                                                "type": "string"
-                                              },
-                                              "ref_block_hash": {
-                                                "type": "string"
-                                              },
-                                              "expiration": {
-                                                "type": "number"
-                                              },
-                                              "fee_limit": {
-                                                "type": "number"
-                                              },
-                                              "timestamp": {
-                                                "type": "number"
-                                              }
-                                            },
-                                            "required": [
-                                              "contract",
-                                              "ref_block_bytes",
-                                              "ref_block_hash",
-                                              "expiration",
-                                              "timestamp"
-                                            ]
-                                          },
-                                          "raw_data_hex": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": ["txID", "raw_data", "raw_data_hex"]
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "pubKey": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      }
-                                    ]
-                                  },
-                                  {}
-                                ]
-                              },
-                              "useMaxAmount": {
-                                "type": "boolean",
-                                "default": false
+                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
                               }
-                            },
-                            "required": ["sender", "recipient"]
+                            }
                           },
                           {
                             "oneOf": [
@@ -5349,20 +5179,53 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "const": "transfer"
+                                    "const": "deployAccount"
                                   },
-                                  "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "contractType": {
+                                    "type": "string",
+                                    "enum": ["argentx"],
+                                    "description": "Provider of the account contract. Only ArgentX is supported at the moment.",
+                                    "default": "argentx"
                                   }
                                 },
-                                "required": ["mode"],
+                                "required": ["mode", "senderPubKey"],
+                                "title": "Deploy Account",
+                                "description": "Deploy a smart contract wallet account"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "transfer"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address of the recipient account."
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
+                                  }
+                                },
+                                "required": ["mode", "senderAddress", "recipientAddress"],
                                 "title": "Transfer",
                                 "description": "Transfer chain native coins"
                               },
@@ -5373,22 +5236,31 @@
                                     "type": "string",
                                     "const": "delegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
-                                "title": "Delegate"
+                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "title": "Delegate",
+                                "description": "Put some funds at stake"
                               },
                               {
                                 "type": "object",
@@ -5398,20 +5270,32 @@
                                     "const": "transferToken"
                                   },
                                   "tokenId": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address of the recipient account."
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
                                   }
                                 },
-                                "required": ["mode", "tokenId"],
+                                "required": ["mode", "tokenId", "senderAddress", "recipientAddress"],
                                 "title": "TransferToken",
                                 "description": "Transfer chain tokens"
                               },
@@ -5422,22 +5306,31 @@
                                     "type": "string",
                                     "const": "undelegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
-                                "title": "Undelegate"
+                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "title": "Undelegate",
+                                "description": "Stop staking some funds"
                               },
                               {
                                 "type": "object",
@@ -5446,25 +5339,40 @@
                                     "type": "string",
                                     "const": "redelegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
                                   "sourceValidatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
                                   },
                                   "targetValidatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
                                   }
                                 },
-                                "required": ["mode", "sourceValidatorAddress", "targetValidatorAddress"],
-                                "title": "Redelegate"
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "sourceValidatorAddress",
+                                  "targetValidatorAddress"
+                                ],
+                                "title": "Redelegate",
+                                "description": "Assign some staked funds to a different validator"
                               },
                               {
                                 "type": "object",
@@ -5473,15 +5381,27 @@
                                     "type": "string",
                                     "const": "claimRewards"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
                                   },
                                   "compound": {
-                                    "type": "boolean"
+                                    "type": "boolean",
+                                    "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
+                                    "default": false
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
-                                "title": "ClaimRewards"
+                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "title": "ClaimRewards",
+                                "description": "Retrieve rewards from staking"
                               }
                             ]
                           }
@@ -5529,6 +5449,7 @@
                         "arbitrum",
                         "arbitrum-sepolia",
                         "bitcoin",
+                        "monad-private-testnet",
                         "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
@@ -5596,146 +5517,32 @@
                             {
                               "type": "object",
                               "properties": {
-                                "sender": {
-                                  "type": "string"
-                                },
-                                "recipient": {
-                                  "type": "string"
-                                },
-                                "useMaxAmount": {
-                                  "type": "boolean",
-                                  "default": false
-                                },
                                 "fees": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Transaction fees computed by the API."
                                 },
                                 "gas": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Transaction gas computed by the API, when relevant for the chain."
                                 },
                                 "nonce": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Transaction sequence number computed by the API, when relevant for the chain."
                                 },
                                 "memo": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "Optional free text field, that is supported for some chains."
                                 },
                                 "format": {
                                   "type": "string",
-                                  "enum": ["json", "hex"]
+                                  "enum": ["json", "hex"],
+                                  "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                                 },
                                 "params": {
-                                  "anyOf": [
-                                    {
-                                      "anyOf": [
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "pubKey": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        },
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "visible": {
-                                              "type": "boolean"
-                                            },
-                                            "txID": {
-                                              "type": "string"
-                                            },
-                                            "raw_data": {
-                                              "type": "object",
-                                              "properties": {
-                                                "contract": {
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "parameter": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "value": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                              "data": {
-                                                                "type": "string"
-                                                              },
-                                                              "owner_address": {
-                                                                "type": "string"
-                                                              },
-                                                              "asset_name": {
-                                                                "type": "string"
-                                                              },
-                                                              "contract_address": {
-                                                                "type": "string"
-                                                              },
-                                                              "to_address": {
-                                                                "type": "string"
-                                                              },
-                                                              "amount": {
-                                                                "type": "number"
-                                                              }
-                                                            },
-                                                            "required": ["owner_address"]
-                                                          },
-                                                          "type_url": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "required": ["value", "type_url"]
-                                                      },
-                                                      "type": {
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "required": ["parameter", "type"]
-                                                  }
-                                                },
-                                                "ref_block_bytes": {
-                                                  "type": "string"
-                                                },
-                                                "ref_block_hash": {
-                                                  "type": "string"
-                                                },
-                                                "expiration": {
-                                                  "type": "number"
-                                                },
-                                                "fee_limit": {
-                                                  "type": "number"
-                                                },
-                                                "timestamp": {
-                                                  "type": "number"
-                                                }
-                                              },
-                                              "required": [
-                                                "contract",
-                                                "ref_block_bytes",
-                                                "ref_block_hash",
-                                                "expiration",
-                                                "timestamp"
-                                              ]
-                                            },
-                                            "raw_data_hex": {
-                                              "type": "string"
-                                            }
-                                          },
-                                          "required": ["txID", "raw_data", "raw_data_hex"]
-                                        },
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "pubKey": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    {}
-                                  ]
+                                  "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
                                 }
                               },
-                              "required": ["sender", "recipient", "useMaxAmount"]
+                              "required": ["fees"]
                             },
                             {
                               "oneOf": [
@@ -5744,13 +5551,57 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "const": "transfer"
+                                      "const": "deployAccount"
                                     },
-                                    "amount": {
-                                      "type": "string"
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                    },
+                                    "contractType": {
+                                      "type": "string",
+                                      "enum": ["argentx"],
+                                      "description": "Provider of the account contract. Only ArgentX is supported at the moment."
                                     }
                                   },
-                                  "required": ["mode"],
+                                  "required": ["mode", "senderPubKey", "contractType"],
+                                  "title": "Deploy Account",
+                                  "description": "Deploy a smart contract wallet account"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "const": "transfer"
+                                    },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "Address of the sender account."
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                    },
+                                    "recipientAddress": {
+                                      "type": "string",
+                                      "description": "Address of the recipient account."
+                                    },
+                                    "amount": {
+                                      "type": "string",
+                                      "description": "Amount to use, either provided or computed by the API"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean",
+                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "senderAddress",
+                                    "recipientAddress",
+                                    "amount",
+                                    "useMaxAmount"
+                                  ],
                                   "title": "Transfer",
                                   "description": "Transfer chain native coins"
                                 },
@@ -5759,33 +5610,41 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "const": "delegate"
-                                    },
-                                    "validatorAddress": {
-                                      "type": "string"
-                                    },
-                                    "amount": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "required": ["mode", "validatorAddress"],
-                                  "title": "Delegate"
-                                },
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "mode": {
-                                      "type": "string",
                                       "const": "transferToken"
                                     },
-                                    "amount": {
-                                      "type": "string"
-                                    },
                                     "tokenId": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
+                                    },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "Address of the sender account."
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                    },
+                                    "recipientAddress": {
+                                      "type": "string",
+                                      "description": "Address of the recipient account."
+                                    },
+                                    "amount": {
+                                      "type": "string",
+                                      "description": "Amount to use, either provided or computed by the API"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean",
+                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
                                     }
                                   },
-                                  "required": ["mode", "tokenId"],
+                                  "required": [
+                                    "mode",
+                                    "tokenId",
+                                    "senderAddress",
+                                    "recipientAddress",
+                                    "amount",
+                                    "useMaxAmount"
+                                  ],
                                   "title": "TransferToken",
                                   "description": "Transfer chain tokens"
                                 },
@@ -5794,17 +5653,76 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "const": "undelegate"
+                                      "const": "delegate"
+                                    },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "Address of the sender account."
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                     },
                                     "validatorAddress": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Address or ID of a validator"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Amount to use, either provided or computed by the API"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean",
+                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
                                     }
                                   },
-                                  "required": ["mode", "validatorAddress"],
-                                  "title": "Undelegate"
+                                  "required": [
+                                    "mode",
+                                    "senderAddress",
+                                    "validatorAddress",
+                                    "amount",
+                                    "useMaxAmount"
+                                  ],
+                                  "title": "Delegate",
+                                  "description": "Put some funds at stake"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "const": "undelegate"
+                                    },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "Address of the sender account."
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                    },
+                                    "validatorAddress": {
+                                      "type": "string",
+                                      "description": "Address or ID of a validator"
+                                    },
+                                    "amount": {
+                                      "type": "string",
+                                      "description": "Amount to use, either provided or computed by the API"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean",
+                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "senderAddress",
+                                    "validatorAddress",
+                                    "amount",
+                                    "useMaxAmount"
+                                  ],
+                                  "title": "Undelegate",
+                                  "description": "Stop staking some funds"
                                 },
                                 {
                                   "type": "object",
@@ -5813,18 +5731,41 @@
                                       "type": "string",
                                       "const": "redelegate"
                                     },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "Address of the sender account."
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                    },
                                     "sourceValidatorAddress": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Address or ID of a validator"
                                     },
                                     "targetValidatorAddress": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Address or ID of a validator"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Amount to use, either provided or computed by the API"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean",
+                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
                                     }
                                   },
-                                  "required": ["mode", "sourceValidatorAddress", "targetValidatorAddress"],
-                                  "title": "Redelegate"
+                                  "required": [
+                                    "mode",
+                                    "senderAddress",
+                                    "sourceValidatorAddress",
+                                    "targetValidatorAddress",
+                                    "amount",
+                                    "useMaxAmount"
+                                  ],
+                                  "title": "Redelegate",
+                                  "description": "Assign some staked funds to a different validator"
                                 },
                                 {
                                   "type": "object",
@@ -5833,15 +5774,26 @@
                                       "type": "string",
                                       "const": "claimRewards"
                                     },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "Address of the sender account."
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                    },
                                     "validatorAddress": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "Address or ID of a validator"
                                     },
                                     "compound": {
-                                      "type": "boolean"
+                                      "type": "boolean",
+                                      "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds."
                                     }
                                   },
-                                  "required": ["mode", "validatorAddress"],
-                                  "title": "ClaimRewards"
+                                  "required": ["mode", "senderAddress", "validatorAddress", "compound"],
+                                  "title": "ClaimRewards",
+                                  "description": "Retrieve rewards from staking"
                                 }
                               ]
                             }
@@ -5931,6 +5883,7 @@
                 "arbitrum",
                 "arbitrum-sepolia",
                 "bitcoin",
+                "monad-private-testnet",
                 "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
@@ -6007,167 +5960,19 @@
                           {
                             "type": "object",
                             "properties": {
-                              "sender": {
-                                "type": "string"
-                              },
-                              "recipient": {
-                                "type": "string"
-                              },
-                              "fees": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "gas": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "nonce": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
                               "memo": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Optional free text field, that is supported for some chains."
                               },
                               "format": {
                                 "type": "string",
-                                "enum": ["json", "hex"]
+                                "enum": ["json", "hex"],
+                                "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                               },
                               "params": {
-                                "anyOf": [
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "pubKey": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "visible": {
-                                            "type": "boolean"
-                                          },
-                                          "txID": {
-                                            "type": "string"
-                                          },
-                                          "raw_data": {
-                                            "type": "object",
-                                            "properties": {
-                                              "contract": {
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "parameter": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "value": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "data": {
-                                                              "type": "string"
-                                                            },
-                                                            "owner_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "asset_name": {
-                                                              "type": "string"
-                                                            },
-                                                            "contract_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "to_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "amount": {
-                                                              "type": "number"
-                                                            }
-                                                          },
-                                                          "required": ["owner_address"]
-                                                        },
-                                                        "type_url": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "required": ["value", "type_url"]
-                                                    },
-                                                    "type": {
-                                                      "type": "string"
-                                                    }
-                                                  },
-                                                  "required": ["parameter", "type"]
-                                                }
-                                              },
-                                              "ref_block_bytes": {
-                                                "type": "string"
-                                              },
-                                              "ref_block_hash": {
-                                                "type": "string"
-                                              },
-                                              "expiration": {
-                                                "type": "number"
-                                              },
-                                              "fee_limit": {
-                                                "type": "number"
-                                              },
-                                              "timestamp": {
-                                                "type": "number"
-                                              }
-                                            },
-                                            "required": [
-                                              "contract",
-                                              "ref_block_bytes",
-                                              "ref_block_hash",
-                                              "expiration",
-                                              "timestamp"
-                                            ]
-                                          },
-                                          "raw_data_hex": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": ["txID", "raw_data", "raw_data_hex"]
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "pubKey": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      }
-                                    ]
-                                  },
-                                  {}
-                                ]
-                              },
-                              "useMaxAmount": {
-                                "type": "boolean",
-                                "default": false
+                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
                               }
-                            },
-                            "required": ["sender", "recipient"]
+                            }
                           },
                           {
                             "oneOf": [
@@ -6176,20 +5981,53 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "const": "transfer"
+                                    "const": "deployAccount"
                                   },
-                                  "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "contractType": {
+                                    "type": "string",
+                                    "enum": ["argentx"],
+                                    "description": "Provider of the account contract. Only ArgentX is supported at the moment.",
+                                    "default": "argentx"
                                   }
                                 },
-                                "required": ["mode"],
+                                "required": ["mode", "senderPubKey"],
+                                "title": "Deploy Account",
+                                "description": "Deploy a smart contract wallet account"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "transfer"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address of the recipient account."
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
+                                  }
+                                },
+                                "required": ["mode", "senderAddress", "recipientAddress"],
                                 "title": "Transfer",
                                 "description": "Transfer chain native coins"
                               },
@@ -6200,22 +6038,31 @@
                                     "type": "string",
                                     "const": "delegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
-                                "title": "Delegate"
+                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "title": "Delegate",
+                                "description": "Put some funds at stake"
                               },
                               {
                                 "type": "object",
@@ -6225,20 +6072,32 @@
                                     "const": "transferToken"
                                   },
                                   "tokenId": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address of the recipient account."
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
                                   }
                                 },
-                                "required": ["mode", "tokenId"],
+                                "required": ["mode", "tokenId", "senderAddress", "recipientAddress"],
                                 "title": "TransferToken",
                                 "description": "Transfer chain tokens"
                               },
@@ -6249,22 +6108,31 @@
                                     "type": "string",
                                     "const": "undelegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
-                                "title": "Undelegate"
+                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "title": "Undelegate",
+                                "description": "Stop staking some funds"
                               },
                               {
                                 "type": "object",
@@ -6273,25 +6141,40 @@
                                     "type": "string",
                                     "const": "redelegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
                                   "sourceValidatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
                                   },
                                   "targetValidatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
                                   }
                                 },
-                                "required": ["mode", "sourceValidatorAddress", "targetValidatorAddress"],
-                                "title": "Redelegate"
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "sourceValidatorAddress",
+                                  "targetValidatorAddress"
+                                ],
+                                "title": "Redelegate",
+                                "description": "Assign some staked funds to a different validator"
                               },
                               {
                                 "type": "object",
@@ -6300,15 +6183,27 @@
                                     "type": "string",
                                     "const": "claimRewards"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
                                   },
                                   "compound": {
-                                    "type": "boolean"
+                                    "type": "boolean",
+                                    "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
+                                    "default": false
                                   }
                                 },
-                                "required": ["mode", "validatorAddress"],
-                                "title": "ClaimRewards"
+                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "title": "ClaimRewards",
+                                "description": "Retrieve rewards from staking"
                               }
                             ]
                           }
@@ -6356,6 +6251,7 @@
                         "arbitrum",
                         "arbitrum-sepolia",
                         "bitcoin",
+                        "monad-private-testnet",
                         "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
@@ -6488,6 +6384,7 @@
                 "arbitrum",
                 "arbitrum-sepolia",
                 "bitcoin",
+                "monad-private-testnet",
                 "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
@@ -6557,343 +6454,275 @@
                 "type": "object",
                 "properties": {
                   "transaction": {
-                    "allOf": [
-                      {
-                        "type": "object",
-                        "properties": {
-                          "data": {
-                            "allOf": [
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "memo": {
+                                "type": "string",
+                                "description": "Optional free text field, that is supported for some chains."
+                              },
+                              "format": {
+                                "type": "string",
+                                "enum": ["json", "hex"],
+                                "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
+                              },
+                              "params": {
+                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
+                              }
+                            }
+                          },
+                          {
+                            "oneOf": [
                               {
                                 "type": "object",
                                 "properties": {
-                                  "sender": {
-                                    "type": "string"
-                                  },
-                                  "recipient": {
-                                    "type": "string"
-                                  },
-                                  "fees": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
-                                  },
-                                  "gas": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
-                                  },
-                                  "nonce": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
-                                  },
-                                  "memo": {
-                                    "type": "string"
-                                  },
-                                  "format": {
+                                  "mode": {
                                     "type": "string",
-                                    "enum": ["json", "hex"]
+                                    "const": "deployAccount"
                                   },
-                                  "params": {
-                                    "anyOf": [
-                                      {
-                                        "anyOf": [
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "pubKey": {
-                                                "type": "string"
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "visible": {
-                                                "type": "boolean"
-                                              },
-                                              "txID": {
-                                                "type": "string"
-                                              },
-                                              "raw_data": {
-                                                "type": "object",
-                                                "properties": {
-                                                  "contract": {
-                                                    "type": "array",
-                                                    "items": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "parameter": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "value": {
-                                                              "type": "object",
-                                                              "properties": {
-                                                                "data": {
-                                                                  "type": "string"
-                                                                },
-                                                                "owner_address": {
-                                                                  "type": "string"
-                                                                },
-                                                                "asset_name": {
-                                                                  "type": "string"
-                                                                },
-                                                                "contract_address": {
-                                                                  "type": "string"
-                                                                },
-                                                                "to_address": {
-                                                                  "type": "string"
-                                                                },
-                                                                "amount": {
-                                                                  "type": "number"
-                                                                }
-                                                              },
-                                                              "required": ["owner_address"]
-                                                            },
-                                                            "type_url": {
-                                                              "type": "string"
-                                                            }
-                                                          },
-                                                          "required": ["value", "type_url"]
-                                                        },
-                                                        "type": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "required": ["parameter", "type"]
-                                                    }
-                                                  },
-                                                  "ref_block_bytes": {
-                                                    "type": "string"
-                                                  },
-                                                  "ref_block_hash": {
-                                                    "type": "string"
-                                                  },
-                                                  "expiration": {
-                                                    "type": "number"
-                                                  },
-                                                  "fee_limit": {
-                                                    "type": "number"
-                                                  },
-                                                  "timestamp": {
-                                                    "type": "number"
-                                                  }
-                                                },
-                                                "required": [
-                                                  "contract",
-                                                  "ref_block_bytes",
-                                                  "ref_block_hash",
-                                                  "expiration",
-                                                  "timestamp"
-                                                ]
-                                              },
-                                              "raw_data_hex": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": ["txID", "raw_data", "raw_data_hex"]
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "pubKey": {
-                                                "type": "string"
-                                              }
-                                            }
-                                          }
-                                        ]
-                                      },
-                                      {}
-                                    ]
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "contractType": {
+                                    "type": "string",
+                                    "enum": ["argentx"],
+                                    "description": "Provider of the account contract. Only ArgentX is supported at the moment.",
+                                    "default": "argentx"
+                                  }
+                                },
+                                "required": ["mode", "senderPubKey"],
+                                "title": "Deploy Account",
+                                "description": "Deploy a smart contract wallet account"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "transfer"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address of the recipient account."
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
-                                "required": ["sender", "recipient"]
+                                "required": ["mode", "senderAddress", "recipientAddress"],
+                                "title": "Transfer",
+                                "description": "Transfer chain native coins"
                               },
                               {
-                                "oneOf": [
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "transfer"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": ["mode"],
-                                    "title": "Transfer",
-                                    "description": "Transfer chain native coins"
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "delegate"
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "delegate"
-                                      },
-                                      "validatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": ["mode", "validatorAddress"],
-                                    "title": "Delegate"
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "transferToken"
-                                      },
-                                      "tokenId": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": ["mode", "tokenId"],
-                                    "title": "TransferToken",
-                                    "description": "Transfer chain tokens"
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "undelegate"
-                                      },
-                                      "validatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": ["mode", "validatorAddress"],
-                                    "title": "Undelegate"
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "redelegate"
-                                      },
-                                      "sourceValidatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "targetValidatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": ["mode", "sourceValidatorAddress", "targetValidatorAddress"],
-                                    "title": "Redelegate"
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "claimRewards"
-                                      },
-                                      "validatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "compound": {
-                                        "type": "boolean"
-                                      }
-                                    },
-                                    "required": ["mode", "validatorAddress"],
-                                    "title": "ClaimRewards"
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
                                   }
-                                ]
+                                },
+                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "title": "Delegate",
+                                "description": "Put some funds at stake"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "transferToken"
+                                  },
+                                  "tokenId": {
+                                    "type": "string",
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address of the recipient account."
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
+                                  }
+                                },
+                                "required": ["mode", "tokenId", "senderAddress", "recipientAddress"],
+                                "title": "TransferToken",
+                                "description": "Transfer chain tokens"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "undelegate"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
+                                  }
+                                },
+                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "title": "Undelegate",
+                                "description": "Stop staking some funds"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "redelegate"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "sourceValidatorAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
+                                  },
+                                  "targetValidatorAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "sourceValidatorAddress",
+                                  "targetValidatorAddress"
+                                ],
+                                "title": "Redelegate",
+                                "description": "Assign some staked funds to a different validator"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "claimRewards"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
+                                  },
+                                  "compound": {
+                                    "type": "boolean",
+                                    "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
+                                    "default": false
+                                  }
+                                },
+                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "title": "ClaimRewards",
+                                "description": "Retrieve rewards from staking"
                               }
                             ]
                           }
-                        },
-                        "required": ["data"]
+                        ]
                       },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "encoded": {
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {}
-                            ]
-                          },
-                          "signature": {
+                      "encoded": {
+                        "anyOf": [
+                          {
                             "type": "string"
-                          }
-                        },
-                        "required": ["signature"]
+                          },
+                          {}
+                        ]
+                      },
+                      "signature": {
+                        "type": "string"
                       }
-                    ]
+                    },
+                    "required": ["data", "signature"]
                   }
                 },
                 "required": ["transaction"]
@@ -6934,6 +6763,7 @@
                         "arbitrum",
                         "arbitrum-sepolia",
                         "bitcoin",
+                        "monad-private-testnet",
                         "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
@@ -7039,6 +6869,7 @@
                 "arbitrum",
                 "arbitrum-sepolia",
                 "bitcoin",
+                "monad-private-testnet",
                 "bitcoin-testnet",
                 "polygon",
                 "polygon-amoy",
@@ -7149,6 +6980,7 @@
                         "arbitrum",
                         "arbitrum-sepolia",
                         "bitcoin",
+                        "monad-private-testnet",
                         "bitcoin-testnet",
                         "polygon",
                         "polygon-amoy",
@@ -7271,7 +7103,7 @@
           "bitcoin-testnet",
           "litecoin",
           "dogecoin",
-          "starknet",
+          "monad-private-testnet",
           "bitsong",
           "chihuahua",
           "seda",

@@ -1,4 +1,5 @@
 import { Psbt } from "bitcoinjs-lib";
+import { z } from "zod";
 import { UtxoWithMetadata } from "./backend/types";
 import { isValidXpub } from "./logic";
 
@@ -14,6 +15,11 @@ type BitcoinTransactionParams = {
   inputs: UtxoWithMetadata[];
   outputs: PsbtOutputExtended[];
 };
+
+const bitcoinTransactionParamsSchema = z.object({
+  inputs: UtxoWithMetadata,
+  outputs: z.unknown(),
+});
 
 // Extract internal types from Psbt class, that are not exported by bitcoinjs...
 type PsbtInputExtended = Parameters<typeof Psbt.prototype.addInput>[0];
@@ -31,6 +37,7 @@ type Branded<T, B> = T & Brand<B>;
 /**  Defines Xpub as a branded string, {@link isValidXpub} has to be used to check if a string is an Xpub */
 type Xpub = Branded<string, "Xpub">;
 
+export { bitcoinTransactionParamsSchema };
 export type {
   BitcoinChainParams,
   BitcoinTransactionParams,

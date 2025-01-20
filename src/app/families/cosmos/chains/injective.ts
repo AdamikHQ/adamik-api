@@ -14,12 +14,12 @@ import { CosmosAccount } from "../backend/types";
 function buildStdSignDocForInjective(
   account: CosmosAccount,
   transaction: TransactionData,
-  networkId: CosmosChainId
+  networkId: string
 ): StdSignDoc {
   const msgs = buildMessagesForInjective(transaction);
 
   return getAminoStdSignDoc({
-    chainId: networkId,
+    chainId: networkId as CosmosChainId,
     msgs,
     sequence: Number(account.sequence),
     accountNumber: Number(account.accountNumber),
@@ -36,8 +36,8 @@ function buildMessagesForInjective(
     case TransactionMode.TRANSFER:
       msgs.push(
         MsgSend.fromJSON({
-          srcInjectiveAddress: transaction.sender,
-          dstInjectiveAddress: transaction.recipient,
+          srcInjectiveAddress: transaction.senderAddress,
+          dstInjectiveAddress: transaction.recipientAddress,
           amount: [
             {
               denom: "inj",
@@ -50,7 +50,7 @@ function buildMessagesForInjective(
     case TransactionMode.DELEGATE:
       msgs.push(
         MsgDelegate.fromJSON({
-          injectiveAddress: transaction.sender,
+          injectiveAddress: transaction.senderAddress,
           validatorAddress: transaction.validatorAddress,
           amount: {
             denom: "inj",
@@ -63,7 +63,7 @@ function buildMessagesForInjective(
     case TransactionMode.REDELEGATE:
       msgs.push(
         MsgBeginRedelegate.fromJSON({
-          injectiveAddress: transaction.sender,
+          injectiveAddress: transaction.senderAddress,
           srcValidatorAddress: transaction.sourceValidatorAddress,
           dstValidatorAddress: transaction.targetValidatorAddress,
           amount: {
@@ -77,7 +77,7 @@ function buildMessagesForInjective(
     case TransactionMode.UNDELEGATE:
       msgs.push(
         MsgUndelegate.fromJSON({
-          injectiveAddress: transaction.sender,
+          injectiveAddress: transaction.senderAddress,
           validatorAddress: transaction.validatorAddress,
           amount: {
             denom: "inj",
@@ -90,7 +90,7 @@ function buildMessagesForInjective(
     case TransactionMode.CLAIM_REWARDS:
       msgs.push(
         MsgWithdrawDelegatorReward.fromJSON({
-          delegatorAddress: transaction.sender,
+          delegatorAddress: transaction.senderAddress,
           validatorAddress: transaction.validatorAddress,
         })
       );

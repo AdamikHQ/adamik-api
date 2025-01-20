@@ -20,7 +20,11 @@ The algorithm uses a "blackjack" strategy to select UTXOs when sending a specifi
 3. Creates change outputs when necessary, avoiding dust amounts
 
 ```typescript
-const { inputs, outputs, fee } = coinSelect(availableUtxos, [{ address: recipient, value: amount }], feeRate);
+const { inputs, outputs, fee } = coinSelect(
+  availableUtxos,
+  [{ address: recipientAddress, value: amount }],
+  feeRate
+);
 ```
 
 ### Benefits
@@ -91,7 +95,7 @@ const { inputs, outputs, fee } = selectionAlgorithm(
   allUtxos,
   [
     {
-      address: transaction.data.recipient,
+      address: transaction.data.recipientAddress,
       value: transaction.data.amount ? Number(transaction.data.amount) : undefined,
     },
   ],
