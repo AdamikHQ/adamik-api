@@ -1,36 +1,35 @@
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { DeployContractType, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { STARK_TOKEN_CONTRACT_ID } from "./constants";
 import { ArgentX } from "./contracts/argentx";
 import { transfer } from "./contracts/logic";
 
 export const buildTransaction = async (transaction: Transaction) => {
-  const { amount, recipient, sender, mode } = transaction.data;
+  const { amount, recipientAddress, senderAddress, mode } = transaction.data;
 
   switch (mode) {
     case TransactionMode.TRANSFER: {
-      if (!amount || !recipient || !sender) {
+      if (!amount || !recipientAddress || !senderAddress) {
         throw new Error("Missing transaction data");
       }
-      const payload = await transfer(sender, recipient, amount, STARK_TOKEN_CONTRACT_ID);
+      const payload = await transfer(senderAddress, recipientAddress, amount, STARK_TOKEN_CONTRACT_ID);
 
       return payload;
     }
     case TransactionMode.TRANSFER_TOKEN: {
-      if (!amount || !recipient || !sender) {
+      if (!amount || !recipientAddress || !senderAddress) {
         throw new Error("Missing transaction data");
       }
       const { tokenId } = transaction.data;
-      const payload = await transfer(sender, recipient, amount, tokenId);
+      const payload = await transfer(senderAddress, recipientAddress, amount, tokenId);
 
       return payload;
     }
 
-    case TransactionMode.DEPLOY_WALLET_CONTRACT: {
-      const { pubkey, type } = transaction.data;
-
-      switch (type) {
-        case "argentX": {
-          const payload = await ArgentX.deployContractPayload(pubkey);
+    case TransactionMode.DEPLOY_ACCOUNT: {
+      const { senderPubKey, contractType } = transaction.data;
+      switch (contractType) {
+        case DeployContractType.ARGENTX: {
+          const payload = await ArgentX.deployContractPayload(senderPubKey);
           return payload;
         }
         default: {
