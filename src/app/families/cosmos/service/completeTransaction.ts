@@ -13,12 +13,11 @@ async function completeTransaction(
     status: Status;
   }
 ): Promise<void> {
-  const { transaction, status } = args;
+  const { transaction } = args;
 
   const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
 
   const senderAddress = transaction.data.senderAddress;
-  const account = await fetchAccount(this.chainId, senderAddress);
 
   const spendableBalance = await (async () => {
     switch (transaction.data.mode) {
@@ -27,10 +26,6 @@ async function completeTransaction(
         const balances = await fetchBalances(this.chainId, senderAddress);
         const balance = balances.find((balance) => balance.denom === chainParams?.denom);
         if (!balance) {
-          status.errors.push({
-            message: `No balance found for ${this.chainId} address ${senderAddress}`,
-          });
-          // FIXME: shouldn't we throw an error here instead?
           return 0n;
         }
         return BigInt(balance.amount);
@@ -40,13 +35,8 @@ async function completeTransaction(
         const delegations = await fetchDelegations(this.chainId, senderAddress);
         const stakedBalance = getDelegation(delegations, transaction.data);
         if (!stakedBalance) {
-          status.errors.push({
-            message: `No staking balance found for ${this.chainId} address ${senderAddress}`,
-          });
-          // FIXME: shouldn't we throw an error here instead?
           return 0n;
         }
-
         return stakedBalance.amount;
 
       default:
@@ -60,6 +50,7 @@ async function completeTransaction(
     transaction.data.amount = spendableBalance > COSMOS_MOCK_FEES ? spendableBalance - COSMOS_MOCK_FEES : 1n;
   }
 
+  const account = await fetchAccount(this.chainId, senderAddress);
   const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data);
 
   transaction.data.fees = gasWantedFees;
@@ -82,9 +73,7 @@ async function completeTransaction(
   const updatedAccount = resolvePubKey(this.chainId, account, transaction);
 
   transaction.data.nonce = account.sequence;
-  transaction.data.params = {
-    pubKey: updatedAccount.pubKey,
-  };
+  transaction.data.senderPubKey = updatedAccount.pubKey;
 }
 
 export { completeTransaction };

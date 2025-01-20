@@ -1,0 +1,75 @@
+{
+  "request": {
+    "url": "https://api.blockchair.com/bitcoin/bitcoin/stats",
+    "method": "GET"
+  },
+  "response": {
+    "data": {
+      "blocks": 879525,
+      "transactions": 1144305877,
+      "outputs": 3177026753,
+      "circulation": 1981098666997096,
+      "blocks_24h": 131,
+      "transactions_24h": 380775,
+      "difficulty": 110451907374650,
+      "volume_24h": 88448039332697,
+      "mempool_transactions": 131007,
+      "mempool_size": 67105211,
+      "mempool_tps": 3.066666666666667,
+      "mempool_total_fee_usd": 70815.3986,
+      "best_block_height": 879524,
+      "best_block_hash": "00000000000000000000d224f150bc3454b4fbabb6ccfa1bf4745f111e071915",
+      "best_block_time": "2025-01-16 17:18:33",
+      "blockchain_size": 630686798106,
+      "average_transaction_fee_24h": 2020,
+      "inflation_24h": 40937500000,
+      "median_transaction_fee_24h": 862,
+      "cdd_24h": 12677562.408217266,
+      "mempool_outputs": 495406,
+      "largest_transaction_24h": {
+        "hash": "219d742ee88ea6b02dd0cdf2ab3febb710cc0f0c7eeff14f6f389b4058aa0fff",
+        "value_usd": 1812285440
+      },
+      "nodes": 9649,
+      "hashrate_24h": "719859377776848208568",
+      "inflation_usd_24h": 40844981.25,
+      "average_transaction_fee_usd_24h": 2.0162138272167027,
+      "median_transaction_fee_usd_24h": 0.8605507499999999,
+      "market_price_usd": 99774,
+      "market_price_btc": 1,
+      "market_price_usd_change_24h_percentage": 0.90271,
+      "market_cap_usd": 1977953120316,
+      "market_dominance_percentage": 53.3,
+      "next_retarget_time_estimate": "2025-01-27 03:55:43",
+      "next_difficulty_estimate": 107527395214141,
+      "countdowns": [],
+      "suggested_transaction_fee_per_byte_sat": 8,
+      "hodling_addresses": 54668790
+    },
+    "context": {
+      "code": 200,
+      "source": "A",
+      "state": 879524,
+      "market_price_usd": 99929,
+      "cache": {
+        "live": false,
+        "duration": "Ignore",
+        "since": "2025-01-16 18:18:07",
+        "until": "2025-01-16 18:19:18",
+        "time": 0.0000019073486328125
+      },
+      "api": {
+        "version": "2.0.95-ie",
+        "last_major_update": "2022-11-07 02:00:00",
+        "next_major_update": "2023-11-12 02:00:00",
+        "documentation": "https://blockchair.com/api/docs",
+        "notice": "Try out our new API v.3: https://3xpl.com/data"
+      },
+      "servers": "API4,BTC5",
+      "time": 2.776793956756592,
+      "render_time": 0.0013129711151123047,
+      "full_time": 0.0013148784637451172,
+      "request_cost": 1
+    }
+  }
+}

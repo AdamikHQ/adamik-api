@@ -42,6 +42,7 @@ enum ChainId {
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
   DOGECOIN = "dogecoin",
+  MONAD_PRIVATE_TESTNET = "monad-private-testnet",
 
   //All Cosmos based chains
   //Added through Polkachu nodes
