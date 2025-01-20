@@ -4404,7 +4404,7 @@
                               "properties": {
                                 "amount": {
                                   "type": "string",
-                                  "description": "TODO"
+                                  "description": "Amount to use, either provided or computed by the API"
                                 },
                                 "ticker": {
                                   "type": "string",
@@ -4417,15 +4417,15 @@
                             },
                             "gas": {
                               "type": "string",
-                              "description": "TODO"
+                              "description": "Transaction gas computed by the API, when relevant for the chain."
                             },
                             "nonce": {
                               "type": "string",
-                              "description": "TODO"
+                              "description": "Transaction sequence number computed by the API, when relevant for the chain."
                             },
                             "memo": {
                               "type": "string",
-                              "description": "TODO"
+                              "description": "Optional free text field, that is supported for some chains."
                             },
                             "senders": {
                               "type": "array",
@@ -4437,7 +4437,7 @@
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Amount to use, either provided or computed by the API"
                                   },
                                   "ticker": {
                                     "type": "string",
@@ -4460,7 +4460,7 @@
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Amount to use, either provided or computed by the API"
                                   },
                                   "ticker": {
                                     "type": "string",
@@ -4484,7 +4484,7 @@
                                     },
                                     "amount": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -4504,7 +4504,7 @@
                                     },
                                     "amount": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -5648,7 +5648,7 @@
                                 "properties": {
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Amount to use, either provided or computed by the API"
                                   },
                                   "ticker": {
                                     "type": "string",
@@ -5661,15 +5661,15 @@
                               },
                               "gas": {
                                 "type": "string",
-                                "description": "TODO"
+                                "description": "Transaction gas computed by the API, when relevant for the chain."
                               },
                               "nonce": {
                                 "type": "string",
-                                "description": "TODO"
+                                "description": "Transaction sequence number computed by the API, when relevant for the chain."
                               },
                               "memo": {
                                 "type": "string",
-                                "description": "TODO"
+                                "description": "Optional free text field, that is supported for some chains."
                               },
                               "senders": {
                                 "type": "array",
@@ -5681,7 +5681,7 @@
                                     },
                                     "amount": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -5704,7 +5704,7 @@
                                     },
                                     "amount": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -5728,7 +5728,7 @@
                                       },
                                       "amount": {
                                         "type": "string",
-                                        "description": "TODO"
+                                        "description": "Amount to use, either provided or computed by the API"
                                       },
                                       "ticker": {
                                         "type": "string",
@@ -5748,7 +5748,7 @@
                                       },
                                       "amount": {
                                         "type": "string",
-                                        "description": "TODO"
+                                        "description": "Amount to use, either provided or computed by the API"
                                       },
                                       "ticker": {
                                         "type": "string",
@@ -5921,7 +5921,7 @@
                             "properties": {
                               "memo": {
                                 "type": "string",
-                                "description": "TODO"
+                                "description": "Optional free text field, that is supported for some chains."
                               },
                               "format": {
                                 "type": "string",
@@ -5929,7 +5929,10 @@
                                   "json",
                                   "hex"
                                 ],
-                                "description": "TODO"
+                                "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
+                              },
+                              "params": {
+                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast enpoint."
                               }
                             }
                           },
@@ -5944,17 +5947,20 @@
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "contractType": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "enum": [
+                                      "argentx"
+                                    ],
+                                    "description": "Provider of the account contract. Only ArgentX is supported at the moment.",
+                                    "default": "argentx"
                                   }
                                 },
                                 "required": [
                                   "mode",
-                                  "senderPubKey",
-                                  "contractType"
+                                  "senderPubKey"
                                 ],
                                 "title": "Deploy Account",
                                 "description": "Deploy a smart contract wallet account"
@@ -5968,23 +5974,23 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "recipientAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the recipient account."
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -6005,23 +6011,23 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -6031,7 +6037,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Delegate",
-                                "description": "TODO"
+                                "description": "Put some funds at stake"
                               },
                               {
                                 "type": "object",
@@ -6042,27 +6048,27 @@
                                   },
                                   "tokenId": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "recipientAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the recipient account."
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -6084,23 +6090,23 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -6110,7 +6116,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Undelegate",
-                                "description": "TODO"
+                                "description": "Stop staking some funds"
                               },
                               {
                                 "type": "object",
@@ -6121,27 +6127,27 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "sourceValidatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "targetValidatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -6152,7 +6158,7 @@
                                   "targetValidatorAddress"
                                 ],
                                 "title": "Redelegate",
-                                "description": "TODO"
+                                "description": "Assign some staked funds to a different validator"
                               },
                               {
                                 "type": "object",
@@ -6163,19 +6169,19 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "compound": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
                                     "default": false
                                   }
                                 },
@@ -6185,7 +6191,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "ClaimRewards",
-                                "description": "TODO"
+                                "description": "Retrieve rewards from staking"
                               }
                             ]
                           }
@@ -6307,19 +6313,19 @@
                               "properties": {
                                 "fees": {
                                   "type": "string",
-                                  "description": "TODO"
+                                  "description": "Transaction fees computed by the API."
                                 },
                                 "gas": {
                                   "type": "string",
-                                  "description": "TODO"
+                                  "description": "Transaction gas computed by the API, when relevant for the chain."
                                 },
                                 "nonce": {
                                   "type": "string",
-                                  "description": "TODO"
+                                  "description": "Transaction sequence number computed by the API, when relevant for the chain."
                                 },
                                 "memo": {
                                   "type": "string",
-                                  "description": "TODO"
+                                  "description": "Optional free text field, that is supported for some chains."
                                 },
                                 "format": {
                                   "type": "string",
@@ -6327,10 +6333,10 @@
                                     "json",
                                     "hex"
                                   ],
-                                  "description": "TODO"
+                                  "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                                 },
                                 "params": {
-                                  "description": "TODO"
+                                  "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast enpoint."
                                 }
                               },
                               "required": [
@@ -6348,11 +6354,14 @@
                                     },
                                     "senderPubKey": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                     },
                                     "contractType": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "enum": [
+                                        "argentx"
+                                      ],
+                                      "description": "Provider of the account contract. Only ArgentX is supported at the moment."
                                     }
                                   },
                                   "required": [
@@ -6372,23 +6381,23 @@
                                     },
                                     "senderAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address of the sender account."
                                     },
                                     "senderPubKey": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                     },
                                     "recipientAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address of the recipient account."
                                     },
                                     "amount": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "useMaxAmount": {
                                       "type": "boolean",
-                                      "description": "TODO"
+                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
                                     }
                                   },
                                   "required": [
@@ -6410,27 +6419,27 @@
                                     },
                                     "tokenId": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
                                     },
                                     "senderAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address of the sender account."
                                     },
                                     "senderPubKey": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                     },
                                     "recipientAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address of the recipient account."
                                     },
                                     "amount": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "useMaxAmount": {
                                       "type": "boolean",
-                                      "description": "TODO"
+                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
                                     }
                                   },
                                   "required": [
@@ -6453,23 +6462,23 @@
                                     },
                                     "senderAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address of the sender account."
                                     },
                                     "senderPubKey": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                     },
                                     "validatorAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address or ID of a validator"
                                     },
                                     "amount": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "useMaxAmount": {
                                       "type": "boolean",
-                                      "description": "TODO"
+                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
                                     }
                                   },
                                   "required": [
@@ -6480,7 +6489,7 @@
                                     "useMaxAmount"
                                   ],
                                   "title": "Delegate",
-                                  "description": "TODO"
+                                  "description": "Put some funds at stake"
                                 },
                                 {
                                   "type": "object",
@@ -6491,23 +6500,23 @@
                                     },
                                     "senderAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address of the sender account."
                                     },
                                     "senderPubKey": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                     },
                                     "validatorAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address or ID of a validator"
                                     },
                                     "amount": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "useMaxAmount": {
                                       "type": "boolean",
-                                      "description": "TODO"
+                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
                                     }
                                   },
                                   "required": [
@@ -6518,7 +6527,7 @@
                                     "useMaxAmount"
                                   ],
                                   "title": "Undelegate",
-                                  "description": "TODO"
+                                  "description": "Stop staking some funds"
                                 },
                                 {
                                   "type": "object",
@@ -6529,27 +6538,27 @@
                                     },
                                     "senderAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address of the sender account."
                                     },
                                     "senderPubKey": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                     },
                                     "sourceValidatorAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address or ID of a validator"
                                     },
                                     "targetValidatorAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address or ID of a validator"
                                     },
                                     "amount": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Amount to use, either provided or computed by the API"
                                     },
                                     "useMaxAmount": {
                                       "type": "boolean",
-                                      "description": "TODO"
+                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
                                     }
                                   },
                                   "required": [
@@ -6561,7 +6570,7 @@
                                     "useMaxAmount"
                                   ],
                                   "title": "Redelegate",
-                                  "description": "TODO"
+                                  "description": "Assign some staked funds to a different validator"
                                 },
                                 {
                                   "type": "object",
@@ -6572,19 +6581,19 @@
                                     },
                                     "senderAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address of the sender account."
                                     },
                                     "senderPubKey": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                     },
                                     "validatorAddress": {
                                       "type": "string",
-                                      "description": "TODO"
+                                      "description": "Address or ID of a validator"
                                     },
                                     "compound": {
                                       "type": "boolean",
-                                      "description": "TODO"
+                                      "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds."
                                     }
                                   },
                                   "required": [
@@ -6594,7 +6603,7 @@
                                     "compound"
                                   ],
                                   "title": "ClaimRewards",
-                                  "description": "TODO"
+                                  "description": "Retrieve rewards from staking"
                                 }
                               ]
                             }
@@ -6778,7 +6787,7 @@
                             "properties": {
                               "memo": {
                                 "type": "string",
-                                "description": "TODO"
+                                "description": "Optional free text field, that is supported for some chains."
                               },
                               "format": {
                                 "type": "string",
@@ -6786,7 +6795,10 @@
                                   "json",
                                   "hex"
                                 ],
-                                "description": "TODO"
+                                "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
+                              },
+                              "params": {
+                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast enpoint."
                               }
                             }
                           },
@@ -6801,17 +6813,20 @@
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "contractType": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "enum": [
+                                      "argentx"
+                                    ],
+                                    "description": "Provider of the account contract. Only ArgentX is supported at the moment.",
+                                    "default": "argentx"
                                   }
                                 },
                                 "required": [
                                   "mode",
-                                  "senderPubKey",
-                                  "contractType"
+                                  "senderPubKey"
                                 ],
                                 "title": "Deploy Account",
                                 "description": "Deploy a smart contract wallet account"
@@ -6825,23 +6840,23 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "recipientAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the recipient account."
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -6862,23 +6877,23 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -6888,7 +6903,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Delegate",
-                                "description": "TODO"
+                                "description": "Put some funds at stake"
                               },
                               {
                                 "type": "object",
@@ -6899,27 +6914,27 @@
                                   },
                                   "tokenId": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "recipientAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the recipient account."
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -6941,23 +6956,23 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -6967,7 +6982,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Undelegate",
-                                "description": "TODO"
+                                "description": "Stop staking some funds"
                               },
                               {
                                 "type": "object",
@@ -6978,27 +6993,27 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "sourceValidatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "targetValidatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -7009,7 +7024,7 @@
                                   "targetValidatorAddress"
                                 ],
                                 "title": "Redelegate",
-                                "description": "TODO"
+                                "description": "Assign some staked funds to a different validator"
                               },
                               {
                                 "type": "object",
@@ -7020,19 +7035,19 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "compound": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
                                     "default": false
                                   }
                                 },
@@ -7042,7 +7057,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "ClaimRewards",
-                                "description": "TODO"
+                                "description": "Retrieve rewards from staking"
                               }
                             ]
                           }
@@ -7318,7 +7333,7 @@
                             "properties": {
                               "memo": {
                                 "type": "string",
-                                "description": "TODO"
+                                "description": "Optional free text field, that is supported for some chains."
                               },
                               "format": {
                                 "type": "string",
@@ -7326,7 +7341,10 @@
                                   "json",
                                   "hex"
                                 ],
-                                "description": "TODO"
+                                "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
+                              },
+                              "params": {
+                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast enpoint."
                               }
                             }
                           },
@@ -7341,17 +7359,20 @@
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "contractType": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "enum": [
+                                      "argentx"
+                                    ],
+                                    "description": "Provider of the account contract. Only ArgentX is supported at the moment.",
+                                    "default": "argentx"
                                   }
                                 },
                                 "required": [
                                   "mode",
-                                  "senderPubKey",
-                                  "contractType"
+                                  "senderPubKey"
                                 ],
                                 "title": "Deploy Account",
                                 "description": "Deploy a smart contract wallet account"
@@ -7365,23 +7386,23 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "recipientAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the recipient account."
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -7402,23 +7423,23 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -7428,7 +7449,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Delegate",
-                                "description": "TODO"
+                                "description": "Put some funds at stake"
                               },
                               {
                                 "type": "object",
@@ -7439,27 +7460,27 @@
                                   },
                                   "tokenId": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "recipientAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the recipient account."
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -7481,23 +7502,23 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -7507,7 +7528,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Undelegate",
-                                "description": "TODO"
+                                "description": "Stop staking some funds"
                               },
                               {
                                 "type": "object",
@@ -7518,27 +7539,27 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "sourceValidatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "targetValidatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "amount": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
                                     "default": false
                                   }
                                 },
@@ -7549,7 +7570,7 @@
                                   "targetValidatorAddress"
                                 ],
                                 "title": "Redelegate",
-                                "description": "TODO"
+                                "description": "Assign some staked funds to a different validator"
                               },
                               {
                                 "type": "object",
@@ -7560,19 +7581,19 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
-                                    "description": "TODO"
+                                    "description": "Address or ID of a validator"
                                   },
                                   "compound": {
                                     "type": "boolean",
-                                    "description": "TODO",
+                                    "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
                                     "default": false
                                   }
                                 },
@@ -7582,7 +7603,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "ClaimRewards",
-                                "description": "TODO"
+                                "description": "Retrieve rewards from staking"
                               }
                             ]
                           }
