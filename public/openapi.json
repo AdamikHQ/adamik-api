@@ -5932,7 +5932,7 @@
                                 "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                               },
                               "params": {
-                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast enpoint."
+                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
                               }
                             }
                           },
@@ -6336,7 +6336,7 @@
                                   "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                                 },
                                 "params": {
-                                  "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast enpoint."
+                                  "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
                                 }
                               },
                               "required": [
@@ -6798,7 +6798,7 @@
                                 "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                               },
                               "params": {
-                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast enpoint."
+                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
                               }
                             }
                           },
@@ -7344,7 +7344,7 @@
                                 "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                               },
                               "params": {
-                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast enpoint."
+                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
                               }
                             }
                           },
