@@ -17,7 +17,7 @@ async function completeTransaction(
 
   const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
 
-  const senderAddress = transaction.data.sender;
+  const senderAddress = transaction.data.senderAddress;
   const account = await fetchAccount(this.chainId, senderAddress);
 
   const spendableBalance = await (async () => {

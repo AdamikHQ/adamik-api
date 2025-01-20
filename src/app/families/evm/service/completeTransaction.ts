@@ -16,7 +16,7 @@ async function completeTransaction(
   const { transaction, status } = _;
 
   try {
-    const nonce = await fetchNonce(this.chainId, transaction.data.sender as EvmAddress);
+    const nonce = await fetchNonce(this.chainId, transaction.data.senderAddress as EvmAddress);
     transaction.data.nonce = BigInt(nonce);
 
     switch (transaction.data.mode) {
