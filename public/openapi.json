@@ -87,7 +87,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -134,7 +133,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -181,7 +179,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -228,7 +225,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -275,7 +271,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -322,7 +317,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -369,7 +363,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -416,7 +409,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -463,7 +455,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -510,7 +501,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -557,7 +547,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -604,7 +593,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -651,7 +639,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -698,7 +685,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -745,7 +731,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -792,7 +777,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -839,7 +823,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -886,7 +869,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -933,7 +915,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -980,7 +961,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1027,7 +1007,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1074,7 +1053,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1121,7 +1099,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1168,7 +1145,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1215,7 +1191,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1262,7 +1237,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1309,7 +1283,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1356,7 +1329,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1403,7 +1375,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1450,7 +1421,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1497,7 +1467,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1544,7 +1513,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1591,7 +1559,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1638,7 +1605,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1685,7 +1651,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1732,7 +1697,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1779,7 +1743,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1826,7 +1789,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1873,7 +1835,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1920,7 +1881,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -1967,7 +1927,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2014,7 +1973,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2061,7 +2019,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2108,7 +2065,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2155,7 +2111,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2202,7 +2157,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2249,7 +2203,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2296,7 +2249,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2343,7 +2295,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2390,7 +2341,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2437,7 +2387,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2484,7 +2433,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2531,7 +2479,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2578,7 +2525,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2625,7 +2571,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2672,7 +2617,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2719,7 +2663,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2766,7 +2709,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2813,7 +2755,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2860,7 +2801,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2907,7 +2847,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -2954,7 +2893,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3001,7 +2939,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3048,7 +2985,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3095,7 +3031,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3142,7 +3077,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3189,7 +3123,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3236,7 +3169,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3283,7 +3215,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3330,7 +3261,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3377,7 +3307,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3424,7 +3353,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3471,7 +3399,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3518,7 +3445,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3565,7 +3491,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3612,7 +3537,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3659,7 +3583,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3706,7 +3629,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3753,7 +3675,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3800,7 +3721,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3847,7 +3767,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3894,7 +3813,6 @@
                             "isTestnetFor": {
                               "type": "string"
                             },
-                            "params": {},
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             }
@@ -3981,7 +3899,6 @@
                         "isTestnetFor": {
                           "type": "string"
                         },
-                        "params": {},
                         "supportedFeatures": {
                           "$ref": "#/components/schemas/ChainSupportedFeatures"
                         }
@@ -4447,6 +4364,7 @@
                                 {
                                   "type": "string",
                                   "enum": [
+                                    "deployAccount",
                                     "transfer",
                                     "transferToken",
                                     "delegate",
@@ -4485,7 +4403,8 @@
                               "type": "object",
                               "properties": {
                                 "amount": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "TODO"
                                 },
                                 "ticker": {
                                   "type": "string",
@@ -4497,13 +4416,16 @@
                               ]
                             },
                             "gas": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "TODO"
                             },
                             "nonce": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "TODO"
                             },
                             "memo": {
-                              "type": "string"
+                              "type": "string",
+                              "description": "TODO"
                             },
                             "senders": {
                               "type": "array",
@@ -4514,7 +4436,8 @@
                                     "type": "string"
                                   },
                                   "amount": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "ticker": {
                                     "type": "string",
@@ -4536,7 +4459,8 @@
                                     "type": "string"
                                   },
                                   "amount": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "ticker": {
                                     "type": "string",
@@ -4559,7 +4483,8 @@
                                       "type": "string"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "TODO"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -4578,7 +4503,8 @@
                                       "type": "string"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "TODO"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -5682,6 +5608,7 @@
                                   {
                                     "type": "string",
                                     "enum": [
+                                      "deployAccount",
                                       "transfer",
                                       "transferToken",
                                       "delegate",
@@ -5720,7 +5647,8 @@
                                 "type": "object",
                                 "properties": {
                                   "amount": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "ticker": {
                                     "type": "string",
@@ -5732,13 +5660,16 @@
                                 ]
                               },
                               "gas": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "TODO"
                               },
                               "nonce": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "TODO"
                               },
                               "memo": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "TODO"
                               },
                               "senders": {
                                 "type": "array",
@@ -5749,7 +5680,8 @@
                                       "type": "string"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "TODO"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -5771,7 +5703,8 @@
                                       "type": "string"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "TODO"
                                     },
                                     "ticker": {
                                       "type": "string",
@@ -5794,7 +5727,8 @@
                                         "type": "string"
                                       },
                                       "amount": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "TODO"
                                       },
                                       "ticker": {
                                         "type": "string",
@@ -5813,7 +5747,8 @@
                                         "type": "string"
                                       },
                                       "amount": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "description": "TODO"
                                       },
                                       "ticker": {
                                         "type": "string",
@@ -5984,185 +5919,19 @@
                           {
                             "type": "object",
                             "properties": {
-                              "sender": {
-                                "type": "string"
-                              },
-                              "recipient": {
-                                "type": "string"
-                              },
-                              "fees": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "gas": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "nonce": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
                               "memo": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "TODO"
                               },
                               "format": {
                                 "type": "string",
                                 "enum": [
                                   "json",
                                   "hex"
-                                ]
-                              },
-                              "params": {
-                                "anyOf": [
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "pubKey": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "visible": {
-                                            "type": "boolean"
-                                          },
-                                          "txID": {
-                                            "type": "string"
-                                          },
-                                          "raw_data": {
-                                            "type": "object",
-                                            "properties": {
-                                              "contract": {
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "parameter": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "value": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "data": {
-                                                              "type": "string"
-                                                            },
-                                                            "owner_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "asset_name": {
-                                                              "type": "string"
-                                                            },
-                                                            "contract_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "to_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "amount": {
-                                                              "type": "number"
-                                                            }
-                                                          },
-                                                          "required": [
-                                                            "owner_address"
-                                                          ]
-                                                        },
-                                                        "type_url": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "required": [
-                                                        "value",
-                                                        "type_url"
-                                                      ]
-                                                    },
-                                                    "type": {
-                                                      "type": "string"
-                                                    }
-                                                  },
-                                                  "required": [
-                                                    "parameter",
-                                                    "type"
-                                                  ]
-                                                }
-                                              },
-                                              "ref_block_bytes": {
-                                                "type": "string"
-                                              },
-                                              "ref_block_hash": {
-                                                "type": "string"
-                                              },
-                                              "expiration": {
-                                                "type": "number"
-                                              },
-                                              "fee_limit": {
-                                                "type": "number"
-                                              },
-                                              "timestamp": {
-                                                "type": "number"
-                                              }
-                                            },
-                                            "required": [
-                                              "contract",
-                                              "ref_block_bytes",
-                                              "ref_block_hash",
-                                              "expiration",
-                                              "timestamp"
-                                            ]
-                                          },
-                                          "raw_data_hex": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": [
-                                          "txID",
-                                          "raw_data",
-                                          "raw_data_hex"
-                                        ]
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "pubKey": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      }
-                                    ]
-                                  },
-                                  {}
-                                ]
-                              },
-                              "useMaxAmount": {
-                                "type": "boolean",
-                                "default": false
+                                ],
+                                "description": "TODO"
                               }
-                            },
-                            "required": [
-                              "sender",
-                              "recipient"
-                            ]
+                            }
                           },
                           {
                             "oneOf": [
@@ -6171,21 +5940,58 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "const": "transfer"
+                                    "const": "deployAccount"
                                   },
-                                  "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "contractType": {
+                                    "type": "string",
+                                    "description": "TODO"
                                   }
                                 },
                                 "required": [
-                                  "mode"
+                                  "mode",
+                                  "senderPubKey",
+                                  "contractType"
+                                ],
+                                "title": "Deploy Account",
+                                "description": "Deploy a smart contract wallet account"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "transfer"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "recipientAddress"
                                 ],
                                 "title": "Transfer",
                                 "description": "Transfer chain native coins"
@@ -6197,25 +6003,35 @@
                                     "type": "string",
                                     "const": "delegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
                                   }
                                 },
                                 "required": [
                                   "mode",
+                                  "senderAddress",
                                   "validatorAddress"
                                 ],
-                                "title": "Delegate"
+                                "title": "Delegate",
+                                "description": "TODO"
                               },
                               {
                                 "type": "object",
@@ -6225,22 +6041,36 @@
                                     "const": "transferToken"
                                   },
                                   "tokenId": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
                                   }
                                 },
                                 "required": [
                                   "mode",
-                                  "tokenId"
+                                  "tokenId",
+                                  "senderAddress",
+                                  "recipientAddress"
                                 ],
                                 "title": "TransferToken",
                                 "description": "Transfer chain tokens"
@@ -6252,25 +6082,35 @@
                                     "type": "string",
                                     "const": "undelegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
                                   }
                                 },
                                 "required": [
                                   "mode",
+                                  "senderAddress",
                                   "validatorAddress"
                                 ],
-                                "title": "Undelegate"
+                                "title": "Undelegate",
+                                "description": "TODO"
                               },
                               {
                                 "type": "object",
@@ -6279,29 +6119,40 @@
                                     "type": "string",
                                     "const": "redelegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
                                   "sourceValidatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "targetValidatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
                                   }
                                 },
                                 "required": [
                                   "mode",
+                                  "senderAddress",
                                   "sourceValidatorAddress",
                                   "targetValidatorAddress"
                                 ],
-                                "title": "Redelegate"
+                                "title": "Redelegate",
+                                "description": "TODO"
                               },
                               {
                                 "type": "object",
@@ -6310,18 +6161,31 @@
                                     "type": "string",
                                     "const": "claimRewards"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "compound": {
-                                    "type": "boolean"
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
                                   }
                                 },
                                 "required": [
                                   "mode",
+                                  "senderAddress",
                                   "validatorAddress"
                                 ],
-                                "title": "ClaimRewards"
+                                "title": "ClaimRewards",
+                                "description": "TODO"
                               }
                             ]
                           }
@@ -6441,164 +6305,36 @@
                             {
                               "type": "object",
                               "properties": {
-                                "sender": {
-                                  "type": "string"
-                                },
-                                "recipient": {
-                                  "type": "string"
-                                },
-                                "useMaxAmount": {
-                                  "type": "boolean",
-                                  "default": false
-                                },
                                 "fees": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "TODO"
                                 },
                                 "gas": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "TODO"
                                 },
                                 "nonce": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "TODO"
                                 },
                                 "memo": {
-                                  "type": "string"
+                                  "type": "string",
+                                  "description": "TODO"
                                 },
                                 "format": {
                                   "type": "string",
                                   "enum": [
                                     "json",
                                     "hex"
-                                  ]
+                                  ],
+                                  "description": "TODO"
                                 },
                                 "params": {
-                                  "anyOf": [
-                                    {
-                                      "anyOf": [
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "pubKey": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        },
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "visible": {
-                                              "type": "boolean"
-                                            },
-                                            "txID": {
-                                              "type": "string"
-                                            },
-                                            "raw_data": {
-                                              "type": "object",
-                                              "properties": {
-                                                "contract": {
-                                                  "type": "array",
-                                                  "items": {
-                                                    "type": "object",
-                                                    "properties": {
-                                                      "parameter": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                          "value": {
-                                                            "type": "object",
-                                                            "properties": {
-                                                              "data": {
-                                                                "type": "string"
-                                                              },
-                                                              "owner_address": {
-                                                                "type": "string"
-                                                              },
-                                                              "asset_name": {
-                                                                "type": "string"
-                                                              },
-                                                              "contract_address": {
-                                                                "type": "string"
-                                                              },
-                                                              "to_address": {
-                                                                "type": "string"
-                                                              },
-                                                              "amount": {
-                                                                "type": "number"
-                                                              }
-                                                            },
-                                                            "required": [
-                                                              "owner_address"
-                                                            ]
-                                                          },
-                                                          "type_url": {
-                                                            "type": "string"
-                                                          }
-                                                        },
-                                                        "required": [
-                                                          "value",
-                                                          "type_url"
-                                                        ]
-                                                      },
-                                                      "type": {
-                                                        "type": "string"
-                                                      }
-                                                    },
-                                                    "required": [
-                                                      "parameter",
-                                                      "type"
-                                                    ]
-                                                  }
-                                                },
-                                                "ref_block_bytes": {
-                                                  "type": "string"
-                                                },
-                                                "ref_block_hash": {
-                                                  "type": "string"
-                                                },
-                                                "expiration": {
-                                                  "type": "number"
-                                                },
-                                                "fee_limit": {
-                                                  "type": "number"
-                                                },
-                                                "timestamp": {
-                                                  "type": "number"
-                                                }
-                                              },
-                                              "required": [
-                                                "contract",
-                                                "ref_block_bytes",
-                                                "ref_block_hash",
-                                                "expiration",
-                                                "timestamp"
-                                              ]
-                                            },
-                                            "raw_data_hex": {
-                                              "type": "string"
-                                            }
-                                          },
-                                          "required": [
-                                            "txID",
-                                            "raw_data",
-                                            "raw_data_hex"
-                                          ]
-                                        },
-                                        {
-                                          "type": "object",
-                                          "properties": {
-                                            "pubKey": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        }
-                                      ]
-                                    },
-                                    {}
-                                  ]
+                                  "description": "TODO"
                                 }
                               },
                               "required": [
-                                "sender",
-                                "recipient",
-                                "useMaxAmount"
+                                "fees"
                               ]
                             },
                             {
@@ -6608,14 +6344,59 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "const": "transfer"
+                                      "const": "deployAccount"
                                     },
-                                    "amount": {
-                                      "type": "string"
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "contractType": {
+                                      "type": "string",
+                                      "description": "TODO"
                                     }
                                   },
                                   "required": [
-                                    "mode"
+                                    "mode",
+                                    "senderPubKey",
+                                    "contractType"
+                                  ],
+                                  "title": "Deploy Account",
+                                  "description": "Deploy a smart contract wallet account"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "const": "transfer"
+                                    },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "recipientAddress": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "amount": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean",
+                                      "description": "TODO"
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "senderAddress",
+                                    "recipientAddress",
+                                    "amount",
+                                    "useMaxAmount"
                                   ],
                                   "title": "Transfer",
                                   "description": "Transfer chain native coins"
@@ -6625,38 +6406,40 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "const": "delegate"
-                                    },
-                                    "validatorAddress": {
-                                      "type": "string"
-                                    },
-                                    "amount": {
-                                      "type": "string"
-                                    }
-                                  },
-                                  "required": [
-                                    "mode",
-                                    "validatorAddress"
-                                  ],
-                                  "title": "Delegate"
-                                },
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "mode": {
-                                      "type": "string",
                                       "const": "transferToken"
                                     },
-                                    "amount": {
-                                      "type": "string"
-                                    },
                                     "tokenId": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "recipientAddress": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "amount": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean",
+                                      "description": "TODO"
                                     }
                                   },
                                   "required": [
                                     "mode",
-                                    "tokenId"
+                                    "tokenId",
+                                    "senderAddress",
+                                    "recipientAddress",
+                                    "amount",
+                                    "useMaxAmount"
                                   ],
                                   "title": "TransferToken",
                                   "description": "Transfer chain tokens"
@@ -6666,20 +6449,76 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "const": "undelegate"
+                                      "const": "delegate"
+                                    },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "TODO"
                                     },
                                     "validatorAddress": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "TODO"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean",
+                                      "description": "TODO"
                                     }
                                   },
                                   "required": [
                                     "mode",
-                                    "validatorAddress"
+                                    "senderAddress",
+                                    "validatorAddress",
+                                    "amount",
+                                    "useMaxAmount"
                                   ],
-                                  "title": "Undelegate"
+                                  "title": "Delegate",
+                                  "description": "TODO"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "const": "undelegate"
+                                    },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "validatorAddress": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "amount": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean",
+                                      "description": "TODO"
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "senderAddress",
+                                    "validatorAddress",
+                                    "amount",
+                                    "useMaxAmount"
+                                  ],
+                                  "title": "Undelegate",
+                                  "description": "TODO"
                                 },
                                 {
                                   "type": "object",
@@ -6688,22 +6527,41 @@
                                       "type": "string",
                                       "const": "redelegate"
                                     },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
                                     "sourceValidatorAddress": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "TODO"
                                     },
                                     "targetValidatorAddress": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "TODO"
                                     },
                                     "amount": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean",
+                                      "description": "TODO"
                                     }
                                   },
                                   "required": [
                                     "mode",
+                                    "senderAddress",
                                     "sourceValidatorAddress",
-                                    "targetValidatorAddress"
+                                    "targetValidatorAddress",
+                                    "amount",
+                                    "useMaxAmount"
                                   ],
-                                  "title": "Redelegate"
+                                  "title": "Redelegate",
+                                  "description": "TODO"
                                 },
                                 {
                                   "type": "object",
@@ -6712,18 +6570,31 @@
                                       "type": "string",
                                       "const": "claimRewards"
                                     },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "TODO"
+                                    },
                                     "validatorAddress": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "description": "TODO"
                                     },
                                     "compound": {
-                                      "type": "boolean"
+                                      "type": "boolean",
+                                      "description": "TODO"
                                     }
                                   },
                                   "required": [
                                     "mode",
-                                    "validatorAddress"
+                                    "senderAddress",
+                                    "validatorAddress",
+                                    "compound"
                                   ],
-                                  "title": "ClaimRewards"
+                                  "title": "ClaimRewards",
+                                  "description": "TODO"
                                 }
                               ]
                             }
@@ -6905,185 +6776,19 @@
                           {
                             "type": "object",
                             "properties": {
-                              "sender": {
-                                "type": "string"
-                              },
-                              "recipient": {
-                                "type": "string"
-                              },
-                              "fees": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "gas": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
-                              "nonce": {
-                                "anyOf": [
-                                  {
-                                    "type": "number"
-                                  },
-                                  {
-                                    "type": "string"
-                                  }
-                                ]
-                              },
                               "memo": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "TODO"
                               },
                               "format": {
                                 "type": "string",
                                 "enum": [
                                   "json",
                                   "hex"
-                                ]
-                              },
-                              "params": {
-                                "anyOf": [
-                                  {
-                                    "anyOf": [
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "pubKey": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "visible": {
-                                            "type": "boolean"
-                                          },
-                                          "txID": {
-                                            "type": "string"
-                                          },
-                                          "raw_data": {
-                                            "type": "object",
-                                            "properties": {
-                                              "contract": {
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "parameter": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "value": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "data": {
-                                                              "type": "string"
-                                                            },
-                                                            "owner_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "asset_name": {
-                                                              "type": "string"
-                                                            },
-                                                            "contract_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "to_address": {
-                                                              "type": "string"
-                                                            },
-                                                            "amount": {
-                                                              "type": "number"
-                                                            }
-                                                          },
-                                                          "required": [
-                                                            "owner_address"
-                                                          ]
-                                                        },
-                                                        "type_url": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "required": [
-                                                        "value",
-                                                        "type_url"
-                                                      ]
-                                                    },
-                                                    "type": {
-                                                      "type": "string"
-                                                    }
-                                                  },
-                                                  "required": [
-                                                    "parameter",
-                                                    "type"
-                                                  ]
-                                                }
-                                              },
-                                              "ref_block_bytes": {
-                                                "type": "string"
-                                              },
-                                              "ref_block_hash": {
-                                                "type": "string"
-                                              },
-                                              "expiration": {
-                                                "type": "number"
-                                              },
-                                              "fee_limit": {
-                                                "type": "number"
-                                              },
-                                              "timestamp": {
-                                                "type": "number"
-                                              }
-                                            },
-                                            "required": [
-                                              "contract",
-                                              "ref_block_bytes",
-                                              "ref_block_hash",
-                                              "expiration",
-                                              "timestamp"
-                                            ]
-                                          },
-                                          "raw_data_hex": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": [
-                                          "txID",
-                                          "raw_data",
-                                          "raw_data_hex"
-                                        ]
-                                      },
-                                      {
-                                        "type": "object",
-                                        "properties": {
-                                          "pubKey": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      }
-                                    ]
-                                  },
-                                  {}
-                                ]
-                              },
-                              "useMaxAmount": {
-                                "type": "boolean",
-                                "default": false
+                                ],
+                                "description": "TODO"
                               }
-                            },
-                            "required": [
-                              "sender",
-                              "recipient"
-                            ]
+                            }
                           },
                           {
                             "oneOf": [
@@ -7092,21 +6797,58 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "const": "transfer"
+                                    "const": "deployAccount"
                                   },
-                                  "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "contractType": {
+                                    "type": "string",
+                                    "description": "TODO"
                                   }
                                 },
                                 "required": [
-                                  "mode"
+                                  "mode",
+                                  "senderPubKey",
+                                  "contractType"
+                                ],
+                                "title": "Deploy Account",
+                                "description": "Deploy a smart contract wallet account"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "transfer"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "recipientAddress"
                                 ],
                                 "title": "Transfer",
                                 "description": "Transfer chain native coins"
@@ -7118,25 +6860,35 @@
                                     "type": "string",
                                     "const": "delegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
                                   }
                                 },
                                 "required": [
                                   "mode",
+                                  "senderAddress",
                                   "validatorAddress"
                                 ],
-                                "title": "Delegate"
+                                "title": "Delegate",
+                                "description": "TODO"
                               },
                               {
                                 "type": "object",
@@ -7146,22 +6898,36 @@
                                     "const": "transferToken"
                                   },
                                   "tokenId": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
                                   }
                                 },
                                 "required": [
                                   "mode",
-                                  "tokenId"
+                                  "tokenId",
+                                  "senderAddress",
+                                  "recipientAddress"
                                 ],
                                 "title": "TransferToken",
                                 "description": "Transfer chain tokens"
@@ -7173,25 +6939,35 @@
                                     "type": "string",
                                     "const": "undelegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
                                   }
                                 },
                                 "required": [
                                   "mode",
+                                  "senderAddress",
                                   "validatorAddress"
                                 ],
-                                "title": "Undelegate"
+                                "title": "Undelegate",
+                                "description": "TODO"
                               },
                               {
                                 "type": "object",
@@ -7200,29 +6976,40 @@
                                     "type": "string",
                                     "const": "redelegate"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
                                   "sourceValidatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "targetValidatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "amount": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
                                   }
                                 },
                                 "required": [
                                   "mode",
+                                  "senderAddress",
                                   "sourceValidatorAddress",
                                   "targetValidatorAddress"
                                 ],
-                                "title": "Redelegate"
+                                "title": "Redelegate",
+                                "description": "TODO"
                               },
                               {
                                 "type": "object",
@@ -7231,18 +7018,31 @@
                                     "type": "string",
                                     "const": "claimRewards"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
                                   "validatorAddress": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "compound": {
-                                    "type": "boolean"
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
                                   }
                                 },
                                 "required": [
                                   "mode",
+                                  "senderAddress",
                                   "validatorAddress"
                                 ],
-                                "title": "ClaimRewards"
+                                "title": "ClaimRewards",
+                                "description": "TODO"
                               }
                             ]
                           }
@@ -7509,382 +7309,300 @@
                 "type": "object",
                 "properties": {
                   "transaction": {
-                    "allOf": [
-                      {
-                        "type": "object",
-                        "properties": {
-                          "data": {
-                            "allOf": [
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "allOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "memo": {
+                                "type": "string",
+                                "description": "TODO"
+                              },
+                              "format": {
+                                "type": "string",
+                                "enum": [
+                                  "json",
+                                  "hex"
+                                ],
+                                "description": "TODO"
+                              }
+                            }
+                          },
+                          {
+                            "oneOf": [
                               {
                                 "type": "object",
                                 "properties": {
-                                  "sender": {
-                                    "type": "string"
-                                  },
-                                  "recipient": {
-                                    "type": "string"
-                                  },
-                                  "fees": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
-                                  },
-                                  "gas": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
-                                  },
-                                  "nonce": {
-                                    "anyOf": [
-                                      {
-                                        "type": "number"
-                                      },
-                                      {
-                                        "type": "string"
-                                      }
-                                    ]
-                                  },
-                                  "memo": {
-                                    "type": "string"
-                                  },
-                                  "format": {
+                                  "mode": {
                                     "type": "string",
-                                    "enum": [
-                                      "json",
-                                      "hex"
-                                    ]
+                                    "const": "deployAccount"
                                   },
-                                  "params": {
-                                    "anyOf": [
-                                      {
-                                        "anyOf": [
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "pubKey": {
-                                                "type": "string"
-                                              }
-                                            }
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "visible": {
-                                                "type": "boolean"
-                                              },
-                                              "txID": {
-                                                "type": "string"
-                                              },
-                                              "raw_data": {
-                                                "type": "object",
-                                                "properties": {
-                                                  "contract": {
-                                                    "type": "array",
-                                                    "items": {
-                                                      "type": "object",
-                                                      "properties": {
-                                                        "parameter": {
-                                                          "type": "object",
-                                                          "properties": {
-                                                            "value": {
-                                                              "type": "object",
-                                                              "properties": {
-                                                                "data": {
-                                                                  "type": "string"
-                                                                },
-                                                                "owner_address": {
-                                                                  "type": "string"
-                                                                },
-                                                                "asset_name": {
-                                                                  "type": "string"
-                                                                },
-                                                                "contract_address": {
-                                                                  "type": "string"
-                                                                },
-                                                                "to_address": {
-                                                                  "type": "string"
-                                                                },
-                                                                "amount": {
-                                                                  "type": "number"
-                                                                }
-                                                              },
-                                                              "required": [
-                                                                "owner_address"
-                                                              ]
-                                                            },
-                                                            "type_url": {
-                                                              "type": "string"
-                                                            }
-                                                          },
-                                                          "required": [
-                                                            "value",
-                                                            "type_url"
-                                                          ]
-                                                        },
-                                                        "type": {
-                                                          "type": "string"
-                                                        }
-                                                      },
-                                                      "required": [
-                                                        "parameter",
-                                                        "type"
-                                                      ]
-                                                    }
-                                                  },
-                                                  "ref_block_bytes": {
-                                                    "type": "string"
-                                                  },
-                                                  "ref_block_hash": {
-                                                    "type": "string"
-                                                  },
-                                                  "expiration": {
-                                                    "type": "number"
-                                                  },
-                                                  "fee_limit": {
-                                                    "type": "number"
-                                                  },
-                                                  "timestamp": {
-                                                    "type": "number"
-                                                  }
-                                                },
-                                                "required": [
-                                                  "contract",
-                                                  "ref_block_bytes",
-                                                  "ref_block_hash",
-                                                  "expiration",
-                                                  "timestamp"
-                                                ]
-                                              },
-                                              "raw_data_hex": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "txID",
-                                              "raw_data",
-                                              "raw_data_hex"
-                                            ]
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "pubKey": {
-                                                "type": "string"
-                                              }
-                                            }
-                                          }
-                                        ]
-                                      },
-                                      {}
-                                    ]
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "contractType": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderPubKey",
+                                  "contractType"
+                                ],
+                                "title": "Deploy Account",
+                                "description": "Deploy a smart contract wallet account"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "transfer"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
                                   "useMaxAmount": {
                                     "type": "boolean",
+                                    "description": "TODO",
                                     "default": false
                                   }
                                 },
                                 "required": [
-                                  "sender",
-                                  "recipient"
-                                ]
+                                  "mode",
+                                  "senderAddress",
+                                  "recipientAddress"
+                                ],
+                                "title": "Transfer",
+                                "description": "Transfer chain native coins"
                               },
                               {
-                                "oneOf": [
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "transfer"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode"
-                                    ],
-                                    "title": "Transfer",
-                                    "description": "Transfer chain native coins"
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "delegate"
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "delegate"
-                                      },
-                                      "validatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "validatorAddress"
-                                    ],
-                                    "title": "Delegate"
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "transferToken"
-                                      },
-                                      "tokenId": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "tokenId"
-                                    ],
-                                    "title": "TransferToken",
-                                    "description": "Transfer chain tokens"
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "undelegate"
-                                      },
-                                      "validatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "validatorAddress"
-                                    ],
-                                    "title": "Undelegate"
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "redelegate"
-                                      },
-                                      "sourceValidatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "targetValidatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "amount": {
-                                        "anyOf": [
-                                          {
-                                            "type": "number"
-                                          },
-                                          {
-                                            "type": "string"
-                                          }
-                                        ]
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "sourceValidatorAddress",
-                                      "targetValidatorAddress"
-                                    ],
-                                    "title": "Redelegate"
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "TODO"
                                   },
-                                  {
-                                    "type": "object",
-                                    "properties": {
-                                      "mode": {
-                                        "type": "string",
-                                        "const": "claimRewards"
-                                      },
-                                      "validatorAddress": {
-                                        "type": "string"
-                                      },
-                                      "compound": {
-                                        "type": "boolean"
-                                      }
-                                    },
-                                    "required": [
-                                      "mode",
-                                      "validatorAddress"
-                                    ],
-                                    "title": "ClaimRewards"
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
                                   }
-                                ]
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
+                                "title": "Delegate",
+                                "description": "TODO"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "transferToken"
+                                  },
+                                  "tokenId": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "tokenId",
+                                  "senderAddress",
+                                  "recipientAddress"
+                                ],
+                                "title": "TransferToken",
+                                "description": "Transfer chain tokens"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "undelegate"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
+                                "title": "Undelegate",
+                                "description": "TODO"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "redelegate"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "sourceValidatorAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "targetValidatorAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "sourceValidatorAddress",
+                                  "targetValidatorAddress"
+                                ],
+                                "title": "Redelegate",
+                                "description": "TODO"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "claimRewards"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "TODO"
+                                  },
+                                  "compound": {
+                                    "type": "boolean",
+                                    "description": "TODO",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
+                                "title": "ClaimRewards",
+                                "description": "TODO"
                               }
                             ]
                           }
-                        },
-                        "required": [
-                          "data"
                         ]
                       },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "encoded": {
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {}
-                            ]
-                          },
-                          "signature": {
+                      "encoded": {
+                        "anyOf": [
+                          {
                             "type": "string"
-                          }
-                        },
-                        "required": [
-                          "signature"
+                          },
+                          {}
                         ]
+                      },
+                      "signature": {
+                        "type": "string"
                       }
+                    },
+                    "required": [
+                      "data",
+                      "signature"
                     ]
                   }
                 },
