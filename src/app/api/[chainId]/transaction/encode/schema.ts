@@ -23,12 +23,17 @@ const pathParamsSchema = z.object({
 });
 
 const requestSchema = z.object({
-  transaction: inputTransactionDataSchema,
+  transaction: z.object({
+    data: inputTransactionDataSchema,
+  }),
 });
 
 const responseSchema = z.object({
   chainId: getSupportedChainIdsSchema(supportedChainIds),
-  transaction: outputTransactionDataSchema.merge(encodedTransactionSchema),
+  transaction: z.object({
+    data: outputTransactionDataSchema,
+    encoded: encodedTransactionSchema,
+  }),
   status: statusSchema,
 });
 

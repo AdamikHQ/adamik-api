@@ -17,7 +17,7 @@ async function completeTransaction(
 
   const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
 
-  const senderAddress = transaction.data.sender;
+  const senderAddress = transaction.data.senderAddress;
 
   const spendableBalance = await (async () => {
     switch (transaction.data.mode) {
@@ -73,9 +73,7 @@ async function completeTransaction(
   const updatedAccount = resolvePubKey(this.chainId, account, transaction);
 
   transaction.data.nonce = account.sequence;
-  transaction.data.params = {
-    pubKey: updatedAccount.pubKey,
-  };
+  transaction.data.senderPubKey = updatedAccount.pubKey;
 }
 
 export { completeTransaction };

@@ -1,9 +1,10 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
+  encodedTransactionSchema,
   getSupportedChainIdsSchema,
   inputTransactionDataSchema,
-  signedAndEncodedTransactionSchema,
+  signatureSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 
@@ -21,7 +22,11 @@ const pathParamsSchema = z.object({
 });
 
 const requestSchema = z.object({
-  transaction: inputTransactionDataSchema.and(signedAndEncodedTransactionSchema),
+  transaction: z.object({
+    data: inputTransactionDataSchema,
+    encoded: encodedTransactionSchema,
+    signature: signatureSchema,
+  }),
 });
 
 const responseSchema = z.object({

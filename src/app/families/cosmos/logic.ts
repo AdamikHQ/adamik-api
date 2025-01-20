@@ -33,7 +33,7 @@ import { simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
 import { buildStdSignDocForInjective } from "./chains/injective";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
-import { CosmosChainParams, CosmosTransactionParams } from "./types";
+import { CosmosChainParams } from "./types";
 
 // TODO Keep this file as a fourre-tout or split it?
 
@@ -88,11 +88,10 @@ function isValidAddress(address: string, chainId: ChainId): boolean {
 // depending on account and transaction data
 function resolvePubKey(chainId: ChainId, account: CosmosAccount, transaction: Transaction): CosmosAccount {
   const chainParams = CHAINS[chainId].params as CosmosChainParams;
-  const transactionParams = transaction.data.params as CosmosTransactionParams;
 
   // pubKeyType and pubKey are provided by the blockchain only when the address has already done some transaction(s)
   const pubKeyType = account.pubKeyType || chainParams.defaultPubKeyType;
-  const pubKey = account.pubKey || transactionParams?.pubKey;
+  const pubKey = account.pubKey || transaction.data.senderPubKey;
   if (!pubKey) {
     throw new InvalidTransactionError(
       statusFromMessage(
@@ -176,8 +175,8 @@ function buildMessages(
       const aminoTransferMsg: AminoMsgSend = {
         type: "cosmos-sdk/MsgSend",
         value: {
-          from_address: transaction.sender,
-          to_address: transaction.recipient,
+          from_address: transaction.senderAddress,
+          to_address: transaction.recipientAddress,
           amount: [
             {
               denom: chainParams?.denom,
@@ -191,8 +190,8 @@ function buildMessages(
       const protoTransferMsg: ProtoMsg = {
         typeUrl: "/cosmos.bank.v1beta1.MsgSend",
         value: MsgSend.encode({
-          fromAddress: transaction.sender,
-          toAddress: transaction.recipient,
+          fromAddress: transaction.senderAddress,
+          toAddress: transaction.recipientAddress,
           amount: [
             {
               denom: chainParams?.denom,
@@ -208,7 +207,7 @@ function buildMessages(
       const aminoDelegateMsg: AminoMsgDelegate = {
         type: "cosmos-sdk/MsgDelegate",
         value: {
-          delegator_address: transaction.sender,
+          delegator_address: transaction.senderAddress,
           validator_address: transaction.validatorAddress,
           amount: {
             denom: chainParams?.denom,
@@ -221,7 +220,7 @@ function buildMessages(
       const protoDelegateMsg: ProtoMsg = {
         typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
         value: MsgDelegate.encode({
-          delegatorAddress: transaction.sender,
+          delegatorAddress: transaction.senderAddress,
           validatorAddress: transaction.validatorAddress,
           amount: {
             denom: chainParams?.denom,
@@ -236,7 +235,7 @@ function buildMessages(
       const aminoRedelegateMsg: AminoMsgBeginRedelegate = {
         type: "cosmos-sdk/MsgBeginRedelegate",
         value: {
-          delegator_address: transaction.sender,
+          delegator_address: transaction.senderAddress,
           validator_src_address: transaction.sourceValidatorAddress,
           validator_dst_address: transaction.targetValidatorAddress,
           amount: {
@@ -250,7 +249,7 @@ function buildMessages(
       const protoRedelegateMsg: ProtoMsg = {
         typeUrl: "/cosmos.staking.v1beta1.MsgBeginRedelegate",
         value: MsgBeginRedelegate.encode({
-          delegatorAddress: transaction.sender,
+          delegatorAddress: transaction.senderAddress,
           validatorSrcAddress: transaction.sourceValidatorAddress,
           validatorDstAddress: transaction.targetValidatorAddress,
           amount: {
@@ -267,7 +266,7 @@ function buildMessages(
         const aminoUndelegateMsg: AminoMsgUndelegate = {
           type: "cosmos-sdk/MsgUndelegate",
           value: {
-            delegator_address: transaction.sender,
+            delegator_address: transaction.senderAddress,
             validator_address: transaction.validatorAddress,
             amount: {
               denom: chainParams?.denom,
@@ -280,7 +279,7 @@ function buildMessages(
         const protoUndelegateMsg: ProtoMsg = {
           typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
           value: MsgUndelegate.encode({
-            delegatorAddress: transaction.sender,
+            delegatorAddress: transaction.senderAddress,
             validatorAddress: transaction.validatorAddress,
             amount: {
               denom: chainParams?.denom,
@@ -297,7 +296,7 @@ function buildMessages(
         const aminoClaimRewardsMsg: AminoMsgWithdrawDelegatorReward = {
           type: "cosmos-sdk/MsgWithdrawDelegationReward",
           value: {
-            delegator_address: transaction.sender,
+            delegator_address: transaction.senderAddress,
             validator_address: transaction.validatorAddress,
           },
         };
@@ -306,7 +305,7 @@ function buildMessages(
         const protoClaimRewardsMsg: ProtoMsg = {
           typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
           value: MsgWithdrawDelegatorReward.encode({
-            delegatorAddress: transaction.sender,
+            delegatorAddress: transaction.senderAddress,
             validatorAddress: transaction.validatorAddress,
           }).finish(),
         };
@@ -316,7 +315,7 @@ function buildMessages(
           const aminoDelegateMsg: AminoMsgDelegate = {
             type: "cosmos-sdk/MsgDelegate",
             value: {
-              delegator_address: transaction.sender,
+              delegator_address: transaction.senderAddress,
               validator_address: transaction.validatorAddress,
               amount: {
                 denom: chainParams?.denom,
@@ -329,7 +328,7 @@ function buildMessages(
           const protoDelegateMsg: ProtoMsg = {
             typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
             value: MsgDelegate.encode({
-              delegatorAddress: transaction.sender,
+              delegatorAddress: transaction.senderAddress,
               validatorAddress: transaction.validatorAddress,
               amount: {
                 denom: chainParams?.denom,

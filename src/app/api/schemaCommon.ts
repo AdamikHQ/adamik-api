@@ -3,37 +3,26 @@ import "zod-openapi/extend";
 import {
   ChainFamily,
   ChainId,
+  DeployContractType,
   EncodedTransactionFormat,
   TokenType,
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
-import { cosmosTransactionParamsSchema } from "../families/cosmos/types";
-import { tonTransactionParamsSchema } from "../families/ton/types";
-import { tronTransactionParamsSchema } from "../families/tron/types";
 
-// Used for input conversion, to allow for strings or numbers
-const stringOrNumToBigintSchema = z
-  .number()
-  .or(z.string())
+const stringToBigIntSchema = z
+  .string()
   .refine(
     (value) =>
       !isNaN(Number(value)) &&
       Number.isInteger(Number(value)) &&
       String(value) === String(BigInt(value)) &&
       BigInt(value) >= 0n,
-    (value) => ({
-      message: `value "${value}" must be a positive integer`,
-    })
+    () => ({ message: "amount must be a positive integer" })
   )
   .pipe(z.coerce.bigint());
 
-// Used for output conversion, to allow for bigints to always be returned as strings
 const bigintToStringSchema = z.bigint().pipe(z.coerce.string());
-
-const accountIdSchema = z.string().openapi({
-  description: "Account identifier (address, xpub, etc) for the specified chain ID",
-});
 
 const chainIdSchemaParams: z.RawCreateParams = {
   errorMap: (issue, ctx) => {
@@ -55,13 +44,8 @@ const chainIdSchema = z.nativeEnum(ChainId, chainIdSchemaParams).openapi({
 const getSupportedChainIdsSchema = (supportedChainIds: ChainId[]) =>
   z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
 
-const errorMsgSchema = z.object({
-  message: z.string(),
-});
-
-const statusSchema = z.object({
-  errors: z.array(errorMsgSchema),
-  warnings: z.array(errorMsgSchema),
+const accountIdSchema = z.string().openapi({
+  description: "Account identifier (address, xpub, etc) for the specified chain ID",
 });
 
 const featuresSetSchema = z.object({
@@ -104,7 +88,6 @@ const chainSchema = z.object({
   ticker: z.string(),
   decimals: z.number(),
   isTestnetFor: z.string().optional(),
-  params: z.any().optional(),
   supportedFeatures: chainSupportedFeaturesSchema,
 });
 
@@ -117,37 +100,115 @@ const tokenSchema = z.object({
   contractAddress: z.string().optional(),
 });
 
-// validation of recipients amount & useMaxAmount
-// -> only one recipient without an amount allowed when using useMaxAmount
-// -> all recipients must have an amount when not using useMaxAmount
-function checkEitherAmountOrUseMaxAmount(
-  data: { useMaxAmount: boolean; amount?: bigint | undefined },
-  ctx: z.RefinementCtx
-) {
-  if (data.useMaxAmount && data.amount !== undefined) {
-    ctx.addIssue({
-      message: "amount and useMaxAmount cannot be used together",
-      code: z.ZodIssueCode.custom,
-      path: ["amount"],
-    });
-  } else if (!data.useMaxAmount && data.amount === undefined) {
-    ctx.addIssue({
-      message: "Missing amount or useMaxAmount",
-      code: z.ZodIssueCode.custom,
-      path: ["amount"],
-    });
-  }
-}
+// Transactions fields schemas
 
-const amountFieldSchema = z.object({
-  amount: stringOrNumToBigintSchema.optional(),
+const senderPubKeySchema = z.string().openapi({
+  description:
+    "Public key of the sender account, required in some situations. It is advised to provide it by default if you can.",
 });
+
+const senderAddressSchema = z.string().openapi({
+  description: "Address of the sender account.",
+});
+
+const recipientAddressSchema = z.string().openapi({
+  description: "Address of the recipient account.",
+});
+
+const contractTypeSchema = z.nativeEnum(DeployContractType).openapi({
+  description: "Provider of the account contract. Only ArgentX is supported at the moment.",
+});
+
+const tokenIdSchema = z.string().openapi({
+  description: "Unique ID of the token to transfer (e.g contract address for EVM chains)",
+});
+
+const inputAmountSchema = stringToBigIntSchema.openapi({
+  description: "Optional amount to use (always in smallest unit). Use either this or useMaxAmount.",
+});
+
+const outputAmountSchema = bigintToStringSchema.openapi({
+  description: "Amount to use, either provided or computed by the API",
+});
+
+const useMaxAmountSchema = z.boolean().openapi({
+  description:
+    "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+});
+
+const feesSchema = bigintToStringSchema.openapi({
+  description: "Transaction fees computed by the API.",
+});
+
+const gasSchema = bigintToStringSchema.openapi({
+  description: "Transaction gas computed by the API, when relevant for the chain.",
+});
+
+const nonceSchema = bigintToStringSchema.openapi({
+  description: "Transaction sequence number computed by the API, when relevant for the chain.",
+});
+
+const memoSchema = z.string().openapi({
+  description: "Optional free text field, that is supported for some chains.",
+});
+
+const formatSchema = z.nativeEnum(EncodedTransactionFormat).openapi({
+  description:
+    "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point.",
+});
+
+const inputParamsSchema = z.any().openapi({
+  description:
+    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint.",
+});
+
+const outputParamsSchema = z.unknown().openapi({
+  description:
+    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint.",
+});
+
+const validatorAddressSchema = z.string().openapi({
+  description: "Address or ID of a validator",
+});
+
+const stakingCompoundSchema = z.boolean().openapi({
+  description:
+    "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
+});
+
+// Transactions schemas
+
+const inputDeployAccountSchema = z
+  .object({
+    mode: z.literal(TransactionMode.DEPLOY_ACCOUNT),
+    senderPubKey: senderPubKeySchema,
+    contractType: contractTypeSchema.optional().default(DeployContractType.ARGENTX),
+  })
+  .openapi({
+    title: "Deploy Account",
+    description: "Deploy a smart contract wallet account",
+  });
+
+const outputDeployAccountSchema = z
+  .object({
+    mode: z.literal(TransactionMode.DEPLOY_ACCOUNT),
+    senderPubKey: senderPubKeySchema,
+    contractType: contractTypeSchema,
+  })
+  .openapi({
+    title: "Deploy Account",
+    description: "Deploy a smart contract wallet account",
+  });
 
 const inputTransferNativeSchema = z
   .object({
     mode: z.literal(TransactionMode.TRANSFER),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    recipientAddress: recipientAddressSchema,
+    amount: inputAmountSchema.optional(),
+    useMaxAmount: useMaxAmountSchema.default(false),
   })
-  .merge(amountFieldSchema)
   .openapi({
     title: "Transfer",
     description: "Transfer chain native coins",
@@ -156,19 +217,27 @@ const inputTransferNativeSchema = z
 const outputTransferNativeSchema = z
   .object({
     mode: z.literal(TransactionMode.TRANSFER),
-    amount: bigintToStringSchema.optional(),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    recipientAddress: recipientAddressSchema,
+    amount: outputAmountSchema,
+    useMaxAmount: useMaxAmountSchema,
   })
   .openapi({
     title: "Transfer",
     description: "Transfer chain native coins",
   });
 
-const transferTokenSchema = z
+const inputTransferTokenSchema = z
   .object({
     mode: z.literal(TransactionMode.TRANSFER_TOKEN),
-    tokenId: z.string(),
+    tokenId: tokenIdSchema,
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    recipientAddress: recipientAddressSchema,
+    amount: inputAmountSchema.optional(),
+    useMaxAmount: useMaxAmountSchema.default(false),
   })
-  .merge(amountFieldSchema)
   .openapi({
     title: "TransferToken",
     description: "Transfer chain tokens",
@@ -177,160 +246,176 @@ const transferTokenSchema = z
 const outputTransferTokenSchema = z
   .object({
     mode: z.literal(TransactionMode.TRANSFER_TOKEN),
-    amount: bigintToStringSchema.optional(),
-    tokenId: z.string(),
+    tokenId: tokenIdSchema,
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    recipientAddress: recipientAddressSchema,
+    amount: outputAmountSchema,
+    useMaxAmount: useMaxAmountSchema,
   })
   .openapi({
     title: "TransferToken",
     description: "Transfer chain tokens",
   });
 
-const stakingDelegateSchema = z
+const inputStakingDelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.DELEGATE),
-    validatorAddress: z.string(),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    validatorAddress: validatorAddressSchema,
+    amount: inputAmountSchema.optional(),
+    useMaxAmount: useMaxAmountSchema.default(false),
   })
-  .merge(amountFieldSchema)
   .openapi({
     title: "Delegate",
+    description: "Put some funds at stake",
   });
 
 const outputStakingDelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.DELEGATE),
-    validatorAddress: z.string(),
-    amount: bigintToStringSchema.optional(),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    validatorAddress: validatorAddressSchema,
+    amount: outputAmountSchema,
+    useMaxAmount: useMaxAmountSchema,
   })
   .openapi({
     title: "Delegate",
+    description: "Put some funds at stake",
   });
 
-const stakingUndelegateSchema = z
+const inputStakingUndelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.UNDELEGATE),
-    validatorAddress: z.string(),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    validatorAddress: validatorAddressSchema,
+    amount: inputAmountSchema.optional(),
+    useMaxAmount: useMaxAmountSchema.default(false),
   })
-  .merge(amountFieldSchema)
   .openapi({
     title: "Undelegate",
+    description: "Stop staking some funds",
   });
 
 const outputStakingUndelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.UNDELEGATE),
-    validatorAddress: z.string(),
-    amount: bigintToStringSchema.optional(),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    validatorAddress: validatorAddressSchema,
+    amount: outputAmountSchema,
+    useMaxAmount: useMaxAmountSchema,
   })
   .openapi({
     title: "Undelegate",
+    description: "Stop staking some funds",
   });
 
-const stakingRedelegateSchema = z
+const inputStakingRedelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.REDELEGATE),
-    sourceValidatorAddress: z.string(),
-    targetValidatorAddress: z.string(),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    sourceValidatorAddress: validatorAddressSchema,
+    targetValidatorAddress: validatorAddressSchema,
+    amount: inputAmountSchema.optional(),
+    useMaxAmount: useMaxAmountSchema.default(false),
   })
-  .merge(amountFieldSchema)
   .openapi({
     title: "Redelegate",
+    description: "Assign some staked funds to a different validator",
   });
 
 const outputStakingRedelegateSchema = z
   .object({
     mode: z.literal(TransactionMode.REDELEGATE),
-    sourceValidatorAddress: z.string(),
-    targetValidatorAddress: z.string(),
-    amount: bigintToStringSchema.optional(),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    sourceValidatorAddress: validatorAddressSchema,
+    targetValidatorAddress: validatorAddressSchema,
+    amount: outputAmountSchema,
+    useMaxAmount: useMaxAmountSchema,
   })
   .openapi({
     title: "Redelegate",
+    description: "Assign some staked funds to a different validator",
   });
 
-const stakingClaimRewardsSchema = z
+const inputStakingClaimRewardsSchema = z
   .object({
     mode: z.literal(TransactionMode.CLAIM_REWARDS),
-    validatorAddress: z.string(),
-    compound: z.boolean().optional(),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    validatorAddress: validatorAddressSchema,
+    compound: stakingCompoundSchema.default(false),
   })
   .openapi({
     title: "ClaimRewards",
+    description: "Retrieve rewards from staking",
+  });
+
+const outputStakingClaimRewardsSchema = z
+  .object({
+    mode: z.literal(TransactionMode.CLAIM_REWARDS),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    validatorAddress: validatorAddressSchema,
+    compound: stakingCompoundSchema,
+  })
+  .openapi({
+    title: "ClaimRewards",
+    description: "Retrieve rewards from staking",
   });
 
 const inputTransactionDataSchema = z
   .object({
-    data: z
-      .object({
-        sender: z.string(),
-        recipient: z.string(),
-        fees: stringOrNumToBigintSchema.optional(),
-        gas: stringOrNumToBigintSchema.optional(),
-        nonce: stringOrNumToBigintSchema.optional(),
-        memo: z.string().optional(),
-        format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
-        params: z
-          .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
-          .or(z.any())
-          .optional(),
-        useMaxAmount: z.boolean().default(false),
-      })
-      .and(
-        z.discriminatedUnion("mode", [
-          inputTransferNativeSchema,
-          stakingDelegateSchema,
-          transferTokenSchema,
-          stakingUndelegateSchema,
-          stakingRedelegateSchema,
-          stakingClaimRewardsSchema,
-        ])
-      ),
+    memo: memoSchema.optional(),
+    format: formatSchema.optional(),
+    params: inputParamsSchema.optional(),
   })
-  // TODO: once we use Zod 4, we can move the superRefine to the amountFieldSchema (cf: https://github.com/colinhacks/zod/issues/2474#issuecomment-2101077363)
-  .superRefine(
-    (transaction, ctx) =>
-      transaction.data.mode != TransactionMode.CLAIM_REWARDS &&
-      checkEitherAmountOrUseMaxAmount(transaction.data, ctx)
+  .and(
+    z.discriminatedUnion("mode", [
+      inputDeployAccountSchema,
+      inputTransferNativeSchema,
+      inputStakingDelegateSchema,
+      inputTransferTokenSchema,
+      inputStakingUndelegateSchema,
+      inputStakingRedelegateSchema,
+      inputStakingClaimRewardsSchema,
+    ])
   );
 
-const outputTransactionDataSchema = z.object({
-  data: z
-    .object({
-      sender: z.string(),
-      recipient: z.string(),
-      useMaxAmount: z.boolean().default(false),
-      fees: bigintToStringSchema.optional(),
-      gas: bigintToStringSchema.optional(),
-      nonce: bigintToStringSchema.optional(),
-      memo: z.string().optional(),
-      format: z.nativeEnum(EncodedTransactionFormat).optional(), // FIXME: move elsewere, this field is specifying something outside of this object(encoded tx format)
-      params: z
-        .union([cosmosTransactionParamsSchema, tronTransactionParamsSchema, tonTransactionParamsSchema])
-        .or(z.any())
-        .optional(), // FIXME: remove any and replace with BitcoinTransactionParams. For some reason, using it breaks the type system
-    })
-    .and(
-      z.discriminatedUnion("mode", [
-        outputTransferNativeSchema,
-        outputStakingDelegateSchema,
-        outputTransferTokenSchema,
-        outputStakingUndelegateSchema,
-        outputStakingRedelegateSchema,
-        stakingClaimRewardsSchema,
-      ])
-    ),
-});
+const outputTransactionDataSchema = z
+  .object({
+    fees: feesSchema,
+    gas: gasSchema.optional(),
+    nonce: nonceSchema.optional(),
+    memo: memoSchema.optional(),
+    format: formatSchema.optional(),
+    params: outputParamsSchema.optional(),
+  })
+  .and(
+    z.discriminatedUnion("mode", [
+      outputDeployAccountSchema,
+      outputTransferNativeSchema,
+      outputTransferTokenSchema,
+      outputStakingDelegateSchema,
+      outputStakingUndelegateSchema,
+      outputStakingRedelegateSchema,
+      outputStakingClaimRewardsSchema,
+    ])
+  );
 
-const encodedTransactionSchema = z.object({
-  // NOTE: 'any' here because 'encoded' can also be JSON
-  // Improvement could be to properly type all possible encoded formats for every family
-  // FIXME 'any' with zod always makes the field optional... which is a problem here, but found no easy worakround
-  // Best fix is probably to enforce only string, by using JSON.stringify with anything else
-  encoded: z.string().or(z.any()),
-});
+// NOTE: 'any' here because 'encoded' can also be JSON
+// Improvement could be to properly type all possible encoded formats for every family
+// FIXME 'any' with zod always makes the field optional... which is a problem here, but found no easy worakround
+// Best fix is probably to enforce only string, by using JSON.stringify with anything else
+const encodedTransactionSchema = z.string().or(z.any());
 
-const signedAndEncodedTransactionSchema = encodedTransactionSchema.extend({
-  signature: z.string(),
-});
+const signatureSchema = z.string();
 
 const optionalTickerSchema = z.string().optional().openapi({
   description:
@@ -355,16 +440,16 @@ const finalizedTransactionSchema = z.object({
         })
         .optional(),
       fees: z.object({
-        amount: bigintToStringSchema,
+        amount: outputAmountSchema,
         ticker: optionalTickerSchema,
       }),
-      gas: bigintToStringSchema.optional(),
-      nonce: bigintToStringSchema.optional(),
-      memo: z.string().optional(),
+      gas: gasSchema.optional(),
+      nonce: nonceSchema.optional(),
+      memo: memoSchema.optional(),
       senders: z
         .object({
           address: z.string(),
-          amount: bigintToStringSchema,
+          amount: outputAmountSchema,
           ticker: optionalTickerSchema,
         })
         .array()
@@ -372,7 +457,7 @@ const finalizedTransactionSchema = z.object({
       recipients: z
         .object({
           address: z.string(),
-          amount: bigintToStringSchema,
+          amount: outputAmountSchema,
           ticker: optionalTickerSchema,
         })
         .array()
@@ -382,14 +467,14 @@ const finalizedTransactionSchema = z.object({
           source: z
             .object({
               address: z.string(),
-              amount: bigintToStringSchema,
+              amount: outputAmountSchema,
               ticker: optionalTickerSchema,
             })
             .optional(),
           target: z
             .object({
               address: z.string(),
-              amount: bigintToStringSchema,
+              amount: outputAmountSchema,
               ticker: optionalTickerSchema,
             })
             .optional(),
@@ -414,6 +499,15 @@ const paginatedResponseSchema = z.object({
   }),
 });
 
+const errorMsgSchema = z.object({
+  message: z.string(),
+});
+
+const statusSchema = z.object({
+  errors: z.array(errorMsgSchema),
+  warnings: z.array(errorMsgSchema),
+});
+
 export {
   accountIdSchema,
   bigintToStringSchema,
@@ -427,7 +521,7 @@ export {
   outputTransactionDataSchema,
   paginatedResponseSchema,
   paginationQueryParamsSchema,
-  signedAndEncodedTransactionSchema,
+  signatureSchema,
   statusSchema,
   tokenSchema,
 };

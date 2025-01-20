@@ -17,7 +17,9 @@ const pathParamsSchema = z.object({
 });
 
 const requestSchema = z.object({
-  transaction: inputTransactionDataSchema,
+  transaction: z.object({
+    data: inputTransactionDataSchema,
+  }),
 });
 
 const responseSchema = z.object({
