@@ -420,12 +420,12 @@ function buildBroadcastPayload({
 
 // TODO Currently providing payload for an Amino signer (like Ledger)
 // Need to support providing payload for Protobuf signer as well?...
-async function encodeToSign(
+function encodeToSign(
   chainId: ChainId,
   account: CosmosAccount,
   transaction: TransactionData,
   format?: EncodedTransactionFormat
-): Promise<string> {
+): string {
   if (!transaction.fees) {
     throw new Error("Missing fees data in transaction");
   } else if (!transaction.gas) {
@@ -453,15 +453,11 @@ async function encodeToSign(
   const serializedSignDoc = Buffer.from(serializeSignDoc(signDoc));
 
   return format === EncodedTransactionFormat.JSON
-    ? JSON.parse(serializedSignDoc.toString("utf8"))
+    ? serializedSignDoc.toString("utf8")
     : serializedSignDoc.toString("hex");
 }
 
-async function encodeToBroadcast(
-  chainId: ChainId,
-  account: CosmosAccount,
-  signedTransaction: Transaction
-): Promise<string> {
+function encodeToBroadcast(chainId: ChainId, account: CosmosAccount, signedTransaction: Transaction): string {
   const transactionData = signedTransaction.data;
   // useless checks to make the compiler happy, completeTransaction already validated the fields
   // We don't want transactionData.nonce === 0 to be falsy

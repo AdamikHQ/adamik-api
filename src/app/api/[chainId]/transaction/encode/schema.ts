@@ -2,9 +2,27 @@ import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
   encodedTransactionSchema,
+  formatSchema,
   getSupportedChainIdsSchema,
-  inputTransactionDataSchema,
-  outputTransactionDataSchema,
+  inputDeployAccountSchema,
+  inputStakingClaimRewardsSchema,
+  inputStakingDelegateSchema,
+  inputStakingRedelegateSchema,
+  inputStakingUndelegateSchema,
+  inputTransferNativeSchema,
+  inputTransferTokenSchema,
+  memoSchema,
+  outputDeployAccountSchema,
+  outputFeesSchema,
+  outputGasSchema,
+  outputNonceSchema,
+  outputParamsSchema,
+  outputStakingClaimRewardsSchema,
+  outputStakingDelegateSchema,
+  outputStakingRedelegateSchema,
+  outputStakingUndelegateSchema,
+  outputTransferNativeSchema,
+  outputTransferTokenSchema,
   statusSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
@@ -24,14 +42,48 @@ const pathParamsSchema = z.object({
 
 const requestSchema = z.object({
   transaction: z.object({
-    data: inputTransactionDataSchema,
+    data: z
+      .object({
+        memo: memoSchema.optional(),
+        format: formatSchema.optional(),
+      })
+      .and(
+        z.discriminatedUnion("mode", [
+          inputDeployAccountSchema,
+          inputTransferNativeSchema,
+          inputStakingDelegateSchema,
+          inputTransferTokenSchema,
+          inputStakingUndelegateSchema,
+          inputStakingRedelegateSchema,
+          inputStakingClaimRewardsSchema,
+        ])
+      ),
   }),
 });
 
 const responseSchema = z.object({
   chainId: getSupportedChainIdsSchema(supportedChainIds),
   transaction: z.object({
-    data: outputTransactionDataSchema,
+    data: z
+      .object({
+        fees: outputFeesSchema,
+        gas: outputGasSchema.optional(),
+        nonce: outputNonceSchema.optional(),
+        memo: memoSchema.optional(),
+        format: formatSchema.optional(),
+        params: outputParamsSchema.optional(),
+      })
+      .and(
+        z.discriminatedUnion("mode", [
+          outputDeployAccountSchema,
+          outputTransferNativeSchema,
+          outputTransferTokenSchema,
+          outputStakingDelegateSchema,
+          outputStakingUndelegateSchema,
+          outputStakingRedelegateSchema,
+          outputStakingClaimRewardsSchema,
+        ])
+      ),
     encoded: encodedTransactionSchema,
   }),
   status: statusSchema,

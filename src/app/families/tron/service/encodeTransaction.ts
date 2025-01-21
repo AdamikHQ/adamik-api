@@ -9,10 +9,10 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = _;
 
-  const transactionBuilt = await buildTransaction(transaction);
+  const builtTransaction = await buildTransaction(transaction);
 
-  transaction.encoded = transactionBuilt.raw_data_hex;
-  transaction.data.params = { ...transactionBuilt } as TronTransactionParams;
+  transaction.encoded = builtTransaction.raw_data_hex;
+  transaction.data.params = { ...builtTransaction } as TronTransactionParams;
 }
 
 async function encodeTransactionToBroadcast(
