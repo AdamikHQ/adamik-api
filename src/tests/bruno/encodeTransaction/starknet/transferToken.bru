@@ -1,0 +1,33 @@
+meta {
+  name: transferToken
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: starknet
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "transferToken",
+        "recipientAddress": "0x055C86Cf8A0d9cf6F6B53DE4CC3aC6E959819E1582cd60E48C1D1358FF571FE9",
+        "senderAddress": "0x04e0f62Cb9A49aeacF0EF9587A037C004E9f40E8EC0c84158Cc3604f80541A9b",
+        "tokenId": "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+        "amount": "123456789"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+}

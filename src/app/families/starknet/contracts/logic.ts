@@ -5,6 +5,7 @@ import { Account } from "starknet";
 import { CHAINS } from "~/app/config/chains";
 
 import { Provider } from "starknet";
+import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 
 // NOTE:
 // we use stark.randomAddress() that will create a random private key that we are not using
@@ -86,7 +87,8 @@ const transfer = async (sender: string, recipient: string, amount: bigint, contr
   return payload;
 };
 
-const stakeSTRK = async (amount: BigInt, sender: string, poolAddress: string) => {
+// NOTE: WIP
+const stake = async (amount: BigInt, sender: string, poolAddress: string) => {
   const provider = new Provider({
     nodeUrl: CHAINS.starknet.backends.nodeURL,
   });
@@ -94,9 +96,8 @@ const stakeSTRK = async (amount: BigInt, sender: string, poolAddress: string) =>
   const nonce = await provider.getNonceForAddress(sender);
   const account = await createStarknetAccount(provider, sender);
 
-  const starknetTokenContractId = "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d"; // starknet token contract id
-  const { abi: starknetTokenABI } = await provider.getClassAt(starknetTokenContractId);
-  const starknetTokenContract = new Contract(starknetTokenABI, starknetTokenContractId, provider);
+  const { abi: starknetTokenABI } = await provider.getClassAt(STARK_TOKEN_CONTRACT_ID);
+  const starknetTokenContract = new Contract(starknetTokenABI, STARK_TOKEN_CONTRACT_ID, provider);
 
   const { abi: poolAbi } = await provider.getClassAt(poolAddress);
 
@@ -138,4 +139,4 @@ const stakeSTRK = async (amount: BigInt, sender: string, poolAddress: string) =>
   }
 };
 
-export { createStarknetAccount, estimateTransferFees, getNonce, marginFees, stakeSTRK, transfer };
+export { createStarknetAccount, estimateTransferFees, getNonce, marginFees, stake, transfer };

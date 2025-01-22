@@ -1,0 +1,32 @@
+meta {
+  name: deployWalletContract
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: starknet
+}
+
+body:json {
+  {
+    "transaction": {
+      "data":   {
+        "mode": "deployAccount",
+        "type": "argentX",
+        "senderPubKey": "0x00f3Ec751F0C50F6c903a6bE345264d56114373fD3394D74be794b539BaF6218"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.data.params.payload.addressSalt: eq "0x00f3Ec751F0C50F6c903a6bE345264d56114373fD3394D74be794b539BaF6218"
+}

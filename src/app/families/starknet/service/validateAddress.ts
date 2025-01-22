@@ -1,7 +1,8 @@
+import { getChecksumAddress, validateChecksumAddress } from "starknet";
 import { StarknetService } from "../service";
 
 async function validateAddress(this: StarknetService, address: string): Promise<boolean> {
-  throw new Error("Not implemented");
+  return validateChecksumAddress(getChecksumAddress(address));
 }
 
 export { validateAddress };
