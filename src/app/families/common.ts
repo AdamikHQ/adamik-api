@@ -45,25 +45,7 @@ async function prevalidateTransactionCommon(
         validateAmountOrUseMaxAmount(transactionData, status);
       }
       break;
-    case TransactionMode.DELEGATE:
-    case TransactionMode.UNDELEGATE:
-      {
-        const validSender = await addressValidationFn(transactionData.senderAddress);
-        if (!validSender) {
-          status.errors.push({ message: "Sender address is invalid" });
-        }
-
-        const validValidator =
-          transactionData.validatorAddress?.length &&
-          (await addressValidationFn(transactionData.validatorAddress));
-        if (!validValidator) {
-          status.errors.push({ message: "Validator address is invalid" });
-        }
-
-        validateAmountOrUseMaxAmount(transactionData, status);
-      }
-      break;
-    case TransactionMode.REDELEGATE:
+    case TransactionMode.STAKE:
       {
         const validSender = await addressValidationFn(transactionData.senderAddress);
         if (!validSender) {
@@ -78,10 +60,27 @@ async function prevalidateTransactionCommon(
         }
 
         const validTargetValidator =
-          transactionData.targetValidatorAddress?.length &&
+          transactionData.targetValidatorAddress.length &&
           (await addressValidationFn(transactionData.targetValidatorAddress));
         if (!validTargetValidator) {
           status.errors.push({ message: "Target validator address is invalid" });
+        }
+
+        validateAmountOrUseMaxAmount(transactionData, status);
+      }
+      break;
+    case TransactionMode.UNSTAKE:
+      {
+        const validSender = await addressValidationFn(transactionData.senderAddress);
+        if (!validSender) {
+          status.errors.push({ message: "Sender address is invalid" });
+        }
+
+        const validValidator =
+          transactionData.validatorAddress?.length &&
+          (await addressValidationFn(transactionData.validatorAddress));
+        if (!validValidator) {
+          status.errors.push({ message: "Validator address is invalid" });
         }
 
         validateAmountOrUseMaxAmount(transactionData, status);

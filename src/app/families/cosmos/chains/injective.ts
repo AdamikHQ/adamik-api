@@ -13,31 +13,31 @@ import { CosmosAccount } from "../backend/types";
 
 function buildStdSignDocForInjective(
   account: CosmosAccount,
-  transaction: TransactionData,
+  transactionData: TransactionData,
   networkId: string
 ): StdSignDoc {
-  const msgs = buildMessagesForInjective(transaction);
+  const msgs = buildMessagesForInjective(transactionData);
 
   return getAminoStdSignDoc({
     chainId: networkId as CosmosChainId,
     msgs,
     sequence: Number(account.sequence),
     accountNumber: Number(account.accountNumber),
-    memo: transaction.memo || "",
+    memo: transactionData.memo || "",
   });
 }
 
 function buildMessagesForInjective(
-  transaction: TransactionData
+  transactionData: TransactionData
 ): (MsgSend | MsgDelegate | MsgBeginRedelegate | MsgUndelegate | MsgWithdrawDelegatorReward)[] {
-  const amount = transaction.amount as bigint;
+  const amount = transactionData.amount as bigint;
   const msgs = [];
-  switch (transaction.mode) {
+  switch (transactionData.mode) {
     case TransactionMode.TRANSFER:
       msgs.push(
         MsgSend.fromJSON({
-          srcInjectiveAddress: transaction.senderAddress,
-          dstInjectiveAddress: transaction.recipientAddress,
+          srcInjectiveAddress: transactionData.senderAddress,
+          dstInjectiveAddress: transactionData.recipientAddress,
           amount: [
             {
               denom: "inj",
@@ -47,38 +47,40 @@ function buildMessagesForInjective(
         })
       );
       break;
-    case TransactionMode.DELEGATE:
-      msgs.push(
-        MsgDelegate.fromJSON({
-          injectiveAddress: transaction.senderAddress,
-          validatorAddress: transaction.validatorAddress,
-          amount: {
-            denom: "inj",
-            amount: amount.toString(),
-          },
-        })
-      );
+    case TransactionMode.STAKE:
+      if (transactionData.sourceValidatorAddress?.length) {
+        // Redelegate
+        msgs.push(
+          MsgBeginRedelegate.fromJSON({
+            injectiveAddress: transactionData.senderAddress,
+            srcValidatorAddress: transactionData.sourceValidatorAddress,
+            dstValidatorAddress: transactionData.targetValidatorAddress,
+            amount: {
+              denom: "inj",
+              amount: amount.toString(),
+            },
+          })
+        );
+      } else {
+        // Delegate
+        msgs.push(
+          MsgDelegate.fromJSON({
+            injectiveAddress: transactionData.senderAddress,
+            validatorAddress: transactionData.targetValidatorAddress,
+            amount: {
+              denom: "inj",
+              amount: amount.toString(),
+            },
+          })
+        );
+      }
       break;
 
-    case TransactionMode.REDELEGATE:
-      msgs.push(
-        MsgBeginRedelegate.fromJSON({
-          injectiveAddress: transaction.senderAddress,
-          srcValidatorAddress: transaction.sourceValidatorAddress,
-          dstValidatorAddress: transaction.targetValidatorAddress,
-          amount: {
-            denom: "inj",
-            amount: amount.toString(),
-          },
-        })
-      );
-      break;
-
-    case TransactionMode.UNDELEGATE:
+    case TransactionMode.UNSTAKE:
       msgs.push(
         MsgUndelegate.fromJSON({
-          injectiveAddress: transaction.senderAddress,
-          validatorAddress: transaction.validatorAddress,
+          injectiveAddress: transactionData.senderAddress,
+          validatorAddress: transactionData.validatorAddress,
           amount: {
             denom: "inj",
             amount: amount.toString(),
@@ -90,8 +92,8 @@ function buildMessagesForInjective(
     case TransactionMode.CLAIM_REWARDS:
       msgs.push(
         MsgWithdrawDelegatorReward.fromJSON({
-          delegatorAddress: transaction.senderAddress,
-          validatorAddress: transaction.validatorAddress,
+          delegatorAddress: transactionData.senderAddress,
+          validatorAddress: transactionData.validatorAddress,
         })
       );
       break;

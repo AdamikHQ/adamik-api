@@ -1560,9 +1560,8 @@ function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
     supportedModes.push(TransactionMode.TRANSFER_TOKEN);
   }
   if (supportedTransactions.staking) {
-    supportedModes.push(TransactionMode.DELEGATE);
-    supportedModes.push(TransactionMode.REDELEGATE);
-    supportedModes.push(TransactionMode.UNDELEGATE);
+    supportedModes.push(TransactionMode.STAKE);
+    supportedModes.push(TransactionMode.UNSTAKE);
     supportedModes.push(TransactionMode.CLAIM_REWARDS);
   }
 

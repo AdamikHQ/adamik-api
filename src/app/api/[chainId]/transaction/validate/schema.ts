@@ -3,13 +3,12 @@ import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
   formatSchema,
   getSupportedChainIdsSchema,
+  inputClaimRewardsSchema,
   inputDeployAccountSchema,
-  inputStakingClaimRewardsSchema,
-  inputStakingDelegateSchema,
-  inputStakingRedelegateSchema,
-  inputStakingUndelegateSchema,
+  inputStakeSchema,
   inputTransferNativeSchema,
   inputTransferTokenSchema,
+  inputUnstakeSchema,
   memoSchema,
   statusSchema,
 } from "~/app/api/schemaCommon";
@@ -39,11 +38,10 @@ const requestSchema = z.object({
         z.discriminatedUnion("mode", [
           inputDeployAccountSchema,
           inputTransferNativeSchema,
-          inputStakingDelegateSchema,
+          inputStakeSchema,
           inputTransferTokenSchema,
-          inputStakingUndelegateSchema,
-          inputStakingRedelegateSchema,
-          inputStakingClaimRewardsSchema,
+          inputUnstakeSchema,
+          inputClaimRewardsSchema,
         ])
       ),
   }),

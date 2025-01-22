@@ -108,11 +108,11 @@ const senderPubKeySchema = z.string().openapi({
 });
 
 const senderAddressSchema = z.string().openapi({
-  description: "Address of the sender account.",
+  description: "Address or ID of the sender account.",
 });
 
 const recipientAddressSchema = z.string().openapi({
-  description: "Address of the recipient account.",
+  description: "Address or Id of the recipient account.",
 });
 
 const contractTypeSchema = z.nativeEnum(DeployContractType).openapi({
@@ -251,7 +251,7 @@ const inputTransferTokenSchema = z
     useMaxAmount: useMaxAmountSchema.default(false),
   })
   .openapi({
-    title: "TransferToken",
+    title: "Transfer Token",
     description: "Transfer chain tokens",
   });
 
@@ -266,97 +266,75 @@ const outputTransferTokenSchema = z
     useMaxAmount: useMaxAmountSchema,
   })
   .openapi({
-    title: "TransferToken",
+    title: "Transfer Token",
     description: "Transfer chain tokens",
   });
 
-const inputStakingDelegateSchema = z
+const inputStakeSchema = z
   .object({
-    mode: z.literal(TransactionMode.DELEGATE),
+    mode: z.literal(TransactionMode.STAKE),
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
-    validatorAddress: validatorAddressSchema,
-    amount: inputAmountSchema.optional(),
-    useMaxAmount: useMaxAmountSchema.default(false),
-  })
-  .openapi({
-    title: "Delegate",
-    description: "Put some funds at stake",
-  });
-
-const outputStakingDelegateSchema = z
-  .object({
-    mode: z.literal(TransactionMode.DELEGATE),
-    senderAddress: senderAddressSchema,
-    senderPubKey: senderPubKeySchema.optional(),
-    validatorAddress: validatorAddressSchema,
-    amount: outputAmountSchema,
-    useMaxAmount: useMaxAmountSchema,
-  })
-  .openapi({
-    title: "Delegate",
-    description: "Put some funds at stake",
-  });
-
-const inputStakingUndelegateSchema = z
-  .object({
-    mode: z.literal(TransactionMode.UNDELEGATE),
-    senderAddress: senderAddressSchema,
-    senderPubKey: senderPubKeySchema.optional(),
-    validatorAddress: validatorAddressSchema,
-    amount: inputAmountSchema.optional(),
-    useMaxAmount: useMaxAmountSchema.default(false),
-  })
-  .openapi({
-    title: "Undelegate",
-    description: "Stop staking some funds",
-  });
-
-const outputStakingUndelegateSchema = z
-  .object({
-    mode: z.literal(TransactionMode.UNDELEGATE),
-    senderAddress: senderAddressSchema,
-    senderPubKey: senderPubKeySchema.optional(),
-    validatorAddress: validatorAddressSchema,
-    amount: outputAmountSchema,
-    useMaxAmount: useMaxAmountSchema,
-  })
-  .openapi({
-    title: "Undelegate",
-    description: "Stop staking some funds",
-  });
-
-const inputStakingRedelegateSchema = z
-  .object({
-    mode: z.literal(TransactionMode.REDELEGATE),
-    senderAddress: senderAddressSchema,
-    senderPubKey: senderPubKeySchema.optional(),
-    sourceValidatorAddress: validatorAddressSchema,
+    sourceValidatorAddress: z.string().optional().openapi({
+      description:
+        "Address or ID of a validator. Can be used to move staking funds from this validator instead of the sender's balance, if supported by the chain.",
+    }),
     targetValidatorAddress: validatorAddressSchema,
     amount: inputAmountSchema.optional(),
     useMaxAmount: useMaxAmountSchema.default(false),
   })
   .openapi({
-    title: "Redelegate",
-    description: "Assign some staked funds to a different validator",
+    title: "Stake",
+    description: "Put some funds at stake",
   });
 
-const outputStakingRedelegateSchema = z
+const outputStakeSchema = z
   .object({
-    mode: z.literal(TransactionMode.REDELEGATE),
+    mode: z.literal(TransactionMode.STAKE),
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
-    sourceValidatorAddress: validatorAddressSchema,
+    sourceValidatorAddress: z.string().optional().openapi({
+      description:
+        "Address or ID of a validator. Can be used to move staking funds from this validator, if supported by the chain.",
+    }),
     targetValidatorAddress: validatorAddressSchema,
     amount: outputAmountSchema,
     useMaxAmount: useMaxAmountSchema,
   })
   .openapi({
-    title: "Redelegate",
-    description: "Assign some staked funds to a different validator",
+    title: "Stake",
+    description: "Put some funds at stake",
   });
 
-const inputStakingClaimRewardsSchema = z
+const inputUnstakeSchema = z
+  .object({
+    mode: z.literal(TransactionMode.UNSTAKE),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    validatorAddress: validatorAddressSchema,
+    amount: inputAmountSchema.optional(),
+    useMaxAmount: useMaxAmountSchema.default(false),
+  })
+  .openapi({
+    title: "Unstake",
+    description: "Stop staking some funds",
+  });
+
+const outputUnstakeSchema = z
+  .object({
+    mode: z.literal(TransactionMode.UNSTAKE),
+    senderAddress: senderAddressSchema,
+    senderPubKey: senderPubKeySchema.optional(),
+    validatorAddress: validatorAddressSchema,
+    amount: outputAmountSchema,
+    useMaxAmount: useMaxAmountSchema,
+  })
+  .openapi({
+    title: "Unstake",
+    description: "Stop staking some funds",
+  });
+
+const inputClaimRewardsSchema = z
   .object({
     mode: z.literal(TransactionMode.CLAIM_REWARDS),
     senderAddress: senderAddressSchema,
@@ -369,7 +347,7 @@ const inputStakingClaimRewardsSchema = z
     description: "Retrieve rewards from staking",
   });
 
-const outputStakingClaimRewardsSchema = z
+const outputClaimRewardsSchema = z
   .object({
     mode: z.literal(TransactionMode.CLAIM_REWARDS),
     senderAddress: senderAddressSchema,
@@ -489,30 +467,28 @@ export {
   formatSchema,
   getSupportedChainIdsSchema,
   inputAmountSchema,
+  inputClaimRewardsSchema,
   inputDeployAccountSchema,
   inputFeesSchema,
   inputGasSchema,
   inputNonceSchema,
   inputParamsSchema,
-  inputStakingClaimRewardsSchema,
-  inputStakingDelegateSchema,
-  inputStakingRedelegateSchema,
-  inputStakingUndelegateSchema,
+  inputStakeSchema,
   inputTransferNativeSchema,
   inputTransferTokenSchema,
+  inputUnstakeSchema,
   memoSchema,
   outputAmountSchema,
+  outputClaimRewardsSchema,
   outputDeployAccountSchema,
   outputFeesSchema,
   outputGasSchema,
   outputNonceSchema,
   outputParamsSchema,
-  outputStakingClaimRewardsSchema,
-  outputStakingDelegateSchema,
-  outputStakingRedelegateSchema,
-  outputStakingUndelegateSchema,
+  outputStakeSchema,
   outputTransferNativeSchema,
   outputTransferTokenSchema,
+  outputUnstakeSchema,
   paginatedResponseSchema,
   paginationQueryParamsSchema,
   recipientAddressSchema,
