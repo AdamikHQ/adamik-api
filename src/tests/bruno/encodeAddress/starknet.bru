@@ -5,21 +5,22 @@ meta {
 }
 
 post {
-  url: {{api_url}}/api/address/encode
+  url: {{api_url}}/api/:chainId/address/encode
   body: json
   auth: none
 }
 
+params:path {
+  chainId: starknet
+}
+
 body:json {
   {
-    "chainId": "starknet",
     "pubkey": "0x2d3cccf309a128d4722f652da707cc78ed05c056142b6c1b42eba1e5096f002"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body.addresses[0].address: eq 0x62ebf7c3bae671029b5649e16ed97941c65c860be5e3242b5e91b08f8855d3
-  res.body.addresses[1].address: eq 0x16df623f0dcdd34c67c1fe9625303b74028c55f8df268193fdbc6b535694301
-  res.body.addresses[2].address: eq 0xc4dca78cd9760f31df71fc2687fca5625e7a07350b5c47da88f8d15b4c548c
+  res.body.addresses[0].address: eq 0x0748d37d83e318d3220f7c183ae6e2d58e24ed8a21b3064a38e87f4277cef90b
 }
