@@ -3954,6 +3954,7 @@
                 "base-sepolia",
                 "optimism",
                 "arbitrum",
+                "monad-private-testnet",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -4421,7 +4422,7 @@
                             },
                             "nonce": {
                               "type": "string",
-                              "description": "Transaction sequence number computed by the API, when relevant for the chain."
+                              "description": "Transaction sequence number, when relevant for the chain."
                             },
                             "memo": {
                               "type": "string",
@@ -5665,7 +5666,7 @@
                               },
                               "nonce": {
                                 "type": "string",
-                                "description": "Transaction sequence number computed by the API, when relevant for the chain."
+                                "description": "Transaction sequence number, when relevant for the chain."
                               },
                               "memo": {
                                 "type": "string",
@@ -5930,9 +5931,6 @@
                                   "hex"
                                 ],
                                 "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
-                              },
-                              "params": {
-                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
                               }
                             }
                           },
@@ -6321,7 +6319,7 @@
                                 },
                                 "nonce": {
                                   "type": "string",
-                                  "description": "Transaction sequence number computed by the API, when relevant for the chain."
+                                  "description": "Transaction sequence number, when relevant for the chain."
                                 },
                                 "memo": {
                                   "type": "string",
@@ -6610,16 +6608,12 @@
                           ]
                         },
                         "encoded": {
-                          "anyOf": [
-                            {
-                              "type": "string"
-                            },
-                            {}
-                          ]
+                          "type": "string"
                         }
                       },
                       "required": [
-                        "data"
+                        "data",
+                        "encoded"
                       ]
                     },
                     "status": {
@@ -6796,9 +6790,6 @@
                                   "hex"
                                 ],
                                 "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
-                              },
-                              "params": {
-                                "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
                               }
                             }
                           },
@@ -7331,6 +7322,18 @@
                           {
                             "type": "object",
                             "properties": {
+                              "fees": {
+                                "type": "string",
+                                "description": "Transaction fees."
+                              },
+                              "gas": {
+                                "type": "string",
+                                "description": "Transaction gas, when relevant for the chain."
+                              },
+                              "nonce": {
+                                "type": "string",
+                                "description": "Transaction sequence number computed by the API, when relevant for the chain."
+                              },
                               "memo": {
                                 "type": "string",
                                 "description": "Optional free text field, that is supported for some chains."
@@ -7346,7 +7349,10 @@
                               "params": {
                                 "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
                               }
-                            }
+                            },
+                            "required": [
+                              "fees"
+                            ]
                           },
                           {
                             "oneOf": [
@@ -7610,12 +7616,7 @@
                         ]
                       },
                       "encoded": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {}
-                        ]
+                        "type": "string"
                       },
                       "signature": {
                         "type": "string"
@@ -7623,6 +7624,7 @@
                     },
                     "required": [
                       "data",
+                      "encoded",
                       "signature"
                     ]
                   }
