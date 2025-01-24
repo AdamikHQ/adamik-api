@@ -3,9 +3,13 @@ import { ZodOpenApiPathsObject } from "zod-openapi";
 import "zod-openapi/extend";
 import { getSupportedChainIdsSchema, tokenSchema } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
+import { chainSupports } from "~/app/tools/features";
+import { ChainFeatures } from "~/app/model/types_WIP";
 
+// FIXME: When we land on the way to go forward with supported features, we can decide how we want to
+//        implement this test. For now, I made a `chainSupports(chain, features)` function
 const supportedChainIds = Object.values(CHAINS)
-  .filter((chain) => chain.supportedFeatures.read.token)
+  .filter((chain) => chainSupports(chain, [ChainFeatures.READ__TOKENS]))
   .map((chain) => chain.id);
 
 const pathParamsSchema = z.object({

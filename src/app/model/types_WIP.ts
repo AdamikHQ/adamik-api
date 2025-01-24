@@ -117,6 +117,25 @@ type FeaturesSet = {
   staking: boolean;
 };
 
+// FIXME: Should we make these just strings? I'm not a fan of the '__' separator
+export enum ChainFeatures {
+  READ__TOKENS = "READ__TOKENS",
+  READ__VALIDATORS = "READ__VALIDATORS",
+  READ__TRANSACTION__NATIVE = "READ__TRANSACTIONS__NATIVE",
+  READ__TRANSACTION__TOKENS = "READ__TRANSACTIONS__TOKENS",
+  READ__TRANSACTION__STAKING = "READ__TRANSACTIONS__STAKING",
+  READ__ACCOUNT__BALANCES__NATIVE = "READ__ACCOUNT__BALANCES__NATIVE",
+  READ__ACCOUNT__BALANCES__TOKENS = "READ__ACCOUNT__BALANCES__TOKENS",
+  READ__ACCOUNT__BALANCES__STAKING = "READ__ACCOUNT__BALANCES__STAKING",
+  READ__ACCOUNT__TRANSACTIONS__NATIVE = "READ__ACCOUNT__TRANSACTIONS__NATIVE",
+  READ__ACCOUNT__TRANSACTIONS__TOKENS = "READ__ACCOUNT__TRANSACTIONS__TOKENS",
+  READ__ACCOUNT__TRANSACTIONS__STAKING = "READ__ACCOUNT__TRANSACTIONS__STAKING",
+  WRITE__TRANSACTION__TYPE__NATIVE = "WRITE__TRANSACTION__TYPE__NATIVE",
+  WRITE__TRANSACTION__TYPE__TOKENS = "WRITE__TRANSACTION__TYPE__TOKENS",
+  WRITE__TRANSACTION__TYPE__STAKING = "WRITE__TRANSACTION__TYPE__STAKING",
+  WRITE__TRANSACTION__FIELD__MEMO = "WRITE__TRANSACTION__FIELD__MEMO",
+}
+
 type ChainSupportedFeatures = {
   read: {
     token: boolean;
@@ -140,6 +159,19 @@ type ChainSupportedFeatures = {
 // Define filters as flags: anything put in the object is true to flag that the filter is "ON"
 type ApiRequestFilters = Record<string, true>;
 
+export enum SupportedProvider {
+  MORALIS = "moralis",
+  BLOCKSCOUT = "blockscout",
+  NODE = "node",
+}
+
+type Backend = {
+  url: string;
+  provider: SupportedProvider;
+  features: ChainFeatures[];
+};
+
+// TODO: Deprecate this for next version
 type Backends = {
   nodeURL: string;
   explorerURL?: string;
@@ -153,6 +185,7 @@ type Chain = {
   ticker: string;
   decimals: number;
   backends: Backends;
+  providers?: Backend[];
   isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;
@@ -455,4 +488,6 @@ export type {
   TransactionSpendableAmounts,
   TypedAddress,
   Validator,
+  Backend,
+  Backends,
 };

@@ -2,7 +2,9 @@ import {
   AccountHistory,
   AccountState,
   AccountTokens,
+  ChainFeatures,
   ChainId,
+  ChainSupportedFeatures,
   ChainValidators,
   FinalizedTransaction,
   Paginated,
@@ -11,6 +13,8 @@ import {
   Transaction,
   TypedAddress,
 } from "./types_WIP";
+import { featuresUnion, parseFeatures } from "~/app/tools/features";
+import { CHAINS } from "~/app/config/chains";
 
 // TODO Doc (comment) for each function in every service
 
@@ -22,6 +26,20 @@ abstract class BaseChainService {
   constructor(chainId: ChainId) {
     this.chainId = chainId;
   }
+  // Features
+  // getSupportedFeatures(): ChainFeatures[] {
+  //   const chain = CHAINS[this.chainId];
+  //   if (chain.providers !== undefined) {
+  //     return featuresUnion(chain.providers.map((provider) => provider.features));
+  //   }
+  //   return parseFeatures(CHAINS[this.chainId].supportedFeatures);
+  // }
+  //
+  // supportsAll(features: ChainFeatures[]): boolean {
+  //   const supported = this.getSupportedFeatures();
+  //   return features.every((feature) => supported.includes(feature));
+  // }
+
   // Chain
   //abstract getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?
 

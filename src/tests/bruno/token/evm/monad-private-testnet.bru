@@ -1,0 +1,21 @@
+meta {
+  name: monad-private-testnet
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{api_url}}/api/:chainId/token/:tokenId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: monad-private-testnet
+  tokenId: 0xa9Ae996771C13283045d049a55Be49190bEbF196
+}
+
+assert {
+  res.status: eq 200
+  res.body.token.ticker: eq MIST
+}

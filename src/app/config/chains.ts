@@ -1,4 +1,11 @@
-import { Chain, ChainFamily, ChainId, TransactionMode } from "../model/types_WIP";
+import {
+  Chain,
+  ChainFamily,
+  ChainFeatures,
+  ChainId,
+  SupportedProvider,
+  TransactionMode,
+} from "../model/types_WIP";
 import {
   ALGORAND_FEATURES,
   BITCOIN_FEATURES,
@@ -420,9 +427,33 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "MON",
     decimals: 18,
     backends: {
-      nodeURL: "https://rpc.monad-testnet.category.xyz/rpc/gw3K5ihInuOcijq3jnRO7JKyo7LmOltg6NZTfL7R",
-      //explorerURL: "https://monad.xyz",
+      nodeURL: "https://testnet-rpc2.monad.xyz/81c64948eadce243f8f28cd897e38766e51bdd89",
+      explorerURL:
+        "https://PTwbOfHU0EFiDUf2D4Kk:gw3K5ihInuOcijq3jnRO7JKyo7LmOltg6NZTfL7R@explorer.monad-testnet.category.xyz",
     },
+    // FIXME: This key would be called `backends` but for now I went with `providers` to keep compatibility
+    providers: [
+      {
+        url: "https://testnet-rpc2.monad.xyz/81c64948eadce243f8f28cd897e38766e51bdd89",
+        provider: SupportedProvider.NODE,
+        features: [
+          ChainFeatures.READ__ACCOUNT__BALANCES__NATIVE,
+          ChainFeatures.WRITE__TRANSACTION__TYPE__NATIVE,
+          ChainFeatures.WRITE__TRANSACTION__TYPE__TOKENS,
+        ],
+      },
+      {
+        url: "https://PTwbOfHU0EFiDUf2D4Kk:gw3K5ihInuOcijq3jnRO7JKyo7LmOltg6NZTfL7R@explorer.monad-testnet.category.xyz",
+        provider: SupportedProvider.BLOCKSCOUT,
+        features: [
+          ChainFeatures.READ__TOKENS,
+          ChainFeatures.READ__ACCOUNT__BALANCES__NATIVE,
+          ChainFeatures.READ__ACCOUNT__BALANCES__TOKENS,
+          ChainFeatures.READ__ACCOUNT__TRANSACTIONS__NATIVE,
+          ChainFeatures.READ__ACCOUNT__TRANSACTIONS__TOKENS,
+        ],
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.MONAD_PRIVATE_TESTNET),
     isTestnetFor: "monad",
   },
