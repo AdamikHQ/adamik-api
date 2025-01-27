@@ -3,7 +3,7 @@ import {
   ChainFamily,
   ChainFeatures,
   ChainId,
-  SupportedProvider,
+  ProviderType,
   TransactionMode,
 } from "../model/types_WIP";
 import {
@@ -435,7 +435,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         url: "https://testnet-rpc2.monad.xyz/81c64948eadce243f8f28cd897e38766e51bdd89",
-        provider: SupportedProvider.NODE,
+        type: ProviderType.NODE,
         features: [
           ChainFeatures.READ__ACCOUNT__BALANCES__NATIVE,
           ChainFeatures.WRITE__TRANSACTION__TYPE__NATIVE,
@@ -444,7 +444,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
       {
         url: "https://PTwbOfHU0EFiDUf2D4Kk:gw3K5ihInuOcijq3jnRO7JKyo7LmOltg6NZTfL7R@explorer.monad-testnet.category.xyz",
-        provider: SupportedProvider.BLOCKSCOUT,
+        type: ProviderType.BLOCKSCOUT,
         features: [
           ChainFeatures.READ__TOKENS,
           ChainFeatures.READ__ACCOUNT__BALANCES__NATIVE,

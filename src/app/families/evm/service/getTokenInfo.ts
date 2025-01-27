@@ -26,7 +26,7 @@ async function getTokenInfo(this: EvmService, tokenId: string): Promise<Token> {
   const index = Math.floor(Math.random() * providers.length);
   const backend = providers[index];
   // Note: call this route multiple times and watch this log
-  console.log(`[INFO] using backend ${backend.provider}`);
+  console.log(`[INFO] using backend ${backend.type}`);
   const provider = getProvider(this.chainId, backend);
   return provider.getTokenDetails(this.chainId, tokenId);
 }

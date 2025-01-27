@@ -165,9 +165,9 @@ export enum ProviderType {
   NODE = "node",
 }
 
-type Backend = {
+type Provider = {
   url: string;
-  provider: SupportedProvider;
+  type: ProviderType;
   features: ChainFeatures[];
 };
 
@@ -185,7 +185,7 @@ type Chain = {
   ticker: string;
   decimals: number;
   backends: Backends;
-  providers?: Backend[];
+  providers?: Provider[];
   isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;
@@ -488,6 +488,6 @@ export type {
   TransactionSpendableAmounts,
   TypedAddress,
   Validator,
-  Backend,
+  Provider,
   Backends,
 };
