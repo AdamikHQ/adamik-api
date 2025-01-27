@@ -13,7 +13,7 @@ async function completeTransaction(
 ): Promise<void> {
   const { transaction } = args;
 
-  const spendableBalance = await (async () => {
+  const spendableBalance = await (async (): Promise<bigint> => {
     switch (transaction.data.mode) {
       case TransactionMode.TRANSFER: {
         const { senderAddress } = transaction.data;

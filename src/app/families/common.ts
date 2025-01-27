@@ -55,7 +55,7 @@ async function prevalidateTransactionCommon(
         const validSourceValidator =
           transactionData.sourceValidatorAddress?.length &&
           (await addressValidationFn(transactionData.sourceValidatorAddress));
-        if (!validSourceValidator) {
+        if ("sourceValidatorAddress" in transactionData && !validSourceValidator) {
           status.errors.push({ message: "Source validator address is invalid" });
         }
 

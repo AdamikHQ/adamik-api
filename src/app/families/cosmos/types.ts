@@ -3,7 +3,7 @@ type CosmosChainParams = {
   // Prefix of addresses
   prefix: string;
   // Prefix of validator addresses
-  validatorPrefix?: string;
+  validatorPrefix: string;
   // Unit used when querying the node
   denom: string;
   // Necessary when building transaction payloads

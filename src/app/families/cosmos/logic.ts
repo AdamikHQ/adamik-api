@@ -80,14 +80,9 @@ function isValidAddress(address: string, chainId: ChainId): boolean {
 
   const prefix = chainParams?.prefix;
   const validatorPrefix = chainParams?.validatorPrefix;
-  if (
-    (!prefix || !address.startsWith(prefix)) &&
-    (!validatorPrefix || !address.startsWith(validatorPrefix))
-  ) {
-    return false;
-  }
-
-  return true;
+  return (
+    (!!prefix && address.startsWith(prefix)) || (!!validatorPrefix && address.startsWith(validatorPrefix))
+  );
 }
 
 // Returns the provided CosmosAccount with updated pubKeyType and pubKey,
