@@ -159,7 +159,7 @@ type ChainSupportedFeatures = {
 // Define filters as flags: anything put in the object is true to flag that the filter is "ON"
 type ApiRequestFilters = Record<string, true>;
 
-export enum SupportedProvider {
+export enum ProviderType {
   MORALIS = "moralis",
   BLOCKSCOUT = "blockscout",
   NODE = "node",
