@@ -1,9 +1,9 @@
 import { AccountState } from "~/app/model/types_WIP";
-import { fetchAccount } from "../backend/node";
+import { calculateAccountState } from "../logic";
 import { StarknetService } from "../service";
 
 async function getAccountState(this: StarknetService, accountId: string): Promise<AccountState> {
-  return await fetchAccount(accountId);
+  return calculateAccountState(accountId);
 }
 
 export { getAccountState };

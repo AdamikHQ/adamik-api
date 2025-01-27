@@ -1,0 +1,72 @@
+meta {
+  name: starknet
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/broadcast
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: starknet
+}
+
+body:json {
+  {
+   "transaction": {
+      "data": {
+        "mode": "transferToken",
+        "tokenId": "0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8",
+        "senderAddress": "0x05e1dfe469A9b7a504cA84102359467453aE530cFB5Ec70FF4239f91e964A08e",
+        "recipientAddress": "0x06D67f670BccF07213f8435bBa34EBDB076d5F129147374860e1DDC3C9eCbc1C",
+        "amount": "1234",
+        "useMaxAmount": false,
+        "fees": "12510812810727",
+        "params": {
+          "payload": {
+            "contractAddress": "0x05e1dfe469a9b7a504ca84102359467453ae530cfb5ec70ff4239f91e964a08e",
+            "calldata": [
+              "1",
+              "2368576823837625528275935341135881659748932889268308403712618244410713532584",
+              "232670485425082704932579856502088130646006032362877466777181098476241604910",
+              "3",
+              "3092861663265464016875061771614345884012446260152576465884858413000342420508",
+              "1234",
+              "0"
+            ],
+            "toSign": "0x21afd61482c178090fda58a93a5b637a47f69eae0e573aa5a4aa1257eb1966b"
+          },
+          "details": {
+            "tip": 0,
+            "paymasterData": [],
+            "accountDeploymentData": [],
+            "nonceDataAvailabilityMode": "L1",
+            "feeDataAvailabilityMode": "L1",
+            "resourceBounds": {
+              "l2_gas": {
+                "max_amount": "0x0",
+                "max_price_per_unit": "0x0"
+              },
+              "l1_gas": {
+                "max_amount": "0x1ae",
+                "max_price_per_unit": "0x138ba5eccf176"
+              }
+            },
+            "nonce": "1",
+            "maxFee": 0,
+            "version": "0x3"
+          }
+        }
+      },
+      "encoded": "0x21afd61482c178090fda58a93a5b637a47f69eae0e573aa5a4aa1257eb1966b",
+      "signature": "3044022002c99579b7c439e7164c6c731b99cf08bec160d184468616ac84d4e00f9692f2022003c99f552559255ea189c9c87e74f1fd8ae728cb6b0a10d1c38fb8077bcf68e7"
+     }
+  }
+}
+
+assert {
+  res.status: eq 400
+}

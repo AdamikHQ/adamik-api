@@ -2,12 +2,12 @@ import { ec } from "starknet";
 
 // This test will only help to provide signature for any transaction on starknet,
 // you will need to paste your private key in allow to sign transaction
-describe("ArgentX", () => {
-  const randomEmptyPrivateKey = "0x0534afe04050e6f010ce72056ee694f84a7ad3c84747f00be64d671c53039fa1";
+describe("Signer", () => {
+  const randomEmptyPrivateKey = "0x07b3a10780ac438774198115b0663c25a577128fa9db74a278a2db9ff6a3ce3e";
 
-  it.skip("should transfer from argentX to another argentX", async () => {
+  it.only("should sign any encoded transaction", async () => {
     const signature = ec.starkCurve.sign(
-      "0x75e9ceb2ff0d6f65766dbb1d7fa589c3f907ef75668459a2c60af9e2f42bb42",
+      "0x1d7f7f41c0549ecbaf6d3337f0730b3c6738da840d6d19c94225350c5900a9e",
       randomEmptyPrivateKey
     );
 
