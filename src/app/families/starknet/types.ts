@@ -18,8 +18,13 @@ type StarknetTransactionParams = z.infer<typeof starknetTransactionParamsSchema>
 type StarknetTransactionParamsToBroadcast = StarknetTransactionParams & {
   mode: TransactionMode;
 };
+
 const starknetTransactionParamsSchema = z.object({
   pubKey: z.string().optional(),
+  payload: z.string(),
+});
+
+const starknetTransactionParamsPayloadSchema = z.object({
   payload: z.object({
     classHash: z.string().optional(),
     contractAddress: z.string().optional(),
@@ -46,4 +51,4 @@ const starknetTransactionParamsSchema = z.object({
 
 export type { StarknetTransactionParams, StarknetTransactionParamsToBroadcast };
 
-export { starknetTransactionParamsSchema };
+export { starknetTransactionParamsPayloadSchema, starknetTransactionParamsSchema };
