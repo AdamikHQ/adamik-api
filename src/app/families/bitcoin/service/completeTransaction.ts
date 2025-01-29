@@ -1,12 +1,9 @@
-import coinSelect from "coinselect";
-import split from "coinselect/split.js";
-import { CHAINS } from "~/app/config/chains";
-import { Status, Transaction } from "~/app/model/types_WIP";
-import { fetchAddressesDashboard, fetchFeePerByte, fetchXpubDashboard } from "../backend/blockchair";
-import { UtxoWithMetadata } from "../backend/types";
-import { getCurrentBlockHeight, isValidXpub } from "../logic";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
+import { fetchFeePerByte } from "../backend/blockchair";
+import { buildStakingPsbt, buildStakingScripts, buildTransferPsbt, buildUnbondingPsbt } from "../psbt";
 import { BitcoinService } from "../service";
-import { BitcoinChainParams, BitcoinTransactionParams } from "../types";
+import { BitcoinTransactionParams, PsbtWithFee } from "../types";
 
 async function completeTransaction(
   this: BitcoinService,
@@ -17,99 +14,47 @@ async function completeTransaction(
 ): Promise<void> {
   const { transaction, status } = _;
 
-  const feeRate = await fetchFeePerByte(this.chainId);
+  const feePerByte = await fetchFeePerByte(this.chainId);
 
-  const { data, context } = await (async () => {
-    return isValidXpub(this.chainId, transaction.data.senderAddress)
-      ? await fetchXpubDashboard(this.chainId, transaction.data.senderAddress)
-      : await fetchAddressesDashboard(this.chainId, [transaction.data.senderAddress]);
-  })();
+  // NOTE bitcoin family does it differently than others:
+  // The PSBT is already the encoded transaction, but it has to be computed
+  // here in completeTransaction to be able to deduce fees and amount...
+  let psbtWithFee: PsbtWithFee;
+  switch (transaction.data.mode) {
+    case TransactionMode.TRANSFER:
+      psbtWithFee = await buildTransferPsbt(this.chainId, transaction, feePerByte, status);
+      break;
 
-  let allUtxos: UtxoWithMetadata[] = data?.utxo || [];
-  const currentBlockHeight = getCurrentBlockHeight(this.chainId, allUtxos, context);
+    case TransactionMode.STAKE:
+    case TransactionMode.UNSTAKE:
+      const stakingScripts = await buildStakingScripts(transaction);
 
-  // Select UTXOs using either:
-  // - coinSelect: finds optimal UTXOs for exact amount
-  // - split: uses all UTXOs to send maximum amount
-  const selectionAlgorithm = transaction.data.useMaxAmount ? split : coinSelect;
-  const { inputs, outputs, fee } = selectionAlgorithm(
-    allUtxos,
-    [
-      {
-        address: transaction.data.recipientAddress,
-        value: transaction.data.amount ? Number(transaction.data.amount) : undefined,
-      },
-    ],
-    feeRate
-  );
+      psbtWithFee =
+        transaction.data.mode === TransactionMode.STAKE
+          ? await buildStakingPsbt(this.chainId, transaction, stakingScripts, feePerByte)
+          : await buildUnbondingPsbt(this.chainId, transaction, stakingScripts, feePerByte);
+      break;
 
-  // inputs and outputs will be undefined if no solution was found
-  if (!inputs || !outputs) {
-    status.errors.push({
-      message:
-        "No solution found during UTXO selection, you might not have enough funds or an account that's too fragmented.",
-    });
-    return;
+    default:
+      throw new UnsupportedFeatureError(
+        `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chainId}`
+      );
   }
 
-  // Store inputs and outputs in the transaction, as they'll be needed later to encode it
-  const params: BitcoinTransactionParams = {
-    inputs: [],
-    outputs: [],
-  };
+  transaction.data.fees = BigInt(psbtWithFee.fee);
 
-  // Check selected UTXOs and add warnings
-  for (const input of inputs) {
-    // NOTE The published 'UTXO' type from coinselect is WRONG!
-    // The runtime data actually matches the UtxoWithMetadata type
-    const utxo = input as UtxoWithMetadata;
-    params.inputs.push(utxo);
+  // TODO Test this
+  if (transaction.data.useMaxAmount) {
+    const recipientOutput = psbtWithFee.psbt.txOutputs.find(
+      (output) => output.address === transaction.data.recipientAddress
+    );
 
-    // Case 1: UTXO is in mempool (block_id = -1)
-    if (utxo.block_id === -1) {
-      status.warnings.push({
-        message: `Using unconfirmed input from transaction ${utxo.transaction_hash} (still pending in mempool)`,
-      });
-    }
-
-    // Case 2: UTXO is in a block but has < 6 confirmations
-    else if (utxo.block_id > 0) {
-      const confirmations_required = (CHAINS[this.chainId].params as BitcoinChainParams).confirmations;
-      const confirmations = currentBlockHeight - utxo.block_id + 1;
-      if (confirmations < confirmations_required) {
-        status.warnings.push({
-          message: `Using input from transaction ${
-            utxo.transaction_hash
-          } with only ${confirmations} confirmation${confirmations === 1 ? "" : "s"}`,
-        });
-      }
+    if (recipientOutput) {
+      transaction.data.amount = BigInt(recipientOutput.value);
     }
   }
 
-  for (const out of outputs) {
-    // value in out is always defined after calling selectionAlgorithm
-    if ("value" in out) {
-      // in case useMaxAmount is true, we need to overwrite the amount in the transaction with the amount selected by the algorithm
-      if ("address" in out) {
-        if (transaction.data.useMaxAmount && out.address === transaction.data.recipientAddress) {
-          transaction.data.amount = BigInt(out.value);
-        }
-        params.outputs.push(out);
-      }
-      // no address in the output, this is the change
-      else {
-        // Take the address of the first input, its as good as any other one
-        // FIXME Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
-        params.outputs.push({
-          value: out.value,
-          address: (inputs[0] as UtxoWithMetadata).address,
-        });
-      }
-    }
-  }
-
-  transaction.data.fees = BigInt(fee);
-  transaction.data.params = params;
+  transaction.data.params = psbtWithFee as BitcoinTransactionParams;
 }
 
 export { completeTransaction };

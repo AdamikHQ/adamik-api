@@ -40,6 +40,7 @@ const UtxoWithMetadata = z
     index: z.number(),
     value: z.number(),
     address: z.string(),
+    script_hex: z.string().optional(),
   })
   .transform((data) => {
     return {

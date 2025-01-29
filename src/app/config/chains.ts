@@ -396,22 +396,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     isTestnetFor: ChainId.ARBITRUM,
     supportedFeatures: EVM_FEATURES(ChainId.ARBITRUM_SEPOLIA),
   },
-  [ChainId.BITCOIN]: {
-    id: ChainId.BITCOIN,
-    name: "Bitcoin",
-    family: ChainFamily.BITCOIN,
-    ticker: "BTC",
-    decimals: 8,
-    backends: {
-      nodeURL: "",
-      explorerURL: "https://api.blockchair.com/bitcoin",
-    },
-    params: {
-      confirmations: 6,
-    },
-    nativeId: "bitcoin",
-    supportedFeatures: BITCOIN_FEATURES,
-  },
   "monad-private-testnet": {
     id: ChainId.MONAD_PRIVATE_TESTNET,
     name: "Monad Private Testnet",
@@ -426,8 +410,25 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: EVM_FEATURES(ChainId.MONAD_PRIVATE_TESTNET),
     isTestnetFor: "monad",
   },
-  [ChainId.BITCOIN_TESTNET]: {
+  bitcoin: {
+    id: ChainId.BITCOIN,
+    nativeId: "bitcoin",
+    name: "Bitcoin",
+    family: ChainFamily.BITCOIN,
+    ticker: "BTC",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/bitcoin",
+    },
+    params: {
+      confirmations: 6,
+    },
+    supportedFeatures: BITCOIN_FEATURES,
+  },
+  "bitcoin-testnet": {
     id: ChainId.BITCOIN_TESTNET,
+    nativeId: "bitcoin-testnet",
     name: "Bitcoin Testnet",
     family: ChainFamily.BITCOIN,
     ticker: "BTC",
@@ -440,7 +441,57 @@ const CHAINS: { [key in ChainId]: Chain } = {
     params: {
       confirmations: 6,
     },
-    nativeId: "bitcoin-testnet",
+    supportedFeatures: BITCOIN_FEATURES,
+  },
+  /*
+  "bitcoin-signet": {
+    id: ChainId.BITCOIN_SIGNET,
+    nativeId: "bitcoin-signet",
+    name: "Bitcoin Signet",
+    family: ChainFamily.BITCOIN,
+    ticker: "sBTC",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "",
+    },
+    isTestnetFor: ChainId.BITCOIN,
+    params: {
+      confirmations: 6,
+    },
+    supportedFeatures: BITCOIN_FEATURES,
+  },
+  */
+  litecoin: {
+    id: ChainId.LITECOIN,
+    nativeId: "litecoin",
+    name: "Litecoin",
+    family: ChainFamily.BITCOIN,
+    ticker: "LTC",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/litecoin",
+    },
+    params: {
+      confirmations: 6,
+    },
+    supportedFeatures: BITCOIN_FEATURES,
+  },
+  dogecoin: {
+    id: ChainId.DOGECOIN,
+    nativeId: "dogecoin",
+    name: "Dogecoin",
+    family: ChainFamily.BITCOIN,
+    ticker: "DOGE",
+    decimals: 8,
+    backends: {
+      nodeURL: "",
+      explorerURL: "https://api.blockchair.com/dogecoin",
+    },
+    params: {
+      confirmations: 60, // confirmations used by Coinbase or Binance
+    },
     supportedFeatures: BITCOIN_FEATURES,
   },
   polygon: {
@@ -670,38 +721,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.ROOTSTOCK,
     supportedFeatures: EVM_ROOTSTOCK_FEATURES,
-  },
-  [ChainId.LITECOIN]: {
-    id: ChainId.LITECOIN,
-    name: "Litecoin",
-    family: ChainFamily.BITCOIN,
-    ticker: "LTC",
-    decimals: 8,
-    backends: {
-      nodeURL: "",
-      explorerURL: "https://api.blockchair.com/litecoin",
-    },
-    params: {
-      confirmations: 6,
-    },
-    nativeId: "litecoin",
-    supportedFeatures: BITCOIN_FEATURES,
-  },
-  [ChainId.DOGECOIN]: {
-    id: ChainId.DOGECOIN,
-    name: "Dogecoin",
-    family: ChainFamily.BITCOIN,
-    ticker: "DOGE",
-    decimals: 8,
-    backends: {
-      nodeURL: "",
-      explorerURL: "https://api.blockchair.com/dogecoin",
-    },
-    params: {
-      confirmations: 60, // confirmations used by Coinbase or Binance
-    },
-    nativeId: "dogecoin",
-    supportedFeatures: BITCOIN_FEATURES,
   },
   ton: {
     family: ChainFamily.TON,

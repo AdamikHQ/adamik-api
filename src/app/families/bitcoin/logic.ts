@@ -132,10 +132,26 @@ function isP2SHScript(scriptHex: string): boolean {
   return script.length === 23 && script[0] === 0xa9 && script[1] === 0x14 && script[22] === 0x87;
 }
 
+function isTaprootAddress(address: string, network: networks.Network = networks.bitcoin): boolean {
+  // Only Bitcoin supports taproot at the moment
+  if (network !== networks.bitcoin && network !== networks.testnet) {
+    return false;
+  }
+
+  try {
+    const decoded = addressSerde.fromBech32(address);
+    // Taproot addresses use Bech32m (version 1) and have specific network prefixes
+    return decoded.version === 1 && decoded.prefix === (network === networks.testnet ? "tb" : "bc");
+  } catch (error) {
+    return false;
+  }
+}
+
 export {
   getCurrentBlockHeight,
   getNetworkForChainId,
   isP2SHScript,
+  isTaprootAddress,
   isValidAddress,
   isValidXpub,
   isWitnessScript,

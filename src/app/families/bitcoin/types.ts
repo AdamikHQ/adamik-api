@@ -9,12 +9,10 @@ type BitcoinChainParams = {
   confirmations: number;
 };
 
-// Bitcoin-specific fields used internaly by the chains transactions
-type BitcoinTransactionParams = {
-  // Public key of the sender address, necessary when it never made a transaction yet
-  inputs: UtxoWithMetadata[];
-  outputs: PsbtOutputExtended[];
-};
+// Bitcoin-specific data, only used internally by the transaction crafting functions
+// NOTE No better solution found than computing the full psbt early,
+// in completeTransaction instead of encodeTransaction
+type BitcoinTransactionParams = PsbtWithFee;
 
 const bitcoinTransactionParamsSchema = z.object({
   inputs: UtxoWithMetadata,
@@ -24,6 +22,11 @@ const bitcoinTransactionParamsSchema = z.object({
 // Extract internal types from Psbt class, that are not exported by bitcoinjs...
 type PsbtInputExtended = Parameters<typeof Psbt.prototype.addInput>[0];
 type PsbtOutputExtended = Parameters<typeof Psbt.prototype.addOutput>[0];
+
+type PsbtWithFee = {
+  psbt: Psbt;
+  fee: number;
+};
 
 /**
  * Branding allows us to prevent asigning any non-parsed value to a branded one.
@@ -44,5 +47,6 @@ export type {
   Branded,
   PsbtInputExtended,
   PsbtOutputExtended,
+  PsbtWithFee,
   Xpub,
 };

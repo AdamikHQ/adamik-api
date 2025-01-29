@@ -40,6 +40,7 @@ enum ChainId {
   ROOTSTOCK_TESTNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
+  //BITCOIN_SIGNET = "bitcoin-signet",
   LITECOIN = "litecoin",
   DOGECOIN = "dogecoin",
   MONAD_PRIVATE_TESTNET = "monad-private-testnet",

@@ -1,6 +1,8 @@
 import { ChainSupportedFeatures } from "~/app/model/types_WIP";
 
 const BITCOIN_FEATURES: ChainSupportedFeatures = {
+  // TODO Support staking for read operations ?
+  // FIXME Staking supported only by bitcoin but not other chains
   read: {
     token: false,
     validators: false,
@@ -12,7 +14,7 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
   },
   write: {
     transaction: {
-      type: { native: true, tokens: false, staking: false },
+      type: { native: true, tokens: false, staking: true },
       field: {
         memo: false,
       },

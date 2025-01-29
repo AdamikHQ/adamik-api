@@ -17,6 +17,7 @@
     "test:jest": "jest"
   },
   "dependencies": {
+    "@babylonlabs-io/btc-staking-ts": "^0.3.0",
     "@bitcoinerlab/secp256k1": "^1.2.0",
     "@cosmjs/amino": "^0.32.4",
     "@cosmjs/crypto": "^0.32.4",
@@ -31,7 +32,7 @@
     "algosdk": "^3.0.0",
     "bech32": "^2.0.0",
     "bignumber.js": "^9.1.2",
-    "bitcoinjs-lib": "^6.1.7",
+    "bitcoinjs-lib": "6.1.5",
     "coinselect": "^3.1.13",
     "cosmjs-types": "^0.9.0",
     "ethers": "^6.13.4",

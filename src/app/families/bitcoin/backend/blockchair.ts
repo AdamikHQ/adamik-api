@@ -55,12 +55,13 @@ async function fetchXpubDashboard(
       `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.error
     );
-    throw new ThirdPartyProviderError("Error while parsing Xpub data from the explorer");
+    throw new ThirdPartyProviderError("Error while parsing addresses data from the explorer");
   }
 
   const context = parsedResponse.data.context;
+  const data = parsedResponse.data.data[xpub];
 
-  if (context.code != 200 || !parsedResponse.data.data[xpub]) {
+  if (!data || context.code != 200) {
     console.warn(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.data
@@ -72,6 +73,20 @@ async function fetchXpubDashboard(
     console.warn(`Missing current block height for chain ID ${chainId} in: ${JSON.stringify(context)}`);
     throw new ThirdPartyProviderError(`Missing current block height in data returned from explorer`);
   }
+
+  // Custom data formatting: we need script_hex for each UTXO, so we add it manually
+  data.utxo.forEach((utxo) => {
+    const utxoAddress = Object.keys(data.addresses).find((address) => address === utxo.address);
+    if (!utxoAddress) {
+      console.warn(
+        `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+        parsedResponse.data
+      );
+      throw new ThirdPartyProviderError("Error in addresses data received from the explorer");
+    }
+
+    utxo.script_hex = data.addresses[utxoAddress].script_hex;
+  });
 
   return {
     data: parsedResponse.data.data[xpub],
@@ -113,8 +128,9 @@ async function fetchAddressesBatch(
   }
 
   const context = parsedResponse.data.context;
+  const data = parsedResponse.data.data;
 
-  if (context.code == 404) {
+  if (!data || context.code == 404) {
     return null;
   } else if (context.code != 200) {
     console.warn(
@@ -128,6 +144,20 @@ async function fetchAddressesBatch(
     console.warn(`Missing current block height for chain ID ${chainId} in: ${JSON.stringify(context)}`);
     throw new ThirdPartyProviderError(`Missing current block height in data returned from explorer`);
   }
+
+  // Custom data formatting: we need script_hex for each UTXO, so we add it manually
+  data.utxo.forEach((utxo) => {
+    const utxoAddress = Object.keys(data.addresses).find((address) => address === utxo.address);
+    if (!utxoAddress) {
+      console.warn(
+        `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+        parsedResponse.data
+      );
+      throw new ThirdPartyProviderError("Error in addresses data received from the explorer");
+    }
+
+    utxo.script_hex = data.addresses[utxoAddress].script_hex;
+  });
 
   return parsedResponse.data;
 }
