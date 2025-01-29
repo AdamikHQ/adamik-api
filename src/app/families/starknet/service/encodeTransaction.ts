@@ -56,7 +56,7 @@ async function encodeTransactionToBroadcast(
 
   return JSON.stringify({
     mode: signedTransaction.data.mode,
-    payload: { ...parsedPayload, signature: signedTransaction.signature },
+    payload: { ...parsedPayload.payload, signature: signedTransaction.signature },
     details: { ...parsedPayload.details },
   });
 }

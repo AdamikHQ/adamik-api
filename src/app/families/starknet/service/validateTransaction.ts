@@ -1,4 +1,10 @@
-import { DeployContractType, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import {
+  AccountState,
+  DeployContractType,
+  Status,
+  Transaction,
+  TransactionMode,
+} from "~/app/model/types_WIP";
 import { prevalidateTransactionCommon } from "../../common";
 import { getNonce } from "../backend/node";
 import { ArgentX } from "../contracts/argentx";
@@ -97,16 +103,27 @@ async function validateTransaction(
 ): Promise<void> {
   const { transaction, status } = _;
 
-  const accountData = await calculateAccountState(transaction.data.senderAddress);
-  const availableBalance = accountData.balances.native?.available;
-  const amount = transaction.data.amount as bigint;
-  const fees = transaction.data.fees as bigint;
-
+  let accountData: AccountState | undefined;
   if ([TransactionMode.TRANSFER, TransactionMode.TRANSFER_TOKEN].includes(transaction.data.mode)) {
+    accountData = await calculateAccountState(transaction.data.senderAddress);
+    const amount = transaction.data.amount as bigint;
+    const fees = transaction.data.fees as bigint;
+
     if (amount < fees * 10n) {
       status.warnings.push({ message: "Network fees are above 10% of the amount" });
     }
+  } else if (transaction.data.mode === TransactionMode.DEPLOY_ACCOUNT) {
+    const address = ArgentX.generateAddress(transaction.data.senderPubKey);
+    accountData = await calculateAccountState(address);
   }
+
+  if (!accountData) {
+    status.errors.push({ message: "Account does not exist" });
+    return;
+  }
+
+  const availableBalance = accountData.balances.native?.available;
+  const fees = transaction.data.fees as bigint;
 
   // - fees < nativeBalance
   if (availableBalance && fees > BigInt(availableBalance)) {

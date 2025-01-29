@@ -12,10 +12,11 @@ get {
 
 params:path {
   chainId: starknet
-  accountId: 0x04e0f62Cb9A49aeacF0EF9587A037C004E9f40E8EC0c84158Cc3604f80541A9b
+  accountId: 0x05e1dfe469A9b7a504cA84102359467453aE530cFB5Ec70FF4239f91e964A08e
 }
 
 assert {
   res.status: eq 200
   res.body.balances: isDefined tokens
+  res.body.balances.native.available: eq 12020711008881783448
 }

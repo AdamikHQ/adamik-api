@@ -1,0 +1,10 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-owned-by?owner_address=0x01924db07ff85482f6f7948c5d09f8cb008231c1bbeaa4206a28a195ce2e528b",
+    "method": "GET"
+  },
+  "response": {
+    "next_url": null,
+    "data": []
+  }
+}
