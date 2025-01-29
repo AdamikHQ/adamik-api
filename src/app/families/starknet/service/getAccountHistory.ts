@@ -1,4 +1,5 @@
 import { AccountHistory, Paginated } from "~/app/model/types_WIP";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { StarknetService } from "../service";
 
 async function getAccountHistory(
@@ -6,7 +7,7 @@ async function getAccountHistory(
   accountId: string,
   paginationToken?: string
 ): Promise<Paginated<AccountHistory>> {
-  throw new Error("Not implemented");
+  throw new UnsupportedFeatureError("Not implemented");
 }
 
 export { getAccountHistory };

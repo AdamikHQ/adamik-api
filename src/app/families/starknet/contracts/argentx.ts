@@ -12,7 +12,7 @@ import {
 } from "starknet";
 import { CHAINS } from "~/app/config/chains";
 import { createStarknetAccount, marginFees } from "./logic";
-import { deployContractPayload, generateAddress } from "./types";
+import { generateAddress, getDeployContractPayload } from "./types";
 
 const ArgentXAccountClassHash = "0x036078334509b514626504edc9fb252328d1a240e4e948bef8d0c08dff45927f";
 
@@ -41,7 +41,7 @@ class ArgentX {
     return encode.sanitizeHex(AXcontractAddress);
   };
 
-  static deployContractPayload: deployContractPayload = async (
+  static getDeployContractPayload: getDeployContractPayload = async (
     pubkey: string
   ): Promise<{
     payload: Omit<DeployAccountContractTransaction, "signature"> & {

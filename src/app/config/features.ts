@@ -21,7 +21,15 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
   },
   write: {
     transaction: {
-      type: { native: true, tokens: false, staking: false },
+      type: {
+        deployAccount: false,
+        transfer: false,
+        transferToken: false,
+        delegate: false,
+        redelegate: false,
+        undelegate: false,
+        claimRewards: false,
+      },
       field: {
         memo: false,
       },
@@ -45,7 +53,15 @@ const EVM_ROOTSTOCK_FEATURES: ChainSupportedFeatures = {
   write: {
     transaction: {
       //Issue with EIP-1559 txs on rootstock
-      type: { native: false, tokens: false, staking: false },
+      type: {
+        deployAccount: false,
+        transfer: false,
+        transferToken: false,
+        delegate: false,
+        redelegate: false,
+        undelegate: false,
+        claimRewards: false,
+      },
       field: {
         memo: false,
       },

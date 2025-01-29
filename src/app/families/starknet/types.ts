@@ -15,7 +15,7 @@ const ResourceBoundsSchema = z.object({
 
 type StarknetTransactionParams = z.infer<typeof starknetTransactionParamsSchema>;
 
-type StarknerTransactionParamsToBroadcast = StarknetTransactionParams & {
+type StarknetTransactionParamsToBroadcast = StarknetTransactionParams & {
   mode: TransactionMode;
 };
 const starknetTransactionParamsSchema = z.object({
@@ -44,6 +44,6 @@ const starknetTransactionParamsSchema = z.object({
     .optional(),
 });
 
-export type { StarknerTransactionParamsToBroadcast, StarknetTransactionParams };
+export type { StarknetTransactionParams, StarknetTransactionParamsToBroadcast };
 
 export { starknetTransactionParamsSchema };

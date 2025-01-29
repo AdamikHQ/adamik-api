@@ -1559,7 +1559,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
       nodeURL: "https://starknet-mainnet.public.blastapi.io/rpc/v0_7", //FIXME: find a better node
       explorerURL: "https://api.starkscan.co",
     },
-    params: {},
     supportedFeatures: STARKNET_FEATURES,
   },
 } as const;
@@ -1568,16 +1567,25 @@ function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
   const supportedModes: TransactionMode[] = [];
   const supportedTransactions = CHAINS[chainId].supportedFeatures.write.transaction.type;
 
-  if (supportedTransactions.native) {
+  if (supportedTransactions.deployAccount) {
+    supportedModes.push(TransactionMode.DEPLOY_ACCOUNT);
+  }
+  if (supportedTransactions.transfer) {
     supportedModes.push(TransactionMode.TRANSFER);
   }
-  if (supportedTransactions.tokens) {
+  if (supportedTransactions.transferToken) {
     supportedModes.push(TransactionMode.TRANSFER_TOKEN);
   }
-  if (supportedTransactions.staking) {
+  if (supportedTransactions.delegate) {
     supportedModes.push(TransactionMode.DELEGATE);
+  }
+  if (supportedTransactions.redelegate) {
     supportedModes.push(TransactionMode.REDELEGATE);
+  }
+  if (supportedTransactions.undelegate) {
     supportedModes.push(TransactionMode.UNDELEGATE);
+  }
+  if (supportedTransactions.claimRewards) {
     supportedModes.push(TransactionMode.CLAIM_REWARDS);
   }
 

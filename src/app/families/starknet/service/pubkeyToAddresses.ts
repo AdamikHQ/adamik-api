@@ -1,4 +1,4 @@
-import { TypedAddress } from "~/app/model/types_WIP";
+import { DeployContractType, TypedAddress } from "~/app/model/types_WIP";
 import { ArgentX } from "../contracts/argentx";
 import { StarknetService } from "../service";
 
@@ -9,7 +9,7 @@ async function pubkeyToAddresses(this: StarknetService, pubkey: string): Promise
     //   address: OpenZeppelin.generateAddress(pubkey),
     // },
     {
-      type: "argent",
+      type: DeployContractType.ARGENTX,
       address: ArgentX.generateAddress(pubkey),
     },
     // TODO: Uncomment when braavos match calculated address

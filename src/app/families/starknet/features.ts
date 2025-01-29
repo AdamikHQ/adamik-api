@@ -6,13 +6,21 @@ const STARKNET_FEATURES: ChainSupportedFeatures = {
     validators: false,
     account: {
       balances: { native: true, tokens: true, staking: false },
-      transactions: { native: true, tokens: true, staking: false },
+      transactions: { native: false, tokens: false, staking: false },
     },
     transaction: { native: false, tokens: false, staking: false },
   },
   write: {
     transaction: {
-      type: { native: true, tokens: true, staking: false },
+      type: {
+        deployAccount: true,
+        transfer: true,
+        transferToken: true,
+        delegate: false,
+        redelegate: false,
+        undelegate: false,
+        claimRewards: false,
+      },
       field: {
         memo: false,
       },

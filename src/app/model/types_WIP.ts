@@ -132,7 +132,7 @@ type ChainSupportedFeatures = {
   };
   write: {
     transaction: {
-      type: FeaturesSet;
+      type: { [key in TransactionMode]: boolean };
       field: {
         memo: boolean;
       };

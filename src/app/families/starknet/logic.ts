@@ -1,5 +1,3 @@
-import { CallData, Provider } from "starknet";
-import { CHAINS } from "~/app/config/chains";
 import {
   AccountState,
   DeployContractType,
@@ -14,7 +12,7 @@ import { fetchTokenBalances, fetchTokenContract } from "./backend/indexer";
 import { TokenBalance, TransactionResponse } from "./backend/types";
 import { STARK_TOKEN_CONTRACT_ID } from "./constants";
 import { ArgentX } from "./contracts/argentx";
-import { transfer } from "./contracts/logic";
+import { buildTransferPayload } from "./contracts/logic";
 
 const buildTransaction = async (transaction: Transaction) => {
   const { amount, recipientAddress, senderAddress, mode } = transaction.data;
@@ -24,7 +22,12 @@ const buildTransaction = async (transaction: Transaction) => {
       if (!amount || !recipientAddress || !senderAddress) {
         throw new Error("Missing transaction data");
       }
-      const payload = await transfer(senderAddress, recipientAddress, amount, STARK_TOKEN_CONTRACT_ID);
+      const payload = await buildTransferPayload(
+        senderAddress,
+        recipientAddress,
+        amount,
+        STARK_TOKEN_CONTRACT_ID
+      );
 
       return payload;
     }
@@ -33,7 +36,7 @@ const buildTransaction = async (transaction: Transaction) => {
         throw new Error("Missing transaction data");
       }
       const { tokenId } = transaction.data;
-      const payload = await transfer(senderAddress, recipientAddress, amount, tokenId);
+      const payload = await buildTransferPayload(senderAddress, recipientAddress, amount, tokenId);
 
       return payload;
     }
@@ -42,7 +45,7 @@ const buildTransaction = async (transaction: Transaction) => {
       const { senderPubKey, contractType } = transaction.data;
       switch (contractType) {
         case DeployContractType.ARGENTX: {
-          const payload = await ArgentX.deployContractPayload(senderPubKey);
+          const payload = await ArgentX.getDeployContractPayload(senderPubKey);
           return payload;
         }
         default: {
@@ -69,19 +72,6 @@ const starkScanToAdamikTransaction = async (transaction: TransactionResponse) =>
     parsedTransaction.state = TransactionState.CONFIRMED;
     parsedTransaction.blockHeight = BigInt(transaction.block_number);
   }
-
-  const provider = new Provider({
-    nodeUrl: CHAINS.starknet.backends.nodeURL,
-  });
-
-  const { abi } = await provider.getClassAt(transaction.account_calls[0].contract_address || "");
-
-  const callData = new CallData(abi);
-
-  const res = callData.parse(
-    transaction.account_calls[0].selector || "",
-    transaction.account_calls[0].calldata || []
-  );
 
   return parsedTransaction;
 };

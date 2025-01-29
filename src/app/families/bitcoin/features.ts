@@ -12,7 +12,15 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
   },
   write: {
     transaction: {
-      type: { native: true, tokens: false, staking: false },
+      type: {
+        deployAccount: false,
+        transfer: true,
+        transferToken: false,
+        delegate: false,
+        redelegate: false,
+        undelegate: false,
+        claimRewards: false,
+      },
       field: {
         memo: false,
       },

@@ -73,7 +73,7 @@ const estimateTransferFees = async (
   return marginedFee;
 };
 
-const transfer = async (sender: string, recipient: string, amount: bigint, contractId: string) => {
+const buildTransferPayload  = async (sender: string, recipient: string, amount: bigint, contractId: string) => {
   const provider = new Provider({
     nodeUrl: CHAINS.starknet.backends.nodeURL,
   });
@@ -88,7 +88,7 @@ const transfer = async (sender: string, recipient: string, amount: bigint, contr
 };
 
 // NOTE: WIP
-const stake = async (amount: BigInt, sender: string, poolAddress: string) => {
+const buildStakePayload  = async (amount: BigInt, sender: string, poolAddress: string) => {
   const provider = new Provider({
     nodeUrl: CHAINS.starknet.backends.nodeURL,
   });
@@ -139,4 +139,4 @@ const stake = async (amount: BigInt, sender: string, poolAddress: string) => {
   }
 };
 
-export { createStarknetAccount, estimateTransferFees, getNonce, marginFees, stake, transfer };
+export { createStarknetAccount, estimateTransferFees, getNonce, marginFees, buildStakePayload , buildTransferPayload };
