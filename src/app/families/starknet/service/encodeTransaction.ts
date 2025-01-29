@@ -1,5 +1,6 @@
 import { hexToString, stringToHex } from "viem";
 import { Status, Transaction } from "~/app/model/types_WIP";
+import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { buildTransaction } from "../logic";
 import { StarknetService } from "../service";
 import { StarknetTransactionParams, starknetTransactionParamsPayloadSchema } from "../types";
@@ -28,7 +29,7 @@ async function encodeTransactionToSign(
     })
   );
 
-  transaction.data.params = { payload: params };
+  transaction.data.params = params;
 }
 
 async function encodeTransactionToBroadcast(
@@ -41,11 +42,15 @@ async function encodeTransactionToBroadcast(
   const { signedTransaction } = _;
 
   const params = signedTransaction.data.params as StarknetTransactionParams;
-  if (!params.payload) {
-    throw new Error("Transaction params are not set");
+
+  if (!params) {
+    throw new InvalidTransactionError({
+      errors: [{ message: "Transaction params are not set" }],
+      warnings: [],
+    });
   }
 
-  const payload = hexToString(params.payload as `0x${string}`);
+  const payload = hexToString(params as `0x${string}`);
   const decodePayload = JSON.parse(payload);
   const parsedPayload = starknetTransactionParamsPayloadSchema.parse(decodePayload);
 

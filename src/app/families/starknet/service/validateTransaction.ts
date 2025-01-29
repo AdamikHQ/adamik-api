@@ -1,7 +1,7 @@
 import { DeployContractType, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { prevalidateTransactionCommon } from "../../common";
+import { getNonce } from "../backend/node";
 import { ArgentX } from "../contracts/argentx";
-import { getNonce } from "../contracts/logic";
 import { calculateAccountState } from "../logic";
 import { StarknetService } from "../service";
 import { validateAddress } from "./validateAddress";

@@ -1564,30 +1564,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
 } as const;
 
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
-  const supportedModes: TransactionMode[] = [];
-  const supportedTransactions = CHAINS[chainId].supportedFeatures.write.transaction.type;
+  const transactionFeatures = CHAINS[chainId].supportedFeatures.write.transaction.type;
 
-  if (supportedTransactions.deployAccount) {
-    supportedModes.push(TransactionMode.DEPLOY_ACCOUNT);
-  }
-  if (supportedTransactions.transfer) {
-    supportedModes.push(TransactionMode.TRANSFER);
-  }
-  if (supportedTransactions.transferToken) {
-    supportedModes.push(TransactionMode.TRANSFER_TOKEN);
-  }
-  if (supportedTransactions.delegate) {
-    supportedModes.push(TransactionMode.DELEGATE);
-  }
-  if (supportedTransactions.redelegate) {
-    supportedModes.push(TransactionMode.REDELEGATE);
-  }
-  if (supportedTransactions.undelegate) {
-    supportedModes.push(TransactionMode.UNDELEGATE);
-  }
-  if (supportedTransactions.claimRewards) {
-    supportedModes.push(TransactionMode.CLAIM_REWARDS);
-  }
+  const supportedFeatures = Object.entries(transactionFeatures).filter((entry) => entry[1] === true);
+  const supportedModes = Object.keys(supportedFeatures) as TransactionMode[];
 
   return supportedModes;
 }

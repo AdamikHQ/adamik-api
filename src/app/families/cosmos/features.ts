@@ -23,7 +23,15 @@ const COSMOS_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
   },
   write: {
     transaction: {
-      type: { native: true, tokens: false, staking: true },
+      type: {
+        deployAccount: true,
+        transfer: true,
+        transferToken: false,
+        delegate: true,
+        redelegate: true,
+        undelegate: true,
+        claimRewards: true,
+      },
       field: {
         memo: true,
       },

@@ -54,6 +54,17 @@ const featuresSetSchema = z.object({
   staking: z.boolean(),
 });
 
+const transactionModeSchema = () => {
+  const transactionModes = Object.entries(TransactionMode).reduce((acc, [key, value]) => {
+    acc[value] = z.boolean();
+    return acc;
+  }, {} as Record<TransactionMode, z.ZodType<boolean>>);
+
+  return z.object(transactionModes);
+};
+
+z.nativeEnum(TransactionMode);
+
 const chainSupportedFeaturesSchema = z
   .object({
     read: z.object({
@@ -67,7 +78,7 @@ const chainSupportedFeaturesSchema = z
     }),
     write: z.object({
       transaction: z.object({
-        type: featuresSetSchema,
+        type: transactionModeSchema(),
         field: z.object({
           memo: z.boolean(),
         }),

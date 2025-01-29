@@ -1,3 +1,4 @@
+import { Account, Provider, stark } from "starknet";
 import {
   AccountState,
   DeployContractType,
@@ -9,10 +10,10 @@ import {
   TransactionState,
 } from "~/app/model/types_WIP";
 import { fetchTokenBalances, fetchTokenContract } from "./backend/indexer";
+import { buildTransferPayload } from "./backend/node";
 import { TokenBalance, TransactionResponse } from "./backend/types";
 import { STARK_TOKEN_CONTRACT_ID } from "./constants";
 import { ArgentX } from "./contracts/argentx";
-import { buildTransferPayload } from "./contracts/logic";
 
 const buildTransaction = async (transaction: Transaction) => {
   const { amount, recipientAddress, senderAddress, mode } = transaction.data;
@@ -124,4 +125,26 @@ async function calculateAccountState(accountId: string): Promise<AccountState> {
   };
 }
 
-export { buildTransaction, calculateAccountState, starkScanToAdamikTransaction };
+// NOTE:
+// we use stark.randomAddress() that will create a random private key that we are not using
+// because on how starknet js work, the third argument on account is a mandatory signer or private key to allow them
+// to sign in one go, but in our case we will need to use our custom method that allow to get a payload that we can sign async
+const createStarknetAccount = async (provider: Provider, address: string): Promise<Account> => {
+  const account = new Account(provider, address, stark.randomAddress());
+  return account;
+};
+
+// NOTE:
+// https://starknetjs.com/docs/guides/estimate_fees#fee-limitation
+// we add 10% to the suggestedMaxFee as recommended by foundation
+const marginFees = (fees: bigint) => {
+  return (fees * 11n) / 10n;
+};
+
+export {
+  buildTransaction,
+  calculateAccountState,
+  createStarknetAccount,
+  marginFees,
+  starkScanToAdamikTransaction,
+};

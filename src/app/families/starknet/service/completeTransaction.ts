@@ -1,7 +1,8 @@
 import { DeployContractType, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { UserInputError } from "~/app/tools/handlers/errors";
+import { estimateTransferFees, getNonce } from "../backend/node";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { ArgentX } from "../contracts/argentx";
-import { estimateTransferFees, getNonce } from "../contracts/logic";
 
 async function completeTransaction({
   transaction,
@@ -17,7 +18,7 @@ async function completeTransaction({
           const nonce = await getNonce(ArgentX.generateAddress(transaction.data.senderPubKey));
           transaction.data.nonce = BigInt(nonce);
           if (transaction.data.nonce !== 0n) {
-            throw new Error("Nonce is not 0, can't deploy wallet contract");
+            throw new UserInputError("Nonce is not 0, can't deploy wallet contract");
           }
           transaction.data.fees = await ArgentX.estimateDeployFees(transaction.data.senderPubKey);
           break;
@@ -28,7 +29,7 @@ async function completeTransaction({
 
     case TransactionMode.TRANSFER:
       if (!transaction.data.amount) {
-        throw new Error("Amount is required");
+        throw new UserInputError("Amount is required");
       }
 
       transaction.data.fees = await estimateTransferFees(
@@ -41,7 +42,7 @@ async function completeTransaction({
 
     case TransactionMode.TRANSFER_TOKEN:
       if (!transaction.data.amount) {
-        throw new Error("Amount is required");
+        throw new UserInputError("Amount is required");
       }
 
       transaction.data.fees = await estimateTransferFees(

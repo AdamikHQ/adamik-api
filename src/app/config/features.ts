@@ -23,8 +23,8 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
     transaction: {
       type: {
         deployAccount: false,
-        transfer: false,
-        transferToken: false,
+        transfer: true,
+        transferToken: true,
         delegate: false,
         redelegate: false,
         undelegate: false,

@@ -11,10 +11,10 @@ import {
   RawArgs,
 } from "starknet";
 import { CHAINS } from "~/app/config/chains";
-import { createStarknetAccount, marginFees } from "./logic";
+import { createStarknetAccount, marginFees } from "../logic";
 import { generateAddress, getDeployContractPayload } from "./types";
 
-const ArgentXAccountClassHash = "0x036078334509b514626504edc9fb252328d1a240e4e948bef8d0c08dff45927f";
+const ARGENT_X_CLASS_HASH = "0x036078334509b514626504edc9fb252328d1a240e4e948bef8d0c08dff45927f";
 
 class ArgentX {
   private static getConstructorCallData = (pubkey: string): RawArgs => {
@@ -33,7 +33,7 @@ class ArgentX {
 
     const AXcontractAddress = hash.calculateContractAddressFromHash(
       pubkey,
-      ArgentXAccountClassHash,
+      ARGENT_X_CLASS_HASH,
       AXConstructorCallData,
       0
     );
@@ -53,14 +53,14 @@ class ArgentX {
       nodeUrl: CHAINS.starknet.backends.nodeURL,
     });
 
-    const account = await createStarknetAccount(provider, ArgentXAccountClassHash);
+    const account = await createStarknetAccount(provider, ARGENT_X_CLASS_HASH);
 
     const sanitizedPubkey = encode.sanitizeHex(pubkey);
     const AXConstructorCallData = this.getConstructorCallData(sanitizedPubkey);
 
     const payload = await account.getDeployAccountPayloadToSign(
       {
-        classHash: ArgentXAccountClassHash,
+        classHash: ARGENT_X_CLASS_HASH,
         addressSalt: sanitizedPubkey,
         constructorCalldata: AXConstructorCallData,
         contractAddress: ArgentX.generateAddress(sanitizedPubkey),
@@ -78,12 +78,12 @@ class ArgentX {
 
     const sanitizedPubkey = encode.sanitizeHex(pubkey);
 
-    const account = await createStarknetAccount(provider, ArgentXAccountClassHash);
+    const account = await createStarknetAccount(provider, ARGENT_X_CLASS_HASH);
 
     const AXConstructorCallData = this.getConstructorCallData(sanitizedPubkey);
 
     const fees = await account.estimateAccountDeployFee({
-      classHash: ArgentXAccountClassHash,
+      classHash: ARGENT_X_CLASS_HASH,
       addressSalt: sanitizedPubkey,
       constructorCalldata: AXConstructorCallData,
       contractAddress: ArgentX.generateAddress(sanitizedPubkey),

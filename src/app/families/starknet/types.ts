@@ -1,7 +1,10 @@
 import { z } from "zod";
 import { TransactionMode } from "~/app/model/types_WIP";
 
-// ResourceBounds sub-schema
+type StarknetTransactionParams = z.infer<typeof starknetTransactionParamsSchema>;
+
+const starknetTransactionParamsSchema = z.string();
+
 const GasBoundSchema = z.object({
   max_amount: z.string(),
   max_price_per_unit: z.string(),
@@ -10,18 +13,6 @@ const GasBoundSchema = z.object({
 const ResourceBoundsSchema = z.object({
   l2_gas: GasBoundSchema,
   l1_gas: GasBoundSchema,
-});
-// Payload schema
-
-type StarknetTransactionParams = z.infer<typeof starknetTransactionParamsSchema>;
-
-type StarknetTransactionParamsToBroadcast = StarknetTransactionParams & {
-  mode: TransactionMode;
-};
-
-const starknetTransactionParamsSchema = z.object({
-  pubKey: z.string().optional(),
-  payload: z.string(),
 });
 
 const starknetTransactionParamsPayloadSchema = z.object({
@@ -48,6 +39,10 @@ const starknetTransactionParamsPayloadSchema = z.object({
     })
     .optional(),
 });
+
+type StarknetTransactionParamsToBroadcast = z.infer<typeof starknetTransactionParamsPayloadSchema> & {
+  mode: TransactionMode;
+};
 
 export type { StarknetTransactionParams, StarknetTransactionParamsToBroadcast };
 
