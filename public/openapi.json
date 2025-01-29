@@ -5641,8 +5641,7 @@
                 "juno",
                 "sei",
                 "stride",
-                "kava",
-                "starknet"
+                "kava"
               ]
             },
             "required": true
@@ -5720,8 +5719,7 @@
                         "juno",
                         "sei",
                         "stride",
-                        "kava",
-                        "starknet"
+                        "kava"
                       ]
                     },
                     "accountId": {
@@ -8304,20 +8302,36 @@
                   "type": {
                     "type": "object",
                     "properties": {
-                      "native": {
+                      "deployAccount": {
                         "type": "boolean"
                       },
-                      "tokens": {
+                      "transfer": {
                         "type": "boolean"
                       },
-                      "staking": {
+                      "transferToken": {
+                        "type": "boolean"
+                      },
+                      "delegate": {
+                        "type": "boolean"
+                      },
+                      "redelegate": {
+                        "type": "boolean"
+                      },
+                      "undelegate": {
+                        "type": "boolean"
+                      },
+                      "claimRewards": {
                         "type": "boolean"
                       }
                     },
                     "required": [
-                      "native",
-                      "tokens",
-                      "staking"
+                      "deployAccount",
+                      "transfer",
+                      "transferToken",
+                      "delegate",
+                      "redelegate",
+                      "undelegate",
+                      "claimRewards"
                     ]
                   },
                   "field": {
