@@ -1,4 +1,5 @@
-import { Account, Provider, stark } from "starknet";
+import { Account, Contract, Provider, shortString, stark } from "starknet";
+import { CHAINS } from "~/app/config/chains";
 import {
   AccountState,
   DeployContractType,
@@ -12,7 +13,7 @@ import {
 import { fetchTokenBalances, fetchTokenContract } from "./backend/indexer";
 import { buildTransferPayload } from "./backend/node";
 import { TokenBalance, TransactionResponse } from "./backend/types";
-import { STARK_TOKEN_CONTRACT_ID } from "./constants";
+import { SELECTOR_INDEX, STARK_TOKEN_CONTRACT_ID } from "./constants";
 import { ArgentX } from "./contracts/argentx";
 import { StarknetDeployAccountPayload, StarknetInvokePayload } from "./types";
 
@@ -70,11 +71,38 @@ const starkScanToAdamikTransaction = async (transaction: TransactionResponse) =>
     },
     mode: "unknown",
     state: TransactionState.UNKNOWN,
+    nonce: BigInt(transaction.nonce ?? 0),
   };
 
   if (transaction.transaction_execution_status === "SUCCEEDED") {
     parsedTransaction.state = TransactionState.CONFIRMED;
     parsedTransaction.blockHeight = BigInt(transaction.block_number);
+  }
+
+  const provider = new Provider({
+    nodeUrl: CHAINS.starknet.backends.nodeURL,
+  });
+
+  if (transaction.transaction_type === "DEPLOY_ACCOUNT") {
+    parsedTransaction.mode = TransactionMode.DEPLOY_ACCOUNT;
+    return parsedTransaction;
+  }
+
+  const classAt = await provider.getClassAt(transaction.account_calls[0].contract_address || "");
+  const transactionSelector = transaction.account_calls[0].selector;
+
+  if (SELECTOR_INDEX.find((selector) => selector.selector === transactionSelector)) {
+    parsedTransaction.mode = TransactionMode.TRANSFER;
+
+    const recipientAddress = transaction.account_calls[0].calldata[0];
+    const amount = transaction.account_calls[0].calldata[1];
+
+    const contract = new Contract(classAt.abi, transaction.account_calls[0].contract_address || "", provider);
+    const symbol = await contract.functions.symbol();
+    const ticker = shortString.decodeShortString(symbol);
+
+    parsedTransaction.senders = [{ address: transaction.sender_address, amount: BigInt(amount), ticker }];
+    parsedTransaction.recipients = [{ address: recipientAddress, amount: BigInt(amount), ticker }];
   }
 
   return parsedTransaction;
