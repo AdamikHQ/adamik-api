@@ -21,8 +21,11 @@ async function encodeTransactionToBroadcast(
 ): Promise<string> {
   const { signedTransaction } = _;
 
+  // TODO: stringify params and encode it next time
+  const params = signedTransaction.data.params as TronTransactionParams;
+
   return JSON.stringify({
-    ...signedTransaction.data.params,
+    ...params,
     signature: [signedTransaction.signature],
   });
 }

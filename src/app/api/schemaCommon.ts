@@ -67,7 +67,7 @@ const chainSupportedFeaturesSchema = z
     }),
     write: z.object({
       transaction: z.object({
-        type: featuresSetSchema,
+        type: z.record(z.nativeEnum(TransactionMode), z.boolean()),
         field: z.object({
           memo: z.boolean(),
         }),

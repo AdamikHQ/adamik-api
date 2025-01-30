@@ -1,0 +1,26 @@
+meta {
+  name: starknet
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{api_url}}/api/:chainId/address/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: starknet
+}
+
+body:json {
+  {
+    "pubkey": "0x2d3cccf309a128d4722f652da707cc78ed05c056142b6c1b42eba1e5096f002"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.addresses[0].address: eq 0x0748d37d83e318d3220f7c183ae6e2d58e24ed8a21b3064a38e87f4277cef90b
+}
