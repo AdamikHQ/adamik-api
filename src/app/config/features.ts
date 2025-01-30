@@ -24,7 +24,7 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
       type: {
         deployAccount: false,
         transfer: true,
-        transferToken: true,
+        transferToken: false,
         delegate: false,
         redelegate: false,
         undelegate: false,

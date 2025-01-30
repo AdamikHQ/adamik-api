@@ -14,8 +14,11 @@ import { buildTransferPayload } from "./backend/node";
 import { TokenBalance, TransactionResponse } from "./backend/types";
 import { STARK_TOKEN_CONTRACT_ID } from "./constants";
 import { ArgentX } from "./contracts/argentx";
+import { StarknetDeployAccountPayload, StarknetInvokePayload } from "./types";
 
-const buildTransaction = async (transaction: Transaction) => {
+const buildTransaction = async (
+  transaction: Transaction
+): Promise<StarknetDeployAccountPayload | StarknetInvokePayload | undefined> => {
   const { amount, recipientAddress, senderAddress, mode } = transaction.data;
 
   switch (mode) {

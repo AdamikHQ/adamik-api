@@ -3,16 +3,14 @@ import {
   CairoOption,
   CairoOptionVariant,
   CallData,
-  DeployAccountContractTransaction,
   encode,
   hash,
-  InvocationsDetailsWithNonce,
   Provider,
   RawArgs,
 } from "starknet";
 import { CHAINS } from "~/app/config/chains";
 import { createStarknetAccount, marginFees } from "../logic";
-import { generateAddress, getDeployContractPayload } from "./types";
+import { StarknetDeployAccountPayload } from "../types";
 
 const ARGENT_X_CLASS_HASH = "0x036078334509b514626504edc9fb252328d1a240e4e948bef8d0c08dff45927f";
 
@@ -28,7 +26,7 @@ class ArgentX {
     return AXConstructorCallData;
   };
 
-  static generateAddress: generateAddress = (pubkey: string): string => {
+  static generateAddress = (pubkey: string): string => {
     const AXConstructorCallData = this.getConstructorCallData(pubkey);
 
     const AXcontractAddress = hash.calculateContractAddressFromHash(
@@ -41,14 +39,7 @@ class ArgentX {
     return encode.sanitizeHex(AXcontractAddress);
   };
 
-  static getDeployContractPayload: getDeployContractPayload = async (
-    pubkey: string
-  ): Promise<{
-    payload: Omit<DeployAccountContractTransaction, "signature"> & {
-      toSign: string;
-    };
-    details: InvocationsDetailsWithNonce;
-  }> => {
+  static getDeployContractPayload = async (pubkey: string): Promise<StarknetDeployAccountPayload> => {
     const provider = new Provider({
       nodeUrl: CHAINS.starknet.backends.nodeURL,
     });

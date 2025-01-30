@@ -24,7 +24,7 @@ const COSMOS_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
   write: {
     transaction: {
       type: {
-        deployAccount: true,
+        deployAccount: false,
         transfer: true,
         transferToken: false,
         delegate: true,

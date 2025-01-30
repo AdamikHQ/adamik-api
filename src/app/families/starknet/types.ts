@@ -1,6 +1,22 @@
+import { DeployAccountContractTransaction, Invocation, InvocationsDetailsWithNonce } from "starknet";
 import { z } from "zod";
 import { TransactionMode } from "~/app/model/types_WIP";
 
+type StarknetDeployAccountPayload = {
+  payload: Omit<DeployAccountContractTransaction, "signature"> & {
+    toSign: string;
+  };
+  details: InvocationsDetailsWithNonce;
+};
+
+type StarknetInvokePayload = {
+  payload: Omit<Invocation, "signature"> & {
+    toSign: string;
+  };
+  details: InvocationsDetailsWithNonce;
+};
+
+type generateAddress = (pubkey: string) => string;
 type StarknetTransactionParams = z.infer<typeof starknetTransactionParamsSchema>;
 
 const starknetTransactionParamsSchema = z.string();
@@ -44,6 +60,12 @@ type StarknetTransactionParamsToBroadcast = z.infer<typeof starknetTransactionPa
   mode: TransactionMode;
 };
 
-export type { StarknetTransactionParams, StarknetTransactionParamsToBroadcast };
+export type {
+  generateAddress,
+  StarknetDeployAccountPayload,
+  StarknetInvokePayload,
+  StarknetTransactionParams,
+  StarknetTransactionParamsToBroadcast,
+};
 
 export { starknetTransactionParamsPayloadSchema, starknetTransactionParamsSchema };

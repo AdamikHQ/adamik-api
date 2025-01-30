@@ -15,36 +15,47 @@ import { createStarknetAccount, marginFees } from "../logic";
 import { StarknetTransactionParamsToBroadcast } from "../types";
 
 const broadcast = async (signedTransaction: string): Promise<string> => {
-  const transactionParams: StarknetTransactionParamsToBroadcast = JSON.parse(signedTransaction);
+  try {
+    const transactionParams: StarknetTransactionParamsToBroadcast = JSON.parse(signedTransaction);
 
-  const signature = ec.starkCurve.Signature.fromDER(transactionParams.payload?.signature ?? "");
+    const signature = ec.starkCurve.Signature.fromDER(transactionParams.payload?.signature ?? "");
 
-  if (!signature) {
-    throw new InvalidTransactionError({
-      errors: [{ message: "Signature is required" }],
-      warnings: [],
+    if (!signature) {
+      throw new InvalidTransactionError({
+        errors: [{ message: "Signature is required" }],
+        warnings: [],
+      });
+    }
+
+    const provider = new Provider({
+      nodeUrl: CHAINS.starknet.backends.nodeURL,
     });
-  }
 
-  const provider = new Provider({
-    nodeUrl: CHAINS.starknet.backends.nodeURL,
-  });
+    if (transactionParams.mode === TransactionMode.DEPLOY_ACCOUNT) {
+      const result = await provider.deployAccountContract(
+        { ...transactionParams.payload, signature } as DeployAccountContractTransaction,
+        transactionParams.details as InvocationsDetailsWithNonce
+      );
 
-  if (transactionParams.mode === TransactionMode.DEPLOY_ACCOUNT) {
-    const result = await provider.deployAccountContract(
-      { ...transactionParams.payload, signature } as DeployAccountContractTransaction,
+      return result.transaction_hash;
+    }
+
+    const result = await provider.invokeFunction(
+      { ...transactionParams.payload, signature } as Invocation,
       transactionParams.details as InvocationsDetailsWithNonce
     );
 
     return result.transaction_hash;
+  } catch (error) {
+    if (error instanceof RpcError) {
+      throw new InvalidTransactionError({
+        errors: [{ message: error.message }],
+        warnings: [],
+      });
+    }
+
+    throw error;
   }
-
-  const result = await provider.invokeFunction(
-    { ...transactionParams.payload, signature } as Invocation,
-    transactionParams.details as InvocationsDetailsWithNonce
-  );
-
-  return result.transaction_hash;
 };
 
 const getNonce = async (address: string) => {
