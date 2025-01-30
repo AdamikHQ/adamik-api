@@ -8325,15 +8325,7 @@
                         "type": "boolean"
                       }
                     },
-                    "required": [
-                      "deployAccount",
-                      "transfer",
-                      "transferToken",
-                      "delegate",
-                      "redelegate",
-                      "undelegate",
-                      "claimRewards"
-                    ]
+                    "additionalProperties": false
                   },
                   "field": {
                     "type": "object",
