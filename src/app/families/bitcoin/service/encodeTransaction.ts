@@ -19,6 +19,7 @@ async function encodeTransactionToSign(
   transaction.encoded = params.psbt.toHex();
 
   // Was only used to transfer internal data from completeTransaction to encodeTransaction
+  // no need to expose it in the API's response
   delete transaction.data.params;
 }
 

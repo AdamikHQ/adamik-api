@@ -1,6 +1,7 @@
-import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { ChainId, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
-import { fetchFeePerByte } from "../backend/blockchair";
+import { fetchFeePerByte as fetchFeePerByteBlockchair } from "../backend/blockchair";
+import { fetchFeePerByte as fetchFeePerByteMempoolSpace } from "../backend/mempoolSpace";
 import { buildStakingPsbt, buildStakingScripts, buildTransferPsbt, buildUnbondingPsbt } from "../psbt";
 import { BitcoinService } from "../service";
 import { BitcoinTransactionParams, PsbtWithFee } from "../types";
@@ -14,7 +15,10 @@ async function completeTransaction(
 ): Promise<void> {
   const { transaction, status } = _;
 
-  const feePerByte = await fetchFeePerByte(this.chainId);
+  const feePerByte =
+    this.chainId === ChainId.BITCOIN_SIGNET
+      ? await fetchFeePerByteMempoolSpace(this.chainId)
+      : await fetchFeePerByteBlockchair(this.chainId);
 
   // NOTE bitcoin family does it differently than others:
   // The PSBT is already the encoded transaction, but it has to be computed

@@ -1,6 +1,5 @@
 import { Psbt } from "bitcoinjs-lib";
 import { z } from "zod";
-import { UtxoWithMetadata } from "./backend/types";
 import { isValidXpub } from "./logic";
 
 // Params that differ for each bitcoin-like chain
@@ -14,8 +13,30 @@ type BitcoinChainParams = {
 // in completeTransaction instead of encodeTransaction
 type BitcoinTransactionParams = PsbtWithFee;
 
+const utxoWithMetadataSchema = z
+  .object({
+    block_id: z.number(),
+    transaction_hash: z.string(),
+    index: z.number(),
+    value: z.number(),
+    address: z.string(),
+    script_hex: z.string().optional(),
+  })
+  .transform((data) => {
+    return {
+      /** Add fields for compatibility with coinselect @see {@link UTXO} */
+      // NOTE The published 'UTXO' type from coinselect is WRONG!
+      // The runtime data actually matches this UtxoWithMetadata type
+      txid: data.transaction_hash,
+      vout: data.index,
+      ...data,
+    };
+  });
+
+type UtxoWithMetadata = z.infer<typeof utxoWithMetadataSchema>;
+
 const bitcoinTransactionParamsSchema = z.object({
-  inputs: UtxoWithMetadata,
+  inputs: utxoWithMetadataSchema,
   outputs: z.unknown(),
 });
 
@@ -40,7 +61,7 @@ type Branded<T, B> = T & Brand<B>;
 /**  Defines Xpub as a branded string, {@link isValidXpub} has to be used to check if a string is an Xpub */
 type Xpub = Branded<string, "Xpub">;
 
-export { bitcoinTransactionParamsSchema };
+export { bitcoinTransactionParamsSchema, utxoWithMetadataSchema };
 export type {
   BitcoinChainParams,
   BitcoinTransactionParams,
@@ -48,5 +69,6 @@ export type {
   PsbtInputExtended,
   PsbtOutputExtended,
   PsbtWithFee,
+  UtxoWithMetadata,
   Xpub,
 };

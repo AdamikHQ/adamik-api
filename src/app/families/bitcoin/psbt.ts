@@ -16,10 +16,12 @@ import {
   AdamikApiServerError,
   InvalidTransactionError,
   UnsupportedFeatureError,
+  UserInputError,
 } from "~/app/tools/handlers/errors";
-import { fetchGlobalParams } from "./backend/babylon";
+import { fetchNetworkInfo } from "./backend/babylon";
 import { fetchAddressesDashboard, fetchRawTransaction, fetchXpubDashboard } from "./backend/blockchair";
-import { BlockchairRawTransactionData, UtxoWithMetadata } from "./backend/types";
+import { fetchAddressScriptPubKey, fetchAddressUtxos } from "./backend/mempoolSpace";
+import { BlockchairRawTransactionData } from "./backend/types";
 import {
   getCurrentBlockHeight,
   getNetworkForChainId,
@@ -28,16 +30,24 @@ import {
   isValidXpub,
   isWitnessScript,
 } from "./logic";
-import { BitcoinChainParams, PsbtInputExtended, PsbtOutputExtended, PsbtWithFee } from "./types";
+import {
+  BitcoinChainParams,
+  PsbtInputExtended,
+  PsbtOutputExtended,
+  PsbtWithFee,
+  UtxoWithMetadata,
+} from "./types";
 
 // TODO Also support withdraw transactions or not ?...
 // - withdrawEarlyUnbondedTransaction
 // - withdrawTimelockUnbondedTransaction
 
-// (From babylon doc) "The amount of covenant emulator signatures required for the staking to be activated"
+// "The amount of covenant emulator signatures required for the staking to be activated"
+// https://github.com/babylonlabs-io/btc-staking-ts#define-staking-parameters
 const BABYLON_COVENANT_THRESHOLD: number = 3;
 
-// (From babylon doc) "The magic bytes appended to the data embed script used to identify the staking transaction on BTC"
+// "The magic bytes appended to the data embed script used to identify the staking transaction on BTC"
+// https://github.com/babylonlabs-io/btc-staking-ts#define-staking-parameters
 const BABYLON_MAGIC_BYTES: Buffer = Buffer.from("62627434", "hex"); // "bbt4" tag
 
 // Hardcoded to the max (~455 days)
@@ -61,7 +71,7 @@ async function buildStakingScripts(transaction: Transaction): Promise<StakingScr
     throw new InvalidTransactionError(statusFromMessage("Public key of the sender address must be provided"));
   }
 
-  // substring because staker pubkey are expected without the coordinate bytes
+  // substring because staker pubkey is expected without the coordinate bytes
   // https://github.com/babylonlabs-io/btc-staking-ts#define-staking-parameters
   const stakerPubKey: Buffer = Buffer.from(transaction.data.senderPubKey.substring(2), "hex");
 
@@ -72,12 +82,9 @@ async function buildStakingScripts(transaction: Transaction): Promise<StakingScr
       : transaction.data.validatorAddress;
   const finalityProviders: Buffer[] = [Buffer.from(validatorAddress, "hex")];
 
-  // A list of the public keys without the coordinate bytes,
-  // corresponding to the covenant emulators
-  const { covenant_pks: covenantPubKeysHex } = await fetchGlobalParams();
-  // substring because covenant pubkeys are expected without the coordinate bytes
-  // https://github.com/babylonlabs-io/btc-staking-ts#define-staking-parameters
-  const covenantPks: Buffer[] = covenantPubKeysHex.map((pk) => Buffer.from(pk.substring(2), "hex"));
+  // A list of the public keys of covenant emulators, without the coordinate bytes
+  const { covenant_pks: covenantPubKeysHex } = await fetchNetworkInfo();
+  const covenantPks: Buffer[] = covenantPubKeysHex.map((pk) => Buffer.from(pk, "hex"));
 
   const stakingScriptData = new StakingScriptData(
     stakerPubKey,
@@ -108,17 +115,44 @@ async function buildStakingPsbt(
 
   const network = getNetworkForChainId(chainId);
 
-  const { data } = isValidXpub(chainId, transaction.data.senderAddress)
-    ? await fetchXpubDashboard(chainId, transaction.data.senderAddress)
-    : await fetchAddressesDashboard(chainId, [transaction.data.senderAddress]);
+  let changeAddress: string;
+  let allUtxos: UTXO[];
+  // Using mempool.space for signet and blockchair for mainnet
+  if (chainId === ChainId.BITCOIN_SIGNET) {
+    if (isValidXpub(chainId, transaction.data.senderAddress)) {
+      console.warn("Xpub address used for bitcoin babylon staking");
+      throw new UserInputError(`Xpub are not supported for ${chainId} staking transactions`);
+    }
+    const utxos = await fetchAddressUtxos(chainId, transaction.data.senderAddress);
+    const scriptPubKey = await fetchAddressScriptPubKey(chainId, transaction.data.senderAddress);
 
-  const allUtxos: UTXO[] =
-    data?.utxo.map((utxo: UtxoWithMetadata) => ({
-      txid: utxo.transaction_hash,
-      vout: utxo.vout,
+    // Use the sender address as the change address
+    // FIXME Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
+    changeAddress = transaction.data.senderAddress;
+
+    allUtxos = utxos.map((utxo) => ({
+      txid: utxo.txid,
       value: utxo.value,
-      scriptPubKey: utxo.script_hex!,
-    })) || [];
+      vout: utxo.vout,
+      scriptPubKey,
+    }));
+  } else {
+    const { data } = isValidXpub(chainId, transaction.data.senderAddress)
+      ? await fetchXpubDashboard(chainId, transaction.data.senderAddress)
+      : await fetchAddressesDashboard(chainId, [transaction.data.senderAddress]);
+
+    allUtxos =
+      data?.utxo.map((utxo: UtxoWithMetadata) => ({
+        txid: utxo.transaction_hash,
+        vout: utxo.vout,
+        value: utxo.value,
+        scriptPubKey: utxo.script_hex!,
+      })) || [];
+
+    // Take the address of the first input, it's as good as any other one
+    // FIXME Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
+    changeAddress = data?.utxo[0].address || "";
+  }
 
   // Public key is needed only if the wallet is in Taproot mode
   const publicKeyNoCoord = ((): Buffer | undefined => {
@@ -134,10 +168,6 @@ async function buildStakingPsbt(
 
     Buffer.from(transaction.data.senderPubKey, "hex");
   })();
-
-  // Take the address of the first input, its as good as any other one
-  // FIXME Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
-  const changeAddress = data?.utxo[0].address || "";
 
   const stakingTransaction = createStakingTransaction(
     stakingScripts,

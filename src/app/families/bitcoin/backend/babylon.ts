@@ -2,20 +2,18 @@ import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tool
 import {
   BabylonFinalityProviderV1,
   babylonFinalityProviderV1Schema,
-  BabylonGlobalParamsV1,
-  babylonGlobalParamsV1Schema,
+  BabylonNetworkInfoV2,
+  babylonNetworkInfoV2Schema,
   BabylonUnbondingBroadcastPayloadV1,
 } from "./babylon.types";
 
 // Spec: https://staking-api.testnet.babylonlabs.io/swagger/index.html
-// FIXME Hardcoded here, should we put it in CHAINS config instead?
-// TODO Implement v2 too, to be ready to switch
-const ROOT_URL = "https://staking-api.babylonlabs.io/v1";
-//const ROOT_URL = "https://staking-api.testnet.babylonlabs.io/v2";
 
-// (Will be renamed "network info" instead of "global params" in v2)
-async function fetchGlobalParams(): Promise<BabylonGlobalParamsV1> {
-  const url = `${ROOT_URL}/global-params`;
+// TODO This URL will likely change when babylon phase-2 becomes active on bitcoin mainnet
+const ROOT_URL = "https://staking-api.testnet.babylonlabs.io/v2";
+
+async function fetchNetworkInfo(): Promise<BabylonNetworkInfoV2> {
+  const url = `${ROOT_URL}/network-info`;
 
   const response = await fetch(url);
 
@@ -34,7 +32,7 @@ async function fetchGlobalParams(): Promise<BabylonGlobalParamsV1> {
     throw new ThirdPartyProviderError(`Error while fetching data from the provider`);
   }
 
-  const globalParams = babylonGlobalParamsV1Schema.array().safeParse(data?.versions);
+  const globalParams = babylonNetworkInfoV2Schema.array().safeParse(data?.params?.bbn);
 
   if (!globalParams.success) {
     console.warn(
@@ -44,8 +42,13 @@ async function fetchGlobalParams(): Promise<BabylonGlobalParamsV1> {
     throw new ThirdPartyProviderError(`Error while fetching data from the provider`);
   }
 
-  // FIXME Is it ok to arbitrarily take the 1st version? Should we take the last one instead?
-  return globalParams.data[0];
+  // Get the highest value among available versions
+  const latestVersion = globalParams.data.reduce(
+    (previous, current) => (current.version > previous.version ? current : previous),
+    globalParams.data[0]
+  );
+
+  return latestVersion;
 }
 
 async function fetchFinalityProviders(): Promise<BabylonFinalityProviderV1[]> {
@@ -101,4 +104,4 @@ async function postUnbondingTransaction(payload: BabylonUnbondingBroadcastPayloa
   // FIXME Does the endpoint return a hash or something?...
 }
 
-export { fetchFinalityProviders, fetchGlobalParams };
+export { fetchFinalityProviders, fetchNetworkInfo };

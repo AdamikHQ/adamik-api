@@ -1,0 +1,35 @@
+meta {
+  name: bitcoin-signet [stake]
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: bitcoin-signet
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "stake",
+        "senderAddress": "tb1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqsxh76tx",
+        "senderPubKey": "02bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+        "targetValidatorAddress": "d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76",
+        "amount": "1000",
+        "useMaxAmount": false
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded: eq 70736274ff0100710200000001a7d5fd78eba8a999d45a30cd63dfa853a0490b3b571061e2ba54adb895bcfa720000000000fdffffff02e803000000000000160014cd8376704a7818dbd8447272a28cac62dc61c04cab06c62900000000160014aa1c3d1eef8000ec74e1abeddde2fa2926b582a4000000000001011fa311c62900000000160014aa1c3d1eef8000ec74e1abeddde2fa2926b582a4000000
+}

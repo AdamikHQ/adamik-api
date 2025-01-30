@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// V1 ////////////////////////////////////////
+// V1 (shouldn't be useful, to be removed soon) ////////////////////////////////////////
 
 const babylonGlobalParamsV1Schema = z.object({
   activation_height: z.number(),
@@ -47,7 +47,6 @@ type BabylonUnbondingBroadcastPayloadV1 = {
 };
 
 // V2 ////////////////////////////////////////
-// TODO
 
 const babylonNetworkInfoV2Schema = z.object({
   allow_list_expiration_height: z.number(),
@@ -72,4 +71,9 @@ const babylonNetworkInfoV2Schema = z.object({
 type BabylonNetworkInfoV2 = z.infer<typeof babylonNetworkInfoV2Schema>;
 
 export { babylonFinalityProviderV1Schema, babylonGlobalParamsV1Schema, babylonNetworkInfoV2Schema };
-export type { BabylonFinalityProviderV1, BabylonGlobalParamsV1, BabylonUnbondingBroadcastPayloadV1 };
+export type {
+  BabylonFinalityProviderV1,
+  BabylonGlobalParamsV1,
+  BabylonNetworkInfoV2,
+  BabylonUnbondingBroadcastPayloadV1,
+};

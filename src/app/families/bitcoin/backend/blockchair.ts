@@ -392,11 +392,11 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
   return result.data.suggested_transaction_fee_per_byte_sat;
 }
 
-async function postTransaction(chainId: ChainId, signedTransaction: string): Promise<string> {
+async function postTransaction(chainId: ChainId, payload: string): Promise<string> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
-    data: signedTransaction,
+    data: payload,
   });
 
   const url = `${explorerURL}/push/transaction?${queryParams.toString()}`;

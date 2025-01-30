@@ -1,3 +1,4 @@
+import { BITCOIN_SIGNET_FEATURES } from "../families/bitcoin/features";
 import { Chain, ChainFamily, ChainId, TransactionMode } from "../model/types_WIP";
 import {
   ALGORAND_FEATURES,
@@ -443,7 +444,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: BITCOIN_FEATURES,
   },
-  /*
   "bitcoin-signet": {
     id: ChainId.BITCOIN_SIGNET,
     nativeId: "bitcoin-signet",
@@ -453,15 +453,14 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 8,
     backends: {
       nodeURL: "",
-      explorerURL: "",
+      explorerURL: "https://mempool.space/signet/api",
     },
     isTestnetFor: ChainId.BITCOIN,
     params: {
       confirmations: 6,
     },
-    supportedFeatures: BITCOIN_FEATURES,
+    supportedFeatures: BITCOIN_SIGNET_FEATURES,
   },
-  */
   litecoin: {
     id: ChainId.LITECOIN,
     nativeId: "litecoin",

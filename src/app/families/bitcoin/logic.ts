@@ -34,6 +34,7 @@ function getNetworkForChainId(chainId: ChainId): networks.Network {
     case ChainId.BITCOIN:
       return networks.bitcoin;
     case ChainId.BITCOIN_TESTNET:
+    case ChainId.BITCOIN_SIGNET:
       return networks.testnet;
     case ChainId.LITECOIN:
       // from https://github.com/bitcoinjs/bitcoinjs-lib/blob/34e1644b5fb60055793ec3078f2e4f48b2648ca6/test/address.spec.ts#L14
