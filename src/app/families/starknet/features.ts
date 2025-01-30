@@ -8,7 +8,7 @@ const STARKNET_FEATURES: ChainSupportedFeatures = {
       balances: { native: true, tokens: true, staking: false },
       transactions: { native: false, tokens: false, staking: false },
     },
-    transaction: { native: false, tokens: false, staking: false },
+    transaction: { native: true, tokens: false, staking: false },
   },
   write: {
     transaction: {

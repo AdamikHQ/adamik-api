@@ -1,0 +1,72 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/v0/transaction/0x29d021890b3339ea7233a3f59d3a6288b368d83d7935b5929465bcda64582d1",
+    "method": "GET"
+  },
+  "response": {
+    "transaction_hash": "0x029d021890b3339ea7233a3f59d3a6288b368d83d7935b5929465bcda64582d1",
+    "block_hash": "0x035cf6e7f0ca046e6ff9d361204548e4979a2387e8bee7438ffab4206d5d501a",
+    "block_number": 1091948,
+    "transaction_index": 17,
+    "transaction_status": "ACCEPTED_ON_L1",
+    "transaction_finality_status": "ACCEPTED_ON_L1",
+    "transaction_execution_status": "SUCCEEDED",
+    "transaction_type": "INVOKE_FUNCTION",
+    "version": 3,
+    "signature": [
+      "0x2",
+      "0x0",
+      "0x1d0a58efc2f06ff3d06327210122589d544b1a2e25d5de531f59cb3818ed26f",
+      "0x4050f6f4b1c768ef421fe5e12a34a03caa54dd80fd9739d31791f199b5a2e62",
+      "0x680e76a96db9b5941e1490dddc8161f8c6964c5453dadf86ca8cd9d349570b8",
+      "0x0",
+      "0x4716c275e61266beefb30384d3ccd9dd333e813a3ad3d9999b748a85834e9f1",
+      "0x3d09cc6031a4cd77fdf2b1756f0794fa2ec1a7c82236add6977ee18ccc6e850",
+      "0x3b636d361872484784009e52c630b6b61e621daa74509015bf2516006484ca4"
+    ],
+    "max_fee": null,
+    "actual_fee": "51373781930786198",
+    "nonce": "3",
+    "contract_address": null,
+    "entry_point_selector": null,
+    "entry_point_type": null,
+    "calldata": [
+      "0x1",
+      "0x53c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8",
+      "0x83afd3f4caedc6eebf44246fe54e38c95e3179a5ec9ea81740eca5b482d12e",
+      "0x3",
+      "0x5e1dfe469a9b7a504ca84102359467453ae530cfb5ec70ff4239f91e964a08e",
+      "0xbc6100",
+      "0x0"
+    ],
+    "class_hash": null,
+    "sender_address": "0x0548a1a8b82ab723c3d770052c4f2e6197215dc12e4baabde1c571d7aa85760e",
+    "constructor_calldata": null,
+    "contract_address_salt": null,
+    "timestamp": 1737643939,
+    "number_of_events": 3,
+    "revert_error": null,
+    "account_calls": [
+      {
+        "block_hash": "0x035cf6e7f0ca046e6ff9d361204548e4979a2387e8bee7438ffab4206d5d501a",
+        "block_number": 1091948,
+        "transaction_hash": "0x029d021890b3339ea7233a3f59d3a6288b368d83d7935b5929465bcda64582d1",
+        "caller_address": "0x0548a1a8b82ab723c3d770052c4f2e6197215dc12e4baabde1c571d7aa85760e",
+        "contract_address": "0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8",
+        "calldata": [
+          "0x5e1dfe469a9b7a504ca84102359467453ae530cfb5ec70ff4239f91e964a08e",
+          "0xbc6100",
+          "0x0"
+        ],
+        "result": [
+          "0x1"
+        ],
+        "timestamp": 1737643939,
+        "call_type": "CALL",
+        "class_hash": "0x05ffbcfeb50d200a0677c48a129a11245a3fc519d1d98d76882d1c9a1b19c6ed",
+        "selector": "0x83afd3f4caedc6eebf44246fe54e38c95e3179a5ec9ea81740eca5b482d12e",
+        "entry_point_type": "EXTERNAL"
+      }
+    ]
+  }
+}

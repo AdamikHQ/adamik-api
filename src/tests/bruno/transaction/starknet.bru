@@ -23,4 +23,6 @@ assert {
   res.status: eq 200
   res.body.transaction.raw: isDefined
   res.body.transaction.parsed: isDefined
+  res.body.transaction.raw.actual_fee: eq 51373781930786198
+  res.body.transaction.raw.timestamp: eq 1737643939
 }
