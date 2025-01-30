@@ -1,0 +1,49 @@
+{
+  "request": {
+    "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7",
+    "method": "POST",
+    "params": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "starknet_addInvokeTransaction",
+      "params": {
+        "invoke_transaction": {
+          "type": "INVOKE",
+          "calldata": [],
+          "version": "0x3",
+          "signature": [
+            "0x39e82cce0eef4aae6595d58d1caea491291962aa3e7591a19abefffd2c8d096",
+            "0x9e9713e7092bb2a718c83d80f572e45028fc9dd6633d58f375a16e2d77c98b"
+          ],
+          "nonce": "0x5",
+          "resource_bounds": {
+            "l2_gas": {
+              "max_amount": "0x0",
+              "max_price_per_unit": "0x0"
+            },
+            "l1_gas": {
+              "max_amount": "0x18a",
+              "max_price_per_unit": "0x4d6fa6066cac"
+            }
+          },
+          "tip": "0x0",
+          "paymaster_data": [],
+          "account_deployment_data": [],
+          "nonce_data_availability_mode": "L1",
+          "fee_data_availability_mode": "L1"
+        }
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "error": {
+      "code": -32602,
+      "message": "Invalid params",
+      "data": {
+        "reason": "missing field `sender_address` at line 1 column 511"
+      }
+    },
+    "id": 1
+  }
+}

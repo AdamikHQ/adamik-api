@@ -1,6 +1,7 @@
 import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
+import { StarknetTransactionParams } from "../families/starknet/types";
 import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
@@ -42,6 +43,7 @@ enum ChainId {
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
   DOGECOIN = "dogecoin",
+  STARKNET = "starknet",
   MONAD_PRIVATE_TESTNET = "monad-private-testnet",
 
   //All Cosmos based chains
@@ -107,6 +109,7 @@ enum ChainFamily {
   BITCOIN = "bitcoin",
   TRON = "tron",
   TON = "ton",
+  STARKNET = "starknet",
 }
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
@@ -129,11 +132,14 @@ type ChainSupportedFeatures = {
   };
   write: {
     transaction: {
-      type: FeaturesSet;
+      type: { [key in TransactionMode]: boolean };
       field: {
         memo: boolean;
       };
     };
+  };
+  utils: {
+    addresses: boolean;
   };
 };
 
@@ -314,7 +320,7 @@ type FinalizedTransaction = {
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
-type TransactionParams = BitcoinTransactionParams | TronTransactionParams;
+type TransactionParams = BitcoinTransactionParams | TronTransactionParams | StarknetTransactionParams;
 
 enum DeployContractType {
   ARGENTX = "argentx",
