@@ -4442,7 +4442,8 @@
                 "juno",
                 "sei",
                 "stride",
-                "kava"
+                "kava",
+                "starknet"
               ]
             },
             "required": true
