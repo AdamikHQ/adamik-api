@@ -14,11 +14,21 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
   },
   write: {
     transaction: {
-      type: { native: true, tokens: false, staking: true },
+      type: {
+        deployAccount: false,
+        transfer: true,
+        transferToken: false,
+        stake: false,
+        unstake: false,
+        claimRewards: false,
+      },
       field: {
         memo: false,
       },
     },
+  },
+  utils: {
+    addresses: true,
   },
 };
 
@@ -34,11 +44,21 @@ const BITCOIN_SIGNET_FEATURES: ChainSupportedFeatures = {
   },
   write: {
     transaction: {
-      type: { native: true, tokens: false, staking: true },
+      type: {
+        deployAccount: false,
+        transfer: true,
+        transferToken: false,
+        stake: true,
+        unstake: false,
+        claimRewards: false,
+      },
       field: {
         memo: false,
       },
     },
+  },
+  utils: {
+    addresses: true,
   },
 };
 

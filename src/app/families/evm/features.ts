@@ -15,11 +15,22 @@ const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
   },
   write: {
     transaction: {
-      type: { native: true, tokens: true, staking: false },
+      type: {
+        deployAccount: false,
+        transfer: true,
+        transferToken: true,
+        delegate: false,
+        redelegate: false,
+        undelegate: false,
+        claimRewards: false,
+      },
       field: {
         memo: false,
       },
     },
+  },
+  utils: {
+    addresses: true,
   },
 });
 

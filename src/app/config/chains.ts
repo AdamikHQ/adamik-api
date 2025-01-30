@@ -7,6 +7,7 @@ import {
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
   NATIVE_READ_WRITE_ONLY,
+  STARKNET_FEATURES,
   TON_FEATURES,
   TRON_FEATURES,
 } from "./features";
@@ -1565,23 +1566,26 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: COSMOS_FEATURES(ChainId.KAVA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kava/chain.json
   },
+  starknet: {
+    family: ChainFamily.STARKNET,
+    id: ChainId.STARKNET,
+    nativeId: "starknet",
+    name: "Starknet",
+    ticker: "STRK",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://starknet-mainnet.public.blastapi.io/rpc/v0_7", // FIXME Find a better node
+      explorerURL: "https://api.starkscan.co",
+    },
+    supportedFeatures: STARKNET_FEATURES,
+  },
 } as const;
 
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
-  const supportedModes: TransactionMode[] = [];
-  const supportedTransactions = CHAINS[chainId].supportedFeatures.write.transaction.type;
+  const transactionFeatures = CHAINS[chainId].supportedFeatures.write.transaction.type;
 
-  if (supportedTransactions.native) {
-    supportedModes.push(TransactionMode.TRANSFER);
-  }
-  if (supportedTransactions.tokens) {
-    supportedModes.push(TransactionMode.TRANSFER_TOKEN);
-  }
-  if (supportedTransactions.staking) {
-    supportedModes.push(TransactionMode.STAKE);
-    supportedModes.push(TransactionMode.UNSTAKE);
-    supportedModes.push(TransactionMode.CLAIM_REWARDS);
-  }
+  const supportedFeatures = Object.entries(transactionFeatures).filter((entry) => entry[1] === true);
+  const supportedModes = Object.keys(supportedFeatures) as TransactionMode[];
 
   return supportedModes;
 }
