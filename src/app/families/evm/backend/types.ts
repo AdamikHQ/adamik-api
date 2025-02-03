@@ -211,6 +211,120 @@ type MoralisInternalTransaction = {
   output: string;
 };
 
+type AlchemyERC20TokenBalance = {
+  contractAddress: EvmAddress;
+  tokenBalance: `0x${string}`;
+};
+
+type AlchemyERC20Token = {
+  decimals: number | null;
+  logo: string | null;
+  name: string;
+  symbol: string;
+};
+
+type AlchemyBalanceRequest = {
+  address: EvmAddress;
+  tokenBalances: AlchemyERC20TokenBalance[];
+};
+
+type AlchemyPaginatedRequest<T extends object> = T & {
+  pageKey?: string;
+};
+
+type AlchemyLog = {
+  blockHash: `0x${string}`;
+  address: EvmAddress;
+  logIndex: `0x${string}`;
+  data: `0x${string}`;
+  removed: boolean;
+  topics: `0x${string}`[];
+  blockNumber: `0x${string}`;
+  transactionIndex: `0x${string}`;
+  transactionHash: `0x${string}`;
+};
+
+type AlchemyTransaction = {
+  blockHash: `0x${string}`;
+  blockNumber: `0x${string}`;
+  hash: `0x${string}`;
+  input: `0x${string}`;
+  r: `0x${string}`;
+  s: `0x${string}`;
+  v: `0x${string}`;
+  gas: `0x${string}`;
+  from: `0x${string}`;
+  transactionIndex: `0x${string}`;
+  to: `0x${string}`;
+  type: `0${string}`;
+  value: `0x${string}`;
+  nonce: `0x${string}`;
+  gasPrice: `0x${string}`;
+};
+
+type AlchemyTransactionReceipt = {
+  transactionHash: `0x${string}`;
+  blockHash: `0x${string}`;
+  blockNumber: `0x${string}`;
+  logsBloom: `0x${string}`;
+  gasUsed: `0x${string}`;
+  contractAddress: EvmAddress | null;
+  cumulativeGasUsed: `0x${string}`;
+  transactionIndex: `0x${string}`;
+  from: EvmAddress;
+  to: EvmAddress;
+  type: `0x${string}`;
+  effectiveGasPrice: `0x${string}`;
+  logs: AlchemyLog[];
+  status: `0x${string}`;
+};
+
+type AlchemyTransactionWithReceipt = AlchemyTransaction & {
+  receipt: AlchemyTransactionReceipt;
+};
+
+type AlchemyTransfer = {
+  blockNum: `0x${string}`;
+  uniqueId: `0x${string}`;
+  hash: `0x${string}`;
+  from: `0x${string}`;
+  to: `0x${string}`;
+  value: number;
+  erc721TokenId: null; // Ignoring this for now
+  erc1155Metadata: null; // Ignoring this for now
+  tokenId: null; // Ignoring this for now
+  asset: string;
+  category: string;
+  rawContract: {
+    value: `0x${string}`;
+    address: null;
+    decimal: `0x${string}`;
+  };
+};
+
+type AlchemyBlock = {
+  number: `0x${string}`;
+  hash: `0x${string}`;
+  transactions: []; // Ignored for now
+  totalDifficulty: `0x${string}`;
+  logsBloom: `0x${string}`;
+  receiptsRoot: `0x${string}`;
+  extraData: `0x${string}`;
+  nonce: `0x${string}`;
+  miner: `0x${string}`;
+  difficulty: `0x${string}`;
+  gasLimit: `0x${string}`;
+  gasUsed: `0x${string}`;
+  uncles: [];
+  sha3Uncles: `0x${string}`;
+  size: `0x${string}`;
+  transactionsRoot: `0x${string}`;
+  stateRoot: `0x${string}`;
+  mixHash: `0x${string}`;
+  parentHash: `0x${string}`;
+  timestamp: `0x${string}`;
+};
+
 export type {
   EtherscanERC20Event,
   MoralisAccountTransaction,
@@ -218,4 +332,14 @@ export type {
   MoralisERC20Token,
   MoralisERC20TokenBalance,
   MoralisTransaction,
+  AlchemyERC20TokenBalance,
+  AlchemyERC20Token,
+  AlchemyBalanceRequest,
+  AlchemyPaginatedRequest,
+  AlchemyLog,
+  AlchemyTransaction,
+  AlchemyTransactionReceipt,
+  AlchemyTransactionWithReceipt,
+  AlchemyTransfer,
+  AlchemyBlock,
 };
