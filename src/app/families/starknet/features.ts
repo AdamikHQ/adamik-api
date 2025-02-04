@@ -6,9 +6,9 @@ const STARKNET_FEATURES: ChainSupportedFeatures = {
     validators: false,
     account: {
       balances: { native: true, tokens: true, staking: false },
-      transactions: { native: false, tokens: false, staking: false },
+      transactions: { native: true, tokens: true, staking: false },
     },
-    transaction: { native: true, tokens: false, staking: false },
+    transaction: { native: true, tokens: true, staking: false },
   },
   write: {
     transaction: {
