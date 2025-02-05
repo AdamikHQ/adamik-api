@@ -1,7 +1,6 @@
 name: Generate Providers.md
 
 on:
-  pull_request: # Run on all PRs
   push:
     branches: [main, develop]
   workflow_dispatch:
