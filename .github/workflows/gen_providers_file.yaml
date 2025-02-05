@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.COMMIT_KEY }}
+          persist-credentials: false
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -45,7 +45,6 @@ jobs:
           git commit -m "Update Providers Doc" || echo "No changes to commit"
 
       - name: Push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.COMMIT_KEY }}
-        run: |
-          git push || echo "No changes to push"
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.COMMIT_KEY }}
