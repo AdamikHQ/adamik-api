@@ -5696,7 +5696,8 @@
                 "juno",
                 "sei",
                 "stride",
-                "kava"
+                "kava",
+                "starknet"
               ]
             },
             "required": true
@@ -5774,7 +5775,8 @@
                         "juno",
                         "sei",
                         "stride",
-                        "kava"
+                        "kava",
+                        "starknet"
                       ]
                     },
                     "accountId": {
