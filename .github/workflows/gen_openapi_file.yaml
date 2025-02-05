@@ -11,24 +11,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out HEAD rev
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           path: head
 
       - name: Check out BASE rev
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.base_ref }}
           path: base
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          path: head
+
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "20" # Specify the version of Node.js you want to use
-
-      - name: Install pnpm
-        run: npm install -g pnpm
 
       - name: Install dependencies
         working-directory: head
