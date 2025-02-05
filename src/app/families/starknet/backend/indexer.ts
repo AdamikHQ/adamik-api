@@ -48,7 +48,9 @@ async function fetchTokenContract(contractAddress: string): Promise<TokenContrac
   return data;
 }
 
-const starkScanToAdamikTransaction = async (transaction: TransactionResponse) => {
+const starkScanToAdamikTransaction = async (
+  transaction: TransactionResponse
+): Promise<FinalizedTransaction["parsed"]> => {
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     id: transaction.transaction_hash,
     timestamp: transaction.timestamp,
@@ -94,12 +96,14 @@ const starkScanToAdamikTransaction = async (transaction: TransactionResponse) =>
   return parsedTransaction;
 };
 
-async function fetchTransaction(transactionId: string) {
+async function fetchTransaction(transactionId: string): Promise<FinalizedTransaction> {
   const url = `${ROOT_URL}/api/v0/transaction/${transactionId}`;
 
   const data: TransactionResponse = await fetchWithHeaders(url, "GET");
 
-  return data;
+  const transaction = await starkScanToAdamikTransaction(data);
+
+  return { parsed: transaction, raw: data };
 }
 
 async function getTransactionHistorySymbols(transactions: TransactionHistory[]) {
@@ -130,54 +134,11 @@ async function getTransactionHistorySymbols(transactions: TransactionHistory[]) 
   return symbols;
 }
 
-async function fetchTransactionHistory(
-  accountId: string,
-  paginationToken?: string
-): Promise<{ transactions: FinalizedTransaction[]; nextPage: string | null }> {
-  let dataFrom: TransactionHistoryResponse | undefined;
-  let dataTo: TransactionHistoryResponse | undefined;
-
-  if (paginationToken) {
-    const paginationData = paginationFromB64(paginationToken) as {
-      dataFrom?: string;
-      dataTo?: string;
-    };
-
-    if (paginationData.dataFrom) {
-      dataFrom = await fetchWithHeaders(paginationData.dataFrom, "GET");
-    }
-
-    if (paginationData.dataTo) {
-      dataTo = await fetchWithHeaders(paginationData.dataTo, "GET");
-    }
-  } else {
-    const paramsFrom = new URLSearchParams({
-      transfer_from_address: accountId,
-    });
-    const paramsTo = new URLSearchParams({
-      transfer_to_address: accountId,
-    });
-
-    const urlFrom = `${ROOT_URL}/api/pro/v0/token-transfers?${paramsFrom.toString()}`;
-    const urlTo = `${ROOT_URL}/api/pro/v0/token-transfers?${paramsTo.toString()}`;
-
-    dataFrom = await fetchWithHeaders(urlFrom, "GET");
-    dataTo = await fetchWithHeaders(urlTo, "GET");
-  }
-
-  let nextPage = {};
-
-  if (dataFrom?.next_url) {
-    nextPage = { ...nextPage, dataFrom: dataFrom.next_url };
-  }
-  if (dataTo?.next_url) {
-    nextPage = { ...nextPage, dataTo: dataTo.next_url };
-  }
-
-  const combinedData = [...(dataFrom?.data ?? []), ...(dataTo?.data ?? [])];
-  const symbols = await getTransactionHistorySymbols(combinedData);
-
-  const transactions: FinalizedTransaction[] = combinedData
+function starkScanToAdamikAccountTransaction(
+  transactions: TransactionHistory[],
+  symbols: { symbolAddress: string; symbol: string }[]
+) {
+  const adamikTransactions: FinalizedTransaction[] = transactions
     .map((transaction) => {
       if (transaction.invocation_type === "FUNCTION") {
         return {
@@ -189,7 +150,7 @@ async function fetchTransactionHistory(
             timestamp: transaction.timestamp,
             fees: {
               amount: BigInt(
-                combinedData.find(
+                transactions.find(
                   (fee) =>
                     fee.transaction_hash === transaction.transaction_hash &&
                     fee.invocation_type === "FEE_TRANSFER"
@@ -220,7 +181,62 @@ async function fetchTransactionHistory(
     })
     .filter(Boolean) as FinalizedTransaction[]; // we clean all undefined values
 
-  return { transactions, nextPage: paginationToB64(Object.keys(nextPage).length > 0 ? nextPage : null) };
+  return adamikTransactions;
+}
+
+async function fetchTransactionHistory(
+  accountId: string,
+  paginationToken?: string
+): Promise<{ transactions: FinalizedTransaction[]; nextPage: string | null }> {
+  let dataFrom: TransactionHistoryResponse | undefined;
+  let dataTo: TransactionHistoryResponse | undefined;
+
+  if (paginationToken) {
+    const paginationData = paginationFromB64(paginationToken) as {
+      nextPageFromUrl?: string;
+      nextPageToUrl?: string;
+    };
+
+    if (paginationData.nextPageFromUrl) {
+      dataFrom = await fetchWithHeaders(paginationData.nextPageFromUrl, "GET");
+    }
+
+    if (paginationData.nextPageToUrl) {
+      dataTo = await fetchWithHeaders(paginationData.nextPageToUrl, "GET");
+    }
+  } else {
+    const paramsFrom = new URLSearchParams({
+      transfer_from_address: accountId,
+    });
+    const paramsTo = new URLSearchParams({
+      transfer_to_address: accountId,
+    });
+
+    const urlFrom = `${ROOT_URL}/api/pro/v0/token-transfers?${paramsFrom.toString()}`;
+    const urlTo = `${ROOT_URL}/api/pro/v0/token-transfers?${paramsTo.toString()}`;
+
+    dataFrom = await fetchWithHeaders(urlFrom, "GET");
+    dataTo = await fetchWithHeaders(urlTo, "GET");
+  }
+
+  let nextPage = {};
+
+  if (dataFrom?.next_url) {
+    nextPage = { ...nextPage, nextPageFromUrl: dataFrom.next_url };
+  }
+  if (dataTo?.next_url) {
+    nextPage = { ...nextPage, nextPageToUrl: dataTo.next_url };
+  }
+
+  const combinedData = [...(dataFrom?.data ?? []), ...(dataTo?.data ?? [])];
+  const symbols = await getTransactionHistorySymbols(combinedData);
+
+  const adamikTransactions = starkScanToAdamikAccountTransaction(combinedData, symbols);
+
+  return {
+    transactions: adamikTransactions,
+    nextPage: paginationToB64(Object.keys(nextPage).length > 0 ? nextPage : null),
+  };
 }
 
 export {
