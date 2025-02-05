@@ -107,16 +107,12 @@
 
 ## bitcoin
 
-| nodeURL |  |
+| nodeURL | |
 | explorerURL | https://api.blockchair.com/bitcoin |
-
-## monad-private-testnet
-
-| nodeURL | https://rpc.monad-testnet.category.xyz/rpc/gw3K5ihInuOcijq3jnRO7JKyo7LmOltg6NZTfL7R |
 
 ## bitcoin-testnet
 
-| nodeURL |  |
+| nodeURL | |
 | explorerURL | https://api.blockchair.com/bitcoin/testnet |
 
 ## polygon
@@ -206,12 +202,12 @@
 
 ## litecoin
 
-| nodeURL |  |
+| nodeURL | |
 | explorerURL | https://api.blockchair.com/litecoin |
 
 ## dogecoin
 
-| nodeURL |  |
+| nodeURL | |
 | explorerURL | https://api.blockchair.com/dogecoin |
 
 ## ton
@@ -231,7 +227,7 @@
 
 ## injective
 
-| nodeURL | https://lcd-injective.imperator.co |
+| nodeURL | https://apis.mintscan.io/injective/lcd |
 | explorerURL | https://apis.mintscan.io/v1 |
 
 ## akash
@@ -266,7 +262,7 @@
 
 ## stargaze
 
-| nodeURL | https://stargaze-api.polkachu.com/ |
+| nodeURL | https://lcd-stargaze.imperator.co |
 | explorerURL | https://apis.mintscan.io/v1 |
 
 ## tron
@@ -408,12 +404,3 @@
 
 | nodeURL | https://kava-api.polkachu.com |
 | explorerURL | https://apis.mintscan.io/v1 |
-
-## starknet
-
-| nodeURL | https://starknet-mainnet.public.blastapi.io/rpc/v0_7 |
-| explorerURL | https://api.starkscan.co |
-
-## babylon-testnet
-
-| nodeURL | https://babylon-testnet-api.polkachu.com |
