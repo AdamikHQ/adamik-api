@@ -60,7 +60,7 @@ async function validateTransaction(
         status.warnings.push({ message: "Network fees are above 10% of the amount" });
       }
 
-      if (!(await isAmountValidForRecipient(transaction.data.recipient, amount))) {
+      if (!(await isAmountValidForRecipient(transaction.data.recipientAddress, amount))) {
         status.errors.push({
           message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
         });
@@ -79,13 +79,13 @@ async function validateTransaction(
         status.errors.push({ message: "Token balance is too low" });
       }
 
-      if (!(await isAmountValidForRecipient(transaction.data.recipient, amount))) {
+      if (!(await isAmountValidForRecipient(transaction.data.recipientAddress, amount))) {
         status.errors.push({
           message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
         });
       }
 
-      if (!(await addressHasAsset(transaction.data.recipient, transaction.data.tokenId))) {
+      if (!(await addressHasAsset(transaction.data.recipientAddress, transaction.data.tokenId))) {
         status.errors.push({
           message: "Recipient address has not opted in for the selected ASA",
         });

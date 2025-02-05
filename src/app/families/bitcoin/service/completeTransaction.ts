@@ -20,9 +20,9 @@ async function completeTransaction(
   const feeRate = await fetchFeePerByte(this.chainId);
 
   const { data, context } = await (async () => {
-    return isValidXpub(this.chainId, transaction.data.sender)
-      ? await fetchXpubDashboard(this.chainId, transaction.data.sender)
-      : await fetchAddressesDashboard(this.chainId, [transaction.data.sender]);
+    return isValidXpub(this.chainId, transaction.data.senderAddress)
+      ? await fetchXpubDashboard(this.chainId, transaction.data.senderAddress)
+      : await fetchAddressesDashboard(this.chainId, [transaction.data.senderAddress]);
   })();
 
   let allUtxos: UtxoWithMetadata[] = data?.utxo || [];
@@ -36,7 +36,7 @@ async function completeTransaction(
     allUtxos,
     [
       {
-        address: transaction.data.recipient,
+        address: transaction.data.recipientAddress,
         value: transaction.data.amount ? Number(transaction.data.amount) : undefined,
       },
     ],
@@ -91,7 +91,7 @@ async function completeTransaction(
     if ("value" in out) {
       // in case useMaxAmount is true, we need to overwrite the amount in the transaction with the amount selected by the algorithm
       if ("address" in out) {
-        if (transaction.data.useMaxAmount && out.address === transaction.data.recipient) {
+        if (transaction.data.useMaxAmount && out.address === transaction.data.recipientAddress) {
           transaction.data.amount = BigInt(out.value);
         }
         params.outputs.push(out);

@@ -51,7 +51,7 @@ const addressHasAsset = async (address: string, assetId: string): Promise<boolea
 };
 
 async function computeMaxSpendable(transaction: TransactionData): Promise<TransactionSpendableAmounts> {
-  const { balance, assetAmounts } = await fetchAccount(transaction.sender);
+  const { balance, assetAmounts } = await fetchAccount(transaction.senderAddress);
 
   const maxSpendable = computeAlgoMaxSpendable({
     accountBalance: BigInt(balance),
@@ -90,7 +90,7 @@ async function computeFees(transaction: TransactionData): Promise<bigint> {
 }
 
 async function buildRawTransaction(transaction: TransactionData): Promise<AlgoTransaction> {
-  const { sender, recipient, amount, mode, memo } = transaction;
+  const { senderAddress, recipientAddress, amount, mode, memo } = transaction;
   if (amount === undefined) {
     // Should never happen
     throw new AdamikApiServerError("Missing amount is required to build raw transaction");
@@ -103,8 +103,8 @@ async function buildRawTransaction(transaction: TransactionData): Promise<AlgoTr
   switch (mode) {
     case TransactionMode.TRANSFER: {
       return makePaymentTxnWithSuggestedParamsFromObject({
-        sender,
-        receiver: recipient,
+        sender: senderAddress,
+        receiver: recipientAddress,
         amount,
         note,
         suggestedParams,
@@ -113,8 +113,8 @@ async function buildRawTransaction(transaction: TransactionData): Promise<AlgoTr
     case TransactionMode.TRANSFER_TOKEN: {
       return makeAssetTransferTxnWithSuggestedParamsFromObject({
         assetIndex: Number(transaction.tokenId),
-        sender,
-        receiver: recipient,
+        sender: senderAddress,
+        receiver: recipientAddress,
         amount,
         note,
         suggestedParams,

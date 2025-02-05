@@ -1,14 +1,30 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
-import { getSupportedChainIdsSchema, inputTransactionDataSchema, statusSchema } from "~/app/api/schemaCommon";
+import {
+  formatSchema,
+  getSupportedChainIdsSchema,
+  inputDeployAccountSchema,
+  inputStakingClaimRewardsSchema,
+  inputStakingDelegateSchema,
+  inputStakingRedelegateSchema,
+  inputStakingUndelegateSchema,
+  inputTransferNativeSchema,
+  inputTransferTokenSchema,
+  memoSchema,
+  statusSchema,
+} from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 
 const supportedChainIds = Object.values(CHAINS)
   .filter(
     (chain) =>
-      chain.supportedFeatures.write.transaction.type.native ||
-      chain.supportedFeatures.write.transaction.type.tokens ||
-      chain.supportedFeatures.write.transaction.type.staking
+      chain.supportedFeatures.write.transaction.type.claimRewards ||
+      chain.supportedFeatures.write.transaction.type.deployAccount ||
+      chain.supportedFeatures.write.transaction.type.transfer ||
+      chain.supportedFeatures.write.transaction.type.transferToken ||
+      chain.supportedFeatures.write.transaction.type.delegate ||
+      chain.supportedFeatures.write.transaction.type.redelegate ||
+      chain.supportedFeatures.write.transaction.type.undelegate
   )
   .map((chain) => chain.id);
 
@@ -17,7 +33,24 @@ const pathParamsSchema = z.object({
 });
 
 const requestSchema = z.object({
-  transaction: inputTransactionDataSchema,
+  transaction: z.object({
+    data: z
+      .object({
+        memo: memoSchema.optional(),
+        format: formatSchema.optional(),
+      })
+      .and(
+        z.discriminatedUnion("mode", [
+          inputDeployAccountSchema,
+          inputTransferNativeSchema,
+          inputStakingDelegateSchema,
+          inputTransferTokenSchema,
+          inputStakingUndelegateSchema,
+          inputStakingRedelegateSchema,
+          inputStakingClaimRewardsSchema,
+        ])
+      ),
+  }),
 });
 
 const responseSchema = z.object({

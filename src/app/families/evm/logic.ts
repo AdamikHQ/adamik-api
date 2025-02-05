@@ -26,15 +26,15 @@ async function getTransactionGas(chainId: ChainId, transaction: TransactionData)
     return await estimateERC20Gas({
       chainId,
       contractAddress: transaction.tokenId as EvmAddress,
-      senderAddress: transaction.sender as EvmAddress,
-      recipientAddress: transaction.recipient as EvmAddress,
+      senderAddress: transaction.senderAddress as EvmAddress,
+      recipientAddress: transaction.recipientAddress as EvmAddress,
       amount: transaction.amount ?? 0n,
     });
   } else {
     return await estimateGas({
       chainId,
-      senderAddress: transaction.sender as EvmAddress,
-      recipientAddress: transaction.recipient as EvmAddress,
+      senderAddress: transaction.senderAddress as EvmAddress,
+      recipientAddress: transaction.recipientAddress as EvmAddress,
       amount: transaction.amount ?? 0n,
     });
   }
@@ -48,14 +48,14 @@ async function getTransactionFees(chainId: ChainId, transaction: TransactionData
       ? await estimateERC20FeesForL2({
           chainId,
           contractAddress: transaction.tokenId as EvmAddress,
-          senderAddress: transaction.sender as EvmAddress,
-          recipientAddress: transaction.recipient as EvmAddress,
+          senderAddress: transaction.senderAddress as EvmAddress,
+          recipientAddress: transaction.recipientAddress as EvmAddress,
           amount: transaction.amount ?? 0n,
         })
       : await estimateFeesForL2({
           chainId,
-          senderAddress: transaction.sender as EvmAddress,
-          recipientAddress: transaction.recipient as EvmAddress,
+          senderAddress: transaction.senderAddress as EvmAddress,
+          recipientAddress: transaction.recipientAddress as EvmAddress,
           amount: transaction.amount ?? 0n,
         });
   }
@@ -91,14 +91,14 @@ async function getMaxSpendable(
   chainId: ChainId,
   transaction: TransactionData
 ): Promise<TransactionSpendableAmounts> {
-  const ethBalance = await fetchBalance(chainId, transaction.sender as EvmAddress);
+  const ethBalance = await fetchBalance(chainId, transaction.senderAddress as EvmAddress);
 
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
     try {
       const erc20Balance = await fetchERC20Balance({
         chainId,
         contractAddress: transaction.tokenId as EvmAddress,
-        senderAddress: transaction.sender as EvmAddress,
+        senderAddress: transaction.senderAddress as EvmAddress,
       });
       return {
         native: ethBalance,

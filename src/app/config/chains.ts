@@ -6,6 +6,7 @@ import {
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
   NATIVE_READ_WRITE_ONLY,
+  STARKNET_FEATURES,
   TON_FEATURES,
   TRON_FEATURES,
 } from "./features";
@@ -411,6 +412,20 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     nativeId: "bitcoin",
     supportedFeatures: BITCOIN_FEATURES,
+  },
+  "monad-private-testnet": {
+    id: ChainId.MONAD_PRIVATE_TESTNET,
+    name: "Monad Private Testnet",
+    family: ChainFamily.EVM,
+    nativeId: "10143",
+    ticker: "MON",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://rpc.monad-testnet.category.xyz/rpc/gw3K5ihInuOcijq3jnRO7JKyo7LmOltg6NZTfL7R",
+      //explorerURL: "https://monad.xyz",
+    },
+    supportedFeatures: EVM_FEATURES(ChainId.MONAD_PRIVATE_TESTNET),
+    isTestnetFor: "monad",
   },
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,
@@ -902,7 +917,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ticker: "STARS",
     decimals: 6,
     backends: {
-      nodeURL: "https://lcd-stargaze.imperator.co",
+      nodeURL: "https://stargaze-api.polkachu.com/",
+      //nodeURL: "https://lcd-stargaze.imperator.co", // Randomly long response times, up to 60s and more...
       explorerURL: "https://apis.mintscan.io/v1",
     },
     params: {
@@ -910,8 +926,9 @@ const CHAINS: { [key in ChainId]: Chain } = {
       validatorPrefix: "starsvaloper",
       denom: "ustars",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
-      defaultGas: 100000, // TODO: Verify this value for each specific chain
-      minGasPrice: 0.0025,
+      defaultGas: 100000,
+      minGasPrice: 0.1, // Value for polkachu node
+      //minGasPrice: 0.0025, // Value for imperator node
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.STARGAZE),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/stargaze/chain.json
@@ -1531,7 +1548,21 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: COSMOS_FEATURES(ChainId.KAVA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kava/chain.json
   },
+  starknet: {
+    family: ChainFamily.STARKNET,
+    id: ChainId.STARKNET,
+    nativeId: "starknet",
+    name: "Starknet",
+    ticker: "STRK",
+    decimals: 18,
+    backends: {
+      nodeURL: "https://starknet-mainnet.public.blastapi.io/rpc/v0_7", //FIXME: find a better node
+      explorerURL: "https://api.starkscan.co",
+    },
+    supportedFeatures: STARKNET_FEATURES,
+  },
   // TODO Test this (later)
+  /*
   babylon: {
     family: ChainFamily.COSMOS,
     id: ChainId.BABYLON_TESTNET,
@@ -1552,7 +1583,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON),
   },
-  // TODO Test this
+  */
   "babylon-testnet": {
     family: ChainFamily.COSMOS,
     id: ChainId.BABYLON_TESTNET,
@@ -1577,21 +1608,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
 } as const;
 
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
-  const supportedModes: TransactionMode[] = [];
-  const supportedTransactions = CHAINS[chainId].supportedFeatures.write.transaction.type;
+  const transactionFeatures = CHAINS[chainId].supportedFeatures.write.transaction.type;
 
-  if (supportedTransactions.native) {
-    supportedModes.push(TransactionMode.TRANSFER);
-  }
-  if (supportedTransactions.tokens) {
-    supportedModes.push(TransactionMode.TRANSFER_TOKEN);
-  }
-  if (supportedTransactions.staking) {
-    supportedModes.push(TransactionMode.DELEGATE);
-    supportedModes.push(TransactionMode.REDELEGATE);
-    supportedModes.push(TransactionMode.UNDELEGATE);
-    supportedModes.push(TransactionMode.CLAIM_REWARDS);
-  }
+  const supportedFeatures = Object.entries(transactionFeatures).filter((entry) => entry[1] === true);
+  const supportedModes = Object.keys(supportedFeatures) as TransactionMode[];
 
   return supportedModes;
 }

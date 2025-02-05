@@ -1,18 +1,35 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
+  encodedTransactionSchema,
+  formatSchema,
   getSupportedChainIdsSchema,
-  inputTransactionDataSchema,
-  signedAndEncodedTransactionSchema,
+  inputDeployAccountSchema,
+  inputFeesSchema,
+  inputGasSchema,
+  inputNonceSchema,
+  inputParamsSchema,
+  inputStakingClaimRewardsSchema,
+  inputStakingDelegateSchema,
+  inputStakingRedelegateSchema,
+  inputStakingUndelegateSchema,
+  inputTransferNativeSchema,
+  inputTransferTokenSchema,
+  memoSchema,
+  signatureSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 
 const supportedChainIds = Object.values(CHAINS)
   .filter(
     (chain) =>
-      chain.supportedFeatures.write.transaction.type.native ||
-      chain.supportedFeatures.write.transaction.type.tokens ||
-      chain.supportedFeatures.write.transaction.type.staking
+      chain.supportedFeatures.write.transaction.type.deployAccount ||
+      chain.supportedFeatures.write.transaction.type.transfer ||
+      chain.supportedFeatures.write.transaction.type.transferToken ||
+      chain.supportedFeatures.write.transaction.type.delegate ||
+      chain.supportedFeatures.write.transaction.type.redelegate ||
+      chain.supportedFeatures.write.transaction.type.undelegate ||
+      chain.supportedFeatures.write.transaction.type.claimRewards
   )
   .map((chain) => chain.id);
 
@@ -21,7 +38,30 @@ const pathParamsSchema = z.object({
 });
 
 const requestSchema = z.object({
-  transaction: inputTransactionDataSchema.and(signedAndEncodedTransactionSchema),
+  transaction: z.object({
+    data: z
+      .object({
+        fees: inputFeesSchema,
+        gas: inputGasSchema.optional(),
+        nonce: inputNonceSchema.optional(),
+        memo: memoSchema.optional(),
+        format: formatSchema.optional(),
+        params: inputParamsSchema.optional(),
+      })
+      .and(
+        z.discriminatedUnion("mode", [
+          inputDeployAccountSchema,
+          inputTransferNativeSchema,
+          inputStakingDelegateSchema,
+          inputTransferTokenSchema,
+          inputStakingUndelegateSchema,
+          inputStakingRedelegateSchema,
+          inputStakingClaimRewardsSchema,
+        ])
+      ),
+    encoded: encodedTransactionSchema,
+    signature: signatureSchema,
+  }),
 });
 
 const responseSchema = z.object({

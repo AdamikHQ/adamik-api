@@ -16,7 +16,7 @@ async function completeTransaction(
   const { transaction, status } = _;
 
   try {
-    const nonce = await fetchNonce(this.chainId, transaction.data.sender as EvmAddress);
+    const nonce = await fetchNonce(this.chainId, transaction.data.senderAddress as EvmAddress);
     transaction.data.nonce = BigInt(nonce);
 
     switch (transaction.data.mode) {
@@ -29,7 +29,7 @@ async function completeTransaction(
       default:
         // should never happen, zod already validated the mode per chain
         throw new UnsupportedFeatureError(
-          `Unsupported transaction mode ${transaction.data.mode} for EVM chain ${this.chainId}`
+          `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chainId}`
         );
     }
   } catch (e: any) {

@@ -7,7 +7,6 @@ import {
   Signature,
   toHex,
   TransactionSerializable,
-  TransactionSerialized,
   BaseError as ViemError,
 } from "viem";
 import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
@@ -71,14 +70,14 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
       ? encodeFunctionData({
           abi: erc20Abi,
           functionName: "transfer",
-          args: [transaction.data.recipient as EvmAddress, amount],
+          args: [transaction.data.recipientAddress as EvmAddress, amount],
         })
       : undefined;
 
   const recipient =
     transaction.data.mode === TransactionMode.TRANSFER_TOKEN
       ? (transaction.data.tokenId as EvmAddress)
-      : (transaction.data.recipient as EvmAddress);
+      : (transaction.data.recipientAddress as EvmAddress);
 
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
@@ -91,7 +90,7 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
     to: recipient,
     value: amount,
     data,
-  }) as TransactionSerialized;
+  });
 }
 
 async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transaction): Promise<void> {
@@ -106,32 +105,32 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
     maxPriorityFeePerGas: toHex(maxPriorityFeePerGas),
     maxFeePerGas: toHex(maxFeePerGas),
     gas: toHex(transaction.data.gas!),
-    from: transaction.data.sender,
+    from: transaction.data.senderAddress,
     nonce: toHex(transaction.data.nonce!),
   };
 
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER: {
-      transaction.encoded = {
+      transaction.encoded = JSON.stringify({
         ...commonData,
         value: toHex(transaction.data.amount!),
-        to: transaction.data.recipient,
-      } as any;
+        to: transaction.data.recipientAddress,
+      });
       break;
     }
     case TransactionMode.TRANSFER_TOKEN: {
       const data = encodeFunctionData({
         abi: erc20Abi,
         functionName: "transfer",
-        args: [transaction.data.recipient as EvmAddress, transaction.data.amount!],
+        args: [transaction.data.recipientAddress as EvmAddress, transaction.data.amount!],
       });
 
-      transaction.encoded = {
+      transaction.encoded = JSON.stringify({
         ...commonData,
         value: toHex(0n),
         to: transaction.data.tokenId,
         data,
-      } as any;
+      });
       break;
     }
   }
@@ -193,7 +192,7 @@ async function encodeTransactionToBroadcast(
   })();
 
   const parsedTansaction: TransactionSerializable = isHexString(signedTransaction.encoded)
-    ? parseTransaction(signedTransaction.encoded as TransactionSerialized)
+    ? parseTransaction(signedTransaction.encoded)
     : (signedTransaction.encoded as TransactionSerializable);
 
   const chainParams = CHAINS[this.chainId].params as EvmChainParams;

@@ -1,7 +1,7 @@
-import { CosmosChainParams, CosmosTransactionParams } from "~/app/families/cosmos/types";
+import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
-import { TonTransactionParams } from "../families/ton/types";
+import { StarknetTransactionParams } from "../families/starknet/types";
 import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
@@ -43,6 +43,8 @@ enum ChainId {
   BITCOIN_TESTNET = "bitcoin-testnet",
   LITECOIN = "litecoin",
   DOGECOIN = "dogecoin",
+  STARKNET = "starknet",
+  MONAD_PRIVATE_TESTNET = "monad-private-testnet",
   BITSONG = "bitsong",
   CHIHUAHUA = "chihuahua",
   SEDA = "seda",
@@ -86,7 +88,7 @@ enum ChainId {
   CELESTIA_TESTNET = "celestia-testnet", //using lavanet
   COSMOSHUB_TESTNET = "cosmoshub-testnet", //using nodestake
   INJECTIVE = "injective", //using mintscan node
-  BABYLON = "babylon",
+  //BABYLON = "babylon",
   BABYLON_TESTNET = "babylon-testnet",
 
   //Their own family
@@ -103,6 +105,7 @@ enum ChainFamily {
   BITCOIN = "bitcoin",
   TRON = "tron",
   TON = "ton",
+  STARKNET = "starknet",
 }
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
@@ -125,11 +128,14 @@ type ChainSupportedFeatures = {
   };
   write: {
     transaction: {
-      type: FeaturesSet;
+      type: { [key in TransactionMode]: boolean };
       field: {
         memo: boolean;
       };
     };
+  };
+  utils: {
+    addresses: boolean;
   };
 };
 
@@ -251,6 +257,7 @@ type TypedAddress = {
 };
 
 enum TransactionMode {
+  DEPLOY_ACCOUNT = "deployAccount",
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
   DELEGATE = "delegate",
@@ -309,31 +316,35 @@ type FinalizedTransaction = {
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
-type TransactionParams =
-  | CosmosTransactionParams
-  | BitcoinTransactionParams
-  | TonTransactionParams
-  | TronTransactionParams;
+type TransactionParams = BitcoinTransactionParams | TronTransactionParams | StarknetTransactionParams;
+
+enum DeployContractType {
+  ARGENTX = "argentx",
+}
 
 // TODO WIP
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
 // FIXME one 'TransactionData' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
-// FIXME Does the 'params' field make sense? It allows chain-specific data into the model...
-// - alternative: all data could be flat?
-// - alternative: an explicit field for each chain? or family? = 'cosmosParams', 'evmParams', etc
 type CommonTransaction = {
   mode: TransactionMode;
-  sender: string;
-  recipient: string;
-  useMaxAmount: boolean;
+  senderAddress: string;
+  senderPubKey?: string;
+  recipientAddress: string;
   amount?: bigint;
+  useMaxAmount?: boolean;
   fees?: bigint;
   gas?: bigint;
   nonce?: bigint;
   memo?: string;
   format?: EncodedTransactionFormat;
   params?: TransactionParams;
+};
+
+type DeployAccountTransaction = CommonTransaction & {
+  mode: TransactionMode.DEPLOY_ACCOUNT;
+  senderPubKey: string; // Not optional for deploy account transactions
+  contractType: DeployContractType;
 };
 
 type TransferTransaction = CommonTransaction & {
@@ -368,6 +379,7 @@ type ClaimRewardsTransaction = CommonTransaction & {
 };
 
 type TransactionData =
+  | DeployAccountTransaction
   | TransferTransaction
   | TransferTokenTransaction
   | DelegateTransaction
@@ -414,6 +426,7 @@ type Status = {
 export {
   ChainFamily,
   ChainId,
+  DeployContractType,
   EncodedTransactionFormat,
   StakingStatus,
   TokenType,

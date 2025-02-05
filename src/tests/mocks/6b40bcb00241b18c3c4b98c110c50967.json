@@ -1,0 +1,21 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-owned-by?owner_address=0x05e1dfe469A9b7a504cA84102359467453aE530cFB5Ec70FF4239f91e964A08e",
+    "method": "GET"
+  },
+  "response": {
+    "next_url": null,
+    "data": [
+      {
+        "contract_address": "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
+        "owner_address": "0x05e1dfe469a9b7a504ca84102359467453ae530cfb5ec70ff4239f91e964a08e",
+        "balance": "12020711008881783448"
+      },
+      {
+        "contract_address": "0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8",
+        "owner_address": "0x05e1dfe469a9b7a504ca84102359467453ae530cfb5ec70ff4239f91e964a08e",
+        "balance": "12344243"
+      }
+    ]
+  }
+}

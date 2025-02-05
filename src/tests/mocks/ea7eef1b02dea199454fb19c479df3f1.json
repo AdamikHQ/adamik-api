@@ -1,0 +1,441 @@
+{
+  "request": {
+    "url": "https://mainnet-api.algonode.cloud/v2/accounts/5TOOCJSAZBPBV4LFH26JBJYPJXGQ4XCYAT44Z6ETZT6DHQIEIBTYBYW4CM/assets?limit=20&next=193053701",
+    "method": "GET"
+  },
+  "response": {
+    "asset-holdings": [
+      {
+        "asset-holding": {
+          "amount": 0,
+          "asset-id": 195461005,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "5RJULELOPGQ5DXH2DJAXSQPUD64OT5MS634IGIDC5S6REK7NMVXAI4CQHI",
+          "decimals": 2,
+          "default-frozen": false,
+          "manager": "5RJULELOPGQ5DXH2DJAXSQPUD64OT5MS634IGIDC5S6REK7NMVXAI4CQHI",
+          "name": "BOOB Coin",
+          "name-b64": "Qk9PQiBDb2lu",
+          "reserve": "5RJULELOPGQ5DXH2DJAXSQPUD64OT5MS634IGIDC5S6REK7NMVXAI4CQHI",
+          "total": 1000000000000,
+          "unit-name": "NIPS",
+          "unit-name-b64": "TklQUw=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 153600000000,
+          "asset-id": 197112469,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "clawback": "BSSJBJJJHK5BL46F2S2HXXS3SYJS547YIQYQ3THZY7JVLP4CM5H3AIWM5E",
+          "creator": "BSSJBJJJHK5BL46F2S2HXXS3SYJS547YIQYQ3THZY7JVLP4CM5H3AIWM5E",
+          "decimals": 6,
+          "default-frozen": false,
+          "freeze": "BSSJBJJJHK5BL46F2S2HXXS3SYJS547YIQYQ3THZY7JVLP4CM5H3AIWM5E",
+          "manager": "BSSJBJJJHK5BL46F2S2HXXS3SYJS547YIQYQ3THZY7JVLP4CM5H3AIWM5E",
+          "name": "PuddingPoints",
+          "name-b64": "UHVkZGluZ1BvaW50cw==",
+          "reserve": "5LY7PZH6VAIOPBYKFOTEX6CH4O6YULVUPIEKCIMILLFM2KE7DGCYE3OXDY",
+          "total": 1000000000000000,
+          "unit-name": "PUPO",
+          "unit-name-b64": "UFVQTw==",
+          "url": "https://puddingpoints.com/",
+          "url-b64": "aHR0cHM6Ly9wdWRkaW5ncG9pbnRzLmNvbS8="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 199882644,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "metadata-hash": "YW4wdGgzcmIxaWdodGJyMW5nc3RoM3cwcjFkdDBwY3M=",
+          "name": "Gravelight (A)",
+          "name-b64": "R3JhdmVsaWdodCAoQSk=",
+          "reserve": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "total": 100,
+          "unit-name": "MTZ2",
+          "unit-name-b64": "TVRaMg==",
+          "url": "https://bit.ly/3sPpKQW",
+          "url-b64": "aHR0cHM6Ly9iaXQubHkvM3NQcEtRVw=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 0,
+          "asset-id": 200295491,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "clawback": "GYURNPJIISHKQSFO3IVFYP6Z5YJFTY532AX5IMQVPXRELLJVE5BSFZCYWM",
+          "creator": "GYURNPJIISHKQSFO3IVFYP6Z5YJFTY532AX5IMQVPXRELLJVE5BSFZCYWM",
+          "decimals": 0,
+          "default-frozen": false,
+          "freeze": "GYURNPJIISHKQSFO3IVFYP6Z5YJFTY532AX5IMQVPXRELLJVE5BSFZCYWM",
+          "manager": "GYURNPJIISHKQSFO3IVFYP6Z5YJFTY532AX5IMQVPXRELLJVE5BSFZCYWM",
+          "name": "Knaf Token",
+          "name-b64": "S25hZiBUb2tlbg==",
+          "reserve": "GYURNPJIISHKQSFO3IVFYP6Z5YJFTY532AX5IMQVPXRELLJVE5BSFZCYWM",
+          "total": 1000000000,
+          "unit-name": "Knafs",
+          "unit-name-b64": "S25hZnM="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 0,
+          "asset-id": 200635718,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "INE3CGSY3LXFXUUUOOECCLLPXCZ5AVZSR4WF4XBK7QY7N63XTUKCPOL5K4",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "INE3CGSY3LXFXUUUOOECCLLPXCZ5AVZSR4WF4XBK7QY7N63XTUKCPOL5K4",
+          "name": "AlgorandEYE",
+          "name-b64": "QWxnb3JhbmRFWUU=",
+          "reserve": "INE3CGSY3LXFXUUUOOECCLLPXCZ5AVZSR4WF4XBK7QY7N63XTUKCPOL5K4",
+          "total": 130,
+          "unit-name": "ALGOEYE",
+          "unit-name-b64": "QUxHT0VZRQ==",
+          "url": "https://bit.ly/3vmAk3x",
+          "url-b64": "aHR0cHM6Ly9iaXQubHkvM3ZtQWszeA=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 23440,
+          "asset-id": 200926728,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "metadata-hash": "dGgzeWdyM3d2aTBsM250NG5kYzRzdHQwdGgzdzFsZCM=",
+          "name": "World of Light",
+          "name-b64": "V29ybGQgb2YgTGlnaHQ=",
+          "reserve": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "total": 10000000,
+          "unit-name": "WOL",
+          "unit-name-b64": "V09M",
+          "url": "https://bit.ly/2S8vB7D",
+          "url-b64": "aHR0cHM6Ly9iaXQubHkvMlM4dkI3RA=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 202211141,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "metadata-hash": "OWM2YTNlZjg3NDE3NjMxMDVmMWEzMjVkYTRlNjA0ODM=",
+          "name": "PotatoCard #020",
+          "name-b64": "UG90YXRvQ2FyZCAjMDIw",
+          "reserve": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "total": 1,
+          "unit-name": "MTZ3.020",
+          "unit-name-b64": "TVRaMy4wMjA=",
+          "url": "https://bit.ly/3vqINTo",
+          "url-b64": "aHR0cHM6Ly9iaXQubHkvM3ZxSU5Ubw=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 204799561,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "metadata-hash": "YTI2OWUzZGZkZjQxZDI1MjY4NDc4NGQ2OTg0YTJlMzg=",
+          "name": "Sleeping Giant",
+          "name-b64": "U2xlZXBpbmcgR2lhbnQ=",
+          "reserve": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "total": 50,
+          "unit-name": "MTZ4",
+          "unit-name-b64": "TVRaNA==",
+          "url": "https://bit.ly/3aSapJx",
+          "url-b64": "aHR0cHM6Ly9iaXQubHkvM2FTYXBKeA=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 205524947,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "metadata-hash": "ZDVlOTk1OWFhNmQzNWUzMzc3OGZlZmQ0NWI5MjQ5ZDU=",
+          "name": "Awakening",
+          "name-b64": "QXdha2VuaW5n",
+          "reserve": "HEIAO6ZWWH767DLZ5E655CWSY7SKJ2D6MORY7GTGATSPLZACYZ72SZ4SMA",
+          "total": 45,
+          "unit-name": "MTZ5",
+          "unit-name-b64": "TVRaNQ==",
+          "url": "https://bit.ly/3gRiTnX",
+          "url-b64": "aHR0cHM6Ly9iaXQubHkvM2dSaVRuWA=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 205775472,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "5XGAJSEYGZOCMQ3FKSWYN5K4S445CVLGRXLJMDU2BI34RW23XZZCMHTPHY",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "5XGAJSEYGZOCMQ3FKSWYN5K4S445CVLGRXLJMDU2BI34RW23XZZCMHTPHY",
+          "name": "Nepal Series #2: Stupa",
+          "name-b64": "TmVwYWwgU2VyaWVzICMyOiBTdHVwYQ==",
+          "reserve": "5XGAJSEYGZOCMQ3FKSWYN5K4S445CVLGRXLJMDU2BI34RW23XZZCMHTPHY",
+          "total": 8,
+          "unit-name": "WC1",
+          "unit-name-b64": "V0Mx",
+          "url": "https://bit.ly/3eLbELD",
+          "url-b64": "aHR0cHM6Ly9iaXQubHkvM2VMYkVMRA=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 208142222,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "clawback": "MP4YU2SDRPSDFBB6EAMB47DX22FUTZUQ45EXDD5AXJG4M65IRQMROFQU2U",
+          "creator": "MP4YU2SDRPSDFBB6EAMB47DX22FUTZUQ45EXDD5AXJG4M65IRQMROFQU2U",
+          "decimals": 0,
+          "default-frozen": false,
+          "freeze": "MP4YU2SDRPSDFBB6EAMB47DX22FUTZUQ45EXDD5AXJG4M65IRQMROFQU2U",
+          "manager": "MP4YU2SDRPSDFBB6EAMB47DX22FUTZUQ45EXDD5AXJG4M65IRQMROFQU2U",
+          "name": "Palingenesis",
+          "name-b64": "UGFsaW5nZW5lc2lz",
+          "reserve": "MP4YU2SDRPSDFBB6EAMB47DX22FUTZUQ45EXDD5AXJG4M65IRQMROFQU2U",
+          "total": 749,
+          "unit-name": "pwart",
+          "unit-name-b64": "cHdhcnQ=",
+          "url": "planetwatch.io/palingenesis",
+          "url-b64": "cGxhbmV0d2F0Y2guaW8vcGFsaW5nZW5lc2lz"
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 500,
+          "asset-id": 212272017,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "N2W22V75HTBI3ROTFOXZF7OS7YX2PA3YJC3CJYVONDHRBLG4EICPVP5BRU",
+          "decimals": 2,
+          "default-frozen": false,
+          "manager": "N2W22V75HTBI3ROTFOXZF7OS7YX2PA3YJC3CJYVONDHRBLG4EICPVP5BRU",
+          "name": "MOONALGO TOKEN",
+          "name-b64": "TU9PTkFMR08gVE9LRU4=",
+          "reserve": "N2W22V75HTBI3ROTFOXZF7OS7YX2PA3YJC3CJYVONDHRBLG4EICPVP5BRU",
+          "total": 100000,
+          "unit-name": "MAT",
+          "unit-name-b64": "TUFU"
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 214751902,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "YBNABNOMH7AYND6LM3OKW3VFMRFD6Y3U6VZMOVFGBXNDO4GNA5AG2U4V7E",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "YBNABNOMH7AYND6LM3OKW3VFMRFD6Y3U6VZMOVFGBXNDO4GNA5AG2U4V7E",
+          "name": "Bronze AlgoKitten Coin",
+          "name-b64": "QnJvbnplIEFsZ29LaXR0ZW4gQ29pbg==",
+          "reserve": "YBNABNOMH7AYND6LM3OKW3VFMRFD6Y3U6VZMOVFGBXNDO4GNA5AG2U4V7E",
+          "total": 120,
+          "unit-name": "PURR_03",
+          "unit-name-b64": "UFVSUl8wMw==",
+          "url": "https://bit.ly/3o1RyAP",
+          "url-b64": "aHR0cHM6Ly9iaXQubHkvM28xUnlBUA=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 215570464,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "3TVW4Q5ACTQYYPINQCWNKCEBFSHXSOW66JKRFYX2RK77T7QGCDPSRQWJ5U",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "3TVW4Q5ACTQYYPINQCWNKCEBFSHXSOW66JKRFYX2RK77T7QGCDPSRQWJ5U",
+          "name": "Tripdy",
+          "name-b64": "VHJpcGR5",
+          "reserve": "3TVW4Q5ACTQYYPINQCWNKCEBFSHXSOW66JKRFYX2RK77T7QGCDPSRQWJ5U",
+          "total": 15,
+          "unit-name": "TRP",
+          "unit-name-b64": "VFJQ",
+          "url": "tinyurl.com/tripdy",
+          "url-b64": "dGlueXVybC5jb20vdHJpcGR5"
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 216596476,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "YBNABNOMH7AYND6LM3OKW3VFMRFD6Y3U6VZMOVFGBXNDO4GNA5AG2U4V7E",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "YBNABNOMH7AYND6LM3OKW3VFMRFD6Y3U6VZMOVFGBXNDO4GNA5AG2U4V7E",
+          "name": "AlgoKitten_051",
+          "name-b64": "QWxnb0tpdHRlbl8wNTE=",
+          "reserve": "YBNABNOMH7AYND6LM3OKW3VFMRFD6Y3U6VZMOVFGBXNDO4GNA5AG2U4V7E",
+          "total": 1,
+          "unit-name": "MEOW_051",
+          "unit-name-b64": "TUVPV18wNTE=",
+          "url": "https://bit.ly/3bjEqlC",
+          "url-b64": "aHR0cHM6Ly9iaXQubHkvM2JqRXFsQw=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 218292713,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "RJVFFLLQ4CJVIQJ7EDJHYPNDNC3YT6H4GHYWO42AVAH6XSBKMUEH2GFFG4",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "RJVFFLLQ4CJVIQJ7EDJHYPNDNC3YT6H4GHYWO42AVAH6XSBKMUEH2GFFG4",
+          "metadata-hash": "OWQ2YWVlZDIwNTMxMTcwZGIxNTI3ZDgxYzBhYTJhOWU=",
+          "name": "#14 - Gateway",
+          "name-b64": "IzE0IC0gR2F0ZXdheQ==",
+          "reserve": "RJVFFLLQ4CJVIQJ7EDJHYPNDNC3YT6H4GHYWO42AVAH6XSBKMUEH2GFFG4",
+          "total": 26,
+          "unit-name": "Rhythm",
+          "unit-name-b64": "Umh5dGht",
+          "url": "https://bit.ly/3hpBwje",
+          "url-b64": "aHR0cHM6Ly9iaXQubHkvM2hwQndqZQ=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 219919867,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "FG7O5CYP75FKRXSIWMSB2KQRNV4GBCLMKEO7DXARPDBRONXQGHYX3BA72M",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "FG7O5CYP75FKRXSIWMSB2KQRNV4GBCLMKEO7DXARPDBRONXQGHYX3BA72M",
+          "metadata-hash": "YTYyMzBmZDFkNTJiY2E1NzBkZmY5ZmMwNDkyMjljZTg=",
+          "name": "#15 - Sacred",
+          "name-b64": "IzE1IC0gU2FjcmVk",
+          "reserve": "FG7O5CYP75FKRXSIWMSB2KQRNV4GBCLMKEO7DXARPDBRONXQGHYX3BA72M",
+          "total": 26,
+          "unit-name": "RHYTHM",
+          "unit-name-b64": "UkhZVEhN",
+          "url": "https://tinyurl.com/js23ezdp",
+          "url-b64": "aHR0cHM6Ly90aW55dXJsLmNvbS9qczIzZXpkcA=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 219927427,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "FG7O5CYP75FKRXSIWMSB2KQRNV4GBCLMKEO7DXARPDBRONXQGHYX3BA72M",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "FG7O5CYP75FKRXSIWMSB2KQRNV4GBCLMKEO7DXARPDBRONXQGHYX3BA72M",
+          "metadata-hash": "MjUzYmFiMjRhMzBlNDRkZGUwOGRiZWRmZjM2MzkyNzg=",
+          "name": "#1 Secret Series",
+          "name-b64": "IzEgU2VjcmV0IFNlcmllcw==",
+          "reserve": "FG7O5CYP75FKRXSIWMSB2KQRNV4GBCLMKEO7DXARPDBRONXQGHYX3BA72M",
+          "total": 13,
+          "unit-name": "Rhythm",
+          "unit-name-b64": "Umh5dGht",
+          "url": "https://tinyurl.com/spt2x69h",
+          "url-b64": "aHR0cHM6Ly90aW55dXJsLmNvbS9zcHQyeDY5aA=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 219930636,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "FG7O5CYP75FKRXSIWMSB2KQRNV4GBCLMKEO7DXARPDBRONXQGHYX3BA72M",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "FG7O5CYP75FKRXSIWMSB2KQRNV4GBCLMKEO7DXARPDBRONXQGHYX3BA72M",
+          "metadata-hash": "M2E5NzdhYjQ2NDdmYzliMGMzMTAwOWM3OWE1YzZmZWM=",
+          "name": "#1 Secret Series - Still",
+          "name-b64": "IzEgU2VjcmV0IFNlcmllcyAtIFN0aWxs",
+          "reserve": "FG7O5CYP75FKRXSIWMSB2KQRNV4GBCLMKEO7DXARPDBRONXQGHYX3BA72M",
+          "total": 13,
+          "unit-name": "Rhythm",
+          "unit-name-b64": "Umh5dGht",
+          "url": "https://tinyurl.com/588zh2nb",
+          "url-b64": "aHR0cHM6Ly90aW55dXJsLmNvbS81ODh6aDJuYg=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 0,
+          "asset-id": 220938956,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "YBNABNOMH7AYND6LM3OKW3VFMRFD6Y3U6VZMOVFGBXNDO4GNA5AG2U4V7E",
+          "decimals": 0,
+          "default-frozen": false,
+          "manager": "YBNABNOMH7AYND6LM3OKW3VFMRFD6Y3U6VZMOVFGBXNDO4GNA5AG2U4V7E",
+          "name": "AlgoKitten_109",
+          "name-b64": "QWxnb0tpdHRlbl8xMDk=",
+          "reserve": "YBNABNOMH7AYND6LM3OKW3VFMRFD6Y3U6VZMOVFGBXNDO4GNA5AG2U4V7E",
+          "total": 1000,
+          "unit-name": "MEOW_109",
+          "unit-name-b64": "TUVPV18xMDk=",
+          "url": "https://bit.ly/3tNK85L",
+          "url-b64": "aHR0cHM6Ly9iaXQubHkvM3ROSzg1TA=="
+        }
+      }
+    ],
+    "next-token": "220938956",
+    "round": 46299513
+  }
+}
