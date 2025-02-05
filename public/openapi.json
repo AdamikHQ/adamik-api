@@ -3955,6 +3955,53 @@
                             "decimals",
                             "supportedFeatures"
                           ]
+                        },
+                        "babylon-testnet": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
                         }
                       },
                       "additionalProperties": false
@@ -4133,7 +4180,8 @@
                 "quicksilver",
                 "saga",
                 "ux-chain",
-                "kava"
+                "kava",
+                "babylon-testnet"
               ]
             },
             "required": true
@@ -4265,7 +4313,8 @@
                 "quicksilver",
                 "saga",
                 "ux-chain",
-                "kava"
+                "kava",
+                "babylon-testnet"
               ]
             },
             "required": true
@@ -4333,7 +4382,8 @@
                         "quicksilver",
                         "saga",
                         "ux-chain",
-                        "kava"
+                        "kava",
+                        "babylon-testnet"
                       ]
                     },
                     "validators": {
@@ -4945,7 +4995,8 @@
                 "saga",
                 "ux-chain",
                 "kava",
-                "starknet"
+                "starknet",
+                "babylon-testnet"
               ]
             },
             "required": true
@@ -5064,7 +5115,8 @@
                         "saga",
                         "ux-chain",
                         "kava",
-                        "starknet"
+                        "starknet",
+                        "babylon-testnet"
                       ]
                     },
                     "accountId": {
@@ -5396,7 +5448,8 @@
                 "saga",
                 "ux-chain",
                 "kava",
-                "starknet"
+                "starknet",
+                "babylon-testnet"
               ]
             },
             "required": true
@@ -5498,7 +5551,8 @@
                         "saga",
                         "ux-chain",
                         "kava",
-                        "starknet"
+                        "starknet",
+                        "babylon-testnet"
                       ]
                     },
                     "accountId": {
@@ -6035,7 +6089,8 @@
                 "saga",
                 "ux-chain",
                 "kava",
-                "starknet"
+                "starknet",
+                "babylon-testnet"
               ]
             },
             "required": true
@@ -6434,7 +6489,8 @@
                         "saga",
                         "ux-chain",
                         "kava",
-                        "starknet"
+                        "starknet",
+                        "babylon-testnet"
                       ]
                     },
                     "transaction": {
@@ -6896,7 +6952,8 @@
                 "saga",
                 "ux-chain",
                 "kava",
-                "starknet"
+                "starknet",
+                "babylon-testnet"
               ]
             },
             "required": true
@@ -7295,7 +7352,8 @@
                         "saga",
                         "ux-chain",
                         "kava",
-                        "starknet"
+                        "starknet",
+                        "babylon-testnet"
                       ]
                     },
                     "status": {
@@ -7441,7 +7499,8 @@
                 "saga",
                 "ux-chain",
                 "kava",
-                "starknet"
+                "starknet",
+                "babylon-testnet"
               ]
             },
             "required": true
@@ -7866,7 +7925,8 @@
                         "saga",
                         "ux-chain",
                         "kava",
-                        "starknet"
+                        "starknet",
+                        "babylon-testnet"
                       ]
                     },
                     "hash": {
@@ -7977,7 +8037,8 @@
                 "saga",
                 "ux-chain",
                 "kava",
-                "starknet"
+                "starknet",
+                "babylon-testnet"
               ]
             },
             "required": true
@@ -8091,7 +8152,8 @@
                         "saga",
                         "ux-chain",
                         "kava",
-                        "starknet"
+                        "starknet",
+                        "babylon-testnet"
                       ]
                     },
                     "hash": {
@@ -8203,7 +8265,8 @@
           "osmosis-testnet",
           "celestia-testnet",
           "cosmoshub-testnet",
-          "injective"
+          "injective",
+          "babylon-testnet"
         ],
         "description": "Unique adamik identifier of the chain",
         "example": "bitcoin"
