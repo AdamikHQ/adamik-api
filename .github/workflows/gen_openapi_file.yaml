@@ -22,20 +22,20 @@ jobs:
           ref: ${{ github.base_ref }}
           path: base
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20" # Specify the version of Node.js you want to use
-
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
           path: head
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20" # Specify the version of Node.js you want to use
+
       - name: Install dependencies
         working-directory: head
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Set API URL
         run: |
