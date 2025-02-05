@@ -46,9 +46,6 @@ enum ChainId {
   DOGECOIN = "dogecoin",
   STARKNET = "starknet",
   MONAD_PRIVATE_TESTNET = "monad-private-testnet",
-
-  //All Cosmos based chains
-  //Added through Polkachu nodes
   BITSONG = "bitsong",
   CHIHUAHUA = "chihuahua",
   SEDA = "seda",
@@ -64,7 +61,6 @@ enum ChainId {
   KAVA = "kava",
   SEI = "sei",
   FETCH_AI = "fetch-ai",
-  //Added through Imperator nodes
   COSMOSHUB = "cosmoshub",
   OSMOSIS = "osmosis",
   CELESTIA = "celestia",
@@ -88,13 +84,13 @@ enum ChainId {
   BAND = "band",
   STARGAZE = "stargaze",
   KYVE = "kyve",
-
-  //Added through other node providers
   LIKECOIN = "likecoin",
   OSMOSIS_TESTNET = "osmosis-testnet", //using lavanet
   CELESTIA_TESTNET = "celestia-testnet", //using lavanet
   COSMOSHUB_TESTNET = "cosmoshub-testnet", //using nodestake
   INJECTIVE = "injective", //using mintscan node
+  //BABYLON = "babylon",
+  BABYLON_TESTNET = "babylon-testnet",
 
   //Their own family
   // EGLD = "egld",

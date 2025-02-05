@@ -1579,6 +1579,50 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: STARKNET_FEATURES,
   },
+  // TODO Test this (later)
+  /*
+  babylon: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.BABYLON_TESTNET,
+    nativeId: "bbn-1",
+    name: "Babylon",
+    ticker: "BABY",
+    decimals: 6,
+    backends: {
+      nodeURL: "TODO",
+    },
+    params: {
+      prefix: "bbn",
+      validatorPrefix: "bbnvaloper",
+      denom: "ubbn",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.007,
+    },
+    supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON),
+  },
+  */
+  "babylon-testnet": {
+    family: ChainFamily.COSMOS,
+    id: ChainId.BABYLON_TESTNET,
+    nativeId: "bbn-test-5",
+    name: "Babylon Testnet",
+    ticker: "BABY",
+    decimals: 6,
+    backends: {
+      nodeURL: "https://babylon-testnet-api.polkachu.com",
+      //nodeURL: "https://babylon-testnet-api.nodes.guru", // Backup
+    },
+    params: {
+      prefix: "bbn",
+      validatorPrefix: "bbnvaloper",
+      denom: "ubbn",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.007,
+    },
+    supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON_TESTNET),
+  },
 } as const;
 
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
