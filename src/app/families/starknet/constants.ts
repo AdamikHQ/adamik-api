@@ -2,6 +2,8 @@ const STARK_TOKEN_CONTRACT_ID = "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6a
 const ETH_TOKEN_CONTRACT_ID = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7";
 const STAKING_ADDRESS_CONTRACT_ID = "0x03745ab04a431fc02871a139be6b93d9260b0ff3e779ad9c8b377183b23109f1";
 
+// selector is encoded hash of name of the function, we can't decode it to get it's name so we need to have a matching list in order to know which function is which
+// TODO: Need to confirm that every wallet contract have the same selector for the same function
 const SELECTOR_INDEX = [
   {
     name: "transfer",

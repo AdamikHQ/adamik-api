@@ -5,19 +5,18 @@ meta {
 }
 
 get {
-  url: {{api_url}}/api/:chainId/account/:accountId/history?include=raw,parsed&nextPage=eyJkYXRhRnJvbSI6Imh0dHBzOi8vYXBpLnN0YXJrc2Nhbi5jby9hcGkvcHJvL3YwL3Rva2VuLXRyYW5zZmVycz90cmFuc2Zlcl9mcm9tX2FkZHJlc3M9MHgwMDI4ZTQ2ZjVkZjU5M2FjYWQyYTU2ZTMyMzJlYzAzYmUwM2NkM2Y1NWFmNzg1MzVlMjMxMmI4NDg1MzJmN2Y4JmN1cnNvcj1NVGN6T0RZMU9URXdOakF3TURBeU16QXdNREF4TWclM0QlM0QiLCJkYXRhVG8iOiJodHRwczovL2FwaS5zdGFya3NjYW4uY28vYXBpL3Byby92MC90b2tlbi10cmFuc2ZlcnM/dHJhbnNmZXJfdG9fYWRkcmVzcz0weDAwMjhlNDZmNWRmNTkzYWNhZDJhNTZlMzIzMmVjMDNiZTAzY2QzZjU1YWY3ODUzNWUyMzEyYjg0ODUzMmY3ZjgmY3Vyc29yPU1UY3pORFU0TkRJek16QXdNREF3TmpBd01EQXdOZyUzRCUzRCJ9
+  url: {{api_url}}/api/:chainId/account/:accountId/history?include=raw,parsed
   body: json
   auth: none
 }
 
 params:query {
   include: raw,parsed
-  nextPage: eyJkYXRhRnJvbSI6Imh0dHBzOi8vYXBpLnN0YXJrc2Nhbi5jby9hcGkvcHJvL3YwL3Rva2VuLXRyYW5zZmVycz90cmFuc2Zlcl9mcm9tX2FkZHJlc3M9MHgwMDI4ZTQ2ZjVkZjU5M2FjYWQyYTU2ZTMyMzJlYzAzYmUwM2NkM2Y1NWFmNzg1MzVlMjMxMmI4NDg1MzJmN2Y4JmN1cnNvcj1NVGN6T0RZMU9URXdOakF3TURBeU16QXdNREF4TWclM0QlM0QiLCJkYXRhVG8iOiJodHRwczovL2FwaS5zdGFya3NjYW4uY28vYXBpL3Byby92MC90b2tlbi10cmFuc2ZlcnM/dHJhbnNmZXJfdG9fYWRkcmVzcz0weDAwMjhlNDZmNWRmNTkzYWNhZDJhNTZlMzIzMmVjMDNiZTAzY2QzZjU1YWY3ODUzNWUyMzEyYjg0ODUzMmY3ZjgmY3Vyc29yPU1UY3pORFU0TkRJek16QXdNREF3TmpBd01EQXdOZyUzRCUzRCJ9
 }
 
 params:path {
   chainId: starknet
-  accountId: 0x0028e46f5df593acad2a56e3232ec03be03cd3f55af78535e2312b848532f7f8
+  accountId: 0x028e46f5df593acad2a56e3232ec03be03cd3f55af78535e2312b848532f7f8
 }
 
 body:json {
@@ -30,6 +29,6 @@ body:json {
 assert {
   res.status: eq 200
   res.body.transactions[0].parsed.id: eq 0x03299e12c17b78499bb567989fbedac04f1b28abf0777e96584727f204a5c2ea
-  res.body.transactions[0].parsed.senders[0].amount: eq 359676691074812917000
-  res.body.transactions[0].parsed.senders[0].ticker: eq STRK
+  res.body.transactions[0].parsed.senders[0].amount: eq 88834836
+  res.body.transactions[0].parsed.senders[0].ticker: eq USDC
 }
