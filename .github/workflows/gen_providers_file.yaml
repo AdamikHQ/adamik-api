@@ -1,6 +1,7 @@
 name: Generate Providers.md
 
 on:
+  pull_request: # Run on all PRs
   push:
     branches: [main, develop]
   workflow_dispatch:
@@ -44,6 +45,6 @@ jobs:
 
       - name: Push changes
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.COMMIT_KEY }}
         run: |
           git push || echo "No changes to push"
