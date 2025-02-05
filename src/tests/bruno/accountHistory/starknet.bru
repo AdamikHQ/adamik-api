@@ -29,6 +29,6 @@ body:json {
 assert {
   res.status: eq 200
   res.body.transactions[0].parsed.id: eq 0x03299e12c17b78499bb567989fbedac04f1b28abf0777e96584727f204a5c2ea
-  res.body.transactions[0].parsed.senders[0].amount: eq 88834836
+  res.body.transactions[0].parsed.senders[0].amount: eq '88834836'
   res.body.transactions[0].parsed.senders[0].ticker: eq USDC
 }
