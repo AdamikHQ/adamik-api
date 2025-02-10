@@ -18,6 +18,7 @@ import {
   AlchemyTransactionWithReceipt,
   AlchemyTransfer,
 } from "~/app/families/evm/backend/types";
+import { TokenStore } from "~/app/tools/tokenStore";
 
 const ALCHEMY_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth-mainnet"],
@@ -102,8 +103,16 @@ async function fetchERC20TokenAmounts(
     return { tokens, nextPage };
   }
 
+  const tokenIds = results.map((tokenBalance) => tokenBalance.contractAddress);
+  const cachedTokens = await TokenStore.load(chainId, tokenIds);
+
   const tokenData = await Promise.all(
-    results.map((tokenBalance) => fetchERC20Token(chainId, tokenBalance.contractAddress))
+    cachedTokens.map((token, index) => token ?? fetchERC20Token(chainId, results[index].contractAddress))
+  );
+
+  await TokenStore.save(
+    chainId,
+    tokenData.filter((token, index) => token !== null && cachedTokens[index] === null)
   );
 
   for (let i = 0; i < results.length; i++) {
