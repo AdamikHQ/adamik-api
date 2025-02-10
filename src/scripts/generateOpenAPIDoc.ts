@@ -20,4 +20,4 @@ spec.servers = [{ url: apiUrl }];
 
 console.log(`Generating ${filePath} with API URL: ${apiUrl}...`);
 
-fs.writeFileSync(filePath, JSON.stringify(spec, null, 2));
+fs.writeFileSyn(filePath, JSON.stringify(spec, null, 2));
