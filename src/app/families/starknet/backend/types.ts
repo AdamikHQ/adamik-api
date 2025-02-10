@@ -81,6 +81,7 @@ export type {
   TokenBalance,
   TokenBalancesResponse,
   TokenContract,
+  TransactionHistory,
   TransactionHistoryResponse,
   TransactionResponse,
 };
