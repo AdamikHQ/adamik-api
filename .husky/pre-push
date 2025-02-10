@@ -1,10 +1,16 @@
 pnpm run doc:openapi
 pnpm run doc:providers
+# Define colors and formatting
+RED='\033[0;31m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
+
 if [[ -n "$(git diff --exit-code public/openapi.json)" ]]; then
-  echo "Changed detected on public/openapi.json, please commit it before continuing"
+  echo -e ">> ${RED}${BOLD}[ERROR]:${NC} Changed detected on ${BOLD}public/openapi.json${NC}, please commit it before continuing"
   exit 1
 fi
+
 if [[ -n "$(git diff --exit-code doc/Providers.md)" ]]; then
-  echo "Changed detected on doc/Providers.md, please commit it before continuing"
+  echo -e ">> ${RED}${BOLD}[ERROR]:${NC} Changed detected on ${BOLD}doc/Providers.md${NC}, please commit it before continuing"
   exit 1
 fi
