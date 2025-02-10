@@ -2,7 +2,9 @@ git diff HEAD --quiet && pnpm run doc:openapi
 git diff HEAD --quiet && pnpm run doc:providers
 if [[ -n "$(git diff --exit-code public/openapi.json)" ]]; then
   echo "Changed detected on public/openapi.json, please commit it before continuing"
+  exit 1
 fi
 if [[ -n "$(git diff --exit-code doc/Providers.md)" ]]; then
   echo "Changed detected on doc/Providers.md, please commit it before continuing"
+  exit 1
 fi
