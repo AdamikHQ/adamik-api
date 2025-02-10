@@ -1,0 +1,7 @@
+pnpm run doc:openapi
+git add public/openapi.json
+git commit -m "Update OpenAPI JSON docs" || echo "No changes to commit"
+pnpm run doc:providers
+git add doc/Providers.md
+git commit -m "Update Providers Doc" || echo "No changes to commit"
+exit 1
