@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://api-staging.adamik.io"
+      "url": "https://api-stag.adamik.io"
     }
   ],
   "security": [
