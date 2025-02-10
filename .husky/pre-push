@@ -1,7 +1,7 @@
 pnpm run doc:openapi
 git add public/openapi.json
-git commit --amend -no-edit || echo "No changes to commit for OpenAPI Doc"
+git commit --amend --no-edit || echo "No changes to commit for OpenAPI Doc"
 pnpm run doc:providers
 git add doc/Providers.md
-git commit --amend -no-edit|| echo "No changes to commit for Providers"
+git commit --amend --no-edit|| echo "No changes to commit for Providers"
 
