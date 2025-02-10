@@ -2,16 +2,14 @@ import { Account, Provider, stark } from "starknet";
 import {
   AccountState,
   DeployContractType,
-  FinalizedTransaction,
   TokenAmount,
   TokenType,
   Transaction,
   TransactionMode,
-  TransactionState,
 } from "~/app/model/types_WIP";
 import { fetchTokenBalances, fetchTokenContract } from "./backend/indexer";
 import { buildTransferPayload } from "./backend/node";
-import { TokenBalance, TransactionResponse } from "./backend/types";
+import { TokenBalance } from "./backend/types";
 import { STARK_TOKEN_CONTRACT_ID } from "./constants";
 import { ArgentX } from "./contracts/argentx";
 import { StarknetDeployAccountPayload, StarknetInvokePayload } from "./types";
@@ -58,26 +56,6 @@ const buildTransaction = async (
       }
     }
   }
-};
-
-// TODO: Still WIP
-const starkScanToAdamikTransaction = async (transaction: TransactionResponse) => {
-  const parsedTransaction: FinalizedTransaction["parsed"] = {
-    id: transaction.transaction_hash,
-    timestamp: transaction.timestamp,
-    fees: {
-      amount: BigInt(transaction.actual_fee),
-    },
-    mode: "unknown",
-    state: TransactionState.UNKNOWN,
-  };
-
-  if (transaction.transaction_execution_status === "SUCCEEDED") {
-    parsedTransaction.state = TransactionState.CONFIRMED;
-    parsedTransaction.blockHeight = BigInt(transaction.block_number);
-  }
-
-  return parsedTransaction;
 };
 
 const tokenBalanceToTokenAmount = async (tokenBalance: TokenBalance): Promise<TokenAmount> => {
@@ -144,10 +122,4 @@ const marginFees = (fees: bigint) => {
   return (fees * 11n) / 10n;
 };
 
-export {
-  buildTransaction,
-  calculateAccountState,
-  createStarknetAccount,
-  marginFees,
-  starkScanToAdamikTransaction,
-};
+export { buildTransaction, calculateAccountState, createStarknetAccount, marginFees };
