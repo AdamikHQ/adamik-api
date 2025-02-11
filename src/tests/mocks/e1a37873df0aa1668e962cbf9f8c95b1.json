@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x03b405a98c9e795d427fe82cdeeeed803f221b52471e3a757574a2b4180793ee",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x03b405a98c9e795d427fe82cdeeeed803f221b52471e3a757574a2b4180793ee",
+    "name": "STARKNET BROTHER",
+    "symbol": "BROTHER",
+    "decimals": "18"
+  }
+}

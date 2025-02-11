@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x01b5bd713e72fdc5d63ffd83762f81297f6175a5e0a4771cdadbc1dd5fe72cb1",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x01b5bd713e72fdc5d63ffd83762f81297f6175a5e0a4771cdadbc1dd5fe72cb1",
+    "name": "zkLend Interest-Bearing ETH",
+    "symbol": "zETH",
+    "decimals": "18"
+  }
+}
