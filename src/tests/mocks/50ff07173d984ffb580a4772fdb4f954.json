@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x03140797dae93149db5d10c35aae9b1d918327473df072d342badbceaeee281d",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x03140797dae93149db5d10c35aae9b1d918327473df072d342badbceaeee281d",
+    "name": "nstrfi.\\u00e2\\u0080\\u008bcom - Nostra Reward",
+    "symbol": "nstrfi.\\u00e2\\u0080\\u008bcom",
+    "decimals": "8"
+  }
+}

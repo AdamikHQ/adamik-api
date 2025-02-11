@@ -8,7 +8,7 @@ import {
   TransactionMode,
 } from "~/app/model/types_WIP";
 import { fetchTokenBalances, fetchTokenContract } from "./backend/indexer";
-import { buildTransferPayload } from "./backend/node";
+import { buildTransferPayload, fetchTokenInfo } from "./backend/node";
 import { TokenBalance } from "./backend/types";
 import { STARK_TOKEN_CONTRACT_ID } from "./constants";
 import { ArgentX } from "./contracts/argentx";
@@ -58,21 +58,6 @@ const buildTransaction = async (
   }
 };
 
-const tokenBalanceToTokenAmount = async (tokenBalance: TokenBalance): Promise<TokenAmount> => {
-  const tokenContract = await fetchTokenContract(tokenBalance.contract_address);
-
-  return {
-    amount: BigInt(tokenBalance.balance),
-    token: {
-      type: TokenType.ERC20, // not so sure about this
-      id: tokenBalance.contract_address,
-      name: tokenContract.name,
-      ticker: tokenContract.symbol,
-      decimals: Number(tokenContract.decimals),
-    },
-  };
-};
-
 const starknetTokenToAmount = (tokenBalances: TokenBalance[]) => {
   const tokenBalance = tokenBalances.find(
     (tokenBalance) => tokenBalance.contract_address === STARK_TOKEN_CONTRACT_ID
@@ -92,18 +77,50 @@ const starknetTokenToAmount = (tokenBalances: TokenBalance[]) => {
 };
 
 async function calculateAccountState(accountId: string): Promise<AccountState> {
-  const tokenBalances = await fetchTokenBalances(accountId);
+  const { balances } = await fetchTokenBalances(accountId);
 
   return {
     balances: {
-      native: starknetTokenToAmount(tokenBalances),
-      tokens: await Promise.all(
-        tokenBalances
-          .filter((tokenBalance) => tokenBalance.contract_address !== STARK_TOKEN_CONTRACT_ID)
-          .map((tokenBalance) => tokenBalanceToTokenAmount(tokenBalance))
-      ),
+      native: starknetTokenToAmount(balances),
+      tokens: await mapTokenBalancesToTokenAmounts(balances),
     },
   };
+}
+
+async function mapTokenBalancesToTokenAmounts(tokenBalances: TokenBalance[]): Promise<TokenAmount[]> {
+  return await Promise.all(
+    tokenBalances
+      .filter((tokenBalance) => tokenBalance.contract_address !== STARK_TOKEN_CONTRACT_ID)
+      .map(async (tokenBalance) => {
+        const tokenContract = await fetchTokenContract(tokenBalance.contract_address);
+
+        // NOTE : Fallback to node if indexer doesn't return any name or symbol
+        if (tokenContract?.name === null || tokenContract?.symbol === null) {
+          const tokenContractByNode = await fetchTokenInfo(tokenBalance.contract_address);
+          return {
+            amount: BigInt(tokenBalance.balance),
+            token: {
+              type: TokenType.ERC20,
+              id: tokenBalance.contract_address,
+              name: tokenContractByNode.name,
+              ticker: tokenContractByNode.ticker,
+              decimals: Number(tokenContractByNode.decimals),
+            },
+          };
+        }
+
+        return {
+          amount: BigInt(tokenBalance.balance),
+          token: {
+            type: TokenType.ERC20, // not so sure about this
+            id: tokenBalance.contract_address,
+            name: tokenContract?.name ?? "",
+            ticker: tokenContract?.symbol ?? "",
+            decimals: Number(tokenContract?.decimals ?? 0),
+          },
+        };
+      })
+  );
 }
 
 // NOTE:
@@ -122,4 +139,10 @@ const marginFees = (fees: bigint) => {
   return (fees * 11n) / 10n;
 };
 
-export { buildTransaction, calculateAccountState, createStarknetAccount, marginFees };
+export {
+  buildTransaction,
+  calculateAccountState,
+  createStarknetAccount,
+  mapTokenBalancesToTokenAmounts,
+  marginFees,
+};

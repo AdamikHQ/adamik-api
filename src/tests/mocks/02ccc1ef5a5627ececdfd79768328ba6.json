@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x075afe6402ad5a5c20dd25e10ec3b3986acaa647b77e4ae24b0cbc9a54a27a87",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x075afe6402ad5a5c20dd25e10ec3b3986acaa647b77e4ae24b0cbc9a54a27a87",
+    "name": "Ekubo Protocol",
+    "symbol": "EKUBO",
+    "decimals": "18"
+  }
+}
