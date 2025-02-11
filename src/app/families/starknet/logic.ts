@@ -58,36 +58,6 @@ const buildTransaction = async (
   }
 };
 
-const tokenBalanceToTokenAmount = async (tokenBalance: TokenBalance): Promise<TokenAmount> => {
-  const tokenContract = await fetchTokenContract(tokenBalance.contract_address);
-
-  // NOTE : Fallback to node if indexer doesn't return any name or symbol
-  if (tokenContract?.name === null || tokenContract?.symbol === null) {
-    const tokenContractByNode = await fetchTokenInfo(tokenBalance.contract_address);
-    return {
-      amount: BigInt(tokenBalance.balance),
-      token: {
-        type: TokenType.ERC20,
-        id: tokenBalance.contract_address,
-        name: tokenContractByNode.name,
-        ticker: tokenContractByNode.ticker,
-        decimals: Number(tokenContractByNode.decimals),
-      },
-    };
-  }
-
-  return {
-    amount: BigInt(tokenBalance.balance),
-    token: {
-      type: TokenType.ERC20, // not so sure about this
-      id: tokenBalance.contract_address,
-      name: tokenContract?.name ?? "",
-      ticker: tokenContract?.symbol ?? "",
-      decimals: Number(tokenContract?.decimals ?? 0),
-    },
-  };
-};
-
 const starknetTokenToAmount = (tokenBalances: TokenBalance[]) => {
   const tokenBalance = tokenBalances.find(
     (tokenBalance) => tokenBalance.contract_address === STARK_TOKEN_CONTRACT_ID
@@ -112,16 +82,44 @@ async function calculateAccountState(accountId: string): Promise<AccountState> {
   return {
     balances: {
       native: starknetTokenToAmount(balances),
-      tokens: await tokenBalanceToAccountToken(balances),
+      tokens: await mapTokenBalancesToTokenAmounts(balances),
     },
   };
 }
 
-async function tokenBalanceToAccountToken(tokenBalances: TokenBalance[]): Promise<TokenAmount[]> {
+async function mapTokenBalancesToTokenAmounts(tokenBalances: TokenBalance[]): Promise<TokenAmount[]> {
   return await Promise.all(
     tokenBalances
       .filter((tokenBalance) => tokenBalance.contract_address !== STARK_TOKEN_CONTRACT_ID)
-      .map((tokenBalance) => tokenBalanceToTokenAmount(tokenBalance))
+      .map(async (tokenBalance) => {
+        const tokenContract = await fetchTokenContract(tokenBalance.contract_address);
+
+        // NOTE : Fallback to node if indexer doesn't return any name or symbol
+        if (tokenContract?.name === null || tokenContract?.symbol === null) {
+          const tokenContractByNode = await fetchTokenInfo(tokenBalance.contract_address);
+          return {
+            amount: BigInt(tokenBalance.balance),
+            token: {
+              type: TokenType.ERC20,
+              id: tokenBalance.contract_address,
+              name: tokenContractByNode.name,
+              ticker: tokenContractByNode.ticker,
+              decimals: Number(tokenContractByNode.decimals),
+            },
+          };
+        }
+
+        return {
+          amount: BigInt(tokenBalance.balance),
+          token: {
+            type: TokenType.ERC20, // not so sure about this
+            id: tokenBalance.contract_address,
+            name: tokenContract?.name ?? "",
+            ticker: tokenContract?.symbol ?? "",
+            decimals: Number(tokenContract?.decimals ?? 0),
+          },
+        };
+      })
   );
 }
 
@@ -145,6 +143,6 @@ export {
   buildTransaction,
   calculateAccountState,
   createStarknetAccount,
+  mapTokenBalancesToTokenAmounts,
   marginFees,
-  tokenBalanceToAccountToken,
 };

@@ -1,6 +1,6 @@
 import { AccountTokens, Paginated } from "~/app/model/types_WIP";
 import { fetchTokenBalances } from "../backend/indexer";
-import { tokenBalanceToAccountToken } from "../logic";
+import { mapTokenBalancesToTokenAmounts } from "../logic";
 import { StarknetService } from "../service";
 
 async function getAccountTokens(
@@ -11,7 +11,7 @@ async function getAccountTokens(
   const { balances, nextPage } = await fetchTokenBalances(accountId, paginationToken);
 
   return {
-    tokens: await tokenBalanceToAccountToken(balances),
+    tokens: await mapTokenBalancesToTokenAmounts(balances),
     pagination: {
       nextPage,
     },
