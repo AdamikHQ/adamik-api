@@ -4181,7 +4181,6 @@
                 "saga",
                 "ux-chain",
                 "kava",
-                "starknet",
                 "babylon-testnet"
               ]
             },
@@ -4404,8 +4403,7 @@
                             "type": "number"
                           },
                           "stakedAmount": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "string"
                           }
                         },
                         "required": [
