@@ -247,7 +247,7 @@ const fetchValidators = async (
 ): Promise<{ validators: StarknetValidator[]; nextPage: string | null }> => {
   let data: StarknetValidatorsResponse | undefined;
 
-  const paginationData = paginationFromB64(paginationToken) as string;
+  const paginationData = paginationFromB64(paginationToken);
   if (paginationData) {
     if (typeof paginationData === "string") {
       data = await fetchWithHeaders(paginationData, "GET");

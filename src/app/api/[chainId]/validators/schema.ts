@@ -1,6 +1,7 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
+  bigintToStringSchema,
   getSupportedChainIdsSchema,
   paginatedResponseSchema,
   paginationQueryParamsSchema,
@@ -25,7 +26,7 @@ const responseSchema = z
         address: z.string(),
         name: z.string(),
         commission: z.number().optional(),
-        stakedAmount: z.bigint().optional(),
+        stakedAmount: bigintToStringSchema.optional(),
       })
       .array(),
   })

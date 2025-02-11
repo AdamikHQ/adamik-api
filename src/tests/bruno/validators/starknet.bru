@@ -16,4 +16,9 @@ params:path {
 
 assert {
   res.status: eq 200
+  res.body.validators[0].address: eq 0x00d3b910d8c528bf0216866053c3821ac6c97983dc096bff642e9a3549210ee7
+  res.body.validators[0].stakedAmount: eq 52112547715024676549286137
+  res.body.validators[0].name: eq Argent
+  res.body.validators[0].commission: eq 0
+  res.body.pagination.nextPage: eq Imh0dHBzOi8vYXBpLnN0YXJrc2Nhbi5jby9hcGkvcHJvL3YwL3N0YWtpbmctc3Rha2Vycz9jdXJzb3I9TUhnd00yWTNaalJsTldFeU0yRTNNVEkzT0RkbU1HTXhNREJtTURJNU16UmpOR0U0T0RZd05tSTNaakJqT0Rnd1l6Sm1aRFF6WlRneE4yVTJNamMxWkRnelgxODVOVEF3TURBd01EQXdNREF3TURBd01EQXdNREF3TUElM0QlM0Qi
 }
