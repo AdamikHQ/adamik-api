@@ -2,9 +2,12 @@ import { Contract, Provider, shortString } from "starknet";
 import { STARKSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { SELECTOR_INDEX } from "../constants";
 import {
+  StarknetValidator,
+  StarknetValidatorsResponse,
   TokenBalance,
   TokenBalancesResponse,
   TokenContract,
@@ -239,10 +242,38 @@ async function fetchTransactionHistory(
   };
 }
 
+const fetchValidators = async (
+  paginationToken?: string
+): Promise<{ validators: StarknetValidator[]; nextPage: string | null }> => {
+  let data: StarknetValidatorsResponse | undefined;
+
+  const paginationData = paginationFromB64(paginationToken) as string;
+  if (paginationData) {
+    if (typeof paginationData === "string") {
+      data = await fetchWithHeaders(paginationData, "GET");
+    } else {
+      throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+    }
+  } else {
+    const url = `${ROOT_URL}/api/pro/v0/staking-stakers`;
+    data = await fetchWithHeaders(url, "GET");
+  }
+
+  if (!data) {
+    throw new ThirdPartyProviderError("Error while fetching validators from the indexer");
+  }
+
+  return {
+    validators: data.data,
+    nextPage: paginationToB64(data.next_url),
+  };
+};
+
 export {
   fetchTokenBalances,
   fetchTokenContract,
   fetchTransaction,
   fetchTransactionHistory,
+  fetchValidators,
   starkScanToAdamikTransaction,
 };

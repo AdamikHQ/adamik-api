@@ -1,0 +1,19 @@
+meta {
+  name: starknet
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{api_url}}/api/:chainId/validators
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: starknet
+}
+
+assert {
+  res.status: eq 200
+}

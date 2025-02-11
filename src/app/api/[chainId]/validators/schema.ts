@@ -25,6 +25,7 @@ const responseSchema = z
         address: z.string(),
         name: z.string(),
         commission: z.number().optional(),
+        stakedAmount: z.bigint().optional(),
       })
       .array(),
   })
