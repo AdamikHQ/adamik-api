@@ -4181,6 +4181,7 @@
                 "saga",
                 "ux-chain",
                 "kava",
+                "starknet",
                 "babylon-testnet"
               ]
             },
@@ -4314,6 +4315,7 @@
                 "saga",
                 "ux-chain",
                 "kava",
+                "starknet",
                 "babylon-testnet"
               ]
             },
@@ -4383,6 +4385,7 @@
                         "saga",
                         "ux-chain",
                         "kava",
+                        "starknet",
                         "babylon-testnet"
                       ]
                     },
@@ -4399,6 +4402,10 @@
                           },
                           "commission": {
                             "type": "number"
+                          },
+                          "stakedAmount": {
+                            "type": "integer",
+                            "format": "int64"
                           }
                         },
                         "required": [
