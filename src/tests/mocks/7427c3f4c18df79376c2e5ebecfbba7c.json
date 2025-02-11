@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x0341794b1b111f42c9d42c3bc0bb1462bbf40c8d5acb3a9155c9bb8a202fc686",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x0341794b1b111f42c9d42c3bc0bb1462bbf40c8d5acb3a9155c9bb8a202fc686",
+    "name": "nstreward.net - Nostra Reward",
+    "symbol": "nstRWD",
+    "decimals": "8"
+  }
+}

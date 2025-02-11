@@ -31,16 +31,29 @@ async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any)
   return response.json();
 }
 
-async function fetchTokenBalances(accountId: string): Promise<TokenBalance[]> {
-  const url = `${ROOT_URL}/api/pro/v0/token-owned-by`;
+async function fetchTokenBalances(
+  accountId: string,
+  paginationToken?: string
+): Promise<{ balances: TokenBalance[]; nextPage: string | null }> {
+  let url = `${ROOT_URL}/api/pro/v0/token-owned-by`;
 
   const params = new URLSearchParams({
     owner_address: accountId,
   });
 
+  if (paginationToken) {
+    const paginationData = paginationFromB64(paginationToken);
+    if (paginationData && typeof paginationData === "string") {
+      url = paginationData;
+    }
+  }
+
   const data: TokenBalancesResponse = await fetchWithHeaders(`${url}?${params.toString()}`, "GET");
 
-  return data.data;
+  return {
+    balances: data.data,
+    nextPage: paginationToB64(data.next_url),
+  };
 }
 
 async function fetchTokenContract(contractAddress: string): Promise<TokenContract> {
