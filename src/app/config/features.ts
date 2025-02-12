@@ -25,9 +25,8 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
         deployAccount: false,
         transfer: true,
         transferToken: false,
-        delegate: false,
-        redelegate: false,
-        undelegate: false,
+        stake: false,
+        unstake: false,
         claimRewards: false,
       },
       field: {
@@ -57,9 +56,8 @@ const EVM_ROOTSTOCK_FEATURES: ChainSupportedFeatures = {
         deployAccount: false,
         transfer: false,
         transferToken: false,
-        delegate: false,
-        redelegate: false,
-        undelegate: false,
+        stake: false,
+        unstake: false,
         claimRewards: false,
       },
       field: {
