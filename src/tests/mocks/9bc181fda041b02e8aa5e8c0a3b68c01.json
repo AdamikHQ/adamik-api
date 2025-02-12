@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x06d8fa671ef84f791b7f601fa79fea8f6ceb70b5fa84189e3159d532162efc21",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x06d8fa671ef84f791b7f601fa79fea8f6ceb70b5fa84189e3159d532162efc21",
+    "name": "zkLend Interest-Bearing STRK",
+    "symbol": "zSTRK",
+    "decimals": "18"
+  }
+}

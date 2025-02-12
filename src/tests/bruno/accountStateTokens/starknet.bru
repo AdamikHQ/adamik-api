@@ -1,0 +1,24 @@
+meta {
+  name: starknet
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state/tokens
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: starknet
+  accountId: 0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18
+}
+
+
+assert {
+  res.body.balances.tokens[0].token.id: eq 0x06d8fa671ef84f791b7f601fa79fea8f6ceb70b5fa84189e3159d532162efc21
+  res.status: eq 200
+  res.body.balances.tokens[0].amount: eq 277377804156408147681396
+  res.body.balances.tokens[0].token.ticker: eq 'zSTRK'
+}

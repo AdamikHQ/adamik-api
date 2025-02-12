@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x0124aeb495b947201f5fac96fd1138e326ad86195b98df6dec9009158a533b49",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x0124aeb495b947201f5fac96fd1138e326ad86195b98df6dec9009158a533b49",
+    "name": "Lords",
+    "symbol": "LORDS",
+    "decimals": "18"
+  }
+}

@@ -2,13 +2,13 @@ import { ChainSupportedFeatures } from "~/app/model/types_WIP";
 
 const STARKNET_FEATURES: ChainSupportedFeatures = {
   read: {
-    token: false,
-    validators: false,
+    token: true,
+    validators: true,
     account: {
       balances: { native: true, tokens: true, staking: false },
-      transactions: { native: false, tokens: false, staking: false },
+      transactions: { native: true, tokens: true, staking: false },
     },
-    transaction: { native: true, tokens: false, staking: false },
+    transaction: { native: true, tokens: true, staking: false },
   },
   write: {
     transaction: {

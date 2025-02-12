@@ -6,6 +6,7 @@ import {
   InvocationsDetailsWithNonce,
   Provider,
   RpcError,
+  shortString,
 } from "starknet";
 import { CHAINS } from "~/app/config/chains";
 import { TransactionMode } from "~/app/model/types_WIP";
@@ -13,6 +14,27 @@ import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { createStarknetAccount, marginFees } from "../logic";
 import { StarknetTransactionParamsToBroadcast } from "../types";
+
+const fetchTokenInfo = async (tokenId: string) => {
+  const provider = new Provider({
+    nodeUrl: CHAINS.starknet.backends.nodeURL,
+  });
+
+  const token = await provider.getClassAt(tokenId);
+
+  const tokenInfo = new Contract(token.abi, tokenId, provider);
+
+  const name = await tokenInfo.name();
+  const symbol = await tokenInfo.symbol();
+  const decimals = await tokenInfo.decimals();
+
+  return {
+    id: tokenId,
+    name: shortString.isDecimalString(name) ? shortString.decodeShortString(name) : "",
+    ticker: shortString.isDecimalString(symbol) ? shortString.decodeShortString(symbol) : "",
+    decimals: decimals.toString(),
+  };
+};
 
 const broadcast = async (signedTransaction: string): Promise<string> => {
   try {
@@ -127,7 +149,7 @@ const buildTransferPayload = async (
   return payload;
 };
 
-const buildStakePayload = async (amount: BigInt, sender: string, poolAddress: string) => {
+const buildStakePayload = async (poolAddress: string, sender: string, amount: BigInt) => {
   const provider = new Provider({
     nodeUrl: CHAINS.starknet.backends.nodeURL,
   });
@@ -142,8 +164,8 @@ const buildStakePayload = async (amount: BigInt, sender: string, poolAddress: st
 
   const poolContract = new Contract(poolAbi, poolAddress, provider);
 
-  const info12 = await poolContract.get_pool_member_info(BigInt(sender));
-  if (info12.isSome()) {
+  const poolMemberInfo = await poolContract.get_pool_member_info(BigInt(sender));
+  if (poolMemberInfo.isSome()) {
     const approvePoolCall = starknetTokenContract.populate("approve", {
       spender: poolAddress,
       amount,
@@ -178,4 +200,4 @@ const buildStakePayload = async (amount: BigInt, sender: string, poolAddress: st
   }
 };
 
-export { broadcast, buildStakePayload, buildTransferPayload, estimateTransferFees, getNonce };
+export { broadcast, buildStakePayload, buildTransferPayload, estimateTransferFees, fetchTokenInfo, getNonce };

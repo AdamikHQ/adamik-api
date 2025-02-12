@@ -4228,6 +4228,7 @@
                 "saga",
                 "ux-chain",
                 "kava",
+                "starknet",
                 "babylon-testnet"
               ]
             },
@@ -4361,6 +4362,7 @@
                 "saga",
                 "ux-chain",
                 "kava",
+                "starknet",
                 "babylon-testnet"
               ]
             },
@@ -4430,6 +4432,7 @@
                         "saga",
                         "ux-chain",
                         "kava",
+                        "starknet",
                         "babylon-testnet"
                       ]
                     },
@@ -4446,6 +4449,9 @@
                           },
                           "commission": {
                             "type": "number"
+                          },
+                          "stakedAmount": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -5742,7 +5748,8 @@
                 "juno",
                 "sei",
                 "stride",
-                "kava"
+                "kava",
+                "starknet"
               ]
             },
             "required": true
@@ -5820,7 +5827,8 @@
                         "juno",
                         "sei",
                         "stride",
-                        "kava"
+                        "kava",
+                        "starknet"
                       ]
                     },
                     "accountId": {

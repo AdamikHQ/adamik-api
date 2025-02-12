@@ -1,0 +1,21 @@
+meta {
+  name: starknet
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{api_url}}/api/:chainId/token/:tokenId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: starknet
+  tokenId: 0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8
+}
+
+assert {
+  res.status: eq 200
+  res.body.token.ticker: eq USDC
+}

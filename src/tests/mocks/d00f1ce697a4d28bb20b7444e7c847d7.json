@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x063d69ae657bd2f40337c39bf35a870ac27ddf91e6623c2f52529db4c1619a51",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x063d69ae657bd2f40337c39bf35a870ac27ddf91e6623c2f52529db4c1619a51",
+    "name": "Nostra USDC Debt",
+    "symbol": "dUSDC",
+    "decimals": "6"
+  }
+}

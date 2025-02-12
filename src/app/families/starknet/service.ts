@@ -1,4 +1,4 @@
-import { BaseChainService } from "~/app/model/service";
+import { BaseChainService, StakingService, TokenService } from "~/app/model/service";
 import { broadcastTransaction as broadcastTransactionFn } from "./service/broadcastTransaction";
 import { completeTransaction as completeTransactionFn } from "./service/completeTransaction";
 import {
@@ -7,7 +7,10 @@ import {
 } from "./service/encodeTransaction";
 import { getAccountHistory as getAccountHistoryFn } from "./service/getAccountHistory";
 import { getAccountState as getAccountStateFn } from "./service/getAccountState";
+import { getAccountTokens as getAccountTokensFn } from "./service/getAccountTokens";
+import { getTokenInfo as getTokenInfoFn } from "./service/getTokenInfo";
 import { getTransaction as getTransactionFn } from "./service/getTransaction";
+import { getValidators as getValidatorsFn } from "./service/getValidators";
 import { pubkeyToAddresses as pubkeyToAddressesFn } from "./service/pubkeyToAddresses";
 import { validateAddress as validateAddressFn } from "./service/validateAddress";
 import {
@@ -18,7 +21,7 @@ import {
 // TODO Make sure heavy functions aren't called multiple times / unnecessarily
 // (buildTransaction, network calls, etc...)
 
-class StarknetService extends BaseChainService {
+class StarknetService extends BaseChainService implements StakingService, TokenService {
   override pubkeyToAddresses = pubkeyToAddressesFn;
   override validateAddress = validateAddressFn;
   override getAccountState = getAccountStateFn;
@@ -30,6 +33,10 @@ class StarknetService extends BaseChainService {
   override encodeTransactionToSign = encodeTransactionToSignFn;
   override encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
   override broadcastTransaction = broadcastTransactionFn;
+
+  getValidators = getValidatorsFn;
+  getTokenInfo = getTokenInfoFn;
+  getAccountTokens = getAccountTokensFn;
 }
 
 export { StarknetService };
