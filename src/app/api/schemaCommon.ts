@@ -112,7 +112,7 @@ const senderAddressSchema = z.string().openapi({
 });
 
 const recipientAddressSchema = z.string().openapi({
-  description: "Address or Id of the recipient account.",
+  description: "Address or ID of the recipient account.",
 });
 
 const contractTypeSchema = z.nativeEnum(DeployContractType).openapi({
