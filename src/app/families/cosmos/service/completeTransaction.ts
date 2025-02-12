@@ -1,10 +1,8 @@
-import { CHAINS } from "~/app/config/chains";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { fetchAccount, fetchBalances, fetchDelegations } from "../backend/node";
+import { fetchAccount } from "../backend/node";
 import { COSMOS_MOCK_FEES } from "../constants";
-import { getDelegation, getEstimatedFees, resolvePubKey } from "../logic";
+import { getAvailableBalance, getEstimatedFees, getStakedBalance, resolvePubKey } from "../logic";
 import { CosmosService } from "../service";
-import { CosmosChainParams } from "../types";
 
 async function completeTransaction(
   this: CosmosService,
@@ -15,29 +13,27 @@ async function completeTransaction(
 ): Promise<void> {
   const { transaction } = args;
 
-  const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
-
-  const senderAddress = transaction.data.senderAddress;
-
-  const spendableBalance = await (async () => {
+  const spendableBalance = await (async (): Promise<bigint> => {
     switch (transaction.data.mode) {
-      case TransactionMode.TRANSFER:
-      case TransactionMode.DELEGATE:
-        const balances = await fetchBalances(this.chainId, senderAddress);
-        const balance = balances.find((balance) => balance.denom === chainParams?.denom);
-        if (!balance) {
-          return 0n;
-        }
-        return BigInt(balance.amount);
+      case TransactionMode.TRANSFER: {
+        const { senderAddress } = transaction.data;
+        return getAvailableBalance(this.chainId, senderAddress);
+      }
 
-      case TransactionMode.UNDELEGATE:
-      case TransactionMode.REDELEGATE:
-        const delegations = await fetchDelegations(this.chainId, senderAddress);
-        const stakedBalance = getDelegation(delegations, transaction.data);
-        if (!stakedBalance) {
-          return 0n;
+      case TransactionMode.STAKE: {
+        const { senderAddress, sourceValidatorAddress } = transaction.data;
+
+        if (sourceValidatorAddress?.length) {
+          return getStakedBalance(this.chainId, senderAddress, sourceValidatorAddress);
+        } else {
+          return getAvailableBalance(this.chainId, senderAddress);
         }
-        return stakedBalance.amount;
+      }
+
+      case TransactionMode.UNSTAKE: {
+        const { senderAddress, validatorAddress } = transaction.data;
+        return getStakedBalance(this.chainId, senderAddress, validatorAddress);
+      }
 
       default:
         return 0n;
@@ -50,7 +46,7 @@ async function completeTransaction(
     transaction.data.amount = spendableBalance > COSMOS_MOCK_FEES ? spendableBalance - COSMOS_MOCK_FEES : 1n;
   }
 
-  const account = await fetchAccount(this.chainId, senderAddress);
+  const account = await fetchAccount(this.chainId, transaction.data.senderAddress);
   const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data);
 
   transaction.data.fees = gasWantedFees;
@@ -58,15 +54,24 @@ async function completeTransaction(
 
   if (transaction.data.useMaxAmount) {
     switch (transaction.data.mode) {
-      case TransactionMode.TRANSFER:
-      case TransactionMode.DELEGATE:
+      case TransactionMode.TRANSFER: {
         transaction.data.amount = spendableBalance > gasWantedFees ? spendableBalance - gasWantedFees : 0n;
         break;
+      }
 
-      case TransactionMode.UNDELEGATE:
-      case TransactionMode.REDELEGATE:
+      case TransactionMode.STAKE: {
+        if (transaction.data.sourceValidatorAddress?.length) {
+          transaction.data.amount = spendableBalance;
+        } else {
+          transaction.data.amount = spendableBalance > gasWantedFees ? spendableBalance - gasWantedFees : 0n;
+        }
+        break;
+      }
+
+      case TransactionMode.UNSTAKE: {
         transaction.data.amount = spendableBalance;
         break;
+      }
     }
   }
 

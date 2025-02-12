@@ -4,39 +4,32 @@ import {
   encodedTransactionSchema,
   formatSchema,
   getSupportedChainIdsSchema,
+  inputClaimRewardsSchema,
   inputDeployAccountSchema,
-  inputStakingClaimRewardsSchema,
-  inputStakingDelegateSchema,
-  inputStakingRedelegateSchema,
-  inputStakingUndelegateSchema,
+  inputStakeSchema,
   inputTransferNativeSchema,
   inputTransferTokenSchema,
+  inputUnstakeSchema,
   memoSchema,
+  outputClaimRewardsSchema,
   outputDeployAccountSchema,
   outputFeesSchema,
   outputGasSchema,
   outputNonceSchema,
   outputParamsSchema,
-  outputStakingClaimRewardsSchema,
-  outputStakingDelegateSchema,
-  outputStakingRedelegateSchema,
-  outputStakingUndelegateSchema,
+  outputStakeSchema,
   outputTransferNativeSchema,
   outputTransferTokenSchema,
+  outputUnstakeSchema,
   statusSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 
 const supportedChainIds = Object.values(CHAINS)
-  .filter(
-    (chain) =>
-      chain.supportedFeatures.write.transaction.type.deployAccount ||
-      chain.supportedFeatures.write.transaction.type.transfer ||
-      chain.supportedFeatures.write.transaction.type.transferToken ||
-      chain.supportedFeatures.write.transaction.type.delegate ||
-      chain.supportedFeatures.write.transaction.type.redelegate ||
-      chain.supportedFeatures.write.transaction.type.undelegate ||
-      chain.supportedFeatures.write.transaction.type.claimRewards
+  .filter((chain) =>
+    // This checks whether any of the supported transaction types in
+    // chain.supportedFeatures.write.transaction.type.* are flagged as true
+    Object.entries(chain.supportedFeatures.write.transaction.type).some((value) => value[1] === true)
   )
   .map((chain) => chain.id);
 
@@ -55,11 +48,10 @@ const requestSchema = z.object({
         z.discriminatedUnion("mode", [
           inputDeployAccountSchema,
           inputTransferNativeSchema,
-          inputStakingDelegateSchema,
+          inputStakeSchema,
           inputTransferTokenSchema,
-          inputStakingUndelegateSchema,
-          inputStakingRedelegateSchema,
-          inputStakingClaimRewardsSchema,
+          inputUnstakeSchema,
+          inputClaimRewardsSchema,
         ])
       ),
   }),
@@ -82,10 +74,9 @@ const responseSchema = z.object({
           outputDeployAccountSchema,
           outputTransferNativeSchema,
           outputTransferTokenSchema,
-          outputStakingDelegateSchema,
-          outputStakingUndelegateSchema,
-          outputStakingRedelegateSchema,
-          outputStakingClaimRewardsSchema,
+          outputStakeSchema,
+          outputUnstakeSchema,
+          outputClaimRewardsSchema,
         ])
       ),
     encoded: encodedTransactionSchema,

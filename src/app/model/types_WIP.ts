@@ -41,6 +41,7 @@ enum ChainId {
   ROOTSTOCK_TESTNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
+  BITCOIN_SIGNET = "bitcoin-signet",
   LITECOIN = "litecoin",
   DOGECOIN = "dogecoin",
   STARKNET = "starknet",
@@ -260,9 +261,8 @@ enum TransactionMode {
   DEPLOY_ACCOUNT = "deployAccount",
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
-  DELEGATE = "delegate",
-  REDELEGATE = "redelegate",
-  UNDELEGATE = "undelegate",
+  STAKE = "stake",
+  UNSTAKE = "unstake",
   CLAIM_REWARDS = "claimRewards",
 }
 
@@ -326,7 +326,7 @@ enum DeployContractType {
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
 // FIXME one 'TransactionData' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
-type CommonTransaction = {
+type CommonTransactionData = {
   mode: TransactionMode;
   senderAddress: string;
   senderPubKey?: string;
@@ -341,51 +341,48 @@ type CommonTransaction = {
   params?: TransactionParams;
 };
 
-type DeployAccountTransaction = CommonTransaction & {
+type DeployAccountTransactionData = {
   mode: TransactionMode.DEPLOY_ACCOUNT;
   senderPubKey: string; // Not optional for deploy account transactions
   contractType: DeployContractType;
 };
 
-type TransferTransaction = CommonTransaction & {
+type TransferTransactionData = {
   mode: TransactionMode.TRANSFER;
 };
 
-type TransferTokenTransaction = CommonTransaction & {
+// FIXME Should this be merged with TransferTransactionData, just adding optional 'tokenId' to it?
+type TransferTokenTransactionData = {
   mode: TransactionMode.TRANSFER_TOKEN;
   tokenId: string;
 };
 
-type DelegateTransaction = CommonTransaction & {
-  mode: TransactionMode.DELEGATE;
-  validatorAddress: string;
-};
-
-type UndelegateTransaction = CommonTransaction & {
-  mode: TransactionMode.UNDELEGATE;
-  validatorAddress: string;
-};
-
-type RedelegateTransaction = CommonTransaction & {
-  mode: TransactionMode.REDELEGATE;
-  sourceValidatorAddress: string;
+type StakeTransactionData = {
+  mode: TransactionMode.STAKE;
+  sourceValidatorAddress?: string; // cosmos "redelegate" use-case, if provided
   targetValidatorAddress: string;
 };
 
-type ClaimRewardsTransaction = CommonTransaction & {
+type UnstakeTransactionData = {
+  mode: TransactionMode.UNSTAKE;
+  validatorAddress: string;
+};
+
+type ClaimRewardsTransactionData = {
   mode: TransactionMode.CLAIM_REWARDS;
   validatorAddress: string;
   compound?: boolean;
 };
 
-type TransactionData =
-  | DeployAccountTransaction
-  | TransferTransaction
-  | TransferTokenTransaction
-  | DelegateTransaction
-  | UndelegateTransaction
-  | RedelegateTransaction
-  | ClaimRewardsTransaction;
+type TransactionData = CommonTransactionData &
+  (
+    | DeployAccountTransactionData
+    | TransferTransactionData
+    | TransferTokenTransactionData
+    | StakeTransactionData
+    | UnstakeTransactionData
+    | ClaimRewardsTransactionData
+  );
 
 type Transaction = {
   data: TransactionData;

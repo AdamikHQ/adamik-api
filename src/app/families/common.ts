@@ -45,8 +45,31 @@ async function prevalidateTransactionCommon(
         validateAmountOrUseMaxAmount(transactionData, status);
       }
       break;
-    case TransactionMode.DELEGATE:
-    case TransactionMode.UNDELEGATE:
+    case TransactionMode.STAKE:
+      {
+        const validSender = await addressValidationFn(transactionData.senderAddress);
+        if (!validSender) {
+          status.errors.push({ message: "Sender address is invalid" });
+        }
+
+        const validSourceValidator =
+          transactionData.sourceValidatorAddress?.length &&
+          (await addressValidationFn(transactionData.sourceValidatorAddress));
+        if ("sourceValidatorAddress" in transactionData && !validSourceValidator) {
+          status.errors.push({ message: "Source validator address is invalid" });
+        }
+
+        const validTargetValidator =
+          transactionData.targetValidatorAddress.length &&
+          (await addressValidationFn(transactionData.targetValidatorAddress));
+        if (!validTargetValidator) {
+          status.errors.push({ message: "Target validator address is invalid" });
+        }
+
+        validateAmountOrUseMaxAmount(transactionData, status);
+      }
+      break;
+    case TransactionMode.UNSTAKE:
       {
         const validSender = await addressValidationFn(transactionData.senderAddress);
         if (!validSender) {
@@ -58,30 +81,6 @@ async function prevalidateTransactionCommon(
           (await addressValidationFn(transactionData.validatorAddress));
         if (!validValidator) {
           status.errors.push({ message: "Validator address is invalid" });
-        }
-
-        validateAmountOrUseMaxAmount(transactionData, status);
-      }
-      break;
-    case TransactionMode.REDELEGATE:
-      {
-        const validSender = await addressValidationFn(transactionData.senderAddress);
-        if (!validSender) {
-          status.errors.push({ message: "Sender address is invalid" });
-        }
-
-        const validSourceValidator =
-          transactionData.sourceValidatorAddress?.length &&
-          (await addressValidationFn(transactionData.sourceValidatorAddress));
-        if (!validSourceValidator) {
-          status.errors.push({ message: "Source validator address is invalid" });
-        }
-
-        const validTargetValidator =
-          transactionData.targetValidatorAddress?.length &&
-          (await addressValidationFn(transactionData.targetValidatorAddress));
-        if (!validTargetValidator) {
-          status.errors.push({ message: "Target validator address is invalid" });
         }
 
         validateAmountOrUseMaxAmount(transactionData, status);

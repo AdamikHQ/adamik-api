@@ -1,0 +1,19 @@
+{
+  "request": {
+    "url": "https://mempool.space/signet/api/address/tb1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqsxh76tx/utxo",
+    "method": "GET"
+  },
+  "response": [
+    {
+      "txid": "d5b3475f996c03e4b5971f4bde283fe9e5ec089266907b98c6c93ad6ea49a544",
+      "vout": 1,
+      "status": {
+        "confirmed": true,
+        "block_height": 234080,
+        "block_hash": "0000011ef3f3c934548b9f6c30f361d1aed3f835102553c86ebdf1f24ba5b9f6",
+        "block_time": 1738751374
+      },
+      "value": 501041
+    }
+  ]
+}
