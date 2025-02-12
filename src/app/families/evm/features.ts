@@ -19,9 +19,8 @@ const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
         deployAccount: false,
         transfer: true,
         transferToken: true,
-        delegate: false,
-        redelegate: false,
-        undelegate: false,
+        stake: false,
+        unstake: false,
         claimRewards: false,
       },
       field: {

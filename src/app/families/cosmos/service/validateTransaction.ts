@@ -52,38 +52,57 @@ async function validateTransaction(
 
   switch (transactionData.mode) {
     case TransactionMode.TRANSFER:
-    case TransactionMode.DELEGATE:
-      // - amount + fees < nativeBalance
+      // amount + fees < nativeBalance
       if (availableBalance && amount + fees > BigInt(availableBalance)) {
         status.errors.push({ message: "Balance is too low" });
+      }
+
+      break;
+    case TransactionMode.STAKE:
+      // amount + fees < nativeBalance
+      if (availableBalance && amount + fees > BigInt(availableBalance)) {
+        status.errors.push({ message: "Balance is too low" });
+      }
+
+      // Redelegate
+      if (transactionData.sourceValidatorAddress?.length) {
+        // FIXME Costly to call "just" for validation, could be skipped to reduce costs
+        // should ideally be put in some common context, or at least some cache
+        const delegations = await fetchDelegations(this.chainId, transactionData.senderAddress);
+
+        const delegationBalance = getDelegation(delegations, transactionData.sourceValidatorAddress)?.amount;
+
+        // amount < delegationBalance
+        if (delegationBalance && amount > delegationBalance) {
+          status.errors.push({ message: "Staked balance is too low" });
+        }
       }
 
       break;
     case TransactionMode.TRANSFER_TOKEN:
       const tokenBalance = balances.find((balance) => balance.denom === transactionData.tokenId)?.amount;
 
-      // - amount < tokenBalance
+      // amount < tokenBalance
       if (!tokenBalance || amount > BigInt(tokenBalance)) {
         status.errors.push({ message: "Token balance is too low" });
       }
 
       break;
-    case TransactionMode.REDELEGATE:
-    case TransactionMode.UNDELEGATE:
+    case TransactionMode.UNSTAKE:
       // FIXME Costly to call "just" for validation, could be skipped to reduce costs
       // should ideally be put in some common context, or at least some cache
       const delegations = await fetchDelegations(this.chainId, transactionData.senderAddress);
 
-      const delegationBalance = getDelegation(delegations, transactionData)?.amount;
+      const delegationBalance = getDelegation(delegations, transactionData.validatorAddress)?.amount;
 
-      // - amount < delegationBalance
+      // amount < delegationBalance
       if (delegationBalance && amount > delegationBalance) {
         status.errors.push({ message: "Staked balance is too low" });
       }
       break;
   }
 
-  // - fees < nativeBalance
+  // fees < nativeBalance
   if (availableBalance && fees > BigInt(availableBalance)) {
     status.errors.push({ message: "Balance is too low to cover the fees" });
   }

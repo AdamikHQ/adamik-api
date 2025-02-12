@@ -1,5 +1,7 @@
 import { Psbt } from "bitcoinjs-lib";
-import { postTransaction } from "../backend/blockchair";
+import { ChainId } from "~/app/model/types_WIP";
+import { postTransaction as postTransactionBlockchair } from "../backend/blockchair";
+import { postTransaction as postTransactionMempoolSpace } from "../backend/mempoolSpace";
 import { BitcoinService } from "../service";
 
 /**
@@ -20,7 +22,9 @@ async function broadcastTransaction(this: BitcoinService, signedTransaction: str
     transactionToBroadcast = signedTransaction;
   }
 
-  return await postTransaction(this.chainId, transactionToBroadcast);
+  return (await this.chainId) === ChainId.BITCOIN_SIGNET
+    ? postTransactionMempoolSpace(this.chainId, transactionToBroadcast)
+    : postTransactionBlockchair(this.chainId, transactionToBroadcast);
 }
 
 export { broadcastTransaction };
