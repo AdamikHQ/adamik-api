@@ -16,7 +16,11 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = _;
 
-  const timeout = JSON.parse(hexToString(transaction.data.params as `0x${string}`)).timeout;
+  const parsedParams = tonTransactionParamsPayloadSchema.parse(
+    JSON.parse(transaction.data.params as `0x${string}`)
+  );
+  const { timeout } = parsedParams;
+
   const builtTransaction = await buildTransaction(transaction.data, timeout);
 
   transaction.encoded = builtTransaction.endCell().hash().toString("hex");
