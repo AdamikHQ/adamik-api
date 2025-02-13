@@ -15,8 +15,8 @@ async function isAddressValid(address: string): Promise<boolean> {
   }
 }
 
-async function computeFees(transaction: TransactionData) {
-  const builtTransaction = (await buildTransaction(transaction)).endCell();
+async function computeFees(transaction: TransactionData, timeout: number) {
+  const builtTransaction = (await buildTransaction(transaction, timeout)).endCell();
 
   let initData;
 
@@ -43,7 +43,7 @@ async function computeMaxSpendable(transaction: TransactionData) {
   return account?.balance || 0n;
 }
 
-async function buildTransaction(transaction: TransactionData, timeoutTimestamp?: number) {
+async function buildTransaction(transaction: TransactionData, timeout: number) {
   // safe to cast as validation has already been done inside `completeTransaction`
   const amount = transaction.amount as bigint;
 
@@ -91,10 +91,11 @@ async function buildTransaction(transaction: TransactionData, timeoutTimestamp?:
           ? initWalletV4(transaction.senderPubKey)
           : undefined,
     });
+
     return createWalletTransferV4({
       seqno: Number(transaction.nonce || 0),
       messages: [message],
-      timeout: timeoutTimestamp,
+      timeout,
     });
   }
 }
