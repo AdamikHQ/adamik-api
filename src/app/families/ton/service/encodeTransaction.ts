@@ -16,7 +16,7 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = _;
 
-  const timeout = Math.floor(Date.now() / 1e3) + 120; // 120 seconds timestamps
+  const timeout = Math.floor(Date.now() / 1e3) + 60 * 10; // 10 minutes timestamps
   const builtTransaction = await buildTransaction(transaction.data);
 
   transaction.encoded = builtTransaction.endCell().hash().toString("hex");
