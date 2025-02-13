@@ -28,7 +28,7 @@ export function createWalletTransferV4(
     seqno: number;
     messages: MessageRelaxed[];
     sendMode?: Maybe<SendMode>;
-    timeout?: Maybe<number>;
+    timeout: number;
   } & { sendMode?: number; walletId?: number },
   workchain: number = 0
 ) {
@@ -46,7 +46,7 @@ export function createWalletTransferV4(
       signingMessage.storeBit(1);
     }
   } else {
-    signingMessage.storeUint(args.timeout || Math.floor(Date.now() / 1e3) + 120, 32); // Default timeout: 60 seconds
+    signingMessage.storeUint(args.timeout, 32);
   }
   signingMessage.storeUint(args.seqno, 32);
   signingMessage.storeUint(0, 8); // Simple order
