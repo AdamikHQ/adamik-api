@@ -3,7 +3,7 @@ import { Status, Transaction } from "~/app/model/types_WIP";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { buildTransaction } from "../logic";
 import { StarknetService } from "../service";
-import { starknetTransactionParamsPayloadSchema } from "../types";
+import { StarknetTransactionParams, starknetTransactionParamsPayloadSchema } from "../types";
 
 async function encodeTransactionToSign(
   this: StarknetService,
@@ -41,7 +41,7 @@ async function encodeTransactionToBroadcast(
 ): Promise<string> {
   const { signedTransaction } = _;
 
-  const params = signedTransaction.data.params;
+  const params = signedTransaction.data.params as StarknetTransactionParams;
 
   if (!params) {
     throw new InvalidTransactionError({

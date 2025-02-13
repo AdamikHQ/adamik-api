@@ -17,6 +17,9 @@ type StarknetInvokePayload = {
 };
 
 type generateAddress = (pubkey: string) => string;
+type StarknetTransactionParams = z.infer<typeof starknetTransactionParamsSchema>;
+
+const starknetTransactionParamsSchema = z.string();
 
 const GasBoundSchema = z.object({
   max_amount: z.string(),
@@ -61,7 +64,8 @@ export type {
   generateAddress,
   StarknetDeployAccountPayload,
   StarknetInvokePayload,
+  StarknetTransactionParams,
   StarknetTransactionParamsToBroadcast,
 };
 
-export { starknetTransactionParamsPayloadSchema };
+export { starknetTransactionParamsPayloadSchema, starknetTransactionParamsSchema };
