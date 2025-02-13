@@ -2,16 +2,14 @@ import { Account, Provider, stark } from "starknet";
 import {
   AccountState,
   DeployContractType,
-  FinalizedTransaction,
   TokenAmount,
   TokenType,
   Transaction,
   TransactionMode,
-  TransactionState,
 } from "~/app/model/types_WIP";
 import { fetchTokenBalances, fetchTokenContract } from "./backend/indexer";
-import { buildTransferPayload } from "./backend/node";
-import { TokenBalance, TransactionResponse } from "./backend/types";
+import { buildTransferPayload, fetchTokenInfo } from "./backend/node";
+import { TokenBalance } from "./backend/types";
 import { STARK_TOKEN_CONTRACT_ID } from "./constants";
 import { ArgentX } from "./contracts/argentx";
 import { StarknetDeployAccountPayload, StarknetInvokePayload } from "./types";
@@ -60,41 +58,6 @@ const buildTransaction = async (
   }
 };
 
-// TODO: Still WIP
-const starkScanToAdamikTransaction = async (transaction: TransactionResponse) => {
-  const parsedTransaction: FinalizedTransaction["parsed"] = {
-    id: transaction.transaction_hash,
-    timestamp: transaction.timestamp,
-    fees: {
-      amount: BigInt(transaction.actual_fee),
-    },
-    mode: "unknown",
-    state: TransactionState.UNKNOWN,
-  };
-
-  if (transaction.transaction_execution_status === "SUCCEEDED") {
-    parsedTransaction.state = TransactionState.CONFIRMED;
-    parsedTransaction.blockHeight = BigInt(transaction.block_number);
-  }
-
-  return parsedTransaction;
-};
-
-const tokenBalanceToTokenAmount = async (tokenBalance: TokenBalance): Promise<TokenAmount> => {
-  const tokenContract = await fetchTokenContract(tokenBalance.contract_address);
-
-  return {
-    amount: BigInt(tokenBalance.balance),
-    token: {
-      type: TokenType.ERC20, // not so sure about this
-      id: tokenBalance.contract_address,
-      name: tokenContract.name,
-      ticker: tokenContract.symbol,
-      decimals: Number(tokenContract.decimals),
-    },
-  };
-};
-
 const starknetTokenToAmount = (tokenBalances: TokenBalance[]) => {
   const tokenBalance = tokenBalances.find(
     (tokenBalance) => tokenBalance.contract_address === STARK_TOKEN_CONTRACT_ID
@@ -114,18 +77,50 @@ const starknetTokenToAmount = (tokenBalances: TokenBalance[]) => {
 };
 
 async function calculateAccountState(accountId: string): Promise<AccountState> {
-  const tokenBalances = await fetchTokenBalances(accountId);
+  const { balances } = await fetchTokenBalances(accountId);
 
   return {
     balances: {
-      native: starknetTokenToAmount(tokenBalances),
-      tokens: await Promise.all(
-        tokenBalances
-          .filter((tokenBalance) => tokenBalance.contract_address !== STARK_TOKEN_CONTRACT_ID)
-          .map((tokenBalance) => tokenBalanceToTokenAmount(tokenBalance))
-      ),
+      native: starknetTokenToAmount(balances),
+      tokens: await mapTokenBalancesToTokenAmounts(balances),
     },
   };
+}
+
+async function mapTokenBalancesToTokenAmounts(tokenBalances: TokenBalance[]): Promise<TokenAmount[]> {
+  return await Promise.all(
+    tokenBalances
+      .filter((tokenBalance) => tokenBalance.contract_address !== STARK_TOKEN_CONTRACT_ID)
+      .map(async (tokenBalance) => {
+        const tokenContract = await fetchTokenContract(tokenBalance.contract_address);
+
+        // NOTE : Fallback to node if indexer doesn't return any name or symbol
+        if (tokenContract?.name === null || tokenContract?.symbol === null) {
+          const tokenContractByNode = await fetchTokenInfo(tokenBalance.contract_address);
+          return {
+            amount: BigInt(tokenBalance.balance),
+            token: {
+              type: TokenType.ERC20,
+              id: tokenBalance.contract_address,
+              name: tokenContractByNode.name,
+              ticker: tokenContractByNode.ticker,
+              decimals: Number(tokenContractByNode.decimals),
+            },
+          };
+        }
+
+        return {
+          amount: BigInt(tokenBalance.balance),
+          token: {
+            type: TokenType.ERC20, // not so sure about this
+            id: tokenBalance.contract_address,
+            name: tokenContract?.name ?? "",
+            ticker: tokenContract?.symbol ?? "",
+            decimals: Number(tokenContract?.decimals ?? 0),
+          },
+        };
+      })
+  );
 }
 
 // NOTE:
@@ -148,6 +143,6 @@ export {
   buildTransaction,
   calculateAccountState,
   createStarknetAccount,
+  mapTokenBalancesToTokenAmounts,
   marginFees,
-  starkScanToAdamikTransaction,
 };

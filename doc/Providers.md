@@ -105,6 +105,10 @@
 | nodeURL | https://site1.moralis-nodes.com/arbitrum-sepolia/50db3911bb294983a8701b9c0930d80c |
 | explorerURL | https://deep-index.moralis.io/api |
 
+## monad-private-testnet
+
+| nodeURL | https://rpc.monad-testnet.category.xyz/rpc/gw3K5ihInuOcijq3jnRO7JKyo7LmOltg6NZTfL7R |
+
 ## bitcoin
 
 | nodeURL |  |
@@ -114,6 +118,21 @@
 
 | nodeURL |  |
 | explorerURL | https://api.blockchair.com/bitcoin/testnet |
+
+## bitcoin-signet
+
+| nodeURL |  |
+| explorerURL | https://mempool.space/signet/api |
+
+## litecoin
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/litecoin |
+
+## dogecoin
+
+| nodeURL |  |
+| explorerURL | https://api.blockchair.com/dogecoin |
 
 ## polygon
 
@@ -200,16 +219,6 @@
 | nodeURL | https://public-node.testnet.rsk.co |
 | explorerURL | https://deep-index.moralis.io/api |
 
-## litecoin
-
-| nodeURL |  |
-| explorerURL | https://api.blockchair.com/litecoin |
-
-## dogecoin
-
-| nodeURL |  |
-| explorerURL | https://api.blockchair.com/dogecoin |
-
 ## ton
 
 | nodeURL | https://toncenter.com/api/ |
@@ -227,7 +236,7 @@
 
 ## injective
 
-| nodeURL | https://apis.mintscan.io/injective/lcd |
+| nodeURL | https://lcd-injective.imperator.co |
 | explorerURL | https://apis.mintscan.io/v1 |
 
 ## akash
@@ -262,7 +271,7 @@
 
 ## stargaze
 
-| nodeURL | https://lcd-stargaze.imperator.co |
+| nodeURL | https://stargaze-api.polkachu.com/ |
 | explorerURL | https://apis.mintscan.io/v1 |
 
 ## tron
@@ -404,3 +413,12 @@
 
 | nodeURL | https://kava-api.polkachu.com |
 | explorerURL | https://apis.mintscan.io/v1 |
+
+## starknet
+
+| nodeURL | https://starknet-mainnet.public.blastapi.io/rpc/v0_7 |
+| explorerURL | https://api.starkscan.co |
+
+## babylon-testnet
+
+| nodeURL | https://babylon-testnet-api.polkachu.com |

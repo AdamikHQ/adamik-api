@@ -38,14 +38,11 @@ const featureColumns: Partial<Record<ChainFeaturePaths, TableColumn>> = {
   "write.transaction.type.transferToken": {
     label: "Transfer Token",
   },
-  "write.transaction.type.delegate": {
-    label: "Delegate",
+  "write.transaction.type.stake": {
+    label: "Stake",
   },
-  "write.transaction.type.redelegate": {
-    label: "Redelegate",
-  },
-  "write.transaction.type.undelegate": {
-    label: "Undelegate",
+  "write.transaction.type.unstake": {
+    label: "Unstake",
   },
   "read.account.transactions.native": {
     label: "Transaction History",

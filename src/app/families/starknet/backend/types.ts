@@ -77,10 +77,30 @@ type TransactionHistoryResponse = {
   data: TransactionHistory[];
 };
 
+interface StarknetValidatorsResponse {
+  next_url: string;
+  data: StarknetValidator[];
+}
+
+interface StarknetValidator {
+  staker_address: string;
+  pool_address: string;
+  commission: number;
+  self_stake_amount: string;
+  delegated_stake_amount: string;
+  total_stake_amount: string;
+  number_of_delegators: number;
+  name_tag: string | null;
+  icon_url: string | null;
+}
+
 export type {
+  StarknetValidator,
+  StarknetValidatorsResponse,
   TokenBalance,
   TokenBalancesResponse,
   TokenContract,
+  TransactionHistory,
   TransactionHistoryResponse,
   TransactionResponse,
 };

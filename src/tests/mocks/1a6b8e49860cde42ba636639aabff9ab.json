@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x00205fd8586f6be6c16f4aa65cc1034ecff96d96481878e55f629cd0cb83e05f",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x00205fd8586f6be6c16f4aa65cc1034ecff96d96481878e55f629cd0cb83e05f",
+    "name": null,
+    "symbol": null,
+    "decimals": "18"
+  }
+}

@@ -9,28 +9,36 @@ async function pubkeyToAddresses(this: TonService, pubkey: string): Promise<Type
       address: WalletContractV1R3.create({
         workchain: 0,
         publicKey: Buffer.from(pubkey, "hex"),
-      }).address.toString(),
+      }).address.toString({
+        bounceable: false,
+      }),
     },
     {
       type: "walletv2r2",
       address: WalletContractV2R2.create({
         workchain: 0,
         publicKey: Buffer.from(pubkey, "hex"),
-      }).address.toString(),
+      }).address.toString({
+        bounceable: false,
+      }),
     },
     {
       type: "walletv3r2",
       address: WalletContractV3R2.create({
         workchain: 0,
         publicKey: Buffer.from(pubkey, "hex"),
-      }).address.toString(),
+      }).address.toString({
+        bounceable: false,
+      }),
     },
     {
       type: "walletv4",
       address: WalletContractV4.create({
         workchain: 0,
         publicKey: Buffer.from(pubkey, "hex"),
-      }).address.toString(),
+      }).address.toString({
+        bounceable: false,
+      }),
     },
   ];
 }

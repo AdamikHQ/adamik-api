@@ -1747,6 +1747,53 @@
                             "supportedFeatures"
                           ]
                         },
+                        "bitcoin-signet": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures"
+                          ]
+                        },
                         "litecoin": {
                           "type": "object",
                           "properties": {
@@ -4181,6 +4228,7 @@
                 "saga",
                 "ux-chain",
                 "kava",
+                "starknet",
                 "babylon-testnet"
               ]
             },
@@ -4314,6 +4362,7 @@
                 "saga",
                 "ux-chain",
                 "kava",
+                "starknet",
                 "babylon-testnet"
               ]
             },
@@ -4383,6 +4432,7 @@
                         "saga",
                         "ux-chain",
                         "kava",
+                        "starknet",
                         "babylon-testnet"
                       ]
                     },
@@ -4399,6 +4449,9 @@
                           },
                           "commission": {
                             "type": "number"
+                          },
+                          "stakedAmount": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -4468,6 +4521,8 @@
                 "arbitrum",
                 "bitcoin",
                 "bitcoin-testnet",
+                "litecoin",
+                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -4481,8 +4536,6 @@
                 "moonriver",
                 "moonbase",
                 "fantom",
-                "litecoin",
-                "dogecoin",
                 "ton",
                 "injective",
                 "akash",
@@ -4548,9 +4601,8 @@
                                     "deployAccount",
                                     "transfer",
                                     "transferToken",
-                                    "delegate",
-                                    "redelegate",
-                                    "undelegate",
+                                    "stake",
+                                    "unstake",
                                     "claimRewards"
                                   ]
                                 },
@@ -4934,9 +4986,11 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
-                "bitcoin",
                 "monad-private-testnet",
+                "bitcoin",
                 "bitcoin-testnet",
+                "litecoin",
+                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -4954,8 +5008,6 @@
                 "mantle",
                 "rootstock",
                 "rootstock-testnet",
-                "litecoin",
-                "dogecoin",
                 "ton",
                 "chiliz",
                 "chiliz-testnet",
@@ -5054,9 +5106,11 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
-                        "bitcoin",
                         "monad-private-testnet",
+                        "bitcoin",
                         "bitcoin-testnet",
+                        "litecoin",
+                        "dogecoin",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -5074,8 +5128,6 @@
                         "mantle",
                         "rootstock",
                         "rootstock-testnet",
-                        "litecoin",
-                        "dogecoin",
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
@@ -5696,7 +5748,8 @@
                 "juno",
                 "sei",
                 "stride",
-                "kava"
+                "kava",
+                "starknet"
               ]
             },
             "required": true
@@ -5774,7 +5827,8 @@
                         "juno",
                         "sei",
                         "stride",
-                        "kava"
+                        "kava",
+                        "starknet"
                       ]
                     },
                     "accountId": {
@@ -5800,9 +5854,8 @@
                                       "deployAccount",
                                       "transfer",
                                       "transferToken",
-                                      "delegate",
-                                      "redelegate",
-                                      "undelegate",
+                                      "stake",
+                                      "unstake",
                                       "claimRewards"
                                     ]
                                   },
@@ -6030,9 +6083,12 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
-                "bitcoin",
                 "monad-private-testnet",
+                "bitcoin",
                 "bitcoin-testnet",
+                "bitcoin-signet",
+                "litecoin",
+                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -6048,8 +6104,6 @@
                 "moonbase",
                 "fantom",
                 "mantle",
-                "litecoin",
-                "dogecoin",
                 "ton",
                 "chiliz",
                 "chiliz-testnet",
@@ -6162,7 +6216,7 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "Address of the sender account."
+                                    "description": "Address or ID of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
@@ -6170,7 +6224,7 @@
                                   },
                                   "recipientAddress": {
                                     "type": "string",
-                                    "description": "Address of the recipient account."
+                                    "description": "Address or ID of the recipient account."
                                   },
                                   "amount": {
                                     "type": "string",
@@ -6195,127 +6249,11 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "const": "delegate"
+                                    "const": "stake"
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "Address of the sender account."
-                                  },
-                                  "senderPubKey": {
-                                    "type": "string",
-                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
-                                  },
-                                  "validatorAddress": {
-                                    "type": "string",
-                                    "description": "Address or ID of a validator"
-                                  },
-                                  "amount": {
-                                    "type": "string",
-                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
-                                  },
-                                  "useMaxAmount": {
-                                    "type": "boolean",
-                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
-                                    "default": false
-                                  }
-                                },
-                                "required": [
-                                  "mode",
-                                  "senderAddress",
-                                  "validatorAddress"
-                                ],
-                                "title": "Delegate",
-                                "description": "Put some funds at stake"
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "mode": {
-                                    "type": "string",
-                                    "const": "transferToken"
-                                  },
-                                  "tokenId": {
-                                    "type": "string",
-                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
-                                  },
-                                  "senderAddress": {
-                                    "type": "string",
-                                    "description": "Address of the sender account."
-                                  },
-                                  "senderPubKey": {
-                                    "type": "string",
-                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
-                                  },
-                                  "recipientAddress": {
-                                    "type": "string",
-                                    "description": "Address of the recipient account."
-                                  },
-                                  "amount": {
-                                    "type": "string",
-                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
-                                  },
-                                  "useMaxAmount": {
-                                    "type": "boolean",
-                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
-                                    "default": false
-                                  }
-                                },
-                                "required": [
-                                  "mode",
-                                  "tokenId",
-                                  "senderAddress",
-                                  "recipientAddress"
-                                ],
-                                "title": "TransferToken",
-                                "description": "Transfer chain tokens"
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "mode": {
-                                    "type": "string",
-                                    "const": "undelegate"
-                                  },
-                                  "senderAddress": {
-                                    "type": "string",
-                                    "description": "Address of the sender account."
-                                  },
-                                  "senderPubKey": {
-                                    "type": "string",
-                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
-                                  },
-                                  "validatorAddress": {
-                                    "type": "string",
-                                    "description": "Address or ID of a validator"
-                                  },
-                                  "amount": {
-                                    "type": "string",
-                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
-                                  },
-                                  "useMaxAmount": {
-                                    "type": "boolean",
-                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
-                                    "default": false
-                                  }
-                                },
-                                "required": [
-                                  "mode",
-                                  "senderAddress",
-                                  "validatorAddress"
-                                ],
-                                "title": "Undelegate",
-                                "description": "Stop staking some funds"
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "mode": {
-                                    "type": "string",
-                                    "const": "redelegate"
-                                  },
-                                  "senderAddress": {
-                                    "type": "string",
-                                    "description": "Address of the sender account."
+                                    "description": "Address or ID of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
@@ -6323,7 +6261,7 @@
                                   },
                                   "sourceValidatorAddress": {
                                     "type": "string",
-                                    "description": "Address or ID of a validator"
+                                    "description": "Address or ID of a validator. Can be used to move staking funds from this validator instead of the sender's balance, if supported by the chain."
                                   },
                                   "targetValidatorAddress": {
                                     "type": "string",
@@ -6342,11 +6280,89 @@
                                 "required": [
                                   "mode",
                                   "senderAddress",
-                                  "sourceValidatorAddress",
                                   "targetValidatorAddress"
                                 ],
-                                "title": "Redelegate",
-                                "description": "Assign some staked funds to a different validator"
+                                "title": "Stake",
+                                "description": "Put some funds at stake"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "transferToken"
+                                  },
+                                  "tokenId": {
+                                    "type": "string",
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "tokenId",
+                                  "senderAddress",
+                                  "recipientAddress"
+                                ],
+                                "title": "Transfer Token",
+                                "description": "Transfer chain tokens"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "unstake"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
+                                "title": "Unstake",
+                                "description": "Stop staking some funds"
                               },
                               {
                                 "type": "object",
@@ -6357,7 +6373,7 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "Address of the sender account."
+                                    "description": "Address or ID of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
@@ -6430,9 +6446,12 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
-                        "bitcoin",
                         "monad-private-testnet",
+                        "bitcoin",
                         "bitcoin-testnet",
+                        "bitcoin-signet",
+                        "litecoin",
+                        "dogecoin",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -6448,8 +6467,6 @@
                         "moonbase",
                         "fantom",
                         "mantle",
-                        "litecoin",
-                        "dogecoin",
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
@@ -6571,7 +6588,7 @@
                                     },
                                     "senderAddress": {
                                       "type": "string",
-                                      "description": "Address of the sender account."
+                                      "description": "Address or ID of the sender account."
                                     },
                                     "senderPubKey": {
                                       "type": "string",
@@ -6579,7 +6596,7 @@
                                     },
                                     "recipientAddress": {
                                       "type": "string",
-                                      "description": "Address of the recipient account."
+                                      "description": "Address or ID of the recipient account."
                                     },
                                     "amount": {
                                       "type": "string",
@@ -6613,7 +6630,7 @@
                                     },
                                     "senderAddress": {
                                       "type": "string",
-                                      "description": "Address of the sender account."
+                                      "description": "Address or ID of the sender account."
                                     },
                                     "senderPubKey": {
                                       "type": "string",
@@ -6621,7 +6638,7 @@
                                     },
                                     "recipientAddress": {
                                       "type": "string",
-                                      "description": "Address of the recipient account."
+                                      "description": "Address or ID of the recipient account."
                                     },
                                     "amount": {
                                       "type": "string",
@@ -6640,7 +6657,7 @@
                                     "amount",
                                     "useMaxAmount"
                                   ],
-                                  "title": "TransferToken",
+                                  "title": "Transfer Token",
                                   "description": "Transfer chain tokens"
                                 },
                                 {
@@ -6648,87 +6665,11 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
-                                      "const": "delegate"
+                                      "const": "stake"
                                     },
                                     "senderAddress": {
                                       "type": "string",
-                                      "description": "Address of the sender account."
-                                    },
-                                    "senderPubKey": {
-                                      "type": "string",
-                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
-                                    },
-                                    "validatorAddress": {
-                                      "type": "string",
-                                      "description": "Address or ID of a validator"
-                                    },
-                                    "amount": {
-                                      "type": "string",
-                                      "description": "Amount to use, either provided or computed by the API"
-                                    },
-                                    "useMaxAmount": {
-                                      "type": "boolean",
-                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
-                                    }
-                                  },
-                                  "required": [
-                                    "mode",
-                                    "senderAddress",
-                                    "validatorAddress",
-                                    "amount",
-                                    "useMaxAmount"
-                                  ],
-                                  "title": "Delegate",
-                                  "description": "Put some funds at stake"
-                                },
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "mode": {
-                                      "type": "string",
-                                      "const": "undelegate"
-                                    },
-                                    "senderAddress": {
-                                      "type": "string",
-                                      "description": "Address of the sender account."
-                                    },
-                                    "senderPubKey": {
-                                      "type": "string",
-                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
-                                    },
-                                    "validatorAddress": {
-                                      "type": "string",
-                                      "description": "Address or ID of a validator"
-                                    },
-                                    "amount": {
-                                      "type": "string",
-                                      "description": "Amount to use, either provided or computed by the API"
-                                    },
-                                    "useMaxAmount": {
-                                      "type": "boolean",
-                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
-                                    }
-                                  },
-                                  "required": [
-                                    "mode",
-                                    "senderAddress",
-                                    "validatorAddress",
-                                    "amount",
-                                    "useMaxAmount"
-                                  ],
-                                  "title": "Undelegate",
-                                  "description": "Stop staking some funds"
-                                },
-                                {
-                                  "type": "object",
-                                  "properties": {
-                                    "mode": {
-                                      "type": "string",
-                                      "const": "redelegate"
-                                    },
-                                    "senderAddress": {
-                                      "type": "string",
-                                      "description": "Address of the sender account."
+                                      "description": "Address or ID of the sender account."
                                     },
                                     "senderPubKey": {
                                       "type": "string",
@@ -6736,7 +6677,7 @@
                                     },
                                     "sourceValidatorAddress": {
                                       "type": "string",
-                                      "description": "Address or ID of a validator"
+                                      "description": "Address or ID of a validator. Can be used to move staking funds from this validator, if supported by the chain."
                                     },
                                     "targetValidatorAddress": {
                                       "type": "string",
@@ -6754,13 +6695,50 @@
                                   "required": [
                                     "mode",
                                     "senderAddress",
-                                    "sourceValidatorAddress",
                                     "targetValidatorAddress",
                                     "amount",
                                     "useMaxAmount"
                                   ],
-                                  "title": "Redelegate",
-                                  "description": "Assign some staked funds to a different validator"
+                                  "title": "Stake",
+                                  "description": "Put some funds at stake"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "const": "unstake"
+                                    },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "Address or ID of the sender account."
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                    },
+                                    "validatorAddress": {
+                                      "type": "string",
+                                      "description": "Address or ID of a validator"
+                                    },
+                                    "amount": {
+                                      "type": "string",
+                                      "description": "Amount to use, either provided or computed by the API"
+                                    },
+                                    "useMaxAmount": {
+                                      "type": "boolean",
+                                      "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount."
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "senderAddress",
+                                    "validatorAddress",
+                                    "amount",
+                                    "useMaxAmount"
+                                  ],
+                                  "title": "Unstake",
+                                  "description": "Stop staking some funds"
                                 },
                                 {
                                   "type": "object",
@@ -6771,7 +6749,7 @@
                                     },
                                     "senderAddress": {
                                       "type": "string",
-                                      "description": "Address of the sender account."
+                                      "description": "Address or ID of the sender account."
                                     },
                                     "senderPubKey": {
                                       "type": "string",
@@ -6893,9 +6871,12 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
-                "bitcoin",
                 "monad-private-testnet",
+                "bitcoin",
                 "bitcoin-testnet",
+                "bitcoin-signet",
+                "litecoin",
+                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -6911,8 +6892,6 @@
                 "moonbase",
                 "fantom",
                 "mantle",
-                "litecoin",
-                "dogecoin",
                 "ton",
                 "chiliz",
                 "chiliz-testnet",
@@ -7025,7 +7004,7 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "Address of the sender account."
+                                    "description": "Address or ID of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
@@ -7033,7 +7012,7 @@
                                   },
                                   "recipientAddress": {
                                     "type": "string",
-                                    "description": "Address of the recipient account."
+                                    "description": "Address or ID of the recipient account."
                                   },
                                   "amount": {
                                     "type": "string",
@@ -7058,127 +7037,11 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "const": "delegate"
+                                    "const": "stake"
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "Address of the sender account."
-                                  },
-                                  "senderPubKey": {
-                                    "type": "string",
-                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
-                                  },
-                                  "validatorAddress": {
-                                    "type": "string",
-                                    "description": "Address or ID of a validator"
-                                  },
-                                  "amount": {
-                                    "type": "string",
-                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
-                                  },
-                                  "useMaxAmount": {
-                                    "type": "boolean",
-                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
-                                    "default": false
-                                  }
-                                },
-                                "required": [
-                                  "mode",
-                                  "senderAddress",
-                                  "validatorAddress"
-                                ],
-                                "title": "Delegate",
-                                "description": "Put some funds at stake"
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "mode": {
-                                    "type": "string",
-                                    "const": "transferToken"
-                                  },
-                                  "tokenId": {
-                                    "type": "string",
-                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
-                                  },
-                                  "senderAddress": {
-                                    "type": "string",
-                                    "description": "Address of the sender account."
-                                  },
-                                  "senderPubKey": {
-                                    "type": "string",
-                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
-                                  },
-                                  "recipientAddress": {
-                                    "type": "string",
-                                    "description": "Address of the recipient account."
-                                  },
-                                  "amount": {
-                                    "type": "string",
-                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
-                                  },
-                                  "useMaxAmount": {
-                                    "type": "boolean",
-                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
-                                    "default": false
-                                  }
-                                },
-                                "required": [
-                                  "mode",
-                                  "tokenId",
-                                  "senderAddress",
-                                  "recipientAddress"
-                                ],
-                                "title": "TransferToken",
-                                "description": "Transfer chain tokens"
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "mode": {
-                                    "type": "string",
-                                    "const": "undelegate"
-                                  },
-                                  "senderAddress": {
-                                    "type": "string",
-                                    "description": "Address of the sender account."
-                                  },
-                                  "senderPubKey": {
-                                    "type": "string",
-                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
-                                  },
-                                  "validatorAddress": {
-                                    "type": "string",
-                                    "description": "Address or ID of a validator"
-                                  },
-                                  "amount": {
-                                    "type": "string",
-                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
-                                  },
-                                  "useMaxAmount": {
-                                    "type": "boolean",
-                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
-                                    "default": false
-                                  }
-                                },
-                                "required": [
-                                  "mode",
-                                  "senderAddress",
-                                  "validatorAddress"
-                                ],
-                                "title": "Undelegate",
-                                "description": "Stop staking some funds"
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "mode": {
-                                    "type": "string",
-                                    "const": "redelegate"
-                                  },
-                                  "senderAddress": {
-                                    "type": "string",
-                                    "description": "Address of the sender account."
+                                    "description": "Address or ID of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
@@ -7186,7 +7049,7 @@
                                   },
                                   "sourceValidatorAddress": {
                                     "type": "string",
-                                    "description": "Address or ID of a validator"
+                                    "description": "Address or ID of a validator. Can be used to move staking funds from this validator instead of the sender's balance, if supported by the chain."
                                   },
                                   "targetValidatorAddress": {
                                     "type": "string",
@@ -7205,11 +7068,89 @@
                                 "required": [
                                   "mode",
                                   "senderAddress",
-                                  "sourceValidatorAddress",
                                   "targetValidatorAddress"
                                 ],
-                                "title": "Redelegate",
-                                "description": "Assign some staked funds to a different validator"
+                                "title": "Stake",
+                                "description": "Put some funds at stake"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "transferToken"
+                                  },
+                                  "tokenId": {
+                                    "type": "string",
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "tokenId",
+                                  "senderAddress",
+                                  "recipientAddress"
+                                ],
+                                "title": "Transfer Token",
+                                "description": "Transfer chain tokens"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "unstake"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
+                                "title": "Unstake",
+                                "description": "Stop staking some funds"
                               },
                               {
                                 "type": "object",
@@ -7220,7 +7161,7 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "Address of the sender account."
+                                    "description": "Address or ID of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
@@ -7293,9 +7234,12 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
-                        "bitcoin",
                         "monad-private-testnet",
+                        "bitcoin",
                         "bitcoin-testnet",
+                        "bitcoin-signet",
+                        "litecoin",
+                        "dogecoin",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -7311,8 +7255,6 @@
                         "moonbase",
                         "fantom",
                         "mantle",
-                        "litecoin",
-                        "dogecoin",
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
@@ -7440,9 +7382,12 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
-                "bitcoin",
                 "monad-private-testnet",
+                "bitcoin",
                 "bitcoin-testnet",
+                "bitcoin-signet",
+                "litecoin",
+                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -7458,8 +7403,6 @@
                 "moonbase",
                 "fantom",
                 "mantle",
-                "litecoin",
-                "dogecoin",
                 "ton",
                 "chiliz",
                 "chiliz-testnet",
@@ -7590,7 +7533,7 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "Address of the sender account."
+                                    "description": "Address or ID of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
@@ -7598,7 +7541,7 @@
                                   },
                                   "recipientAddress": {
                                     "type": "string",
-                                    "description": "Address of the recipient account."
+                                    "description": "Address or ID of the recipient account."
                                   },
                                   "amount": {
                                     "type": "string",
@@ -7623,127 +7566,11 @@
                                 "properties": {
                                   "mode": {
                                     "type": "string",
-                                    "const": "delegate"
+                                    "const": "stake"
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "Address of the sender account."
-                                  },
-                                  "senderPubKey": {
-                                    "type": "string",
-                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
-                                  },
-                                  "validatorAddress": {
-                                    "type": "string",
-                                    "description": "Address or ID of a validator"
-                                  },
-                                  "amount": {
-                                    "type": "string",
-                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
-                                  },
-                                  "useMaxAmount": {
-                                    "type": "boolean",
-                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
-                                    "default": false
-                                  }
-                                },
-                                "required": [
-                                  "mode",
-                                  "senderAddress",
-                                  "validatorAddress"
-                                ],
-                                "title": "Delegate",
-                                "description": "Put some funds at stake"
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "mode": {
-                                    "type": "string",
-                                    "const": "transferToken"
-                                  },
-                                  "tokenId": {
-                                    "type": "string",
-                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
-                                  },
-                                  "senderAddress": {
-                                    "type": "string",
-                                    "description": "Address of the sender account."
-                                  },
-                                  "senderPubKey": {
-                                    "type": "string",
-                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
-                                  },
-                                  "recipientAddress": {
-                                    "type": "string",
-                                    "description": "Address of the recipient account."
-                                  },
-                                  "amount": {
-                                    "type": "string",
-                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
-                                  },
-                                  "useMaxAmount": {
-                                    "type": "boolean",
-                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
-                                    "default": false
-                                  }
-                                },
-                                "required": [
-                                  "mode",
-                                  "tokenId",
-                                  "senderAddress",
-                                  "recipientAddress"
-                                ],
-                                "title": "TransferToken",
-                                "description": "Transfer chain tokens"
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "mode": {
-                                    "type": "string",
-                                    "const": "undelegate"
-                                  },
-                                  "senderAddress": {
-                                    "type": "string",
-                                    "description": "Address of the sender account."
-                                  },
-                                  "senderPubKey": {
-                                    "type": "string",
-                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
-                                  },
-                                  "validatorAddress": {
-                                    "type": "string",
-                                    "description": "Address or ID of a validator"
-                                  },
-                                  "amount": {
-                                    "type": "string",
-                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
-                                  },
-                                  "useMaxAmount": {
-                                    "type": "boolean",
-                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
-                                    "default": false
-                                  }
-                                },
-                                "required": [
-                                  "mode",
-                                  "senderAddress",
-                                  "validatorAddress"
-                                ],
-                                "title": "Undelegate",
-                                "description": "Stop staking some funds"
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "mode": {
-                                    "type": "string",
-                                    "const": "redelegate"
-                                  },
-                                  "senderAddress": {
-                                    "type": "string",
-                                    "description": "Address of the sender account."
+                                    "description": "Address or ID of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
@@ -7751,7 +7578,7 @@
                                   },
                                   "sourceValidatorAddress": {
                                     "type": "string",
-                                    "description": "Address or ID of a validator"
+                                    "description": "Address or ID of a validator. Can be used to move staking funds from this validator instead of the sender's balance, if supported by the chain."
                                   },
                                   "targetValidatorAddress": {
                                     "type": "string",
@@ -7770,11 +7597,89 @@
                                 "required": [
                                   "mode",
                                   "senderAddress",
-                                  "sourceValidatorAddress",
                                   "targetValidatorAddress"
                                 ],
-                                "title": "Redelegate",
-                                "description": "Assign some staked funds to a different validator"
+                                "title": "Stake",
+                                "description": "Put some funds at stake"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "transferToken"
+                                  },
+                                  "tokenId": {
+                                    "type": "string",
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "tokenId",
+                                  "senderAddress",
+                                  "recipientAddress"
+                                ],
+                                "title": "Transfer Token",
+                                "description": "Transfer chain tokens"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "unstake"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                  },
+                                  "useMaxAmount": {
+                                    "type": "boolean",
+                                    "description": "Option to let the API compute the amount to use all available funds. Either use this or provide amount.",
+                                    "default": false
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
+                                "title": "Unstake",
+                                "description": "Stop staking some funds"
                               },
                               {
                                 "type": "object",
@@ -7785,7 +7690,7 @@
                                   },
                                   "senderAddress": {
                                     "type": "string",
-                                    "description": "Address of the sender account."
+                                    "description": "Address or ID of the sender account."
                                   },
                                   "senderPubKey": {
                                     "type": "string",
@@ -7866,9 +7771,12 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
-                        "bitcoin",
                         "monad-private-testnet",
+                        "bitcoin",
                         "bitcoin-testnet",
+                        "bitcoin-signet",
+                        "litecoin",
+                        "dogecoin",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -7884,8 +7792,6 @@
                         "moonbase",
                         "fantom",
                         "mantle",
-                        "litecoin",
-                        "dogecoin",
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
@@ -7978,9 +7884,12 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
-                "bitcoin",
                 "monad-private-testnet",
+                "bitcoin",
                 "bitcoin-testnet",
+                "bitcoin-signet",
+                "litecoin",
+                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -7996,8 +7905,6 @@
                 "moonbase",
                 "fantom",
                 "mantle",
-                "litecoin",
-                "dogecoin",
                 "ton",
                 "chiliz",
                 "chiliz-testnet",
@@ -8093,9 +8000,12 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
-                        "bitcoin",
                         "monad-private-testnet",
+                        "bitcoin",
                         "bitcoin-testnet",
+                        "bitcoin-signet",
+                        "litecoin",
+                        "dogecoin",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -8111,8 +8021,6 @@
                         "moonbase",
                         "fantom",
                         "mantle",
-                        "litecoin",
-                        "dogecoin",
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
@@ -8219,6 +8127,7 @@
           "rootstock-testnet",
           "bitcoin",
           "bitcoin-testnet",
+          "bitcoin-signet",
           "litecoin",
           "dogecoin",
           "starknet",
@@ -8375,13 +8284,10 @@
                       "transferToken": {
                         "type": "boolean"
                       },
-                      "delegate": {
+                      "stake": {
                         "type": "boolean"
                       },
-                      "redelegate": {
-                        "type": "boolean"
-                      },
-                      "undelegate": {
+                      "unstake": {
                         "type": "boolean"
                       },
                       "claimRewards": {

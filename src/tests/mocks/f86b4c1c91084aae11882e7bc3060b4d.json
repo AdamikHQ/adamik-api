@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x0058cb4af4f7d864fe5be5c29719d7d861eac4602ce7502b3575a5e63404192b",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x0058cb4af4f7d864fe5be5c29719d7d861eac4602ce7502b3575a5e63404192b",
+    "name": "zkrwd.com - zkLend Reward Token",
+    "symbol": "zkRWD",
+    "decimals": "8"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "request": {
+    "url": "https://mempool.space/signet/api/v1/fees/recommended",
+    "method": "GET"
+  },
+  "response": {
+    "fastestFee": 8,
+    "halfHourFee": 6,
+    "hourFee": 5,
+    "economyFee": 2,
+    "minimumFee": 1
+  }
+}
