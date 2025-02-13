@@ -8317,11 +8317,23 @@
             "required": [
               "transaction"
             ]
+          },
+          "utils": {
+            "type": "object",
+            "properties": {
+              "addresses": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "addresses"
+            ]
           }
         },
         "required": [
           "read",
-          "write"
+          "write",
+          "utils"
         ],
         "description": "List of supported features for the chain"
       }
