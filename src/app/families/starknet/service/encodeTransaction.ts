@@ -45,7 +45,7 @@ async function encodeTransactionToBroadcast(
 
   if (!params) {
     throw new InvalidTransactionError({
-      errors: [{ message: "Transaction params are not set" }],
+      errors: [{ message: "Transaction params are required" }],
       warnings: [],
     });
   }
