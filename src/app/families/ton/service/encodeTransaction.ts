@@ -17,7 +17,7 @@ async function encodeTransactionToSign(
   const { transaction } = _;
 
   const parsedParams = tonTransactionParamsPayloadSchema.parse(
-    JSON.parse(transaction.data.params as `0x${string}`)
+    JSON.parse(hexToString(transaction.data.params as `0x${string}`))
   );
   const { timeout } = parsedParams;
 
