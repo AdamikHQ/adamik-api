@@ -1,7 +1,10 @@
+import { Address } from "@ton/core";
+import { hexToString, stringToHex } from "viem";
 import { Status, Transaction } from "~/app/model/types_WIP";
-import { UserInputError } from "~/app/tools/handlers/errors";
+import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
 import { buildTransaction, createExternalMessage, packSignatureToFront } from "../logic";
 import { TonService } from "../service";
+import { tonTransactionParamsPayloadSchema } from "../types";
 import { initWalletV4 } from "../wallets/walletv4";
 
 async function encodeTransactionToSign(
@@ -13,9 +16,11 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = _;
 
+  const timeout = Math.floor(Date.now() / 1e3) + 60 * 10; // 10 minutes timestamps
   const builtTransaction = await buildTransaction(transaction.data);
 
   transaction.encoded = builtTransaction.endCell().hash().toString("hex");
+  transaction.data.params = stringToHex(JSON.stringify({ timeout }));
 }
 
 async function encodeTransactionToBroadcast(
@@ -32,7 +37,19 @@ async function encodeTransactionToBroadcast(
     throw new Error("Missing transaction signature");
   }
 
-  const signingMessage = await buildTransaction(signedTransaction.data);
+  const params = signedTransaction.data.params;
+
+  if (!params) {
+    throw new InvalidTransactionError({
+      errors: [{ message: "Transaction params are required" }],
+      warnings: [],
+    });
+  }
+
+  const decodedParams = hexToString(params as `0x${string}`);
+  const parsedParams = tonTransactionParamsPayloadSchema.parse(JSON.parse(decodedParams));
+
+  const signingMessage = await buildTransaction(signedTransaction.data, parsedParams.timeout);
 
   // Public key is mandatory when the account hasn't made a first transaction yet
   // FIXME Should be done in validateTransaction instead
@@ -43,9 +60,11 @@ async function encodeTransactionToBroadcast(
   const packSignature = packSignatureToFront(Buffer.from(signedTransaction.signature, "hex"), signingMessage);
 
   return createExternalMessage(
-    signedTransaction.data.senderAddress,
+    Address.parse(signedTransaction.data.senderAddress),
     packSignature,
-    initWalletV4(signedTransaction.data.senderPubKey || "")
+    signedTransaction.data.nonce === BigInt(0)
+      ? initWalletV4(signedTransaction.data.senderPubKey || "")
+      : undefined
   );
 }
 
