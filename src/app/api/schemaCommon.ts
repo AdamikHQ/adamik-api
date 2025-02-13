@@ -73,6 +73,9 @@ const chainSupportedFeaturesSchema = z
         }),
       }),
     }),
+    utils: z.object({
+      addresses: z.boolean(),
+    }),
   })
   .readonly()
   .openapi({
