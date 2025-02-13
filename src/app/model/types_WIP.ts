@@ -338,7 +338,7 @@ type CommonTransactionData = {
   nonce?: bigint;
   memo?: string;
   format?: EncodedTransactionFormat;
-  params?: TransactionParams;
+  params?: TransactionParams | string;
 };
 
 type DeployAccountTransactionData = {
