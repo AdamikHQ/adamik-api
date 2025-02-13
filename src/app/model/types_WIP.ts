@@ -1,7 +1,6 @@
 import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
-import { StarknetTransactionParams } from "../families/starknet/types";
 import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
@@ -316,7 +315,7 @@ type FinalizedTransaction = {
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
-type TransactionParams = BitcoinTransactionParams | TronTransactionParams | StarknetTransactionParams;
+type TransactionParams = BitcoinTransactionParams | TronTransactionParams;
 
 enum DeployContractType {
   ARGENTX = "argentx",
