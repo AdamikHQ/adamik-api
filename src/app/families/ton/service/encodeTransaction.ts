@@ -57,9 +57,6 @@ async function encodeTransactionToBroadcast(
     throw new UserInputError("Missing wallet public key: `senderPubKey` is required");
   }
 
-  console.log("signingMessage", signingMessage.endCell().hash().toString("hex"));
-  console.log("signedTransaction.encoded", signedTransaction.encoded);
-
   const packSignature = packSignatureToFront(Buffer.from(signedTransaction.signature, "hex"), signingMessage);
 
   return createExternalMessage(
