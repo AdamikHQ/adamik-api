@@ -15,8 +15,9 @@ import {
   TransactionHistoryResponse,
   TransactionResponse,
 } from "./types";
+import { Backend, ProviderType } from "~/app/model/types_WIP";
 
-const ROOT_URL = CHAINS.starknet.backends.explorerURL;
+const ROOT_URL = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.indexer)?.url;
 
 async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any) {
   const response = await fetch(url, {

@@ -1,4 +1,4 @@
-import { ChainId } from "~/app/model/types_WIP";
+import { Backend, ChainId, ProviderType } from "~/app/model/types_WIP";
 import { EtherscanERC20Event } from "./types";
 import { CHAINS } from "~/app/config/chains";
 import { ETHERSCAN_API_KEYS } from "~/app/config/apiKeys";
@@ -28,7 +28,7 @@ async function fetchWithRetries<T>(
   } catch (e) {
     if (retries) {
       // Respect the API's rate limit before trying again
-      await setTimeout(() => null, throttle);
+      await new Promise((r) => setTimeout(r, throttle));
 
       console.log("Retrying... ", url);
       return fetchWithRetries<T>(url, params, --retries, throttle);
@@ -42,7 +42,9 @@ async function getERC20TransferEvents(
   chainId: ChainId,
   address: string
 ): Promise<Array<EtherscanERC20Event>> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.moralis
+  )?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return [];

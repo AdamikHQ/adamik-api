@@ -144,9 +144,24 @@ type ChainSupportedFeatures = {
 // Define filters as flags: anything put in the object is true to flag that the filter is "ON"
 type ApiRequestFilters = Record<string, true>;
 
-type Backends = {
-  nodeURL: string;
-  explorerURL?: string;
+export enum ProviderType {
+  node = "node",
+  indexer = "indexer",
+  blockchair = "blockchair",
+  mintscan = "mintscan",
+  blockscout = "blockscout",
+  routescan = "routescan",
+  etherscan = "etherscan",
+  alchemy = "alchemy",
+  moralis = "moralis",
+  tonapi = "tonapi",
+  tronscan = "tronscan",
+  starkscan = "starkscan",
+}
+
+type Backend = {
+  url: string;
+  providerType: ProviderType;
 };
 
 enum Curve {
@@ -181,7 +196,7 @@ type Chain = {
   name: string;
   ticker: string;
   decimals: number;
-  backends: Backends;
+  backends: Backend[];
   isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;
@@ -498,6 +513,7 @@ export type {
   AccountState,
   AccountTokens,
   ApiRequestFilters,
+  Backend,
   Chain,
   ChainParams,
   ChainSupportedFeatures,

@@ -2,8 +2,10 @@ import BigNumber from "bignumber.js";
 import { MORALIS_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
+  Backend,
   ChainId,
   FinalizedTransaction,
+  ProviderType,
   Token,
   TokenAmount,
   TokenType,
@@ -81,7 +83,9 @@ async function fetchERC20TokenAmounts(
     return { tokens, nextPage };
   }
 
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.moralis
+  )?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return { tokens, nextPage };
@@ -149,7 +153,9 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
     return [];
   }
 
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.moralis
+  )?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return [];
@@ -164,7 +170,7 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
       limit: "200", // Larger pages if all pagination is handled in one request
     });
 
-    if (response?.cursor) {
+    if (response && response.cursor) {
       queryParams.append("cursor", response.cursor);
     }
 
@@ -206,7 +212,9 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
     throw new UnsupportedTokenIDError(tokenId, chainId);
   }
 
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.moralis
+  )?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     throw new UnsupportedTokenIDError(tokenId, chainId);
@@ -250,7 +258,9 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
     return null;
   }
 
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.moralis
+  )?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return null;
@@ -284,7 +294,9 @@ async function fetchAccountTransactions(
     return { evmTransactions: [], nextPage: null };
   }
 
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.moralis
+  )?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return { evmTransactions: [], nextPage: null };

@@ -9,15 +9,17 @@ import {
   shortString,
 } from "starknet";
 import { CHAINS } from "~/app/config/chains";
-import { TransactionMode } from "~/app/model/types_WIP";
+import { Backend, ProviderType, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { createStarknetAccount, marginFees } from "../logic";
 import { StarknetTransactionParamsToBroadcast } from "../types";
 
+const nodeUrl = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
+
 const fetchTokenInfo = async (tokenId: string) => {
   const provider = new Provider({
-    nodeUrl: CHAINS.starknet.backends.nodeURL,
+    nodeUrl,
   });
 
   const token = await provider.getClassAt(tokenId);
@@ -49,9 +51,7 @@ const broadcast = async (signedTransaction: string): Promise<string> => {
       });
     }
 
-    const provider = new Provider({
-      nodeUrl: CHAINS.starknet.backends.nodeURL,
-    });
+    const provider = new Provider({ nodeUrl });
 
     if (transactionParams.mode === TransactionMode.DEPLOY_ACCOUNT) {
       const result = await provider.deployAccountContract(
@@ -82,7 +82,7 @@ const broadcast = async (signedTransaction: string): Promise<string> => {
 
 const getNonce = async (address: string) => {
   const provider = new Provider({
-    nodeUrl: CHAINS.starknet.backends.nodeURL,
+    nodeUrl,
   });
 
   try {
@@ -118,7 +118,7 @@ const estimateTransferFees = async (
   contractId: string
 ) => {
   const provider = new Provider({
-    nodeUrl: CHAINS.starknet.backends.nodeURL,
+    nodeUrl,
   });
   const account = await createStarknetAccount(provider, sender);
 
@@ -137,7 +137,7 @@ const buildTransferPayload = async (
   contractId: string
 ) => {
   const provider = new Provider({
-    nodeUrl: CHAINS.starknet.backends.nodeURL,
+    nodeUrl,
   });
   const nonce = await provider.getNonceForAddress(sender);
 
@@ -151,7 +151,7 @@ const buildTransferPayload = async (
 
 const buildStakePayload = async (poolAddress: string, sender: string, amount: BigInt) => {
   const provider = new Provider({
-    nodeUrl: CHAINS.starknet.backends.nodeURL,
+    nodeUrl,
   });
 
   const nonce = await provider.getNonceForAddress(sender);

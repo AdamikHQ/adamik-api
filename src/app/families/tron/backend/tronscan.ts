@@ -3,6 +3,7 @@ import { CHAINS } from "~/app/config/chains";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TronscanAccountInfo, TronscanAccountTokensInfo, TronscanTransactionInfo } from "./types";
+import { Backend, ProviderType } from "~/app/model/types_WIP";
 
 const TRONSCAN_PAGE_SIZE = 20;
 
@@ -11,6 +12,7 @@ const RETRY_DELAY = 500;
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const explorerURL = CHAINS.ton.backends.find((b: Backend) => b.providerType === ProviderType.tonapi)?.url;
 //FIXME: this is a temporary solution to handle the fetch failed error from tronscan
 //TODO: remove this once tronscan is fixed
 async function fetchWithRetry<T>(url: string, retryCount = 0): Promise<T> {
@@ -42,13 +44,13 @@ async function fetchWithRetry<T>(url: string, retryCount = 0): Promise<T> {
 }
 
 async function fetchTransaction(transactionId: string): Promise<TronscanTransactionInfo> {
-  const url = `${CHAINS.tron.backends.explorerURL}/api/transaction-info?hash=${transactionId}`;
+  const url = `${explorerURL}/api/transaction-info?hash=${transactionId}`;
 
   return await fetchWithRetry<TronscanTransactionInfo>(url);
 }
 
 async function fetchAccountData(address: string): Promise<TronscanAccountInfo> {
-  const url = `${CHAINS.tron.backends.explorerURL}/api/accountv2?address=${address}`;
+  const url = `${explorerURL}/api/accountv2?address=${address}`;
 
   return await fetchWithRetry<TronscanAccountInfo>(url);
 }
@@ -75,7 +77,7 @@ async function fetchAccountTokensData(
     }
   }
 
-  const url = `${CHAINS.tron.backends.explorerURL}/api/account/tokens?${searchParams}`;
+  const url = `${explorerURL}/api/account/tokens?${searchParams}`;
 
   const tokensInfo = await fetchWithRetry<TronscanAccountTokensInfo>(url);
 

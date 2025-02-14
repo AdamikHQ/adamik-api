@@ -1,4 +1,4 @@
-import { EvmAddress } from "../types";
+import { EvmAddress, HexString } from "../types";
 
 type EtherscanERC20Event = {
   contractAddress: EvmAddress;
@@ -213,7 +213,7 @@ type MoralisInternalTransaction = {
 
 type AlchemyERC20TokenBalance = {
   contractAddress: EvmAddress;
-  tokenBalance: `0x${string}`;
+  tokenBalance: HexString;
 };
 
 type AlchemyERC20Token = {
@@ -233,50 +233,50 @@ type AlchemyPaginatedRequest<T extends object> = T & {
 };
 
 type AlchemyLog = {
-  blockHash: `0x${string}`;
+  blockHash: HexString;
   address: EvmAddress;
-  logIndex: `0x${string}`;
-  data: `0x${string}`;
+  logIndex: HexString;
+  data: HexString;
   removed: boolean;
-  topics: `0x${string}`[];
-  blockNumber: `0x${string}`;
-  transactionIndex: `0x${string}`;
-  transactionHash: `0x${string}`;
+  topics: HexString[];
+  blockNumber: HexString;
+  transactionIndex: HexString;
+  transactionHash: HexString;
 };
 
 type AlchemyTransaction = {
-  blockHash: `0x${string}`;
-  blockNumber: `0x${string}`;
-  hash: `0x${string}`;
-  input: `0x${string}`;
-  r: `0x${string}`;
-  s: `0x${string}`;
-  v: `0x${string}`;
-  gas: `0x${string}`;
-  from: `0x${string}`;
-  transactionIndex: `0x${string}`;
-  to: `0x${string}`;
-  type: `0${string}`;
-  value: `0x${string}`;
-  nonce: `0x${string}`;
-  gasPrice: `0x${string}`;
+  blockHash: HexString;
+  blockNumber: HexString;
+  hash: HexString;
+  input: HexString;
+  r: HexString;
+  s: HexString;
+  v: HexString;
+  gas: HexString;
+  from: HexString;
+  transactionIndex: HexString;
+  to: HexString;
+  type: HexString;
+  value: HexString;
+  nonce: HexString;
+  gasPrice: HexString;
 };
 
 type AlchemyTransactionReceipt = {
-  transactionHash: `0x${string}`;
-  blockHash: `0x${string}`;
-  blockNumber: `0x${string}`;
-  logsBloom: `0x${string}`;
-  gasUsed: `0x${string}`;
+  transactionHash: HexString;
+  blockHash: HexString;
+  blockNumber: HexString;
+  logsBloom: HexString;
+  gasUsed: HexString;
   contractAddress: EvmAddress | null;
-  cumulativeGasUsed: `0x${string}`;
-  transactionIndex: `0x${string}`;
+  cumulativeGasUsed: HexString;
+  transactionIndex: HexString;
   from: EvmAddress;
   to: EvmAddress;
-  type: `0x${string}`;
-  effectiveGasPrice: `0x${string}`;
+  type: HexString;
+  effectiveGasPrice: HexString;
   logs: AlchemyLog[];
-  status: `0x${string}`;
+  status: HexString;
 };
 
 type AlchemyTransactionWithReceipt = AlchemyTransaction & {
@@ -284,11 +284,11 @@ type AlchemyTransactionWithReceipt = AlchemyTransaction & {
 };
 
 type AlchemyTransfer = {
-  blockNum: `0x${string}`;
-  uniqueId: `0x${string}`;
-  hash: `0x${string}`;
-  from: `0x${string}`;
-  to: `0x${string}`;
+  blockNum: HexString;
+  uniqueId: HexString;
+  hash: HexString;
+  from: HexString;
+  to: HexString;
   value: number;
   erc721TokenId: null; // Ignoring this for now
   erc1155Metadata: null; // Ignoring this for now
@@ -296,33 +296,33 @@ type AlchemyTransfer = {
   asset: string;
   category: string;
   rawContract: {
-    value: `0x${string}`;
+    value: HexString;
     address: null;
-    decimal: `0x${string}`;
+    decimal: HexString;
   };
 };
 
 type AlchemyBlock = {
-  number: `0x${string}`;
-  hash: `0x${string}`;
+  number: HexString;
+  hash: HexString;
   transactions: []; // Ignored for now
-  totalDifficulty: `0x${string}`;
-  logsBloom: `0x${string}`;
-  receiptsRoot: `0x${string}`;
-  extraData: `0x${string}`;
-  nonce: `0x${string}`;
-  miner: `0x${string}`;
-  difficulty: `0x${string}`;
-  gasLimit: `0x${string}`;
-  gasUsed: `0x${string}`;
+  totalDifficulty: HexString;
+  logsBloom: HexString;
+  receiptsRoot: HexString;
+  extraData: HexString;
+  nonce: HexString;
+  miner: HexString;
+  difficulty: HexString;
+  gasLimit: HexString;
+  gasUsed: HexString;
   uncles: [];
-  sha3Uncles: `0x${string}`;
-  size: `0x${string}`;
-  transactionsRoot: `0x${string}`;
-  stateRoot: `0x${string}`;
-  mixHash: `0x${string}`;
-  parentHash: `0x${string}`;
-  timestamp: `0x${string}`;
+  sha3Uncles: HexString;
+  size: HexString;
+  transactionsRoot: HexString;
+  stateRoot: HexString;
+  mixHash: HexString;
+  parentHash: HexString;
+  timestamp: HexString;
 };
 
 export type {

@@ -31,7 +31,7 @@ import {
 } from "viem/chains";
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId } from "~/app/model/types_WIP";
+import { Backend, ChainId, ProviderType } from "~/app/model/types_WIP";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { chilizTestnet } from "../chains/chiliz-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
@@ -42,7 +42,8 @@ import { EvmAddress, EvmChainParams } from "../types";
 const CLIENTS = new Map<ChainId, any>();
 
 function getClientConfig(chainId: ChainId) {
-  const transport = http(CHAINS[chainId].backends.nodeURL);
+  const nodeURL = CHAINS[chainId].backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
+  const transport = http(nodeURL);
 
   switch (chainId) {
     case ChainId.SEPOLIA:

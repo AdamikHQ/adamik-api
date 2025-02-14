@@ -61,14 +61,12 @@ export class TokenStore {
         const key = `token:${chainId}:${token.id}`;
         await TokenStore.client.hSet(key, token).catch((e) => {
           console.error(e.message);
-          console.log(key, token);
         });
       })
     );
   }
 
   static async load(chainId: ChainId, tokenIds: Array<string>): Promise<Array<Token | null>> {
-    console.log("TokenStore::load", tokenIds);
     await TokenStore.connect();
     const tokens = await Promise.all(
       tokenIds.map(async (id) => {
@@ -76,13 +74,11 @@ export class TokenStore {
           TokenStore.mapping[chainId] = {};
         }
         if (TokenStore.mapping[chainId][id]) {
-          console.log("Return from TokenStore cache");
           return TokenStore.mapping[chainId][id];
         }
         const redisToken = await TokenStore.client.hGetAll(`token:${chainId}:${id}`);
         const token = parseRedisToken(redisToken);
         if (token !== null) {
-          console.log("Return from Redis cache");
           TokenStore.mapping[chainId][id] = token;
         }
 

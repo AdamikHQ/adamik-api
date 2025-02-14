@@ -19,6 +19,7 @@ import {
   AlchemyTransfer,
 } from "~/app/families/evm/backend/types";
 import { TokenStore } from "~/app/tools/tokenStore";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 
 const ALCHEMY_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth-mainnet"],
@@ -66,17 +67,6 @@ function sendRequest(chainId: ChainId, method: string, params: any[]) {
     .then((response) => response.result);
 }
 
-function paginationFromB64(paginationToken?: string): string | null {
-  if (!/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(String(paginationToken)))
-    return null;
-  return `0x${Buffer.from(String(paginationToken), "base64").toString("hex").padStart(40, "0")}`;
-}
-
-function paginationToB64(paginationToken?: string): string | null {
-  if (!/^0x[0-9a-fA-F]{40}$/.test(String(paginationToken))) return null;
-  return Buffer.from(String(paginationToken).slice(2), "hex").toString("base64");
-}
-
 // Version that only fetches one single page, depending on the provided paginationToken
 async function fetchERC20TokenAmounts(
   chainId: ChainId,
@@ -85,7 +75,7 @@ async function fetchERC20TokenAmounts(
 ): Promise<{ tokens: TokenAmount[]; nextPage: string | null }> {
   const tokens: TokenAmount[] = [];
   let nextPage: string | null = null;
-  const params = [address, "erc20"];
+  const params: any[] = [address, "erc20"];
 
   const paginationData = paginationFromB64(paginationToken);
   if (paginationData) {
