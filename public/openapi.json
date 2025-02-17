@@ -90,6 +90,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -99,7 +129,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "ethereum": {
@@ -137,6 +168,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -146,7 +207,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "sepolia": {
@@ -184,6 +246,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -193,7 +285,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "holesky": {
@@ -231,6 +324,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -240,7 +363,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "zksync": {
@@ -278,6 +402,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -287,7 +441,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "zksync-sepolia": {
@@ -325,6 +480,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -334,7 +519,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "injective-evm-testnet": {
@@ -372,6 +558,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -381,7 +597,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "base": {
@@ -419,6 +636,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -428,7 +675,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "base-sepolia": {
@@ -466,6 +714,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -475,7 +753,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "optimism": {
@@ -513,6 +792,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -522,7 +831,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "optimism-sepolia": {
@@ -560,6 +870,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -569,7 +909,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "arbitrum": {
@@ -607,6 +948,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -616,7 +987,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "arbitrum-sepolia": {
@@ -654,6 +1026,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -663,7 +1065,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "polygon": {
@@ -701,6 +1104,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -710,7 +1143,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "polygon-amoy": {
@@ -748,6 +1182,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -757,7 +1221,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "bsc": {
@@ -795,6 +1260,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -804,7 +1299,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "bsc-testnet": {
@@ -842,6 +1338,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -851,7 +1377,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "linea": {
@@ -889,6 +1416,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -898,7 +1455,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "linea-sepolia": {
@@ -936,6 +1494,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -945,7 +1533,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "avalanche": {
@@ -983,6 +1572,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -992,7 +1611,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "avalanche-fuji": {
@@ -1030,6 +1650,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1039,7 +1689,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "gnosis": {
@@ -1077,6 +1728,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1086,7 +1767,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "gnosis-chiado": {
@@ -1124,6 +1806,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1133,7 +1845,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "moonbeam": {
@@ -1171,6 +1884,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1180,7 +1923,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "moonriver": {
@@ -1218,6 +1962,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1227,7 +2001,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "moonbase": {
@@ -1265,6 +2040,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1274,7 +2079,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "fantom": {
@@ -1312,6 +2118,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1321,7 +2157,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "mantle": {
@@ -1359,6 +2196,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1368,7 +2235,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "chiliz": {
@@ -1406,6 +2274,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1415,7 +2313,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "chiliz-testnet": {
@@ -1453,6 +2352,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1462,7 +2391,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "ton": {
@@ -1500,6 +2430,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1509,7 +2469,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "tron": {
@@ -1547,6 +2508,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1556,7 +2547,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "rootstock": {
@@ -1594,6 +2586,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1603,7 +2625,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "rootstock-testnet": {
@@ -1641,6 +2664,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1650,7 +2703,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "bitcoin": {
@@ -1688,6 +2742,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1697,7 +2781,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "bitcoin-testnet": {
@@ -1735,6 +2820,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1744,7 +2859,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "bitcoin-signet": {
@@ -1782,6 +2898,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1791,7 +2937,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "litecoin": {
@@ -1829,6 +2976,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1838,7 +3015,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "dogecoin": {
@@ -1876,6 +3054,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1885,7 +3093,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "starknet": {
@@ -1923,6 +3132,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1932,7 +3171,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "monad-private-testnet": {
@@ -1970,6 +3210,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -1979,7 +3249,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "bitsong": {
@@ -2017,6 +3288,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2026,7 +3327,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "chihuahua": {
@@ -2064,6 +3366,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2073,7 +3405,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "seda": {
@@ -2111,6 +3444,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2120,7 +3483,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "persistence": {
@@ -2158,6 +3522,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2167,7 +3561,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "comdex": {
@@ -2205,6 +3600,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2214,7 +3639,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "humans-ai": {
@@ -2252,6 +3678,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2261,7 +3717,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "ki": {
@@ -2299,6 +3756,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2308,7 +3795,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "mars-hub": {
@@ -2346,6 +3834,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2355,7 +3873,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "provenance": {
@@ -2393,6 +3912,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2402,7 +3951,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "quicksilver": {
@@ -2440,6 +3990,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2449,7 +4029,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "saga": {
@@ -2487,6 +4068,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2496,7 +4107,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "ux-chain": {
@@ -2534,6 +4146,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2543,7 +4185,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "kava": {
@@ -2581,6 +4224,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2590,7 +4263,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "sei": {
@@ -2628,6 +4302,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2637,7 +4341,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "fetch-ai": {
@@ -2675,6 +4380,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2684,7 +4419,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "cosmoshub": {
@@ -2722,6 +4458,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2731,7 +4497,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "osmosis": {
@@ -2769,6 +4536,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2778,7 +4575,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "celestia": {
@@ -2816,6 +4614,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2825,7 +4653,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "dydx": {
@@ -2863,6 +4692,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2872,7 +4731,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "axelar": {
@@ -2910,6 +4770,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2919,7 +4809,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "evmos": {
@@ -2957,6 +4848,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -2966,7 +4887,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "irisnet": {
@@ -3004,6 +4926,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3013,7 +4965,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "juno": {
@@ -3051,6 +5004,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3060,7 +5043,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "lum-network": {
@@ -3098,6 +5082,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3107,7 +5121,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "omniflix": {
@@ -3145,6 +5160,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3154,7 +5199,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "medibloc": {
@@ -3192,6 +5238,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3201,7 +5277,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "passage": {
@@ -3239,6 +5316,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3248,7 +5355,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "quasar": {
@@ -3286,6 +5394,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3295,7 +5433,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "sommelier": {
@@ -3333,6 +5472,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3342,7 +5511,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "shentu": {
@@ -3380,6 +5550,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3389,7 +5589,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "stride": {
@@ -3427,6 +5628,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3436,7 +5667,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "neutron": {
@@ -3474,6 +5706,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3483,7 +5745,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "terra2": {
@@ -3521,6 +5784,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3530,7 +5823,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "akash": {
@@ -3568,6 +5862,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3577,7 +5901,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "dymension": {
@@ -3615,6 +5940,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3624,7 +5979,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "band": {
@@ -3662,6 +6018,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3671,7 +6057,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "stargaze": {
@@ -3709,6 +6096,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3718,7 +6135,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "kyve": {
@@ -3756,6 +6174,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3765,7 +6213,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "likecoin": {
@@ -3803,6 +6252,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3812,7 +6291,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "osmosis-testnet": {
@@ -3850,6 +6330,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3859,7 +6369,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "celestia-testnet": {
@@ -3897,6 +6408,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3906,7 +6447,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "cosmoshub-testnet": {
@@ -3944,6 +6486,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -3953,7 +6525,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "injective": {
@@ -3991,6 +6564,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -4000,7 +6603,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         },
                         "babylon-testnet": {
@@ -4038,6 +6642,36 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpecs": {
+                              "type": "object",
+                              "properties": {
+                                "curve": {
+                                  "type": "string"
+                                },
+                                "hashFunction": {
+                                  "type": "string"
+                                },
+                                "signatureFormat": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "derivationPath": {
+                                  "type": "string"
+                                },
+                                "addressFormat": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "curve",
+                                "hashFunction",
+                                "signatureFormat",
+                                "derivationPath",
+                                "addressFormat"
+                              ]
                             }
                           },
                           "required": [
@@ -4047,7 +6681,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpecs"
                           ]
                         }
                       },
@@ -4125,6 +6760,36 @@
                         },
                         "supportedFeatures": {
                           "$ref": "#/components/schemas/ChainSupportedFeatures"
+                        },
+                        "signerSpecs": {
+                          "type": "object",
+                          "properties": {
+                            "curve": {
+                              "type": "string"
+                            },
+                            "hashFunction": {
+                              "type": "string"
+                            },
+                            "signatureFormat": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "derivationPath": {
+                              "type": "string"
+                            },
+                            "addressFormat": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "curve",
+                            "hashFunction",
+                            "signatureFormat",
+                            "derivationPath",
+                            "addressFormat"
+                          ]
                         }
                       },
                       "required": [
@@ -4134,7 +6799,8 @@
                         "name",
                         "ticker",
                         "decimals",
-                        "supportedFeatures"
+                        "supportedFeatures",
+                        "signerSpecs"
                       ]
                     }
                   },
