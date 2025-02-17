@@ -149,6 +149,14 @@ type Backends = {
   explorerURL?: string;
 };
 
+type SignerSpec = {
+  curve: string;
+  hashFunction: string;
+  signatureFormat: string[];
+  derivationPath: string;
+  addressFormat: string;
+};
+
 type Chain = {
   family: ChainFamily;
   id: ChainId;
@@ -160,6 +168,7 @@ type Chain = {
   isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;
+  signerSpecs: SignerSpec;
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
@@ -448,6 +457,7 @@ export type {
   FeaturesSet,
   FinalizedTransaction,
   Paginated,
+  SignerSpec,
   StakingPosition,
   StakingReward,
   Status,

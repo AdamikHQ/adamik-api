@@ -83,6 +83,14 @@ const chainSupportedFeaturesSchema = z
     ref: "ChainSupportedFeatures",
   });
 
+const signerSpecSchema = z.object({
+  curve: z.string(),
+  hashFunction: z.string(),
+  signatureFormat: z.array(z.string()),
+  derivationPath: z.string(),
+  addressFormat: z.string(),
+});
+
 const chainSchema = z.object({
   family: z.nativeEnum(ChainFamily),
   id: chainIdSchema,
@@ -92,6 +100,7 @@ const chainSchema = z.object({
   decimals: z.number(),
   isTestnetFor: z.string().optional(),
   supportedFeatures: chainSupportedFeaturesSchema,
+  signerSpecs: signerSpecSchema,
 });
 
 const tokenSchema = z.object({
