@@ -92,42 +92,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -178,42 +143,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -264,42 +194,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -350,42 +245,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -436,42 +296,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -522,42 +347,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -608,42 +398,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -694,42 +449,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -780,42 +500,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -866,42 +551,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -952,42 +602,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1038,42 +653,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1124,42 +704,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1210,42 +755,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1296,42 +806,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1382,42 +857,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1468,42 +908,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1554,42 +959,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1640,42 +1010,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1726,42 +1061,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1812,42 +1112,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1898,42 +1163,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1984,42 +1214,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2070,42 +1265,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2156,42 +1316,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2242,42 +1367,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2328,42 +1418,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2414,42 +1469,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2500,42 +1520,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2586,42 +1571,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2672,42 +1622,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2758,42 +1673,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2844,42 +1724,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2930,42 +1775,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3016,42 +1826,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3102,42 +1877,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3188,42 +1928,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3274,42 +1979,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3360,42 +2030,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3446,42 +2081,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3532,42 +2132,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3618,42 +2183,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3704,42 +2234,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3790,42 +2285,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3876,42 +2336,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3962,42 +2387,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4048,42 +2438,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4134,42 +2489,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4220,42 +2540,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4306,42 +2591,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4392,42 +2642,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4478,42 +2693,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4564,42 +2744,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4650,42 +2795,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4736,42 +2846,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4822,42 +2897,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4908,42 +2948,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4994,42 +2999,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -5080,42 +3050,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -5166,42 +3101,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -5252,42 +3152,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -5338,42 +3203,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -5424,42 +3254,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -5510,42 +3305,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -5596,42 +3356,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -5682,42 +3407,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -5768,42 +3458,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -5854,42 +3509,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -5940,42 +3560,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6026,42 +3611,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6112,42 +3662,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6198,42 +3713,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6284,42 +3764,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6370,42 +3815,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6456,42 +3866,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6542,42 +3917,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6628,42 +3968,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6714,42 +4019,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6800,42 +4070,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6886,42 +4121,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -6972,42 +4172,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -7058,42 +4223,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -7144,42 +4274,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -7230,42 +4325,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -7316,42 +4376,7 @@
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
                             },
                             "signerSpec": {
-                              "type": "object",
-                              "properties": {
-                                "curve": {
-                                  "type": "string",
-                                  "enum": [
-                                    "secp256k1",
-                                    "ed25519",
-                                    "stark"
-                                  ]
-                                },
-                                "hashFunction": {
-                                  "type": "string",
-                                  "enum": [
-                                    "sha256",
-                                    "keccak256",
-                                    "sha512_256",
-                                    "pedersen"
-                                  ]
-                                },
-                                "signatureFormat": {
-                                  "type": "string",
-                                  "enum": [
-                                    "rsv",
-                                    "rs"
-                                  ]
-                                },
-                                "coinType": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "curve",
-                                "hashFunction",
-                                "signatureFormat",
-                                "coinType"
-                              ]
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -7442,42 +4467,7 @@
                           "$ref": "#/components/schemas/ChainSupportedFeatures"
                         },
                         "signerSpec": {
-                          "type": "object",
-                          "properties": {
-                            "curve": {
-                              "type": "string",
-                              "enum": [
-                                "secp256k1",
-                                "ed25519",
-                                "stark"
-                              ]
-                            },
-                            "hashFunction": {
-                              "type": "string",
-                              "enum": [
-                                "sha256",
-                                "keccak256",
-                                "sha512_256",
-                                "pedersen"
-                              ]
-                            },
-                            "signatureFormat": {
-                              "type": "string",
-                              "enum": [
-                                "rsv",
-                                "rs"
-                              ]
-                            },
-                            "coinType": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "curve",
-                            "hashFunction",
-                            "signatureFormat",
-                            "coinType"
-                          ]
+                          "$ref": "#/components/schemas/SignerSpec"
                         }
                       },
                       "required": [
@@ -11690,6 +8680,45 @@
           "utils"
         ],
         "description": "List of supported features for the chain"
+      },
+      "SignerSpec": {
+        "type": "object",
+        "properties": {
+          "curve": {
+            "type": "string",
+            "enum": [
+              "secp256k1",
+              "ed25519",
+              "stark"
+            ]
+          },
+          "hashFunction": {
+            "type": "string",
+            "enum": [
+              "sha256",
+              "keccak256",
+              "sha512_256",
+              "pedersen"
+            ]
+          },
+          "signatureFormat": {
+            "type": "string",
+            "enum": [
+              "rsv",
+              "rs"
+            ]
+          },
+          "coinType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "curve",
+          "hashFunction",
+          "signatureFormat",
+          "coinType"
+        ],
+        "description": "List of signer specificity for the chain"
       }
     }
   }
