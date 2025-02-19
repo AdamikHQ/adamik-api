@@ -1,6 +1,6 @@
 import { Address } from "@ton/core";
 import { hexToString } from "viem";
-import { Status, Transaction } from "~/app/model/types_WIP";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
 import { buildTransaction, createExternalMessage, packSignatureToFront } from "../logic";
 import { TonService } from "../service";
@@ -63,7 +63,11 @@ async function encodeTransactionToBroadcast(
 
   // Public key is mandatory when the account hasn't made a first transaction yet
   // FIXME Should be done in validateTransaction instead
-  if (signedTransaction.data.nonce === BigInt(0) && !signedTransaction.data.senderPubKey) {
+  if (
+    signedTransaction.data.mode === TransactionMode.TRANSFER &&
+    signedTransaction.data.nonce === BigInt(0) &&
+    !signedTransaction.data.senderPubKey
+  ) {
     throw new UserInputError("Missing wallet public key: `senderPubKey` is required");
   }
 

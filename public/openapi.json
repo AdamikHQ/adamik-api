@@ -90,6 +90,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -99,7 +102,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "ethereum": {
@@ -137,6 +141,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -146,7 +153,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "sepolia": {
@@ -184,6 +192,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -193,7 +204,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "holesky": {
@@ -231,6 +243,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -240,7 +255,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "zksync": {
@@ -278,6 +294,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -287,7 +306,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "zksync-sepolia": {
@@ -325,6 +345,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -334,7 +357,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "injective-evm-testnet": {
@@ -372,6 +396,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -381,7 +408,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "base": {
@@ -419,6 +447,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -428,7 +459,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "base-sepolia": {
@@ -466,6 +498,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -475,7 +510,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "optimism": {
@@ -513,6 +549,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -522,7 +561,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "optimism-sepolia": {
@@ -560,6 +600,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -569,7 +612,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "arbitrum": {
@@ -607,6 +651,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -616,7 +663,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "arbitrum-sepolia": {
@@ -654,6 +702,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -663,7 +714,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "polygon": {
@@ -701,6 +753,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -710,7 +765,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "polygon-amoy": {
@@ -748,6 +804,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -757,7 +816,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "bsc": {
@@ -795,6 +855,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -804,7 +867,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "bsc-testnet": {
@@ -842,6 +906,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -851,7 +918,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "linea": {
@@ -889,6 +957,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -898,7 +969,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "linea-sepolia": {
@@ -936,6 +1008,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -945,7 +1020,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "avalanche": {
@@ -983,6 +1059,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -992,7 +1071,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "avalanche-fuji": {
@@ -1030,6 +1110,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1039,7 +1122,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "gnosis": {
@@ -1077,6 +1161,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1086,7 +1173,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "gnosis-chiado": {
@@ -1124,6 +1212,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1133,7 +1224,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "moonbeam": {
@@ -1171,6 +1263,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1180,7 +1275,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "moonriver": {
@@ -1218,6 +1314,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1227,7 +1326,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "moonbase": {
@@ -1265,6 +1365,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1274,7 +1377,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "fantom": {
@@ -1312,6 +1416,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1321,7 +1428,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "mantle": {
@@ -1359,6 +1467,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1368,7 +1479,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "chiliz": {
@@ -1406,6 +1518,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1415,7 +1530,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "chiliz-testnet": {
@@ -1453,6 +1569,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1462,7 +1581,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "ton": {
@@ -1500,6 +1620,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1509,7 +1632,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "tron": {
@@ -1547,6 +1671,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1556,7 +1683,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "rootstock": {
@@ -1594,6 +1722,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1603,7 +1734,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "rootstock-testnet": {
@@ -1641,6 +1773,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1650,7 +1785,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "bitcoin": {
@@ -1688,6 +1824,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1697,7 +1836,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "bitcoin-testnet": {
@@ -1735,6 +1875,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1744,7 +1887,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "bitcoin-signet": {
@@ -1782,6 +1926,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1791,7 +1938,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "litecoin": {
@@ -1829,6 +1977,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1838,7 +1989,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "dogecoin": {
@@ -1876,6 +2028,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1885,7 +2040,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "starknet": {
@@ -1923,6 +2079,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1932,7 +2091,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "monad-private-testnet": {
@@ -1970,6 +2130,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -1979,7 +2142,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "bitsong": {
@@ -2017,6 +2181,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2026,7 +2193,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "chihuahua": {
@@ -2064,6 +2232,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2073,7 +2244,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "seda": {
@@ -2111,6 +2283,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2120,7 +2295,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "persistence": {
@@ -2158,6 +2334,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2167,7 +2346,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "comdex": {
@@ -2205,6 +2385,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2214,7 +2397,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "humans-ai": {
@@ -2252,6 +2436,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2261,7 +2448,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "ki": {
@@ -2299,6 +2487,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2308,7 +2499,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "mars-hub": {
@@ -2346,6 +2538,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2355,7 +2550,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "provenance": {
@@ -2393,6 +2589,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2402,7 +2601,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "quicksilver": {
@@ -2440,6 +2640,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2449,7 +2652,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "saga": {
@@ -2487,6 +2691,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2496,7 +2703,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "ux-chain": {
@@ -2534,6 +2742,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2543,7 +2754,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "kava": {
@@ -2581,6 +2793,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2590,7 +2805,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "sei": {
@@ -2628,6 +2844,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2637,7 +2856,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "fetch-ai": {
@@ -2675,6 +2895,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2684,7 +2907,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "cosmoshub": {
@@ -2722,6 +2946,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2731,7 +2958,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "osmosis": {
@@ -2769,6 +2997,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2778,7 +3009,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "celestia": {
@@ -2816,6 +3048,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2825,7 +3060,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "dydx": {
@@ -2863,6 +3099,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2872,7 +3111,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "axelar": {
@@ -2910,6 +3150,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2919,7 +3162,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "evmos": {
@@ -2957,6 +3201,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -2966,7 +3213,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "irisnet": {
@@ -3004,6 +3252,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3013,7 +3264,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "juno": {
@@ -3051,6 +3303,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3060,7 +3315,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "lum-network": {
@@ -3098,6 +3354,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3107,7 +3366,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "omniflix": {
@@ -3145,6 +3405,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3154,7 +3417,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "medibloc": {
@@ -3192,6 +3456,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3201,7 +3468,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "passage": {
@@ -3239,6 +3507,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3248,7 +3519,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "quasar": {
@@ -3286,6 +3558,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3295,7 +3570,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "sommelier": {
@@ -3333,6 +3609,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3342,7 +3621,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "shentu": {
@@ -3380,6 +3660,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3389,7 +3672,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "stride": {
@@ -3427,6 +3711,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3436,7 +3723,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "neutron": {
@@ -3474,6 +3762,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3483,7 +3774,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "terra2": {
@@ -3521,6 +3813,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3530,7 +3825,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "akash": {
@@ -3568,6 +3864,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3577,7 +3876,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "dymension": {
@@ -3615,6 +3915,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3624,7 +3927,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "band": {
@@ -3662,6 +3966,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3671,7 +3978,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "stargaze": {
@@ -3709,6 +4017,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3718,7 +4029,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "kyve": {
@@ -3756,6 +4068,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3765,7 +4080,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "likecoin": {
@@ -3803,6 +4119,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3812,7 +4131,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "osmosis-testnet": {
@@ -3850,6 +4170,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3859,7 +4182,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "celestia-testnet": {
@@ -3897,6 +4221,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3906,7 +4233,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "cosmoshub-testnet": {
@@ -3944,6 +4272,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -3953,7 +4284,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "injective": {
@@ -3991,6 +4323,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4000,7 +4335,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         },
                         "babylon-testnet": {
@@ -4038,6 +4374,9 @@
                             },
                             "supportedFeatures": {
                               "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
                             }
                           },
                           "required": [
@@ -4047,7 +4386,8 @@
                             "name",
                             "ticker",
                             "decimals",
-                            "supportedFeatures"
+                            "supportedFeatures",
+                            "signerSpec"
                           ]
                         }
                       },
@@ -4125,6 +4465,9 @@
                         },
                         "supportedFeatures": {
                           "$ref": "#/components/schemas/ChainSupportedFeatures"
+                        },
+                        "signerSpec": {
+                          "$ref": "#/components/schemas/SignerSpec"
                         }
                       },
                       "required": [
@@ -4134,7 +4477,8 @@
                         "name",
                         "ticker",
                         "decimals",
-                        "supportedFeatures"
+                        "supportedFeatures",
+                        "signerSpec"
                       ]
                     }
                   },
@@ -8336,6 +8680,45 @@
           "utils"
         ],
         "description": "List of supported features for the chain"
+      },
+      "SignerSpec": {
+        "type": "object",
+        "properties": {
+          "curve": {
+            "type": "string",
+            "enum": [
+              "secp256k1",
+              "ed25519",
+              "stark"
+            ]
+          },
+          "hashFunction": {
+            "type": "string",
+            "enum": [
+              "sha256",
+              "keccak256",
+              "sha512_256",
+              "pedersen"
+            ]
+          },
+          "signatureFormat": {
+            "type": "string",
+            "enum": [
+              "rsv",
+              "rs"
+            ]
+          },
+          "coinType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "curve",
+          "hashFunction",
+          "signatureFormat",
+          "coinType"
+        ],
+        "description": "List of signer specificity for the chain"
       }
     }
   }

@@ -1,5 +1,5 @@
 import { stringToHex } from "viem";
-import { Status, Transaction } from "~/app/model/types_WIP";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { getSeqno } from "../backend/tonapi";
 import { computeFees, computeMaxSpendable } from "../logic";
 
@@ -11,9 +11,15 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
 
   const maxSpendable = await computeMaxSpendable(transaction.data);
 
-  const seqNo = await getSeqno(transaction.data.senderAddress);
-  if (seqNo) {
-    transaction.data.nonce = seqNo;
+  // NOTE: In case of token transfer, jetton master wallet is not a wallet contract but a jetton contract and can't get a seqno
+  if (transaction.data.mode === TransactionMode.TRANSFER) {
+    const seqNo = await getSeqno(transaction.data.senderAddress);
+
+    if (seqNo === null) {
+      transaction.data.nonce = BigInt(0);
+    } else {
+      transaction.data.nonce = seqNo;
+    }
   }
 
   transaction.data.fees = await computeFees(transaction.data, timeout);

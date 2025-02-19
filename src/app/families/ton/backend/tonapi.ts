@@ -26,11 +26,12 @@ async function getSeqno(address: string): Promise<bigint | null> {
   let seqNo: Seqno;
   try {
     seqNo = await api.wallet.getAccountSeqno(tonAddress);
+
+    return seqNo?.seqno ? BigInt(seqNo.seqno) : null;
   } catch (e) {
     console.warn(`/!\\ Failed to fetch TON seqno for wallet address '${address}':`, e);
     throw new ThirdPartyProviderError(`Error while fetching data from explorer for ton account '${address}'`);
   }
-  return seqNo?.seqno ? BigInt(seqNo.seqno) : null;
 }
 
 async function getJettonsFromWallet(address: string): Promise<JettonsBalances> {
