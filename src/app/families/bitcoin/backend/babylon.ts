@@ -43,6 +43,8 @@ async function fetchNetworkInfo(): Promise<BabylonNetworkInfoV2> {
   }
 
   // Get the highest value among available versions
+  // FIXME Should we instead get the one closest to current block height?...
+  // https://github.com/babylonlabs-io/babylon/blob/c3bf51131c7c9febb83b3db310da2e1e67bd7dd5/docs/register-bitcoin-stake.md#32-babylon-chain-btc-staking-parameters
   const latestVersion = globalParams.data.reduce(
     (previous, current) => (current.version > previous.version ? current : previous),
     globalParams.data[0]
