@@ -66,7 +66,7 @@ function getSignerSpecForFamily(family: ChainFamily): SignerSpec {
 }
 
 // Special cases and overrides for specific chains
-const CHAIN_CRYPTO_OVERRIDES: { [key: string]: Partial<SignerSpec> } = {
+const SIGNER_SPEC_CHAIN_OVERRIDES: { [key: string]: Partial<SignerSpec> } = {
   // Special case for Injective which uses eth_secp256k1
   injective: {
     coinType: "60",
@@ -102,7 +102,7 @@ const CHAIN_CRYPTO_OVERRIDES: { [key: string]: Partial<SignerSpec> } = {
 // Function to get crypto specs for a specific chain
 function getSignerSpecForChain(chainId: string, family: ChainFamily): SignerSpec {
   const baseSpecs = getSignerSpecForFamily(family);
-  const overrides = CHAIN_CRYPTO_OVERRIDES[chainId];
+  const overrides = SIGNER_SPEC_CHAIN_OVERRIDES[chainId];
 
   if (overrides) {
     return {

@@ -86,12 +86,17 @@ const chainSupportedFeaturesSchema = z
     ref: "ChainSupportedFeatures",
   });
 
-const signerSpecSchema = z.object({
-  curve: z.nativeEnum(Curve),
-  hashFunction: z.nativeEnum(HashFunction),
-  signatureFormat: z.nativeEnum(SignatureFormat),
-  coinType: z.string(),
-});
+const signerSpecSchema = z
+  .object({
+    curve: z.nativeEnum(Curve),
+    hashFunction: z.nativeEnum(HashFunction),
+    signatureFormat: z.nativeEnum(SignatureFormat),
+    coinType: z.string(),
+  })
+  .openapi({
+    description: "List of signer specificity for the chain",
+    ref: "SignerSpec",
+  });
 
 const chainSchema = z.object({
   family: z.nativeEnum(ChainFamily),

@@ -34,6 +34,7 @@ async function validateTransaction(
 ): Promise<void> {
   const { transaction, status } = _;
 
+  // TODO: More checks
   if (
     transaction.data.mode === TransactionMode.TRANSFER &&
     transaction.data.nonce === 0n &&
