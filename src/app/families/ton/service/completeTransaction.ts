@@ -12,7 +12,10 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
   const maxSpendable = await computeMaxSpendable(transaction.data);
 
   const seqNo = await getSeqno(transaction.data.senderAddress);
-  if (seqNo) {
+
+  if (seqNo === null) {
+    transaction.data.nonce = BigInt(0);
+  } else {
     transaction.data.nonce = seqNo;
   }
 

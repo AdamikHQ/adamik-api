@@ -149,12 +149,29 @@ type Backends = {
   explorerURL?: string;
 };
 
+enum Curve {
+  SECP256K1 = "secp256k1",
+  ED25519 = "ed25519",
+  STARK = "stark",
+}
+
+enum HashFunction {
+  SHA256 = "sha256",
+  KECCAK256 = "keccak256",
+  SHA512_256 = "sha512_256",
+  PEDERSEN = "pedersen",
+}
+
+enum SignatureFormat {
+  RSV = "rsv",
+  RS = "rs",
+}
+
 type SignerSpec = {
-  curve: string;
-  hashFunction: string;
-  signatureFormat: string[];
-  derivationPath: string;
-  addressFormat: string;
+  curve: Curve;
+  hashFunction: HashFunction;
+  signatureFormat: SignatureFormat;
+  coinType: string;
 };
 
 type Chain = {
@@ -168,7 +185,7 @@ type Chain = {
   isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;
-  signerSpecs: SignerSpec;
+  signerSpec: SignerSpec;
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
@@ -437,8 +454,11 @@ type Status = {
 export {
   ChainFamily,
   ChainId,
+  Curve,
   DeployContractType,
   EncodedTransactionFormat,
+  HashFunction,
+  SignatureFormat,
   StakingStatus,
   TokenType,
   TransactionMode,

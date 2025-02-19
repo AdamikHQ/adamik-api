@@ -3,8 +3,11 @@ import "zod-openapi/extend";
 import {
   ChainFamily,
   ChainId,
+  Curve,
   DeployContractType,
   EncodedTransactionFormat,
+  HashFunction,
+  SignatureFormat,
   TokenType,
   TransactionMode,
   TransactionState,
@@ -84,11 +87,10 @@ const chainSupportedFeaturesSchema = z
   });
 
 const signerSpecSchema = z.object({
-  curve: z.string(),
-  hashFunction: z.string(),
-  signatureFormat: z.array(z.string()),
-  derivationPath: z.string(),
-  addressFormat: z.string(),
+  curve: z.nativeEnum(Curve),
+  hashFunction: z.nativeEnum(HashFunction),
+  signatureFormat: z.nativeEnum(SignatureFormat),
+  coinType: z.string(),
 });
 
 const chainSchema = z.object({
@@ -100,7 +102,7 @@ const chainSchema = z.object({
   decimals: z.number(),
   isTestnetFor: z.string().optional(),
   supportedFeatures: chainSupportedFeaturesSchema,
-  signerSpecs: signerSpecSchema,
+  signerSpec: signerSpecSchema,
 });
 
 const tokenSchema = z.object({

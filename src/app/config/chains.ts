@@ -11,7 +11,7 @@ import {
   TON_FEATURES,
   TRON_FEATURES,
 } from "./features";
-import { getSignerSpecs } from "./signers";
+import { getSignerSpecForChain } from "./signers";
 
 const CHAINS: { [key in ChainId]: Chain } = {
   algorand: {
@@ -26,7 +26,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://mainnet-idx.algonode.cloud/v2",
     },
     supportedFeatures: ALGORAND_FEATURES,
-    signerSpecs: getSignerSpecs(ChainId.ALGORAND, ChainFamily.ALGORAND),
+    signerSpec: getSignerSpecForChain(ChainId.ALGORAND, ChainFamily.ALGORAND),
   },
   cosmoshub: {
     family: ChainFamily.COSMOS,
@@ -48,7 +48,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.COSMOSHUB),
-    signerSpecs: getSignerSpecs(ChainId.COSMOSHUB, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.COSMOSHUB, ChainFamily.COSMOS),
   },
   "cosmoshub-testnet": {
     family: ChainFamily.COSMOS,
@@ -71,7 +71,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.COSMOSHUB_TESTNET),
-    signerSpecs: getSignerSpecs(ChainId.COSMOSHUB_TESTNET, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.COSMOSHUB_TESTNET, ChainFamily.COSMOS),
   },
   osmosis: {
     family: ChainFamily.COSMOS,
@@ -93,7 +93,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.OSMOSIS),
-    signerSpecs: getSignerSpecs(ChainId.OSMOSIS, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.OSMOSIS, ChainFamily.COSMOS),
   },
   "osmosis-testnet": {
     family: ChainFamily.COSMOS,
@@ -116,7 +116,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.OSMOSIS_TESTNET),
-    signerSpecs: getSignerSpecs(ChainId.OSMOSIS_TESTNET, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.OSMOSIS_TESTNET, ChainFamily.COSMOS),
   },
   celestia: {
     family: ChainFamily.COSMOS,
@@ -138,7 +138,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.02,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.CELESTIA),
-    signerSpecs: getSignerSpecs(ChainId.CELESTIA, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.CELESTIA, ChainFamily.COSMOS),
   },
   "celestia-testnet": {
     family: ChainFamily.COSMOS,
@@ -161,7 +161,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.02,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.CELESTIA_TESTNET),
-    signerSpecs: getSignerSpecs(ChainId.CELESTIA_TESTNET, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.CELESTIA_TESTNET, ChainFamily.COSMOS),
   },
   dydx: {
     family: ChainFamily.COSMOS,
@@ -187,7 +187,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 12500000000,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.DYDX),
-    signerSpecs: getSignerSpecs(ChainId.DYDX, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.DYDX, ChainFamily.COSMOS),
   },
   axelar: {
     family: ChainFamily.COSMOS,
@@ -209,7 +209,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.007,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.AXELAR),
-    signerSpecs: getSignerSpecs(ChainId.AXELAR, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.AXELAR, ChainFamily.COSMOS),
   },
   ethereum: {
     family: ChainFamily.EVM,
@@ -225,7 +225,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.ETHEREUM),
-    signerSpecs: getSignerSpecs(ChainId.ETHEREUM, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.ETHEREUM, ChainFamily.EVM),
   },
   sepolia: {
     family: ChainFamily.EVM,
@@ -242,7 +242,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.ETHEREUM,
     supportedFeatures: EVM_FEATURES(ChainId.SEPOLIA),
-    signerSpecs: getSignerSpecs(ChainId.SEPOLIA, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.SEPOLIA, ChainFamily.EVM),
   },
   holesky: {
     family: ChainFamily.EVM,
@@ -259,7 +259,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.ETHEREUM,
     supportedFeatures: EVM_FEATURES(ChainId.HOLESKY),
-    signerSpecs: getSignerSpecs(ChainId.HOLESKY, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.HOLESKY, ChainFamily.EVM),
   },
   zksync: {
     family: ChainFamily.EVM,
@@ -275,7 +275,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.ZKSYNC),
-    signerSpecs: getSignerSpecs(ChainId.ZKSYNC, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.ZKSYNC, ChainFamily.EVM),
   },
   "zksync-sepolia": {
     family: ChainFamily.EVM,
@@ -292,7 +292,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.ZKSYNC,
     supportedFeatures: EVM_FEATURES(ChainId.ZKSYNC_SEPOLIA),
-    signerSpecs: getSignerSpecs(ChainId.ZKSYNC_SEPOLIA, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.ZKSYNC_SEPOLIA, ChainFamily.EVM),
   },
   "injective-evm-testnet": {
     family: ChainFamily.EVM,
@@ -307,7 +307,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: "injective-evm", // TODO Support the mainnet
     supportedFeatures: EVM_FEATURES(ChainId.INJECTIVE_EVM_TESTNET),
-    signerSpecs: getSignerSpecs(ChainId.INJECTIVE_EVM_TESTNET, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.INJECTIVE_EVM_TESTNET, ChainFamily.EVM),
   },
   base: {
     family: ChainFamily.EVM,
@@ -326,7 +326,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       isL2Fees: true,
     },
     supportedFeatures: EVM_FEATURES(ChainId.BASE),
-    signerSpecs: getSignerSpecs(ChainId.BASE, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.BASE, ChainFamily.EVM),
   },
   "base-sepolia": {
     family: ChainFamily.EVM,
@@ -346,7 +346,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       isL2Fees: true,
     },
     supportedFeatures: EVM_FEATURES(ChainId.BASE_SEPOLIA),
-    signerSpecs: getSignerSpecs(ChainId.BASE_SEPOLIA, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.BASE_SEPOLIA, ChainFamily.EVM),
   },
   optimism: {
     family: ChainFamily.EVM,
@@ -365,7 +365,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       isL2Fees: true,
     },
     supportedFeatures: EVM_FEATURES(ChainId.OPTIMISM),
-    signerSpecs: getSignerSpecs(ChainId.OPTIMISM, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.OPTIMISM, ChainFamily.EVM),
   },
   "optimism-sepolia": {
     family: ChainFamily.EVM,
@@ -385,7 +385,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       isL2Fees: true,
     },
     supportedFeatures: EVM_FEATURES(ChainId.OPTIMISM_SEPOLIA),
-    signerSpecs: getSignerSpecs(ChainId.OPTIMISM_SEPOLIA, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.OPTIMISM_SEPOLIA, ChainFamily.EVM),
   },
   arbitrum: {
     family: ChainFamily.EVM,
@@ -401,7 +401,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.ARBITRUM),
-    signerSpecs: getSignerSpecs(ChainId.ARBITRUM, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.ARBITRUM, ChainFamily.EVM),
   },
   "arbitrum-sepolia": {
     family: ChainFamily.EVM,
@@ -418,7 +418,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.ARBITRUM,
     supportedFeatures: EVM_FEATURES(ChainId.ARBITRUM_SEPOLIA),
-    signerSpecs: getSignerSpecs(ChainId.ARBITRUM_SEPOLIA, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.ARBITRUM_SEPOLIA, ChainFamily.EVM),
   },
   "monad-private-testnet": {
     id: ChainId.MONAD_PRIVATE_TESTNET,
@@ -432,7 +432,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       //explorerURL: "https://monad.xyz",
     },
     supportedFeatures: EVM_FEATURES(ChainId.MONAD_PRIVATE_TESTNET),
-    signerSpecs: getSignerSpecs(ChainId.MONAD_PRIVATE_TESTNET, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.MONAD_PRIVATE_TESTNET, ChainFamily.EVM),
     isTestnetFor: "monad",
   },
   bitcoin: {
@@ -450,7 +450,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 6,
     },
     supportedFeatures: BITCOIN_FEATURES,
-    signerSpecs: getSignerSpecs(ChainId.BITCOIN, ChainFamily.BITCOIN),
+    signerSpec: getSignerSpecForChain(ChainId.BITCOIN, ChainFamily.BITCOIN),
   },
   "bitcoin-testnet": {
     id: ChainId.BITCOIN_TESTNET,
@@ -468,7 +468,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 6,
     },
     supportedFeatures: BITCOIN_FEATURES,
-    signerSpecs: getSignerSpecs(ChainId.BITCOIN_TESTNET, ChainFamily.BITCOIN),
+    signerSpec: getSignerSpecForChain(ChainId.BITCOIN_TESTNET, ChainFamily.BITCOIN),
   },
   "bitcoin-signet": {
     id: ChainId.BITCOIN_SIGNET,
@@ -486,7 +486,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 6,
     },
     supportedFeatures: BITCOIN_SIGNET_FEATURES,
-    signerSpecs: getSignerSpecs(ChainId.BITCOIN_SIGNET, ChainFamily.BITCOIN),
+    signerSpec: getSignerSpecForChain(ChainId.BITCOIN_SIGNET, ChainFamily.BITCOIN),
   },
   litecoin: {
     id: ChainId.LITECOIN,
@@ -503,7 +503,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 6,
     },
     supportedFeatures: BITCOIN_FEATURES,
-    signerSpecs: getSignerSpecs(ChainId.LITECOIN, ChainFamily.BITCOIN),
+    signerSpec: getSignerSpecForChain(ChainId.LITECOIN, ChainFamily.BITCOIN),
   },
   dogecoin: {
     id: ChainId.DOGECOIN,
@@ -520,7 +520,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 60, // confirmations used by Coinbase or Binance
     },
     supportedFeatures: BITCOIN_FEATURES,
-    signerSpecs: getSignerSpecs(ChainId.DOGECOIN, ChainFamily.BITCOIN),
+    signerSpec: getSignerSpecForChain(ChainId.DOGECOIN, ChainFamily.BITCOIN),
   },
   polygon: {
     family: ChainFamily.EVM,
@@ -534,7 +534,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.POLYGON),
-    signerSpecs: getSignerSpecs(ChainId.POLYGON, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.POLYGON, ChainFamily.EVM),
   },
   "polygon-amoy": {
     family: ChainFamily.EVM,
@@ -549,7 +549,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.POLYGON,
     supportedFeatures: EVM_FEATURES(ChainId.POLYGON_AMOY),
-    signerSpecs: getSignerSpecs(ChainId.POLYGON_AMOY, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.POLYGON_AMOY, ChainFamily.EVM),
   },
   bsc: {
     family: ChainFamily.EVM,
@@ -563,7 +563,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.BSC),
-    signerSpecs: getSignerSpecs(ChainId.BSC, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.BSC, ChainFamily.EVM),
   },
   "bsc-testnet": {
     family: ChainFamily.EVM,
@@ -578,7 +578,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.BSC,
     supportedFeatures: EVM_FEATURES(ChainId.BSC_TESTNET),
-    signerSpecs: getSignerSpecs(ChainId.BSC_TESTNET, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.BSC_TESTNET, ChainFamily.EVM),
   },
   linea: {
     family: ChainFamily.EVM,
@@ -592,7 +592,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.LINEA),
-    signerSpecs: getSignerSpecs(ChainId.LINEA, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.LINEA, ChainFamily.EVM),
   },
   "linea-sepolia": {
     family: ChainFamily.EVM,
@@ -607,7 +607,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.LINEA,
     supportedFeatures: EVM_FEATURES(ChainId.LINEA_SEPOLIA),
-    signerSpecs: getSignerSpecs(ChainId.LINEA_SEPOLIA, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.LINEA_SEPOLIA, ChainFamily.EVM),
   },
   avalanche: {
     family: ChainFamily.EVM,
@@ -621,7 +621,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.AVALANCHE),
-    signerSpecs: getSignerSpecs(ChainId.AVALANCHE, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.AVALANCHE, ChainFamily.EVM),
   },
   "avalanche-fuji": {
     family: ChainFamily.EVM,
@@ -636,7 +636,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.AVALANCHE,
     supportedFeatures: EVM_FEATURES(ChainId.AVALANCHE_FUJI),
-    signerSpecs: getSignerSpecs(ChainId.AVALANCHE_FUJI, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.AVALANCHE_FUJI, ChainFamily.EVM),
   },
   gnosis: {
     family: ChainFamily.EVM,
@@ -650,7 +650,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.GNOSIS),
-    signerSpecs: getSignerSpecs(ChainId.GNOSIS, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.GNOSIS, ChainFamily.EVM),
   },
   "gnosis-chiado": {
     family: ChainFamily.EVM,
@@ -665,7 +665,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.GNOSIS,
     supportedFeatures: EVM_FEATURES(ChainId.GNOSIS_CHIADO),
-    signerSpecs: getSignerSpecs(ChainId.GNOSIS_CHIADO, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.GNOSIS_CHIADO, ChainFamily.EVM),
   },
   moonbeam: {
     family: ChainFamily.EVM,
@@ -679,7 +679,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.MOONBEAM),
-    signerSpecs: getSignerSpecs(ChainId.MOONBEAM, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.MOONBEAM, ChainFamily.EVM),
   },
   moonriver: {
     family: ChainFamily.EVM,
@@ -693,7 +693,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.MOONRIVER),
-    signerSpecs: getSignerSpecs(ChainId.MOONRIVER, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.MOONRIVER, ChainFamily.EVM),
   },
   moonbase: {
     family: ChainFamily.EVM,
@@ -708,7 +708,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.MOONBEAM,
     supportedFeatures: EVM_FEATURES(ChainId.MOONBASE),
-    signerSpecs: getSignerSpecs(ChainId.MOONBASE, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.MOONBASE, ChainFamily.EVM),
   },
   fantom: {
     family: ChainFamily.EVM,
@@ -722,7 +722,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.FANTOM),
-    signerSpecs: getSignerSpecs(ChainId.FANTOM, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.FANTOM, ChainFamily.EVM),
   },
   mantle: {
     family: ChainFamily.EVM,
@@ -736,7 +736,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: NATIVE_READ_WRITE_ONLY,
-    signerSpecs: getSignerSpecs(ChainId.MANTLE, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.MANTLE, ChainFamily.EVM),
   },
   rootstock: {
     family: ChainFamily.EVM,
@@ -750,7 +750,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_ROOTSTOCK_FEATURES,
-    signerSpecs: getSignerSpecs(ChainId.ROOTSTOCK, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.ROOTSTOCK, ChainFamily.EVM),
   },
   "rootstock-testnet": {
     family: ChainFamily.EVM,
@@ -765,7 +765,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.ROOTSTOCK,
     supportedFeatures: EVM_ROOTSTOCK_FEATURES,
-    signerSpecs: getSignerSpecs(ChainId.ROOTSTOCK_TESTNET, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.ROOTSTOCK_TESTNET, ChainFamily.EVM),
   },
   ton: {
     family: ChainFamily.TON,
@@ -779,7 +779,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://tonapi.io",
     },
     supportedFeatures: TON_FEATURES,
-    signerSpecs: getSignerSpecs(ChainId.TON, ChainFamily.TON),
+    signerSpec: getSignerSpecForChain(ChainId.TON, ChainFamily.TON),
   },
   chiliz: {
     family: ChainFamily.EVM,
@@ -793,7 +793,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://deep-index.moralis.io/api",
     },
     supportedFeatures: EVM_FEATURES(ChainId.CHILIZ),
-    signerSpecs: getSignerSpecs(ChainId.CHILIZ, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.CHILIZ, ChainFamily.EVM),
   },
   "chiliz-testnet": {
     family: ChainFamily.EVM,
@@ -808,7 +808,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     isTestnetFor: ChainId.CHILIZ,
     supportedFeatures: EVM_FEATURES(ChainId.CHILIZ_TESTNET),
-    signerSpecs: getSignerSpecs(ChainId.CHILIZ_TESTNET, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.CHILIZ_TESTNET, ChainFamily.EVM),
   },
   //Injective Cosmos based version
   injective: {
@@ -833,7 +833,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 700000000,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.INJECTIVE),
-    signerSpecs: getSignerSpecs(ChainId.INJECTIVE, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.INJECTIVE, ChainFamily.COSMOS),
   },
   akash: {
     family: ChainFamily.COSMOS,
@@ -856,7 +856,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.AKASH),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/akash/chain.json
-    signerSpecs: getSignerSpecs(ChainId.AKASH, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.AKASH, ChainFamily.COSMOS),
   },
 
   band: {
@@ -880,7 +880,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.BAND),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/bandchain/chain.json
-    signerSpecs: getSignerSpecs(ChainId.BAND, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.BAND, ChainFamily.COSMOS),
   },
 
   //Dymension seems to be EVM based in its transaction handling
@@ -905,7 +905,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.DYMENSION),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/dymension/chain.json
-    signerSpecs: getSignerSpecs(ChainId.DYMENSION, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.DYMENSION, ChainFamily.COSMOS),
   },
 
   kyve: {
@@ -929,7 +929,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.KYVE),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kyve/chain.json
-    signerSpecs: getSignerSpecs(ChainId.KYVE, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.KYVE, ChainFamily.COSMOS),
   },
 
   neutron: {
@@ -954,7 +954,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.NEUTRON),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/neutron/chain.json
-    signerSpecs: getSignerSpecs(ChainId.NEUTRON, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.NEUTRON, ChainFamily.COSMOS),
   },
 
   //Terra 2 is the rebirthed version of Terra
@@ -979,7 +979,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.TERRA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/terra2/chain.json
-    signerSpecs: getSignerSpecs(ChainId.TERRA, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.TERRA, ChainFamily.COSMOS),
   },
 
   stargaze: {
@@ -1005,7 +1005,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.STARGAZE),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/stargaze/chain.json
-    signerSpecs: getSignerSpecs(ChainId.STARGAZE, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.STARGAZE, ChainFamily.COSMOS),
   },
 
   tron: {
@@ -1020,7 +1020,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://apilist.tronscanapi.com",
     },
     supportedFeatures: TRON_FEATURES,
-    signerSpecs: getSignerSpecs(ChainId.TRON, ChainFamily.TRON),
+    signerSpec: getSignerSpecForChain(ChainId.TRON, ChainFamily.TRON),
   },
 
   evmos: {
@@ -1044,7 +1044,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 25000000000,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.EVMOS),
-    signerSpecs: getSignerSpecs(ChainId.EVMOS, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.EVMOS, ChainFamily.COSMOS),
   },
 
   irisnet: {
@@ -1067,7 +1067,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.3,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.IRISNET),
-    signerSpecs: getSignerSpecs(ChainId.IRISNET, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.IRISNET, ChainFamily.COSMOS),
   },
 
   juno: {
@@ -1090,7 +1090,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.1,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.JUNO),
-    signerSpecs: getSignerSpecs(ChainId.JUNO, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.JUNO, ChainFamily.COSMOS),
   },
 
   "lum-network": {
@@ -1113,7 +1113,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.LUM_NETWORK),
-    signerSpecs: getSignerSpecs(ChainId.LUM_NETWORK, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.LUM_NETWORK, ChainFamily.COSMOS),
   },
 
   omniflix: {
@@ -1136,7 +1136,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.0025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.OMNIFLIX),
-    signerSpecs: getSignerSpecs(ChainId.OMNIFLIX, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.OMNIFLIX, ChainFamily.COSMOS),
   },
 
   sei: {
@@ -1159,7 +1159,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.02,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.SEI),
-    signerSpecs: getSignerSpecs(ChainId.SEI, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.SEI, ChainFamily.COSMOS),
   },
 
   medibloc: {
@@ -1182,7 +1182,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 7,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.MEDIBLOC),
-    signerSpecs: getSignerSpecs(ChainId.MEDIBLOC, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.MEDIBLOC, ChainFamily.COSMOS),
   },
 
   passage: {
@@ -1205,7 +1205,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.0025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.PASSAGE),
-    signerSpecs: getSignerSpecs(ChainId.PASSAGE, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.PASSAGE, ChainFamily.COSMOS),
   },
 
   quasar: {
@@ -1229,7 +1229,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.QUASAR),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/quasar/chain.json
-    signerSpecs: getSignerSpecs(ChainId.QUASAR, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.QUASAR, ChainFamily.COSMOS),
   },
 
   seda: {
@@ -1253,7 +1253,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.SEDA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/seda/chain.json
-    signerSpecs: getSignerSpecs(ChainId.SEDA, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.SEDA, ChainFamily.COSMOS),
   },
 
   sommelier: {
@@ -1277,7 +1277,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.SOMMELIER),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/sommelier/chain.json
-    signerSpecs: getSignerSpecs(ChainId.SOMMELIER, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.SOMMELIER, ChainFamily.COSMOS),
   },
 
   shentu: {
@@ -1301,7 +1301,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.SHENTU),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/shentu/chain.json
-    signerSpecs: getSignerSpecs(ChainId.SHENTU, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.SHENTU, ChainFamily.COSMOS),
   },
 
   stride: {
@@ -1324,7 +1324,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.005,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.STRIDE),
-    signerSpecs: getSignerSpecs(ChainId.STRIDE, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.STRIDE, ChainFamily.COSMOS),
   },
 
   chihuahua: {
@@ -1348,7 +1348,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.CHIHUAHUA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/chihuahua/chain.json
-    signerSpecs: getSignerSpecs(ChainId.CHIHUAHUA, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.CHIHUAHUA, ChainFamily.COSMOS),
   },
   bitsong: {
     family: ChainFamily.COSMOS,
@@ -1371,7 +1371,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.BITSONG),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/bitsong/chain.json
-    signerSpecs: getSignerSpecs(ChainId.BITSONG, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.BITSONG, ChainFamily.COSMOS),
   },
   persistence: {
     family: ChainFamily.COSMOS,
@@ -1394,7 +1394,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.PERSISTENCE),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/persistence/chain.json
-    signerSpecs: getSignerSpecs(ChainId.PERSISTENCE, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.PERSISTENCE, ChainFamily.COSMOS),
   },
   comdex: {
     family: ChainFamily.COSMOS,
@@ -1417,7 +1417,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.COMDEX),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/comdex/chain.json
-    signerSpecs: getSignerSpecs(ChainId.COMDEX, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.COMDEX, ChainFamily.COSMOS),
   },
   "fetch-ai": {
     family: ChainFamily.COSMOS,
@@ -1440,7 +1440,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.FETCH_AI),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/fetchhub/chain.json
-    signerSpecs: getSignerSpecs(ChainId.FETCH_AI, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.FETCH_AI, ChainFamily.COSMOS),
   },
   "humans-ai": {
     family: ChainFamily.COSMOS,
@@ -1463,7 +1463,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.HUMANS_AI),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/humans/chain.json
-    signerSpecs: getSignerSpecs(ChainId.HUMANS_AI, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.HUMANS_AI, ChainFamily.COSMOS),
   },
   ki: {
     family: ChainFamily.COSMOS,
@@ -1486,7 +1486,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.KI),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kichain/chain.json
-    signerSpecs: getSignerSpecs(ChainId.KI, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.KI, ChainFamily.COSMOS),
   },
   likecoin: {
     family: ChainFamily.COSMOS,
@@ -1510,7 +1510,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.LIKECOIN),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/likecoin/chain.json
-    signerSpecs: getSignerSpecs(ChainId.LIKECOIN, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.LIKECOIN, ChainFamily.COSMOS),
   },
   "mars-hub": {
     family: ChainFamily.COSMOS,
@@ -1533,7 +1533,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.MARS_HUB),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/mars/chain.json
-    signerSpecs: getSignerSpecs(ChainId.MARS_HUB, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.MARS_HUB, ChainFamily.COSMOS),
   },
   provenance: {
     family: ChainFamily.COSMOS,
@@ -1556,7 +1556,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.PROVENANCE),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/provenance/chain.json
-    signerSpecs: getSignerSpecs(ChainId.PROVENANCE, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.PROVENANCE, ChainFamily.COSMOS),
   },
   quicksilver: {
     family: ChainFamily.COSMOS,
@@ -1579,7 +1579,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.QUICKSILVER),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/quicksilver/chain.json
-    signerSpecs: getSignerSpecs(ChainId.QUICKSILVER, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.QUICKSILVER, ChainFamily.COSMOS),
   },
   saga: {
     family: ChainFamily.COSMOS,
@@ -1602,7 +1602,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.SAGA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/saga/chain.json
-    signerSpecs: getSignerSpecs(ChainId.SAGA, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.SAGA, ChainFamily.COSMOS),
   },
   "ux-chain": {
     family: ChainFamily.COSMOS,
@@ -1625,7 +1625,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.UX_CHAIN),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/ux/chain.json
-    signerSpecs: getSignerSpecs(ChainId.UX_CHAIN, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.UX_CHAIN, ChainFamily.COSMOS),
   },
   kava: {
     family: ChainFamily.COSMOS,
@@ -1648,7 +1648,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.KAVA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kava/chain.json
-    signerSpecs: getSignerSpecs(ChainId.KAVA, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.KAVA, ChainFamily.COSMOS),
   },
   starknet: {
     family: ChainFamily.STARKNET,
@@ -1662,7 +1662,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       explorerURL: "https://api.starkscan.co",
     },
     supportedFeatures: STARKNET_FEATURES,
-    signerSpecs: getSignerSpecs(ChainId.STARKNET, ChainFamily.STARKNET),
+    signerSpec: getSignerSpecForChain(ChainId.STARKNET, ChainFamily.STARKNET),
   },
   // TODO Test this (later)
   /*
@@ -1707,7 +1707,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.007,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON_TESTNET),
-    signerSpecs: getSignerSpecs(ChainId.BABYLON_TESTNET, ChainFamily.COSMOS),
+    signerSpec: getSignerSpecForChain(ChainId.BABYLON_TESTNET, ChainFamily.COSMOS),
   },
 } as const;
 
