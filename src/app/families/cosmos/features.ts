@@ -30,6 +30,8 @@ const COSMOS_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
         stake: true,
         unstake: true,
         claimRewards: true,
+        withdraw: false,
+        registerStake: true, // TODO
       },
       field: {
         memo: true,

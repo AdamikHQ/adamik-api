@@ -183,9 +183,46 @@ const validatorAddressSchema = z.string().openapi({
   description: "Address or ID of a validator",
 });
 
+const stakeIdSchema = z.string().openapi({
+  description:
+    "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>.",
+});
+
 const stakingCompoundSchema = z.boolean().openapi({
   description:
     "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
+});
+
+const proofOfPossessionSchema = z.string().openapi({
+  description: "staker's address on this chain, signed with the foreign chain's signer. (hex)",
+});
+
+const stakerForeignPubKeySchema = z.string().openapi({
+  description: "Staker's pubkey on the foreign chain. (hex)",
+});
+
+const inputStakedAmountSchema = stringToBigIntSchema.openapi({
+  description: "Staked amount on the foreign chain.",
+});
+
+const outputStakedAmountSchema = bigintToStringSchema.openapi({
+  description: "Staked amount on the foreign chain.",
+});
+
+const validatorPubKeySchema = z.string().openapi({
+  description: "Validator's pubkey on the foreign chain. (hex)",
+});
+
+const signedStakingTransactionSchema = z.string().openapi({
+  description: "Signed staking transaction on the foreign chain (hex).",
+});
+
+const signedSlashingTransactionSchema = z.string().openapi({
+  description: "Signed slashing transaction on the foreign chain (hex).",
+});
+
+const signedUnbondingSlashingTransactionSchema = z.string().openapi({
+  description: "Signed unbonding slashing transaction on the foreign chain (hex).",
 });
 
 // Transactions schemas
@@ -312,6 +349,7 @@ const inputUnstakeSchema = z
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
     validatorAddress: validatorAddressSchema,
+    stakeId: stakeIdSchema.optional(),
     amount: inputAmountSchema.optional(),
     useMaxAmount: useMaxAmountSchema.default(false),
   })
@@ -326,6 +364,7 @@ const outputUnstakeSchema = z
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
     validatorAddress: validatorAddressSchema,
+    stakeId: stakeIdSchema.optional(),
     amount: outputAmountSchema,
     useMaxAmount: useMaxAmountSchema,
   })
@@ -340,10 +379,11 @@ const inputClaimRewardsSchema = z
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
     validatorAddress: validatorAddressSchema,
+    stakeId: stakeIdSchema.optional(),
     compound: stakingCompoundSchema.default(false),
   })
   .openapi({
-    title: "ClaimRewards",
+    title: "Claim Rewards",
     description: "Retrieve rewards from staking",
   });
 
@@ -353,11 +393,71 @@ const outputClaimRewardsSchema = z
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema.optional(),
     validatorAddress: validatorAddressSchema,
+    stakeId: stakeIdSchema.optional(),
     compound: stakingCompoundSchema,
   })
   .openapi({
-    title: "ClaimRewards",
+    title: "Claim Rewards",
     description: "Retrieve rewards from staking",
+  });
+
+const inputWithdrawSchema = z
+  .object({
+    mode: z.literal(TransactionMode.WITHDRAW),
+    senderPubKey: senderPubKeySchema,
+    validatorAddress: validatorAddressSchema,
+    stakeId: stakeIdSchema,
+  })
+  .openapi({
+    title: "Withdraw Unlocked Funds",
+    description: "Only supported for Babylon staking at the moment. See <TODO doc link>.",
+  });
+
+const outputWithdrawSchema = z
+  .object({
+    mode: z.literal(TransactionMode.WITHDRAW),
+    senderPubKey: senderPubKeySchema,
+    validatorAddress: validatorAddressSchema,
+    stakeId: stakeIdSchema,
+  })
+  .openapi({
+    title: "Withdraw Unlocked Funds",
+    description: "Only supported for Babylon staking at the moment. See <TODO doc link>.",
+  });
+
+const inputRegisterStakeSchema = z
+  .object({
+    mode: z.literal(TransactionMode.REGISTER_STAKE),
+    senderPubKey: stakerForeignPubKeySchema,
+    senderAddress: senderAddressSchema,
+    proofOfPossession: proofOfPossessionSchema,
+    amount: inputStakedAmountSchema,
+    validatorPubKey: validatorPubKeySchema,
+    signedStakingTransaction: signedStakingTransactionSchema,
+    signedSlashingTransaction: signedSlashingTransactionSchema,
+    signedUnbondingSlashingTransaction: signedUnbondingSlashingTransactionSchema,
+  })
+  .openapi({
+    title: "Register Stake",
+    description: "Only supported for Babylon staking at the moment. See <TODO doc link>.",
+  });
+
+const outputRegisterStakeSchema = z
+  .object({
+    mode: z.literal(TransactionMode.REGISTER_STAKE),
+    senderPubKey: stakerForeignPubKeySchema,
+    senderAddress: senderAddressSchema,
+    proofOfPossession: proofOfPossessionSchema,
+    amount: outputStakedAmountSchema,
+    stakerPubKey: stakerForeignPubKeySchema,
+    validatorPubKey: validatorPubKeySchema,
+    signedStakingTransaction: signedStakingTransactionSchema,
+    signedSlashingTransaction: signedSlashingTransactionSchema,
+    signedUnbondingSlashingTransaction: signedUnbondingSlashingTransactionSchema,
+  })
+  .openapi({
+    title: "Register Stake",
+    description: "Only supported for Babylon staking at the moment. See <TODO doc link>.",
   });
 
 const encodedTransactionSchema = z.string();
@@ -473,10 +573,12 @@ export {
   inputGasSchema,
   inputNonceSchema,
   inputParamsSchema,
+  inputRegisterStakeSchema,
   inputStakeSchema,
   inputTransferNativeSchema,
   inputTransferTokenSchema,
   inputUnstakeSchema,
+  inputWithdrawSchema,
   memoSchema,
   outputAmountSchema,
   outputClaimRewardsSchema,
@@ -485,10 +587,12 @@ export {
   outputGasSchema,
   outputNonceSchema,
   outputParamsSchema,
+  outputRegisterStakeSchema,
   outputStakeSchema,
   outputTransferNativeSchema,
   outputTransferTokenSchema,
   outputUnstakeSchema,
+  outputWithdrawSchema,
   paginatedResponseSchema,
   paginationQueryParamsSchema,
   recipientAddressSchema,

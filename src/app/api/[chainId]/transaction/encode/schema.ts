@@ -6,10 +6,12 @@ import {
   getSupportedChainIdsSchema,
   inputClaimRewardsSchema,
   inputDeployAccountSchema,
+  inputRegisterStakeSchema,
   inputStakeSchema,
   inputTransferNativeSchema,
   inputTransferTokenSchema,
   inputUnstakeSchema,
+  inputWithdrawSchema,
   memoSchema,
   outputClaimRewardsSchema,
   outputDeployAccountSchema,
@@ -17,10 +19,12 @@ import {
   outputGasSchema,
   outputNonceSchema,
   outputParamsSchema,
+  outputRegisterStakeSchema,
   outputStakeSchema,
   outputTransferNativeSchema,
   outputTransferTokenSchema,
   outputUnstakeSchema,
+  outputWithdrawSchema,
   statusSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
@@ -52,6 +56,8 @@ const requestSchema = z.object({
           inputTransferTokenSchema,
           inputUnstakeSchema,
           inputClaimRewardsSchema,
+          inputWithdrawSchema,
+          inputRegisterStakeSchema,
         ])
       ),
   }),
@@ -77,6 +83,8 @@ const responseSchema = z.object({
           outputStakeSchema,
           outputUnstakeSchema,
           outputClaimRewardsSchema,
+          outputWithdrawSchema,
+          outputRegisterStakeSchema,
         ])
       ),
     encoded: encodedTransactionSchema,

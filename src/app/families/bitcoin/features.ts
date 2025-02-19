@@ -1,8 +1,7 @@
 import { ChainSupportedFeatures } from "~/app/model/types_WIP";
 
 const BITCOIN_FEATURES: ChainSupportedFeatures = {
-  // TODO Support staking for read operations
-  // FIXME Staking supported only by bitcoin but not other chains
+  // TODO Enable staking on bitcoin mainnet when live
   read: {
     token: false,
     validators: false,
@@ -21,6 +20,8 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
         stake: false,
         unstake: false,
         claimRewards: false,
+        withdraw: false,
+        registerStake: false,
       },
       field: {
         memo: false,
@@ -32,15 +33,17 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
   },
 };
 
+// TODO Support staking for read & write operations
+// FIXME Staking supported only by bitcoin but not other chains
 const BITCOIN_SIGNET_FEATURES: ChainSupportedFeatures = {
   read: {
     token: false,
     validators: false,
     account: {
-      balances: { native: false, tokens: false, staking: false },
+      balances: { native: false, tokens: false, staking: true }, // TODO
       transactions: { native: false, tokens: false, staking: false },
     },
-    transaction: { native: false, tokens: false, staking: false },
+    transaction: { native: false, tokens: false, staking: true }, // TODO
   },
   write: {
     transaction: {
@@ -49,8 +52,10 @@ const BITCOIN_SIGNET_FEATURES: ChainSupportedFeatures = {
         transfer: true,
         transferToken: false,
         stake: true,
-        unstake: false,
+        unstake: true, // TODO
         claimRewards: false,
+        withdraw: true, // TODO
+        registerStake: false,
       },
       field: {
         memo: false,
