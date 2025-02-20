@@ -580,22 +580,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: BITCOIN_SIGNET_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.BITCOIN_SIGNET, ChainFamily.BITCOIN),
   },
-  "monad-private-testnet": {
-    id: ChainId.MONAD_PRIVATE_TESTNET,
-    name: "Monad Private Testnet",
-    family: ChainFamily.EVM,
-    nativeId: "10143",
-    ticker: "MON",
-    decimals: 18,
-    backends: [
-      {
-        providerType: ProviderType.node,
-        url: "https://testnet-rpc2.monad.xyz/81c64948eadce243f8f28cd897e38766e51bdd89",
-      },
-    ],
-    supportedFeatures: EVM_FEATURES(ChainId.MONAD_PRIVATE_TESTNET),
-    isTestnetFor: "monad",
-  },
   polygon: {
     family: ChainFamily.EVM,
     id: ChainId.POLYGON,
@@ -2161,6 +2145,26 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON_TESTNET),
     signerSpec: getSignerSpecForChain(ChainId.BABYLON_TESTNET, ChainFamily.COSMOS),
+  },
+  "monad-testnet": {
+    id: ChainId.MONAD_TESTNET,
+    name: "Monad Private Testnet",
+    family: ChainFamily.EVM,
+    nativeId: "10143",
+    ticker: "MON",
+    decimals: 18,
+    backends: [
+      {
+        providerType: ProviderType.node,
+        url: "https://testnet-rpc.monad.xyz/",
+      },
+      {
+        providerType: ProviderType.alchemy,
+        url: "https://monad-testnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.MONAD_TESTNET),
+    isTestnetFor: "monad",
   },
 } as const;
 

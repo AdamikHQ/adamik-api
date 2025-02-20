@@ -1,7 +1,8 @@
-import { ALCHEMY_API_KEY } from "~/app/config/apiKeys";
 import {
+  Backend,
   ChainId,
   FinalizedTransaction,
+  ProviderType,
   Token,
   TokenAmount,
   TokenType,
@@ -15,13 +16,16 @@ import {
   AlchemyERC20Token,
   AlchemyERC20TokenBalance,
   AlchemyPaginatedRequest,
+  AlchemyTransaction,
   AlchemyTransactionWithReceipt,
   AlchemyTransfer,
+  EvmIndexer,
 } from "~/app/families/evm/backend/types";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { CHAINS } from "~/app/config/chains";
 
-const ALCHEMY_CHAIN_IDS: Map<ChainId, string> = new Map([
+const CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth-mainnet"],
   [ChainId.SEPOLIA, "eth-sepolia"],
   [ChainId.HOLESKY, "eth-holesky"],
@@ -41,16 +45,17 @@ const ALCHEMY_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.AVALANCHE_FUJI, "avax-mainnet"],
   [ChainId.GNOSIS, "gnosis-mainnet"],
   [ChainId.GNOSIS_CHIADO, "gnosis-chiado"],
+  [ChainId.MONAD_TESTNET, "monad-testnet"],
 ]);
 
 function sendRequest(chainId: ChainId, method: string, params: any[]) {
-  const alchemyChainId = ALCHEMY_CHAIN_IDS.get(chainId);
-  if (!alchemyChainId) {
+  const explorer = CHAINS[chainId].backends.find((b: Backend) => b.providerType === ProviderType.alchemy);
+  if (!explorer) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Alchemy API`);
     return Promise.resolve(null);
   }
 
-  return fetch(`https://${alchemyChainId}.g.alchemy.com/v2/${ALCHEMY_API_KEY}`, {
+  return fetch(explorer.url, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -122,12 +127,6 @@ async function fetchERC20TokenAmounts(
 
 // Version that fully handles pagination, to return all results
 async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
-  const alchemyChainId = ALCHEMY_CHAIN_IDS.get(chainId);
-  if (!alchemyChainId) {
-    console.warn(`/!\\ Chain ID ${chainId} is not supported by Alchemy API`);
-    return [];
-  }
-
   let tokenAmounts: TokenAmount[] = [];
   let response;
   let nextPage: string | undefined = undefined;
@@ -140,94 +139,152 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
   return tokenAmounts;
 }
 
-async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<Token | null> {
-  const alchemyChainId = ALCHEMY_CHAIN_IDS.get(chainId);
-  if (!alchemyChainId) {
-    console.warn(`/!\\ Chain ID ${chainId} is not supported by Alchemy API`);
-    return null;
-  }
-
-  const response: AlchemyERC20Token = await sendRequest(chainId, "alchemy_getTokenMetadata", [tokenId]);
-  if (response === null || response.decimals === null) {
-    return null;
-  }
+async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<Token> {
+  const response: AlchemyERC20Token | null = await sendRequest(chainId, "alchemy_getTokenMetadata", [
+    tokenId,
+  ]);
 
   return {
     type: TokenType.ERC20,
     id: tokenId,
-    name: response.name,
-    ticker: response.symbol,
-    decimals: response.decimals,
+    name: response?.name ?? "",
+    ticker: response?.symbol ?? "",
+    decimals: response?.decimals ?? 0,
     contractAddress: tokenId,
-    logo: response.logo ?? undefined,
+    logo: response?.logo ?? undefined,
   };
 }
 
 async function fetchTransaction(
   chainId: ChainId,
   transactionId: string
-): Promise<AlchemyTransactionWithReceipt | null> {
-  const alchemyChainId = ALCHEMY_CHAIN_IDS.get(chainId);
-  if (!alchemyChainId) {
-    console.warn(`/!\\ Chain ID ${chainId} is not supported by Alchemy API`);
-    return Promise.resolve(null);
-  }
+): Promise<FinalizedTransaction | null> {
   const transaction: AlchemyTransactionWithReceipt = await sendRequest(chainId, "eth_getTransactionByHash", [
     transactionId,
   ]);
+  if (transaction === null) {
+    return null;
+  }
   transaction.receipt = await sendRequest(chainId, "eth_getTransactionReceipt", [transactionId]);
 
-  return transaction;
+  return await alchemyToAdamikTransaction(chainId, transaction);
 }
 
-// FIXME: Handle ERC20 transfers
-async function alchemyToAdamikAccountTransaction(
+async function fetchAccountTransactions(
   chainId: ChainId,
-  alchemyTransaction: AlchemyTransfer
-): Promise<FinalizedTransaction["parsed"] | null> {
-  const transaction = await fetchTransaction(chainId, alchemyTransaction.hash);
-  if (!transaction || !transaction.receipt) return null;
-  const block: AlchemyBlock = await sendRequest(chainId, "eth_getBlockByNumber", [
-    alchemyTransaction.blockNum,
-    false,
-  ]);
-  const timestamp = parseInt(block.timestamp);
+  address: EvmAddress,
+  paginationToken?: string
+): Promise<{ evmTransactions: FinalizedTransaction[]; nextPage: string | null }> {
+  const txGenericParams = {
+    fromBlock: "0x0",
+    toBlock: "latest",
+    withMetadata: false,
+    excludeZeroValue: true,
+    maxCount: "0x3e8",
+    category: ["external", "erc20"],
+  };
 
-  const gasPrice = BigInt(transaction.receipt.effectiveGasPrice ?? 0);
-  const gasUsed = BigInt(transaction.receipt.cumulativeGasUsed ?? 0);
-  const feesAmount = gasPrice * gasUsed;
+  const [responseFrom, responseTo]: [AlchemyTransfer[], AlchemyTransfer[]] = await Promise.all([
+    sendRequest(chainId, "alchemy_getAssetTransfers", [
+      {
+        ...txGenericParams,
+        from: address,
+      },
+    ]),
+    sendRequest(chainId, "alchemy_getAssetTransfers", [
+      {
+        ...txGenericParams,
+        to: address,
+      },
+    ]),
+  ]);
+  if (!Array.isArray(responseFrom) || !Array.isArray(responseTo)) {
+    console.warn(`/!\\ Invalid response from ${chainId} (explorer: Alchemy)`, responseFrom, responseTo);
+    return {
+      evmTransactions: [],
+      nextPage: null,
+    };
+  }
+
+  const response = [...responseFrom, ...responseTo];
+  response.sort(
+    (a: AlchemyTransfer, b: AlchemyTransfer) => parseInt(a.blockNum, 16) - parseInt(b.blockNum, 16)
+  );
+  const formattedTransactions = await Promise.all(
+    response.map((tx: AlchemyTransfer) => alchemyToAdamikAccountTransaction(chainId, tx))
+  );
 
   return {
-    id: alchemyTransaction.hash,
-    timestamp,
-    fees: {
-      amount: feesAmount,
-    },
-    gas: gasUsed,
-    nonce: BigInt(transaction.nonce ?? 0),
-    // Placeholder values, actual values filled below
-    mode: TransactionMode.TRANSFER,
-    state: TransactionState.CONFIRMED,
-    senders: [
-      {
-        address: transaction.from,
-        amount: BigInt(transaction.value),
-      },
-    ],
-    recipients: [
-      {
-        address: transaction.to,
-        amount: BigInt(transaction.value),
-      },
-    ],
+    evmTransactions: formattedTransactions.filter(Boolean) as FinalizedTransaction[],
+    nextPage: null,
   };
 }
 
-export {
+async function alchemyToAdamikTransaction(
+  chainId: ChainId,
+  alchemyTransaction: AlchemyTransaction
+): Promise<FinalizedTransaction> {
+  const block: AlchemyBlock = await sendRequest(chainId, "eth_getBlockByNumber", [
+    alchemyTransaction.blockNumber,
+    false,
+  ]);
+  const feesAmount = BigInt(alchemyTransaction.gas) * BigInt(alchemyTransaction.gasPrice);
+
+  return {
+    parsed: {
+      id: alchemyTransaction.hash,
+      timestamp: parseInt(block.timestamp, 16) * 1000,
+      fees: {
+        amount: feesAmount,
+      },
+      gas: BigInt(alchemyTransaction.gas),
+      nonce: BigInt(alchemyTransaction.nonce),
+      // FIXME: Supported modes
+      mode: "unknown",
+      state: TransactionState.CONFIRMED,
+    },
+    raw: {
+      hash: alchemyTransaction.hash,
+      from: alchemyTransaction.from,
+      to: alchemyTransaction.to,
+      blockNumber: alchemyTransaction.blockNumber,
+      nonce: alchemyTransaction.nonce,
+      input: alchemyTransaction.input,
+      value: alchemyTransaction.value,
+      gas: alchemyTransaction.gas,
+      gasPrice: alchemyTransaction.gasPrice,
+      chainId: CHAINS[chainId].nativeId,
+    },
+  };
+}
+
+async function alchemyToAdamikAccountTransaction(
+  chainId: ChainId,
+  alchemyTransaction: AlchemyTransfer
+): Promise<FinalizedTransaction | null> {
+  const transaction = await fetchTransaction(chainId, alchemyTransaction.hash);
+  if (!transaction || !transaction.parsed) return null;
+
+  transaction.parsed.senders = [
+    {
+      address: alchemyTransaction.from,
+      amount: BigInt(alchemyTransaction.value),
+    },
+  ];
+  transaction.parsed.recipients = [
+    {
+      address: alchemyTransaction.to,
+      amount: BigInt(alchemyTransaction.value),
+    },
+  ];
+  return transaction;
+}
+
+export const AlchemyIndexer = {
+  fetchAccountTransactions,
   fetchAllERC20TokenAmounts,
   fetchERC20Token,
   fetchERC20TokenAmounts,
   fetchTransaction,
-  ALCHEMY_CHAIN_IDS,
-  alchemyToAdamikAccountTransaction,
-};
+  CHAIN_IDS,
+} as EvmIndexer;

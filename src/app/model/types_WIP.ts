@@ -46,7 +46,7 @@ enum ChainId {
   LITECOIN = "litecoin",
   DOGECOIN = "dogecoin",
   STARKNET = "starknet",
-  MONAD_PRIVATE_TESTNET = "monad-private-testnet",
+  MONAD_TESTNET = "monad-testnet",
   BITSONG = "bitsong",
   CHIHUAHUA = "chihuahua",
   SEDA = "seda",
@@ -357,7 +357,7 @@ type FinalizedTransaction = {
       };
     };
   };
-  raw?: unknown; // The raw transaction as returned from the node (or explorer when necessary)
+  raw?: unknown; // The raw transaction as returned from the node
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 

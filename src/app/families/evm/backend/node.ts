@@ -1,4 +1,4 @@
-import { FeeValuesEIP1559, createPublicClient, erc20Abi, http } from "viem";
+import { createPublicClient, erc20Abi, FeeValuesEIP1559, http } from "viem";
 import {
   arbitrum,
   arbitrumSepolia,
@@ -26,16 +26,16 @@ import {
   rootstock,
   rootstockTestnet,
   sepolia,
-  zkSync,
-  zkSyncSepoliaTestnet,
+  zksync,
+  zksyncSepoliaTestnet,
 } from "viem/chains";
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
-import { Backend, ChainId, ProviderType } from "~/app/model/types_WIP";
+import { Backend, ChainId, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { chilizTestnet } from "../chains/chiliz-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
-import { monadPrivateTestnet } from "../chains/monad-private-testnet";
+import { monadTestnet } from "../chains/monad-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
 
 // FIXME Couldn't find a proper type that works besides 'any'
@@ -53,9 +53,9 @@ function getClientConfig(chainId: ChainId) {
     case ChainId.HOLESKY:
       return { chain: holesky, transport };
     case ChainId.ZKSYNC:
-      return { chain: zkSync, transport };
+      return { chain: zksync, transport };
     case ChainId.ZKSYNC_SEPOLIA:
-      return { chain: zkSyncSepoliaTestnet, transport };
+      return { chain: zksyncSepoliaTestnet, transport };
     case ChainId.INJECTIVE_EVM_TESTNET:
       return { chain: injectiveEvmTestnet, transport };
     case ChainId.BASE:
@@ -108,8 +108,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: rootstockTestnet, transport };
     case ChainId.AVALANCHE_FUJI:
       return { chain: avalancheFujiTesnet, transport };
-    case ChainId.MONAD_PRIVATE_TESTNET:
-      return { chain: monadPrivateTestnet, transport };
+    case ChainId.MONAD_TESTNET:
+      return { chain: monadTestnet, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }
@@ -236,7 +236,7 @@ async function makeERC20ContractCall(
   return value;
 }
 
-async function fetchERC20name(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
+async function fetchERC20Name(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
   return (await makeERC20ContractCall(chainId, contractAdress, "name")) as string;
 }
 
@@ -246,6 +246,22 @@ async function fetchERC20Decimals(chainId: ChainId, contractAdress: EvmAddress):
 
 async function fetchERC20Ticker(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
   return (await makeERC20ContractCall(chainId, contractAdress, "symbol")) as string;
+}
+
+async function fetchERC20Info(chainId: ChainId, contractAddress: EvmAddress): Promise<Token> {
+  const [name, decimals, ticker] = await Promise.all([
+    fetchERC20Name(chainId, contractAddress),
+    fetchERC20Decimals(chainId, contractAddress),
+    fetchERC20Ticker(chainId, contractAddress),
+  ]);
+  return {
+    type: TokenType.ERC20,
+    id: contractAddress,
+    name,
+    ticker,
+    decimals,
+    contractAddress,
+  };
 }
 
 async function fetchERC20Balance({
@@ -303,8 +319,6 @@ export {
   estimateGas,
   fetchBalance,
   fetchERC20Balance,
-  fetchERC20Decimals,
-  fetchERC20Ticker,
-  fetchERC20name,
+  fetchERC20Info,
   fetchNonce,
 };

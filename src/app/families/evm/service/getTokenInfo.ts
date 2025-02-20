@@ -1,34 +1,29 @@
-import { Token } from "~/app/model/types_WIP";
-import { fetchERC20Token } from "../backend/moralis";
+import { ProviderType, Token } from "~/app/model/types_WIP";
+import { MoralisIndexer } from "../backend/moralis";
+import { AlchemyIndexer } from "../backend/alchemy";
+import { fetchERC20Info } from "~/app/families/evm/backend/node";
 import { EvmService } from "../service";
 import { EvmAddress } from "../types";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 
 async function getTokenInfo(this: EvmService, tokenId: string): Promise<Token> {
-  const contractAddress = tokenId as EvmAddress;
-
-  return fetchERC20Token(this.chainId, contractAddress);
-
-  // Node implementation - poor performance
-  /*
-  try {
-    const name = await fetchERC20name(this.chainId, contractAddress);
-    const decimals = await fetchERC20Decimals(this.chainId, contractAddress);
-    const ticker = await fetchERC20Ticker(this.chainId, contractAddress);
-
-    const token: Token = {
-      type: TokenType.ERC20,
-      id: contractAddress,
-      name,
-      ticker,
-      decimals,
-      contractAddress,
-    };
-
-    return token;
-  } catch (e) {
-    return null;
+  let backend = this.getBackend(ProviderType.moralis);
+  let indexer = MoralisIndexer;
+  if (!backend) {
+    backend = this.getBackend(ProviderType.alchemy);
+    indexer = AlchemyIndexer;
   }
-  */
+  const contractAddress = tokenId as EvmAddress;
+  if (!backend || !indexer) {
+    // Node implementation - poor performance
+    const node = this.getBackend(ProviderType.node);
+    if (!node) {
+      throw new UnsupportedFeatureError(`Unsupported feature Token Info for chain ${this.chainId}`);
+    }
+    return fetchERC20Info(this.chainId, contractAddress);
+  }
+
+  return indexer.fetchERC20Token(this.chainId, contractAddress);
 }
 
 export { getTokenInfo };

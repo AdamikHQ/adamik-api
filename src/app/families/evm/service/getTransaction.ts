@@ -1,6 +1,7 @@
-import { FinalizedTransaction, Status } from "~/app/model/types_WIP";
-import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { fetchTransaction, moralisToAdamikTransaction } from "../backend/moralis";
+import { FinalizedTransaction, ProviderType, Status } from "~/app/model/types_WIP";
+import { TransactionIdNotFoundError, UnsupportedFeatureError } from "~/app/tools/handlers/errors";
+import { MoralisIndexer } from "../backend/moralis";
+import { AlchemyIndexer } from "~/app/families/evm/backend/alchemy";
 import { EvmService } from "../service";
 
 async function getTransaction(
@@ -8,17 +9,21 @@ async function getTransaction(
   transactionId: string,
   status: Status
 ): Promise<FinalizedTransaction> {
-  const evmTransaction = await fetchTransaction(this.chainId, transactionId);
+  let backend = this.getBackend(ProviderType.moralis);
+  let indexer = MoralisIndexer;
+  if (!backend) {
+    backend = this.getBackend(ProviderType.alchemy);
+    indexer = AlchemyIndexer;
+  }
+  if (!backend || !indexer) {
+    throw new UnsupportedFeatureError(`Unsupported feature Transaction for chain ${this.chainId}`);
+  }
+  const evmTransaction = await indexer.fetchTransaction(this.chainId, transactionId);
   if (!evmTransaction) {
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
-  const parsedTransaction = moralisToAdamikTransaction(this.chainId, evmTransaction);
-
-  return {
-    parsed: parsedTransaction,
-    raw: evmTransaction,
-  };
+  return evmTransaction;
 }
 
 export { getTransaction };

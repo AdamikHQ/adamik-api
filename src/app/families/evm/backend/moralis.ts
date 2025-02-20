@@ -25,9 +25,11 @@ import {
   MoralisERC20Token,
   MoralisERC20TokenBalance,
   MoralisTransaction,
+  EvmIndexer,
+  RawEvmTransaction,
 } from "./types";
 
-const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
+const CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth"],
   [ChainId.SEPOLIA, "sepolia"],
   [ChainId.HOLESKY, "holesky"],
@@ -77,7 +79,7 @@ async function fetchERC20TokenAmounts(
   let tokens: TokenAmount[] = [];
   let nextPage: string | null = null;
 
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  const moralisChainId = CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return { tokens, nextPage };
@@ -147,7 +149,7 @@ async function fetchERC20TokenAmounts(
 
 // Version that fully handles pagination, to return all results
 async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  const moralisChainId = CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return [];
@@ -206,7 +208,7 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
 }
 
 async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<Token> {
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  const moralisChainId = CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     throw new UnsupportedTokenIDError(tokenId, chainId);
@@ -251,8 +253,11 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
   }
 }
 
-async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<MoralisTransaction | null> {
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+async function fetchTransaction(
+  chainId: ChainId,
+  transactionId: string
+): Promise<FinalizedTransaction | null> {
+  const moralisChainId = CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return null;
@@ -280,15 +285,15 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
     return null;
   }
 
-  return result;
+  return moralisToAdamikTransaction(chainId, result);
 }
 
 async function fetchAccountTransactions(
   chainId: ChainId,
   address: EvmAddress,
   paginationToken?: string
-): Promise<{ evmTransactions: MoralisAccountTransaction[]; nextPage: string | null }> {
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+): Promise<{ evmTransactions: FinalizedTransaction[]; nextPage: string | null }> {
+  const moralisChainId = CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return { evmTransactions: [], nextPage: null };
@@ -336,7 +341,9 @@ async function fetchAccountTransactions(
   }
 
   return {
-    evmTransactions: response.result,
+    evmTransactions: response.result.map((result: MoralisAccountTransaction) =>
+      moralisToAdamikAccountTransaction(chainId, result)
+    ),
     nextPage: paginationToB64(response.cursor),
   };
 }
@@ -344,7 +351,7 @@ async function fetchAccountTransactions(
 function moralisToAdamikTransaction(
   chainId: ChainId,
   moralisTransaction: MoralisTransaction
-): FinalizedTransaction["parsed"] {
+): FinalizedTransaction {
   const chain = CHAINS[chainId];
 
   // Moralis bug ? For some reason, transaction_fee is NOT in smallest unit... so we need to convert it
@@ -415,13 +422,27 @@ function moralisToAdamikTransaction(
     ];
   }
 
-  return parsedTransaction;
+  return {
+    parsed: parsedTransaction,
+    raw: {
+      hash: moralisTransaction.hash,
+      from: moralisTransaction.from_address,
+      to: moralisTransaction.to_address,
+      blockNumber: moralisTransaction.block_number,
+      nonce: moralisTransaction.nonce,
+      input: moralisTransaction.input,
+      value: moralisTransaction.value,
+      gas: moralisTransaction.gas,
+      gasPrice: moralisTransaction.gas_price,
+      chainId: CHAINS[chainId].nativeId,
+    },
+  };
 }
 
 function moralisToAdamikAccountTransaction(
   chainId: ChainId,
   moralisTransaction: MoralisAccountTransaction
-): FinalizedTransaction["parsed"] {
+): FinalizedTransaction {
   const chain = CHAINS[chainId];
 
   // Moralis bug ? For some reason, transaction_fee is NOT in smallest unit... so we need to convert it
@@ -486,16 +507,28 @@ function moralisToAdamikAccountTransaction(
     ];
   }
 
-  return parsedTransaction;
+  return {
+    parsed: parsedTransaction,
+    raw: {
+      hash: moralisTransaction.hash,
+      from: moralisTransaction.from_address,
+      to: moralisTransaction.to_address,
+      blockNumber: moralisTransaction.block_number,
+      nonce: moralisTransaction.nonce,
+      input: "0x",
+      value: moralisTransaction.value,
+      gas: moralisTransaction.gas,
+      gasPrice: moralisTransaction.gas_price,
+      chainId: CHAINS[chainId].nativeId,
+    },
+  };
 }
 
-export {
+export const MoralisIndexer = {
   fetchAccountTransactions,
   fetchAllERC20TokenAmounts,
   fetchERC20Token,
   fetchERC20TokenAmounts,
   fetchTransaction,
-  MORALIS_CHAIN_IDS,
-  moralisToAdamikAccountTransaction,
-  moralisToAdamikTransaction,
-};
+  CHAIN_IDS,
+} as EvmIndexer;

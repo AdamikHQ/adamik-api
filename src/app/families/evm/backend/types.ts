@@ -1,4 +1,5 @@
 import { EvmAddress, HexString } from "../types";
+import { ChainId, FinalizedTransaction, Token, TokenAmount } from "~/app/model/types_WIP";
 
 type EtherscanERC20Event = {
   contractAddress: EvmAddress;
@@ -20,6 +21,29 @@ type EtherscanERC20Event = {
   // cumulativeGasUsed: string;
   // input: string;
   // confirmations: string;
+};
+
+type RawEvmTransaction = {
+  hash: HexString;
+  from: EvmAddress;
+  to: EvmAddress;
+  blockNumber: HexString;
+  nonce: HexString;
+  input: HexString;
+  value: HexString;
+  gas: HexString;
+  gasPrice: HexString;
+  type?: HexString;
+  blockHash?: HexString;
+  maxFeePerGas?: HexString;
+  maxPriorityFeePerGas?: HexString;
+  transactionIndex?: HexString;
+  accessList?: Array<HexString>;
+  chainId: HexString;
+  v?: HexString;
+  r?: HexString;
+  s?: HexString;
+  yParity?: HexString;
 };
 
 // NOTE Unused at the moment
@@ -325,6 +349,23 @@ type AlchemyBlock = {
   timestamp: HexString;
 };
 
+interface EvmIndexer {
+  fetchAccountTransactions: (
+    c: ChainId,
+    a: EvmAddress,
+    p?: string
+  ) => Promise<{ evmTransactions: Array<FinalizedTransaction>; nextPage: string | null }>;
+  fetchAllERC20TokenAmounts: (c: ChainId, a: EvmAddress) => Promise<TokenAmount[]>;
+  fetchERC20Token: (c: ChainId, a: EvmAddress) => Promise<Token>;
+  fetchERC20TokenAmounts: (
+    c: ChainId,
+    a: EvmAddress,
+    p?: string
+  ) => Promise<{ tokens: TokenAmount[]; nextPage: string | null }>;
+  fetchTransaction: (c: ChainId, t: string) => Promise<FinalizedTransaction>;
+  CHAIN_IDS: Map<ChainId, string>;
+}
+
 export type {
   EtherscanERC20Event,
   MoralisAccountTransaction,
@@ -342,4 +383,6 @@ export type {
   AlchemyTransactionWithReceipt,
   AlchemyTransfer,
   AlchemyBlock,
+  EvmIndexer,
+  RawEvmTransaction,
 };
