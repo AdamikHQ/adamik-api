@@ -4327,6 +4327,7 @@
                 "celestia-testnet",
                 "dydx",
                 "axelar",
+                "bitcoin-signet",
                 "injective",
                 "akash",
                 "band",
@@ -4397,6 +4398,7 @@
                         "celestia-testnet",
                         "dydx",
                         "axelar",
+                        "bitcoin-signet",
                         "injective",
                         "akash",
                         "band",
@@ -4521,6 +4523,7 @@
                 "arbitrum",
                 "bitcoin",
                 "bitcoin-testnet",
+                "bitcoin-signet",
                 "litecoin",
                 "dogecoin",
                 "polygon",
@@ -4603,7 +4606,9 @@
                                     "transferToken",
                                     "stake",
                                     "unstake",
-                                    "claimRewards"
+                                    "claimRewards",
+                                    "withdraw",
+                                    "registerStake"
                                   ]
                                 },
                                 {
@@ -4989,6 +4994,7 @@
                 "monad-private-testnet",
                 "bitcoin",
                 "bitcoin-testnet",
+                "bitcoin-signet",
                 "litecoin",
                 "dogecoin",
                 "polygon",
@@ -5109,6 +5115,7 @@
                         "monad-private-testnet",
                         "bitcoin",
                         "bitcoin-testnet",
+                        "bitcoin-signet",
                         "litecoin",
                         "dogecoin",
                         "polygon",
@@ -5856,7 +5863,9 @@
                                       "transferToken",
                                       "stake",
                                       "unstake",
-                                      "claimRewards"
+                                      "claimRewards",
+                                      "withdraw",
+                                      "registerStake"
                                     ]
                                   },
                                   {
@@ -6346,6 +6355,10 @@
                                     "type": "string",
                                     "description": "Address or ID of a validator"
                                   },
+                                  "stakeId": {
+                                    "type": "string",
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                  },
                                   "amount": {
                                     "type": "string",
                                     "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
@@ -6383,6 +6396,10 @@
                                     "type": "string",
                                     "description": "Address or ID of a validator"
                                   },
+                                  "stakeId": {
+                                    "type": "string",
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                  },
                                   "compound": {
                                     "type": "boolean",
                                     "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
@@ -6394,8 +6411,91 @@
                                   "senderAddress",
                                   "validatorAddress"
                                 ],
-                                "title": "ClaimRewards",
+                                "title": "Claim Rewards",
                                 "description": "Retrieve rewards from staking"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "withdraw"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
+                                  },
+                                  "stakeId": {
+                                    "type": "string",
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderPubKey",
+                                  "validatorAddress",
+                                  "stakeId"
+                                ],
+                                "title": "Withdraw Unlocked Funds",
+                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "registerStake"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Staker's pubkey on the foreign chain. (hex)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
+                                  "proofOfPossession": {
+                                    "type": "string",
+                                    "description": "staker's address on this chain, signed with the foreign chain's signer. (hex)"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Staked amount on the foreign chain."
+                                  },
+                                  "validatorPubKey": {
+                                    "type": "string",
+                                    "description": "Validator's pubkey on the foreign chain. (hex)"
+                                  },
+                                  "signedStakingTransaction": {
+                                    "type": "string",
+                                    "description": "Signed staking transaction on the foreign chain (hex)."
+                                  },
+                                  "signedSlashingTransaction": {
+                                    "type": "string",
+                                    "description": "Signed slashing transaction on the foreign chain (hex)."
+                                  },
+                                  "signedUnbondingSlashingTransaction": {
+                                    "type": "string",
+                                    "description": "Signed unbonding slashing transaction on the foreign chain (hex)."
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderPubKey",
+                                  "senderAddress",
+                                  "proofOfPossession",
+                                  "amount",
+                                  "validatorPubKey",
+                                  "signedStakingTransaction",
+                                  "signedSlashingTransaction",
+                                  "signedUnbondingSlashingTransaction"
+                                ],
+                                "title": "Register Stake",
+                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
                               }
                             ]
                           }
@@ -6721,6 +6821,10 @@
                                       "type": "string",
                                       "description": "Address or ID of a validator"
                                     },
+                                    "stakeId": {
+                                      "type": "string",
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    },
                                     "amount": {
                                       "type": "string",
                                       "description": "Amount to use, either provided or computed by the API"
@@ -6759,6 +6863,10 @@
                                       "type": "string",
                                       "description": "Address or ID of a validator"
                                     },
+                                    "stakeId": {
+                                      "type": "string",
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    },
                                     "compound": {
                                       "type": "boolean",
                                       "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds."
@@ -6770,8 +6878,96 @@
                                     "validatorAddress",
                                     "compound"
                                   ],
-                                  "title": "ClaimRewards",
+                                  "title": "Claim Rewards",
                                   "description": "Retrieve rewards from staking"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "const": "withdraw"
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                    },
+                                    "validatorAddress": {
+                                      "type": "string",
+                                      "description": "Address or ID of a validator"
+                                    },
+                                    "stakeId": {
+                                      "type": "string",
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "senderPubKey",
+                                    "validatorAddress",
+                                    "stakeId"
+                                  ],
+                                  "title": "Withdraw Unlocked Funds",
+                                  "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
+                                      "const": "registerStake"
+                                    },
+                                    "senderPubKey": {
+                                      "type": "string",
+                                      "description": "Staker's pubkey on the foreign chain. (hex)"
+                                    },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "Address or ID of the sender account."
+                                    },
+                                    "proofOfPossession": {
+                                      "type": "string",
+                                      "description": "staker's address on this chain, signed with the foreign chain's signer. (hex)"
+                                    },
+                                    "amount": {
+                                      "type": "string",
+                                      "description": "Staked amount on the foreign chain."
+                                    },
+                                    "stakerPubKey": {
+                                      "type": "string",
+                                      "description": "Staker's pubkey on the foreign chain. (hex)"
+                                    },
+                                    "validatorPubKey": {
+                                      "type": "string",
+                                      "description": "Validator's pubkey on the foreign chain. (hex)"
+                                    },
+                                    "signedStakingTransaction": {
+                                      "type": "string",
+                                      "description": "Signed staking transaction on the foreign chain (hex)."
+                                    },
+                                    "signedSlashingTransaction": {
+                                      "type": "string",
+                                      "description": "Signed slashing transaction on the foreign chain (hex)."
+                                    },
+                                    "signedUnbondingSlashingTransaction": {
+                                      "type": "string",
+                                      "description": "Signed unbonding slashing transaction on the foreign chain (hex)."
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "senderPubKey",
+                                    "senderAddress",
+                                    "proofOfPossession",
+                                    "amount",
+                                    "stakerPubKey",
+                                    "validatorPubKey",
+                                    "signedStakingTransaction",
+                                    "signedSlashingTransaction",
+                                    "signedUnbondingSlashingTransaction"
+                                  ],
+                                  "title": "Register Stake",
+                                  "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
                                 }
                               ]
                             }
@@ -7134,6 +7330,10 @@
                                     "type": "string",
                                     "description": "Address or ID of a validator"
                                   },
+                                  "stakeId": {
+                                    "type": "string",
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                  },
                                   "amount": {
                                     "type": "string",
                                     "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
@@ -7171,6 +7371,10 @@
                                     "type": "string",
                                     "description": "Address or ID of a validator"
                                   },
+                                  "stakeId": {
+                                    "type": "string",
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                  },
                                   "compound": {
                                     "type": "boolean",
                                     "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
@@ -7182,8 +7386,91 @@
                                   "senderAddress",
                                   "validatorAddress"
                                 ],
-                                "title": "ClaimRewards",
+                                "title": "Claim Rewards",
                                 "description": "Retrieve rewards from staking"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "withdraw"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
+                                  },
+                                  "stakeId": {
+                                    "type": "string",
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderPubKey",
+                                  "validatorAddress",
+                                  "stakeId"
+                                ],
+                                "title": "Withdraw Unlocked Funds",
+                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "registerStake"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Staker's pubkey on the foreign chain. (hex)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
+                                  "proofOfPossession": {
+                                    "type": "string",
+                                    "description": "staker's address on this chain, signed with the foreign chain's signer. (hex)"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Staked amount on the foreign chain."
+                                  },
+                                  "validatorPubKey": {
+                                    "type": "string",
+                                    "description": "Validator's pubkey on the foreign chain. (hex)"
+                                  },
+                                  "signedStakingTransaction": {
+                                    "type": "string",
+                                    "description": "Signed staking transaction on the foreign chain (hex)."
+                                  },
+                                  "signedSlashingTransaction": {
+                                    "type": "string",
+                                    "description": "Signed slashing transaction on the foreign chain (hex)."
+                                  },
+                                  "signedUnbondingSlashingTransaction": {
+                                    "type": "string",
+                                    "description": "Signed unbonding slashing transaction on the foreign chain (hex)."
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderPubKey",
+                                  "senderAddress",
+                                  "proofOfPossession",
+                                  "amount",
+                                  "validatorPubKey",
+                                  "signedStakingTransaction",
+                                  "signedSlashingTransaction",
+                                  "signedUnbondingSlashingTransaction"
+                                ],
+                                "title": "Register Stake",
+                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
                               }
                             ]
                           }
@@ -7663,6 +7950,10 @@
                                     "type": "string",
                                     "description": "Address or ID of a validator"
                                   },
+                                  "stakeId": {
+                                    "type": "string",
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                  },
                                   "amount": {
                                     "type": "string",
                                     "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
@@ -7700,6 +7991,10 @@
                                     "type": "string",
                                     "description": "Address or ID of a validator"
                                   },
+                                  "stakeId": {
+                                    "type": "string",
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                  },
                                   "compound": {
                                     "type": "boolean",
                                     "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds.",
@@ -7711,8 +8006,91 @@
                                   "senderAddress",
                                   "validatorAddress"
                                 ],
-                                "title": "ClaimRewards",
+                                "title": "Claim Rewards",
                                 "description": "Retrieve rewards from staking"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "withdraw"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "validatorAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of a validator"
+                                  },
+                                  "stakeId": {
+                                    "type": "string",
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderPubKey",
+                                  "validatorAddress",
+                                  "stakeId"
+                                ],
+                                "title": "Withdraw Unlocked Funds",
+                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "registerStake"
+                                  },
+                                  "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Staker's pubkey on the foreign chain. (hex)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
+                                  "proofOfPossession": {
+                                    "type": "string",
+                                    "description": "staker's address on this chain, signed with the foreign chain's signer. (hex)"
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Staked amount on the foreign chain."
+                                  },
+                                  "validatorPubKey": {
+                                    "type": "string",
+                                    "description": "Validator's pubkey on the foreign chain. (hex)"
+                                  },
+                                  "signedStakingTransaction": {
+                                    "type": "string",
+                                    "description": "Signed staking transaction on the foreign chain (hex)."
+                                  },
+                                  "signedSlashingTransaction": {
+                                    "type": "string",
+                                    "description": "Signed slashing transaction on the foreign chain (hex)."
+                                  },
+                                  "signedUnbondingSlashingTransaction": {
+                                    "type": "string",
+                                    "description": "Signed unbonding slashing transaction on the foreign chain (hex)."
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "senderPubKey",
+                                  "senderAddress",
+                                  "proofOfPossession",
+                                  "amount",
+                                  "validatorPubKey",
+                                  "signedStakingTransaction",
+                                  "signedSlashingTransaction",
+                                  "signedUnbondingSlashingTransaction"
+                                ],
+                                "title": "Register Stake",
+                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
                               }
                             ]
                           }
@@ -8291,6 +8669,12 @@
                         "type": "boolean"
                       },
                       "claimRewards": {
+                        "type": "boolean"
+                      },
+                      "withdraw": {
+                        "type": "boolean"
+                      },
+                      "registerStake": {
                         "type": "boolean"
                       }
                     },
