@@ -25,8 +25,8 @@ const babylonFinalityProviderV1Schema = z.object({
   active_delegations: z.number(),
   active_tvl: z.number(),
   btc_pk: z.string(),
-  total_delegations: z.number(),
-  total_tvl: z.number(),
+  total_delegations: z.number().optional(),
+  total_tvl: z.number().optional(),
   commission: z.string(),
   description: z.object({
     details: z.string(),

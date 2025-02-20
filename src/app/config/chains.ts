@@ -1583,7 +1583,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
   /*
   babylon: {
     family: ChainFamily.COSMOS,
-    id: ChainId.BABYLON_TESTNET,
+    id: ChainId.BABYLON,
     nativeId: "bbn-1",
     name: "Babylon",
     ticker: "BABY",

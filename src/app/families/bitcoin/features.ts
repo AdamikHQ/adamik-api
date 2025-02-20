@@ -38,7 +38,7 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
 const BITCOIN_SIGNET_FEATURES: ChainSupportedFeatures = {
   read: {
     token: false,
-    validators: false,
+    validators: true,
     account: {
       balances: { native: false, tokens: false, staking: true }, // TODO
       transactions: { native: false, tokens: false, staking: false },
