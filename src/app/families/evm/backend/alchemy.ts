@@ -140,11 +140,15 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
 }
 
 async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<Token> {
+  let [token] = await TokenStore.load(chainId, [tokenId]);
+  if (token !== null) {
+    return token;
+  }
   const response: AlchemyERC20Token | null = await sendRequest(chainId, "alchemy_getTokenMetadata", [
     tokenId,
   ]);
 
-  return {
+  token = {
     type: TokenType.ERC20,
     id: tokenId,
     name: response?.name ?? "",
@@ -153,6 +157,8 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
     contractAddress: tokenId,
     logo: response?.logo ?? undefined,
   };
+  await TokenStore.save(chainId, [token]);
+  return token;
 }
 
 async function fetchTransaction(

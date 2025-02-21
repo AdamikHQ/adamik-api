@@ -37,6 +37,7 @@ import { chilizTestnet } from "../chains/chiliz-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
 import { monadTestnet } from "../chains/monad-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
+import { TokenStore } from "~/app/tools/tokenStore";
 
 // FIXME Couldn't find a proper type that works besides 'any'
 const CLIENTS = new Map<ChainId, any>();
@@ -249,12 +250,16 @@ async function fetchERC20Ticker(chainId: ChainId, contractAdress: EvmAddress): P
 }
 
 async function fetchERC20Info(chainId: ChainId, contractAddress: EvmAddress): Promise<Token> {
+  let [token] = await TokenStore.load(chainId, [contractAddress]);
+  if (token !== null) {
+    return token;
+  }
   const [name, decimals, ticker] = await Promise.all([
     fetchERC20Name(chainId, contractAddress),
     fetchERC20Decimals(chainId, contractAddress),
     fetchERC20Ticker(chainId, contractAddress),
   ]);
-  return {
+  token = {
     type: TokenType.ERC20,
     id: contractAddress,
     name,
@@ -262,6 +267,8 @@ async function fetchERC20Info(chainId: ChainId, contractAddress: EvmAddress): Pr
     decimals,
     contractAddress,
   };
+  await TokenStore.save(chainId, [token]);
+  return token;
 }
 
 async function fetchERC20Balance({

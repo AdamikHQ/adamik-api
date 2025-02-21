@@ -26,8 +26,8 @@ import {
   MoralisERC20TokenBalance,
   MoralisTransaction,
   EvmIndexer,
-  RawEvmTransaction,
 } from "./types";
+import { TokenStore } from "~/app/tools/tokenStore";
 
 const CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth"],
@@ -208,6 +208,10 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
 }
 
 async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<Token> {
+  let [token] = await TokenStore.load(chainId, [tokenId]);
+  if (token !== null) {
+    return token;
+  }
   const moralisChainId = CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
@@ -239,7 +243,7 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
     // Array destructuring, we only need the 1st item
     const [result]: [MoralisERC20Token] = response;
 
-    return {
+    token = {
       type: TokenType.ERC20,
       id: result.address,
       name: result.name,
@@ -247,6 +251,8 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
       decimals: result.decimals,
       contractAddress: result.address,
     };
+    await TokenStore.save(chainId, [token]);
+    return token;
   } catch (e) {
     console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
     throw new ThirdPartyProviderError(`Invalid data in response from explorer for chain ID ${chainId}`);
