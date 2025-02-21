@@ -8,10 +8,20 @@ import {
   getAminoStdSignDoc,
 } from "@injectivelabs/sdk-ts";
 import { ChainId as CosmosChainId } from "@injectivelabs/ts-types";
+import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { CosmosAccount } from "../backend/types";
 
-function buildStdSignDocForInjective(
+function buildSignDocProtobufForInjective(
+  account: CosmosAccount,
+  transactionData: TransactionData,
+  networkId: string
+): SignDoc {
+  // TODO
+  throw new Error("Protobuf signing is not supported for Injective");
+}
+
+function buildSignDocAminoForInjective(
   account: CosmosAccount,
   transactionData: TransactionData,
   networkId: string
@@ -102,4 +112,4 @@ function buildMessagesForInjective(
   return msgs;
 }
 
-export { buildStdSignDocForInjective };
+export { buildSignDocAminoForInjective, buildSignDocProtobufForInjective };
