@@ -1,4 +1,4 @@
-import { Status, Transaction } from "~/app/model/types_WIP";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { AdamikApiServerError } from "~/app/tools/handlers/errors";
 import { BitcoinService } from "../service";
 import { BitcoinTransactionParams } from "../types";
@@ -11,16 +11,45 @@ async function encodeTransactionToSign(
 
   const params = transaction.data.params as BitcoinTransactionParams;
 
-  if (!params.psbt) {
-    console.warn("Failed to retrieve computed psbt from transaction");
-    throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
+  switch (transaction.data.mode) {
+    case TransactionMode.TRANSFER:
+      {
+        if (!params.transferPsbt) {
+          console.warn(`Missing psbt in transaction:`, transaction);
+          throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
+        }
+        transaction.encoded = params.transferPsbt;
+      }
+      break;
+    case TransactionMode.STAKE:
+      {
+        if (
+          !params.stakingPsbt ||
+          !params.unbondingPsbt ||
+          !params.slashingPsbt ||
+          !params.unbondingSlashingPsbt
+        ) {
+          console.warn(`Missing psbt(s) in transaction.params:`, transaction);
+          throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
+        }
+        transaction.encoded = params.stakingPsbt;
+      }
+      break;
+    case TransactionMode.UNSTAKE:
+      {
+        if (!params.unbondingPsbt) {
+          console.warn(`Missing psbt in transaction:`, transaction);
+          throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
+        }
+        transaction.encoded = params.unbondingPsbt;
+      }
+      break;
+    case TransactionMode.WITHDRAW:
+      {
+        // TODO
+      }
+      break;
   }
-
-  transaction.encoded = params.psbt.toHex();
-
-  // Was only used to transfer internal data from completeTransaction to encodeTransaction
-  // no need to expose it in the API's response
-  delete transaction.data.params;
 }
 
 async function encodeTransactionToBroadcast(
@@ -34,7 +63,7 @@ async function encodeTransactionToBroadcast(
 
   // useless check to make the compiler happy, zod already validated the fields
   if (!signedTransaction.signature) {
-    throw new AdamikApiServerError("missing transaction signature");
+    throw new AdamikApiServerError("Missing transaction signature");
   }
 
   return signedTransaction.signature;

@@ -1,4 +1,4 @@
-import { BaseChainService } from "~/app/model/service";
+import { BaseChainService, StakingService } from "~/app/model/service";
 import { broadcastTransaction as broadcastTransactionFn } from "./service/broadcastTransaction";
 import { completeTransaction as completeTransactionFn } from "./service/completeTransaction";
 import {
@@ -8,6 +8,7 @@ import {
 import { getAccountHistory as getAccountHistoryFn } from "./service/getAccountHistory";
 import { getAccountState as getAccountStateFn } from "./service/getAccountState";
 import { getTransaction as getTransactionFn } from "./service/getTransaction";
+import { getValidators as getValidatorsFn } from "./service/getValidators";
 import { pubkeyToAddresses as pubkeyToAddressesFn } from "./service/pubkeyToAddresses";
 import { validateAddress as validateAddressFn } from "./service/validateAddress";
 import {
@@ -15,7 +16,7 @@ import {
   validateTransaction as validateTransactionFn,
 } from "./service/validateTransaction";
 
-class BitcoinService extends BaseChainService {
+class BitcoinService extends BaseChainService implements StakingService {
   override pubkeyToAddresses = pubkeyToAddressesFn;
   override validateAddress = validateAddressFn;
   override getAccountState = getAccountStateFn;
@@ -27,6 +28,8 @@ class BitcoinService extends BaseChainService {
   override encodeTransactionToSign = encodeTransactionToSignFn;
   override encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
   override broadcastTransaction = broadcastTransactionFn;
+
+  getValidators = getValidatorsFn;
 }
 
 export { BitcoinService };

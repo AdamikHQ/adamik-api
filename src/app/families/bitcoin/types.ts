@@ -8,10 +8,16 @@ type BitcoinChainParams = {
   confirmations: number;
 };
 
-// Bitcoin-specific data, only used internally by the transaction crafting functions
-// NOTE No better solution found than computing the full psbt early,
-// in completeTransaction instead of encodeTransaction
-type BitcoinTransactionParams = PsbtWithFee;
+// NOTE No better solution found than computing the full
+// PSBTs early, in completeTransaction instead of encodeTransaction
+// (all PSBTs must be in hex format)
+type BitcoinTransactionParams = {
+  transferPsbt?: string;
+  stakingPsbt?: string;
+  unbondingPsbt?: string;
+  slashingPsbt?: string;
+  unbondingSlashingPsbt?: string;
+};
 
 const utxoWithMetadataSchema = z
   .object({

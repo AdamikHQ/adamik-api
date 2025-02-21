@@ -232,6 +232,7 @@ enum StakingStatus {
 }
 
 type StakingPosition = {
+  stakeId?: string; // Babylon use-case: need to associate a staking position to its transaction hash
   validatorAddresses: string[];
   amount: bigint;
   status: StakingStatus;
@@ -291,6 +292,8 @@ enum TransactionMode {
   STAKE = "stake",
   UNSTAKE = "unstake",
   CLAIM_REWARDS = "claimRewards",
+  WITHDRAW = "withdraw",
+  REGISTER_STAKE = "registerStake", // Babylon use-case: register a bitcoin stake
 }
 
 enum TransactionState {
@@ -372,48 +375,73 @@ type CommonTransactionData = {
   params?: TransactionParams;
 };
 
-type DeployAccountTransactionData = {
+type DeployAccountTransactionData = CommonTransactionData & {
   mode: TransactionMode.DEPLOY_ACCOUNT;
   senderPubKey: string; // Not optional for deploy account transactions
   contractType: DeployContractType;
 };
 
-type TransferTransactionData = {
+type TransferTransactionData = CommonTransactionData & {
   mode: TransactionMode.TRANSFER;
 };
 
 // FIXME Should this be merged with TransferTransactionData, just adding optional 'tokenId' to it?
-type TransferTokenTransactionData = {
+type TransferTokenTransactionData = CommonTransactionData & {
   mode: TransactionMode.TRANSFER_TOKEN;
   tokenId: string;
 };
 
-type StakeTransactionData = {
+type StakeTransactionData = CommonTransactionData & {
   mode: TransactionMode.STAKE;
   sourceValidatorAddress?: string; // cosmos "redelegate" use-case, if provided
   targetValidatorAddress: string;
 };
 
-type UnstakeTransactionData = {
+type UnstakeTransactionData = CommonTransactionData & {
   mode: TransactionMode.UNSTAKE;
   validatorAddress: string;
+  stakeId?: string;
 };
 
-type ClaimRewardsTransactionData = {
+type ClaimRewardsTransactionData = CommonTransactionData & {
   mode: TransactionMode.CLAIM_REWARDS;
   validatorAddress: string;
   compound?: boolean;
+  stakeId?: string;
 };
 
-type TransactionData = CommonTransactionData &
-  (
-    | DeployAccountTransactionData
-    | TransferTransactionData
-    | TransferTokenTransactionData
-    | StakeTransactionData
-    | UnstakeTransactionData
-    | ClaimRewardsTransactionData
-  );
+// NOTE Specific to babylon + bitcoin at the moment,
+// no need to make it more generic until there's another use-case
+type WithdrawTransactionData = CommonTransactionData & {
+  mode: TransactionMode.WITHDRAW;
+  senderPubKey: string; // Not optional for withdraw transactions
+  validatorAddress: string;
+  stakeId: string;
+};
+
+// NOTE Very specific to babylon + bitcoin at the moment,
+// no need to make it more generic until there's another use-case (if ever)
+type RegisterStakeTransactionData = CommonTransactionData & {
+  mode: TransactionMode.REGISTER_STAKE;
+  amount: bigint; // Not optional for register transactions
+  senderPubKey: string; // Not optional for register transactions
+  proofOfPossession: string;
+  validatorPubKey: string;
+  unsignedUnbondingTransaction: string;
+  signedStakingTransaction: string;
+  signedSlashingTransaction: string;
+  signedUnbondingSlashingTransaction: string;
+};
+
+type TransactionData =
+  | DeployAccountTransactionData
+  | TransferTransactionData
+  | TransferTokenTransactionData
+  | StakeTransactionData
+  | UnstakeTransactionData
+  | ClaimRewardsTransactionData
+  | WithdrawTransactionData
+  | RegisterStakeTransactionData;
 
 type Transaction = {
   data: TransactionData;
@@ -477,6 +505,7 @@ export type {
   FeaturesSet,
   FinalizedTransaction,
   Paginated,
+  RegisterStakeTransactionData,
   SignerSpec,
   StakingPosition,
   StakingReward,

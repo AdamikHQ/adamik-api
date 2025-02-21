@@ -101,6 +101,16 @@ async function prevalidateTransactionCommon(
         }
       }
       break;
+    case TransactionMode.WITHDRAW:
+      {
+        // TODO
+      }
+      break;
+    case TransactionMode.REGISTER_STAKE:
+      {
+        // TODO
+      }
+      break;
     default:
       // Ensure exhaustive check, both at compile time and runtime
       // https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks

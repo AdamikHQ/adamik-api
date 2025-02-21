@@ -1,0 +1,35 @@
+meta {
+  name: cosmoshub [stake]
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: cosmoshub
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "stake",
+        "senderAddress": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+        "targetValidatorAddress": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+        "amount": "10000",
+        "memo": "adamik-test-memo",
+        "format": "json"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  ~res.body.transaction.encoded: eq "{"account_number":"31094","chain_id":"cosmoshub-4","fee":{"amount":[{"amount":"2789","denom":"uatom"}],"gas":"111550"},"memo":"adamik-test-memo","msgs":[{"type":"cosmos-sdk/MsgSend","value":{"amount":[{"amount":"10000","denom":"uatom"}],"from_address":"cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl","to_address":"cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl"}}],"sequence":"158"}"
+}

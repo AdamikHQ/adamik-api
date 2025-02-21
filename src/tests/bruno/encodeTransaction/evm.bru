@@ -19,10 +19,9 @@ body:json {
     "transaction": {
       "data":   {
         "mode": "transfer",
+        "senderAddress": "0x12f7464C9Ff094098d3F1d987a7C0Ce958E1cC17",
         "recipientAddress": "0x8bc6922Eb94e4858efaF9F433c35Bc241F69e8a6",
-        "senderAddress": "0x8bc6922eb94e4858efaf9f433c35bc241f69e8a6",
-        "amount": "1000000000000000",
-        "useMaxAmount": false
+        "useMaxAmount": true
       }
     }
   }
@@ -30,5 +29,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.transaction.encoded: eq "0x02ee0102837704c08502d6b806cc825208948bc6922eb94e4858efaf9f433c35bc241f69e8a687038d7ea4c6800080c0"
+  res.body.transaction.encoded: eq 0x02ee0107837704c08502d6b806cc825208948bc6922eb94e4858efaf9f433c35bc241f69e8a68735923d4a4c57c280c0
 }

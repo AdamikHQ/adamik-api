@@ -1,5 +1,5 @@
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { isTaprootAddress, isValidAddress, isValidXpub } from "../logic";
+import { isValidAddress, isValidXpub } from "../logic";
 import { BitcoinService } from "../service";
 
 async function prevalidateTransaction(
@@ -37,14 +37,12 @@ async function prevalidateTransaction(
         });
       }
 
-      // TODO Validator address validation
-
-      if (isTaprootAddress(transaction.data.senderAddress) && !transaction.data.senderPubKey) {
-        status.errors.push({
-          message: "Public key of the sender address must be provided when it's a taproot address",
-        });
+      if (!transaction.data.senderPubKey) {
+        status.errors.push({ message: "Public key of the sender address must be provided" });
       }
       break;
+
+    // TODO Validator address validation
   }
 }
 
