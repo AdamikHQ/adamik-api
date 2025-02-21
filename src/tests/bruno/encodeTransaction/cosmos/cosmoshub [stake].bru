@@ -1,7 +1,7 @@
 meta {
-  name: cosmoshub
+  name: cosmoshub [stake]
   type: http
-  seq: 1
+  seq: 2
 }
 
 post {
@@ -18,9 +18,9 @@ body:json {
   {
     "transaction": {
       "data": {
-        "mode": "transfer",
+        "mode": "stake",
         "senderAddress": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
-        "recipientAddress": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+        "targetValidatorAddress": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
         "amount": "10000",
         "memo": "adamik-test-memo",
         "format": "json"

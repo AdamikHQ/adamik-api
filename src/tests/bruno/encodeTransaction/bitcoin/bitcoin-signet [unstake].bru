@@ -1,7 +1,7 @@
 meta {
-  name: bitcoin-signet [stake]
+  name: bitcoin-signet [unstake]
   type: http
-  seq: 7
+  seq: 9
 }
 
 post {
@@ -18,12 +18,11 @@ body:json {
   {
     "transaction": {
       "data": {
-        "mode": "stake",
+        "mode": "unstake",
         "senderAddress": "tb1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqsxh76tx",
         "senderPubKey": "02bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
-        "targetValidatorAddress": "d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76",
-        "amount": "1000",
-        "useMaxAmount": false
+        "validatorAddress": "d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76",
+        "stakeId": "52bfb146f0f8c8b98b0fa584056dfb75658b078aac04f3c5a641db9df297387b"
       }
     }
   }
