@@ -176,7 +176,9 @@ const inputParamsSchema = z.any().openapi({
 
 const outputParamsSchema = z.unknown().openapi({
   description:
-    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint.",
+    "Some additional chain-specific context computed by the API.\
+    If provided by the encode endpoint, it must be provided back as-is to the broadcast endpoint.\
+    Check chain-specific documentation about use-cases for this field.",
 });
 
 const validatorAddressSchema = z.string().openapi({
@@ -219,6 +221,11 @@ const signedStakingTransactionSchema = z.string().openapi({
 
 const signedSlashingTransactionSchema = z.string().openapi({
   description: "Signed slashing transaction on the foreign chain (hex).",
+});
+
+const unsignedUnbondingTransactionSchema = z.string().openapi({
+  description:
+    "Unsigned unbonding transaction on the foreign chain (as provided in the response of the encode request for the stake transaction).",
 });
 
 const signedUnbondingSlashingTransactionSchema = z.string().openapi({
@@ -433,6 +440,7 @@ const inputRegisterStakeSchema = z
     proofOfPossession: proofOfPossessionSchema,
     amount: inputStakedAmountSchema,
     validatorPubKey: validatorPubKeySchema,
+    unsignedUnbondingTransaction: unsignedUnbondingTransactionSchema,
     signedStakingTransaction: signedStakingTransactionSchema,
     signedSlashingTransaction: signedSlashingTransactionSchema,
     signedUnbondingSlashingTransaction: signedUnbondingSlashingTransactionSchema,
@@ -451,6 +459,7 @@ const outputRegisterStakeSchema = z
     amount: outputStakedAmountSchema,
     stakerPubKey: stakerForeignPubKeySchema,
     validatorPubKey: validatorPubKeySchema,
+    unsignedUnbondingTransaction: unsignedUnbondingTransactionSchema,
     signedStakingTransaction: signedStakingTransactionSchema,
     signedSlashingTransaction: signedSlashingTransactionSchema,
     signedUnbondingSlashingTransaction: signedUnbondingSlashingTransactionSchema,

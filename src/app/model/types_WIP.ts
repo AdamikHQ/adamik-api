@@ -396,6 +396,7 @@ type RegisterStakeTransactionData = CommonTransactionData & {
   senderPubKey: string; // Not optional for register transactions
   proofOfPossession: string;
   validatorPubKey: string;
+  unsignedUnbondingTransaction: string;
   signedStakingTransaction: string;
   signedSlashingTransaction: string;
   signedUnbondingSlashingTransaction: string;

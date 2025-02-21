@@ -6470,6 +6470,10 @@
                                     "type": "string",
                                     "description": "Validator's pubkey on the foreign chain. (hex)"
                                   },
+                                  "unsignedUnbondingTransaction": {
+                                    "type": "string",
+                                    "description": "Unsigned unbonding transaction on the foreign chain (as provided in the response of the encode request for the stake transaction)."
+                                  },
                                   "signedStakingTransaction": {
                                     "type": "string",
                                     "description": "Signed staking transaction on the foreign chain (hex)."
@@ -6490,6 +6494,7 @@
                                   "proofOfPossession",
                                   "amount",
                                   "validatorPubKey",
+                                  "unsignedUnbondingTransaction",
                                   "signedStakingTransaction",
                                   "signedSlashingTransaction",
                                   "signedUnbondingSlashingTransaction"
@@ -6643,7 +6648,7 @@
                                   "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                                 },
                                 "params": {
-                                  "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint."
+                                  "description": "Some additional chain-specific context computed by the API.    If provided by the encode endpoint, it must be provided back as-is to the broadcast endpoint.    Check chain-specific documentation about use-cases for this field."
                                 }
                               },
                               "required": [
@@ -6941,6 +6946,10 @@
                                       "type": "string",
                                       "description": "Validator's pubkey on the foreign chain. (hex)"
                                     },
+                                    "unsignedUnbondingTransaction": {
+                                      "type": "string",
+                                      "description": "Unsigned unbonding transaction on the foreign chain (as provided in the response of the encode request for the stake transaction)."
+                                    },
                                     "signedStakingTransaction": {
                                       "type": "string",
                                       "description": "Signed staking transaction on the foreign chain (hex)."
@@ -6962,6 +6971,7 @@
                                     "amount",
                                     "stakerPubKey",
                                     "validatorPubKey",
+                                    "unsignedUnbondingTransaction",
                                     "signedStakingTransaction",
                                     "signedSlashingTransaction",
                                     "signedUnbondingSlashingTransaction"
@@ -7445,6 +7455,10 @@
                                     "type": "string",
                                     "description": "Validator's pubkey on the foreign chain. (hex)"
                                   },
+                                  "unsignedUnbondingTransaction": {
+                                    "type": "string",
+                                    "description": "Unsigned unbonding transaction on the foreign chain (as provided in the response of the encode request for the stake transaction)."
+                                  },
                                   "signedStakingTransaction": {
                                     "type": "string",
                                     "description": "Signed staking transaction on the foreign chain (hex)."
@@ -7465,6 +7479,7 @@
                                   "proofOfPossession",
                                   "amount",
                                   "validatorPubKey",
+                                  "unsignedUnbondingTransaction",
                                   "signedStakingTransaction",
                                   "signedSlashingTransaction",
                                   "signedUnbondingSlashingTransaction"
@@ -8065,6 +8080,10 @@
                                     "type": "string",
                                     "description": "Validator's pubkey on the foreign chain. (hex)"
                                   },
+                                  "unsignedUnbondingTransaction": {
+                                    "type": "string",
+                                    "description": "Unsigned unbonding transaction on the foreign chain (as provided in the response of the encode request for the stake transaction)."
+                                  },
                                   "signedStakingTransaction": {
                                     "type": "string",
                                     "description": "Signed staking transaction on the foreign chain (hex)."
@@ -8085,6 +8104,7 @@
                                   "proofOfPossession",
                                   "amount",
                                   "validatorPubKey",
+                                  "unsignedUnbondingTransaction",
                                   "signedStakingTransaction",
                                   "signedSlashingTransaction",
                                   "signedUnbondingSlashingTransaction"
