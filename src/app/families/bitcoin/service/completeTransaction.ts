@@ -1,7 +1,9 @@
-import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
+import { ChainId, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
 import { fetchNetworkInfo } from "../backend/babylon";
-import { fetchTransactionRaw } from "../backend/mempoolSpace";
+import { fetchRawTransaction as fetchRawTransactionBlockchair } from "../backend/blockchair";
+import { fetchTransactionRaw as fetchTransactionRawMempoolSpace } from "../backend/mempoolSpace";
 import { getNetworkForChainId } from "../logic";
 import {
   buildSlashingPsbt,
@@ -67,6 +69,14 @@ async function completeTransaction(
         } = await buildStakingPsbt(this.chainId, transaction.data, stakingScripts, bitcoinNetworkInfo);
 
         // TODO Test these
+
+        const { transaction: unbondingTransaction, psbt: unbondingPsbt } = buildUnbondingPsbt(
+          stakingScripts,
+          stakingTransaction,
+          babylonNetworkInfo,
+          bitcoinNetworkInfo
+        );
+
         const { psbt: slashingPsbt } = buildSlashingPsbt(
           stakingScripts,
           stakingTransaction,
@@ -75,7 +85,7 @@ async function completeTransaction(
         );
         const { psbt: unbondingSlashingPsbt } = buildUnbondingSlashingPsbt(
           stakingScripts,
-          stakingTransaction,
+          unbondingTransaction,
           babylonNetworkInfo,
           bitcoinNetworkInfo
         );
@@ -85,6 +95,7 @@ async function completeTransaction(
         transaction.data.params = {
           stakingPsbt: stakingPsbt.toHex(),
           slashingPsbt: slashingPsbt.toHex(),
+          unbondingPsbt: unbondingPsbt.toHex(),
           unbondingSlashingPsbt: unbondingSlashingPsbt.toHex(),
         };
       }
@@ -102,8 +113,16 @@ async function completeTransaction(
       // When unstaking, the staking transaction was previously broadcasted and
       // should now be confirmed, so we retrieve it from the network
       // TODO Handle case where staking tx is not found
-      const stakingTransaction = await fetchTransactionRaw(this.chainId, transaction.data.stakeId);
+      const stakingTransaction =
+        this.chainId === ChainId.BITCOIN_SIGNET
+          ? await fetchTransactionRawMempoolSpace(this.chainId, transaction.data.stakeId)
+          : BitcoinTransaction.fromHex(
+              (await fetchRawTransactionBlockchair(this.chainId, transaction.data.stakeId)).raw_transaction
+            );
 
+      // FIXME Not good! Must be the same unbonding tx that was build during stake flow
+      // --> must be provided by the API ?
+      // --> can be retrieved through delegations ?...
       const { psbt: unbondingPsbt, fee: fees } = buildUnbondingPsbt(
         stakingScripts,
         stakingTransaction,

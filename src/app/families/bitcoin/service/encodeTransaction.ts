@@ -23,8 +23,13 @@ async function encodeTransactionToSign(
       break;
     case TransactionMode.STAKE:
       {
-        if (!params.stakingPsbt || !params.slashingPsbt || !params.unbondingSlashingPsbt) {
-          console.warn(`Missing psbt in transaction:`, transaction);
+        if (
+          !params.stakingPsbt ||
+          !params.unbondingPsbt ||
+          !params.slashingPsbt ||
+          !params.unbondingSlashingPsbt
+        ) {
+          console.warn(`Missing psbt(s) in transaction.params:`, transaction);
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
         transaction.encoded = params.stakingPsbt;

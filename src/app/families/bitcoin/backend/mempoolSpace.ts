@@ -26,13 +26,12 @@ async function fetchTransactionRaw(chainId: ChainId, transactionId: string): Pro
       `Error while fetching raw transaction with ID ${transactionId} from the explorer`
     );
   }
-
-  const result = await response.json();
-
   // TODO Error management
 
+  const result = await response.arrayBuffer();
+
   // TODO Test this
-  const data = Transaction.fromBuffer(result);
+  const data = Transaction.fromBuffer(Buffer.from(result));
 
   return data;
 }

@@ -176,9 +176,7 @@ const inputParamsSchema = z.any().openapi({
 
 const outputParamsSchema = z.unknown().openapi({
   description:
-    "Some additional chain-specific context computed by the API.\
-    If provided by the encode endpoint, it must be provided back as-is to the broadcast endpoint.\
-    Check chain-specific documentation about use-cases for this field.",
+    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back  as-is to the broadcast endpoint.",
 });
 
 const validatorAddressSchema = z.string().openapi({

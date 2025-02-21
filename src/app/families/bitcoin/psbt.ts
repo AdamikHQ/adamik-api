@@ -122,7 +122,11 @@ function buildStakingScripts(
   transactionData: TransactionData,
   babylonNetworkInfo: BabylonNetworkInfoV2
 ): StakingScripts {
-  if (transactionData.mode !== TransactionMode.STAKE && transactionData.mode !== TransactionMode.UNSTAKE) {
+  if (
+    transactionData.mode !== TransactionMode.STAKE &&
+    transactionData.mode !== TransactionMode.UNSTAKE &&
+    transactionData.mode !== TransactionMode.REGISTER_STAKE
+  ) {
     throw new UnsupportedFeatureError(
       `Unsupported transaction mode ${transactionData.mode} for chain bitcoin`
     );
@@ -138,7 +142,9 @@ function buildStakingScripts(
 
   // TODO Only 1 validator at the moment, we could support several
   const validatorAddress =
-    transactionData.mode === TransactionMode.STAKE
+    transactionData.mode === TransactionMode.REGISTER_STAKE
+      ? transactionData.validatorPubKey
+      : transactionData.mode === TransactionMode.STAKE
       ? transactionData.targetValidatorAddress
       : transactionData.validatorAddress;
   const finalityProviders: Buffer[] = [Buffer.from(validatorAddress, "hex")];
@@ -271,22 +277,26 @@ function buildSlashingPsbt(
       psbt,
       fee: babylonNetworkInfo.min_slashing_tx_fee_sat,
     };
-  } catch (error) {
+  } catch (error: any) {
     console.warn("/!\\ Failed to build bitcoin slashing psbt:", error);
-    throw new AdamikApiServerError(`Failed to build slashing psbt`);
+    if (error?.includes && error.includes("amount is less than dust limit")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
+    } else {
+      throw new AdamikApiServerError(`Failed to build slashing psbt`);
+    }
   }
 }
 
 function buildUnbondingSlashingPsbt(
   scripts: StakingScripts,
-  stakingTransaction: BitcoinTransaction,
+  unbondingTransaction: BitcoinTransaction,
   babylonNetworkInfo: BabylonNetworkInfoV2,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ): PsbtWithFee {
   try {
     const { psbt } = createSlashEarlyUnbondedTransaction(
       scripts,
-      stakingTransaction,
+      unbondingTransaction,
       babylonNetworkInfo.slashing_pk_script,
       Number(babylonNetworkInfo.slashing_rate),
       babylonNetworkInfo.min_slashing_tx_fee_sat,
@@ -296,9 +306,13 @@ function buildUnbondingSlashingPsbt(
       psbt,
       fee: babylonNetworkInfo.min_slashing_tx_fee_sat,
     };
-  } catch (error) {
+  } catch (error: any) {
     console.warn("/!\\ Failed to build bitcoin unbonding slashing psbt:", error);
-    throw new AdamikApiServerError(`Failed to build unbonding slashing psbt`);
+    if (error?.includes && error.includes("amount is less than dust limit")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
+    } else {
+      throw new AdamikApiServerError(`Failed to build slashing psbt`);
+    }
   }
 }
 
@@ -336,7 +350,7 @@ function buildUnbondingPsbt(
   stakingTransaction: BitcoinTransaction,
   babylonNetworkInfo: BabylonNetworkInfoV2,
   bitcoinNetworkInfo: BitcoinNetworkInfo
-): PsbtWithFee {
+): { transaction: BitcoinTransaction; psbt: Psbt; fee: number } {
   const { transaction: unbondingTransaction, fee: unbondingFee } = buildUnbondingTransaction(
     scripts,
     stakingTransaction,
@@ -352,6 +366,7 @@ function buildUnbondingPsbt(
   );
 
   return {
+    transaction: unbondingTransaction,
     psbt: unbondingPsbt,
     fee: unbondingFee,
   };
@@ -542,33 +557,33 @@ function buildBabylonRegistrationMessage(
   // NOTE Weak conversion here...
   const btcStakingAmountSat = Number(transactionData.amount);
 
-  const btcStakingTxHex = transactionData.signedStakingTransaction;
-  const btcSignedSlashingPsbtHex = transactionData.signedSlashingTransaction;
-  const btcSignedUnbondingSlashingPsbtHex = transactionData.signedUnbondingSlashingTransaction;
+  const btcStakingTransactionHex = transactionData.signedStakingTransaction;
+  const btcSignedSlashingTransactionHex = transactionData.signedSlashingTransaction;
+  const btcUnbondingPsbtHex = transactionData.unsignedUnbondingTransaction;
+  const btcSignedUnbondingSlashingTransactionHex = transactionData.signedUnbondingSlashingTransaction;
   const signedBbnAddress = transactionData.proofOfPossession;
 
   //////////////////// Prepare the data to build the cosmos message
 
-  const btcStakingTx = Psbt.fromHex(btcStakingTxHex).extractTransaction();
+  const btcStakingTransaction = BitcoinTransaction.fromHex(btcStakingTransactionHex);
 
-  const bitcoinNetworkInfo = getNetworkForChainId(chainId);
-  //const btcFeePerByte = await fetchFeePerByteMempoolSpace(chainId);
-  const stakingScripts = buildStakingScripts(transactionData, babylonNetworkInfo);
+  const btcSignedSlashingTransaction = BitcoinTransaction.fromHex(btcSignedSlashingTransactionHex);
 
-  const { transaction: btcUnbondingTx, fee: btcUnbondingFee } = buildUnbondingTransaction(
-    stakingScripts,
-    btcStakingTx,
-    babylonNetworkInfo,
-    bitcoinNetworkInfo
-  );
-
-  const btcSignedSlashingTx = Psbt.fromHex(btcSignedSlashingPsbtHex).extractTransaction();
-  const btcSlashingSignatures = extractSignatureFromTransaction(btcSignedSlashingTx);
+  const btcSlashingSignatures = extractSignatureFromTransaction(btcSignedSlashingTransaction);
   if (!btcSlashingSignatures) {
     throw new Error("No signature found in the staking output slashing PSBT");
   }
-  const btcSignedUnbondingSlashingTx = Psbt.fromHex(btcSignedUnbondingSlashingPsbtHex).extractTransaction();
-  const btcUnbondingSlashingSignatures = extractSignatureFromTransaction(btcSignedUnbondingSlashingTx);
+
+  // TODO Make sure this works
+  const btcUnbondingTransaction = Psbt.fromHex(btcUnbondingPsbtHex).data.getTransaction();
+
+  const btcSignedUnbondingSlashingTransaction = BitcoinTransaction.fromHex(
+    btcSignedUnbondingSlashingTransactionHex
+  );
+
+  const btcUnbondingSlashingSignatures = extractSignatureFromTransaction(
+    btcSignedUnbondingSlashingTransaction
+  );
   if (!btcUnbondingSlashingSignatures) {
     throw new Error("No signature found in the unbonding output slashing PSBT");
   }
@@ -589,14 +604,14 @@ function buildBabylonRegistrationMessage(
     fpBtcPkList: [Uint8Array.from(Buffer.from(btcFinalityProviderPubKeyNoCoordHex, "hex"))],
     stakingTime: BABYLON_STAKING_DURATION,
     stakingValue: btcStakingAmountSat,
-    stakingTx: Uint8Array.from(btcStakingTx.toBuffer()),
-    slashingTx: Uint8Array.from(Buffer.from(clearTxSignatures(btcSignedSlashingTx).toHex(), "hex")),
+    stakingTx: Uint8Array.from(btcStakingTransaction.toBuffer()),
+    slashingTx: Uint8Array.from(Buffer.from(clearTxSignatures(btcSignedSlashingTransaction).toHex(), "hex")),
     delegatorSlashingSig: Uint8Array.from(btcSlashingSignatures),
     unbondingTime: BABYLON_UNBONDING_TIME,
-    unbondingTx: Uint8Array.from(btcUnbondingTx.toBuffer()),
-    unbondingValue: btcStakingAmountSat - btcUnbondingFee,
+    unbondingTx: Uint8Array.from(btcUnbondingTransaction),
+    unbondingValue: btcStakingAmountSat - babylonNetworkInfo.unbonding_fee_sat,
     unbondingSlashingTx: Uint8Array.from(
-      Buffer.from(clearTxSignatures(btcSignedUnbondingSlashingTx).toHex(), "hex")
+      Buffer.from(clearTxSignatures(btcSignedUnbondingSlashingTransaction).toHex(), "hex")
     ),
     delegatorUnbondingSlashingSig: Uint8Array.from(btcUnbondingSlashingSignatures),
     // Inclusion proof is required in post-stake registration,
@@ -788,7 +803,7 @@ const validateUnbondingOutput = (
  * @returns {StakingOutput} - The staking output address and scriptPubKey.
  * @throws {StakingError} - If the staking output address cannot be derived.
  */
-export const deriveStakingOutputInfo = (
+const deriveStakingOutputInfo = (
   scripts: {
     timelockScript: Buffer;
     unbondingScript: Buffer;
@@ -870,7 +885,7 @@ const deriveUnbondingOutputInfo = (
  * @returns {number} - The output index.
  * @throws {Error} - If the matching output is not found.
  */
-export const findMatchingTxOutputIndex = (
+const findMatchingTxOutputIndex = (
   transaction: BitcoinTransaction,
   outputAddress: string,
   bitcoinNetworkInfo: BitcoinNetworkInfo
