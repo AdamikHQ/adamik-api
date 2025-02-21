@@ -1,5 +1,4 @@
 import { AminoMsg, makeSignDoc, serializeSignDoc, StdFee } from "@cosmjs/amino";
-import { Secp256k1Signature } from "@cosmjs/crypto";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { EncodeObject as ProtoMsg } from "@cosmjs/proto-signing";
 import {
@@ -472,7 +471,9 @@ function encodeToBroadcast(chainId: ChainId, account: CosmosAccount, signedTrans
   }
 
   const signature = isHex(signedTransaction.signature)
-    ? Buffer.from(Secp256k1Signature.fromDer(fromHex(signedTransaction.signature)).toFixedLength())
+    // For reference - specific formatting compliant with signatures from a Ledger device
+    //? Buffer.from(Secp256k1Signature.fromDer(fromHex(signedTransaction.signature)).toFixedLength())
+    ? Buffer.from(fromHex(signedTransaction.signature))
     : Buffer.from(fromBase64(signedTransaction.signature));
 
   const { protoMsgs } = buildMessages(chainId, transactionData);
