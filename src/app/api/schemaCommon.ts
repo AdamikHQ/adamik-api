@@ -190,12 +190,12 @@ const formatSchema = z.nativeEnum(EncodedTransactionFormat).openapi({
 
 const inputParamsSchema = z.any().openapi({
   description:
-    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back to the broadcast endpoint.",
+    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back as-is to the broadcast endpoint.",
 });
 
 const outputParamsSchema = z.unknown().openapi({
   description:
-    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back  as-is to the broadcast endpoint.",
+    "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back as-is to the broadcast endpoint.",
 });
 
 const validatorAddressSchema = z.string().openapi({
