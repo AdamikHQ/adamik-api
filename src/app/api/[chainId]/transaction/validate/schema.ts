@@ -5,10 +5,12 @@ import {
   getSupportedChainIdsSchema,
   inputClaimRewardsSchema,
   inputDeployAccountSchema,
+  inputRegisterStakeSchema,
   inputStakeSchema,
   inputTransferNativeSchema,
   inputTransferTokenSchema,
   inputUnstakeSchema,
+  inputWithdrawSchema,
   memoSchema,
   statusSchema,
 } from "~/app/api/schemaCommon";
@@ -41,6 +43,8 @@ const requestSchema = z.object({
           inputTransferTokenSchema,
           inputUnstakeSchema,
           inputClaimRewardsSchema,
+          inputWithdrawSchema,
+          inputRegisterStakeSchema,
         ])
       ),
   }),

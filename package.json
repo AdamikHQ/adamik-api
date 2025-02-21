@@ -18,11 +18,13 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@babylonlabs-io/btc-staking-ts": "^0.3.0",
+    "@babylonlabs-io/babylon-proto-ts": "0.0.3-canary.5",
+    "@babylonlabs-io/btc-staking-ts": "0.4.0-canary.13",
     "@bitcoinerlab/secp256k1": "^1.2.0",
     "@cosmjs/amino": "^0.32.4",
     "@cosmjs/crypto": "^0.32.4",
     "@cosmjs/encoding": "^0.32.4",
+    "@cosmjs/math": "^0.33.0",
     "@cosmjs/proto-signing": "^0.32.4",
     "@cosmjs/stargate": "^0.32.4",
     "@injectivelabs/sdk-ts": "^1.14.33",
@@ -36,6 +38,7 @@
     "bitcoinjs-lib": "6.1.5",
     "coinselect": "^3.1.13",
     "cosmjs-types": "^0.9.0",
+    "date-fns": "^4.1.0",
     "ethers": "^6.13.4",
     "moesif-nodejs": "^3.8.2",
     "next": "15.1.2",

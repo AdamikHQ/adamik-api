@@ -22,9 +22,9 @@ async function broadcastTransaction(this: BitcoinService, signedTransaction: str
     transactionToBroadcast = signedTransaction;
   }
 
-  return (await this.chainId) === ChainId.BITCOIN_SIGNET
-    ? postTransactionMempoolSpace(this.chainId, transactionToBroadcast)
-    : postTransactionBlockchair(this.chainId, transactionToBroadcast);
+  return this.chainId === ChainId.BITCOIN_SIGNET
+    ? await postTransactionMempoolSpace(this.chainId, transactionToBroadcast)
+    : await postTransactionBlockchair(this.chainId, transactionToBroadcast);
 }
 
 export { broadcastTransaction };

@@ -28,6 +28,8 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
         stake: false,
         unstake: false,
         claimRewards: false,
+        withdraw: false,
+        registerStake: false,
       },
       field: {
         memo: false,
@@ -59,6 +61,8 @@ const EVM_ROOTSTOCK_FEATURES: ChainSupportedFeatures = {
         stake: false,
         unstake: false,
         claimRewards: false,
+        withdraw: false,
+        registerStake: false,
       },
       field: {
         memo: false,

@@ -10,10 +10,12 @@ import {
   inputGasSchema,
   inputNonceSchema,
   inputParamsSchema,
+  inputRegisterStakeSchema,
   inputStakeSchema,
   inputTransferNativeSchema,
   inputTransferTokenSchema,
   inputUnstakeSchema,
+  inputWithdrawSchema,
   memoSchema,
   signatureSchema,
 } from "~/app/api/schemaCommon";
@@ -50,6 +52,8 @@ const requestSchema = z.object({
           inputTransferTokenSchema,
           inputUnstakeSchema,
           inputClaimRewardsSchema,
+          inputWithdrawSchema,
+          inputRegisterStakeSchema,
         ])
       ),
     encoded: encodedTransactionSchema,

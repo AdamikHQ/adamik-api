@@ -226,10 +226,10 @@ const BlockchairRawTransactionData = z.object({
         scriptPubKey: z.object({
           asm: z.string(),
           hex: z.string(),
-          address: z.string(),
+          address: z.string().optional(),
           type: z.string(),
-          addresses: z.string().array(),
-          reqSigs: z.number(),
+          addresses: z.string().array().optional(),
+          reqSigs: z.number().optional(),
         }),
       })
       .array(),

@@ -49,6 +49,7 @@ async function completeTransaction(
   const account = await fetchAccount(this.chainId, transaction.data.senderAddress);
   const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data);
 
+  // TODO Use delegation_creation_base_gas_fee for babylon's MsgCreateBTCDelegation message
   transaction.data.fees = gasWantedFees;
   transaction.data.gas = gasWanted;
 
@@ -75,10 +76,14 @@ async function completeTransaction(
     }
   }
 
-  const updatedAccount = resolvePubKey(this.chainId, account, transaction);
-
   transaction.data.nonce = account.sequence;
-  transaction.data.senderPubKey = updatedAccount.pubKey;
+
+  // Babylon use-case
+  // For this mode transactionData.senderPubKey is guaranteed and must not be changed
+  if (transaction.data.mode !== TransactionMode.REGISTER_STAKE) {
+    const { pubKey } = resolvePubKey(this.chainId, account, transaction.data);
+    transaction.data.senderPubKey = pubKey;
+  }
 }
 
 export { completeTransaction };

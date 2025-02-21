@@ -1,3 +1,4 @@
+import { Transaction } from "bitcoinjs-lib";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
@@ -9,6 +10,31 @@ import {
 } from "./mempoolSpace.types";
 
 // TODO Just a POC for now, need to improve error handling
+
+async function fetchTransactionRaw(chainId: ChainId, transactionId: string): Promise<Transaction> {
+  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const url = `${explorerURL}/tx/${transactionId}/raw`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new ThirdPartyProviderError(
+      `Error while fetching raw transaction with ID ${transactionId} from the explorer`
+    );
+  }
+  // TODO Error management
+
+  const result = await response.arrayBuffer();
+
+  // TODO Test this
+  const data = Transaction.fromBuffer(Buffer.from(result));
+
+  return data;
+}
 
 async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<MempoolSpaceUTXO[]> {
   const explorerURL = CHAINS[chainId].backends.explorerURL;
@@ -83,7 +109,7 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
 
   const data = mempoolSpaceFeesSchema.parse(result);
 
-  // NOTE Abritray choice of fee, maybe another one is better?
+  // NOTE Abritrary choice of fee, maybe another one is better?
   return data.economyFee;
 }
 
@@ -106,4 +132,4 @@ async function postTransaction(chainId: ChainId, payload: string): Promise<strin
   return txHash;
 }
 
-export { fetchAddressScriptPubKey, fetchAddressUtxos, fetchFeePerByte, postTransaction };
+export { fetchAddressScriptPubKey, fetchAddressUtxos, fetchFeePerByte, fetchTransactionRaw, postTransaction };
