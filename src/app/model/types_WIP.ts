@@ -2,6 +2,7 @@ import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
 import { StarknetTransactionParams } from "../families/starknet/types";
+import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
@@ -148,6 +149,31 @@ type Backends = {
   explorerURL?: string;
 };
 
+enum Curve {
+  SECP256K1 = "secp256k1",
+  ED25519 = "ed25519",
+  STARK = "stark",
+}
+
+enum HashFunction {
+  SHA256 = "sha256",
+  KECCAK256 = "keccak256",
+  SHA512_256 = "sha512_256",
+  PEDERSEN = "pedersen",
+}
+
+enum SignatureFormat {
+  RSV = "rsv",
+  RS = "rs",
+}
+
+type SignerSpec = {
+  curve: Curve;
+  hashFunction: HashFunction;
+  signatureFormat: SignatureFormat;
+  coinType: string;
+};
+
 type Chain = {
   family: ChainFamily;
   id: ChainId;
@@ -159,6 +185,7 @@ type Chain = {
   isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;
+  signerSpec: SignerSpec;
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
@@ -319,7 +346,11 @@ type FinalizedTransaction = {
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
-type TransactionParams = BitcoinTransactionParams | TronTransactionParams | StarknetTransactionParams;
+type TransactionParams =
+  | BitcoinTransactionParams
+  | TronTransactionParams
+  | StarknetTransactionParams
+  | TonTransactionParams;
 
 enum DeployContractType {
   ARGENTX = "argentx",
@@ -451,8 +482,11 @@ type Status = {
 export {
   ChainFamily,
   ChainId,
+  Curve,
   DeployContractType,
   EncodedTransactionFormat,
+  HashFunction,
+  SignatureFormat,
   StakingStatus,
   TokenType,
   TransactionMode,
@@ -472,6 +506,7 @@ export type {
   FinalizedTransaction,
   Paginated,
   RegisterStakeTransactionData,
+  SignerSpec,
   StakingPosition,
   StakingReward,
   Status,

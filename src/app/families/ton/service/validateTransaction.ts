@@ -1,4 +1,4 @@
-import { Status, Transaction } from "~/app/model/types_WIP";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { prevalidateTransactionCommon } from "../../common";
 import { isAddressValid } from "../logic";
 import { TonService } from "../service";
@@ -32,7 +32,18 @@ async function validateTransaction(
     status: Status;
   }
 ): Promise<void> {
-  // TODO
+  const { transaction, status } = _;
+
+  // TODO: More checks
+  if (
+    transaction.data.mode === TransactionMode.TRANSFER &&
+    transaction.data.nonce === 0n &&
+    !transaction.data.senderPubKey
+  ) {
+    status.errors.push({
+      message: `Field 'senderPubKey' is required when nonce is 0 in order to initialize the wallet`,
+    });
+  }
 }
 
 export { prevalidateTransaction, validateTransaction };

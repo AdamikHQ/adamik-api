@@ -15,8 +15,8 @@ async function isAddressValid(address: string): Promise<boolean> {
   }
 }
 
-async function computeFees(transaction: TransactionData) {
-  const builtTransaction = (await buildTransaction(transaction)).endCell();
+async function computeFees(transaction: TransactionData, timeout: number) {
+  const builtTransaction = (await buildTransaction(transaction, timeout)).endCell();
 
   let initData;
 
@@ -43,7 +43,7 @@ async function computeMaxSpendable(transaction: TransactionData) {
   return account?.balance || 0n;
 }
 
-async function buildTransaction(transaction: TransactionData) {
+async function buildTransaction(transaction: TransactionData, timeout: number) {
   // safe to cast as validation has already been done inside `completeTransaction`
   const amount = transaction.amount as bigint;
 
@@ -86,13 +86,17 @@ async function buildTransaction(transaction: TransactionData) {
       value: toJettonAddress ? toNano("0.1") : amount,
       to: toJettonAddress ?? transaction.recipientAddress,
       body: messageBody || transaction.memo,
-      bounce: true,
       init:
         transaction.nonce === BigInt(0) && transaction.senderPubKey
           ? initWalletV4(transaction.senderPubKey)
           : undefined,
     });
-    return createWalletTransferV4({ seqno: Number(transaction.nonce || 0), messages: [message] });
+
+    return createWalletTransferV4({
+      seqno: Number(transaction.nonce || 0),
+      messages: [message],
+      timeout,
+    });
   }
 }
 
@@ -102,11 +106,11 @@ function packSignatureToFront(signature: Buffer, signingMessage: Builder): Cell 
   return body;
 }
 
-function createExternalMessage(address: string, body: Cell, init?: { code: Cell; data: Cell }) {
+function createExternalMessage(address: Address, body: Cell, init?: { code: Cell; data: Cell }) {
   const externalMessage = external({
     to: address,
     body,
-    init,
+    init: init ?? null,
   });
 
   let boc = beginCell().store(storeMessage(externalMessage)).endCell().toBoc().toString("base64");

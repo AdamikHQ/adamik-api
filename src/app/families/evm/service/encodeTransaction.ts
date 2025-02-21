@@ -153,6 +153,9 @@ async function encodeTransactionToBroadcast(
     throw new UserInputError("Missing encoded transaction");
   }
 
+  if (!signedTransaction.signature.startsWith("0x")) {
+    signedTransaction.signature = `0x${signedTransaction.signature}`;
+  }
   // TODO: could be done with zod at route level?
   if (!isHexString(signedTransaction.signature)) {
     throw new UserInputError("Transaction signature must be in valid hex format");

@@ -1,5 +1,4 @@
 import { AminoMsg, StdFee, encodeSecp256k1Pubkey } from "@cosmjs/amino";
-import { Secp256k1Signature } from "@cosmjs/crypto";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { Int53 } from "@cosmjs/math";
 import {
@@ -578,7 +577,9 @@ async function encodeToBroadcast(
   }
 
   const signature = isHex(signedTransaction.signature)
-    ? Buffer.from(Secp256k1Signature.fromDer(fromHex(signedTransaction.signature)).toFixedLength())
+    ? // For reference - specific formatting compliant with signatures from a Ledger device
+      //? Buffer.from(Secp256k1Signature.fromDer(fromHex(signedTransaction.signature)).toFixedLength())
+      Buffer.from(fromHex(signedTransaction.signature))
     : Buffer.from(fromBase64(signedTransaction.signature));
 
   const { protoMsgs } = await buildMessages(chainId, transactionData);
