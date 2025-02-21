@@ -471,6 +471,8 @@ function encodeToBroadcast(chainId: ChainId, account: CosmosAccount, signedTrans
   }
 
   const signature = isHex(signedTransaction.signature)
+    // For reference - specific formatting compliant with signatures from a Ledger device
+    //? Buffer.from(Secp256k1Signature.fromDer(fromHex(signedTransaction.signature)).toFixedLength())
     ? Buffer.from(fromHex(signedTransaction.signature))
     : Buffer.from(fromBase64(signedTransaction.signature));
 
