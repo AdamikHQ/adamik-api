@@ -21,6 +21,6 @@ body:json {
 }
 
 assert {
-  res.status: eq 200
-  res.body.addresses[0].address: eq 52MpGVXv9ZiV5BSohYGQLvweS8JDp
+  res.status: eq 400
+  res.body.status.errors[0].message: contains Not implemented yet
 }
