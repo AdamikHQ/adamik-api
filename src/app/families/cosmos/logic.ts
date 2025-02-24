@@ -602,7 +602,8 @@ async function encodeToBroadcast(
     signature,
   });
 
-  return Buffer.from(txBytes).toString("hex");
+  // TODO "hex" for Amino, "base64" for Protobuf?
+  return Buffer.from(txBytes).toString("base64");
 }
 
 export {
