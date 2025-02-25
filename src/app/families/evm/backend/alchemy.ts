@@ -6,7 +6,6 @@ import {
   Token,
   TokenAmount,
   TokenType,
-  TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
 import { EvmAddress } from "~/app/families/evm/types";
@@ -144,9 +143,10 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
   if (token !== null) {
     return token;
   }
-  const response: AlchemyERC20Token | null = await sendRequest(chainId, "alchemy_getTokenMetadata", [
-    tokenId,
-  ]);
+  const response = await sendRequest(chainId, "alchemy_getTokenMetadata", [tokenId]);
+  if (response === null || response.error) {
+    throw new Error(response?.error?.message ?? `Can't find token metadata for ${tokenId}`);
+  }
 
   token = {
     type: TokenType.ERC20,

@@ -5,6 +5,7 @@ import {
   avalanche,
   base,
   baseSepolia,
+  berachainTestnetbArtio,
   bsc,
   bscTestnet,
   chiliz,
@@ -36,6 +37,7 @@ import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { chilizTestnet } from "../chains/chiliz-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
 import { monadTestnet } from "../chains/monad-testnet";
+import { berachain } from "../chains/berachain";
 import { EvmAddress, EvmChainParams } from "../types";
 import { TokenStore } from "~/app/tools/tokenStore";
 
@@ -63,6 +65,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: base, transport };
     case ChainId.BASE_SEPOLIA:
       return { chain: baseSepolia, transport };
+    case ChainId.BERACHAIN_ARTIO:
+      return { chain: berachainTestnetbArtio, transport };
     case ChainId.OPTIMISM:
       return { chain: optimism, transport };
     case ChainId.OPTIMISM_SEPOLIA:
@@ -111,6 +115,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: avalancheFujiTesnet, transport };
     case ChainId.MONAD_TESTNET:
       return { chain: monadTestnet, transport };
+    case ChainId.BERACHAIN:
+      return { chain: berachain, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }

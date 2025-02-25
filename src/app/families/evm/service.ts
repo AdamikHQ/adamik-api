@@ -16,6 +16,10 @@ import {
   prevalidateTransaction as prevalidateTransactionFn,
   validateTransaction as validateTransactionFn,
 } from "./service/validateTransaction";
+import { ProviderType } from "~/app/model/types_WIP";
+import { MoralisIndexer } from "~/app/families/evm/backend/moralis";
+import { AlchemyIndexer } from "~/app/families/evm/backend/alchemy";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 
 // TODO Make sure heavy functions aren't called multiple times / unnecessarily
 // (buildTransaction, network calls, etc...)
@@ -32,6 +36,16 @@ class EvmService extends BaseChainService implements TokenService {
   override encodeTransactionToSign = encodeTransactionToSignFn;
   override encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
   override broadcastTransaction = broadcastTransactionFn;
+
+  getIndexer() {
+    if (this.getBackend(ProviderType.moralis)) {
+      return MoralisIndexer;
+    }
+    if (this.getBackend(ProviderType.alchemy)) {
+      return AlchemyIndexer;
+    }
+    throw new UnsupportedFeatureError(`Unsupported feature Account History for chain ${this.chainId}`);
+  }
 
   getAccountTokens = getAccountTokensFn;
   getTokenInfo = getTokenInfoFn;

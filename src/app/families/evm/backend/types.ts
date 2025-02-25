@@ -1,5 +1,6 @@
 import { EvmAddress, HexString } from "../types";
 import { ChainId, FinalizedTransaction, Token, TokenAmount } from "~/app/model/types_WIP";
+import { num } from "starknet";
 
 type EtherscanERC20Event = {
   contractAddress: EvmAddress;
@@ -247,6 +248,15 @@ type AlchemyERC20Token = {
   symbol: string;
 };
 
+type AlchemyJSONRPCError = {
+  jsonrpc: "2.0";
+  id: number;
+  error: {
+    code: number;
+    message: string;
+  };
+};
+
 type AlchemyBalanceRequest = {
   address: EvmAddress;
   tokenBalances: AlchemyERC20TokenBalance[];
@@ -383,6 +393,7 @@ export type {
   AlchemyTransactionWithReceipt,
   AlchemyTransfer,
   AlchemyBlock,
+  AlchemyJSONRPCError,
   EvmIndexer,
   RawEvmTransaction,
 };

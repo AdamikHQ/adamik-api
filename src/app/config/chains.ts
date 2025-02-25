@@ -2166,6 +2166,45 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: EVM_FEATURES(ChainId.MONAD_TESTNET),
     isTestnetFor: "monad",
   },
+  berachain: {
+    id: ChainId.BERACHAIN,
+    name: "Berachain",
+    family: ChainFamily.EVM,
+    nativeId: "80094",
+    ticker: "BERA",
+    decimals: 18,
+    backends: [
+      {
+        providerType: ProviderType.node,
+        url: "https://rpc.berachain.com/",
+      },
+      {
+        providerType: ProviderType.alchemy,
+        url: "https://berachain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN),
+  },
+  "berachain-artio": {
+    id: ChainId.BERACHAIN_ARTIO,
+    name: "Berachain Artio",
+    family: ChainFamily.EVM,
+    nativeId: "80084",
+    ticker: "BERA",
+    decimals: 18,
+    backends: [
+      {
+        providerType: ProviderType.node,
+        url: "https://bartio.rpc.berachain.com",
+      },
+      {
+        providerType: ProviderType.alchemy,
+        url: "https://berachain-bartio.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN_ARTIO),
+    isTestnetFor: ChainId.BERACHAIN,
+  },
 } as const;
 
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {

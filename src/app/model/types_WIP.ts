@@ -98,6 +98,9 @@ enum ChainId {
   // SOL = "sol",
   // NEAR = "near",
   // ALEPH = "aleph",
+
+  BERACHAIN = "berachain",
+  BERACHAIN_ARTIO = "berachain-artio",
 }
 
 enum ChainFamily {
