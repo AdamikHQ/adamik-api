@@ -394,7 +394,7 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
       `/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`,
       await response.text()
     );
-    throw new ThirdPartyProviderError(`Error while fetching ${chainId} validators from the node`);
+    throw new ThirdPartyProviderError(`Error while simulating transaction on the node for ${chainId}`);
   }
 
   const data = await response.json();
@@ -421,7 +421,7 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
       `/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`,
       await response.text()
     );
-    throw new ThirdPartyProviderError(`Error while fetching ${chainId} validators from the node`);
+    throw new ThirdPartyProviderError(`Broadcast on ${chainId} node failed`);
   }
 
   const data = await response.json();
