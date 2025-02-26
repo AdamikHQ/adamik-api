@@ -488,7 +488,7 @@ function buildBroadcastPayload({
           },
           modeInfo: {
             single: {
-              mode: SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
+              mode: SignMode.SIGN_MODE_DIRECT,
             },
             multi: undefined,
           },
