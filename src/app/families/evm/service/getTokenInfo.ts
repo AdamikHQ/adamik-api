@@ -8,7 +8,7 @@ async function getTokenInfo(this: EvmService, tokenId: string): Promise<Token> {
   const contractAddress = tokenId as EvmAddress;
   try {
     const indexer = this.getIndexer();
-    return indexer.fetchERC20Token(this.chainId, contractAddress);
+    return await indexer.fetchERC20Token(this.chainId, contractAddress);
   } catch {
     // Node implementation - poor performance
     const node = this.getBackend(ProviderType.node);

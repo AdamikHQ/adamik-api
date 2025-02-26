@@ -12,7 +12,6 @@ import { EvmAddress } from "~/app/families/evm/types";
 import {
   AlchemyBalanceRequest,
   AlchemyBlock,
-  AlchemyERC20Token,
   AlchemyERC20TokenBalance,
   AlchemyPaginatedRequest,
   AlchemyTransaction,
@@ -45,16 +44,18 @@ const CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.GNOSIS, "gnosis-mainnet"],
   [ChainId.GNOSIS_CHIADO, "gnosis-chiado"],
   [ChainId.MONAD_TESTNET, "monad-testnet"],
+  [ChainId.BERACHAIN, "berachain"],
+  [ChainId.BERACHAIN_ARTIO, "berachain-bartio"],
 ]);
 
-function sendRequest(chainId: ChainId, method: string, params: any[]) {
+async function sendRequest(chainId: ChainId, method: string, params: any[]) {
   const explorer = CHAINS[chainId].backends.find((b: Backend) => b.providerType === ProviderType.alchemy);
   if (!explorer) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Alchemy API`);
-    return Promise.resolve(null);
+    return null;
   }
 
-  return fetch(explorer.url, {
+  const res = await fetch(explorer.url, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -66,9 +67,13 @@ function sendRequest(chainId: ChainId, method: string, params: any[]) {
       method,
       params,
     }),
-  })
-    .then((res) => res.json())
-    .then((response) => response.result);
+  });
+  const response = await res.json();
+  if (response.error) {
+    console.warn(`/!\\ Alchemy request failed: ${response.error.message}`);
+    throw new Error("Request failed");
+  }
+  return response.result;
 }
 
 // Version that only fetches one single page, depending on the provided paginationToken
