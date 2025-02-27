@@ -569,10 +569,12 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.BITCOIN,
     ticker: "sBTC",
     decimals: 8,
-    backends: {
-      nodeURL: "",
-      explorerURL: "https://mempool.space/signet/api",
-    },
+    backends: [
+      {
+        providerType: ProviderType.indexer,
+        url: "https://mempool.space/signet/api",
+      },
+    ],
     isTestnetFor: ChainId.BITCOIN,
     params: {
       confirmations: 6,
@@ -2131,10 +2133,12 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Babylon Testnet",
     ticker: "BABY",
     decimals: 6,
-    backends: {
-      nodeURL: "https://babylon-testnet-api.polkachu.com",
-      //nodeURL: "https://babylon-testnet-api.nodes.guru", // Backup
-    },
+    backends: [
+      {
+        providerType: ProviderType.node,
+        url: "https://babylon-testnet-api.polkachu.com",
+      },
+    ],
     params: {
       prefix: "bbn",
       validatorPrefix: "bbnvaloper",
@@ -2165,6 +2169,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ],
     supportedFeatures: EVM_FEATURES(ChainId.MONAD_TESTNET),
     isTestnetFor: "monad",
+    signerSpec: getSignerSpecForChain(ChainId.MONAD_TESTNET, ChainFamily.EVM),
   },
   berachain: {
     id: ChainId.BERACHAIN,
@@ -2184,6 +2189,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN),
+    signerSpec: getSignerSpecForChain(ChainId.BERACHAIN, ChainFamily.EVM),
   },
   "berachain-artio": {
     id: ChainId.BERACHAIN_ARTIO,
@@ -2204,6 +2210,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ],
     supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN_ARTIO),
     isTestnetFor: ChainId.BERACHAIN,
+    signerSpec: getSignerSpecForChain(ChainId.BERACHAIN_ARTIO, ChainFamily.EVM),
   },
 } as const;
 
