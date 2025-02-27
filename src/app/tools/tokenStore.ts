@@ -1,4 +1,3 @@
-import { setTimeout } from "node:timers/promises";
 import { createClient } from "redis";
 import { env } from "~/env";
 import { ChainId, Token, TokenType } from "~/app/model/types_WIP";
