@@ -1,6 +1,7 @@
-import { CHAINS } from "../app/config/chains";
 import fs from "fs";
 import path from "path";
+import "dotenv/config";
+import { CHAINS } from "../app/config/chains";
 
 function generateProvidersMarkdown() {
   const chains = Object.entries(CHAINS);

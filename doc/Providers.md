@@ -408,7 +408,7 @@
 ## starknet
 
 | node | https://starknet-mainnet.public.blastapi.io/rpc/v0_7 |<br />
-| starkscan | https://api.starkscan.co |
+| indexer | https://api.starkscan.co |
 
 ## babylon-testnet
 

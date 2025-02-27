@@ -4620,6 +4620,9 @@
                 "ethereum",
                 "sepolia",
                 "holesky",
+                "zksync",
+                "zksync-sepolia",
+                "injective-evm-testnet",
                 "base",
                 "base-sepolia",
                 "optimism",
@@ -4641,6 +4644,8 @@
                 "moonbase",
                 "fantom",
                 "ton",
+                "chiliz",
+                "chiliz-testnet",
                 "injective",
                 "akash",
                 "band",
@@ -5005,9 +5010,7 @@
                 "stride",
                 "kava",
                 "starknet",
-                "monad-testnet",
-                "berachain",
-                "berachain-artio"
+                "monad-testnet"
               ]
             },
             "required": true
@@ -5974,9 +5977,7 @@
                 "kava",
                 "starknet",
                 "babylon-testnet",
-                "monad-testnet",
-                "berachain",
-                "berachain-artio"
+                "monad-testnet"
               ]
             },
             "required": true
@@ -6083,9 +6084,7 @@
                         "kava",
                         "starknet",
                         "babylon-testnet",
-                        "monad-testnet",
-                        "berachain",
-                        "berachain-artio"
+                        "monad-testnet"
                       ]
                     },
                     "accountId": {
@@ -6234,9 +6233,7 @@
                 "stride",
                 "kava",
                 "starknet",
-                "monad-testnet",
-                "berachain",
-                "berachain-artio"
+                "monad-testnet"
               ]
             },
             "required": true
@@ -6319,9 +6316,7 @@
                         "stride",
                         "kava",
                         "starknet",
-                        "monad-testnet",
-                        "berachain",
-                        "berachain-artio"
+                        "monad-testnet"
                       ]
                     },
                     "accountId": {

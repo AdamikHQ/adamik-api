@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import "dotenv/config";
+
 import { generateOpenAPISpec } from "~/app/tools/openapi";
 
 const dir = path.join(__dirname, "../../public");

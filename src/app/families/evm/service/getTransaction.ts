@@ -9,7 +9,6 @@ async function getTransaction(
 ): Promise<FinalizedTransaction> {
   const indexer = this.getIndexer();
   if (!indexer) {
-    const node = this.getBackend(ProviderType.node);
     throw new UnsupportedFeatureError(`Unsupported feature Transaction for chain ${this.chainId}`);
   }
   const evmTransaction = await indexer.fetchTransaction(this.chainId, transactionId);
