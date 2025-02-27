@@ -1,3 +1,4 @@
+import { setTimeout } from "node:timers/promises";
 import { createClient } from "redis";
 import { env } from "~/env";
 import { ChainId, Token, TokenType } from "~/app/model/types_WIP";
@@ -44,7 +45,7 @@ export class TokenStore {
 
   static async connect(): Promise<void> {
     if (!TokenStore.client.isReady) {
-      await TokenStore.client.connect();
+      await TokenStore.client.connect().catch(() => null);
     }
   }
 
