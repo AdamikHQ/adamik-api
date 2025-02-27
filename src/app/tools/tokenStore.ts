@@ -44,7 +44,7 @@ export class TokenStore {
 
   static async connect(): Promise<void> {
     if (!TokenStore.client.isReady) {
-      await TokenStore.client.connect().catch(() => null);
+      await TokenStore.client.connect();
     }
   }
 
