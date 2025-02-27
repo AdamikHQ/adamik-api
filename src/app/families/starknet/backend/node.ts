@@ -26,9 +26,11 @@ const fetchTokenInfo = async (tokenId: string) => {
 
   const tokenInfo = new Contract(token.abi, tokenId, provider);
 
-  const name = await tokenInfo.name();
-  const symbol = await tokenInfo.symbol();
-  const decimals = await tokenInfo.decimals();
+  const [name, symbol, decimals] = await Promise.all([
+    tokenInfo.name(),
+    tokenInfo.symbol(),
+    tokenInfo.decimals(),
+  ]);
 
   return {
     id: tokenId,

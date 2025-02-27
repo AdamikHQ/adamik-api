@@ -19,6 +19,7 @@ import { Backend, ProviderType } from "~/app/model/types_WIP";
 
 const ROOT_URL = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.indexer)?.url;
 
+const nodeUrl = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
 async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any) {
   const response = await fetch(url, {
     method,
@@ -85,7 +86,7 @@ const starkScanToAdamikTransaction = async (
   }
 
   const provider = new Provider({
-    nodeUrl: CHAINS.starknet.backends.nodeURL,
+    nodeUrl,
   });
 
   if (transaction.transaction_type === "DEPLOY_ACCOUNT") {
@@ -125,13 +126,16 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 
 async function getTransactionHistorySymbols(transactions: TransactionHistory[]) {
   const provider = new Provider({
-    nodeUrl: CHAINS.starknet.backends.nodeURL,
+    nodeUrl,
   });
 
   const symbolsAddresses = Object.entries(
-    transactions.reduce((acc, transaction) => {
-      return { ...acc, [transaction.from_address]: transaction.from_address };
-    }, {} as Record<string, string>)
+    transactions.reduce(
+      (acc, transaction) => {
+        return { ...acc, [transaction.from_address]: transaction.from_address };
+      },
+      {} as Record<string, string>
+    )
   ).map(([symbolAddress]) => symbolAddress);
 
   const symbols = await Promise.all(
