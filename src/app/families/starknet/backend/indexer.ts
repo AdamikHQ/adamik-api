@@ -18,8 +18,8 @@ import {
 import { Backend, ProviderType } from "~/app/model/types_WIP";
 
 const ROOT_URL = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.indexer)?.url;
-
 const nodeUrl = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
+
 async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any) {
   const response = await fetch(url, {
     method,

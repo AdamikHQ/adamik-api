@@ -8,7 +8,7 @@ const anySupport = (chainId: ChainId): boolean => moralisSupport(chainId) || alc
 
 const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
   read: {
-    token: anySupport(chainId),
+    token: true,
     validators: false,
     account: {
       balances: { native: true, tokens: anySupport(chainId), staking: false },

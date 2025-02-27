@@ -1273,7 +1273,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/stargaze/chain.json
     signerSpec: getSignerSpecForChain(ChainId.STARGAZE, ChainFamily.COSMOS),
   },
-
   tron: {
     family: ChainFamily.TRON,
     id: ChainId.TRON,
@@ -1294,7 +1293,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: TRON_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.TRON, ChainFamily.TRON),
   },
-
   evmos: {
     family: ChainFamily.COSMOS,
     id: ChainId.EVMOS,
@@ -2096,7 +2094,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         url: "https://starknet-mainnet.public.blastapi.io/rpc/v0_7", //FIXME: Find a better node
       },
       {
-        providerType: ProviderType.starkscan,
+        providerType: ProviderType.indexer,
         url: "https://api.starkscan.co",
       },
     ],

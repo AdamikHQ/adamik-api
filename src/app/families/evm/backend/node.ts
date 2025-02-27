@@ -32,7 +32,15 @@ import {
 } from "viem/chains";
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
-import { Backend, ChainId, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
+import {
+  Backend,
+  ChainId,
+  FinalizedTransaction,
+  ProviderType,
+  Token,
+  TokenType,
+  TransactionMode,
+} from "~/app/model/types_WIP";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { chilizTestnet } from "../chains/chiliz-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
@@ -297,27 +305,24 @@ async function fetchNonce(chainId: ChainId, address: EvmAddress): Promise<number
   return await getClient(chainId).getTransactionCount({ address });
 }
 
-// NOTE Unused at the moment, transactions are retrived via the explorer
-/*
-async function fetchTransaction(chainId: ChainId, transactionHash: string): Promise<Transaction | null> {
-  try {
-    return await getClient(chainId).getTransaction({ hash: transactionHash });
-  } catch {
-    return null;
-  }
-}
-
-async function fetchTransactionReceipt(
-  chainId: ChainId,
-  transactionHash: string
-): Promise<TransactionReceipt | null> {
-  try {
-    return await getClient(chainId).getTransactionReceipt({ hash: transactionHash });
-  } catch {
-    return null;
-  }
-}
-*/
+// TODO: Node implementation for fetching transactions
+// async function fetchTransaction(chainId: ChainId, transactionHash: string): Promise<FinalizedTransaction | null> {
+//   try {
+//     const [basic, receipt] = await Promise.all([
+//       getClient(chainId).getTransaction({ hash: transactionHash }),
+//       getClient(chainId).getTransactionReceipt({ hash: transactionHash }),
+//     ]);
+//     return {
+//       raw: basic,
+//       parsed: {
+//         id: basic.hash,
+//         mode: TransactionMode.
+//       }
+//     }
+//   } catch {
+//     return null;
+//   }
+// }
 
 async function broadcast(chainId: ChainId, signedTransaction: string) {
   return await getClient(chainId).sendRawTransaction({ serializedTransaction: signedTransaction });

@@ -159,7 +159,6 @@ export enum ProviderType {
   moralis = "moralis",
   tonapi = "tonapi",
   tronscan = "tronscan",
-  starkscan = "starkscan",
 }
 
 type Backend = {

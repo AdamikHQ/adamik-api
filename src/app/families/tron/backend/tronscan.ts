@@ -12,7 +12,7 @@ const RETRY_DELAY = 500;
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const explorerURL = CHAINS.ton.backends.find((b: Backend) => b.providerType === ProviderType.tonapi)?.url;
+const explorerURL = CHAINS.tron.backends.find((b: Backend) => b.providerType === ProviderType.tronscan)?.url;
 //FIXME: this is a temporary solution to handle the fetch failed error from tronscan
 //TODO: remove this once tronscan is fixed
 async function fetchWithRetry<T>(url: string, retryCount = 0): Promise<T> {
