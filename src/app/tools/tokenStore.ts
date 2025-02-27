@@ -57,6 +57,9 @@ export class TokenStore {
   }
 
   static async save(chainId: ChainId, tokens: Array<Token | null>): Promise<void> {
+    if (env.TEST_ENV === "true") {
+      return;
+    }
     await TokenStore.connect();
     await Promise.all(
       tokens.map(async (token) => {
@@ -75,6 +78,9 @@ export class TokenStore {
   }
 
   static async load(chainId: ChainId, tokenIds: Array<string>): Promise<Array<Token | null>> {
+    if (env.TEST_ENV === "true") {
+      return tokenIds.map(() => null);
+    }
     await TokenStore.connect();
     const tokens = await Promise.all(
       tokenIds.map(async (id) => {
