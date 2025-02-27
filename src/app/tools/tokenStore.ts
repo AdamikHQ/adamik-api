@@ -43,9 +43,17 @@ export class TokenStore {
   static mapping: { [key in ChainId]?: Record<string, Token> } = {};
 
   static async connect(): Promise<void> {
+    if (TokenStore.client.isOpen) {
+      console.log("Redis is already open");
+      return;
+    }
+
     if (!TokenStore.client.isReady) {
       await TokenStore.client.connect();
+      return;
     }
+
+    throw new Error("Failed to connect to Redis");
   }
 
   static async save(chainId: ChainId, tokens: Array<Token | null>): Promise<void> {
