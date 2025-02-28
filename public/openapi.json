@@ -4491,6 +4491,108 @@
                             "supportedFeatures",
                             "signerSpec"
                           ]
+                        },
+                        "cronos": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
+                        },
+                        "world-chain": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
                         }
                       },
                       "additionalProperties": false
@@ -4686,7 +4788,9 @@
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
-                "berachain-artio"
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -5010,7 +5114,9 @@
                 "stride",
                 "kava",
                 "starknet",
-                "monad-testnet"
+                "monad-testnet",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -5517,7 +5623,9 @@
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
-                "berachain-artio"
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -5640,7 +5748,9 @@
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
-                        "berachain-artio"
+                        "berachain-artio",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "accountId": {
@@ -5977,7 +6087,9 @@
                 "kava",
                 "starknet",
                 "babylon-testnet",
-                "monad-testnet"
+                "monad-testnet",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -6084,7 +6196,9 @@
                         "kava",
                         "starknet",
                         "babylon-testnet",
-                        "monad-testnet"
+                        "monad-testnet",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "accountId": {
@@ -6233,7 +6347,9 @@
                 "stride",
                 "kava",
                 "starknet",
-                "monad-testnet"
+                "monad-testnet",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -6316,7 +6432,9 @@
                         "stride",
                         "kava",
                         "starknet",
-                        "monad-testnet"
+                        "monad-testnet",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "accountId": {
@@ -6636,7 +6754,9 @@
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
-                "berachain-artio"
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -7097,7 +7217,9 @@
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
-                        "berachain-artio"
+                        "berachain-artio",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "transaction": {
@@ -7625,7 +7747,9 @@
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
-                "berachain-artio"
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -8086,7 +8210,9 @@
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
-                        "berachain-artio"
+                        "berachain-artio",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "status": {
@@ -8236,7 +8362,9 @@
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
-                "berachain-artio"
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -8723,7 +8851,9 @@
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
-                        "berachain-artio"
+                        "berachain-artio",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "hash": {
@@ -8838,7 +8968,9 @@
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
-                "berachain-artio"
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -8956,7 +9088,9 @@
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
-                        "berachain-artio"
+                        "berachain-artio",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "hash": {
@@ -9072,7 +9206,9 @@
           "injective",
           "babylon-testnet",
           "berachain",
-          "berachain-artio"
+          "berachain-artio",
+          "cronos",
+          "world-chain"
         ],
         "description": "Unique adamik identifier of the chain",
         "example": "bitcoin"

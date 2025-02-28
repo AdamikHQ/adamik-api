@@ -56,6 +56,7 @@ const CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.FANTOM, "fantom"],
   //Mantle may not be supported yet (marked as coming soon by Moralis)
   //[ChainId.MANTLE, "mantle"],
+  [ChainId.CRONOS, "cronos"],
 ]);
 
 async function fetchWithHeaders(url: string, options: RequestInit = {}) {

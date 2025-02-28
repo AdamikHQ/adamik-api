@@ -280,6 +280,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
         providerType: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
+      {
+        providerType: ProviderType.alchemy,
+        url: "https://eth-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.ETHEREUM),
     signerSpec: getSignerSpecForChain(ChainId.ETHEREUM, ChainFamily.EVM),
@@ -2209,6 +2213,46 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN_ARTIO),
     isTestnetFor: ChainId.BERACHAIN,
     signerSpec: getSignerSpecForChain(ChainId.BERACHAIN_ARTIO, ChainFamily.EVM),
+  },
+  cronos: {
+    id: ChainId.CRONOS,
+    name: "CRONOS",
+    family: ChainFamily.EVM,
+    nativeId: "25",
+    ticker: "CRO",
+    decimals: 18,
+    backends: [
+      {
+        providerType: ProviderType.node,
+        url: "https://evm.cronos.org",
+      },
+      {
+        providerType: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.CRONOS),
+    signerSpec: getSignerSpecForChain(ChainId.CRONOS, ChainFamily.EVM),
+  },
+  "world-chain": {
+    id: ChainId.WORLD_CHAIN,
+    name: "Worldchain",
+    family: ChainFamily.EVM,
+    nativeId: "480",
+    ticker: "WLD",
+    decimals: 18,
+    backends: [
+      {
+        providerType: ProviderType.node,
+        url: "https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
+      {
+        providerType: ProviderType.alchemy,
+        url: "https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN),
+    signerSpec: getSignerSpecForChain(ChainId.WORLD_CHAIN, ChainFamily.EVM),
   },
 } as const;
 

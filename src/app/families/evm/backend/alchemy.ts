@@ -44,6 +44,7 @@ const CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.GNOSIS, "gnosis-mainnet"],
   [ChainId.GNOSIS_CHIADO, "gnosis-chiado"],
   [ChainId.MONAD_TESTNET, "monad-testnet"],
+  [ChainId.WORLD_CHAIN, "world-chain"],
 ]);
 
 async function sendRequest(chainId: ChainId, method: string, params: any[]) {

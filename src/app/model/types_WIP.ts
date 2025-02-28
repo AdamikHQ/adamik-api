@@ -101,6 +101,8 @@ enum ChainId {
 
   BERACHAIN = "berachain",
   BERACHAIN_ARTIO = "berachain-artio",
+  CRONOS = "cronos",
+  WORLD_CHAIN = "world-chain",
 }
 
 enum ChainFamily {

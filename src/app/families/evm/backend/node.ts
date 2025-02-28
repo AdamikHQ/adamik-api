@@ -29,6 +29,8 @@ import {
   sepolia,
   zksync,
   zksyncSepoliaTestnet,
+  cronos,
+  worldchain,
 } from "viem/chains";
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
@@ -125,6 +127,10 @@ function getClientConfig(chainId: ChainId) {
       return { chain: monadTestnet, transport };
     case ChainId.BERACHAIN:
       return { chain: berachain, transport };
+    case ChainId.CRONOS:
+      return { chain: cronos, transport };
+    case ChainId.WORLD_CHAIN:
+      return { chain: worldchain, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }

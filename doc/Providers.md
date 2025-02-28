@@ -48,7 +48,8 @@
 ## ethereum
 
 | node | https://site1.moralis-nodes.com/eth/edd8151f3c634ee2a808f34c47c7ad70 |<br />
-| moralis | https://deep-index.moralis.io/api |
+| moralis | https://deep-index.moralis.io/api |<br />
+| alchemy | https://eth-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
 
 ## sepolia
 
@@ -428,3 +429,13 @@
 
 | node | https://bartio.rpc.berachain.com |<br />
 | alchemy | https://berachain-bartio.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
+
+## cronos
+
+| node | https://evm.cronos.org |<br />
+| moralis | https://deep-index.moralis.io/api |
+
+## world-chain
+
+| node | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |<br />
+| alchemy | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |

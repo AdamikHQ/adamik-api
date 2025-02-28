@@ -44,7 +44,7 @@ class EvmService extends BaseChainService implements TokenService {
     if (this.getBackend(ProviderType.alchemy)) {
       return AlchemyIndexer;
     }
-    throw new UnsupportedFeatureError(`Unsupported feature Account History for chain ${this.chainId}`);
+    throw new UnsupportedFeatureError(`Unsupported feature for chain ${this.chainId}`);
   }
 
   getAccountTokens = getAccountTokensFn;
