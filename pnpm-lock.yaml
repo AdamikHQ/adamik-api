@@ -1,7 +1,7 @@
 lockfileVersion: '9.0'
 
 settings:
-  autoInstallPeers: true
+  autoInstallPeers: false
   excludeLinksFromLockfile: false
 
 patchedDependencies:
@@ -42,19 +42,19 @@ importers:
         version: 0.32.4
       '@injectivelabs/sdk-ts':
         specifier: ^1.14.33
-        version: 1.14.33(@types/react@18.3.3)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 1.14.33
       '@t3-oss/env-nextjs':
         specifier: ^0.11.1
         version: 0.11.1(typescript@5.7.2)(zod@3.24.1)
       '@ton-api/client':
         specifier: ^0.3.0
-        version: 0.3.0(@ton/core@0.59.1(@ton/crypto@3.3.0))
+        version: 0.3.0(@ton/core@0.59.1)
       '@ton/core':
         specifier: ^0.59.1
-        version: 0.59.1(@ton/crypto@3.3.0)
+        version: 0.59.1
       '@ton/ton':
         specifier: ^15.1.0
-        version: 15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)
+        version: 15.1.0(@ton/core@0.59.1)
       algosdk:
         specifier: ^3.0.0
         version: 3.0.0
@@ -84,7 +84,7 @@ importers:
         version: 3.8.2
       next:
         specifier: 15.1.2
-        version: 15.1.2(@babel/core@7.23.6)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 15.1.2(@babel/core@7.23.6)
       redis:
         specifier: ^4.7.0
         version: 4.7.0
@@ -1596,12 +1596,6 @@ packages:
     peerDependencies:
       '@ton/crypto': '>=3.2.0'
 
-  '@ton/crypto-primitives@2.1.0':
-    resolution: {integrity: sha512-PQesoyPgqyI6vzYtCXw4/ZzevePc4VGcJtFwf08v10OevVJHVfW238KBdpj1kEDQkxWLeuNHEpTECNFKnP6tow==}
-
-  '@ton/crypto@3.3.0':
-    resolution: {integrity: sha512-/A6CYGgA/H36OZ9BbTaGerKtzWp50rg67ZCH2oIjV1NcrBaCK9Z343M+CxedvM7Haf3f/Ee9EhxyeTp0GKMUpA==}
-
   '@ton/ton@15.1.0':
     resolution: {integrity: sha512-almetcfTu7jLjcNcEEPB7wAc8yl90ES1M//sOr1QE+kv7RbmEvMkaPSc7kFxzs10qrjIPKxlodBJlMSWP5LuVQ==}
     peerDependencies:
@@ -1685,12 +1679,6 @@ packages:
 
   '@types/pbkdf2@3.1.2':
     resolution: {integrity: sha512-uRwJqmiXmh9++aSu1VNEn3iIxWOhd8AHXNSdlaLfdAAdSTY9jYVeGWnzejM3dvrkbqE3/hyQkQQ29IFATEGlew==}
-
-  '@types/prop-types@15.7.12':
-    resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
-
-  '@types/react@18.3.3':
-    resolution: {integrity: sha512-hti/R0pS0q1/xx+TsI73XIqk26eBsISZ2R0wUijXIngRK9R/e7Xw/cXVxQK7R5JjW+SV4zGcn5hXjudkN/pLIw==}
 
   '@types/secp256k1@4.0.6':
     resolution: {integrity: sha512-hHxJU6PAEUn0TP4S/ZOzuTUvJWuZ6eIKeNKb5RBpODvSl6hp1Wrw4s7ATY50rklRCScUDpHzVA/DQdSjJ3UoYQ==}
@@ -1870,11 +1858,6 @@ packages:
 
   ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
-    peerDependenciesMeta:
-      ajv:
-        optional: true
 
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
@@ -2367,9 +2350,6 @@ packages:
 
   crypto-js@4.2.0:
     resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
-
-  csstype@3.1.3:
-    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
   csv-parse@5.6.0:
     resolution: {integrity: sha512-l3nz3euub2QMg5ouu5U09Ew9Wf6/wQ8I++ch1loQ0ljmzhmfZYrH9fflS22i/PQEvsPvxCwxgz5q7UB8K1JO4Q==}
@@ -3624,9 +3604,6 @@ packages:
     resolution: {integrity: sha512-gqXddjPqQ6G40VdnI6T6yObEC+pDNvyP95wdQhkWkg7crHH3km5qP1FsOXEkzEQwnz6gz5qGTn1c2Y52wP3OyQ==}
     engines: {'0': node >=0.6.0}
 
-  jssha@3.2.0:
-    resolution: {integrity: sha512-QuruyBENDWdN4tZwJbQq7/eAK85FqrI4oDbXjy5IBhYD+2pTJyBUWZe8ctWaCkrV0gy6AaelgOZZBMeswEa/6Q==}
-
   jsx-ast-utils@3.3.5:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
@@ -4127,20 +4104,11 @@ packages:
     resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
     engines: {node: '>= 0.8'}
 
-  react-dom@18.2.0:
-    resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
-    peerDependencies:
-      react: ^18.2.0
-
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
   react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
-
-  react@18.2.0:
-    resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
-    engines: {node: '>=0.10.0'}
 
   readable-stream@3.6.2:
     resolution: {integrity: sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==}
@@ -4264,9 +4232,6 @@ packages:
 
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
-
-  scheduler@0.23.0:
-    resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
 
   scrypt-js@3.0.1:
     resolution: {integrity: sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA==}
@@ -5002,7 +4967,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.20
 
-  '@apollo/client@3.12.4(@types/react@18.3.3)(graphql@16.9.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@apollo/client@3.12.4(graphql@16.9.0)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.9.0)
       '@wry/caches': 1.0.1
@@ -5013,15 +4978,12 @@ snapshots:
       hoist-non-react-statics: 3.3.2
       optimism: 0.18.0
       prop-types: 15.8.1
-      rehackt: 0.1.0(@types/react@18.3.3)(react@18.2.0)
+      rehackt: 0.1.0
       response-iterator: 0.2.6
       symbol-observable: 4.0.0
       ts-invariant: 0.10.3
       tslib: 2.8.1
       zen-observable-ts: 1.2.5
-    optionalDependencies:
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
 
@@ -5142,11 +5104,11 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sso-oidc@3.716.0(@aws-sdk/client-sts@3.658.1)':
+  '@aws-sdk/client-sso-oidc@3.716.0(@aws-sdk/client-sts@3.716.0)':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/client-sts': 3.658.1
+      '@aws-sdk/client-sts': 3.716.0
       '@aws-sdk/core': 3.716.0
       '@aws-sdk/credential-provider-node': 3.716.0(@aws-sdk/client-sso-oidc@3.716.0(@aws-sdk/client-sts@3.716.0))(@aws-sdk/client-sts@3.716.0)
       '@aws-sdk/middleware-host-header': 3.714.0
@@ -5322,7 +5284,7 @@ snapshots:
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/client-sso-oidc': 3.716.0(@aws-sdk/client-sts@3.658.1)
+      '@aws-sdk/client-sso-oidc': 3.716.0(@aws-sdk/client-sts@3.716.0)
       '@aws-sdk/core': 3.716.0
       '@aws-sdk/credential-provider-node': 3.716.0(@aws-sdk/client-sso-oidc@3.716.0(@aws-sdk/client-sts@3.716.0))(@aws-sdk/client-sts@3.716.0)
       '@aws-sdk/middleware-host-header': 3.714.0
@@ -5735,7 +5697,7 @@ snapshots:
 
   '@aws-sdk/token-providers@3.654.0(@aws-sdk/client-sso-oidc@3.716.0(@aws-sdk/client-sts@3.716.0))':
     dependencies:
-      '@aws-sdk/client-sso-oidc': 3.716.0(@aws-sdk/client-sts@3.658.1)
+      '@aws-sdk/client-sso-oidc': 3.716.0(@aws-sdk/client-sts@3.716.0)
       '@aws-sdk/types': 3.654.0
       '@smithy/property-provider': 3.1.11
       '@smithy/shared-ini-file-loader': 3.1.12
@@ -5744,7 +5706,7 @@ snapshots:
 
   '@aws-sdk/token-providers@3.714.0(@aws-sdk/client-sso-oidc@3.716.0(@aws-sdk/client-sts@3.716.0))':
     dependencies:
-      '@aws-sdk/client-sso-oidc': 3.716.0(@aws-sdk/client-sts@3.658.1)
+      '@aws-sdk/client-sso-oidc': 3.716.0(@aws-sdk/client-sts@3.716.0)
       '@aws-sdk/types': 3.714.0
       '@smithy/property-provider': 3.1.11
       '@smithy/shared-ini-file-loader': 3.1.12
@@ -6450,9 +6412,9 @@ snapshots:
       protobufjs: 7.4.0
       rxjs: 7.8.1
 
-  '@injectivelabs/sdk-ts@1.14.33(@types/react@18.3.3)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@injectivelabs/sdk-ts@1.14.33':
     dependencies:
-      '@apollo/client': 3.12.4(@types/react@18.3.3)(graphql@16.9.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+      '@apollo/client': 3.12.4(graphql@16.9.0)
       '@cosmjs/amino': 0.32.4
       '@cosmjs/proto-signing': 0.32.4
       '@cosmjs/stargate': 0.32.4
@@ -7278,30 +7240,18 @@ snapshots:
     optionalDependencies:
       typescript: 5.7.2
 
-  '@ton-api/client@0.3.0(@ton/core@0.59.1(@ton/crypto@3.3.0))':
+  '@ton-api/client@0.3.0(@ton/core@0.59.1)':
     dependencies:
-      '@ton/core': 0.59.1(@ton/crypto@3.3.0)
+      '@ton/core': 0.59.1
       core-js-pure: 3.38.1
 
-  '@ton/core@0.59.1(@ton/crypto@3.3.0)':
+  '@ton/core@0.59.1':
     dependencies:
-      '@ton/crypto': 3.3.0
       symbol.inspect: 1.0.1
 
-  '@ton/crypto-primitives@2.1.0':
+  '@ton/ton@15.1.0(@ton/core@0.59.1)':
     dependencies:
-      jssha: 3.2.0
-
-  '@ton/crypto@3.3.0':
-    dependencies:
-      '@ton/crypto-primitives': 2.1.0
-      jssha: 3.2.0
-      tweetnacl: 1.0.3
-
-  '@ton/ton@15.1.0(@ton/core@0.59.1(@ton/crypto@3.3.0))(@ton/crypto@3.3.0)':
-    dependencies:
-      '@ton/core': 0.59.1(@ton/crypto@3.3.0)
-      '@ton/crypto': 3.3.0
+      '@ton/core': 0.59.1
       axios: 1.7.7
       dataloader: 2.2.2
       symbol.inspect: 1.0.1
@@ -7397,15 +7347,6 @@ snapshots:
   '@types/pbkdf2@3.1.2':
     dependencies:
       '@types/node': 20.17.10
-
-  '@types/prop-types@15.7.12':
-    optional: true
-
-  '@types/react@18.3.3':
-    dependencies:
-      '@types/prop-types': 15.7.12
-      csstype: 3.1.3
-    optional: true
 
   '@types/secp256k1@4.0.6':
     dependencies:
@@ -7568,7 +7509,7 @@ snapshots:
       '@usebruno/query': 0.1.0
       '@usebruno/vm2': 3.9.19
       ajv: 8.17.1
-      ajv-formats: 2.1.1(ajv@8.17.1)
+      ajv-formats: 2.1.1
       atob: 2.1.2
       axios: 1.7.5(debug@4.3.7)
       btoa: 1.2.1
@@ -7650,8 +7591,8 @@ snapshots:
 
   agent-base@7.1.3: {}
 
-  ajv-formats@2.1.1(ajv@8.17.1):
-    optionalDependencies:
+  ajv-formats@2.1.1:
+    dependencies:
       ajv: 8.17.1
 
   ajv@6.12.6:
@@ -8239,9 +8180,6 @@ snapshots:
   crypto-js@3.3.0: {}
 
   crypto-js@4.2.0: {}
-
-  csstype@3.1.3:
-    optional: true
 
   csv-parse@5.6.0: {}
 
@@ -9920,8 +9858,6 @@ snapshots:
       json-schema: 0.4.0
       verror: 1.10.0
 
-  jssha@3.2.0: {}
-
   jsx-ast-utils@3.3.5:
     dependencies:
       array-includes: 3.1.8
@@ -10131,7 +10067,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  next@15.1.2(@babel/core@7.23.6)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  next@15.1.2(@babel/core@7.23.6):
     dependencies:
       '@next/env': 15.1.2
       '@swc/counter': 0.1.3
@@ -10139,9 +10075,7 @@ snapshots:
       busboy: 1.6.0
       caniuse-lite: 1.0.30001690
       postcss: 8.4.31
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      styled-jsx: 5.1.6(@babel/core@7.23.6)(react@18.2.0)
+      styled-jsx: 5.1.6(@babel/core@7.23.6)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.1.2
       '@next/swc-darwin-x64': 15.1.2
@@ -10481,19 +10415,9 @@ snapshots:
       iconv-lite: 0.4.24
       unpipe: 1.0.0
 
-  react-dom@18.2.0(react@18.2.0):
-    dependencies:
-      loose-envify: 1.4.0
-      react: 18.2.0
-      scheduler: 0.23.0
-
   react-is@16.13.1: {}
 
   react-is@18.2.0: {}
-
-  react@18.2.0:
-    dependencies:
-      loose-envify: 1.4.0
 
   readable-stream@3.6.2:
     dependencies:
@@ -10546,10 +10470,7 @@ snapshots:
       es-errors: 1.3.0
       set-function-name: 2.0.2
 
-  rehackt@0.1.0(@types/react@18.3.3)(react@18.2.0):
-    optionalDependencies:
-      '@types/react': 18.3.3
-      react: 18.2.0
+  rehackt@0.1.0: {}
 
   request-ip@3.3.0: {}
 
@@ -10628,10 +10549,6 @@ snapshots:
       is-regex: 1.2.1
 
   safer-buffer@2.1.2: {}
-
-  scheduler@0.23.0:
-    dependencies:
-      loose-envify: 1.4.0
 
   scrypt-js@3.0.1: {}
 
@@ -10966,10 +10883,9 @@ snapshots:
 
   strnum@1.0.5: {}
 
-  styled-jsx@5.1.6(@babel/core@7.23.6)(react@18.2.0):
+  styled-jsx@5.1.6(@babel/core@7.23.6):
     dependencies:
       client-only: 0.0.1
-      react: 18.2.0
     optionalDependencies:
       '@babel/core': 7.23.6
 
