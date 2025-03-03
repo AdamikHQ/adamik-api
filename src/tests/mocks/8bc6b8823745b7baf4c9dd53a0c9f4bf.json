@@ -1,0 +1,15 @@
+{
+  "request": {
+    "url": "https://mempool.space/signet/api/v1/validate-address/tb1q737mgc5em323ddazqqy2pp3lh0kh3qtlnjq5fd",
+    "method": "GET"
+  },
+  "response": {
+    "isvalid": true,
+    "address": "tb1q737mgc5em323ddazqqy2pp3lh0kh3qtlnjq5fd",
+    "scriptPubKey": "0014f47db46299dc5516b7a20008a0863fbbed78817f",
+    "isscript": false,
+    "iswitness": true,
+    "witness_version": 0,
+    "witness_program": "f47db46299dc5516b7a20008a0863fbbed78817f"
+  }
+}

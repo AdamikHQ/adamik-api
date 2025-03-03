@@ -1,17 +1,20 @@
 import { ChainId, ChainSupportedFeatures } from "~/app/model/types_WIP";
-import { MORALIS_CHAIN_IDS } from "./backend/moralis";
+import { MoralisIndexer } from "./backend/moralis";
+import { AlchemyIndexer } from "./backend/alchemy";
 
-const moralisSupport = (chainId: ChainId): boolean => !!MORALIS_CHAIN_IDS.get(chainId);
+const moralisSupport = (chainId: ChainId): boolean => Boolean(MoralisIndexer.CHAIN_IDS.get(chainId));
+const alchemySupport = (chainId: ChainId): boolean => Boolean(AlchemyIndexer.CHAIN_IDS.get(chainId));
+const anySupport = (chainId: ChainId): boolean => moralisSupport(chainId) || alchemySupport(chainId);
 
 const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
   read: {
-    token: moralisSupport(chainId),
+    token: true,
     validators: false,
     account: {
-      balances: { native: true, tokens: moralisSupport(chainId), staking: false },
-      transactions: { native: moralisSupport(chainId), tokens: moralisSupport(chainId), staking: false },
+      balances: { native: true, tokens: anySupport(chainId), staking: false },
+      transactions: { native: anySupport(chainId), tokens: anySupport(chainId), staking: false },
     },
-    transaction: { native: moralisSupport(chainId), tokens: moralisSupport(chainId), staking: false },
+    transaction: { native: anySupport(chainId), tokens: anySupport(chainId), staking: false },
   },
   write: {
     transaction: {

@@ -1,0 +1,13 @@
+{
+  "request": {
+    "url": "https://babylon-testnet-api.polkachu.com/cosmos/staking/v1beta1/delegations/bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49",
+    "method": "GET"
+  },
+  "response": {
+    "delegation_responses": [],
+    "pagination": {
+      "next_key": null,
+      "total": "0"
+    }
+  }
+}
