@@ -40,14 +40,17 @@ const broadcast = async (signedTransaction: string): Promise<string> => {
   try {
     const transactionParams: StarknetTransactionParamsToBroadcast = JSON.parse(signedTransaction);
 
-    const signature = ec.starkCurve.Signature.fromDER(transactionParams.payload?.signature ?? "");
-
-    if (!signature) {
+    if (!transactionParams.payload.signature) {
       throw new InvalidTransactionError({
         errors: [{ message: "Signature is required" }],
         warnings: [],
       });
     }
+
+    const signature =
+      transactionParams.payload.signature.length === 128
+        ? ec.starkCurve.Signature.fromCompact(transactionParams.payload.signature)
+        : ec.starkCurve.Signature.fromDER(transactionParams.payload.signature);
 
     const provider = new Provider({
       nodeUrl: CHAINS.starknet.backends.nodeURL,

@@ -45,6 +45,7 @@ const buildTransaction = async (
 
     case TransactionMode.DEPLOY_ACCOUNT: {
       const { senderPubKey, contractType } = transaction.data;
+
       switch (contractType) {
         case DeployContractType.ARGENTX: {
           const payload = await ArgentX.getDeployContractPayload(senderPubKey);
@@ -139,10 +140,22 @@ const marginFees = (fees: bigint) => {
   return (fees * 11n) / 10n;
 };
 
+// Transform pubkey from this form :
+// 02003ad61094c6a6a65ce677eb4ac3cada7925d7a6e37a9bb6021e0ed1140f38e3
+// to this form :
+// 0x3ad61094c6a6a65ce677eb4ac3cada7925d7a6e37a9bb6021e0ed1140f38e3
+// If we do not respect this format, we couldnt derivate pubkey to get contract address
+const extractX = (bytes: string): string => {
+  const hex = bytes.substring(2);
+  const stripped = hex.replace(/^0+/gm, ""); // strip leading 0s
+  return `0x${stripped}`;
+};
+
 export {
   buildTransaction,
   calculateAccountState,
   createStarknetAccount,
+  extractX,
   mapTokenBalancesToTokenAmounts,
   marginFees,
 };
