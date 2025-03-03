@@ -5,18 +5,22 @@ meta {
 }
 
 get {
-  url: {{api_url}}/api/:chainId/account/:accountId/state/tokens?nextPage=ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp3WVdkbElqb3hMQ0p3WVdkbFUybDZaU0k2TWpBc0luTnVZWEJ6YUc5MFNXUWlPaUpqT0dFMFpEYzVNQzFpTTJNeUxUUTBPV0l0WVdKaE1DMHlaakl3TWpNd1lUSTNNVGdpTENKcFlYUWlPakUzTXpjd05UUXdNamw5LmxqeGJRSjBxQ0FiWUloN241Q05vUEp4S2tRWG9HZ3JkazRSZGk2TjZpakki
+  url: {{api_url}}/api/:chainId/account/:accountId/state/tokens
   body: none
   auth: none
 }
 
 params:query {
-  nextPage: ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp3WVdkbElqb3hMQ0p3WVdkbFUybDZaU0k2TWpBc0luTnVZWEJ6YUc5MFNXUWlPaUpqT0dFMFpEYzVNQzFpTTJNeUxUUTBPV0l0WVdKaE1DMHlaakl3TWpNd1lUSTNNVGdpTENKcFlYUWlPakUzTXpjd05UUXdNamw5LmxqeGJRSjBxQ0FiWUloN241Q05vUEp4S2tRWG9HZ3JkazRSZGk2TjZpakki
+  ~nextPage: ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp3WVdkbElqb3hMQ0p3WVdkbFUybDZaU0k2TWpBc0luTnVZWEJ6YUc5MFNXUWlPaUl5TkdJeFlqSmlaaTFpTmpjMUxUUXpNbVF0WVRNNVpTMWlPR0k1TW1ZM01EZGpaV0VpTENKcFlYUWlPakUzTkRBeE16WXpPVFY5LmZhZUpqZUx1NXRSNGZwNnh6a3VsZW43ZEo0d0diV0dxdmlkX3ZDMUxDQVUi
 }
 
 params:path {
   chainId: ethereum
-  accountId: 0xfc43f5f9dd45258b3aff31bdbe6561d97e8b71de
+  accountId: 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+}
+
+headers {
+  ~Authorization: {{api_key}}
 }
 
 body:json {
@@ -28,6 +32,6 @@ body:json {
 
 assert {
   res.body.balances.tokens: isArray
-  res.body.pagination.nextPage: eq "ImV5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUp3WVdkbElqb3lMQ0p3WVdkbFUybDZaU0k2TWpBc0luTnVZWEJ6YUc5MFNXUWlPaUpqT0dFMFpEYzVNQzFpTTJNeUxUUTBPV0l0WVdKaE1DMHlaakl3TWpNd1lUSTNNVGdpTENKcFlYUWlPakUzTXpjd05UUXhNVEI5Llp0eUdjNFRVSi0yWk5MRC01c0V3UkF3NDBJM3M2OWNwMjVPUWhCdW5tZlki"
+  res.body.pagination.nextPage: isString
   res.status: eq 200
 }

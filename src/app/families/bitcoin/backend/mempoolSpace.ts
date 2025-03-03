@@ -1,6 +1,6 @@
 import { Transaction } from "bitcoinjs-lib";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId } from "~/app/model/types_WIP";
+import { Backend, ChainId, ProviderType } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
 import {
   mempoolSpaceAddressValidationSchema,
@@ -12,7 +12,9 @@ import {
 // TODO Just a POC for now, need to improve error handling
 
 async function fetchTransactionRaw(chainId: ChainId, transactionId: string): Promise<Transaction> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.indexer
+  )?.url;
   const url = `${explorerURL}/tx/${transactionId}/raw`;
 
   const response = await fetch(url);
@@ -37,7 +39,9 @@ async function fetchTransactionRaw(chainId: ChainId, transactionId: string): Pro
 }
 
 async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<MempoolSpaceUTXO[]> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.indexer
+  )?.url;
   const url = `${explorerURL}/address/${address}/utxo`;
 
   const response = await fetch(url);
@@ -60,7 +64,9 @@ async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<Mem
 }
 
 async function fetchAddressScriptPubKey(chainId: ChainId, address: string): Promise<string> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.indexer
+  )?.url;
   const url = `${explorerURL}/v1/validate-address/${address}`;
 
   const response = await fetch(url);
@@ -83,7 +89,9 @@ async function fetchAddressScriptPubKey(chainId: ChainId, address: string): Prom
 }
 
 async function fetchFeePerByte(chainId: ChainId): Promise<number> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.indexer
+  )?.url;
   const url = `${explorerURL}/v1/fees/recommended`;
 
   const response = await fetch(url);
@@ -114,7 +122,9 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
 }
 
 async function postTransaction(chainId: ChainId, payload: string): Promise<string> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.indexer
+  )?.url;
   const url = `${explorerURL}/tx`;
 
   const response = await fetch(url, {

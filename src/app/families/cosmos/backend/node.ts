@@ -2,7 +2,9 @@ import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 import {
+  Backend,
   ChainId,
+  ProviderType,
   StakingPosition,
   StakingReward,
   StakingStatus,
@@ -25,7 +27,8 @@ import {
   CosmosValidator,
 } from "./types";
 
-const getNodeRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.nodeURL;
+const getNodeRootUrl = (chainId: ChainId) =>
+  CHAINS[chainId].backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
 
 async function fetchWithHeaders(url: string, customOptions: RequestInit = {}) {
   const options: RequestInit = {
@@ -47,7 +50,7 @@ async function fetchAllWithPagination<T>(chainId: ChainId, urlString: string, da
   let data: T[] = [];
   let result;
   do {
-    if (result?.pagination?.next_key) {
+    if (result && result.pagination?.next_key) {
       url.searchParams.set("pagination.key", result.pagination.next_key);
     }
 

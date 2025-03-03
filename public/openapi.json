@@ -2095,7 +2095,7 @@
                             "signerSpec"
                           ]
                         },
-                        "monad-private-testnet": {
+                        "monad-testnet": {
                           "type": "object",
                           "properties": {
                             "family": {
@@ -4389,6 +4389,210 @@
                             "supportedFeatures",
                             "signerSpec"
                           ]
+                        },
+                        "berachain": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
+                        },
+                        "berachain-artio": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
+                        },
+                        "cronos": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
+                        },
+                        "world-chain": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
                         }
                       },
                       "additionalProperties": false
@@ -4518,10 +4722,15 @@
                 "ethereum",
                 "sepolia",
                 "holesky",
+                "zksync",
+                "zksync-sepolia",
+                "injective-evm-testnet",
                 "base",
                 "base-sepolia",
                 "optimism",
+                "optimism-sepolia",
                 "arbitrum",
+                "arbitrum-sepolia",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -4529,6 +4738,7 @@
                 "linea",
                 "linea-sepolia",
                 "avalanche",
+                "avalanche-fuji",
                 "gnosis",
                 "gnosis-chiado",
                 "moonbeam",
@@ -4536,6 +4746,8 @@
                 "moonbase",
                 "fantom",
                 "ton",
+                "chiliz",
+                "chiliz-testnet",
                 "injective",
                 "akash",
                 "band",
@@ -4573,7 +4785,12 @@
                 "ux-chain",
                 "kava",
                 "starknet",
-                "babylon-testnet"
+                "babylon-testnet",
+                "monad-testnet",
+                "berachain",
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -4864,12 +5081,12 @@
                 "base",
                 "base-sepolia",
                 "optimism",
+                "optimism-sepolia",
                 "arbitrum",
+                "arbitrum-sepolia",
                 "bitcoin",
                 "bitcoin-testnet",
                 "bitcoin-signet",
-                "litecoin",
-                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -4877,12 +5094,15 @@
                 "linea",
                 "linea-sepolia",
                 "avalanche",
+                "avalanche-fuji",
                 "gnosis",
                 "gnosis-chiado",
                 "moonbeam",
                 "moonriver",
                 "moonbase",
                 "fantom",
+                "litecoin",
+                "dogecoin",
                 "ton",
                 "injective",
                 "akash",
@@ -4893,7 +5113,10 @@
                 "sei",
                 "stride",
                 "kava",
-                "starknet"
+                "starknet",
+                "monad-testnet",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -5335,12 +5558,9 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
-                "monad-private-testnet",
                 "bitcoin",
                 "bitcoin-testnet",
                 "bitcoin-signet",
-                "litecoin",
-                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -5358,6 +5578,8 @@
                 "mantle",
                 "rootstock",
                 "rootstock-testnet",
+                "litecoin",
+                "dogecoin",
                 "ton",
                 "chiliz",
                 "chiliz-testnet",
@@ -5398,7 +5620,12 @@
                 "ux-chain",
                 "kava",
                 "starknet",
-                "babylon-testnet"
+                "babylon-testnet",
+                "monad-testnet",
+                "berachain",
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -5456,12 +5683,9 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
-                        "monad-private-testnet",
                         "bitcoin",
                         "bitcoin-testnet",
                         "bitcoin-signet",
-                        "litecoin",
-                        "dogecoin",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -5479,6 +5703,8 @@
                         "mantle",
                         "rootstock",
                         "rootstock-testnet",
+                        "litecoin",
+                        "dogecoin",
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
@@ -5519,7 +5745,12 @@
                         "ux-chain",
                         "kava",
                         "starknet",
-                        "babylon-testnet"
+                        "babylon-testnet",
+                        "monad-testnet",
+                        "berachain",
+                        "berachain-artio",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "accountId": {
@@ -5800,7 +6031,9 @@
                 "base",
                 "base-sepolia",
                 "optimism",
+                "optimism-sepolia",
                 "arbitrum",
+                "arbitrum-sepolia",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -5808,6 +6041,7 @@
                 "linea",
                 "linea-sepolia",
                 "avalanche",
+                "avalanche-fuji",
                 "gnosis",
                 "gnosis-chiado",
                 "moonbeam",
@@ -5852,7 +6086,10 @@
                 "ux-chain",
                 "kava",
                 "starknet",
-                "babylon-testnet"
+                "babylon-testnet",
+                "monad-testnet",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -5903,7 +6140,9 @@
                         "base",
                         "base-sepolia",
                         "optimism",
+                        "optimism-sepolia",
                         "arbitrum",
+                        "arbitrum-sepolia",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -5911,6 +6150,7 @@
                         "linea",
                         "linea-sepolia",
                         "avalanche",
+                        "avalanche-fuji",
                         "gnosis",
                         "gnosis-chiado",
                         "moonbeam",
@@ -5955,7 +6195,10 @@
                         "ux-chain",
                         "kava",
                         "starknet",
-                        "babylon-testnet"
+                        "babylon-testnet",
+                        "monad-testnet",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "accountId": {
@@ -6078,7 +6321,9 @@
                 "base",
                 "base-sepolia",
                 "optimism",
+                "optimism-sepolia",
                 "arbitrum",
+                "arbitrum-sepolia",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -6086,6 +6331,7 @@
                 "linea",
                 "linea-sepolia",
                 "avalanche",
+                "avalanche-fuji",
                 "gnosis",
                 "gnosis-chiado",
                 "moonbeam",
@@ -6100,7 +6346,10 @@
                 "sei",
                 "stride",
                 "kava",
-                "starknet"
+                "starknet",
+                "monad-testnet",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -6157,7 +6406,9 @@
                         "base",
                         "base-sepolia",
                         "optimism",
+                        "optimism-sepolia",
                         "arbitrum",
+                        "arbitrum-sepolia",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -6165,6 +6416,7 @@
                         "linea",
                         "linea-sepolia",
                         "avalanche",
+                        "avalanche-fuji",
                         "gnosis",
                         "gnosis-chiado",
                         "moonbeam",
@@ -6179,7 +6431,10 @@
                         "sei",
                         "stride",
                         "kava",
-                        "starknet"
+                        "starknet",
+                        "monad-testnet",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "accountId": {
@@ -6436,12 +6691,9 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
-                "monad-private-testnet",
                 "bitcoin",
                 "bitcoin-testnet",
                 "bitcoin-signet",
-                "litecoin",
-                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -6457,6 +6709,8 @@
                 "moonbase",
                 "fantom",
                 "mantle",
+                "litecoin",
+                "dogecoin",
                 "ton",
                 "chiliz",
                 "chiliz-testnet",
@@ -6497,7 +6751,12 @@
                 "ux-chain",
                 "kava",
                 "starknet",
-                "babylon-testnet"
+                "babylon-testnet",
+                "monad-testnet",
+                "berachain",
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -6895,12 +7154,9 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
-                        "monad-private-testnet",
                         "bitcoin",
                         "bitcoin-testnet",
                         "bitcoin-signet",
-                        "litecoin",
-                        "dogecoin",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -6916,6 +7172,8 @@
                         "moonbase",
                         "fantom",
                         "mantle",
+                        "litecoin",
+                        "dogecoin",
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
@@ -6956,7 +7214,12 @@
                         "ux-chain",
                         "kava",
                         "starknet",
-                        "babylon-testnet"
+                        "babylon-testnet",
+                        "monad-testnet",
+                        "berachain",
+                        "berachain-artio",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "transaction": {
@@ -7421,12 +7684,9 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
-                "monad-private-testnet",
                 "bitcoin",
                 "bitcoin-testnet",
                 "bitcoin-signet",
-                "litecoin",
-                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -7442,6 +7702,8 @@
                 "moonbase",
                 "fantom",
                 "mantle",
+                "litecoin",
+                "dogecoin",
                 "ton",
                 "chiliz",
                 "chiliz-testnet",
@@ -7482,7 +7744,12 @@
                 "ux-chain",
                 "kava",
                 "starknet",
-                "babylon-testnet"
+                "babylon-testnet",
+                "monad-testnet",
+                "berachain",
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -7880,12 +8147,9 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
-                        "monad-private-testnet",
                         "bitcoin",
                         "bitcoin-testnet",
                         "bitcoin-signet",
-                        "litecoin",
-                        "dogecoin",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -7901,6 +8165,8 @@
                         "moonbase",
                         "fantom",
                         "mantle",
+                        "litecoin",
+                        "dogecoin",
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
@@ -7941,7 +8207,12 @@
                         "ux-chain",
                         "kava",
                         "starknet",
-                        "babylon-testnet"
+                        "babylon-testnet",
+                        "monad-testnet",
+                        "berachain",
+                        "berachain-artio",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "status": {
@@ -8028,12 +8299,9 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
-                "monad-private-testnet",
                 "bitcoin",
                 "bitcoin-testnet",
                 "bitcoin-signet",
-                "litecoin",
-                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -8049,6 +8317,8 @@
                 "moonbase",
                 "fantom",
                 "mantle",
+                "litecoin",
+                "dogecoin",
                 "ton",
                 "chiliz",
                 "chiliz-testnet",
@@ -8089,7 +8359,12 @@
                 "ux-chain",
                 "kava",
                 "starknet",
-                "babylon-testnet"
+                "babylon-testnet",
+                "monad-testnet",
+                "berachain",
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -8513,12 +8788,9 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
-                        "monad-private-testnet",
                         "bitcoin",
                         "bitcoin-testnet",
                         "bitcoin-signet",
-                        "litecoin",
-                        "dogecoin",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -8534,6 +8806,8 @@
                         "moonbase",
                         "fantom",
                         "mantle",
+                        "litecoin",
+                        "dogecoin",
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
@@ -8574,7 +8848,12 @@
                         "ux-chain",
                         "kava",
                         "starknet",
-                        "babylon-testnet"
+                        "babylon-testnet",
+                        "monad-testnet",
+                        "berachain",
+                        "berachain-artio",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "hash": {
@@ -8626,12 +8905,9 @@
                 "optimism-sepolia",
                 "arbitrum",
                 "arbitrum-sepolia",
-                "monad-private-testnet",
                 "bitcoin",
                 "bitcoin-testnet",
                 "bitcoin-signet",
-                "litecoin",
-                "dogecoin",
                 "polygon",
                 "polygon-amoy",
                 "bsc",
@@ -8647,6 +8923,8 @@
                 "moonbase",
                 "fantom",
                 "mantle",
+                "litecoin",
+                "dogecoin",
                 "ton",
                 "chiliz",
                 "chiliz-testnet",
@@ -8687,7 +8965,12 @@
                 "ux-chain",
                 "kava",
                 "starknet",
-                "babylon-testnet"
+                "babylon-testnet",
+                "monad-testnet",
+                "berachain",
+                "berachain-artio",
+                "cronos",
+                "world-chain"
               ]
             },
             "required": true
@@ -8742,12 +9025,9 @@
                         "optimism-sepolia",
                         "arbitrum",
                         "arbitrum-sepolia",
-                        "monad-private-testnet",
                         "bitcoin",
                         "bitcoin-testnet",
                         "bitcoin-signet",
-                        "litecoin",
-                        "dogecoin",
                         "polygon",
                         "polygon-amoy",
                         "bsc",
@@ -8763,6 +9043,8 @@
                         "moonbase",
                         "fantom",
                         "mantle",
+                        "litecoin",
+                        "dogecoin",
                         "ton",
                         "chiliz",
                         "chiliz-testnet",
@@ -8803,7 +9085,12 @@
                         "ux-chain",
                         "kava",
                         "starknet",
-                        "babylon-testnet"
+                        "babylon-testnet",
+                        "monad-testnet",
+                        "berachain",
+                        "berachain-artio",
+                        "cronos",
+                        "world-chain"
                       ]
                     },
                     "hash": {
@@ -8873,7 +9160,7 @@
           "litecoin",
           "dogecoin",
           "starknet",
-          "monad-private-testnet",
+          "monad-testnet",
           "bitsong",
           "chihuahua",
           "seda",
@@ -8917,7 +9204,11 @@
           "celestia-testnet",
           "cosmoshub-testnet",
           "injective",
-          "babylon-testnet"
+          "babylon-testnet",
+          "berachain",
+          "berachain-artio",
+          "cronos",
+          "world-chain"
         ],
         "description": "Unique adamik identifier of the chain",
         "example": "bitcoin"
