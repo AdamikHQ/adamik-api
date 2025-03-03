@@ -12,7 +12,7 @@ import { CHAINS } from "~/app/config/chains";
 import { Backend, ProviderType, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
-import { createStarknetAccount, marginFees } from "../logic";
+import { createStarknetAccount, isCompactSignature, marginFees } from "../logic";
 import { StarknetTransactionParamsToBroadcast } from "../types";
 
 const nodeUrl = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
@@ -51,10 +51,9 @@ const broadcast = async (signedTransaction: string): Promise<string> => {
       });
     }
 
-    const signature =
-      transactionParams.payload.signature.length === 128
-        ? ec.starkCurve.Signature.fromCompact(transactionParams.payload.signature)
-        : ec.starkCurve.Signature.fromDER(transactionParams.payload.signature);
+    const signature = isCompactSignature(transactionParams.payload.signature)
+      ? ec.starkCurve.Signature.fromCompact(transactionParams.payload.signature)
+      : ec.starkCurve.Signature.fromDER(transactionParams.payload.signature);
 
     const provider = new Provider({ nodeUrl });
 

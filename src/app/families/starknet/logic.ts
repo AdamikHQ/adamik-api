@@ -151,11 +151,25 @@ const extractX = (bytes: string): string => {
   return `0x${stripped}`;
 };
 
+const isDERSignature = (signature: string) => {
+  const sigBytes =
+    typeof signature === "string" ? Buffer.from(signature.replace("0x", ""), "hex") : signature;
+  return sigBytes[0] === 0x30;
+};
+
+const isCompactSignature = (signature: string) => {
+  const sigBytes =
+    typeof signature === "string" ? Buffer.from(signature.replace("0x", ""), "hex") : signature;
+  return sigBytes.length === 64 || sigBytes.length === 65;
+};
+
 export {
   buildTransaction,
   calculateAccountState,
   createStarknetAccount,
   extractX,
+  isCompactSignature,
+  isDERSignature,
   mapTokenBalancesToTokenAmounts,
   marginFees,
 };
