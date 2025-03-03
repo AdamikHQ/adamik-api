@@ -2,21 +2,21 @@ import { TronWeb } from "tronweb";
 import { toHex } from "tronweb/utils";
 import { TRONGRID_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
+import { Backend, ProviderType } from "~/app/model/types_WIP";
+
+const nodeUrl = CHAINS.tron.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
 
 const tronWeb = new TronWeb({
-  fullHost: `${CHAINS.tron.backends.nodeURL}`,
+  fullHost: nodeUrl,
   headers: { "TRON-PRO-API-KEY": TRONGRID_API_KEY },
 });
 
-const getAccount = async (address: string) => {
-  const account = await tronWeb.trx.getAccount(address);
-  return account;
+const getAccount = (address: string) => {
+  return tronWeb.trx.getAccount(address);
 };
 
-const createTransaction = async (from: string, to: string, amount: bigint) => {
-  const transaction = await tronWeb.transactionBuilder.sendTrx(to, Number(amount), from);
-
-  return transaction;
+const createTransaction = (from: string, to: string, amount: bigint) => {
+  return tronWeb.transactionBuilder.sendTrx(to, Number(amount), from);
 };
 
 // FIXME: Hack to bypass contract needed type
@@ -25,32 +25,26 @@ const broadcast = async (signedTransaction: any) => {
   return result.transaction.txID;
 };
 
-const getAccountResources = async (address: string) => {
-  const accountResources = await tronWeb.trx.getAccountResources(address);
-  return accountResources;
+const getAccountResources = (address: string) => {
+  return tronWeb.trx.getAccountResources(address);
 };
 
 // Bandwidth price in TRX
 const getBandwidthPrice = async () => {
   const parameters = await tronWeb.trx.getChainParameters();
-  const bandwidthPrice = parameters.find((p) => p.key === "getTransactionFee")?.value || 0 / 1000_000;
-  return bandwidthPrice;
+  return parameters.find((p) => p.key === "getTransactionFee")?.value || 0 / 1000_000;
 };
 
-const getChainParameters = async () => {
-  const parameters = await tronWeb.trx.getChainParameters();
-  return parameters;
+const getChainParameters = () => {
+  return tronWeb.trx.getChainParameters();
 };
 
 const isValidAddress = async (address: string) => {
-  const isValid = tronWeb.isAddress(address);
-  return isValid;
+  return tronWeb.isAddress(address);
 };
 
-const getTRC10TokenInfo = async (tokenId: string) => {
-  const tokenInfo = await tronWeb.trx.getTokenByID(tokenId);
-
-  return tokenInfo;
+const getTRC10TokenInfo = (tokenId: string) => {
+  return tronWeb.trx.getTokenByID(tokenId);
 };
 
 const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string) => {
@@ -64,10 +58,8 @@ const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string) => {
   return { name, symbol, decimals };
 };
 
-const createTRC10TokenTransaction = async (tokenId: string, amount: bigint, to: string, from: string) => {
-  const transaction = await tronWeb.transactionBuilder.sendToken(to, Number(amount), tokenId, from);
-
-  return transaction;
+const createTRC10TokenTransaction = (tokenId: string, amount: bigint, to: string, from: string) => {
+  return tronWeb.transactionBuilder.sendToken(to, Number(amount), tokenId, from);
 };
 
 const createTRC20TokenTransaction = async (tokenId: string, amount: bigint, to: string, from: string) => {
@@ -118,7 +110,6 @@ const estimateEnergyContract = async (tokenId: string, amount: bigint, to: strin
     inputs,
     toHex(from)
   );
-  const chainParameters = await getChainParameters();
 
   if (!energy_used || !energy_penalty) {
     return { fees: 0, energy_used: 0, energy_penalty: 0 };

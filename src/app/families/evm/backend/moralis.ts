@@ -2,8 +2,10 @@ import BigNumber from "bignumber.js";
 import { MORALIS_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
+  Backend,
   ChainId,
   FinalizedTransaction,
+  ProviderType,
   Token,
   TokenAmount,
   TokenType,
@@ -23,9 +25,11 @@ import {
   MoralisERC20Token,
   MoralisERC20TokenBalance,
   MoralisTransaction,
+  EvmIndexer,
 } from "./types";
+import { TokenStore } from "~/app/tools/tokenStore";
 
-const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
+const CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth"],
   [ChainId.SEPOLIA, "sepolia"],
   [ChainId.HOLESKY, "holesky"],
@@ -52,6 +56,7 @@ const MORALIS_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.FANTOM, "fantom"],
   //Mantle may not be supported yet (marked as coming soon by Moralis)
   //[ChainId.MANTLE, "mantle"],
+  [ChainId.CRONOS, "cronos"],
 ]);
 
 async function fetchWithHeaders(url: string, options: RequestInit = {}) {
@@ -75,13 +80,15 @@ async function fetchERC20TokenAmounts(
   let tokens: TokenAmount[] = [];
   let nextPage: string | null = null;
 
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  const moralisChainId = CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return { tokens, nextPage };
   }
 
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.moralis
+  )?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return { tokens, nextPage };
@@ -143,13 +150,15 @@ async function fetchERC20TokenAmounts(
 
 // Version that fully handles pagination, to return all results
 async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  const moralisChainId = CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return [];
   }
 
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.moralis
+  )?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return [];
@@ -164,7 +173,7 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
       limit: "200", // Larger pages if all pagination is handled in one request
     });
 
-    if (response?.cursor) {
+    if (response && response.cursor) {
       queryParams.append("cursor", response.cursor);
     }
 
@@ -200,13 +209,19 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
 }
 
 async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<Token> {
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+  let [token] = await TokenStore.load(chainId, [tokenId]);
+  if (token !== null) {
+    return token;
+  }
+  const moralisChainId = CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     throw new UnsupportedTokenIDError(tokenId, chainId);
   }
 
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.moralis
+  )?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     throw new UnsupportedTokenIDError(tokenId, chainId);
@@ -229,7 +244,7 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
     // Array destructuring, we only need the 1st item
     const [result]: [MoralisERC20Token] = response;
 
-    return {
+    token = {
       type: TokenType.ERC20,
       id: result.address,
       name: result.name,
@@ -237,20 +252,27 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
       decimals: result.decimals,
       contractAddress: result.address,
     };
+    await TokenStore.save(chainId, [token]);
+    return token;
   } catch (e) {
     console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
     throw new ThirdPartyProviderError(`Invalid data in response from explorer for chain ID ${chainId}`);
   }
 }
 
-async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<MoralisTransaction | null> {
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+async function fetchTransaction(
+  chainId: ChainId,
+  transactionId: string
+): Promise<FinalizedTransaction | null> {
+  const moralisChainId = CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return null;
   }
 
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.moralis
+  )?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return null;
@@ -270,21 +292,23 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
     return null;
   }
 
-  return result;
+  return moralisToAdamikTransaction(chainId, result);
 }
 
 async function fetchAccountTransactions(
   chainId: ChainId,
   address: EvmAddress,
   paginationToken?: string
-): Promise<{ evmTransactions: MoralisAccountTransaction[]; nextPage: string | null }> {
-  const moralisChainId = MORALIS_CHAIN_IDS.get(chainId);
+): Promise<{ evmTransactions: FinalizedTransaction[]; nextPage: string | null }> {
+  const moralisChainId = CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return { evmTransactions: [], nextPage: null };
   }
 
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.moralis
+  )?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return { evmTransactions: [], nextPage: null };
@@ -324,7 +348,9 @@ async function fetchAccountTransactions(
   }
 
   return {
-    evmTransactions: response.result,
+    evmTransactions: response.result.map((result: MoralisAccountTransaction) =>
+      moralisToAdamikAccountTransaction(chainId, result)
+    ),
     nextPage: paginationToB64(response.cursor),
   };
 }
@@ -332,7 +358,7 @@ async function fetchAccountTransactions(
 function moralisToAdamikTransaction(
   chainId: ChainId,
   moralisTransaction: MoralisTransaction
-): FinalizedTransaction["parsed"] {
+): FinalizedTransaction {
   const chain = CHAINS[chainId];
 
   // Moralis bug ? For some reason, transaction_fee is NOT in smallest unit... so we need to convert it
@@ -403,13 +429,27 @@ function moralisToAdamikTransaction(
     ];
   }
 
-  return parsedTransaction;
+  return {
+    parsed: parsedTransaction,
+    raw: {
+      hash: moralisTransaction.hash,
+      from: moralisTransaction.from_address,
+      to: moralisTransaction.to_address,
+      blockNumber: moralisTransaction.block_number,
+      nonce: moralisTransaction.nonce,
+      input: moralisTransaction.input,
+      value: moralisTransaction.value,
+      gas: moralisTransaction.gas,
+      gasPrice: moralisTransaction.gas_price,
+      chainId: CHAINS[chainId].nativeId,
+    },
+  };
 }
 
 function moralisToAdamikAccountTransaction(
   chainId: ChainId,
   moralisTransaction: MoralisAccountTransaction
-): FinalizedTransaction["parsed"] {
+): FinalizedTransaction {
   const chain = CHAINS[chainId];
 
   // Moralis bug ? For some reason, transaction_fee is NOT in smallest unit... so we need to convert it
@@ -474,16 +514,28 @@ function moralisToAdamikAccountTransaction(
     ];
   }
 
-  return parsedTransaction;
+  return {
+    parsed: parsedTransaction,
+    raw: {
+      hash: moralisTransaction.hash,
+      from: moralisTransaction.from_address,
+      to: moralisTransaction.to_address,
+      blockNumber: moralisTransaction.block_number,
+      nonce: moralisTransaction.nonce,
+      input: "0x",
+      value: moralisTransaction.value,
+      gas: moralisTransaction.gas,
+      gasPrice: moralisTransaction.gas_price,
+      chainId: CHAINS[chainId].nativeId,
+    },
+  };
 }
 
-export {
+export const MoralisIndexer = {
   fetchAccountTransactions,
   fetchAllERC20TokenAmounts,
   fetchERC20Token,
   fetchERC20TokenAmounts,
   fetchTransaction,
-  MORALIS_CHAIN_IDS,
-  moralisToAdamikAccountTransaction,
-  moralisToAdamikTransaction,
-};
+  CHAIN_IDS,
+} as EvmIndexer;

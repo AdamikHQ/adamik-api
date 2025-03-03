@@ -2,15 +2,19 @@ import {
   AccountHistory,
   AccountState,
   AccountTokens,
+  Backend,
+  Chain,
   ChainId,
   ChainValidators,
   FinalizedTransaction,
   Paginated,
+  ProviderType,
   Status,
   Token,
   Transaction,
   TypedAddress,
 } from "./types_WIP";
+import { CHAINS } from "~/app/config/chains";
 
 // TODO Doc (comment) for each function in every service
 
@@ -18,9 +22,17 @@ import {
 
 abstract class BaseChainService {
   chainId: ChainId;
+  chain: Chain;
+  backends: Backend[];
 
   constructor(chainId: ChainId) {
     this.chainId = chainId;
+    this.chain = CHAINS[chainId];
+    this.backends = this.chain.backends;
+  }
+
+  getBackend(type: ProviderType): Backend | null {
+    return this.backends.find((b: Backend) => b.providerType === type) ?? null;
   }
   // Chain
   //abstract getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?

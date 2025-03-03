@@ -1,5 +1,4 @@
-import { AccountState } from "~/app/model/types_WIP";
-import { fetchAllERC20TokenAmounts } from "../backend/moralis";
+import { AccountState, TokenAmount } from "~/app/model/types_WIP";
 import { fetchBalance } from "../backend/node";
 import { EvmService } from "../service";
 import { EvmAddress } from "../types";
@@ -7,59 +6,20 @@ import { EvmAddress } from "../types";
 async function getAccountState(this: EvmService, accountId: EvmAddress): Promise<AccountState> {
   // Native
   const nativeBalance = await fetchBalance(this.chainId, accountId);
-
-  // Tokens
-
-  // TODO Providers abstraction https://adamik.atlassian.net/browse/ADV-201
-
-  //*
-  // Moralis implementation
-
-  const tokenAmounts = await fetchAllERC20TokenAmounts(this.chainId, accountId);
-
-  /*/
-  // Etherscan implementation
-
-  const events = await getERC20TransferEvents(this.chainId, address);
-  const eventPerContractAddress = getOneEventPerContractAddress(events);
-
-  const tokenBalancePromises = [];
-  const tokenDetailsPromises = [];
-
-  for (const { contractAddress } of eventPerContractAddress.values()) {
-    tokenBalancePromises.push(
-      fetchERC20Balance({
-        chainId: this.chainId,
-        contractAddress,
-        senderAddress: address,
-      }).catch(() => null)
-    );
-
-    tokenDetailsPromises.push(this.getTokenInfo(contractAddress).catch(() => null));
-  }
-
-  const tokenBalances = await Promise.all(tokenBalancePromises);
-  const tokenDetails = await Promise.all(tokenDetailsPromises);
-
-  tokenDetails.forEach((tokenDetail, index) => {
-    if (tokenDetail && tokenBalances[index]) {
-      tokenAmounts.push({
-        token: tokenDetail,
-        amount: tokenBalances[index] as bigint,
-      });
-    }
-  });
-  //*/
-
-  return {
+  const result = {
     balances: {
       native: {
         available: nativeBalance,
         total: nativeBalance,
       },
-      tokens: tokenAmounts,
+      tokens: [] as TokenAmount[],
     },
   };
+  try {
+    const indexer = this.getIndexer();
+    result.balances.tokens = await indexer.fetchAllERC20TokenAmounts(this.chainId, accountId);
+  } catch {}
+  return result;
 }
 
 export { getAccountState };

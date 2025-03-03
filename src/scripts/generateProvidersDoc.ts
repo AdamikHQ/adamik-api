@@ -1,17 +1,17 @@
-import { CHAINS } from "../app/config/chains";
 import fs from "fs";
 import path from "path";
+import "dotenv/config";
+import { CHAINS } from "../app/config/chains";
 
 function generateProvidersMarkdown() {
   const chains = Object.entries(CHAINS);
   const chainsTable = chains
     .map(([chainId, chain]) => {
-      const backends = Object.entries(chain.backends);
-      const backendsTable = backends
-        .map(([backend, url]) => {
-          return `| ${backend} | ${url} |`;
+      const backendsTable = chain.backends
+        .map(({ providerType, url }) => {
+          return `| ${providerType} | ${url} |`;
         })
-        .join("\n");
+        .join("<br />\n");
       return `## ${chainId}\n\n${backendsTable}`;
     })
     .join("\n\n");
