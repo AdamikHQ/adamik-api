@@ -31,7 +31,6 @@ class ArgentX {
 
   static generateAddress = (pubkey: string): string => {
     const AXConstructorCallData = this.getConstructorCallData(pubkey);
-
     const AXcontractAddress = hash.calculateContractAddressFromHash(
       pubkey,
       ARGENT_X_CLASS_HASH,
