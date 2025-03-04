@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import "dotenv/config";
 import { CHAINS } from "../app/config/chains";
 
 function generateProvidersMarkdown() {

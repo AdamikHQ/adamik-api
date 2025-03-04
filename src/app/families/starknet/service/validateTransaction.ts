@@ -8,7 +8,7 @@ import {
 import { prevalidateTransactionCommon } from "../../common";
 import { getNonce } from "../backend/node";
 import { ArgentX } from "../contracts/argentx";
-import { calculateAccountState } from "../logic";
+import { calculateAccountState, extractX } from "../logic";
 import { StarknetService } from "../service";
 import { validateAddress } from "./validateAddress";
 
@@ -83,7 +83,7 @@ async function prevalidateTransaction(
         status.errors.push({ message: "Only ArgentX is supported for now" });
       }
 
-      const address = ArgentX.generateAddress(transaction.data.senderPubKey);
+      const address = ArgentX.generateAddress(extractX(transaction.data.senderPubKey));
       const nonce = await getNonce(address);
 
       if (nonce !== 0) {
