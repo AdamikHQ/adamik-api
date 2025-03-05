@@ -48,7 +48,7 @@ function getSignerSpecForFamily(family: ChainFamily): SignerSpec {
       return {
         curve: Curve.SECP256K1,
         hashFunction: HashFunction.SHA256,
-        signatureFormat: SignatureFormat.RS,
+        signatureFormat: SignatureFormat.RSV,
         coinType: "195",
       };
 
