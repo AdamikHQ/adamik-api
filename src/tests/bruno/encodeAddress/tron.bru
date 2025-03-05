@@ -16,13 +16,13 @@ params:path {
 
 body:json {
   {
-    "pubkey": "04C0ADCA96899A424EAC9E9778A8BA76B3F9057FD68A0D0D589FE5729CBEF6E818043331AF7D404F8EEF2EF005EDD29B635C732C36667429430517EE5EFFA69482"
+    "pubkey": "04F75ED6F6FDC227291B095EDC261ABFDA4D9C7F815A2B04968196C81C85FB673087BC9AD6C614231C5D02FCEB732EBD095F8BF6EA44EC361A2A2ACA34F75939BA"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body.addresses[0].address: eq "TUrDmABZSoZmtx5P1ksNeFTTER5jvXFJEA"
+  res.body.addresses[0].address: eq "TXmWqoP2A6tv38sxP5MTpS4CCBT2FpAswe"
   res.body.addresses[0].type: eq "default"
 }
 
@@ -44,12 +44,12 @@ params:path {
 
 body:json {
   {
-    "pubkey": "02c0adca96899a424eac9e9778a8ba76b3f9057fd68a0d0d589fe5729cbef6e818"
+    "pubkey": "02f75ed6f6fdc227291b095edc261abfda4d9c7f815a2b04968196c81c85fb6730"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body.addresses[0].address: eq "TUrDmABZSoZmtx5P1ksNeFTTER5jvXFJEA"
+  res.body.addresses[0].address: eq "TXmWqoP2A6tv38sxP5MTpS4CCBT2FpAswe"
   res.body.addresses[0].type: eq "default"
 }
