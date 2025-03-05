@@ -1,32 +1,4 @@
 meta {
-  name: tron-uncompressed
-  type: http
-  seq: 6
-}
-
-post {
-  url: {{api_url}}/api/:chainId/address/encode
-  body: json
-  auth: none
-}
-
-params:path {
-  chainId: tron
-}
-
-body:json {
-  {
-    "pubkey": "04F75ED6F6FDC227291B095EDC261ABFDA4D9C7F815A2B04968196C81C85FB673087BC9AD6C614231C5D02FCEB732EBD095F8BF6EA44EC361A2A2ACA34F75939BA"
-  }
-}
-
-assert {
-  res.status: eq 200
-  res.body.addresses[0].address: eq "TXmWqoP2A6tv38sxP5MTpS4CCBT2FpAswe"
-  res.body.addresses[0].type: eq "default"
-}
-
-meta {
   name: tron-compressed
   type: http
   seq: 7
@@ -44,12 +16,12 @@ params:path {
 
 body:json {
   {
-    "pubkey": "02235355b0bf9f7be99d6c954ddcb2dacab44d58926d260bd782831f6cdd29f58d"
+    "pubkey": "02f75ed6f6fdc227291b095edc261abfda4d9c7f815a2b04968196c81c85fb6730"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body.addresses[0].address: eq "TKcRmUvUvaxNji9erpwKfXXXGwK9sXdQDA"
+  res.body.addresses[0].address: eq "TXmWqoP2A6tv38sxP5MTpS4CCBT2FpAswe"
   res.body.addresses[0].type: eq "default"
 }
