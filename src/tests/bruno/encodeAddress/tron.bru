@@ -1,5 +1,5 @@
 meta {
-  name: tron
+  name: tron-uncompressed
   type: http
   seq: 6
 }
@@ -26,9 +26,12 @@ assert {
   res.body.addresses[0].type: eq "default"
 }
 
----
+meta {
+  name: tron-compressed
+  type: http
+  seq: 7
+}
 
-# Test with compressed public key
 post {
   url: {{api_url}}/api/:chainId/address/encode
   body: json
