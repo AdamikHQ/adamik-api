@@ -3,6 +3,7 @@ import { toHex } from "tronweb/utils";
 import { TRONGRID_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { Backend, ProviderType } from "~/app/model/types_WIP";
+import { UserInputError } from "~/app/tools/handlers/errors";
 
 const nodeUrl = CHAINS.tron.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
 
@@ -22,6 +23,11 @@ const createTransaction = (from: string, to: string, amount: bigint) => {
 // FIXME: Hack to bypass contract needed type
 const broadcast = async (signedTransaction: any) => {
   const result = await tronWeb.trx.sendRawTransaction(signedTransaction);
+  console.log(result);
+  // NOTE: sendRawTransaction doesn't include Error in the response
+  if (Object.keys(result).includes("Error")) {
+    throw new UserInputError((result as any).Error);
+  }
   return result.transaction.txID;
 };
 
