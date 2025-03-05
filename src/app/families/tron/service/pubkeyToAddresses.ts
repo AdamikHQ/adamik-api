@@ -1,5 +1,5 @@
 import { ec as EC } from "elliptic";
-import { keccak256 } from "js-sha3";
+import { computeAddress } from "ethers";
 import { TronWeb } from "tronweb";
 import { TypedAddress } from "~/app/model/types_WIP";
 import { TronService } from "../service";
@@ -20,12 +20,12 @@ async function pubkeyToAddresses(this: TronService, pubkey: string): Promise<Typ
   // Get the uncompressed public key (always starts with 04)
   const uncompressedPubkey = key.getPublic(false, "hex");
 
-  // Remove the '04' prefix
-  const pubkeyWithoutPrefix = Buffer.from(uncompressedPubkey.slice(2), "hex");
+  // Get the ethereum address first (which uses keccak256 internally)
+  const evmAddress = computeAddress("0x" + uncompressedPubkey);
 
-  const hash: string = keccak256(pubkeyWithoutPrefix);
-  const addressHex: string = `41${hash.slice(-40)}`;
-  const base58Address: string = TronWeb.address.fromHex(addressHex);
+  // Convert to TRON format by replacing '0x' with '41'
+  const addressHex = "41" + evmAddress.slice(2);
+  const base58Address = TronWeb.address.fromHex(addressHex);
 
   return [{ address: base58Address, type: "default" }];
 }

@@ -41,7 +41,6 @@
     "date-fns": "^4.1.0",
     "elliptic": "^6.6.1",
     "ethers": "^6.13.4",
-    "js-sha3": "^0.9.3",
     "moesif-nodejs": "^3.8.2",
     "next": "15.1.2",
     "redis": "^4.7.0",
