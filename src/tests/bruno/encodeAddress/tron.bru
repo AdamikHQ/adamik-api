@@ -44,12 +44,12 @@ params:path {
 
 body:json {
   {
-    "pubkey": "02f75ed6f6fdc227291b095edc261abfda4d9c7f815a2b04968196c81c85fb6730"
+    "pubkey": "02235355b0bf9f7be99d6c954ddcb2dacab44d58926d260bd782831f6cdd29f58d"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body.addresses[0].address: eq "TXmWqoP2A6tv38sxP5MTpS4CCBT2FpAswe"
+  res.body.addresses[0].address: eq "TKcRmUvUvaxNji9erpwKfXXXGwK9sXdQDA"
   res.body.addresses[0].type: eq "default"
 }
