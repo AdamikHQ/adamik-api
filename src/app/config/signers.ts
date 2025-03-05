@@ -47,7 +47,7 @@ function getSignerSpecForFamily(family: ChainFamily): SignerSpec {
     case ChainFamily.TRON:
       return {
         curve: Curve.SECP256K1,
-        hashFunction: HashFunction.KECCAK256,
+        hashFunction: HashFunction.SHA256,
         signatureFormat: SignatureFormat.RSV,
         coinType: "195",
       };
