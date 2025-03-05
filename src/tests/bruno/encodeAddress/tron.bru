@@ -16,12 +16,37 @@ params:path {
 
 body:json {
   {
-    "pubkey": "03e3090a70c77709bc1d939ba1d6ebf861742ec4bb029bed3ca621359a16313207"
+    "pubkey": "04C0ADCA96899A424EAC9E9778A8BA76B3F9057FD68A0D0D589FE5729CBEF6E818043331AF7D404F8EEF2EF005EDD29B635C732C36667429430517EE5EFFA69482"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body.addresses[0].address: eq "TGMxZAhbBPUVMe4oxVwJQbr5Jsozninp8o"
+  res.body.addresses[0].address: eq "TUrDmABZSoZmtx5P1ksNeFTTER5jvXFJEA"
+  res.body.addresses[0].type: eq "default"
+}
+
+---
+
+# Test with compressed public key
+post {
+  url: {{api_url}}/api/:chainId/address/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: tron
+}
+
+body:json {
+  {
+    "pubkey": "02c0adca96899a424eac9e9778a8ba76b3f9057fd68a0d0d589fe5729cbef6e818"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.addresses[0].address: eq "TUrDmABZSoZmtx5P1ksNeFTTER5jvXFJEA"
   res.body.addresses[0].type: eq "default"
 }
