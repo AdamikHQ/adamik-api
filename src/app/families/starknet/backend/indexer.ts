@@ -1,7 +1,13 @@
 import { Contract, Provider, shortString } from "starknet";
 import { STARKSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import {
+  Backend,
+  FinalizedTransaction,
+  ProviderType,
+  TransactionMode,
+  TransactionState,
+} from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { SELECTOR_INDEX } from "../constants";
@@ -15,7 +21,6 @@ import {
   TransactionHistoryResponse,
   TransactionResponse,
 } from "./types";
-import { Backend, ProviderType } from "~/app/model/types_WIP";
 
 const ROOT_URL = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.indexer)?.url;
 const nodeUrl = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
@@ -71,7 +76,7 @@ const starkScanToAdamikTransaction = async (
 ): Promise<FinalizedTransaction["parsed"]> => {
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     id: transaction.transaction_hash,
-    timestamp: transaction.timestamp,
+    timestamp: new Date(transaction.timestamp).getTime() * 1000,
     fees: {
       amount: BigInt(transaction.actual_fee),
     },
@@ -130,12 +135,9 @@ async function getTransactionHistorySymbols(transactions: TransactionHistory[]) 
   });
 
   const symbolsAddresses = Object.entries(
-    transactions.reduce(
-      (acc, transaction) => {
-        return { ...acc, [transaction.from_address]: transaction.from_address };
-      },
-      {} as Record<string, string>
-    )
+    transactions.reduce((acc, transaction) => {
+      return { ...acc, [transaction.from_address]: transaction.from_address };
+    }, {} as Record<string, string>)
   ).map(([symbolAddress]) => symbolAddress);
 
   const symbols = await Promise.all(
@@ -168,7 +170,7 @@ function starkScanToAdamikAccountTransaction(
             mode: TransactionMode.TRANSFER,
             state: TransactionState.CONFIRMED,
             blockHeight: BigInt(transaction.block_number),
-            timestamp: transaction.timestamp,
+            timestamp: new Date(transaction.timestamp).getTime() * 1000,
             fees: {
               amount: BigInt(
                 transactions.find(
