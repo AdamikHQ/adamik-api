@@ -1,6 +1,6 @@
 import { SuggestedParams as AlgoSuggestedParams } from "algosdk";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId } from "~/app/model/types_WIP";
+import { Backend, ChainId, ProviderType } from "~/app/model/types_WIP";
 import {
   InvalidPaginationTokenError,
   ThirdPartyProviderError,
@@ -18,7 +18,7 @@ import {
 
 // TODO Sanitize data from backend
 
-const ROOT_URL = CHAINS.algorand.backends.nodeURL;
+const ROOT_URL = CHAINS.algorand.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
 
 async function fetchAccount(address: string): Promise<AlgoAccount> {
   const url = `${ROOT_URL}/accounts/${address}`;

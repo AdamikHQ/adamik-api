@@ -1,10 +1,11 @@
-import { FeeValuesEIP1559, createPublicClient, erc20Abi, http } from "viem";
+import { createPublicClient, erc20Abi, FeeValuesEIP1559, http } from "viem";
 import {
   arbitrum,
   arbitrumSepolia,
   avalanche,
   base,
   baseSepolia,
+  berachainTestnetbArtio,
   bsc,
   bscTestnet,
   chiliz,
@@ -26,23 +27,36 @@ import {
   rootstock,
   rootstockTestnet,
   sepolia,
-  zkSync,
-  zkSyncSepoliaTestnet,
+  zksync,
+  zksyncSepoliaTestnet,
+  cronos,
+  worldchain,
 } from "viem/chains";
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId } from "~/app/model/types_WIP";
+import {
+  Backend,
+  ChainId,
+  FinalizedTransaction,
+  ProviderType,
+  Token,
+  TokenType,
+  TransactionMode,
+} from "~/app/model/types_WIP";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { chilizTestnet } from "../chains/chiliz-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
-import { monadPrivateTestnet } from "../chains/monad-private-testnet";
+import { monadTestnet } from "../chains/monad-testnet";
+import { berachain } from "../chains/berachain";
 import { EvmAddress, EvmChainParams } from "../types";
+import { TokenStore } from "~/app/tools/tokenStore";
 
 // FIXME Couldn't find a proper type that works besides 'any'
 const CLIENTS = new Map<ChainId, any>();
 
 function getClientConfig(chainId: ChainId) {
-  const transport = http(CHAINS[chainId].backends.nodeURL);
+  const nodeURL = CHAINS[chainId].backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
+  const transport = http(nodeURL);
 
   switch (chainId) {
     case ChainId.SEPOLIA:
@@ -52,15 +66,17 @@ function getClientConfig(chainId: ChainId) {
     case ChainId.HOLESKY:
       return { chain: holesky, transport };
     case ChainId.ZKSYNC:
-      return { chain: zkSync, transport };
+      return { chain: zksync, transport };
     case ChainId.ZKSYNC_SEPOLIA:
-      return { chain: zkSyncSepoliaTestnet, transport };
+      return { chain: zksyncSepoliaTestnet, transport };
     case ChainId.INJECTIVE_EVM_TESTNET:
       return { chain: injectiveEvmTestnet, transport };
     case ChainId.BASE:
       return { chain: base, transport };
     case ChainId.BASE_SEPOLIA:
       return { chain: baseSepolia, transport };
+    case ChainId.BERACHAIN_ARTIO:
+      return { chain: berachainTestnetbArtio, transport };
     case ChainId.OPTIMISM:
       return { chain: optimism, transport };
     case ChainId.OPTIMISM_SEPOLIA:
@@ -107,8 +123,14 @@ function getClientConfig(chainId: ChainId) {
       return { chain: rootstockTestnet, transport };
     case ChainId.AVALANCHE_FUJI:
       return { chain: avalancheFujiTesnet, transport };
-    case ChainId.MONAD_PRIVATE_TESTNET:
-      return { chain: monadPrivateTestnet, transport };
+    case ChainId.MONAD_TESTNET:
+      return { chain: monadTestnet, transport };
+    case ChainId.BERACHAIN:
+      return { chain: berachain, transport };
+    case ChainId.CRONOS:
+      return { chain: cronos, transport };
+    case ChainId.WORLD_CHAIN:
+      return { chain: worldchain, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }
@@ -235,7 +257,7 @@ async function makeERC20ContractCall(
   return value;
 }
 
-async function fetchERC20name(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
+async function fetchERC20Name(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
   return (await makeERC20ContractCall(chainId, contractAdress, "name")) as string;
 }
 
@@ -245,6 +267,28 @@ async function fetchERC20Decimals(chainId: ChainId, contractAdress: EvmAddress):
 
 async function fetchERC20Ticker(chainId: ChainId, contractAdress: EvmAddress): Promise<string> {
   return (await makeERC20ContractCall(chainId, contractAdress, "symbol")) as string;
+}
+
+async function fetchERC20Info(chainId: ChainId, contractAddress: EvmAddress): Promise<Token> {
+  let [token] = await TokenStore.load(chainId, [contractAddress]);
+  if (token !== null) {
+    return token;
+  }
+  const [name, decimals, ticker] = await Promise.all([
+    fetchERC20Name(chainId, contractAddress),
+    fetchERC20Decimals(chainId, contractAddress),
+    fetchERC20Ticker(chainId, contractAddress),
+  ]);
+  token = {
+    type: TokenType.ERC20,
+    id: contractAddress,
+    name,
+    ticker,
+    decimals,
+    contractAddress,
+  };
+  await TokenStore.save(chainId, [token]);
+  return token;
 }
 
 async function fetchERC20Balance({
@@ -267,27 +311,24 @@ async function fetchNonce(chainId: ChainId, address: EvmAddress): Promise<number
   return await getClient(chainId).getTransactionCount({ address });
 }
 
-// NOTE Unused at the moment, transactions are retrived via the explorer
-/*
-async function fetchTransaction(chainId: ChainId, transactionHash: string): Promise<Transaction | null> {
-  try {
-    return await getClient(chainId).getTransaction({ hash: transactionHash });
-  } catch {
-    return null;
-  }
-}
-
-async function fetchTransactionReceipt(
-  chainId: ChainId,
-  transactionHash: string
-): Promise<TransactionReceipt | null> {
-  try {
-    return await getClient(chainId).getTransactionReceipt({ hash: transactionHash });
-  } catch {
-    return null;
-  }
-}
-*/
+// TODO: Node implementation for fetching transactions
+// async function fetchTransaction(chainId: ChainId, transactionHash: string): Promise<FinalizedTransaction | null> {
+//   try {
+//     const [basic, receipt] = await Promise.all([
+//       getClient(chainId).getTransaction({ hash: transactionHash }),
+//       getClient(chainId).getTransactionReceipt({ hash: transactionHash }),
+//     ]);
+//     return {
+//       raw: basic,
+//       parsed: {
+//         id: basic.hash,
+//         mode: TransactionMode.
+//       }
+//     }
+//   } catch {
+//     return null;
+//   }
+// }
 
 async function broadcast(chainId: ChainId, signedTransaction: string) {
   return await getClient(chainId).sendRawTransaction({ serializedTransaction: signedTransaction });
@@ -302,8 +343,6 @@ export {
   estimateGas,
   fetchBalance,
   fetchERC20Balance,
-  fetchERC20Decimals,
-  fetchERC20Ticker,
-  fetchERC20name,
+  fetchERC20Info,
   fetchNonce,
 };

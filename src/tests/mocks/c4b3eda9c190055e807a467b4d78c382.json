@@ -1,0 +1,26 @@
+{
+  "request": {
+    "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7",
+    "method": "POST",
+    "params": {
+      "id": 4,
+      "jsonrpc": "2.0",
+      "method": "starknet_call",
+      "params": {
+        "request": {
+          "contract_address": "0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8",
+          "entry_point_selector": "0x216b05c387bab9ac31918a3e61672f4618601f3c598a2f3f2710f37053e1ea4",
+          "calldata": []
+        },
+        "block_id": "pending"
+      }
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "result": [
+      "0x55534443"
+    ],
+    "id": 4
+  }
+}

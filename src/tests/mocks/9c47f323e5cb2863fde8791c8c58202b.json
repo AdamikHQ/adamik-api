@@ -1,0 +1,20 @@
+{
+  "request": {
+    "url": "https://site1.moralis-nodes.com/eth/edd8151f3c634ee2a808f34c47c7ad70",
+    "method": "POST",
+    "params": {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "method": "eth_getBalance",
+      "params": [
+        "0x12f7464C9Ff094098d3F1d987a7C0Ce958E1cC17",
+        "latest"
+      ]
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 4,
+    "result": "0x367b1af239e622"
+  }
+}

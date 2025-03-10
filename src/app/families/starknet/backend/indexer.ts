@@ -1,7 +1,13 @@
 import { Contract, Provider, shortString } from "starknet";
 import { STARKSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import {
+  Backend,
+  FinalizedTransaction,
+  ProviderType,
+  TransactionMode,
+  TransactionState,
+} from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { SELECTOR_INDEX } from "../constants";
@@ -16,7 +22,8 @@ import {
   TransactionResponse,
 } from "./types";
 
-const ROOT_URL = CHAINS.starknet.backends.explorerURL;
+const ROOT_URL = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.indexer)?.url;
+const nodeUrl = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
 
 async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any) {
   const response = await fetch(url, {
@@ -69,7 +76,7 @@ const starkScanToAdamikTransaction = async (
 ): Promise<FinalizedTransaction["parsed"]> => {
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     id: transaction.transaction_hash,
-    timestamp: transaction.timestamp,
+    timestamp: new Date(transaction.timestamp).getTime() * 1000,
     fees: {
       amount: BigInt(transaction.actual_fee),
     },
@@ -84,7 +91,7 @@ const starkScanToAdamikTransaction = async (
   }
 
   const provider = new Provider({
-    nodeUrl: CHAINS.starknet.backends.nodeURL,
+    nodeUrl,
   });
 
   if (transaction.transaction_type === "DEPLOY_ACCOUNT") {
@@ -124,7 +131,7 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 
 async function getTransactionHistorySymbols(transactions: TransactionHistory[]) {
   const provider = new Provider({
-    nodeUrl: CHAINS.starknet.backends.nodeURL,
+    nodeUrl,
   });
 
   const symbolsAddresses = Object.entries(
@@ -163,7 +170,7 @@ function starkScanToAdamikAccountTransaction(
             mode: TransactionMode.TRANSFER,
             state: TransactionState.CONFIRMED,
             blockHeight: BigInt(transaction.block_number),
-            timestamp: transaction.timestamp,
+            timestamp: new Date(transaction.timestamp).getTime() * 1000,
             fees: {
               amount: BigInt(
                 transactions.find(

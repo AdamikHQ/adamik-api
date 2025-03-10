@@ -6,10 +6,10 @@
     "build": "next build",
     "clean": "git clean -fdX -e '!.env*'",
     "dev": "next dev",
-    "doc:chains": "ts-node src/scripts/generateChainsDoc.ts",
-    "doc:openapi": "ts-node src/scripts/generateOpenAPIDoc.ts",
-    "doc:providers": "ts-node src/scripts/generateProvidersDoc.ts",
-    "gen:cosmos-tokens": "ts-node src/scripts/generateCosmosIBCTokensDefinitions.ts",
+    "doc:chains": "dotenvx run -f .env.local -f .env -- tsx src/scripts/generateChainsDoc.ts",
+    "doc:openapi": "dotenvx run -f .env.local -f .env -- tsx src/scripts/generateOpenAPIDoc.ts",
+    "doc:providers": "dotenvx run -f .env.local -f .env -- tsx src/scripts/generateProvidersDoc.ts",
+    "gen:cosmos-tokens": "dotenvx run -f .env.local -f .env -- tsx src/scripts/generateCosmosIBCTokensDefinitions.ts",
     "lint": "next lint",
     "start": "next start",
     "test:bruno:prod": "bash src/scripts/runBrunoTests.sh api.adamik.io",
@@ -39,6 +39,7 @@
     "coinselect": "^3.1.13",
     "cosmjs-types": "^0.9.0",
     "date-fns": "^4.1.0",
+    "elliptic": "^6.6.1",
     "ethers": "^6.13.4",
     "moesif-nodejs": "^3.8.2",
     "next": "15.1.2",
@@ -51,10 +52,13 @@
     "zod-openapi": "^4.2.1"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.38.3",
     "@injectivelabs/ts-types": "^1.14.33",
     "@jq-tools/jq": "^0.0.10",
+    "@types/elliptic": "^6.4.18",
     "@types/jest": "^29.5.14",
     "@types/node": "^20.15.0",
+    "@types/react": "19.0.10",
     "@usebruno/cli": "^1.36.3",
     "eslint": "^9.17.0",
     "eslint-config-next": "15.1.2",
@@ -64,11 +68,13 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.19.3",
     "typescript": "^5.7.2"
   },
   "pnpm": {
     "patchedDependencies": {
       "coinselect@3.1.13": "patches/coinselect@3.1.13.patch"
     }
-  }
+  },
+  "packageManager": "pnpm@9.15.6+sha512.139cab068fdf0b751268179ac5f909b5be72afb4a75c513d1905d151befc8977b593d3cf8671ed83d4d6637c5c94b98ffbce108125de4a5a27a31233601a99de"
 }
