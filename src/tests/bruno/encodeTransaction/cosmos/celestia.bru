@@ -21,8 +21,7 @@ body:json {
         "mode": "transfer",
         "senderAddress": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
         "recipientAddress": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
-        "useMaxAmount": true,
-        "format": "json"
+        "useMaxAmount": true
       }
     }
   }
@@ -30,5 +29,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  ~res.body.transaction.encoded: eq "{"account_number":"1395838","chain_id":"celestia","fee":{"amount":[{"amount":"1928","denom":"utia"}],"gas":"96366"},"memo":"","msgs":[{"type":"cosmos-sdk/MsgSend","value":{"amount":[{"amount":"145899","denom":"utia"}],"from_address":"celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3","to_address":"celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3"}}],"sequence":"7"}"
+  res.body.transaction.encoded: eq 0a95010a92010a1c2f636f736d6f732e62616e6b2e763162657461312e4d736753656e6412720a2f63656c657374696131746b657066796c686c37666d6b727a737670686b79327a307237757076723974746435637333122f63656c657374696131746b657066796c686c37666d6b727a737670686b79327a3072377570767239747464356373331a0e0a0475746961120631343538323712660a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a2103833d5aebe72ca68e3816c4a466d395280929f07ccf5e75dc4e2d71c2c92da45812040a020801180712120a0c0a047574696112043230303010a08d061a0863656c657374696120fe9855
 }
