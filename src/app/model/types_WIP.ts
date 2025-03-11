@@ -161,6 +161,7 @@ export enum ProviderType {
   moralis = "moralis",
   tonapi = "tonapi",
   tronscan = "tronscan",
+  oklink = "oklink",
 }
 
 type Backend = {
@@ -466,6 +467,14 @@ type Transaction = {
   data: TransactionData;
   encoded?: string;
   signature?: string;
+};
+
+type TransactionEncodedType = "hash" | "default";
+
+type TransactionEncoded = {
+  type: TransactionEncodedType;
+  value: string;
+  hashFunction?: HashFunction;
 };
 
 // Used to list spendable amounts, in native currency and one optional token currency

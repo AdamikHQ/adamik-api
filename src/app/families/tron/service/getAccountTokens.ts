@@ -1,5 +1,6 @@
-import { AccountTokens, Paginated, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
-import { fetchAccountTokensData } from "../backend/tronscan";
+import { AccountTokens, Paginated } from "~/app/model/types_WIP";
+import { fetchAccountTokensData as fetchAccountTokensDataFromOklink } from "../backend/oklink";
+import { fetchAccountTokensData as fetchAccountTokensDataFromTronscan } from "../backend/tronscan";
 import { TronService } from "../service";
 
 async function getAccountTokens(
@@ -7,48 +8,26 @@ async function getAccountTokens(
   accountId: string,
   paginationToken?: string
 ): Promise<Paginated<AccountTokens>> {
-  const { tokensInfo, nextPage } = await fetchAccountTokensData(accountId, paginationToken);
+  const fetchAccountTokensDataFunctions = [
+    fetchAccountTokensDataFromTronscan,
+    fetchAccountTokensDataFromOklink,
+  ];
 
-  const tokens: TokenAmount[] = [];
-  tokensInfo?.data
-    // FIXME Flaw in that logic: number of results may vary depending on the filtering below
-    // Maybe an issue for customers... maybe not?
-    // Fixing that would require juggling with multiple calls to the explorer until getting
-    // the right number of results; Probably not worth it
-    ?.filter(
-      (tokenInfo) =>
-        // We only support TRC10 and TRC20 token types
-        ["trc10", "trc20"].includes(tokenInfo.tokenType) &&
-        // Some special case tokens are irrelevant (e.g main currency TRX is listed as a special TRC10)
-        tokenInfo.tokenId !== "_"
-    )
-    .forEach((tokenInfo) => {
-      const tokenType = tokenInfo.tokenType === "trc10" ? TokenType.TRC10 : TokenType.TRC20;
+  let errors: Error[] = [];
 
-      const token: Token = {
-        type: tokenType,
-        id: tokenInfo.tokenId,
-        name: tokenInfo.tokenName,
-        ticker: tokenInfo.tokenAbbr,
-        decimals: tokenInfo.tokenDecimal,
-      };
+  for (const fetchAccountTokensDataFunction of fetchAccountTokensDataFunctions) {
+    try {
+      return await fetchAccountTokensDataFunction(accountId, paginationToken);
+    } catch (error) {
+      errors.push(error as Error);
+      continue; // Try next service if available
+    }
+  }
 
-      if (tokenType === TokenType.TRC20) {
-        token.contractAddress = tokenInfo.tokenId;
-      }
+  // That's means even failover didn't work
+  console.error(JSON.stringify(errors, null, 2));
 
-      tokens.push({
-        token,
-        amount: BigInt(tokenInfo.balance),
-      });
-    });
-
-  return {
-    tokens,
-    pagination: {
-      nextPage,
-    },
-  };
+  throw new Error(`Failed to fetch account tokens from all backends: ${errors.at(-1)?.message}`);
 }
 
 export { getAccountTokens };
