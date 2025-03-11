@@ -84,7 +84,7 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 }
 
 async function fetchAccountData(address: string): Promise<AccountState> {
-  const url = `${explorerURL}/api/accsountv2?address=${address}`;
+  const url = `${explorerURL}/api/accountv2?address=${address}`;
 
   const accountData = await fetchWithRetry<TronscanAccountInfo>(url, {
     "TRON-PRO-API-KEY": TRONSCAN_API_KEY,
