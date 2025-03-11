@@ -25,7 +25,7 @@ async function validateTransaction(
 
   const transactionData = transaction.data;
   const accountData = await fetchAccountData(transactionData.senderAddress);
-  const availableBalance = accountData.balance;
+  const availableBalance = accountData.balances?.native?.available;
   const amount = transactionData.amount as bigint;
   const fees = transactionData.fees as bigint;
 
@@ -38,10 +38,10 @@ async function validateTransaction(
       break;
     }
     case TransactionMode.TRANSFER_TOKEN: {
-      const tokenData = accountData.withPriceTokens.find(
-        (token) => token.tokenId === transactionData.tokenId
+      const tokenData = accountData.balances?.tokens?.find(
+        (token) => token.token.id === transactionData.tokenId
       );
-      if (tokenData && amount > BigInt(tokenData.balance)) {
+      if (tokenData && amount > BigInt(tokenData.amount)) {
         status.errors.push({ message: "Insufficient token balance" });
       }
       break;
