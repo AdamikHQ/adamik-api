@@ -555,7 +555,11 @@ async function encodeToSign(
     serializedSignDoc = Buffer.from(serializeSignDoc(signDoc));
   } else {
     const signDoc = await buildSignDocProtobuf(chainId, account, transactionData, chain.nativeId, feeData);
+
     serializedSignDoc = Buffer.from(SignDocProtobuf.encode(signDoc).finish());
+    return format === EncodedTransactionFormat.JSON
+      ? JSON.stringify(SignDocProtobuf.toJSON(signDoc))
+      : serializedSignDoc.toString("hex");
   }
 
   // TODO Test the protobuf format with Keplr, then deprecate the JSON format here if possible
