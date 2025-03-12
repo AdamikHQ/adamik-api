@@ -469,14 +469,6 @@ type Transaction = {
   signature?: string;
 };
 
-type TransactionEncodedType = "hash" | "default";
-
-type TransactionEncoded = {
-  type: TransactionEncodedType;
-  value: string;
-  hashFunction?: HashFunction;
-};
-
 // Used to list spendable amounts, in native currency and one optional token currency
 type TransactionSpendableAmounts = {
   native: bigint;
