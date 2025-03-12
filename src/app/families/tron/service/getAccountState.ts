@@ -20,7 +20,7 @@ async function getAccountState(this: TronService, accountId: string): Promise<Ac
   }
 
   // That's means even failover didn't work
-  console.warn(JSON.stringify(errors, null, 2));
+  console.warn(`/!\\ Failed to fetch state of account ${accountId}:`, JSON.stringify(errors, null, 2));
 
   throw new ThirdPartyProviderError("Failed to fetch account state");
 }

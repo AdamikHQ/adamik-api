@@ -1,45 +1,16 @@
-import { Token, TokenType } from "~/app/model/types_WIP";
+import { Token } from "~/app/model/types_WIP";
 import { UnsupportedTokenIDError } from "~/app/tools/handlers/errors";
-import { TokenStore } from "~/app/tools/tokenStore";
 import { getTRC10TokenInfo, getTRC20TokenInfo } from "../backend/node";
 import { TronService } from "../service";
-async function getTokenInfo(this: TronService, tokenId: string): Promise<Token> {
-  const [token] = await TokenStore.load(this.chainId, [tokenId]);
-  if (token !== null) {
-    return token;
-  }
 
+async function getTokenInfo(this: TronService, tokenId: string): Promise<Token> {
   try {
     // TRC10 token IDs look like: '1002841'
     if (!isNaN(Number(tokenId))) {
-      const tokenInfo = await getTRC10TokenInfo(tokenId);
-
-      const token = {
-        type: TokenType.TRC10,
-        id: tokenId,
-        name: tokenInfo.name,
-        ticker: tokenInfo.abbr,
-        decimals: tokenInfo.precision,
-      };
-      await TokenStore.save(this.chainId, [token]);
-      return token;
-
-      // TRC20 token IDs look like: 'tafjulxivgt4qwk6uzwjqwzxtsagaqnvp4'
-    } else {
-      const tokenInfo = await getTRC20TokenInfo(tokenId);
-
-      const token = {
-        type: TokenType.TRC20,
-        id: tokenId,
-        name: tokenInfo.name,
-        ticker: tokenInfo.symbol,
-        decimals: Number(tokenInfo.decimals),
-        contractAddress: tokenId,
-      };
-
-      await TokenStore.save(this.chainId, [token]);
-      return token;
+      return getTRC10TokenInfo(tokenId);
     }
+    // TRC20 token IDs look like: 'tafjulxivgt4qwk6uzwjqwzxtsagaqnvp4'
+    return getTRC20TokenInfo(tokenId);
   } catch (e) {
     console.warn(`/!\\ Failed to fetch tron token with ID '${tokenId}':`, e);
     throw new UnsupportedTokenIDError(tokenId, this.chainId);

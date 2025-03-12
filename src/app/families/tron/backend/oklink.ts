@@ -14,7 +14,11 @@ import {
   TransactionState,
 } from "~/app/model/types_WIP";
 import { amountToSmallestUnit } from "~/app/tools/amount";
-import { InvalidPaginationTokenError, TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
+import {
+  InvalidPaginationTokenError,
+  ThirdPartyProviderError,
+  TransactionIdNotFoundError,
+} from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { getTRC20TokenInfo } from "./node";
 import {
@@ -25,28 +29,29 @@ import {
 } from "./types";
 const explorerURL = CHAINS.tron.backends.find((b: Backend) => b.providerType === ProviderType.oklink)?.url;
 
-const fetchWithHeaders = async <T>(url: string, headers: Record<string, string>): Promise<T> => {
-  const response = await fetch(url, { headers });
-  return response.json();
-};
-
 async function fetchTransaction(transactionId: string): Promise<FinalizedTransaction> {
   const url = `${explorerURL}/transaction/transaction-fills?chainShortName=TRON&txid=${transactionId}`;
 
-  const response = await fetchWithHeaders<{
+  const response = await fetch(url, {
+    headers: {
+      "Ok-Access-Key": OKLINK_API_KEY,
+    },
+  });
+
+  const transactionResponse: {
     code: string;
     msg: string;
     data: OkLinkTransactionInfo[];
-  }>(url, { "Ok-Access-Key": OKLINK_API_KEY });
+  } = await response.json();
 
-  if (!response?.data?.[0]) {
+  if (!transactionResponse?.data?.[0]) {
     throw new TransactionIdNotFoundError(transactionId, ChainId.TRON);
   }
 
-  const transaction = response.data[0];
+  const transaction = transactionResponse.data[0];
 
   let tokenId: string | undefined;
-  let amount: string;
+  let amount: string | null;
   let mode = TransactionMode.TRANSFER;
 
   switch (transaction.transactionType) {
@@ -54,14 +59,25 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
       mode = TransactionMode.TRANSFER_TOKEN;
       tokenId = transaction.tokenTransferDetails[0].tokenContractAddress;
       const { decimals } = await getTRC20TokenInfo(tokenId);
-      amount = amountToSmallestUnit(transaction.tokenTransferDetails[0].amount, Number(decimals)) || "0";
+      amount = amountToSmallestUnit(transaction.tokenTransferDetails[0].amount, Number(decimals));
+      if (amount === null) {
+        throw new ThirdPartyProviderError(`Failed to fetch amount of transaction tron : ${transactionId}`);
+      }
       break;
     case "TransferAssetContract":
       mode = TransactionMode.TRANSFER_TOKEN;
     // TRC10 is not well handle by OKLINK.
     default:
-      amount = amountToSmallestUnit(transaction.amount, CHAINS.tron.decimals) || "0";
+      amount = amountToSmallestUnit(transaction.amount, CHAINS.tron.decimals);
+      if (amount === null) {
+        throw new ThirdPartyProviderError(`Failed to fetch amount of transaction tron : ${transactionId}`);
+      }
       break;
+  }
+
+  const feesAmount = amountToSmallestUnit(transaction.txfee, CHAINS.tron.decimals);
+  if (feesAmount === null) {
+    throw new ThirdPartyProviderError(`Failed to fetch fees of transaction tron : ${transactionId}`);
   }
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
@@ -81,9 +97,7 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
       },
     ],
     fees: {
-      amount: transaction.txfee
-        ? BigInt(amountToSmallestUnit(transaction.txfee, CHAINS.tron.decimals) || "0")
-        : BigInt(0),
+      amount: BigInt(feesAmount),
     },
     state: transaction.state === "success" ? TransactionState.CONFIRMED : TransactionState.UNCONFIRMED,
     timestamp: Number(transaction.transactionTime),
@@ -99,6 +113,11 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 async function okLinkTokenToTokenAmount(token: OkLinkTokenInfo): Promise<TokenAmount> {
   const tokenInfo = await getTRC20TokenInfo(token.tokenContractAddress);
 
+  const amount = amountToSmallestUnit(token.holdingAmount, Number(tokenInfo.decimals));
+  if (amount === null) {
+    throw new ThirdPartyProviderError(`Failed to fetch amount of token tron : ${token.tokenContractAddress}`);
+  }
+
   return {
     token: {
       type: TokenType.TRC20,
@@ -107,31 +126,47 @@ async function okLinkTokenToTokenAmount(token: OkLinkTokenInfo): Promise<TokenAm
       ticker: token.symbol,
       decimals: Number(tokenInfo.decimals),
     },
-    amount: BigInt(amountToSmallestUnit(token.holdingAmount, Number(tokenInfo.decimals)) ?? "0"),
+    amount: BigInt(amount),
   };
 }
 
 async function fetchAccountData(address: string): Promise<AccountState> {
   const url = `${explorerURL}/address/address-summary?chainShortName=TRON&address=${address}`;
 
-  const response = await fetchWithHeaders<OkLinkAccountStateResponse>(url, {
-    "Ok-Access-Key": OKLINK_API_KEY,
+  const response = await fetch(url, {
+    headers: {
+      "Ok-Access-Key": OKLINK_API_KEY,
+    },
   });
 
+  const okLinkAccountSummaryResponse: OkLinkAccountStateResponse = await response.json();
+
   const urlTRC20 = `${explorerURL}/address/token-balance?chainShortName=TRON&address=${address}&protocolType=token_20&limit=50`;
-  const responseTRC20 = await fetchWithHeaders<OkLinkTokensAccountStateResponse>(urlTRC20, {
-    "Ok-Access-Key": OKLINK_API_KEY,
+  const responseTRC20 = await fetch(urlTRC20, {
+    headers: {
+      "Ok-Access-Key": OKLINK_API_KEY,
+    },
   });
+
+  const okLinkTokenAccountStateResponse: OkLinkTokensAccountStateResponse = await responseTRC20.json();
+
+  const nativeAmount = amountToSmallestUnit(
+    okLinkAccountSummaryResponse.data[0]?.balance ?? "0",
+    CHAINS.tron.decimals
+  );
+  if (nativeAmount === null) {
+    throw new ThirdPartyProviderError(`Failed to fetch amount of native token tron : ${address}`);
+  }
 
   return {
     balances: {
       native: {
-        available: BigInt(
-          amountToSmallestUnit(response.data[0]?.balance ?? "0", CHAINS.tron.decimals) ?? "0"
-        ),
-        total: BigInt(amountToSmallestUnit(response.data[0]?.balance ?? "0", CHAINS.tron.decimals) ?? "0"),
+        available: BigInt(nativeAmount),
+        total: BigInt(nativeAmount),
       },
-      tokens: await Promise.all([...(responseTRC20.data[0]?.tokenList ?? []).map(okLinkTokenToTokenAmount)]),
+      tokens: await Promise.all([
+        ...(okLinkTokenAccountStateResponse.data[0]?.tokenList ?? []).map(okLinkTokenToTokenAmount),
+      ]),
     },
   };
 }
@@ -156,17 +191,26 @@ async function fetchAccountTokensData(
   }
 
   const url = `${explorerURL}/address/token-balance?chainShortName=TRON&address=${address}&protocolType=token_20&limit=50&page=${startParam}`;
-  const response = await fetchWithHeaders<OkLinkTokensAccountStateResponse>(url, {
-    "Ok-Access-Key": OKLINK_API_KEY,
+  const response = await fetch(url, {
+    headers: {
+      "Ok-Access-Key": OKLINK_API_KEY,
+    },
   });
 
+  const okLinkTokenAccountStateResponse: OkLinkTokensAccountStateResponse = await response.json();
+
   let nextPage: string | null = null;
-  if (Number(response.data[0]?.page) < Number(response.data[0]?.totalPage)) {
-    nextPage = paginationToB64({ page: String(Number(response.data[0]?.page) + 1) });
+  if (
+    Number(okLinkTokenAccountStateResponse.data[0]?.page) <
+    Number(okLinkTokenAccountStateResponse.data[0]?.totalPage)
+  ) {
+    nextPage = paginationToB64({ page: String(Number(okLinkTokenAccountStateResponse.data[0]?.page) + 1) });
   }
 
   return {
-    tokens: await Promise.all([...(response.data[0]?.tokenList ?? []).map(okLinkTokenToTokenAmount)]),
+    tokens: await Promise.all([
+      ...(okLinkTokenAccountStateResponse.data[0]?.tokenList ?? []).map(okLinkTokenToTokenAmount),
+    ]),
     pagination: {
       nextPage: nextPage ?? null,
     },

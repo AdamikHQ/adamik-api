@@ -19,7 +19,7 @@ async function getTransaction(this: TronService, transactionId: string): Promise
   }
 
   // That's means even failover didn't work
-  console.warn(JSON.stringify(errors, null, 2));
+  console.warn(`/!\\ Failed to fetch transaction with ID ${transactionId}:`, JSON.stringify(errors, null, 2));
 
   throw new ThirdPartyProviderError("Failed to fetch transaction");
 }

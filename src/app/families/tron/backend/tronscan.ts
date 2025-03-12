@@ -26,17 +26,16 @@ const TRONSCAN_PAGE_SIZE = 20;
 
 const explorerURL = CHAINS.tron.backends.find((b: Backend) => b.providerType === ProviderType.tronscan)?.url;
 
-const fetchWithHeaders = async <T>(url: string, headers: Record<string, string>): Promise<T> => {
-  const response = await fetch(url, { headers });
-  return response.json();
-};
-
 async function fetchTransaction(transactionId: string): Promise<FinalizedTransaction> {
   const url = `${explorerURL}/api/transaction-info?hash=${transactionId}`;
 
-  const tronTransaction = await fetchWithHeaders<TronscanTransactionInfo>(url, {
-    "TRON-PRO-API-KEY": TRONSCAN_API_KEY,
+  const response = await fetch(url, {
+    headers: {
+      "TRON-PRO-API-KEY": TRONSCAN_API_KEY,
+    },
   });
+
+  const tronTransaction: TronscanTransactionInfo = await response.json();
 
   if (!tronTransaction) {
     throw new TransactionIdNotFoundError(transactionId, ChainId.TRON);
@@ -90,9 +89,13 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 async function fetchAccountData(address: string): Promise<AccountState> {
   const url = `${explorerURL}/api/accountv2?address=${address}`;
 
-  const accountData = await fetchWithHeaders<TronscanAccountInfo>(url, {
-    "TRON-PRO-API-KEY": TRONSCAN_API_KEY,
+  const response = await fetch(url, {
+    headers: {
+      "TRON-PRO-API-KEY": TRONSCAN_API_KEY,
+    },
   });
+
+  const accountData: TronscanAccountInfo = await response.json();
 
   // Tronscan instability... in rare cases some data seems wrong or missing?...
   if (accountData?.balance === undefined || accountData?.withPriceTokens === undefined) {
@@ -167,9 +170,13 @@ async function fetchAccountTokensData(
 
   const url = `${explorerURL}/api/account/tokens?${searchParams}`;
 
-  const tokensInfo = await fetchWithHeaders<TronscanAccountTokensInfo>(url, {
-    "TRON-PRO-API-KEY": TRONSCAN_API_KEY,
+  const response = await fetch(url, {
+    headers: {
+      "TRON-PRO-API-KEY": TRONSCAN_API_KEY,
+    },
   });
+
+  const tokensInfo: TronscanAccountTokensInfo = await response.json();
 
   const tokens: TokenAmount[] = [];
   tokensInfo?.data
