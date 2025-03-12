@@ -1,4 +1,5 @@
 import { FinalizedTransaction } from "~/app/model/types_WIP";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { fetchTransaction as fetchTransactionFromOklink } from "../backend/oklink";
 import { fetchTransaction as fetchTransactionFromTronscan } from "../backend/tronscan";
 import { TronService } from "../service";
@@ -6,7 +7,7 @@ import { TronService } from "../service";
 async function getTransaction(this: TronService, transactionId: string): Promise<FinalizedTransaction> {
   const fetchTransactionFunctions = [fetchTransactionFromTronscan, fetchTransactionFromOklink];
 
-  let errors: Error[] = [];
+  const errors: Error[] = [];
 
   for (const fetchTransactionFunction of fetchTransactionFunctions) {
     try {
@@ -18,9 +19,9 @@ async function getTransaction(this: TronService, transactionId: string): Promise
   }
 
   // That's means even failover didn't work
-  console.error(JSON.stringify(errors, null, 2));
+  console.warn(JSON.stringify(errors, null, 2));
 
-  throw new Error(`Failed to fetch transaction from all backends: ${errors.at(-1)?.message}`);
+  throw new ThirdPartyProviderError("Failed to fetch transaction");
 }
 
 export { getTransaction };

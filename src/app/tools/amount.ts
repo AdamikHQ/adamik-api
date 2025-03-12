@@ -6,6 +6,9 @@
  * Example: 1000000000000000000 -> 1
  */
 export const amountToMainUnit = (amount: string, decimals: number): string | null => {
+  if (decimals === null || decimals === undefined || amount === null || amount === undefined) {
+    return null;
+  }
   const parsedAmount = amount === "0" ? 0 : Number(amount);
   return Number.isNaN(parsedAmount) ? null : (parsedAmount / Math.pow(10, decimals)).toString();
 };
@@ -17,7 +20,13 @@ export const amountToMainUnit = (amount: string, decimals: number): string | nul
  * @returns The amount in the smallest unit or null if invalid amount
  * Example: 1 -> 1000000000000000000
  */
-export const amountToSmallestUnit = (amount: string, decimals: number): string => {
+export const amountToSmallestUnit = (amount: string, decimals: number): string | null => {
+  if (decimals === null || decimals === undefined || amount === null || amount === undefined) {
+    return null;
+  }
   const computedAmount = Number(amount) * Math.pow(10, decimals);
+  if (Number.isNaN(computedAmount)) {
+    return null;
+  }
   return Math.trunc(computedAmount).toString();
 };

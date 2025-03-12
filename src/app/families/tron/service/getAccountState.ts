@@ -2,12 +2,13 @@ import { AccountState } from "~/app/model/types_WIP";
 import { fetchAccountData as fetchAccountDataFromOklink } from "../backend/oklink";
 import { fetchAccountData as fetchAccountDataFromTronscan } from "../backend/tronscan";
 
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { TronService } from "../service";
 
 async function getAccountState(this: TronService, accountId: string): Promise<AccountState> {
   const fetchAccountDataFunctions = [fetchAccountDataFromTronscan, fetchAccountDataFromOklink];
 
-  let errors: Error[] = [];
+  const errors: Error[] = [];
 
   for (const fetchAccountDataFunction of fetchAccountDataFunctions) {
     try {
@@ -19,9 +20,9 @@ async function getAccountState(this: TronService, accountId: string): Promise<Ac
   }
 
   // That's means even failover didn't work
-  console.error(JSON.stringify(errors, null, 2));
+  console.warn(JSON.stringify(errors, null, 2));
 
-  throw new Error(`Failed to fetch account state from all backends: ${errors.at(-1)?.message}`);
+  throw new ThirdPartyProviderError("Failed to fetch account state");
 }
 
 export { getAccountState };
