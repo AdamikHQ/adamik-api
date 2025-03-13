@@ -56,6 +56,22 @@ describe("getAccountTokens", () => {
     expect(result).toEqual(mockResponse);
   });
 
+  it("should fetch tokens from specified provider when pagination token is provided", async () => {
+    const paginationToken = paginationToB64({ type: ProviderType.tronscan, page: 2 }) as string;
+    const mockResponse = {
+      data: [{ tokenId: "4", balance: "400" }],
+      nextPage: null,
+    };
+
+    (fetchAccountTokensDataFromTronscan as jest.Mock).mockResolvedValueOnce(mockResponse);
+
+    const result = await getAccountTokens.call(mockTronService, mockAccountId, paginationToken);
+
+    expect(fetchAccountTokensDataFromTronscan).toHaveBeenCalledWith(mockAccountId, paginationToken);
+    expect(fetchAccountTokensDataFromOklink).toHaveBeenCalledTimes(0);
+    expect(result).toEqual(mockResponse);
+  });
+
   it("should fallback to Oklink when Tronscan fails", async () => {
     const mockResponse = {
       data: [{ tokenId: "3", balance: "300" }],
@@ -82,7 +98,7 @@ describe("getAccountTokens", () => {
   });
 
   it("should throw ThirdPartyProviderError when provider failover is detected during pagination", async () => {
-    const paginationToken = paginationToB64({ type: ProviderType.tronscan, page: 2 }) ?? undefined;
+    const paginationToken = paginationToB64({ type: ProviderType.tronscan, page: 2 }) as string;
 
     (fetchAccountTokensDataFromTronscan as jest.Mock).mockRejectedValueOnce(new Error("Tronscan failed"));
 
