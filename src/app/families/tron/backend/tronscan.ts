@@ -158,10 +158,10 @@ async function fetchAccountTokensData(
     limit: TRONSCAN_PAGE_SIZE.toString(),
   });
 
-  const paginationData = paginationFromB64(paginationToken);
+  const paginationData = paginationFromB64(paginationToken) as { type: ProviderType; page: number };
   if (paginationData) {
-    if (typeof paginationData === "string") {
-      startParam = paginationData;
+    if (paginationData.type === ProviderType.tronscan) {
+      startParam = paginationData.page.toString();
       searchParams.set("start", startParam);
     } else {
       throw new InvalidPaginationTokenError("Provided pagination token is invalid");
@@ -205,7 +205,7 @@ async function fetchAccountTokensData(
   const nextPage =
     tokensInfo?.data.length < TRONSCAN_PAGE_SIZE
       ? null
-      : paginationToB64((Number(startParam) + TRONSCAN_PAGE_SIZE).toFixed());
+      : paginationToB64({ type: ProviderType.tronscan, page: Number(startParam) + TRONSCAN_PAGE_SIZE });
 
   return {
     tokens,

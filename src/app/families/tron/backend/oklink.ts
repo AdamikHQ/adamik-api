@@ -177,13 +177,13 @@ async function fetchAccountTokensData(
 ): Promise<Paginated<AccountTokens>> {
   // Format is different from Tronscan
   // To avoid pagination collision
-  const paginationData = paginationFromB64(paginationToken) as { page: string } | string | undefined;
+  const paginationData = paginationFromB64(paginationToken) as
+    | { type: ProviderType; page: string }
+    | undefined;
   let startParam = "1";
 
   if (paginationData) {
-    if (typeof paginationData === "string") {
-      startParam = "1"; // That's means it's coming from Tronscan so we restarting it
-    } else if (typeof paginationData === "object" && paginationData.page) {
+    if (paginationData.type === ProviderType.oklink && paginationData.page) {
       startParam = paginationData.page;
     } else {
       throw new InvalidPaginationTokenError("Provided pagination token is invalid");
@@ -204,7 +204,10 @@ async function fetchAccountTokensData(
     Number(okLinkTokenAccountStateResponse.data[0]?.page) <
     Number(okLinkTokenAccountStateResponse.data[0]?.totalPage)
   ) {
-    nextPage = paginationToB64({ page: String(Number(okLinkTokenAccountStateResponse.data[0]?.page) + 1) });
+    nextPage = paginationToB64({
+      type: ProviderType.oklink,
+      page: String(Number(okLinkTokenAccountStateResponse.data[0]?.page) + 1),
+    });
   }
 
   return {
