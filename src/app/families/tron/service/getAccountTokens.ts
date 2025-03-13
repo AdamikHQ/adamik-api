@@ -24,7 +24,7 @@ async function getAccountTokens(
 
   for (const { providerType, fetchAccountTokensDataFunction } of fetchAccountTokensDataFunctions) {
     try {
-      if (paginationData === null || (paginationData && providerType === paginationData.type)) {
+      if (!paginationData || providerType === paginationData.type) {
         return await fetchAccountTokensDataFunction(accountId, paginationToken);
       }
       throw new ThirdPartyProviderError("Failed over detected during pagination");
@@ -34,9 +34,12 @@ async function getAccountTokens(
     }
   }
 
-  throw new ThirdPartyProviderError(
-    `/!\\ Failed to fetch account tokens of account ${accountId}: ${JSON.stringify(errors, null, 2)}`
+  console.warn(
+    `/!\\ Failed to fetch account tokens of account ${accountId}:`,
+    JSON.stringify(errors, null, 2)
   );
+
+  throw new ThirdPartyProviderError("Failed to fetch account tokens");
 }
 
 export { getAccountTokens };

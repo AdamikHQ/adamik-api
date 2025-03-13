@@ -40,7 +40,7 @@ describe("getAccountTokens", () => {
     expect(result).toBe(mockResponse);
   });
 
-  it("should fetch tokens from specified provider when pagination token is provided", async () => {
+  it("should fetch tokens from Oklink provider when pagination token is provided", async () => {
     const paginationToken = paginationToB64({ type: ProviderType.oklink, page: 2 }) as string;
     const mockResponse = {
       data: [{ tokenId: "2", balance: "200" }],
@@ -56,7 +56,7 @@ describe("getAccountTokens", () => {
     expect(result).toEqual(mockResponse);
   });
 
-  it("should fetch tokens from specified provider when pagination token is provided", async () => {
+  it("should fetch tokens from Tronscan provider when pagination token is provided", async () => {
     const paginationToken = paginationToB64({ type: ProviderType.tronscan, page: 2 }) as string;
     const mockResponse = {
       data: [{ tokenId: "4", balance: "400" }],
@@ -92,6 +92,7 @@ describe("getAccountTokens", () => {
     (fetchAccountTokensDataFromTronscan as jest.Mock).mockRejectedValueOnce(new Error("Tronscan failed"));
     (fetchAccountTokensDataFromOklink as jest.Mock).mockRejectedValueOnce(new Error("Oklink failed"));
 
+    jest.spyOn(console, "warn").mockImplementation(() => {});
     await expect(getAccountTokens.call(mockTronService, mockAccountId)).rejects.toThrow(
       ThirdPartyProviderError
     );
@@ -99,6 +100,7 @@ describe("getAccountTokens", () => {
 
   it("should throw ThirdPartyProviderError when provider failover is detected during pagination", async () => {
     const paginationToken = paginationToB64({ type: ProviderType.tronscan, page: 2 }) as string;
+    jest.spyOn(console, "warn").mockImplementation(() => {});
 
     (fetchAccountTokensDataFromTronscan as jest.Mock).mockRejectedValueOnce(new Error("Tronscan failed"));
 
