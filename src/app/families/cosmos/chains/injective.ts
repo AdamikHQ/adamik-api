@@ -12,11 +12,10 @@ import {
   MsgSend,
   MsgUndelegate,
   MsgWithdrawDelegatorReward,
-  SignDoc,
 } from "@injectivelabs/sdk-ts";
 import { ChainId as CosmosChainId } from "@injectivelabs/ts-types";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { ChainId, TransactionData, TransactionMode } from "~/app/model/types_WIP";
+import { ChainId, EncodedTransactionFormat, TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { CosmosAccount } from "../backend/types";
 import { resolvePubKey } from "../logic";
 
@@ -24,8 +23,9 @@ function buildSignDocProtobufForInjective(
   account: CosmosAccount,
   transactionData: TransactionData,
   networkId: string,
-  feeData: StdFee
-): SignDoc {
+  feeData: StdFee,
+  format?: EncodedTransactionFormat
+): string {
   const { pubKey } = resolvePubKey(ChainId.INJECTIVE, account, transactionData);
 
   const protoMsgs = buildMessagesForInjective(transactionData);
@@ -62,12 +62,16 @@ function buildSignDocProtobufForInjective(
     fee: fees,
   });
 
-  return createSignDoc({
+  const signDoc = createSignDoc({
     accountNumber: Number(account.accountNumber),
     authInfoBytes: CosmosTxV1Beta1Tx.AuthInfo.encode(authInfo).finish(),
     bodyBytes: CosmosTxV1Beta1Tx.TxBody.encode(bodyBytes).finish(),
     chainId: networkId as CosmosChainId,
   });
+
+  return format === EncodedTransactionFormat.JSON
+    ? JSON.stringify(CosmosTxV1Beta1Tx.SignDoc.toJSON(signDoc))
+    : Buffer.from(CosmosTxV1Beta1Tx.SignDoc.encode(signDoc).finish()).toString("hex");
 }
 
 function buildSignDocAminoForInjective(
