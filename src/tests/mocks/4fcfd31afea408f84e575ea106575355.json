@@ -1,0 +1,22 @@
+{
+  "request": {
+    "url": "https://monad-testnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+    "method": "POST",
+    "params": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenMetadata",
+      "params": [
+        "0x673cd70fa883394a1f3deb3221937ceb7c2618d7"
+      ]
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "error": {
+      "code": 429,
+      "message": "Your app has been rate-limited due to unusually high global traffic. Consider upgrading your plan to have guaranteed throughput even in times of extraordinary request traffic."
+    }
+  }
+}
