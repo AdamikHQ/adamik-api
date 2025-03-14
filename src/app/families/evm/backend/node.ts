@@ -34,15 +34,7 @@ import {
 } from "viem/chains";
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
-import {
-  Backend,
-  ChainId,
-  FinalizedTransaction,
-  ProviderType,
-  Token,
-  TokenType,
-  TransactionMode,
-} from "~/app/model/types_WIP";
+import { Provider, ChainId, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { chilizTestnet } from "../chains/chiliz-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
@@ -55,7 +47,7 @@ import { TokenStore } from "~/app/tools/tokenStore";
 const CLIENTS = new Map<ChainId, any>();
 
 function getClientConfig(chainId: ChainId) {
-  const nodeURL = CHAINS[chainId].backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
+  const nodeURL = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.node)?.url;
   const transport = http(nodeURL);
 
   switch (chainId) {

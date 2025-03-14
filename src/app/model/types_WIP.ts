@@ -151,7 +151,6 @@ type ApiRequestFilters = Record<string, true>;
 
 export enum ProviderType {
   node = "node",
-  indexer = "indexer",
   blockchair = "blockchair",
   mintscan = "mintscan",
   blockscout = "blockscout",
@@ -161,11 +160,14 @@ export enum ProviderType {
   moralis = "moralis",
   tonapi = "tonapi",
   tronscan = "tronscan",
+  starkscan = "starkscan",
+  algoindexer = "algoindexer",
+  mempoolspace = "mempoolspace",
 }
 
-type Backend = {
+type Provider = {
   url: string;
-  providerType: ProviderType;
+  type: ProviderType;
 };
 
 enum Curve {
@@ -200,7 +202,7 @@ type Chain = {
   name: string;
   ticker: string;
   decimals: number;
-  backends: Backend[];
+  backends: Provider[];
   isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;
@@ -361,7 +363,7 @@ type FinalizedTransaction = {
       };
     };
   };
-  raw?: unknown; // The raw transaction as returned from the node
+  raw?: unknown; // The raw transaction as returned from the provider
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
@@ -517,7 +519,7 @@ export type {
   AccountState,
   AccountTokens,
   ApiRequestFilters,
-  Backend,
+  Provider,
   Chain,
   ChainParams,
   ChainSupportedFeatures,

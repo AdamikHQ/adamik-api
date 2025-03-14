@@ -23,11 +23,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://mainnet-api.algonode.cloud/v2",
       },
       {
-        providerType: ProviderType.indexer,
+        type: ProviderType.algoindexer,
         url: "https://mainnet-idx.algonode.cloud/v2",
       },
     ],
@@ -43,11 +43,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-cosmos.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -71,11 +71,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://api-t.cosmos.nodestake.top",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -100,11 +100,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-osmosis.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -128,11 +128,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://g.w.lavanet.xyz/gateway/osmosist/rest/bfdb617358bd786c30374c8799978c27",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -157,11 +157,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-celestia.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -185,11 +185,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://g.w.lavanet.xyz/gateway/celestiatm/rest/bfdb617358bd786c30374c8799978c27",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -214,14 +214,15 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        // (configs can be checked with [nodeURL]/cosmos/base/node/v1beta1/config )
+        type: ProviderType.node,
         url: "https://lcd-dydx.imperator.co", // Used to only accepts fees in IBC token USDC, but seems fixed now...
         //url: "https://dydx-rest.publicnode.com", // Works but public node with no guarantee of performance
         //url: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live, but we've been blacklisted...
         //url: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands twice the standard minimum gas fees, for some reason
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -245,11 +246,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-axelar.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -273,15 +274,15 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/eth/edd8151f3c634ee2a808f34c47c7ad70",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
       {
-        providerType: ProviderType.alchemy,
+        type: ProviderType.alchemy,
         url: "https://eth-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
     ],
@@ -297,11 +298,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/sepolia/fe0cd204d0324cae84cb27769d5ab205",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -318,11 +319,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/holesky/59fb652c988245799984ee5b4ff8c065",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -339,11 +340,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/zksync/547c7bd4d8e24c62ae1f059e634b06ae",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -359,11 +360,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/zksync-sepolia/a55bf0a6af264a73b083323f58a5d50b",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -380,11 +381,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://testnet.rpc.inevm.com/http",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -401,11 +402,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/base/9b6b18e784a54e03a0587a4b14c3c8c5",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -424,11 +425,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/base-sepolia/55c79b8e9fbb41da84c53550ada7b1fb",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -448,11 +449,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/optimism/f6e1593c1f3a4213811a1bae65bf4203",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -471,11 +472,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/optimism-sepolia/e76f53f4949641a2b9c87571b7e03e87",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -495,11 +496,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/arbitrum/98b1253e6794472db0999b44363fdb9c",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -515,11 +516,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/arbitrum-sepolia/50db3911bb294983a8701b9c0930d80c",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -535,7 +536,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 8,
     backends: [
       {
-        providerType: ProviderType.blockchair,
+        type: ProviderType.blockchair,
         url: "https://api.blockchair.com/bitcoin",
       },
     ],
@@ -555,7 +556,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 8,
     backends: [
       {
-        providerType: ProviderType.blockchair,
+        type: ProviderType.blockchair,
         url: "https://api.blockchair.com/bitcoin/testnet",
       },
     ],
@@ -575,7 +576,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 8,
     backends: [
       {
-        providerType: ProviderType.indexer,
+        type: ProviderType.mempoolspace,
         url: "https://mempool.space/signet/api",
       },
     ],
@@ -595,11 +596,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/polygon/70eb3a5858dc4f0d8ca0e1a1cf8d375f",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -615,11 +616,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/amoy/7a1ffbef35b1400b80a3d8735f637bb3",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -636,11 +637,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/bsc/7c7d3520352d4cf1bba5535ed015851b",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -656,11 +657,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/bsc-testnet/8d515e6b213f4e02afc42966422eca11",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -677,11 +678,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/linea/38da1be47d6a45d5aee7e557800e9248",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -697,11 +698,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/linea-sepolia/03ccfd8ae2ec4c75832ade4cc74b2de5",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -718,11 +719,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/avalanche/5addb0088d03429eb061d98a104649ab",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -738,11 +739,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://avalanche-fuji-c-chain-rpc.publicnode.com",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -759,11 +760,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/gnosis/87598d6b313843f6be61fecc9b874cdd",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -779,11 +780,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/gnosis-testnet/91e2e32f95864e6891fbe76dc97e57cb",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -800,11 +801,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/moonbeam/82196cbf24574538b48c18bb13ffda21",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -820,11 +821,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/moonriver/84a61f509f5e4ae3a9c29ebd7e8fda67",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -840,11 +841,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/moonbase/a4078cfc56ad43d5a5aa557241ddb7bb",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -861,11 +862,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://rpcapi.fantom.network",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -881,11 +882,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -901,11 +902,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://public-node.rsk.co",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -921,11 +922,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://public-node.testnet.rsk.co",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -941,7 +942,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 8,
     backends: [
       {
-        providerType: ProviderType.blockchair,
+        type: ProviderType.blockchair,
         url: "https://api.blockchair.com/litecoin",
       },
     ],
@@ -960,7 +961,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 8,
     backends: [
       {
-        providerType: ProviderType.blockchair,
+        type: ProviderType.blockchair,
         url: "https://api.blockchair.com/dogecoin",
       },
     ],
@@ -980,11 +981,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 9,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://toncenter.com/api/",
       },
       {
-        providerType: ProviderType.tonapi,
+        type: ProviderType.tonapi,
         url: "https://tonapi.io",
       },
     ],
@@ -1000,11 +1001,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://chiliz-rpc.publicnode.com",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -1020,11 +1021,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://chiliz-spicy.publicnode.com",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -1042,12 +1043,12 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         //url: "https://apis.mintscan.io/injective/lcd", // Error when computing tx fees
         url: "https://lcd-injective.imperator.co", // FIXME Frequent HTTP 502 errors!
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1072,11 +1073,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-akash.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1102,11 +1103,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-band.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1133,11 +1134,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-dymension.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1163,11 +1164,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-kyve.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1193,11 +1194,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-neutron.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1225,11 +1226,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-terra.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1255,12 +1256,12 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://stargaze-api.polkachu.com/",
         //url: "https://lcd-stargaze.imperator.co", // Randomly long response times, up to 60s and more...
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1286,11 +1287,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://api.trongrid.io",
       },
       {
-        providerType: ProviderType.tronscan,
+        type: ProviderType.tronscan,
         url: "https://apilist.tronscanapi.com",
       },
     ],
@@ -1306,11 +1307,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-evmos.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1336,11 +1337,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-iris.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1365,11 +1366,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-juno.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1394,11 +1395,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-lum.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1423,11 +1424,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-omniflix.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1452,11 +1453,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://sei-api.polkachu.com/",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1481,11 +1482,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-medibloc.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1510,11 +1511,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-passage.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1539,11 +1540,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-quasar.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1569,11 +1570,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://seda-api.polkachu.com/",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1599,11 +1600,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-sommelier.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1629,11 +1630,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-shentu.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1659,11 +1660,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-stride.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1688,11 +1689,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://chihuahua-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1717,11 +1718,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://bitsong-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1746,11 +1747,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://persistence-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1775,11 +1776,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://comdex-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1804,11 +1805,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://fetch-api.polkachu.com/",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1833,11 +1834,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://humans-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1862,11 +1863,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://ki-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1891,11 +1892,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 9,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://mainnet-node.like.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1920,11 +1921,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://mars-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1949,11 +1950,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 9,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://provenance-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1978,11 +1979,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://quicksilver-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -2007,11 +2008,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://saga-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -2036,11 +2037,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://ux-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -2065,11 +2066,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://kava-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -2094,11 +2095,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://starknet-mainnet.public.blastapi.io/rpc/v0_7", //FIXME: Find a better node
       },
       {
-        providerType: ProviderType.indexer,
+        type: ProviderType.starkscan,
         url: "https://api.starkscan.co",
       },
     ],
@@ -2137,7 +2138,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 6,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://babylon-testnet-api.polkachu.com",
       },
     ],
@@ -2161,11 +2162,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://testnet-rpc.monad.xyz/",
       },
       {
-        providerType: ProviderType.alchemy,
+        type: ProviderType.alchemy,
         url: "https://monad-testnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
     ],
@@ -2182,11 +2183,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://rpc.berachain.com/",
       },
       {
-        providerType: ProviderType.alchemy,
+        type: ProviderType.alchemy,
         url: "https://berachain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
     ],
@@ -2202,11 +2203,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://bartio.rpc.berachain.com",
       },
       {
-        providerType: ProviderType.alchemy,
+        type: ProviderType.alchemy,
         url: "https://berachain-bartio.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
     ],
@@ -2223,11 +2224,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://evm.cronos.org",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -2243,11 +2244,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     backends: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
       {
-        providerType: ProviderType.alchemy,
+        type: ProviderType.alchemy,
         url: "https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
     ],

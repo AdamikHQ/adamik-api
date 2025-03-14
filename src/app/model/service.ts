@@ -2,7 +2,7 @@ import {
   AccountHistory,
   AccountState,
   AccountTokens,
-  Backend,
+  Provider,
   Chain,
   ChainId,
   ChainValidators,
@@ -23,16 +23,14 @@ import { CHAINS } from "~/app/config/chains";
 abstract class BaseChainService {
   chainId: ChainId;
   chain: Chain;
-  backends: Backend[];
 
   constructor(chainId: ChainId) {
     this.chainId = chainId;
     this.chain = CHAINS[chainId];
-    this.backends = this.chain.backends;
   }
 
-  getBackend(type: ProviderType): Backend | null {
-    return this.backends.find((b: Backend) => b.providerType === type) ?? null;
+  getProvider(type: ProviderType): Provider | null {
+    return CHAINS[this.chainId].backends.find((p: Provider) => p.type === type) ?? null;
   }
   // Chain
   //abstract getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?

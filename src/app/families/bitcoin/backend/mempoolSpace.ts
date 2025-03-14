@@ -1,6 +1,6 @@
 import { Transaction } from "bitcoinjs-lib";
 import { CHAINS } from "~/app/config/chains";
-import { Backend, ChainId, ProviderType } from "~/app/model/types_WIP";
+import { Provider, ChainId, ProviderType } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
 import {
   mempoolSpaceAddressValidationSchema,
@@ -13,7 +13,7 @@ import {
 
 async function fetchTransactionRaw(chainId: ChainId, transactionId: string): Promise<Transaction> {
   const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.indexer
+    (p: Provider) => p.type === ProviderType.mempoolspace
   )?.url;
   const url = `${explorerURL}/tx/${transactionId}/raw`;
 
@@ -40,7 +40,7 @@ async function fetchTransactionRaw(chainId: ChainId, transactionId: string): Pro
 
 async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<MempoolSpaceUTXO[]> {
   const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.indexer
+    (p: Provider) => p.type === ProviderType.mempoolspace
   )?.url;
   const url = `${explorerURL}/address/${address}/utxo`;
 
@@ -65,7 +65,7 @@ async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<Mem
 
 async function fetchAddressScriptPubKey(chainId: ChainId, address: string): Promise<string> {
   const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.indexer
+    (p: Provider) => p.type === ProviderType.mempoolspace
   )?.url;
   const url = `${explorerURL}/v1/validate-address/${address}`;
 
@@ -90,7 +90,7 @@ async function fetchAddressScriptPubKey(chainId: ChainId, address: string): Prom
 
 async function fetchFeePerByte(chainId: ChainId): Promise<number> {
   const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.indexer
+    (p: Provider) => p.type === ProviderType.mempoolspace
   )?.url;
   const url = `${explorerURL}/v1/fees/recommended`;
 
@@ -123,7 +123,7 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
 
 async function postTransaction(chainId: ChainId, payload: string): Promise<string> {
   const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.indexer
+    (p: Provider) => p.type === ProviderType.mempoolspace
   )?.url;
   const url = `${explorerURL}/tx`;
 

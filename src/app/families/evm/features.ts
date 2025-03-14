@@ -2,8 +2,10 @@ import { ChainId, ChainSupportedFeatures } from "~/app/model/types_WIP";
 import { MoralisIndexer } from "./backend/moralis";
 import { AlchemyIndexer } from "./backend/alchemy";
 
-const moralisSupport = (chainId: ChainId): boolean => Boolean(MoralisIndexer.CHAIN_IDS.get(chainId));
-const alchemySupport = (chainId: ChainId): boolean => Boolean(AlchemyIndexer.CHAIN_IDS.get(chainId));
+const moralisSupport = (chainId: ChainId): boolean =>
+  Boolean(MoralisIndexer.SUPPORTED_CHAIN_IDS.get(chainId));
+const alchemySupport = (chainId: ChainId): boolean =>
+  Boolean(AlchemyIndexer.SUPPORTED_CHAIN_IDS.get(chainId));
 const anySupport = (chainId: ChainId): boolean => moralisSupport(chainId) || alchemySupport(chainId);
 
 const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({

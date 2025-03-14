@@ -1,4 +1,4 @@
-import { Backend, ChainId, ProviderType } from "~/app/model/types_WIP";
+import { Provider, ChainId, ProviderType } from "~/app/model/types_WIP";
 import { EtherscanERC20Event } from "./types";
 import { CHAINS } from "~/app/config/chains";
 import { ETHERSCAN_API_KEYS } from "~/app/config/apiKeys";
@@ -42,9 +42,7 @@ async function getERC20TransferEvents(
   chainId: ChainId,
   address: string
 ): Promise<Array<EtherscanERC20Event>> {
-  const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.moralis
-  )?.url;
+  const explorerURL = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.etherscan)?.url;
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return [];

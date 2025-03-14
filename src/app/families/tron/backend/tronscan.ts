@@ -3,7 +3,7 @@ import { CHAINS } from "~/app/config/chains";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TronscanAccountInfo, TronscanAccountTokensInfo, TronscanTransactionInfo } from "./types";
-import { Backend, ProviderType } from "~/app/model/types_WIP";
+import { Provider, ProviderType } from "~/app/model/types_WIP";
 
 const TRONSCAN_PAGE_SIZE = 20;
 
@@ -12,7 +12,7 @@ const RETRY_DELAY = 500;
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const explorerURL = CHAINS.tron.backends.find((b: Backend) => b.providerType === ProviderType.tronscan)?.url;
+const explorerURL = CHAINS.tron.backends.find((p: Provider) => p.type === ProviderType.tronscan)?.url;
 //FIXME: this is a temporary solution to handle the fetch failed error from tronscan
 //TODO: remove this once tronscan is fixed
 async function fetchWithRetry<T>(url: string, retryCount = 0): Promise<T> {

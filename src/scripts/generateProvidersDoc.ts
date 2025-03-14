@@ -1,14 +1,14 @@
 import fs from "fs";
 import path from "path";
-import { CHAINS } from "../app/config/chains";
+import { CHAINS } from "~/app/config/chains";
 
 function generateProvidersMarkdown() {
   const chains = Object.entries(CHAINS);
   const chainsTable = chains
     .map(([chainId, chain]) => {
       const backendsTable = chain.backends
-        .map(({ providerType, url }) => {
-          return `| ${providerType} | ${url} |`;
+        .map(({ type, url }) => {
+          return `| ${type} | ${url} |`;
         })
         .join("<br />\n");
       return `## ${chainId}\n\n${backendsTable}`;

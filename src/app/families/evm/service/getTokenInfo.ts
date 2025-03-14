@@ -15,7 +15,7 @@ async function getTokenInfo(this: EvmService, tokenId: string): Promise<Token> {
     return await indexer.fetchERC20Token(this.chainId, contractAddress);
   } catch {
     // Node implementation - poor performance
-    const node = this.getBackend(ProviderType.node);
+    const node = this.getProvider(ProviderType.node);
     if (!node) {
       throw new UnsupportedFeatureError(`Unsupported feature Token Info for chain ${this.chainId}`);
     }

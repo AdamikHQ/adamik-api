@@ -360,6 +360,7 @@ type AlchemyBlock = {
 };
 
 interface EvmIndexer {
+  SUPPORTED_CHAIN_IDS: Map<ChainId, string>;
   fetchAccountTransactions: (
     c: ChainId,
     a: EvmAddress,
@@ -372,8 +373,7 @@ interface EvmIndexer {
     a: EvmAddress,
     p?: string
   ) => Promise<{ tokens: TokenAmount[]; nextPage: string | null }>;
-  fetchTransaction: (c: ChainId, t: string) => Promise<FinalizedTransaction>;
-  CHAIN_IDS: Map<ChainId, string>;
+  fetchTransaction: (c: ChainId, t: string) => Promise<FinalizedTransaction | null>;
 }
 
 export type {

@@ -1,6 +1,6 @@
 import { BLOCKCHAIR_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { Backend, ChainId, ProviderType } from "~/app/model/types_WIP";
+import { Provider, ChainId, ProviderType } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { Xpub } from "../types";
 import {
@@ -32,9 +32,7 @@ async function fetchXpubDashboard(
   chainId: ChainId,
   xpub: Xpub
 ): Promise<{ data: BlockchairXpubData; context: BlockchairResponseContext }> {
-  const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.blockchair
-  )?.url;
+  const explorerURL = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.blockchair)?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -100,9 +98,7 @@ async function fetchAddressesBatch(
   chainId: ChainId,
   addressesBatch: string[]
 ): Promise<BlockchairAddressesResponse | null> {
-  const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.blockchair
-  )?.url;
+  const explorerURL = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.blockchair)?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -199,9 +195,7 @@ async function fetchTransaction(
   chainId: ChainId,
   txHash: string
 ): Promise<BlockchairTransactionsResponse | null> {
-  const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.blockchair
-  )?.url;
+  const explorerURL = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.blockchair)?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -249,9 +243,7 @@ async function fetchTransactionsMetadataBatched(
   chainId: ChainId,
   txHashes: string[]
 ): Promise<BlockchairTransactionData[]> {
-  const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.blockchair
-  )?.url;
+  const explorerURL = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.blockchair)?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -308,9 +300,7 @@ async function fetchTransactionsMetadataBatched(
 // This function works for both mempool and confirmed transactions
 // Note: No support of batching for this endpoint
 async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<BlockchairRawTransactionData> {
-  const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.blockchair
-  )?.url;
+  const explorerURL = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.blockchair)?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -353,9 +343,7 @@ async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<Bl
 }
 
 async function fetchStats(chainId: ChainId): Promise<BlockchairStatsData> {
-  const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.blockchair
-  )?.url;
+  const explorerURL = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.blockchair)?.url;
   const url = `${explorerURL}/${chainId}/stats`;
 
   const response = await fetch(url);
@@ -374,9 +362,7 @@ async function fetchStats(chainId: ChainId): Promise<BlockchairStatsData> {
 }
 
 async function fetchFeePerByte(chainId: ChainId): Promise<number> {
-  const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.blockchair
-  )?.url;
+  const explorerURL = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.blockchair)?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -407,9 +393,7 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
 }
 
 async function postTransaction(chainId: ChainId, payload: string): Promise<string> {
-  const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.blockchair
-  )?.url;
+  const explorerURL = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.blockchair)?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
     data: payload,

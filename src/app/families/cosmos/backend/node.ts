@@ -2,7 +2,7 @@ import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 import {
-  Backend,
+  Provider,
   ChainId,
   ProviderType,
   StakingPosition,
@@ -28,7 +28,7 @@ import {
 } from "./types";
 
 const getNodeRootUrl = (chainId: ChainId) =>
-  CHAINS[chainId].backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
+  CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.node)?.url;
 
 async function fetchWithHeaders(url: string, customOptions: RequestInit = {}) {
   const options: RequestInit = {
