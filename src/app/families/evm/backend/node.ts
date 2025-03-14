@@ -9,6 +9,7 @@ import {
   bsc,
   bscTestnet,
   chiliz,
+  cronos,
   fantom,
   gnosis,
   gnosisChiado,
@@ -27,29 +28,20 @@ import {
   rootstock,
   rootstockTestnet,
   sepolia,
+  worldchain,
   zksync,
   zksyncSepoliaTestnet,
-  cronos,
-  worldchain,
 } from "viem/chains";
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
-import {
-  Backend,
-  ChainId,
-  FinalizedTransaction,
-  ProviderType,
-  Token,
-  TokenType,
-  TransactionMode,
-} from "~/app/model/types_WIP";
+import { Backend, ChainId, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
+import { TokenStore } from "~/app/tools/tokenStore";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
+import { berachain } from "../chains/berachain";
 import { chilizTestnet } from "../chains/chiliz-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
 import { monadTestnet } from "../chains/monad-testnet";
-import { berachain } from "../chains/berachain";
 import { EvmAddress, EvmChainParams } from "../types";
-import { TokenStore } from "~/app/tools/tokenStore";
 
 // FIXME Couldn't find a proper type that works besides 'any'
 const CLIENTS = new Map<ChainId, any>();

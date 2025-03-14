@@ -37,7 +37,7 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 
   const tronTransaction: TronscanTransactionInfo = await response.json();
 
-  if (!tronTransaction) {
+  if (!tronTransaction || Object.keys(tronTransaction).length === 0) {
     throw new TransactionIdNotFoundError(transactionId, ChainId.TRON);
   }
 
