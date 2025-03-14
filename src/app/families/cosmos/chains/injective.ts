@@ -1,24 +1,73 @@
-import { StdSignDoc } from "@cosmjs/amino";
+import { StdFee, StdSignDoc } from "@cosmjs/amino";
 import {
+  CosmosTxV1Beta1Tx,
+  createAnyMessage,
+  createAuthInfo,
+  createFee,
+  createSignDoc,
+  createSigners,
+  getAminoStdSignDoc,
   MsgBeginRedelegate,
   MsgDelegate,
   MsgSend,
   MsgUndelegate,
   MsgWithdrawDelegatorReward,
-  getAminoStdSignDoc,
+  SignDoc,
 } from "@injectivelabs/sdk-ts";
 import { ChainId as CosmosChainId } from "@injectivelabs/ts-types";
-import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { TransactionData, TransactionMode } from "~/app/model/types_WIP";
+import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
+import { ChainId, TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { CosmosAccount } from "../backend/types";
+import { resolvePubKey } from "../logic";
 
 function buildSignDocProtobufForInjective(
   account: CosmosAccount,
   transactionData: TransactionData,
-  networkId: string
+  networkId: string,
+  feeData: StdFee
 ): SignDoc {
-  // TODO
-  throw new Error("Protobuf signing is not supported for Injective");
+  const { pubKey } = resolvePubKey(ChainId.INJECTIVE, account, transactionData);
+
+  const protoMsgs = buildMessagesForInjective(transactionData);
+
+  const bodyBytes = CosmosTxV1Beta1Tx.TxBody.create();
+  bodyBytes.messages = protoMsgs.map((message) =>
+    createAnyMessage({
+      value: message.toBinary(),
+      type: message.toDirectSign().type,
+    })
+  );
+  bodyBytes.memo = transactionData.memo || "";
+
+  const signInfo = createSigners({
+    chainId: networkId as CosmosChainId,
+    mode: SignMode.SIGN_MODE_DIRECT,
+    signers: [
+      {
+        pubKey: pubKey,
+        sequence: Number(account.sequence),
+      },
+    ],
+  });
+
+  const fees = createFee({
+    fee: feeData.amount[0],
+    payer: feeData.payer,
+    granter: feeData.granter,
+    gasLimit: parseInt(feeData.gas, 10),
+  });
+
+  const authInfo = createAuthInfo({
+    signerInfo: signInfo,
+    fee: fees,
+  });
+
+  return createSignDoc({
+    accountNumber: Number(account.accountNumber),
+    authInfoBytes: CosmosTxV1Beta1Tx.AuthInfo.encode(authInfo).finish(),
+    bodyBytes: CosmosTxV1Beta1Tx.TxBody.encode(bodyBytes).finish(),
+    chainId: networkId as CosmosChainId,
+  });
 }
 
 function buildSignDocAminoForInjective(

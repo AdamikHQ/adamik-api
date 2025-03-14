@@ -1,4 +1,4 @@
-import { AminoMsg, StdFee, encodeSecp256k1Pubkey, serializeSignDoc } from "@cosmjs/amino";
+import { AminoMsg, StdFee, encodeSecp256k1Pubkey } from "@cosmjs/amino";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { Int53 } from "@cosmjs/math";
 import {
@@ -22,7 +22,14 @@ import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
 import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
 import { MsgBeginRedelegate, MsgDelegate, MsgUndelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { AuthInfo, Fee, SignDoc as SignDocProtobuf, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import {
+  AuthInfo,
+  Fee,
+  SignDoc,
+  SignDoc as SignDocProtobuf,
+  TxBody,
+  TxRaw,
+} from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
@@ -38,7 +45,7 @@ import { fetchNetworkInfo } from "../bitcoin/backend/babylon";
 import { buildBabylonRegistrationMessage } from "../bitcoin/psbt";
 import { fetchBalances, fetchDelegations, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
-import { buildSignDocAminoForInjective } from "./chains/injective";
+import { buildSignDocProtobufForInjective } from "./chains/injective";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
 import { CosmosChainParams } from "./types";
 
@@ -547,24 +554,20 @@ async function encodeToSign(
     : serializedSignDoc.toString("hex");
   */
 
-  let serializedSignDoc: Buffer;
+  let signDoc: SignDoc;
   if (chainId === ChainId.INJECTIVE) {
-    // TODO Implement protobuf signing for Injective
-    //buildSignDocProtobufForInjective(account, transactionData, chain.nativeId)
-    const signDoc = buildSignDocAminoForInjective(account, transactionData, chain.nativeId);
-    serializedSignDoc = Buffer.from(serializeSignDoc(signDoc));
+    // NOTE: Injective's Signdoc differs from Cosmos's SignDoc that's why we need to ignore the type
+    // But it should work the same way and benefit from same function
+    // @ts-ignore
+    signDoc = buildSignDocProtobufForInjective(account, transactionData, chain.nativeId, feeData);
   } else {
-    const signDoc = await buildSignDocProtobuf(chainId, account, transactionData, chain.nativeId, feeData);
-
-    serializedSignDoc = Buffer.from(SignDocProtobuf.encode(signDoc).finish());
-    return format === EncodedTransactionFormat.JSON
-      ? JSON.stringify(SignDocProtobuf.toJSON(signDoc))
-      : serializedSignDoc.toString("hex");
+    // TODO Test the protobuf format with Keplr, then deprecate the JSON format here if possible
+    signDoc = await buildSignDocProtobuf(chainId, account, transactionData, chain.nativeId, feeData);
   }
 
-  // TODO Test the protobuf format with Keplr, then deprecate the JSON format here if possible
+  const serializedSignDoc = Buffer.from(SignDocProtobuf.encode(signDoc).finish());
   return format === EncodedTransactionFormat.JSON
-    ? serializedSignDoc.toString("utf8")
+    ? JSON.stringify(SignDocProtobuf.toJSON(signDoc))
     : serializedSignDoc.toString("hex");
 }
 
