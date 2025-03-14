@@ -269,7 +269,8 @@
 ## tron
 
 | node | https://api.trongrid.io |<br />
-| tronscan | https://apilist.tronscanapi.com |
+| tronscan | https://apilist.tronscanapi.com |<br />
+| oklink | https://www.oklink.com/api/v5/explorer |
 
 ## evmos
 

@@ -1,6 +1,6 @@
 import { createClient } from "redis";
-import { env } from "~/env";
 import { ChainId, Token, TokenType } from "~/app/model/types_WIP";
+import { env } from "~/env";
 
 function parseRedisToken(obj: { [x: string]: string }): Token | null {
   const keys = Object.keys(obj);

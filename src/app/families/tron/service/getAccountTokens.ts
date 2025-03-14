@@ -1,5 +1,8 @@
-import { AccountTokens, Paginated, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
-import { fetchAccountTokensData } from "../backend/tronscan";
+import { AccountTokens, Paginated, ProviderType } from "~/app/model/types_WIP";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
+import { paginationFromB64 } from "~/app/tools/pagination";
+import { fetchAccountTokensData as fetchAccountTokensDataFromOklink } from "../backend/oklink";
+import { fetchAccountTokensData as fetchAccountTokensDataFromTronscan } from "../backend/tronscan";
 import { TronService } from "../service";
 
 async function getAccountTokens(
@@ -7,48 +10,36 @@ async function getAccountTokens(
   accountId: string,
   paginationToken?: string
 ): Promise<Paginated<AccountTokens>> {
-  const { tokensInfo, nextPage } = await fetchAccountTokensData(accountId, paginationToken);
-
-  const tokens: TokenAmount[] = [];
-  tokensInfo?.data
-    // FIXME Flaw in that logic: number of results may vary depending on the filtering below
-    // Maybe an issue for customers... maybe not?
-    // Fixing that would require juggling with multiple calls to the explorer until getting
-    // the right number of results; Probably not worth it
-    ?.filter(
-      (tokenInfo) =>
-        // We only support TRC10 and TRC20 token types
-        ["trc10", "trc20"].includes(tokenInfo.tokenType) &&
-        // Some special case tokens are irrelevant (e.g main currency TRX is listed as a special TRC10)
-        tokenInfo.tokenId !== "_"
-    )
-    .forEach((tokenInfo) => {
-      const tokenType = tokenInfo.tokenType === "trc10" ? TokenType.TRC10 : TokenType.TRC20;
-
-      const token: Token = {
-        type: tokenType,
-        id: tokenInfo.tokenId,
-        name: tokenInfo.tokenName,
-        ticker: tokenInfo.tokenAbbr,
-        decimals: tokenInfo.tokenDecimal,
-      };
-
-      if (tokenType === TokenType.TRC20) {
-        token.contractAddress = tokenInfo.tokenId;
-      }
-
-      tokens.push({
-        token,
-        amount: BigInt(tokenInfo.balance),
-      });
-    });
-
-  return {
-    tokens,
-    pagination: {
-      nextPage,
+  const fetchAccountTokensDataFunctions = [
+    {
+      providerType: ProviderType.tronscan,
+      fetchAccountTokensDataFunction: fetchAccountTokensDataFromTronscan,
     },
-  };
+    { providerType: ProviderType.oklink, fetchAccountTokensDataFunction: fetchAccountTokensDataFromOklink },
+  ];
+
+  const errors: Error[] = [];
+
+  const paginationData = paginationFromB64(paginationToken) as { type: ProviderType; page: number } | null;
+
+  for (const { providerType, fetchAccountTokensDataFunction } of fetchAccountTokensDataFunctions) {
+    try {
+      if (!paginationData || providerType === paginationData.type) {
+        return await fetchAccountTokensDataFunction(accountId, paginationToken);
+      }
+      throw new ThirdPartyProviderError("Failed over detected during pagination");
+    } catch (error) {
+      errors.push(error as Error);
+      continue; // Try next service if available
+    }
+  }
+
+  console.warn(
+    `/!\\ Failed to fetch account tokens of account ${accountId}:`,
+    JSON.stringify(errors, null, 2)
+  );
+
+  throw new ThirdPartyProviderError("Failed to fetch account tokens");
 }
 
 export { getAccountTokens };
