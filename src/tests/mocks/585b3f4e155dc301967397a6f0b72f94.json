@@ -1,0 +1,14 @@
+{
+  "request": {
+    "url": "https://api.trongrid.io/wallet/broadcasttransaction",
+    "method": "POST",
+    "params": {
+      "signature": [
+        "DUMMY"
+      ]
+    }
+  },
+  "response": {
+    "Error": "class java.lang.NullPointerException : null"
+  }
+}
