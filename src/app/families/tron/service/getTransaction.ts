@@ -5,7 +5,7 @@ import { TronService } from "../service";
 
 async function getTransaction(this: TronService, transactionId: string): Promise<FinalizedTransaction> {
   const tronTransaction = await fetchTransaction(transactionId);
-  if (!tronTransaction) {
+  if (!tronTransaction || Object.keys(tronTransaction).length === 0) {
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
