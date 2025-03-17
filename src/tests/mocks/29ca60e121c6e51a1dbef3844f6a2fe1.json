@@ -23,7 +23,7 @@
         {}
       ],
       "visible": false,
-      "txID": "d4b78c51bb3c7cf73e356683087ea4cc81576e65f107d534e71e8d68088ee43f",
+      "txID": "ad9c02c11b32326bd234ee886b4b1b37a98fb0fbb6ea23bebe04eee20e48f664",
       "raw_data": {
         "contract": [
           {
@@ -38,12 +38,12 @@
             "type": "TriggerSmartContract"
           }
         ],
-        "ref_block_bytes": "ce0d",
-        "ref_block_hash": "6210f3dfca2960a4",
-        "expiration": 1737051546000,
-        "timestamp": 1737051488987
+        "ref_block_bytes": "1435",
+        "ref_block_hash": "1155ce8b4300a290",
+        "expiration": 1742218803000,
+        "timestamp": 1742218745347
       },
-      "raw_data_hex": "0a02ce0d22086210f3dfca2960a44090c3dc82c7325a6d081f12690a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412340a1541fffe20a96a6fd1c366743bebc8bd1da3687f3c8c121541fffe20a96a6fd1c366743bebc8bd1da3687f3c8c220406fdde0370db85d982c732"
+      "raw_data_hex": "0a02143522081155ce8b4300a29040b8eed4a2da325a6d081f12690a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412340a1541fffe20a96a6fd1c366743bebc8bd1da3687f3c8c121541fffe20a96a6fd1c366743bebc8bd1da3687f3c8c220406fdde037083acd1a2da32"
     }
   }
 }

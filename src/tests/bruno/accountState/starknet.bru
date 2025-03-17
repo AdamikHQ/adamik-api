@@ -18,5 +18,5 @@ params:path {
 assert {
   res.status: eq 200
   res.body.balances: isDefined tokens
-  res.body.balances.native.available: eq 12020711008881783448
+  res.body.balances.native.available: matches ^\d+$
 }

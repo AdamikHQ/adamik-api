@@ -13,8 +13,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "184848227673",
-        "delegator_shares": "184848227673.000000000000000000",
+        "tokens": "188342923841",
+        "delegator_shares": "188342923841.000000000000000000",
         "description": {
           "moniker": "🐹 Quokka Stake",
           "identity": "14BFE711AAB70C77",
@@ -42,8 +42,8 @@
           "59636",
           "202054"
         ],
-        "validator_bond_shares": "565049776.000000000000000000",
-        "liquid_shares": "212013953.000000000000000000"
+        "validator_bond_shares": "579192329.000000000000000000",
+        "liquid_shares": "205786869.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1xqtqptyvjksqx8pvvm6r0uamuddxvrkh4ge2gf",
@@ -88,8 +88,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "199646412613",
-        "delegator_shares": "199646412613.000000000000000000",
+        "tokens": "199545446556",
+        "delegator_shares": "199545446556.000000000000000000",
         "description": {
           "moniker": "🐡grant.fish",
           "identity": "BE328F9A089F50C9",
@@ -154,8 +154,8 @@
         },
         "jailed": true,
         "status": "BOND_STATUS_UNBONDED",
-        "tokens": "2068527951",
-        "delegator_shares": "2068734820.257501747618812745",
+        "tokens": "2068427951",
+        "delegator_shares": "2068634810.256705896552857349",
         "description": {
           "moniker": "cosmosgbt",
           "identity": "",
@@ -190,8 +190,8 @@
         },
         "jailed": true,
         "status": "BOND_STATUS_UNBONDED",
-        "tokens": "337236075480",
-        "delegator_shares": "337236075480.000000000000000000",
+        "tokens": "336607911652",
+        "delegator_shares": "336607911652.000000000000000000",
         "description": {
           "moniker": "Staking Facilities",
           "identity": "6B0DF6793DE1FB1F",
@@ -225,8 +225,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "7722398123955",
-        "delegator_shares": "7722398123955.000000000000000000",
+        "tokens": "10500372174761",
+        "delegator_shares": "10500372174761.000000000000000000",
         "description": {
           "moniker": "Upbit Staking",
           "identity": "58BF2A0CBC9230B9",
@@ -258,8 +258,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_UNBONDED",
-        "tokens": "2380000",
-        "delegator_shares": "2380000.000000000000000000",
+        "tokens": "2180000",
+        "delegator_shares": "2180000.000000000000000000",
         "description": {
           "moniker": "dummy",
           "identity": "",
@@ -291,8 +291,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "227680235087",
-        "delegator_shares": "227680235087.000000000000000000",
+        "tokens": "246338078700",
+        "delegator_shares": "246362714805.700969615798226472",
         "description": {
           "moniker": "jabbey",
           "identity": "FA260EE7A0113432",
@@ -300,8 +300,8 @@
           "security_contact": "",
           "details": "just another dad in the cosmos"
         },
-        "unbonding_height": "23651483",
-        "unbonding_time": "2025-01-14T08:01:53.450435228Z",
+        "unbonding_height": "24384020",
+        "unbonding_time": "2025-03-05T11:29:54.083430143Z",
         "commission": {
           "commission_rates": {
             "rate": "0.050000000000000000",
@@ -315,10 +315,11 @@
         "unbonding_ids": [
           "982109",
           "1011243",
-          "1122602"
+          "1122602",
+          "1201998"
         ],
         "validator_bond_shares": "1036420000.000000000000000000",
-        "liquid_shares": "166051120991.000000000000000000"
+        "liquid_shares": "180177773251.932462682625264330"
       },
       {
         "operator_address": "cosmosvaloper1x065cjlgejk2p2la0029akfvdy52gtq9mm58ta",
@@ -374,8 +375,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "118381789228",
-        "delegator_shares": "118381789228.000000000000000000",
+        "tokens": "118280602660",
+        "delegator_shares": "118280602660.000000000000000000",
         "description": {
           "moniker": "cosmos Af",
           "identity": "",
@@ -398,8 +399,8 @@
         "unbonding_ids": [
           "202306"
         ],
-        "validator_bond_shares": "213410000.000000000000000000",
-        "liquid_shares": "153862997.000000000000000000"
+        "validator_bond_shares": "223410000.000000000000000000",
+        "liquid_shares": "152635913.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1xsum5hdkcckumzx8ajf3j8upr8w0vs8gcvw0dc",
@@ -442,8 +443,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "141511809531",
-        "delegator_shares": "141511809531.000000000000000000",
+        "tokens": "141702653550",
+        "delegator_shares": "141702653550.000000000000000000",
         "description": {
           "moniker": "CrowdControl",
           "identity": "F2E67996F3D5EB16",
@@ -465,7 +466,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "26990985003.000000000000000000",
-        "liquid_shares": "154889086.000000000000000000"
+        "liquid_shares": "153662002.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1xnrth5rku3z3msm9prxe3l0p2yec3d9mzxz9ka",
@@ -475,8 +476,8 @@
         },
         "jailed": true,
         "status": "BOND_STATUS_UNBONDED",
-        "tokens": "420099413",
-        "delegator_shares": "420099413.000000000000000000",
+        "tokens": "120099413",
+        "delegator_shares": "120099413.000000000000000000",
         "description": {
           "moniker": "coinhall.org 📈🔄",
           "identity": "0B5217ACAE18F4C9",
@@ -512,8 +513,8 @@
         },
         "jailed": true,
         "status": "BOND_STATUS_UNBONDED",
-        "tokens": "161158023",
-        "delegator_shares": "161158023.000000000000000000",
+        "tokens": "160544515",
+        "delegator_shares": "160544515.000000000000000000",
         "description": {
           "moniker": "stake2earn",
           "identity": "D153AB5E9F506C47",
@@ -611,8 +612,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "9924251592567",
-        "delegator_shares": "9925243997098.752082588898820615",
+        "tokens": "10206204187339",
+        "delegator_shares": "10207224786326.626839867605107803",
         "description": {
           "moniker": "Binance Node",
           "identity": "",
@@ -636,7 +637,7 @@
           "156035"
         ],
         "validator_bond_shares": "10016269.508945301396591536",
-        "liquid_shares": "370603791.220270191517137196"
+        "liquid_shares": "169329976.273089097897087127"
       },
       {
         "operator_address": "cosmosvaloper188z55862zckmn7kuwg94sl3nw9ta9pqt3xectq",
@@ -679,8 +680,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "3790399010",
-        "delegator_shares": "3790399010.000000000000000000",
+        "tokens": "3336091709",
+        "delegator_shares": "3336091709.000000000000000000",
         "description": {
           "moniker": "Inter Blockchain Services",
           "identity": "27FD74457A21B020",
@@ -702,7 +703,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "500000000.000000000000000000",
-        "liquid_shares": "153639558.000000000000000000"
+        "liquid_shares": "136411052.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper18sqvyf4ss84qree7gndph5chmm82fglsqfylwn",
@@ -712,8 +713,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "1846719529481",
-        "delegator_shares": "1846719529481.000000000000000000",
+        "tokens": "1880300926906",
+        "delegator_shares": "1880300926906.000000000000000000",
         "description": {
           "moniker": "PRO Delegators",
           "identity": "44771D06A00DD695",
@@ -735,7 +736,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "15260000000.000000000000000000",
-        "liquid_shares": "136378143660.000000000000000000"
+        "liquid_shares": "134561876393.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper18s3k8dt73e28rraqk70u9xwtv9wlav83n5mqjx",
@@ -745,8 +746,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "208363657316",
-        "delegator_shares": "208363657316.000000000000000000",
+        "tokens": "262420213409",
+        "delegator_shares": "262420213409.000000000000000000",
         "description": {
           "moniker": "Colossus",
           "identity": "32A5F1629806ED70",
@@ -770,7 +771,7 @@
           "1045977"
         ],
         "validator_bond_shares": "601440110.000000000000000000",
-        "liquid_shares": "155239088.000000000000000000"
+        "liquid_shares": "154012004.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper18n80khkgu2z093cqtdatnx3gn0f7fjuvl2s72d",
@@ -818,8 +819,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_UNBONDED",
-        "tokens": "82349652",
-        "delegator_shares": "82349652.000000000000000000",
+        "tokens": "49324359",
+        "delegator_shares": "49324359.000000000000000000",
         "description": {
           "moniker": "inactive validator Do NOT delegate",
           "identity": "",
@@ -950,8 +951,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "423652115605",
-        "delegator_shares": "423652115605.000000000000000000",
+        "tokens": "517013129644",
+        "delegator_shares": "517013129644.000000000000000000",
         "description": {
           "moniker": "Smart Stake 📈📊",
           "identity": "DD06F013A474ACA3",
@@ -973,7 +974,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "1000000000.000000000000000000",
-        "liquid_shares": "3311410280.000000000000000000"
+        "liquid_shares": "4568672651.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper18624s66va2yh3fhf3tamnexdy69m460zzcdchd",
@@ -1011,6 +1012,39 @@
         ],
         "validator_bond_shares": "733040.000000000000000000",
         "liquid_shares": "16093.000000000000000000"
+      },
+      {
+        "operator_address": "cosmosvaloper18m9wncg0w74vusm4xu0mk6ha2lpdrqq7c9cjq3",
+        "consensus_pubkey": {
+          "@type": "/cosmos.crypto.ed25519.PubKey",
+          "key": "vlQez9GJWqYcOLK29xcOWJI4kKKImkJTrQm58j9Zkig="
+        },
+        "jailed": false,
+        "status": "BOND_STATUS_BONDED",
+        "tokens": "239219447140",
+        "delegator_shares": "239219447140.000000000000000000",
+        "description": {
+          "moniker": "The_Cybernetics",
+          "identity": "AB3DA9B8891D4F85",
+          "website": "https://thecybernetics.org",
+          "security_contact": "",
+          "details": "We Build"
+        },
+        "unbonding_height": "0",
+        "unbonding_time": "1970-01-01T00:00:00Z",
+        "commission": {
+          "commission_rates": {
+            "rate": "0.050000000000000000",
+            "max_rate": "0.100000000000000000",
+            "max_change_rate": "0.050000000000000000"
+          },
+          "update_time": "2025-03-12T21:00:22.558179804Z"
+        },
+        "min_self_delegation": "0",
+        "unbonding_on_hold_ref_count": "0",
+        "unbonding_ids": [],
+        "validator_bond_shares": "0.000000000000000000",
+        "liquid_shares": "0.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper18algml7fg04amyhz0ss5h9m92k5g3ldwvd4fk3",
@@ -1053,8 +1087,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "155774040343",
-        "delegator_shares": "155789619003.119056534249651505",
+        "tokens": "155258650758",
+        "delegator_shares": "155274177834.976227738006020702",
         "description": {
           "moniker": "Alessandro Mazza",
           "identity": "65CC7CB0CC69040D",
@@ -1080,7 +1114,7 @@
           "998353"
         ],
         "validator_bond_shares": "134000000.000000000000000000",
-        "liquid_shares": "131466624.665981365628619490"
+        "liquid_shares": "135948752.869563827100910404"
       },
       {
         "operator_address": "cosmosvaloper187kxrmex8ltkjgfapk04ctlwsywnxem4649xgv",
@@ -1156,8 +1190,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "135960139382",
-        "delegator_shares": "135960139382.000000000000000000",
+        "tokens": "136089716653",
+        "delegator_shares": "136089716653.000000000000000000",
         "description": {
           "moniker": "Coinbase (new)",
           "identity": "C73F1C17F994AB30",
@@ -1189,8 +1223,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "1451589824370",
-        "delegator_shares": "1451589824370.000000000000000000",
+        "tokens": "1546020355558",
+        "delegator_shares": "1546020355558.000000000000000000",
         "description": {
           "moniker": " polkachu.com",
           "identity": "0A6AF02D1557E5B4",
@@ -1212,7 +1246,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "4389800573.000000000000000000",
-        "liquid_shares": "254981154000.000000000000000000"
+        "liquid_shares": "230416915632.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1gpx52r9h3zeul45amvcy2pysgvcwddxrgx6cnv",
@@ -1222,8 +1256,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "1664978099007",
-        "delegator_shares": "1664978099007.000000000000000000",
+        "tokens": "1708455593677",
+        "delegator_shares": "1708455593677.000000000000000000",
         "description": {
           "moniker": "StakeLab.zone",
           "identity": "F12B081334CBE0C6",
@@ -1245,7 +1279,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "3001055000.000000000000000000",
-        "liquid_shares": "233966730065.000000000000000000"
+        "liquid_shares": "223639370738.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1grgelyng2v6v3t8z87wu3sxgt9m5s03xfytvz7",
@@ -1255,8 +1289,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "1793385515982",
-        "delegator_shares": "1793923637456.188957689693405158",
+        "tokens": "1783809881457",
+        "delegator_shares": "1784345129567.613479447340508784",
         "description": {
           "moniker": "iqlusion",
           "identity": "DCB176E79AE7D51F",
@@ -1278,7 +1312,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "7601780453.301596143766018153",
-        "liquid_shares": "109127559821.509317355410673362"
+        "liquid_shares": "102769081799.018555791952825610"
       },
       {
         "operator_address": "cosmosvaloper1grjl4vfsw4cq9vdvu2r4c8c6lzqnzrcl87hk46",
@@ -1288,8 +1322,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "128044361298",
-        "delegator_shares": "128044361298.000000000000000000",
+        "tokens": "132414103966",
+        "delegator_shares": "132467082674.228142486634282120",
         "description": {
           "moniker": "csaxial",
           "identity": "",
@@ -1297,8 +1331,8 @@
           "security_contact": "",
           "details": ""
         },
-        "unbonding_height": "0",
-        "unbonding_time": "1970-01-01T00:00:00Z",
+        "unbonding_height": "24601502",
+        "unbonding_time": "2025-03-20T06:12:31.550347068Z",
         "commission": {
           "commission_rates": {
             "rate": "0.050000000000000000",
@@ -1309,7 +1343,12 @@
         },
         "min_self_delegation": "0",
         "unbonding_on_hold_ref_count": "0",
-        "unbonding_ids": [],
+        "unbonding_ids": [
+          "1157517",
+          "1181868",
+          "1203052",
+          "1220796"
+        ],
         "validator_bond_shares": "0.000000000000000000",
         "liquid_shares": "0.000000000000000000"
       },
@@ -1353,9 +1392,9 @@
           "key": "PYeM4df2aGAVR6xTQTFq988GEC14isF0/SsPNpjLGW8="
         },
         "jailed": false,
-        "status": "BOND_STATUS_UNBONDED",
-        "tokens": "426071416",
-        "delegator_shares": "426071416.000000000000000000",
+        "status": "BOND_STATUS_UNBONDING",
+        "tokens": "286308120",
+        "delegator_shares": "286308120.000000000000000000",
         "description": {
           "moniker": " AutoStake 🛡️ Slash Protected",
           "identity": "4D3303E20A4D2C32",
@@ -1363,8 +1402,8 @@
           "security_contact": "support@autostake.com",
           "details": "Earn extra Rewards on AutoStake.com 🛡️ 100% Refund on ALL forms of slashing backed by a SAFU fund 🛡💸Auto-compound: wallet.autostake.com/cosmoshub 💸 & twitter.com/AutoStake_ & telegram.me/AutoStake_com"
         },
-        "unbonding_height": "23129086",
-        "unbonding_time": "2024-12-09T16:36:45.789396882Z",
+        "unbonding_height": "24620099",
+        "unbonding_time": "2025-03-21T12:43:22.920593316Z",
         "commission": {
           "commission_rates": {
             "rate": "0.050000000000000000",
@@ -1379,7 +1418,9 @@
           "978637",
           "983510",
           "994659",
-          "996454"
+          "996454",
+          "1220971",
+          "1222763"
         ],
         "validator_bond_shares": "0.000000000000000000",
         "liquid_shares": "10000.000000000000000000"
@@ -1392,8 +1433,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "548213613618",
-        "delegator_shares": "548213613618.000000000000000000",
+        "tokens": "555494412679",
+        "delegator_shares": "555494412679.000000000000000000",
         "description": {
           "moniker": "🇨🇭 Vortex.live 🟢",
           "identity": "CC806AFFDB2EE85A",
@@ -1415,7 +1456,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "39055137.000000000000000000",
-        "liquid_shares": "153923023.000000000000000000"
+        "liquid_shares": "152695939.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1ggyzck52vzmrxnts49krjvkzms70mzm06rmlww",
@@ -1458,8 +1499,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "822917865118",
-        "delegator_shares": "822917865118.000000000000000000",
+        "tokens": "895367930517",
+        "delegator_shares": "895367930517.000000000000000000",
         "description": {
           "moniker": "Keplr",
           "identity": "55AE6F8C61BF4749",
@@ -1481,7 +1522,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "2005000000.000000000000000000",
-        "liquid_shares": "286915538088.000000000000000000"
+        "liquid_shares": "279513770162.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1gf4wlkutql95j7wwsxz490s6fahlvk2s9xpwax",
@@ -1491,8 +1532,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "276525046562",
-        "delegator_shares": "276525046562.000000000000000000",
+        "tokens": "285989829929",
+        "delegator_shares": "285989829929.000000000000000000",
         "description": {
           "moniker": "Stakewolle.com |100% Insurance",
           "identity": "6386E8C1B6217AC2",
@@ -1516,7 +1557,7 @@
           "713872"
         ],
         "validator_bond_shares": "662000000.000000000000000000",
-        "liquid_shares": "80888220084.000000000000000000"
+        "liquid_shares": "87521434948.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1gtpvyenddt7uq7nccndn3pz9smurt3xt6pmx8u",
@@ -1625,8 +1666,8 @@
         },
         "jailed": true,
         "status": "BOND_STATUS_UNBONDED",
-        "tokens": "300830352",
-        "delegator_shares": "300860419.083476059564007143",
+        "tokens": "276441763",
+        "delegator_shares": "276469391.517696818301841734",
         "description": {
           "moniker": "zugerselfdelegation",
           "identity": "",
@@ -1728,8 +1769,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "381055372790",
-        "delegator_shares": "381055372790.000000000000000000",
+        "tokens": "365864250348",
+        "delegator_shares": "365864250348.000000000000000000",
         "description": {
           "moniker": "EZ Staking",
           "identity": "1534523421A364DB",
@@ -1737,8 +1778,8 @@
           "security_contact": "contact@ezstaking.io",
           "details": "100% refund on downtime slashing. Enterprise grade infrastructure. High end security and 24/7 monitoring. https://ezstaking.app/cosmoshub."
         },
-        "unbonding_height": "22678568",
-        "unbonding_time": "2024-11-08T18:23:55.269728547Z",
+        "unbonding_height": "24312975",
+        "unbonding_time": "2025-02-28T15:43:15.683285382Z",
         "commission": {
           "commission_rates": {
             "rate": "0.050000000000000000",
@@ -1752,10 +1793,11 @@
         "unbonding_ids": [
           "537571",
           "877646",
-          "916866"
+          "916866",
+          "1195709"
         ],
         "validator_bond_shares": "698634852.000000000000000000",
-        "liquid_shares": "800388535.000000000000000000"
+        "liquid_shares": "994856336.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1gn4ugadhkdwse6ayt7q8ekh0d0p2spw7duwlua",
@@ -1765,8 +1807,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "114599683184",
-        "delegator_shares": "114611144160.297200952448253763",
+        "tokens": "108804949941",
+        "delegator_shares": "108815831363.651218813444285923",
         "description": {
           "moniker": "White Whale",
           "identity": "CE2C5C02D96391AA",
@@ -1774,8 +1816,8 @@
           "security_contact": "security@whitewhale.money",
           "details": "Interchain Liquidity Protocol"
         },
-        "unbonding_height": "23986959",
-        "unbonding_time": "2025-02-06T06:59:18.981518060Z",
+        "unbonding_height": "24791119",
+        "unbonding_time": "2025-04-02T04:40:47.839246089Z",
         "commission": {
           "commission_rates": {
             "rate": "0.050000000000000000",
@@ -1792,10 +1834,13 @@
           "915286",
           "919781",
           "1154032",
-          "1156297"
+          "1156297",
+          "1212319",
+          "1220167",
+          "1237412"
         ],
         "validator_bond_shares": "14001300.119714727780044586",
-        "liquid_shares": "178890884.961831351151828049"
+        "liquid_shares": "152661180.016482784178507983"
       },
       {
         "operator_address": "cosmosvaloper1g48qthza73rv7rl3t823sxp0539k47c7k8fjqp",
@@ -1838,8 +1883,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "3261897576814",
-        "delegator_shares": "3261897576814.000000000000000000",
+        "tokens": "3041675987322",
+        "delegator_shares": "3041675987322.000000000000000000",
         "description": {
           "moniker": "Provalidator",
           "identity": "3A7D5C9B0B88BEA1",
@@ -1860,8 +1905,8 @@
         "min_self_delegation": "1",
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
-        "validator_bond_shares": "894131278.000000000000000000",
-        "liquid_shares": "98406459656.000000000000000000"
+        "validator_bond_shares": "921054886.000000000000000000",
+        "liquid_shares": "102043719506.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1gah0q9gqypnr7ufzg0dcda3k6v8qp4ceddn8fs",
@@ -1871,8 +1916,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "660488922629",
-        "delegator_shares": "660488922629.000000000000000000",
+        "tokens": "639435943546",
+        "delegator_shares": "639435943546.000000000000000000",
         "description": {
           "moniker": "Enigma",
           "identity": "6223697ACA24A4FF",
@@ -1896,7 +1941,7 @@
           "19342"
         ],
         "validator_bond_shares": "1562000000.000000000000000000",
-        "liquid_shares": "196882742762.000000000000000000"
+        "liquid_shares": "197112621821.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1fqzqejwkk898fcslw4z4eeqjzesynvrdfr5hte",
@@ -1906,8 +1951,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "71193313011",
-        "delegator_shares": "71193313011.000000000000000000",
+        "tokens": "70930164796",
+        "delegator_shares": "70930164796.000000000000000000",
         "description": {
           "moniker": "commercio.network",
           "identity": "ADBDB0178E4441BE",
@@ -1967,7 +2012,7 @@
           "884746"
         ],
         "validator_bond_shares": "605000000.000000000000000000",
-        "liquid_shares": "154879101.000000000000000000"
+        "liquid_shares": "153652017.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1fypv7c7z3auv7w48qn76538w55jdk66xt5a3lk",
@@ -2076,8 +2121,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "153184857971",
-        "delegator_shares": "153200177698.508376401510234566",
+        "tokens": "155329255834",
+        "delegator_shares": "155344789999.479407319734776664",
         "description": {
           "moniker": "Compass",
           "identity": "72CB5AAAAFB1CE69",
@@ -2099,7 +2144,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "406040603.786905025715831501",
-        "liquid_shares": "153904483.993277886901009027"
+        "liquid_shares": "152677281.275589598817856990"
       },
       {
         "operator_address": "cosmosvaloper1fwnw7km7sqwyfdr0lq2n0nzpa3f7zd7p6r44k8",
@@ -2142,8 +2187,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "3317171074",
-        "delegator_shares": "3317171074.000000000000000000",
+        "tokens": "105617900407",
+        "delegator_shares": "105628463149.044667098277374243",
         "description": {
           "moniker": "Seraphim",
           "identity": "73DD17C2E6930E36",
@@ -2151,8 +2196,8 @@
           "security_contact": "security@seraphim.zone",
           "details": "Seraphim is a non-custodial infrastructure provider. By staking with Seraphim, you acknowledge that you are doing so at your own risk and waive any liability claims."
         },
-        "unbonding_height": "0",
-        "unbonding_time": "1970-01-01T00:00:00Z",
+        "unbonding_height": "24601501",
+        "unbonding_time": "2025-03-20T06:12:25.288013002Z",
         "commission": {
           "commission_rates": {
             "rate": "0.050000000000000000",
@@ -2163,7 +2208,9 @@
         },
         "min_self_delegation": "0",
         "unbonding_on_hold_ref_count": "0",
-        "unbonding_ids": [],
+        "unbonding_ids": [
+          "1220794"
+        ],
         "validator_bond_shares": "0.000000000000000000",
         "liquid_shares": "0.000000000000000000"
       },
@@ -2208,8 +2255,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "276035297665",
-        "delegator_shares": "276035297665.000000000000000000",
+        "tokens": "281401813940",
+        "delegator_shares": "281401813940.000000000000000000",
         "description": {
           "moniker": "Crosnest",
           "identity": "5F1D6AC7EA588676",
@@ -2231,7 +2278,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "450000000.000000000000000000",
-        "liquid_shares": "1972198080.000000000000000000"
+        "liquid_shares": "1906736836.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1fs0vl7jem78pmhladkludtkun3cgkrwkt8czur",
@@ -2241,8 +2288,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "731008634573",
-        "delegator_shares": "731008634573.000000000000000000",
+        "tokens": "731953231254",
+        "delegator_shares": "731953231254.000000000000000000",
         "description": {
           "moniker": "🛡️Bunkerstake.io",
           "identity": "5EE6985B6C310F98",
@@ -2264,7 +2311,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "10014136.000000000000000000",
-        "liquid_shares": "153889088.000000000000000000"
+        "liquid_shares": "152662004.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1f3p5nl5xfdrutcdp5926epe2xuj85zsastzdw9",
@@ -2307,8 +2354,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "520618542738",
-        "delegator_shares": "520618542738.000000000000000000",
+        "tokens": "524932465724",
+        "delegator_shares": "524932465724.000000000000000000",
         "description": {
           "moniker": "Stakin",
           "identity": "83D300CB42D06962",
@@ -2330,7 +2377,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "2474750000.000000000000000000",
-        "liquid_shares": "192936158239.000000000000000000"
+        "liquid_shares": "205343764783.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1f63lrmnn4upu722kxdhw04taxa6w50lnar88dx",
@@ -2406,8 +2453,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "170162689816",
-        "delegator_shares": "170196726731.536476766722898841",
+        "tokens": "174795763065",
+        "delegator_shares": "174830726650.957737151590033047",
         "description": {
           "moniker": "Tessellated",
           "identity": "E308F774D80FF40B",
@@ -2431,7 +2478,7 @@
           "201846"
         ],
         "validator_bond_shares": "485097013.103615348233423595",
-        "liquid_shares": "153919893.697514884889035112"
+        "liquid_shares": "157833624.402780154576846214"
       },
       {
         "operator_address": "cosmosvaloper1fagujjmqt4fvnsckz34sth0a9daq953lc0j6cg",
@@ -2506,9 +2553,9 @@
           "key": "H0f+J1Q0zUbWqLuCF/5yVYwO0PYWK9yjYVyd212Rcyo="
         },
         "jailed": false,
-        "status": "BOND_STATUS_UNBONDING",
-        "tokens": "2232996548",
-        "delegator_shares": "2232996548.000000000000000000",
+        "status": "BOND_STATUS_BONDED",
+        "tokens": "3211939630",
+        "delegator_shares": "3211939630.000000000000000000",
         "description": {
           "moniker": "BlueStake 🚀",
           "identity": "2C12B61930DF3586",
@@ -2516,8 +2563,8 @@
           "security_contact": "",
           "details": "100% refund on downtime slashing ✅ Highly secure and reliable infrastructure, distributed across various datacenters and operated by a team of DevOps engineers."
         },
-        "unbonding_height": "23991348",
-        "unbonding_time": "2025-02-06T14:11:55.284761499Z",
+        "unbonding_height": "24257696",
+        "unbonding_time": "2025-02-24T21:43:51.679424738Z",
         "commission": {
           "commission_rates": {
             "rate": "0.050000000000000000",
@@ -2560,7 +2607,19 @@
           "1153785",
           "1154145",
           "1155357",
-          "1156834"
+          "1156834",
+          "1158525",
+          "1159208",
+          "1159512",
+          "1160240",
+          "1160949",
+          "1166874",
+          "1166932",
+          "1167005",
+          "1182075",
+          "1182135",
+          "1184758",
+          "1189062"
         ],
         "validator_bond_shares": "0.000000000000000000",
         "liquid_shares": "10000.000000000000000000"
@@ -2573,8 +2632,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "3105233288",
-        "delegator_shares": "3105233288.000000000000000000",
+        "tokens": "3402289895",
+        "delegator_shares": "3402289895.000000000000000000",
         "description": {
           "moniker": "COS_Validator",
           "identity": "",
@@ -2582,8 +2641,8 @@
           "security_contact": "",
           "details": ""
         },
-        "unbonding_height": "18591744",
-        "unbonding_time": "2024-01-26T16:13:12.531930486Z",
+        "unbonding_height": "24833462",
+        "unbonding_time": "2025-04-05T01:48:18.531057308Z",
         "commission": {
           "commission_rates": {
             "rate": "0.050000000000000000",
@@ -2595,10 +2654,13 @@
         "min_self_delegation": "1",
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [
-          "291596"
+          "291596",
+          "1167359",
+          "1239547",
+          "1240298"
         ],
         "validator_bond_shares": "10015237.000000000000000000",
-        "liquid_shares": "130887843.000000000000000000"
+        "liquid_shares": "133752331.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper12dm2v5yk62k3em0lu7g5ddzrymy832r6vn46j3",
@@ -2607,15 +2669,15 @@
           "key": "nFJIr6Zz2NN1QBzj/i/zwEMdRvVh4W8Vl6Pi+X8Sz8E="
         },
         "jailed": false,
-        "status": "BOND_STATUS_UNBONDED",
-        "tokens": "292997330",
-        "delegator_shares": "292997330.000000000000000000",
+        "status": "BOND_STATUS_BONDED",
+        "tokens": "20440973108",
+        "delegator_shares": "20440973108.000000000000000000",
         "description": {
-          "moniker": "Atlas-Staking-Validator",
-          "identity": "3FAA58BDC270427D",
-          "website": "https://www.atlas-staking.com",
+          "moniker": "NO FEE | Atlas Staking (Autocompound Rewards)",
+          "identity": "1F25E09D5C085912",
+          "website": "https://app.atlas-staking.com/",
           "security_contact": "atlas.staking@gmail.com",
-          "details": "Atlas Staking. The strong validator"
+          "details": "Monthly ATOM Airdrops (100% Commission Rebate) until Q2 2026, and until 2030 for who hold our Hub inscription! - Autocompound using reStake: https://restake.app/cosmoshub/cosmosvaloper12dm2v5yk62k3em0lu7g5ddzrymy832r6vn46j3\nAtlas Staking: Where Your Crypto Works As Hard As You Do"
         },
         "unbonding_height": "23294259",
         "unbonding_time": "2024-12-20T23:11:53.906038264Z",
@@ -2634,7 +2696,7 @@
           "1044666"
         ],
         "validator_bond_shares": "100000.000000000000000000",
-        "liquid_shares": "0.000000000000000000"
+        "liquid_shares": "25000000.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper12w2qkvxp7udd29t2wrz5uhffuuns4ds6c6p2aj",
@@ -2710,8 +2772,8 @@
         },
         "jailed": true,
         "status": "BOND_STATUS_UNBONDED",
-        "tokens": "15091142285",
-        "delegator_shares": "15092651471.308491426376726881",
+        "tokens": "14721020973",
+        "delegator_shares": "14722493145.409476870536475881",
         "description": {
           "moniker": "Huobi-1",
           "identity": "CF01514DBF6583FE",
@@ -2766,8 +2828,8 @@
         },
         "jailed": true,
         "status": "BOND_STATUS_UNBONDED",
-        "tokens": "2569755156",
-        "delegator_shares": "2705004689.307154424321563653",
+        "tokens": "689598554",
+        "delegator_shares": "725893008.194516250674855191",
         "description": {
           "moniker": "deleted-cosmos-validator",
           "identity": " ",
@@ -2834,8 +2896,8 @@
         },
         "jailed": true,
         "status": "BOND_STATUS_UNBONDED",
-        "tokens": "24405161758",
-        "delegator_shares": "25702490685.533582054908568435",
+        "tokens": "24399782263",
+        "delegator_shares": "25696825226.431191948539742288",
         "description": {
           "moniker": "Moonstake",
           "identity": "742F7B64C32DF7A6",
@@ -2872,8 +2934,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "783113831120",
-        "delegator_shares": "783113831120.000000000000000000",
+        "tokens": "782730665585",
+        "delegator_shares": "782730665585.000000000000000000",
         "description": {
           "moniker": "Simply Staking",
           "identity": "F74595D6D5D568A2",
@@ -2895,7 +2957,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "1527317554.000000000000000000",
-        "liquid_shares": "195240258978.000000000000000000"
+        "liquid_shares": "196315187671.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper12knqu4ecmg0982plzs9m9f5jareh0cvegcw3wu",
@@ -3133,6 +3195,39 @@
         "liquid_shares": "0.000000000000000000"
       },
       {
+        "operator_address": "cosmosvaloper1trmnr6hqu5v50xr0s8e3wu4xqkl68yrs5cggtx",
+        "consensus_pubkey": {
+          "@type": "/cosmos.crypto.ed25519.PubKey",
+          "key": "NEWxupBXhKHXHOyh5IxPplGQ16mXTlsh4uutPAuqmJw="
+        },
+        "jailed": false,
+        "status": "BOND_STATUS_BONDED",
+        "tokens": "11118090066",
+        "delegator_shares": "11118090066.000000000000000000",
+        "description": {
+          "moniker": "NexuSecurus",
+          "identity": "D9211330D088E351",
+          "website": "https://nexusecurus.com",
+          "security_contact": "cosmoshub@nexusecurus.com",
+          "details": "NexuSecurus started as a small team of blockchain enthusiasts and IT professionals with 10+ years in crypto our mission is to simplify blockchain for everyone setting up the required infrastructure, tools and resources to enable our users a better way to be part of DeFi."
+        },
+        "unbonding_height": "0",
+        "unbonding_time": "1970-01-01T00:00:00Z",
+        "commission": {
+          "commission_rates": {
+            "rate": "0.050000000000000000",
+            "max_rate": "0.050000000000000000",
+            "max_change_rate": "0.000000000000000000"
+          },
+          "update_time": "2025-03-13T00:34:01.538412025Z"
+        },
+        "min_self_delegation": "0",
+        "unbonding_on_hold_ref_count": "0",
+        "unbonding_ids": [],
+        "validator_bond_shares": "0.000000000000000000",
+        "liquid_shares": "0.000000000000000000"
+      },
+      {
         "operator_address": "cosmosvaloper1tflk30mq5vgqjdly92kkhhq3raev2hnz6eete3",
         "consensus_pubkey": {
           "@type": "/cosmos.crypto.ed25519.PubKey",
@@ -3140,8 +3235,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "9287695644544",
-        "delegator_shares": "9287695644544.000000000000000000",
+        "tokens": "9580113150505",
+        "delegator_shares": "9580113150505.000000000000000000",
         "description": {
           "moniker": "Everstake",
           "identity": "EF5AC70C00BECEDC",
@@ -3163,7 +3258,7 @@
         "unbonding_on_hold_ref_count": "0",
         "unbonding_ids": [],
         "validator_bond_shares": "970336158.000000000000000000",
-        "liquid_shares": "79840614519.000000000000000000"
+        "liquid_shares": "95718567962.000000000000000000"
       },
       {
         "operator_address": "cosmosvaloper1ttfytaf43nkytzp8hkfjfgjc693ky4t3y2n2ku",
@@ -3239,8 +3334,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_UNBONDED",
-        "tokens": "90681445",
-        "delegator_shares": "90681445.000000000000000000",
+        "tokens": "79681445",
+        "delegator_shares": "79681445.000000000000000000",
         "description": {
           "moniker": "Matterhorn",
           "identity": "",
@@ -3410,8 +3505,8 @@
         },
         "jailed": false,
         "status": "BOND_STATUS_BONDED",
-        "tokens": "1569395851395",
-        "delegator_shares": "1569395851395.000000000000000000",
+        "tokens": "1617147454435",
+        "delegator_shares": "1617147454435.000000000000000000",
         "description": {
           "moniker": "CoinoneNode",
           "identity": "F4E86EE9BD73A11F",
@@ -3435,83 +3530,11 @@
           "101971"
         ],
         "validator_bond_shares": "10014138.000000000000000000",
-        "liquid_shares": "153869084.000000000000000000"
-      },
-      {
-        "operator_address": "cosmosvaloper1tmwt5q22qqafyznjhhydn2u6kwpwn2r8unrdyn",
-        "consensus_pubkey": {
-          "@type": "/cosmos.crypto.ed25519.PubKey",
-          "key": "WiCcjAnFbkUN2FVpIRUf5PKC7kA2y6yhVSr4brmL2JQ="
-        },
-        "jailed": false,
-        "status": "BOND_STATUS_BONDED",
-        "tokens": "118199479789",
-        "delegator_shares": "118199479789.000000000000000000",
-        "description": {
-          "moniker": "Apeiron Nodes | 1% Fee",
-          "identity": "B46D00D0174BE6AB",
-          "website": "https://docs.apeironnodes.com",
-          "security_contact": "support@apeironnodes.com",
-          "details": "🚀 Delegate your assets with Apeiron Nodes to earn MEV rewards and exclusive airdrops!"
-        },
-        "unbonding_height": "23773263",
-        "unbonding_time": "2025-01-22T16:06:28.684519691Z",
-        "commission": {
-          "commission_rates": {
-            "rate": "0.050000000000000000",
-            "max_rate": "0.200000000000000000",
-            "max_change_rate": "0.050000000000000000"
-          },
-          "update_time": "2024-11-14T15:02:37.810970232Z"
-        },
-        "min_self_delegation": "0",
-        "unbonding_on_hold_ref_count": "0",
-        "unbonding_ids": [
-          "994429",
-          "1006549",
-          "1043765",
-          "1126643",
-          "1133460"
-        ],
-        "validator_bond_shares": "0.000000000000000000",
-        "liquid_shares": "0.000000000000000000"
-      },
-      {
-        "operator_address": "cosmosvaloper1vzvx9zq9czxedvtsvwdtxuslsn67q2vmvr9wej",
-        "consensus_pubkey": {
-          "@type": "/cosmos.crypto.ed25519.PubKey",
-          "key": "HOivhDffWKgnJ+edbUOAXDaf3M3shX+TeRvf0l1XIRM="
-        },
-        "jailed": true,
-        "status": "BOND_STATUS_UNBONDED",
-        "tokens": "999900",
-        "delegator_shares": "1000000.000000000000000000",
-        "description": {
-          "moniker": "bigone-pool",
-          "identity": "",
-          "website": "",
-          "security_contact": "",
-          "details": ""
-        },
-        "unbonding_height": "5250174",
-        "unbonding_time": "2021-03-15T15:13:25.637592082Z",
-        "commission": {
-          "commission_rates": {
-            "rate": "0.100000000000000000",
-            "max_rate": "0.200000000000000000",
-            "max_change_rate": "0.010000000000000000"
-          },
-          "update_time": "2019-07-16T08:49:15.776171263Z"
-        },
-        "min_self_delegation": "1",
-        "unbonding_on_hold_ref_count": "0",
-        "unbonding_ids": [],
-        "validator_bond_shares": "0.000000000000000000",
-        "liquid_shares": "0.000000000000000000"
+        "liquid_shares": "152642000.000000000000000000"
       }
     ],
     "pagination": {
-      "next_key": "FGCfj7n7A6mJM3aJ7o1PtrbY7iDD",
+      "next_key": "FF7cugFKADqSCnK9yNmrmrOC6ahn",
       "total": "0"
     }
   }

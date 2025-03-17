@@ -7,7 +7,7 @@
     "cursor": null,
     "page": 0,
     "page_size": 20,
-    "block_number": 18560841,
+    "block_number": 18609752,
     "result": [
       {
         "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
@@ -24,9 +24,9 @@
         "percentage_relative_to_total_supply": null,
         "security_score": 99,
         "balance_formatted": "0",
-        "usd_price": 0.08287185977450769,
-        "usd_price_24hr_percent_change": -0.1760369007013219,
-        "usd_price_24hr_usd_change": -0.00014614231790764654,
+        "usd_price": 0.08748285200109483,
+        "usd_price_24hr_percent_change": 6.971539265382953,
+        "usd_price_24hr_usd_change": 0.005701424341106806,
         "usd_value": 0,
         "usd_value_24hr_usd_change": 0,
         "native_token": true,

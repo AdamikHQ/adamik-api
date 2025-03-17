@@ -9,15 +9,15 @@
         "xpub": {
           "address_count": 4,
           "balance": 398306,
-          "balance_usd": 398.02320274,
+          "balance_usd": 331.25516796,
           "received": 6109709,
           "spent": 5711403,
           "output_count": 30,
           "unspent_output_count": 5,
           "first_seen_receiving": "2024-09-03 13:45:49",
-          "last_seen_receiving": "2024-12-31 13:58:04",
+          "last_seen_receiving": "2025-01-31 05:48:14",
           "first_seen_spending": "2024-09-09 11:54:31",
-          "last_seen_spending": "2024-12-31 13:58:04",
+          "last_seen_spending": "2025-01-31 05:48:14",
           "transaction_count": 23
         },
         "addresses": {
@@ -26,7 +26,7 @@
             "type": "witness_v0_scripthash",
             "script_hex": "0014cd8376704a7818dbd8447272a28cac62dc61c04c",
             "balance": 187056,
-            "balance_usd": 186.92319024,
+            "balance_usd": 155.56699296,
             "received": 5129911,
             "received_usd": 4054.1071,
             "spent": 4942855,
@@ -60,24 +60,24 @@
             "type": "witness_v0_scripthash",
             "script_hex": "0014740f611dd6e0f2afaf9111ed200d546b8a466f17",
             "balance": 89858,
-            "balance_usd": 89.79420082,
+            "balance_usd": 74.73130427999999,
             "received": 190858,
-            "received_usd": 182.2572,
+            "received_usd": 193.1183,
             "spent": 101000,
-            "spent_usd": 93.652,
+            "spent_usd": 105.739,
             "output_count": 3,
             "unspent_output_count": 1,
             "first_seen_receiving": "2024-11-25 21:37:12",
-            "last_seen_receiving": "2024-12-31 13:58:04",
+            "last_seen_receiving": "2025-01-31 05:48:14",
             "first_seen_spending": "2024-11-25 21:44:33",
-            "last_seen_spending": "2024-12-31 13:58:04"
+            "last_seen_spending": "2025-01-31 05:48:14"
           },
           "bc1qxwhn3cj8spt7kawsdsf2vw36qqjrkmj2ucaf0f": {
             "path": "1/0",
             "type": "witness_v0_scripthash",
             "script_hex": "001433af38e2478057eb75d06c12a63a3a00243b6e4a",
             "balance": 121392,
-            "balance_usd": 121.30581168,
+            "balance_usd": 100.95687072000001,
             "received": 121392,
             "received_usd": 118.969,
             "spent": 0,
@@ -117,7 +117,7 @@
         ],
         "utxo": [
           {
-            "block_id": -1,
+            "block_id": 881598,
             "transaction_hash": "05548f752f90cc7b92a11029c752571a6b5263beef1a1d425344712df9afd35b",
             "index": 1,
             "value": 89858,
@@ -242,13 +242,13 @@
         "1/38: bc1qmshu76krehemtwltnn35kdgdw0pr9y7r67qcwn",
         "1/39: bc1qhdl36wn84e0x9hrq5q23srq5vffflsxsvh6vkx"
       ],
-      "state": 879524,
-      "market_price_usd": 99929,
+      "state": 888188,
+      "market_price_usd": 83166,
       "cache": {
         "live": true,
         "duration": 600,
-        "since": "2025-01-16 18:17:51",
-        "until": "2025-01-16 18:27:51",
+        "since": "2025-03-17 13:38:42",
+        "until": "2025-03-17 13:48:42",
         "time": null
       },
       "api": {
@@ -259,9 +259,9 @@
         "notice": "Try out our new API v.3: https://3xpl.com/data"
       },
       "servers": "API4,BTC5",
-      "time": 2.6476528644561768,
-      "render_time": 0.051867008209228516,
-      "full_time": 2.6995198726654053,
+      "time": 2.219158887863159,
+      "render_time": 0.057871103286743164,
+      "full_time": 2.2770299911499023,
       "request_cost": 8.9
     }
   }
