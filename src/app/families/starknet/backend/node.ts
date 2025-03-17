@@ -151,8 +151,6 @@ const buildTransferPayload = async (
 
   const payload = await account.getExecutePayloadToSign(transferCall, { nonce, version: "0x3" });
 
-  console.log({ payload });
-
   return payload;
 };
 
