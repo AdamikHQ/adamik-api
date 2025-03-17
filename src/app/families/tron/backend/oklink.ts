@@ -3,10 +3,10 @@ import { CHAINS } from "~/app/config/chains";
 import {
   AccountState,
   AccountTokens,
-  Backend,
   ChainId,
   FinalizedTransaction,
   Paginated,
+  Provider,
   ProviderType,
   TokenAmount,
   TokenType,
@@ -27,7 +27,7 @@ import {
   OkLinkTokensAccountStateResponse,
   OkLinkTransactionInfo,
 } from "./types";
-const explorerURL = CHAINS.tron.backends.find((b: Backend) => b.providerType === ProviderType.oklink)?.url;
+const explorerURL = CHAINS.tron.providers.find((b: Provider) => b.type === ProviderType.oklink)?.url;
 
 async function fetchTransaction(transactionId: string): Promise<FinalizedTransaction> {
   const url = `${explorerURL}/transaction/transaction-fills?chainShortName=TRON&txid=${transactionId}`;

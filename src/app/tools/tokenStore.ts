@@ -2,8 +2,8 @@ import { createClient } from "redis";
 import { ChainId, Token, TokenType } from "~/app/model/types_WIP";
 import { env } from "~/env";
 
-function parseRedisToken(obj: { [x: string]: string }): Token | null {
-  const keys = Object.keys(obj);
+function parseRedisToken(redisToken: { [x: string]: string }): Token | null {
+  const keys = Object.keys(redisToken);
 
   if (
     !keys.includes("type") ||
@@ -15,24 +15,24 @@ function parseRedisToken(obj: { [x: string]: string }): Token | null {
     return null;
   }
 
-  if (!(Object.values(TokenType) as Array<string>).includes(obj.type)) {
+  if (!(Object.values(TokenType) as Array<string>).includes(redisToken.type)) {
     return null;
   }
 
-  const decimals = Number(obj.decimals);
+  const decimals = Number(redisToken.decimals);
 
   if (isNaN(decimals)) {
     return null;
   }
 
   return {
-    type: obj.type as TokenType,
-    id: obj.id,
-    name: obj.name,
-    ticker: obj.ticker,
+    type: redisToken.type as TokenType,
+    id: redisToken.id,
+    name: redisToken.name,
+    ticker: redisToken.ticker,
     decimals,
-    contractAddress: obj.contractAddress,
-    logo: obj.logo,
+    contractAddress: redisToken.contractAddress,
+    logo: redisToken.logo,
   };
 }
 
@@ -64,7 +64,6 @@ export class TokenStore {
     await Promise.all(
       tokens.map(async (token) => {
         if (token === null) return;
-        token = JSON.parse(JSON.stringify(token)) as Token;
         if (!TokenStore.mapping[chainId]) {
           TokenStore.mapping[chainId] = {};
         }
@@ -99,7 +98,6 @@ export class TokenStore {
         return token;
       })
     );
-    await TokenStore.save(chainId, tokens);
     return tokens;
   }
 }

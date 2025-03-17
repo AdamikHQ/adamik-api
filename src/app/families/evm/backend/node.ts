@@ -34,7 +34,7 @@ import {
 } from "viem/chains";
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
-import { Backend, ChainId, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
+import { ChainId, Provider, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { berachain } from "../chains/berachain";
@@ -47,7 +47,7 @@ import { EvmAddress, EvmChainParams } from "../types";
 const CLIENTS = new Map<ChainId, any>();
 
 function getClientConfig(chainId: ChainId) {
-  const nodeURL = CHAINS[chainId].backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
+  const nodeURL = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.node)?.url;
   const transport = http(nodeURL);
 
   switch (chainId) {

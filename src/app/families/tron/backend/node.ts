@@ -2,11 +2,11 @@ import { TronWeb } from "tronweb";
 import { toHex } from "tronweb/utils";
 import { TRONGRID_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { Backend, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
+import { Provider, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { TokenStore } from "~/app/tools/tokenStore";
 
-const nodeUrl = CHAINS.tron.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
+const nodeUrl = CHAINS.tron.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
 
 const tronWeb = new TronWeb({
   fullHost: nodeUrl,

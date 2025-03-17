@@ -21,13 +21,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Algorand",
     ticker: "ALGO",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://mainnet-api.algonode.cloud/v2",
       },
       {
-        providerType: ProviderType.indexer,
+        type: ProviderType.algoindexer,
         url: "https://mainnet-idx.algonode.cloud/v2",
       },
     ],
@@ -41,13 +41,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "CosmosHub",
     ticker: "ATOM",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-cosmos.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -69,13 +69,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "CosmosHub Testnet",
     ticker: "ATOM",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://api-t.cosmos.nodestake.top",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -98,13 +98,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Osmosis",
     ticker: "OSMO",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-osmosis.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -126,13 +126,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Osmosis Testnet",
     ticker: "OSMO",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://g.w.lavanet.xyz/gateway/osmosist/rest/REDACTED",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -155,13 +155,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Celestia",
     ticker: "TIA",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-celestia.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -183,13 +183,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Celestia Testnet",
     ticker: "TIA",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://g.w.lavanet.xyz/gateway/celestiatm/rest/REDACTED",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -212,16 +212,17 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "dYdX Protocol",
     ticker: "DYDX",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        // (configs can be checked with [nodeURL]/cosmos/base/node/v1beta1/config )
+        type: ProviderType.node,
         url: "https://lcd-dydx.imperator.co", // Used to only accepts fees in IBC token USDC, but seems fixed now...
         //url: "https://dydx-rest.publicnode.com", // Works but public node with no guarantee of performance
         //url: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live, but we've been blacklisted...
         //url: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands twice the standard minimum gas fees, for some reason
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -243,13 +244,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Axelar",
     ticker: "AXL",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-axelar.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -271,17 +272,17 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Ethereum",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/eth/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
       {
-        providerType: ProviderType.alchemy,
+        type: ProviderType.alchemy,
         url: "https://eth-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
     ],
@@ -295,17 +296,17 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Sepolia",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    isTestnetFor: ChainId.ETHEREUM,
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/sepolia/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
-    isTestnetFor: ChainId.ETHEREUM,
     supportedFeatures: EVM_FEATURES(ChainId.SEPOLIA),
     signerSpec: getSignerSpecForChain(ChainId.SEPOLIA, ChainFamily.EVM),
   },
@@ -316,17 +317,17 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Holesky",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    isTestnetFor: ChainId.ETHEREUM,
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/holesky/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
-    isTestnetFor: ChainId.ETHEREUM,
     supportedFeatures: EVM_FEATURES(ChainId.HOLESKY),
     signerSpec: getSignerSpecForChain(ChainId.HOLESKY, ChainFamily.EVM),
   },
@@ -334,16 +335,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.EVM,
     id: ChainId.ZKSYNC,
     nativeId: "324",
-    name: "ZkSync",
+    name: "zkSync",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/zksync/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -357,13 +358,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "ZkSync Testnet",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/zksync-sepolia/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -378,13 +379,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Injective Evm Testnet",
     ticker: "INJ",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://testnet.rpc.inevm.com/http",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -399,13 +400,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Base",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/base/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -422,13 +423,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Base Sepolia",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/base-sepolia/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -446,13 +447,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Optimism",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/optimism/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -469,13 +470,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Optimism Sepolia",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/optimism-sepolia/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -493,13 +494,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Arbitrum One",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/arbitrum/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -513,13 +514,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Arbitrum Sepolia",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/arbitrum-sepolia/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -533,9 +534,9 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.BITCOIN,
     ticker: "BTC",
     decimals: 8,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.blockchair,
+        type: ProviderType.blockchair,
         url: "https://api.blockchair.com/bitcoin",
       },
     ],
@@ -553,9 +554,9 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.BITCOIN,
     ticker: "BTC",
     decimals: 8,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.blockchair,
+        type: ProviderType.blockchair,
         url: "https://api.blockchair.com/bitcoin/testnet",
       },
     ],
@@ -573,9 +574,9 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.BITCOIN,
     ticker: "sBTC",
     decimals: 8,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.indexer,
+        type: ProviderType.mempoolspace,
         url: "https://mempool.space/signet/api",
       },
     ],
@@ -593,13 +594,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Polygon",
     ticker: "POL",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/polygon/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -613,13 +614,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Polygon Amoy",
     ticker: "MATIC",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/amoy/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -634,13 +635,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Binance Smart Chain",
     ticker: "BNB",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/bsc/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -654,13 +655,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Binance Smart Chain Testnet",
     ticker: "BNB",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/bsc-testnet/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -675,13 +676,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Linea",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/linea/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -695,13 +696,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Linea Sepolia",
     ticker: "ETH",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/linea-sepolia/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -716,13 +717,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Avalanche",
     ticker: "AVAX",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/avalanche/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -736,13 +737,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Avalanche Fuji Testnet",
     ticker: "AVAX",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://avalanche-fuji-c-chain-rpc.publicnode.com",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -757,13 +758,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Gnosis",
     ticker: "xDAI",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/gnosis/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -777,13 +778,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Gnosis Chiado",
     ticker: "xDAI",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/gnosis-testnet/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -798,13 +799,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Moonbeam",
     ticker: "GLMR",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/moonbeam/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -818,13 +819,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Moonriver",
     ticker: "MOVR",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/moonriver/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -838,13 +839,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Moonbase",
     ticker: "DEV",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/moonbase/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -859,13 +860,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Fantom",
     ticker: "FTM",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://rpcapi.fantom.network",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -879,13 +880,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Mantle Network",
     ticker: "MNT",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://site1.moralis-nodes.com/mantle/REDACTED",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -899,13 +900,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "RootStock",
     ticker: "RBTC",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://public-node.rsk.co",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -919,13 +920,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "RootStock Testnet",
     ticker: "tRBTC",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://public-node.testnet.rsk.co",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -939,9 +940,9 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.BITCOIN,
     ticker: "LTC",
     decimals: 8,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.blockchair,
+        type: ProviderType.blockchair,
         url: "https://api.blockchair.com/litecoin",
       },
     ],
@@ -958,9 +959,9 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.BITCOIN,
     ticker: "DOGE",
     decimals: 8,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.blockchair,
+        type: ProviderType.blockchair,
         url: "https://api.blockchair.com/dogecoin",
       },
     ],
@@ -978,13 +979,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "TON",
     ticker: "TON",
     decimals: 9,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://toncenter.com/api/",
       },
       {
-        providerType: ProviderType.tonapi,
+        type: ProviderType.tonapi,
         url: "https://tonapi.io",
       },
     ],
@@ -998,13 +999,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Chiliz Chain",
     ticker: "CHZ",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://chiliz-rpc.publicnode.com",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -1018,13 +1019,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Chiliz Spicy Testnet",
     ticker: "CHZ",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://chiliz-spicy.publicnode.com",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -1040,14 +1041,14 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Injective",
     ticker: "INJ",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         //url: "https://apis.mintscan.io/injective/lcd", // Error when computing tx fees
         url: "https://lcd-injective.imperator.co", // FIXME Frequent HTTP 502 errors!
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1070,13 +1071,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Akash",
     ticker: "AKT",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-akash.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1100,13 +1101,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Band Protocol",
     ticker: "BAND",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-band.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1131,13 +1132,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Dymension",
     ticker: "DYM",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-dymension.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1161,13 +1162,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "KYVE",
     ticker: "KYVE",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-kyve.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1191,13 +1192,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Neutron",
     ticker: "NTRN",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-neutron.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1223,13 +1224,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Terra",
     ticker: "LUNA",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-terra.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1253,14 +1254,14 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Stargaze",
     ticker: "STARS",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://stargaze-api.polkachu.com/",
         //url: "https://lcd-stargaze.imperator.co", // Randomly long response times, up to 60s and more...
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1284,17 +1285,17 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Tron",
     ticker: "TRX",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://api.trongrid.io",
       },
       {
-        providerType: ProviderType.tronscan,
+        type: ProviderType.tronscan,
         url: "https://apilist.tronscanapi.com",
       },
       {
-        providerType: ProviderType.oklink,
+        type: ProviderType.oklink,
         url: "https://www.oklink.com/api/v5/explorer",
       },
     ],
@@ -1308,13 +1309,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Evmos",
     ticker: "EVMOS",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-evmos.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1338,13 +1339,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "IRISnet",
     ticker: "IRIS",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-iris.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1367,13 +1368,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Juno",
     ticker: "JUNO",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-juno.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1396,13 +1397,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Lum Network",
     ticker: "LUM",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-lum.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1425,13 +1426,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "OmniFlix",
     ticker: "FLIX",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-omniflix.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1454,13 +1455,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Sei",
     ticker: "SEI",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://sei-api.polkachu.com/",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1483,13 +1484,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "MediBloc",
     ticker: "MED",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-medibloc.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1512,13 +1513,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Passage",
     ticker: "PASG",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-passage.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1541,13 +1542,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Quasar",
     ticker: "QSR",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-quasar.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1571,13 +1572,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Seda",
     ticker: "SEDA",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://seda-api.polkachu.com/",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1601,13 +1602,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Sommelier",
     ticker: "SOMM",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-sommelier.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1631,13 +1632,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Shentu",
     ticker: "CTK",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-shentu.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1661,13 +1662,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Stride",
     ticker: "STRD",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://lcd-stride.imperator.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1690,13 +1691,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Chihuahua",
     ticker: "HUAHUA",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://chihuahua-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1719,13 +1720,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Bitsong",
     ticker: "BTSG",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://bitsong-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1748,13 +1749,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Persistence",
     ticker: "XPRT",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://persistence-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1777,13 +1778,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Comdex",
     ticker: "CMDX",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://comdex-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1806,13 +1807,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Fetch.ai",
     ticker: "FET",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://fetch-api.polkachu.com/",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1835,13 +1836,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Humans.ai",
     ticker: "HEART",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://humans-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1864,13 +1865,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Ki Chain",
     ticker: "XKI",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://ki-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1893,13 +1894,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "LikeCoin",
     ticker: "LIKE",
     decimals: 9,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://mainnet-node.like.co",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1922,13 +1923,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Mars Hub",
     ticker: "MARS",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://mars-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1951,13 +1952,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Provenance",
     ticker: "HASH",
     decimals: 9,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://provenance-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -1980,13 +1981,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Quicksilver",
     ticker: "QCK",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://quicksilver-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -2009,13 +2010,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Saga",
     ticker: "SAGA",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://saga-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -2038,13 +2039,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "UX Chain",
     ticker: "UX",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://ux-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -2067,13 +2068,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Kava",
     ticker: "KAVA",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://kava-api.polkachu.com",
       },
       {
-        providerType: ProviderType.mintscan,
+        type: ProviderType.mintscan,
         url: "https://apis.mintscan.io/v1",
       },
     ],
@@ -2096,13 +2097,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Starknet",
     ticker: "STRK",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://starknet-mainnet.public.blastapi.io/rpc/v0_7", //FIXME: Find a better node
       },
       {
-        providerType: ProviderType.indexer,
+        type: ProviderType.starkscan,
         url: "https://api.starkscan.co",
       },
     ],
@@ -2139,9 +2140,9 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Babylon Testnet",
     ticker: "BABY",
     decimals: 6,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://babylon-testnet-api.polkachu.com",
       },
     ],
@@ -2164,13 +2165,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     nativeId: "10143",
     ticker: "MON",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://testnet-rpc.monad.xyz/",
       },
       {
-        providerType: ProviderType.alchemy,
+        type: ProviderType.alchemy,
         url: "https://monad-testnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
     ],
@@ -2185,13 +2186,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     nativeId: "80094",
     ticker: "BERA",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://rpc.berachain.com/",
       },
       {
-        providerType: ProviderType.alchemy,
+        type: ProviderType.alchemy,
         url: "https://berachain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
     ],
@@ -2205,13 +2206,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     nativeId: "80084",
     ticker: "BERA",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://bartio.rpc.berachain.com",
       },
       {
-        providerType: ProviderType.alchemy,
+        type: ProviderType.alchemy,
         url: "https://berachain-bartio.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
     ],
@@ -2226,13 +2227,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     nativeId: "25",
     ticker: "CRO",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://evm.cronos.org",
       },
       {
-        providerType: ProviderType.moralis,
+        type: ProviderType.moralis,
         url: "https://deep-index.moralis.io/api",
       },
     ],
@@ -2246,13 +2247,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     nativeId: "480",
     ticker: "WLD",
     decimals: 18,
-    backends: [
+    providers: [
       {
-        providerType: ProviderType.node,
+        type: ProviderType.node,
         url: "https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
       {
-        providerType: ProviderType.alchemy,
+        type: ProviderType.alchemy,
         url: "https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
       },
     ],
