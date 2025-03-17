@@ -1,13 +1,13 @@
 import {
-  Contract,
   DeployAccountContractTransaction,
   ec,
   Invocation,
   InvocationsDetailsWithNonce,
   RpcError,
   shortString,
+  Contract,
   Provider as StarknetProvider,
-} from "Starknet";
+} from "starknet";
 import { CHAINS } from "~/app/config/chains";
 import { Provider, ProviderType, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
