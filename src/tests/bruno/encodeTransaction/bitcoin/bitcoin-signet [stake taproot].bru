@@ -1,0 +1,35 @@
+meta {
+  name: bitcoin-signet [stake taproot]
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: bitcoin-signet
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "stake",
+        "senderAddress": "tb1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqsxh76tx",
+        "senderPubKey": "02bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+        "targetValidatorAddress": "d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76",
+        "amount": "50000",
+        "useMaxAmount": false
+      }
+    }
+  }
+}
+
+assert {
+  ~res.status: eq 200
+  ~res.body.transaction.encoded: eq 70736274ff0100db020000000144a549ead63ac9c6987b90669208ece5e93f28de4b1f97b5e4036c995f47b3d50100000000fdffffff03e8030000000000002251205cd5dc2f87756eaab10fbd8a248fdb52e8df067d2c4e555786e1710ada78e3410000000000000000496a476262743400bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499cd23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76ffff519f07000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e2916041000000000001012b31a507000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e291604100000000
+}

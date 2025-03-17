@@ -1,5 +1,4 @@
-import { AccountHistory, FinalizedTransaction, Paginated } from "~/app/model/types_WIP";
-import { fetchAccountTransactions, moralisToAdamikAccountTransaction } from "../backend/moralis";
+import { AccountHistory, Paginated } from "~/app/model/types_WIP";
 import { EvmService } from "../service";
 import { EvmAddress } from "../types";
 
@@ -8,25 +7,16 @@ async function getAccountHistory(
   accountId: string,
   paginationToken?: string
 ): Promise<Paginated<AccountHistory>> {
-  const { evmTransactions, nextPage } = await fetchAccountTransactions(
+  const indexer = this.getIndexer();
+
+  const { evmTransactions, nextPage } = await indexer.fetchAccountTransactions(
     this.chainId,
     accountId as EvmAddress,
     paginationToken
   );
 
-  const transactions: FinalizedTransaction[] = [];
-
-  for (const evmTransaction of evmTransactions) {
-    const parsedTransaction = moralisToAdamikAccountTransaction(this.chainId, evmTransaction);
-
-    transactions.push({
-      parsed: parsedTransaction,
-      raw: evmTransaction,
-    });
-  }
-
   return {
-    transactions,
+    transactions: evmTransactions,
     pagination: {
       nextPage,
     },

@@ -1,0 +1,28 @@
+meta {
+  name: starknet
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{api_url}}/api/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: starknet
+  transactionId: 0x29d021890b3339ea7233a3f59d3a6288b368d83d7935b5929465bcda64582d1
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.raw: isDefined
+  res.body.transaction.parsed: isDefined
+  res.body.transaction.raw.actual_fee: eq 51373781930786198
+  res.body.transaction.raw.timestamp: eq 1737643939
+}

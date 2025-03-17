@@ -1,0 +1,16 @@
+{
+  "request": {
+    "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7",
+    "method": "POST",
+    "params": {
+      "id": 5,
+      "jsonrpc": "2.0",
+      "method": "starknet_specVersion"
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "result": "0.7.1",
+    "id": 5
+  }
+}

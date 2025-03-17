@@ -1,8 +1,10 @@
-import { Status, Transaction } from "~/app/model/types_WIP";
-import { UserInputError } from "~/app/tools/handlers/errors";
+import { Address } from "@ton/core";
+import { hexToString } from "viem";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
 import { buildTransaction, createExternalMessage, packSignatureToFront } from "../logic";
 import { TonService } from "../service";
-import { TonTransactionParams } from "../types";
+import { tonTransactionParamsPayloadSchema } from "../types";
 import { initWalletV4 } from "../wallets/walletv4";
 
 async function encodeTransactionToSign(
@@ -14,7 +16,12 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = _;
 
-  const builtTransaction = await buildTransaction(transaction.data);
+  const parsedParams = tonTransactionParamsPayloadSchema.parse(
+    JSON.parse(hexToString(transaction.data.params as `0x${string}`))
+  );
+  const { timeout } = parsedParams;
+
+  const builtTransaction = await buildTransaction(transaction.data, timeout);
 
   transaction.encoded = builtTransaction.endCell().hash().toString("hex");
 }
@@ -33,21 +40,45 @@ async function encodeTransactionToBroadcast(
     throw new Error("Missing transaction signature");
   }
 
-  const signingMessage = await buildTransaction(signedTransaction.data);
+  const params = signedTransaction.data.params;
 
-  const transactionParams = signedTransaction.data?.params as TonTransactionParams;
+  if (!params) {
+    throw new InvalidTransactionError({
+      errors: [{ message: "Transaction params are required" }],
+      warnings: [],
+    });
+  }
+
+  const decodedParams = hexToString(params as `0x${string}`);
+  const parsedParams = tonTransactionParamsPayloadSchema.parse(JSON.parse(decodedParams));
+
+  const signingMessage = await buildTransaction(signedTransaction.data, parsedParams.timeout);
+
+  if (parsedParams.timeout < Math.floor(Date.now() / 1e3)) {
+    throw new InvalidTransactionError({
+      errors: [{ message: "Cannot broadcast an expired transaction" }],
+      warnings: [],
+    });
+  }
 
   // Public key is mandatory when the account hasn't made a first transaction yet
-  if (signedTransaction.data.nonce === BigInt(0) && !transactionParams?.pubKey) {
-    throw new UserInputError("Missing wallet public key: `params.pubKey` is required");
+  // FIXME Should be done in validateTransaction instead
+  if (
+    signedTransaction.data.mode === TransactionMode.TRANSFER &&
+    signedTransaction.data.nonce === BigInt(0) &&
+    !signedTransaction.data.senderPubKey
+  ) {
+    throw new UserInputError("Missing wallet public key: `senderPubKey` is required");
   }
 
   const packSignature = packSignatureToFront(Buffer.from(signedTransaction.signature, "hex"), signingMessage);
 
   return createExternalMessage(
-    signedTransaction.data.sender,
+    Address.parse(signedTransaction.data.senderAddress),
     packSignature,
-    initWalletV4(transactionParams?.pubKey || "")
+    signedTransaction.data.nonce === BigInt(0)
+      ? initWalletV4(signedTransaction.data.senderPubKey || "")
+      : undefined
   );
 }
 

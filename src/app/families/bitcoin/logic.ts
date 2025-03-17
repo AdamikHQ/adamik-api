@@ -1,5 +1,6 @@
 import ecc from "@bitcoinerlab/secp256k1";
-import { address as addressSerde, initEccLib, networks } from "bitcoinjs-lib";
+import { address as addressSerde, initEccLib, networks, Transaction } from "bitcoinjs-lib";
+import { add, differenceInCalendarDays, differenceInWeeks, formatDistanceStrict } from "date-fns";
 import { ChainId } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { BlockchairResponseContext } from "./backend/types";
@@ -34,6 +35,7 @@ function getNetworkForChainId(chainId: ChainId): networks.Network {
     case ChainId.BITCOIN:
       return networks.bitcoin;
     case ChainId.BITCOIN_TESTNET:
+    case ChainId.BITCOIN_SIGNET:
       return networks.testnet;
     case ChainId.LITECOIN:
       // from https://github.com/bitcoinjs/bitcoinjs-lib/blob/34e1644b5fb60055793ec3078f2e4f48b2648ca6/test/address.spec.ts#L14
@@ -132,10 +134,91 @@ function isP2SHScript(scriptHex: string): boolean {
   return script.length === 23 && script[0] === 0xa9 && script[1] === 0x14 && script[22] === 0x87;
 }
 
+function isTaprootAddress(address: string, network: networks.Network = networks.bitcoin): boolean {
+  // Only Bitcoin supports taproot at the moment
+  if (network !== networks.bitcoin && network !== networks.testnet) {
+    return false;
+  }
+
+  try {
+    const decoded = addressSerde.fromBech32(address);
+    // Taproot addresses use Bech32m (version 1) and have specific network prefixes
+    return decoded.version === 1 && decoded.prefix === (network === networks.testnet ? "tb" : "bc");
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
+ * Clears the signatures from a transaction.
+ * @param tx - The transaction to clear the signatures from.
+ * @returns The transaction with the signatures cleared.
+ */
+export const clearTxSignatures = (tx: Transaction): Transaction => {
+  tx.ins.forEach((input) => {
+    input.script = Buffer.alloc(0);
+    input.witness = [];
+  });
+  return tx;
+};
+
+const BLOCKS_PER_HOUR = 6;
+const WEEKS_PRECISION = 5;
+const DAY_TO_WEEK_DISPLAY_THRESHOLD = 30;
+
+/**
+ * Converts a number of blocks  of the babylon chain into days or weeks
+ * Returns the time in days if the difference is less than 7 days
+ * Otherwise, returns the time in weeks
+ *
+ * @param {number | undefined} blocks - The number of blocks to convert.
+ * @returns {string} - The converted time in days or weeks.
+ * Rounded to 5 weeks if the difference is greater than 7 days.
+ *
+ * Examples of usage:
+ * blocksToDisplayTime(30000); // "29 weeks"
+ * blocksToDisplayTime(1); // "1 day"
+ * blocksToDisplayTime(200); // "2 days"
+ */
+// (copied from https://github.com/babylonlabs-io/simple-staking/blob/db23721053b48641294f20e49930899c87cdcd7b/src/utils/time.ts#L28)
+// TODO Adapt to return a raw timestamp instead of display-formatted strings
+// TODO Move this into a babylon-specific file
+function babylonBlocksToDisplayTime(blocks: number | undefined): string {
+  // If no blocks are provided, return default value
+  if (!blocks) return "-";
+
+  // Calculate the equivalent time in hours
+  const hours = blocks / BLOCKS_PER_HOUR;
+
+  // Calculate the start and end dates
+  // get the timestamp now
+  const startDate = new Date();
+  const endDate = add(startDate, { hours });
+
+  const dayDifference = differenceInCalendarDays(endDate, startDate);
+  // If the difference is greater than or equal to 30 days, return the difference in weeks
+  if (dayDifference >= DAY_TO_WEEK_DISPLAY_THRESHOLD) {
+    // Calculate the difference in weeks
+    const weeks = differenceInWeeks(endDate, startDate, {
+      roundingMethod: "ceil",
+    });
+    const roundedWeeks = Math.round(weeks / WEEKS_PRECISION) * WEEKS_PRECISION;
+    return `${roundedWeeks} weeks`;
+  }
+
+  // Otherwise, return the difference in days and round up to the nearest day
+  return formatDistanceStrict(startDate, endDate, {
+    unit: "day",
+    roundingMethod: "ceil",
+  });
+}
+
 export {
+  babylonBlocksToDisplayTime,
   getCurrentBlockHeight,
   getNetworkForChainId,
   isP2SHScript,
+  isTaprootAddress,
   isValidAddress,
   isValidXpub,
   isWitnessScript,

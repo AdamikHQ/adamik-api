@@ -1,0 +1,40 @@
+meta {
+  name: babylon-testnet
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: babylon-testnet
+  accountId: bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49
+}
+
+body:json {
+  {
+    "chainId": "cosmoshub",
+    "accountId": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl"
+  }
+}
+
+assert {
+  ~res.body.balances: isDefined tokens
+  ~res.body.balances.tokens: isArray
+  ~res.body.balances.native.total: eq "449637650100000000"
+  ~res.body.balances.native.available: eq "339637650100000000"
+  ~res.body.balances.staking: isDefined
+  ~res.body.balances.staking.total: eq "110000000000000000"
+  ~res.body.balances.staking.locked: eq "110000000000000000"
+  ~res.body.balances.staking.unlocking: eq "0"
+  ~res.body.balances.staking.unlocked: eq "0"
+  ~res.body.balances.staking.positions: isArray
+  ~res.body.balances.staking.rewards: isDefined
+  ~res.body.balances.staking.rewards.native: isArray
+  ~res.body.balances.staking.rewards.tokens: isArray
+  ~res.status: eq 200
+}

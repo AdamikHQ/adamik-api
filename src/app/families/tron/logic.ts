@@ -4,7 +4,7 @@ import { createTransaction, createTRC10TokenTransaction, createTRC20TokenTransac
 const isTRC10Token = (tokenId: string) => !isNaN(parseInt(tokenId, 10));
 
 const buildTransaction = async (transaction: Transaction) => {
-  const { amount, recipient, sender } = transaction.data;
+  const { amount, recipientAddress, senderAddress } = transaction.data;
   if (amount === undefined) {
     throw new Error("amount required to build raw transaction");
   }
@@ -12,28 +12,23 @@ const buildTransaction = async (transaction: Transaction) => {
   if (transaction.data.mode === TransactionMode.TRANSFER_TOKEN) {
     // Check if tokenId is a number that means it's a TRC10 token
     if (isTRC10Token(transaction.data.tokenId)) {
-      const transactionBuilded = await createTRC10TokenTransaction(
+      return await createTRC10TokenTransaction(
         transaction.data.tokenId,
         amount,
-        recipient,
-        sender
+        recipientAddress,
+        senderAddress
       );
-
-      return transactionBuilded;
+    } else {
+      return await createTRC20TokenTransaction(
+        transaction.data.tokenId,
+        amount,
+        recipientAddress,
+        senderAddress
+      );
     }
-
-    const transactionBuilded = await createTRC20TokenTransaction(
-      transaction.data.tokenId,
-      amount,
-      recipient,
-      sender
-    );
-
-    return transactionBuilded;
   }
 
-  const transactionBuilded = await createTransaction(recipient, amount, sender);
-  return transactionBuilded;
+  return await createTransaction(senderAddress, recipientAddress, amount);
 };
 
 // How is it calculated.

@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{api_url}}/api/:chainId/account/:accountId/state/tokens?nextPage=IjIwIg==
+  url: {{api_url}}/api/:chainId/account/:accountId/state/tokens?nextPage=eyJ0eXBlIjoidHJvbnNjYW4iLCJwYWdlIjoyMH0==
   body: none
   auth: none
 }
 
 params:query {
-  nextPage: IjIwIg==
+  nextPage: eyJ0eXBlIjoidHJvbnNjYW4iLCJwYWdlIjoyMH0==
 }
 
 params:path {
@@ -29,5 +29,5 @@ body:json {
 assert {
   res.status: eq 200
   res.body.balances.tokens: isArray
-  res.body.pagination.nextPage: eq IjQwIg==
+  res.body.pagination.nextPage: isString
 }

@@ -1,7 +1,7 @@
 meta {
   name: injective
   type: http
-  seq: 3
+  seq: 4
 }
 
 post {
@@ -19,8 +19,8 @@ body:json {
     "transaction": {
       "data": {
         "mode": "transfer",
-        "sender": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
-        "recipient": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
+        "senderAddress": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
+        "recipientAddress": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
         "amount": "10000",
         "memo": "adamik-test-memo",
         "format": "json"
@@ -31,5 +31,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.transaction.encoded.sequence: eq "86202068"
+  ~res.body.transaction.encoded: eq "{"account_number":"5073","chain_id":"injective-1","fee":{"amount":[{"amount":"64000000000000","denom":"inj"}],"gas":"400000"},"memo":"adamik-test-memo","msgs":[{"type":"cosmos-sdk/MsgSend","value":{"amount":[{"amount":"10000","denom":"inj"}],"from_address":"inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq","to_address":"inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq"}}],"sequence":"86202068","timeout_height":""}"
 }

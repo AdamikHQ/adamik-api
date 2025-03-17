@@ -1,6 +1,13 @@
 import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, FinalizedTransaction, TransactionMode, TransactionState } from "~/app/model/types_WIP";
+import {
+  ChainId,
+  FinalizedTransaction,
+  Provider,
+  ProviderType,
+  TransactionMode,
+  TransactionState,
+} from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { CosmosChainParams } from "../types";
@@ -8,7 +15,8 @@ import { MintscanAccountTransactionsResponse, MintscanTransaction } from "./type
 
 const MINTSCAN_PAGE_SIZE = 20;
 
-const getRootUrl = (chainId: ChainId) => CHAINS[chainId].backends.explorerURL;
+const getRootUrl = (chainId: ChainId) =>
+  CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.mintscan)?.url;
 
 const MINTSCAN_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.COSMOSHUB, "cosmos"],
@@ -211,7 +219,7 @@ function parseLegacyAminoTransaction(
     case "cosmos-sdk/MsgDelegate": {
       const message = tx.value.msg[0]["cosmos-sdk/MsgDelegate"].value;
 
-      parsedTransaction.mode = TransactionMode.DELEGATE;
+      parsedTransaction.mode = TransactionMode.STAKE;
 
       parsedTransaction.senders = [
         {
@@ -232,7 +240,7 @@ function parseLegacyAminoTransaction(
     case "cosmos-sdk/MsgBeginRedelegate": {
       const message = tx.value.msg[0]["cosmos-sdk/MsgBeginRedelegate"].value;
 
-      parsedTransaction.mode = TransactionMode.REDELEGATE;
+      parsedTransaction.mode = TransactionMode.STAKE;
 
       parsedTransaction.senders = [
         {
@@ -257,7 +265,7 @@ function parseLegacyAminoTransaction(
     case "cosmos-sdk/MsgUndelegate": {
       const message = tx.value.msg[0]["cosmos-sdk/MsgUndelegate"].value;
 
-      parsedTransaction.mode = TransactionMode.UNDELEGATE;
+      parsedTransaction.mode = TransactionMode.UNSTAKE;
 
       parsedTransaction.senders = [
         {
@@ -398,7 +406,7 @@ function parseProtobufTransaction(
     case "/cosmos.staking.v1beta1.MsgDelegate": {
       const message = tx.body.messages[0]["/cosmos-staking-v1beta1-MsgDelegate"];
 
-      parsedTransaction.mode = TransactionMode.DELEGATE;
+      parsedTransaction.mode = TransactionMode.STAKE;
 
       parsedTransaction.senders = [
         {
@@ -419,7 +427,7 @@ function parseProtobufTransaction(
     case "/cosmos.staking.v1beta1.MsgBeginRedelegate": {
       const message = tx.body.messages[0]["/cosmos-staking-v1beta1-MsgBeginRedelegate"];
 
-      parsedTransaction.mode = TransactionMode.REDELEGATE;
+      parsedTransaction.mode = TransactionMode.STAKE;
 
       parsedTransaction.senders = [
         {
@@ -444,7 +452,7 @@ function parseProtobufTransaction(
     case "/cosmos.staking.v1beta1.MsgUndelegate": {
       const message = tx.body.messages[0]["/cosmos-staking-v1beta1-MsgUndelegate"];
 
-      parsedTransaction.mode = TransactionMode.UNDELEGATE;
+      parsedTransaction.mode = TransactionMode.UNSTAKE;
 
       parsedTransaction.senders = [
         {

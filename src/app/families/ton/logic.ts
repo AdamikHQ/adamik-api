@@ -2,7 +2,6 @@ import { Address, beginCell, Builder, Cell, external, internal, storeMessage, to
 import { TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { estimateFees, getWalletJetonAddress } from "./backend/node";
 import { fetchAccount } from "./backend/tonapi";
-import { TonTransactionParams } from "./types";
 import { createWalletTransferV4, initWalletV4 } from "./wallets/walletv4";
 
 // Found this source but not sure it's 100% efficient
@@ -16,18 +15,17 @@ async function isAddressValid(address: string): Promise<boolean> {
   }
 }
 
-async function computeFees(transaction: TransactionData) {
-  const builtTransaction = (await buildTransaction(transaction)).endCell();
-  const transactionParams = transaction.params as TonTransactionParams;
+async function computeFees(transaction: TransactionData, timeout: number) {
+  const builtTransaction = (await buildTransaction(transaction, timeout)).endCell();
 
   let initData;
 
-  if (transaction.nonce === 0n && transactionParams && transactionParams.pubKey) {
+  if (transaction.nonce === 0n && transaction.senderPubKey) {
     // TODO: do loop here to get wallet version
-    initData = initWalletV4(transactionParams.pubKey);
+    initData = initWalletV4(transaction.senderPubKey);
   }
 
-  const allFees = await estimateFees(transaction.sender, builtTransaction, initData);
+  const allFees = await estimateFees(transaction.senderAddress, builtTransaction, initData);
 
   // https://docs.ton.org/develop/smart-contracts/fees#basic-fees-formula
   const fees =
@@ -40,26 +38,25 @@ async function computeFees(transaction: TransactionData) {
 }
 
 async function computeMaxSpendable(transaction: TransactionData) {
-  const account = await fetchAccount(transaction.sender);
+  const account = await fetchAccount(transaction.senderAddress);
 
   return account?.balance || 0n;
 }
 
-async function buildTransaction(transaction: TransactionData) {
+async function buildTransaction(transaction: TransactionData, timeout: number) {
   // safe to cast as validation has already been done inside `completeTransaction`
   const amount = transaction.amount as bigint;
 
-  const transactionParams = transaction.params as TonTransactionParams;
-
   let messageBody;
   let toJettonAddress;
-  if (transaction.nonce === 0n && !transactionParams?.pubKey) {
+  if (transaction.nonce === 0n && !transaction.senderPubKey) {
+    // FIXME Should be done in validateTransaction instead
     throw new Error("Missing wallet public key");
   } else {
     if (transaction.mode === TransactionMode.TRANSFER_TOKEN && transaction.tokenId !== undefined) {
-      const destinationAddress = Address.parse(transaction.recipient);
+      const destinationAddress = Address.parse(transaction.recipientAddress);
 
-      toJettonAddress = await getWalletJetonAddress(transaction.sender, transaction.tokenId);
+      toJettonAddress = await getWalletJetonAddress(transaction.senderAddress, transaction.tokenId);
 
       messageBody = beginCell()
         .storeUint(0x0f8a7ea5, 32) // opcode for jetton transfer
@@ -87,15 +84,19 @@ async function buildTransaction(transaction: TransactionData) {
 
     const message = internal({
       value: toJettonAddress ? toNano("0.1") : amount,
-      to: toJettonAddress ?? transaction.recipient,
+      to: toJettonAddress ?? transaction.recipientAddress,
       body: messageBody || transaction.memo,
-      bounce: true,
       init:
-        transaction.nonce === BigInt(0) && transactionParams?.pubKey
-          ? initWalletV4(transactionParams.pubKey)
+        transaction.nonce === BigInt(0) && transaction.senderPubKey
+          ? initWalletV4(transaction.senderPubKey)
           : undefined,
     });
-    return createWalletTransferV4({ seqno: Number(transaction.nonce || 0), messages: [message] });
+
+    return createWalletTransferV4({
+      seqno: Number(transaction.nonce || 0),
+      messages: [message],
+      timeout,
+    });
   }
 }
 
@@ -105,11 +106,11 @@ function packSignatureToFront(signature: Buffer, signingMessage: Builder): Cell 
   return body;
 }
 
-function createExternalMessage(address: string, body: Cell, init?: { code: Cell; data: Cell }) {
+function createExternalMessage(address: Address, body: Cell, init?: { code: Cell; data: Cell }) {
   const externalMessage = external({
     to: address,
     body,
-    init,
+    init: init ?? null,
   });
 
   let boc = beginCell().store(storeMessage(externalMessage)).endCell().toBoc().toString("base64");

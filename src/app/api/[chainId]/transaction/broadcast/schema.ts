@@ -1,18 +1,31 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
+  encodedTransactionSchema,
+  formatSchema,
   getSupportedChainIdsSchema,
-  inputTransactionDataSchema,
-  signedAndEncodedTransactionSchema,
+  inputClaimRewardsSchema,
+  inputDeployAccountSchema,
+  inputFeesSchema,
+  inputGasSchema,
+  inputNonceSchema,
+  inputParamsSchema,
+  inputRegisterStakeSchema,
+  inputStakeSchema,
+  inputTransferNativeSchema,
+  inputTransferTokenSchema,
+  inputUnstakeSchema,
+  inputWithdrawSchema,
+  memoSchema,
+  signatureSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 
 const supportedChainIds = Object.values(CHAINS)
-  .filter(
-    (chain) =>
-      chain.supportedFeatures.write.transaction.type.native ||
-      chain.supportedFeatures.write.transaction.type.tokens ||
-      chain.supportedFeatures.write.transaction.type.staking
+  .filter((chain) =>
+    // This checks whether any of the supported transaction types in
+    // chain.supportedFeatures.write.transaction.type.* are flagged as true
+    Object.entries(chain.supportedFeatures.write.transaction.type).some((value) => value[1] === true)
   )
   .map((chain) => chain.id);
 
@@ -21,7 +34,31 @@ const pathParamsSchema = z.object({
 });
 
 const requestSchema = z.object({
-  transaction: inputTransactionDataSchema.and(signedAndEncodedTransactionSchema),
+  transaction: z.object({
+    data: z
+      .object({
+        fees: inputFeesSchema,
+        gas: inputGasSchema.optional(),
+        nonce: inputNonceSchema.optional(),
+        memo: memoSchema.optional(),
+        format: formatSchema.optional(),
+        params: inputParamsSchema.optional(),
+      })
+      .and(
+        z.discriminatedUnion("mode", [
+          inputDeployAccountSchema,
+          inputTransferNativeSchema,
+          inputStakeSchema,
+          inputTransferTokenSchema,
+          inputUnstakeSchema,
+          inputClaimRewardsSchema,
+          inputWithdrawSchema,
+          inputRegisterStakeSchema,
+        ])
+      ),
+    encoded: encodedTransactionSchema,
+    signature: signatureSchema,
+  }),
 });
 
 const responseSchema = z.object({

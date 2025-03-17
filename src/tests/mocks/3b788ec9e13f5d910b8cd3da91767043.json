@@ -1,0 +1,24 @@
+{
+  "request": {
+    "url": "https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+    "method": "POST",
+    "params": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenMetadata",
+      "params": [
+        "0xe5bb09bbc41e4644ee384f2435f169acbd07d60e"
+      ]
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "decimals": 18,
+      "logo": null,
+      "name": "Safe Andromeda",
+      "symbol": "SFA"
+    }
+  }
+}

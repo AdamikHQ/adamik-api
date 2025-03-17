@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x0137dfca7d96cdd526d13a63176454f35c691f55837497448fad352643cfe4d4",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x0137dfca7d96cdd526d13a63176454f35c691f55837497448fad352643cfe4d4",
+    "name": "Akamaru",
+    "symbol": "AKU",
+    "decimals": "18"
+  }
+}

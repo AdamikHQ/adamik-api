@@ -12,11 +12,23 @@ const TRON_FEATURES: ChainSupportedFeatures = {
   },
   write: {
     transaction: {
-      type: { native: true, tokens: true, staking: false },
+      type: {
+        deployAccount: false,
+        transfer: true,
+        transferToken: true,
+        stake: false,
+        unstake: false,
+        claimRewards: false,
+        withdraw: false,
+        registerStake: false,
+      },
       field: {
         memo: false,
       },
     },
+  },
+  utils: {
+    addresses: false,
   },
 };
 

@@ -2,58 +2,78 @@ import { TronWeb } from "tronweb";
 import { toHex } from "tronweb/utils";
 import { TRONGRID_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
+import { Provider, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
+import { UserInputError } from "~/app/tools/handlers/errors";
+import { TokenStore } from "~/app/tools/tokenStore";
+
+const nodeUrl = CHAINS.tron.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
 
 const tronWeb = new TronWeb({
-  fullHost: `${CHAINS.tron.backends.nodeURL}`,
+  fullHost: nodeUrl,
   headers: { "TRON-PRO-API-KEY": TRONGRID_API_KEY },
 });
 
-const getAccount = async (address: string) => {
-  const account = await tronWeb.trx.getAccount(address);
-  return account;
+const getAccount = (address: string) => {
+  return tronWeb.trx.getAccount(address);
 };
 
-const createTransaction = async (to: string, amount: bigint, from: string) => {
-  const transaction = await tronWeb.transactionBuilder.sendTrx(to, Number(amount), from);
-
-  return transaction;
+const createTransaction = (from: string, to: string, amount: bigint) => {
+  return tronWeb.transactionBuilder.sendTrx(to, Number(amount), from);
 };
 
 // FIXME: Hack to bypass contract needed type
 const broadcast = async (signedTransaction: any) => {
   const result = await tronWeb.trx.sendRawTransaction(signedTransaction);
+  // NOTE: sendRawTransaction doesn't include Error in the response
+  if (Object.keys(result).includes("Error")) {
+    throw new UserInputError((result as any).Error);
+  }
   return result.transaction.txID;
 };
 
-const getAccountResources = async (address: string) => {
-  const accountResources = await tronWeb.trx.getAccountResources(address);
-  return accountResources;
+const getAccountResources = (address: string) => {
+  return tronWeb.trx.getAccountResources(address);
 };
 
 // Bandwidth price in TRX
 const getBandwidthPrice = async () => {
   const parameters = await tronWeb.trx.getChainParameters();
-  const bandwidthPrice = parameters.find((p) => p.key === "getTransactionFee")?.value || 0 / 1000_000;
-  return bandwidthPrice;
+  return parameters.find((p) => p.key === "getTransactionFee")?.value || 0 / 1000_000;
 };
 
-const getChainParameters = async () => {
-  const parameters = await tronWeb.trx.getChainParameters();
-  return parameters;
+const getChainParameters = () => {
+  return tronWeb.trx.getChainParameters();
 };
 
 const isValidAddress = async (address: string) => {
-  const isValid = tronWeb.isAddress(address);
-  return isValid;
+  return tronWeb.isAddress(address);
 };
 
 const getTRC10TokenInfo = async (tokenId: string) => {
+  const [loadedToken] = await TokenStore.load(CHAINS.tron.id, [tokenId]);
+  if (loadedToken !== null) {
+    return loadedToken;
+  }
+
   const tokenInfo = await tronWeb.trx.getTokenByID(tokenId);
 
-  return tokenInfo;
+  const token = {
+    type: TokenType.TRC10,
+    id: tokenId,
+    name: tokenInfo.name,
+    ticker: tokenInfo.abbr,
+    decimals: tokenInfo.precision,
+  };
+  await TokenStore.save(CHAINS.tron.id, [token]);
+  return token;
 };
 
-const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string) => {
+const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string): Promise<Token> => {
+  const [loadedToken] = await TokenStore.load(CHAINS.tron.id, [tokenId]);
+  if (loadedToken !== null) {
+    return loadedToken;
+  }
+
   tronWeb.setAddress(ownerAddress || tokenId);
   const contract = await tronWeb.contract().at(tokenId);
 
@@ -61,13 +81,22 @@ const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string) => {
   const symbol = await contract.symbol().call();
   const decimals = await contract.decimals().call();
 
-  return { name, symbol, decimals };
+  const token = {
+    type: TokenType.TRC20,
+    id: tokenId,
+    name: name,
+    ticker: symbol,
+    decimals: Number(decimals),
+    contractAddress: tokenId,
+  };
+
+  await TokenStore.save(CHAINS.tron.id, [token]);
+
+  return token;
 };
 
-const createTRC10TokenTransaction = async (tokenId: string, amount: bigint, to: string, from: string) => {
-  const transaction = await tronWeb.transactionBuilder.sendToken(to, Number(amount), tokenId, from);
-
-  return transaction;
+const createTRC10TokenTransaction = (tokenId: string, amount: bigint, to: string, from: string) => {
+  return tronWeb.transactionBuilder.sendToken(to, Number(amount), tokenId, from);
 };
 
 const createTRC20TokenTransaction = async (tokenId: string, amount: bigint, to: string, from: string) => {
@@ -118,7 +147,6 @@ const estimateEnergyContract = async (tokenId: string, amount: bigint, to: strin
     inputs,
     toHex(from)
   );
-  const chainParameters = await getChainParameters();
 
   if (!energy_used || !energy_penalty) {
     return { fees: 0, energy_used: 0, energy_penalty: 0 };

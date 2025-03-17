@@ -1,0 +1,22 @@
+meta {
+  name: starknet
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: starknet
+  accountId: 0x05e1dfe469A9b7a504cA84102359467453aE530cFB5Ec70FF4239f91e964A08e
+}
+
+assert {
+  res.status: eq 200
+  res.body.balances: isDefined tokens
+  res.body.balances.native.available: eq 12020711008881783448
+}

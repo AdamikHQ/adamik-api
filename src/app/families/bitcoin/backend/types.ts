@@ -1,5 +1,5 @@
-import { UTXO } from "coinselect";
 import z from "zod";
+import { utxoWithMetadataSchema } from "../types";
 
 const numberOrBigint = z.bigint().or(z.number().pipe(z.coerce.bigint()));
 
@@ -33,25 +33,6 @@ const BlockchairResponseContext = z.object({
   request_cost: z.number(),
 });
 
-const UtxoWithMetadata = z
-  .object({
-    block_id: z.number(),
-    transaction_hash: z.string(),
-    index: z.number(),
-    value: z.number(),
-    address: z.string(),
-  })
-  .transform((data) => {
-    return {
-      /** Add fields for compatibility with coinselect @see {@link UTXO} */
-      // NOTE The published 'UTXO' type from coinselect is WRONG!
-      // The runtime data actually matches this UtxoWithMetadata type
-      txid: data.transaction_hash,
-      vout: data.index,
-      ...data,
-    };
-  });
-
 // (Partial type, only what we use)
 const BlockchairStatsData = z.object({
   blocks: z.number(),
@@ -80,7 +61,7 @@ const BlockchairAddressesResponse = z.object({
     .object({
       addresses: z.record(z.string(), BlockchairAddressData),
       transactions: z.array(z.string()),
-      utxo: UtxoWithMetadata.array(),
+      utxo: utxoWithMetadataSchema.array(),
     })
     .nullable(),
   context: BlockchairResponseContext,
@@ -112,7 +93,7 @@ const BlockchairXpubData = z.object({
     )
   ),
   transactions: z.array(z.string()),
-  utxo: UtxoWithMetadata.array(),
+  utxo: utxoWithMetadataSchema.array(),
 });
 
 // https://blockchair.com/api/docs#link_300
@@ -245,10 +226,10 @@ const BlockchairRawTransactionData = z.object({
         scriptPubKey: z.object({
           asm: z.string(),
           hex: z.string(),
-          address: z.string(),
+          address: z.string().optional(),
           type: z.string(),
-          addresses: z.string().array(),
-          reqSigs: z.number(),
+          addresses: z.string().array().optional(),
+          reqSigs: z.number().optional(),
         }),
       })
       .array(),
@@ -271,7 +252,6 @@ const BlockchairTransactionBroadcastStatus = z.object({
 });
 
 type BlockchairResponseContext = z.infer<typeof BlockchairResponseContext>;
-type UtxoWithMetadata = z.infer<typeof UtxoWithMetadata>;
 type BlockchairStatsData = z.infer<typeof BlockchairStatsData>;
 
 type BlockchairAddressData = z.infer<typeof BlockchairAddressData>;
@@ -300,5 +280,4 @@ export {
   BlockchairTransactionsResponse,
   BlockchairXpubData,
   BlockchairXpubResponse,
-  UtxoWithMetadata,
 };

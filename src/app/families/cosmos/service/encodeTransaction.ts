@@ -12,7 +12,7 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = args;
 
-  const account = await fetchAccount(this.chainId, transaction.data.sender);
+  const account = await fetchAccount(this.chainId, transaction.data.senderAddress);
 
   transaction.encoded = await encodeToSign(
     this.chainId,
@@ -39,8 +39,14 @@ async function encodeTransactionToBroadcast(
     throw new Error("Missing transaction signature");
   }
 
-  const account = await fetchAccount(this.chainId, signedTransaction.data.sender);
-  const updatedAccount = resolvePubKey(this.chainId, account, signedTransaction);
+  const account = await fetchAccount(this.chainId, signedTransaction.data.senderAddress);
+  const { pubKey, pubKeyType } = resolvePubKey(this.chainId, account, signedTransaction.data);
+
+  const updatedAccount = {
+    ...account,
+    pubKey,
+    pubKeyType,
+  };
 
   return await encodeToBroadcast(this.chainId, updatedAccount, signedTransaction);
 }
