@@ -1,11 +1,11 @@
 import {
+  Contract,
   DeployAccountContractTransaction,
   ec,
   Invocation,
   InvocationsDetailsWithNonce,
   RpcError,
   shortString,
-  Contract,
   Provider as StarknetProvider,
 } from "starknet";
 import { CHAINS } from "~/app/config/chains";
