@@ -18,16 +18,16 @@
         "amount": "481637000000"
       },
       {
+        "denom": "factory/inj1n636d9gzrqggdk66n2f97th0x8yuhfrtx520e7/ausd",
+        "amount": "9153682841"
+      },
+      {
         "denom": "factory/inj1r9h59ke0a77zkaarr4tuq25r3lt9za4r2mgyf4/NLC",
         "amount": "136000000"
       },
       {
         "denom": "factory/inj1zzc2wt4xzy9yhxz7y8mzcn3s6zwvajyutgay3c/BUGS",
         "amount": "1234"
-      },
-      {
-        "denom": "ibc/00BF66BAB34873B07FB9EEEBCFACEA11FB4BB348718862AA7782D6DECC1F44C8",
-        "amount": "4146500000"
       },
       {
         "denom": "ibc/4ABBEF4C8926DDDB320AE5188CFD63267ABBCEFC0583E4AE05D6E5AA2401DDAB",
@@ -39,15 +39,15 @@
       },
       {
         "denom": "ibc/57AA1A70A4BC9769C525EBF6386F7A21536E04A79D62E1981EFCEF9428EBB205",
-        "amount": "27298470000"
+        "amount": "62913470000"
       },
       {
         "denom": "ibc/A8B0B746B5AB736C2D8577259B510D56B8AF598008F68041E3D634BCDE72BE97",
-        "amount": "2855000000"
+        "amount": "101122000000"
       },
       {
         "denom": "ibc/AF921F0874131B56897A11AA3F33D5B29CD9C147A1D7C37FE8D918CB420956B2",
-        "amount": "10362500000"
+        "amount": "43110400000"
       },
       {
         "denom": "ibc/B448C0CA358B958301D328CCDC5D5AD642FC30A6D3AE106FF721DB315F3DDE5C",
@@ -59,11 +59,11 @@
       },
       {
         "denom": "ibc/C1D3666F27EA64209584F18BC79648E0C1783BB6EEC04A8060E4A8E9881C841B",
-        "amount": "1687000000000000000000"
+        "amount": "12396500000000000000000"
       },
       {
         "denom": "ibc/C4CFF46FD6DE35CA4CF4CE031E643C8FDC9BA4B99AE598E9B0ED98FE3A2319F9",
-        "amount": "2976401002"
+        "amount": "50586341002"
       },
       {
         "denom": "ibc/DD9182E8E2B13C89D6B4707C7B43E8DB6193F9FF486AFA0E6CF86B427B0D231A",
@@ -71,11 +71,11 @@
       },
       {
         "denom": "ibc/F51BB221BAA275F2EBF654F70B005627D7E713AFFD6D86AFD1E43CAA886149F4",
-        "amount": "10420200000"
+        "amount": "62964900000"
       },
       {
         "denom": "inj",
-        "amount": "95387850214244720723"
+        "amount": "13645985645218404720723"
       },
       {
         "denom": "peggy0x36E66fbBce51e4cD5bd3C62B637Eb411b18949D4",
@@ -95,11 +95,11 @@
       },
       {
         "denom": "peggy0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-        "amount": "7844000000000000001"
+        "amount": "94827000000000000001"
       },
       {
         "denom": "peggy0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        "amount": "320897917312"
+        "amount": "470039789799"
       }
     ],
     "pagination": {

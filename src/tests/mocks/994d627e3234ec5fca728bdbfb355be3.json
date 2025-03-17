@@ -12,34 +12,19 @@
         "balance": "277377804156408147681396"
       },
       {
-        "contract_address": "0x00205fd8586f6be6c16f4aa65cc1034ecff96d96481878e55f629cd0cb83e05f",
-        "owner_address": "0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18",
-        "balance": "236813582693795790113894"
-      },
-      {
         "contract_address": "0x046ab56ec0c6a6d42384251c97e9331aa75eb693e05ed8823e2df4de5713e9a4",
         "owner_address": "0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18",
-        "balance": "205499258179440085882572"
-      },
-      {
-        "contract_address": "0x028d709c875c0ceac3dce7065bec5328186dc89fe254527084d1689910954b0a",
-        "owner_address": "0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18",
-        "balance": "202612330194342749892372"
-      },
-      {
-        "contract_address": "0x0124aeb495b947201f5fac96fd1138e326ad86195b98df6dec9009158a533b49",
-        "owner_address": "0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18",
-        "balance": "14150990804378621522736"
-      },
-      {
-        "contract_address": "0x042543c7d220465bd3f8f42314b51f4f3a61d58de3770523b281da61dbf27c8a",
-        "owner_address": "0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18",
-        "balance": "9115746223337288961529"
+        "balance": "255333446978971192173907"
       },
       {
         "contract_address": "0x0137dfca7d96cdd526d13a63176454f35c691f55837497448fad352643cfe4d4",
         "owner_address": "0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18",
         "balance": "6666000000000000000000"
+      },
+      {
+        "contract_address": "0x042543c7d220465bd3f8f42314b51f4f3a61d58de3770523b281da61dbf27c8a",
+        "owner_address": "0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18",
+        "balance": "2278936555834322240383"
       },
       {
         "contract_address": "0x01b5bd713e72fdc5d63ffd83762f81297f6175a5e0a4771cdadbc1dd5fe72cb1",
@@ -59,7 +44,12 @@
       {
         "contract_address": "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
         "owner_address": "0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18",
-        "balance": "30899344868103605"
+        "balance": "30503454955971799"
+      },
+      {
+        "contract_address": "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
+        "owner_address": "0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18",
+        "balance": "6733241891841176"
       },
       {
         "contract_address": "0x02f14c5d510b5ac0a05f2afc41f5972c908c0cfc6c0720f83a21db2575de7e3a",
@@ -114,7 +104,12 @@
       {
         "contract_address": "0x063d69ae657bd2f40337c39bf35a870ac27ddf91e6623c2f52529db4c1619a51",
         "owner_address": "0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18",
-        "balance": "3701377781"
+        "balance": "1676651038"
+      },
+      {
+        "contract_address": "0x028d709c875c0ceac3dce7065bec5328186dc89fe254527084d1689910954b0a",
+        "owner_address": "0x01bed88e5027795facabb1a8fe8fa882f56a734412697232d9e7c86e18589b18",
+        "balance": "170809197"
       },
       {
         "contract_address": "0x03fe2b97c1fd336e750087d68b9b867997fd64a2661ff3ca5a7c771641e8e7ac",

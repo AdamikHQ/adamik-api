@@ -16,11 +16,11 @@
       "name": "Tether USD",
       "symbol": "USD₮",
       "decimals": "6",
-      "image": "https://cache.tonapi.io/imgproxy/T3PB4s7oprNVaJkwqbGg54nexKE0zzKhcrPv8jcWYzU/rs:fill:200:200:1/g:no/aHR0cHM6Ly90ZXRoZXIudG8vaW1hZ2VzL2xvZ29DaXJjbGUucG5n.webp",
+      "image": "https://tether.to/images/logoCircle.png",
       "description": "Tether Token for Tether USD"
     },
     "preview": "https://cache.tonapi.io/imgproxy/T3PB4s7oprNVaJkwqbGg54nexKE0zzKhcrPv8jcWYzU/rs:fill:200:200:1/g:no/aHR0cHM6Ly90ZXRoZXIudG8vaW1hZ2VzL2xvZ29DaXJjbGUucG5n.webp",
     "verification": "whitelist",
-    "holders_count": 2501134
+    "holders_count": 2773760
   }
 }

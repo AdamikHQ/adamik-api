@@ -5,8 +5,8 @@
   },
   "response": {
     "address": "0:a3dab2a02ddc04903a3a37ace39ae0ebacacb8d2a1110a1d703c80896f3022c6",
-    "balance": 812917818887775,
-    "last_activity": 1736960444,
+    "balance": 812917817728707,
+    "last_activity": 1741341878,
     "status": "active",
     "interfaces": [
       "wallet_v4r2"

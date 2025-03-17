@@ -7630,7 +7630,7 @@
       },
       {
         "asset-holding": {
-          "amount": 88320000000,
+          "amount": 0,
           "asset-id": 1144340594,
           "is-frozen": false
         },
@@ -8025,7 +8025,7 @@
       },
       {
         "asset-holding": {
-          "amount": 621349869210,
+          "amount": 0,
           "asset-id": 1265975021,
           "is-frozen": false
         },
@@ -8425,6 +8425,27 @@
       },
       {
         "asset-holding": {
+          "amount": 0,
+          "asset-id": 1888888888,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "EXAMARKETNGVS7HBZDDRJE2QST33WCBUQPYOQRJBYLMCE7TKKRCZRX3N2M",
+          "decimals": 6,
+          "default-frozen": false,
+          "manager": "EXAMARKETNGVS7HBZDDRJE2QST33WCBUQPYOQRJBYLMCE7TKKRCZRX3N2M",
+          "name": "EXA",
+          "name-b64": "RVhB",
+          "reserve": "EXAMARKETNGVS7HBZDDRJE2QST33WCBUQPYOQRJBYLMCE7TKKRCZRX3N2M",
+          "total": 1000000000000000,
+          "unit-name": "EXA",
+          "unit-name-b64": "RVhB",
+          "url": "https://exa.market",
+          "url-b64": "aHR0cHM6Ly9leGEubWFya2V0"
+        }
+      },
+      {
+        "asset-holding": {
           "amount": 1,
           "asset-id": 1895353781,
           "is-frozen": false
@@ -8780,7 +8801,7 @@
       },
       {
         "asset-holding": {
-          "amount": 8890856094,
+          "amount": 0,
           "asset-id": 2200000000,
           "is-frozen": false
         },
@@ -8801,7 +8822,31 @@
       },
       {
         "asset-holding": {
-          "amount": 270524740,
+          "amount": 3703703704,
+          "asset-id": 2320775407,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "clawback": "ARAMIDFJYV2TOFB5MRNZJIXBSAVZCVAUDAPFGKR5PNX4MTILGAZABBTXQQ",
+          "creator": "ARAMIDFJYV2TOFB5MRNZJIXBSAVZCVAUDAPFGKR5PNX4MTILGAZABBTXQQ",
+          "decimals": 6,
+          "default-frozen": false,
+          "freeze": "ARAMIDFJYV2TOFB5MRNZJIXBSAVZCVAUDAPFGKR5PNX4MTILGAZABBTXQQ",
+          "manager": "ARAMIDFJYV2TOFB5MRNZJIXBSAVZCVAUDAPFGKR5PNX4MTILGAZABBTXQQ",
+          "metadata-hash": "x1iYoU2kdMf1zNGpSwdZG70VPKX25dIYDIa63EgFLg0=",
+          "name": "Aramid VOI",
+          "name-b64": "QXJhbWlkIFZPSQ==",
+          "reserve": "ARAMIDFJYV2TOFB5MRNZJIXBSAVZCVAUDAPFGKR5PNX4MTILGAZABBTXQQ",
+          "total": 10000000000000000,
+          "unit-name": "aVoi",
+          "unit-name-b64": "YVZvaQ==",
+          "url": "ipfs://QmRutwHw1YDLVLvEAswR3Y3UCJoZysnt1QSUBLGbA4cT9S/#arc3",
+          "url-b64": "aXBmczovL1FtUnV0d0h3MVlETFZMdkVBc3dSM1kzVUNKb1p5c250MVFTVUJMR2JBNGNUOVMvI2FyYzM="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 0,
           "asset-id": 2537013734,
           "is-frozen": false
         },
@@ -8817,6 +8862,27 @@
           "unit-name-b64": "VEFMR08=",
           "url": "https://tinyman.org",
           "url-b64": "aHR0cHM6Ly90aW55bWFuLm9yZw=="
+        }
+      },
+      {
+        "asset-holding": {
+          "amount": 420690000,
+          "asset-id": 2611535339,
+          "is-frozen": false
+        },
+        "asset-params": {
+          "creator": "7TL5PKBGPH4W7LEZW5SW5BGC4TH32XVFV5NVTXE4HTTPVK2JUJODCVTHSU",
+          "decimals": 6,
+          "default-frozen": false,
+          "manager": "7TL5PKBGPH4W7LEZW5SW5BGC4TH32XVFV5NVTXE4HTTPVK2JUJODCVTHSU",
+          "name": "Busk",
+          "name-b64": "QnVzaw==",
+          "reserve": "HL2NGJTY7CZCXZMDRM5FWIEET5J667UKO3DMWZT2WE4EO4V5XAH747P4NU",
+          "total": 1000000000000000000,
+          "unit-name": "BUSK",
+          "unit-name-b64": "QlVTSw==",
+          "url": "rug.ninja",
+          "url-b64": "cnVnLm5pbmph"
         }
       },
       {
@@ -8860,8 +8926,30 @@
           "url": "ipfs://QmPy29ehuoffbsgFX565QGRSNoQgj4YLEee1i1ULtPdZEU#i",
           "url-b64": "aXBmczovL1FtUHkyOWVodW9mZmJzZ0ZYNTY1UUdSU05vUWdqNFlMRWVlMWkxVUx0UGRaRVUjaQ=="
         }
+      },
+      {
+        "asset-holding": {
+          "amount": 1,
+          "asset-id": 2809912375,
+          "is-frozen": true
+        },
+        "asset-params": {
+          "creator": "E4A6FVIHXSZ3F7QXRCOTYDDILVQYEBFH56HYDIIYX4SVXS2QX5GUTBVZHY",
+          "decimals": 0,
+          "default-frozen": false,
+          "freeze": "E4A6FVIHXSZ3F7QXRCOTYDDILVQYEBFH56HYDIIYX4SVXS2QX5GUTBVZHY",
+          "manager": "E4A6FVIHXSZ3F7QXRCOTYDDILVQYEBFH56HYDIIYX4SVXS2QX5GUTBVZHY",
+          "name": "Verification Lofty #57430",
+          "name-b64": "VmVyaWZpY2F0aW9uIExvZnR5ICM1NzQzMA==",
+          "reserve": "52QGHBVHHMTWEJRNDFBPJRUGKKDCXLIERNJ3OEDGE4XQBURX6O63TYTSBA",
+          "total": 1,
+          "unit-name": "VL057430",
+          "unit-name-b64": "VkwwNTc0MzA=",
+          "url": "template-ipfs://{ipfscid:1:raw:reserve:sha2-256}",
+          "url-b64": "dGVtcGxhdGUtaXBmczovL3tpcGZzY2lkOjE6cmF3OnJlc2VydmU6c2hhMi0yNTZ9"
+        }
       }
     ],
-    "round": 46299509
+    "round": 48140981
   }
 }

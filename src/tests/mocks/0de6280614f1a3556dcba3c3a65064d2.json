@@ -1,0 +1,47 @@
+{
+  "request": {
+    "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7",
+    "method": "POST",
+    "params": {
+      "id": 3,
+      "jsonrpc": "2.0",
+      "method": "starknet_estimateFee",
+      "params": {
+        "request": [
+          {
+            "type": "DEPLOY_ACCOUNT",
+            "constructor_calldata": [
+              "0x0",
+              "0xf3ec751f0c50f6c903a6be345264d56114373fd3394d74be794b539baf6218",
+              "0x1"
+            ],
+            "class_hash": "0x36078334509b514626504edc9fb252328d1a240e4e948bef8d0c08dff45927f",
+            "contract_address_salt": "0xf3ec751f0c50f6c903a6be345264d56114373fd3394d74be794b539baf6218",
+            "version": "0x100000000000000000000000000000001",
+            "signature": [],
+            "nonce": "0x0",
+            "max_fee": "0x0"
+          }
+        ],
+        "block_id": "pending",
+        "simulation_flags": [
+          "SKIP_VALIDATE"
+        ]
+      }
+    }
+  },
+  "response": {
+    "id": 3,
+    "jsonrpc": "2.0",
+    "result": [
+      {
+        "data_gas_consumed": "0xe0",
+        "data_gas_price": "0x46037bc6",
+        "gas_consumed": "0x11",
+        "gas_price": "0x5bd446f6",
+        "overall_fee": "0x435c250396",
+        "unit": "WEI"
+      }
+    ]
+  }
+}

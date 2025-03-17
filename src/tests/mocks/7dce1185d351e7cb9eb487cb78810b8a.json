@@ -3907,7 +3907,7 @@
       },
       {
         "asset-holding": {
-          "amount": 60253,
+          "amount": 0,
           "asset-id": 310014962,
           "is-frozen": false
         },
@@ -4161,7 +4161,7 @@
       },
       {
         "asset-holding": {
-          "amount": 1382,
+          "amount": 0,
           "asset-id": 329110405,
           "is-frozen": false
         },
@@ -6000,7 +6000,7 @@
       },
       {
         "asset-holding": {
-          "amount": 14498,
+          "amount": 4624,
           "asset-id": 360019122,
           "is-frozen": false
         },
@@ -6386,7 +6386,7 @@
       },
       {
         "asset-holding": {
-          "amount": 5770,
+          "amount": 6390,
           "asset-id": 388592191,
           "is-frozen": false
         },
@@ -12620,7 +12620,7 @@
       },
       {
         "asset-holding": {
-          "amount": 805210220214,
+          "amount": 16528185880414,
           "asset-id": 613608234,
           "is-frozen": false
         },
@@ -13703,7 +13703,7 @@
       },
       {
         "asset-holding": {
-          "amount": 687386353243,
+          "amount": 0,
           "asset-id": 637503920,
           "is-frozen": false
         },
@@ -14494,7 +14494,7 @@
       },
       {
         "asset-holding": {
-          "amount": 3202142578,
+          "amount": 0,
           "asset-id": 670520931,
           "is-frozen": false
         },
@@ -20775,6 +20775,6 @@
       }
     ],
     "next-token": "711344939",
-    "round": 46299509
+    "round": 48140979
   }
 }

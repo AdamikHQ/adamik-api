@@ -36,7 +36,7 @@
           "decimals": 9,
           "image": "https://cache.tonapi.io/imgproxy/6tQb7LtdrchieDAM5SQdsjrKwfzS51SM9zYWi0ss9ao/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLmliYi5jby9CajVLcUs0L0lNRy0yMDIyMTIxMy0xMTU1NDUtMjA3LnBuZw.webp",
           "verification": "whitelist",
-          "score": 56
+          "score": 42
         }
       },
       {
@@ -138,7 +138,7 @@
           "decimals": 8,
           "image": "https://cache.tonapi.io/imgproxy/4DGuXDEqF18fzPL9cNlSuT5DFwoa1PKx-SjWJGWZpj8/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLmliYi5jby9YN3d2RDFQL01lYW5pbmctb2YtYS1Gb3VyLWxlYWYtQ2xvdmVyLVNpZ2h0aW5nLTIuanBn.webp",
           "verification": "whitelist",
-          "score": 63
+          "score": 57
         }
       },
       {
@@ -172,7 +172,7 @@
           "decimals": 9,
           "image": "https://cache.tonapi.io/imgproxy/t-4hk54FgHpwh0ErqRSIJWyJNIMeF-9v5V2t8omKAHo/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLmliYi5jby9IWWNzaHF2L3N0YmwtMjU2LnBuZw.webp",
           "verification": "whitelist",
-          "score": 72
+          "score": 59
         }
       },
       {
@@ -189,7 +189,7 @@
           "decimals": 9,
           "image": "https://cache.tonapi.io/imgproxy/IESWHWz9kcghRi2Qvuz0TmeA_6doAMYVT39-lyxyLWc/rs:fill:200:200:1/g:no/aHR0cHM6Ly9taW5lLm1lcmlkaWFuLnd0Zi9jb2luX2ltYWdlLnBuZw.webp",
           "verification": "whitelist",
-          "score": 43
+          "score": 53
         }
       },
       {
@@ -206,7 +206,7 @@
           "decimals": 9,
           "image": "https://cache.tonapi.io/imgproxy/HKMvWvqd04phh_0hJIeSR-2peOg2XyqZJhGgiZWd_y4/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLnBvc3RpbWcuY2MvTUtoNHZ5cE4vcGhvdG8tMjAyNC0wMy0wNC0xMi0zMi0wNC0xLnBuZw.webp",
           "verification": "whitelist",
-          "score": 76
+          "score": 71
         }
       },
       {
@@ -223,7 +223,7 @@
           "decimals": 9,
           "image": "https://cache.tonapi.io/imgproxy/qSGKGif4q3eAqXbjX3B41WBd1-1aWP1r0raNi1Fr8kE/rs:fill:200:200:1/g:no/aHR0cHM6Ly9zdGF0aWMueW91c3BhY2UuZGV2L2NpcmNsZS5wbmc.webp",
           "verification": "whitelist",
-          "score": 56
+          "score": 53
         }
       },
       {
@@ -303,10 +303,10 @@
         },
         "jetton": {
           "address": "0:cf61583332f512e777bad567e710f904b46a12ce59e0d93a4a2121c2c62574b0",
-          "name": "BXBTON",
+          "name": "BXTON",
           "symbol": "BXT",
           "decimals": 9,
-          "image": "https://cache.tonapi.io/imgproxy/-VQFl2CcmBU5e1ag_rze1nXHToDl2QrEbhUhCZOJn7k/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLmliYi5jby8zTmJKTUJtL0JYQlRPTi5wbmc.webp",
+          "image": "https://cache.tonapi.io/imgproxy/dSQ8x1Ix7hlBT3aWCMg4GUI4-ac9yutufDLNSTM1Als/rs:fill:200:200:1/g:no/aHR0cHM6Ly9ieHRvbi5pby9pbWFnZXMvbG9nbzExMi5wbmc.webp",
           "verification": "none",
           "score": 0
         }
@@ -358,7 +358,7 @@
           "symbol": "Q2N",
           "decimals": 9,
           "image": "https://cache.tonapi.io/imgproxy/rzOAcuK7KlRSfhuNwhjutNgjFH27k69XVcxpNAh63z0/rs:fill:200:200:1/g:no/aHR0cHM6Ly9xdW5lc3QuY29tL2xvZ29UT04ucG5n.webp",
-          "verification": "none",
+          "verification": "whitelist",
           "score": 0
         }
       }
