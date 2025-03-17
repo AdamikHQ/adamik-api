@@ -22,12 +22,12 @@
       "source_fees": {
         "@type": "fees",
         "in_fwd_fee": 924800,
-        "storage_fee": 11286970,
+        "storage_fee": 14249298,
         "gas_fee": 0,
         "fwd_fee": 0
       },
       "destination_fees": [],
-      "@extra": "1737051491.9864497:10:0.10690373550087795"
+      "@extra": "1742218751.317246:2:0.19525546979673625"
     },
     "id": "1",
     "jsonrpc": "2.0"

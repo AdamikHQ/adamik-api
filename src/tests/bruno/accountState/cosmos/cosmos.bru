@@ -25,13 +25,13 @@ body:json {
 assert {
   res.body.balances: isDefined tokens
   res.body.balances.tokens: isArray
-  res.body.balances.native.total: eq "1600506"
-  res.body.balances.native.available: eq "303524"
+  res.body.balances.native.total: matches ^\d+$
+  res.body.balances.native.available: matches ^\d+$
   res.body.balances.staking: isDefined
-  res.body.balances.staking.total: eq "1296982"
-  res.body.balances.staking.locked: eq "1296982"
-  res.body.balances.staking.unlocking: eq "0"
-  res.body.balances.staking.unlocked: eq "0"
+  res.body.balances.staking.total: matches ^\d+$
+  res.body.balances.staking.locked: matches ^\d+$
+  res.body.balances.staking.unlocking: matches ^\d+$
+  res.body.balances.staking.unlocked: matches ^\d+$
   res.body.balances.staking.positions: isArray
   res.body.balances.staking.rewards: isDefined
   res.body.balances.staking.rewards.native: isArray

@@ -13,9 +13,9 @@
       "logo": "https://logo.moralis.io/0x1_0xdac17f958d2ee523a2206206994597c13d831ec7_0b0d126af6c744c185e112a2c8dc1495.png",
       "logo_hash": "ee7aa2cdf100649a3521a082116258e862e6971261a39b5cd4e4354fcccbc54d",
       "thumbnail": "https://logo.moralis.io/0x1_0xdac17f958d2ee523a2206206994597c13d831ec7_0b0d126af6c744c185e112a2c8dc1495.png",
-      "total_supply": "76923282687186911",
-      "total_supply_formatted": "76923282687.186911",
-      "fully_diluted_valuation": "77042354853.17",
+      "total_supply": "75897206995361567",
+      "total_supply_formatted": "75897206995.361567",
+      "fully_diluted_valuation": "75875078548.54",
       "block_number": "4634748",
       "validated": 1,
       "created_at": "2017-11-28T00:41:21.000Z",
@@ -36,7 +36,9 @@
         "moralis": "https://moralis.com/chain/ethereum/token/price/0xdac17f958d2ee523a2206206994597c13d831ec7"
       },
       "security_score": 41,
-      "description": "Tether tokens are the pioneering stablecoins in the digital token space, backed 1-to-1 by fiat currency and supported by Tether's reserves. They are widely adopted across major exchanges, OTC desks, and wallets, offering exceptional liquidity for traders, opportunities for merchants, and playing a pivotal role in the digital token ecosystem."
+      "description": "Tether tokens are the pioneering stablecoins in the digital token space, backed 1-to-1 by fiat currency and supported by Tether's reserves. They are widely adopted across major exchanges, OTC desks, and wallets, offering exceptional liquidity for traders, opportunities for merchants, and playing a pivotal role in the digital token ecosystem.",
+      "circulating_supply": "143465026337.5506",
+      "market_cap": "143423197944.50"
     }
   ]
 }

@@ -92,11 +92,22 @@
           "denom": "uatom",
           "amount": "201626"
         }
+      },
+      {
+        "delegation": {
+          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+          "validator_address": "cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2",
+          "shares": "1000000.000000000000000000"
+        },
+        "balance": {
+          "denom": "uatom",
+          "amount": "1000000"
+        }
       }
     ],
     "pagination": {
       "next_key": null,
-      "total": "8"
+      "total": "9"
     }
   }
 }

@@ -4,7 +4,7 @@
     "method": "GET"
   },
   "response": {
-    "current-round": 46299598,
+    "current-round": 48141071,
     "transaction": {
       "asset-transfer-transaction": {
         "amount": 0,

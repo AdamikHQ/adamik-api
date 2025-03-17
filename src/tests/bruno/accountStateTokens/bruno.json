@@ -1,9 +1,0 @@
-{
-  "version": "1",
-  "name": "/api/[chainId]/account/[accountId]/state/tokens",
-  "type": "collection",
-  "ignore": [
-    "node_modules",
-    ".git"
-  ]
-}

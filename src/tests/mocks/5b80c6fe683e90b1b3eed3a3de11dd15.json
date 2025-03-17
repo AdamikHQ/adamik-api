@@ -8,14 +8,14 @@
   },
   "response": {
     "address": "411c506ba436e22d4892be0a949f3f065878a38d97",
-    "balance": 63442382,
+    "balance": 53247799,
     "create_time": 1727671140000,
-    "latest_opration_time": 1736875836000,
-    "latest_consume_free_time": 1736875836000,
+    "latest_opration_time": 1742060277000,
+    "latest_consume_free_time": 1742060277000,
     "net_window_size": 28800000,
     "net_window_optimized": true,
     "account_resource": {
-      "latest_consume_time_for_energy": 1736879403000,
+      "latest_consume_time_for_energy": 1742063826000,
       "energy_window_size": 28800000,
       "energy_window_optimized": true
     },
@@ -56,7 +56,11 @@
     "assetV2": [
       {
         "key": "1004989",
-        "value": 1111111
+        "value": 3333333
+      },
+      {
+        "key": "1003533",
+        "value": 668
       },
       {
         "key": "1005027",
@@ -72,11 +76,15 @@
       },
       {
         "key": "1005002",
-        "value": 20000000
+        "value": 30000000
       },
       {
         "key": "1005023",
         "value": 9990
+      },
+      {
+        "key": "1001829",
+        "value": 1
       },
       {
         "key": "1005043",
@@ -85,6 +93,10 @@
       {
         "key": "1005065",
         "value": 8888880000
+      },
+      {
+        "key": "1004031",
+        "value": 19310
       },
       {
         "key": "1005041",
@@ -97,11 +109,19 @@
         "value": 0
       },
       {
+        "key": "1003533",
+        "value": 0
+      },
+      {
         "key": "1005027",
         "value": 0
       },
       {
         "key": "1005026",
+        "value": 0
+      },
+      {
+        "key": "1001829",
         "value": 0
       },
       {
@@ -122,6 +142,10 @@
       },
       {
         "key": "1005065",
+        "value": 0
+      },
+      {
+        "key": "1004031",
         "value": 0
       },
       {

@@ -8,7 +8,7 @@
       "set": {
         "address_count": 1,
         "balance": 700846499,
-        "balance_usd": 700348.8979857101,
+        "balance_usd": 582865.99935834,
         "received": 700846499,
         "spent": 0,
         "output_count": 1,
@@ -24,7 +24,7 @@
           "type": "witness_v0_scripthash",
           "script_hex": "0014aa1c3d1eef8000ec74e1abeddde2fa2926b582a4",
           "balance": 700846499,
-          "balance_usd": 700348.8979857101,
+          "balance_usd": 582865.99935834,
           "received": 700846499,
           "received_usd": 661136.5625,
           "spent": 0,
@@ -57,13 +57,13 @@
       "offset": "0,0",
       "results": 1,
       "optimized": false,
-      "state": 879524,
-      "market_price_usd": 99929,
+      "state": 888188,
+      "market_price_usd": 83166,
       "cache": {
         "live": true,
         "duration": 120,
-        "since": "2025-01-16 18:17:48",
-        "until": "2025-01-16 18:19:48",
+        "since": "2025-03-17 13:38:39",
+        "until": "2025-03-17 13:40:39",
         "time": null
       },
       "api": {
@@ -74,9 +74,9 @@
         "notice": "Try out our new API v.3: https://3xpl.com/data"
       },
       "servers": "API4,BTC5",
-      "time": 2.039355993270874,
-      "render_time": 0.011263132095336914,
-      "full_time": 2.050619125366211,
+      "time": 1.5024731159210205,
+      "render_time": 0.010123014450073242,
+      "full_time": 1.5125961303710938,
       "request_cost": 1
     }
   }
