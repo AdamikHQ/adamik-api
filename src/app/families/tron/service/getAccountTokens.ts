@@ -12,19 +12,19 @@ async function getAccountTokens(
 ): Promise<Paginated<AccountTokens>> {
   const fetchAccountTokensDataFunctions = [
     {
-      providerType: ProviderType.tronscan,
+      type: ProviderType.tronscan,
       fetchAccountTokensDataFunction: fetchAccountTokensDataFromTronscan,
     },
-    { providerType: ProviderType.oklink, fetchAccountTokensDataFunction: fetchAccountTokensDataFromOklink },
+    { type: ProviderType.oklink, fetchAccountTokensDataFunction: fetchAccountTokensDataFromOklink },
   ];
 
   const errors: Error[] = [];
 
   const paginationData = paginationFromB64(paginationToken) as { type: ProviderType; page: number } | null;
 
-  for (const { providerType, fetchAccountTokensDataFunction } of fetchAccountTokensDataFunctions) {
+  for (const { type, fetchAccountTokensDataFunction } of fetchAccountTokensDataFunctions) {
     try {
-      if (!paginationData || providerType === paginationData.type) {
+      if (!paginationData || type === paginationData.type) {
         return await fetchAccountTokensDataFunction(accountId, paginationToken);
       }
       throw new ThirdPartyProviderError("Failed over detected during pagination");

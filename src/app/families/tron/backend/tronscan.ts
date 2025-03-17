@@ -3,10 +3,10 @@ import { CHAINS } from "~/app/config/chains";
 import {
   AccountState,
   AccountTokens,
-  Backend,
   ChainId,
   FinalizedTransaction,
   Paginated,
+  Provider,
   ProviderType,
   Token,
   TokenAmount,
@@ -24,7 +24,7 @@ import { TronscanAccountInfo, TronscanAccountTokensInfo, TronscanTransactionInfo
 
 const TRONSCAN_PAGE_SIZE = 20;
 
-const explorerURL = CHAINS.tron.backends.find((b: Backend) => b.providerType === ProviderType.tronscan)?.url;
+const explorerURL = CHAINS.tron.providers.find((b: Provider) => b.type === ProviderType.tronscan)?.url;
 
 async function fetchTransaction(transactionId: string): Promise<FinalizedTransaction> {
   const url = `${explorerURL}/api/transaction-info?hash=${transactionId}`;

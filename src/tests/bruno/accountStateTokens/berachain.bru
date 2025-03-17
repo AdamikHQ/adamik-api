@@ -23,13 +23,6 @@ headers {
   ~Authorization: {{api_key}}
 }
 
-body:json {
-  {
-    "chainId": "ethereum",
-    "accountId": "0xfc43f5f9dd45258b3aff31bdbe6561d97e8b71de"
-  }
-}
-
 assert {
   res.status: eq 400
   res.body.status.errors[0].message: eq Unsupported feature for chainId 'berachain'

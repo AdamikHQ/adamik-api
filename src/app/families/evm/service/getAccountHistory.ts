@@ -8,6 +8,7 @@ async function getAccountHistory(
   paginationToken?: string
 ): Promise<Paginated<AccountHistory>> {
   const indexer = this.getIndexer();
+
   const { evmTransactions, nextPage } = await indexer.fetchAccountTransactions(
     this.chainId,
     accountId as EvmAddress,
