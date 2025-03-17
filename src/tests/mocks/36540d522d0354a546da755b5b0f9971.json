@@ -4,13 +4,13 @@
     "method": "POST",
     "params": {
       "jsonrpc": "2.0",
-      "id": 5,
+      "id": 3,
       "method": "eth_maxPriorityFeePerGas"
     }
   },
   "response": {
     "jsonrpc": "2.0",
-    "id": 5,
-    "result": "0x7704c0"
+    "id": 3,
+    "result": "0x18d72a"
   }
 }

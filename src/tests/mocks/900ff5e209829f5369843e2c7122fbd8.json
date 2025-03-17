@@ -1,0 +1,56 @@
+{
+  "request": {
+    "url": "https://monad-testnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+    "method": "POST",
+    "params": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenBalances",
+      "params": [
+        "0x2555223a15a931a71951707cb32a541f14e2c730",
+        "erc20"
+      ]
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+      "address": "0x2555223a15a931a71951707cb32a541f14e2c730",
+      "tokenBalances": [
+        {
+          "contractAddress": "0x0a26fcbdd099d9eb9de339bb2e57df19741bf021",
+          "tokenBalance": "0x00000000000000000000000000000000000000000000001ef43782b65c0c0000"
+        },
+        {
+          "contractAddress": "0x1f78eaf42b748d354a62d06eee4d187320fcd26d",
+          "tokenBalance": "0x0000000000000000000000000000000000000000000000c63f11ec6233840000"
+        },
+        {
+          "contractAddress": "0x661feed955ec09aba32640a876e28401b30768ea",
+          "tokenBalance": "0x00000000000000000000000000000000000000000000006132dfa04763640000"
+        },
+        {
+          "contractAddress": "0x673cd70fa883394a1f3deb3221937ceb7c2618d7",
+          "tokenBalance": "0x00000000000000000000000000000000000000000000000000038d7ea4c68000"
+        },
+        {
+          "contractAddress": "0xa47447dd269d36743b5c6f8bff6301d33b9c135c",
+          "tokenBalance": "0x000000000000000000000000000000000000000000021861aee01227fceb5000"
+        },
+        {
+          "contractAddress": "0xb5481b57ff4e23ea7d2fda70f3137b16d0d99118",
+          "tokenBalance": "0x00000000000000000000000000000000000000000000deed549d61bd22b10782"
+        },
+        {
+          "contractAddress": "0xc8db2211578404e5a5394022bc59182aaa622f65",
+          "tokenBalance": "0x0000000000000000000000000000000000000000000000d27f7336fbf9cc0000"
+        },
+        {
+          "contractAddress": "0xea66954458e6404cc2553bc650205d3eefed4da5",
+          "tokenBalance": "0x0000000000000000000000000000000000000000000000210392a16134e40000"
+        }
+      ]
+    }
+  }
+}

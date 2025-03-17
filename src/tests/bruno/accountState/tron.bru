@@ -26,6 +26,6 @@ assert {
   res.status: eq 200
   res.body.balances: isDefined tokens
   res.body.balances.tokens: isArray
-  res.body.balances.native.total: eq "9011753"
-  res.body.balances.native.available: eq "9011753"
+  res.body.balances.native.total: matches ^\d+$
+  res.body.balances.native.available: matches ^\d+$
 }

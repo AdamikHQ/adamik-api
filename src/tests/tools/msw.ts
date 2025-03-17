@@ -13,7 +13,7 @@ const MOCKS_FOLDER_ROOT = "/src/tests/mocks";
 // NOTE multiple fields can be put in the same string, separated with ','
 const BLACKLIST_CHANGING_FIELDS: Record<string, string> = {
   "https://toncenter.com/api/v2/jsonRPC": ".params.body", // contains a timestamp
-  "https://site1.moralis-nodes.com": ".id", // some kind of nonce per request
+  "*": ".id", // some kind of nonce per request
 };
 
 async function applyFilters(requestUrl: string, requestBody: string): Promise<string> {
@@ -23,7 +23,7 @@ async function applyFilters(requestUrl: string, requestBody: string): Promise<st
 
   const fieldsToFilter = (() => {
     for (const entry of Object.entries(BLACKLIST_CHANGING_FIELDS)) {
-      if (requestUrl.includes(entry[0])) {
+      if (entry[0] === "*" || requestUrl.includes(entry[0])) {
         return entry[1];
       }
     }
