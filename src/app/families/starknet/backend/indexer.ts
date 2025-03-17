@@ -1,4 +1,3 @@
-import { Contract, Provider as StarknetProvider, shortString } from "starknet";
 import { STARKSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
@@ -11,6 +10,7 @@ import {
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { SELECTOR_INDEX } from "../constants";
+import { fetchTokenInfo } from "./node";
 import {
   StarknetValidator,
   StarknetValidatorsResponse,
@@ -90,16 +90,11 @@ const starkScanToAdamikTransaction = async (
     parsedTransaction.blockHeight = BigInt(transaction.block_number);
   }
 
-  const provider = new StarknetProvider({
-    nodeUrl,
-  });
-
   if (transaction.transaction_type === "DEPLOY_ACCOUNT") {
     parsedTransaction.mode = TransactionMode.DEPLOY_ACCOUNT;
     return parsedTransaction;
   }
 
-  const classAt = await provider.getClassAt(transaction.account_calls[0].contract_address || "");
   const transactionSelector = transaction.account_calls[0].selector;
 
   if (SELECTOR_INDEX.find((selector) => selector.selector === transactionSelector)) {
@@ -108,12 +103,14 @@ const starkScanToAdamikTransaction = async (
     const recipientAddress = transaction.account_calls[0].calldata[0];
     const amount = transaction.account_calls[0].calldata[1];
 
-    const contract = new Contract(classAt.abi, transaction.account_calls[0].contract_address || "", provider);
-    const symbol = await contract.functions.symbol();
-    const ticker = shortString.decodeShortString(symbol);
+    const tokenInfo = await fetchTokenInfo(transaction.account_calls[0].contract_address || "");
 
-    parsedTransaction.senders = [{ address: transaction.sender_address, amount: BigInt(amount), ticker }];
-    parsedTransaction.recipients = [{ address: recipientAddress, amount: BigInt(amount), ticker }];
+    parsedTransaction.senders = [
+      { address: transaction.sender_address, amount: BigInt(amount), ticker: tokenInfo.ticker },
+    ];
+    parsedTransaction.recipients = [
+      { address: recipientAddress, amount: BigInt(amount), ticker: tokenInfo.ticker },
+    ];
   }
 
   return parsedTransaction;
@@ -130,10 +127,6 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 }
 
 async function getTransactionHistorySymbols(transactions: TransactionHistory[]) {
-  const provider = new StarknetProvider({
-    nodeUrl,
-  });
-
   const symbolsAddresses = Object.entries(
     transactions.reduce((acc, transaction) => {
       return { ...acc, [transaction.from_address]: transaction.from_address };
@@ -142,14 +135,11 @@ async function getTransactionHistorySymbols(transactions: TransactionHistory[]) 
 
   const symbols = await Promise.all(
     symbolsAddresses.map(async (symbolAddress) => {
-      const classAt = await provider.getClassAt(symbolAddress);
-
-      const contract = new Contract(classAt.abi, symbolAddress || "", provider);
-      const symbol = await contract.functions.symbol();
+      const tokenInfo = await fetchTokenInfo(symbolAddress);
 
       return {
         symbolAddress,
-        symbol: shortString.decodeShortString(symbol),
+        symbol: tokenInfo.ticker,
       };
     })
   );
