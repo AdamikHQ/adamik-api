@@ -16,14 +16,11 @@ params:path {
 
 body:json {
   {
-    "pubkey": "cb0812e999bdcc447009b47f15391d1970ef6414269eaf54b3f510a63142c443"
+    "pubkey": "47ddd488a2ab0e2039fc01a8bd9c75fe530a05fa01c9185ca3e3288ab76833ea"
   }
 }
 
 assert {
   res.status: eq 200
-  res.body.addresses[0].address: eq EQBDomkFmavVI-dh4YNenn8T4G8efdt1t59XbZ4CBI-KkFcc
-  res.body.addresses[1].address: eq EQAIts4q_-vI1bpv6yRF1psfK-KAOxoWV5eea5ifUbGFnnn8
-  res.body.addresses[2].address: eq EQCZ6jM3nIKm6AevVcZWeJsrnSkgDvKjPxYCxPlbua1VwaWa
-  res.body.addresses[3].address: eq EQAXGm8h_nvQfDwrC7Feb2KYcGGSA3PkZ0TQUzzDFOrqezFo
+  res.body.addresses[0].address: eq UQCVjH3hDM6rNS0ZsFjiSa5XymUVF6VmWLZMuqPoMUJAkZ4V
 }

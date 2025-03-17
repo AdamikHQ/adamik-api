@@ -1,11 +1,15 @@
+import { CHAINS } from "~/app/config/chains";
 import {
   AccountHistory,
   AccountState,
   AccountTokens,
+  Chain,
   ChainId,
   ChainValidators,
   FinalizedTransaction,
   Paginated,
+  Provider,
+  ProviderType,
   Status,
   Token,
   Transaction,
@@ -18,9 +22,15 @@ import {
 
 abstract class BaseChainService {
   chainId: ChainId;
+  chain: Chain;
 
   constructor(chainId: ChainId) {
     this.chainId = chainId;
+    this.chain = CHAINS[chainId];
+  }
+
+  getProvider(type: ProviderType): Provider | null {
+    return CHAINS[this.chainId].providers.find((p: Provider) => p.type === type) ?? null;
   }
   // Chain
   //abstract getChainParams(chainId: ChainId): Promise<ChainParams>; // For dynamic params?

@@ -1,4 +1,6 @@
-import { EvmAddress } from "../types";
+import { EvmAddress, HexString } from "../types";
+import { ChainId, FinalizedTransaction, Token, TokenAmount } from "~/app/model/types_WIP";
+import { num } from "starknet";
 
 type EtherscanERC20Event = {
   contractAddress: EvmAddress;
@@ -20,6 +22,29 @@ type EtherscanERC20Event = {
   // cumulativeGasUsed: string;
   // input: string;
   // confirmations: string;
+};
+
+type RawEvmTransaction = {
+  hash: HexString;
+  from: EvmAddress;
+  to: EvmAddress;
+  blockNumber: HexString;
+  nonce: HexString;
+  input: HexString;
+  value: HexString;
+  gas: HexString;
+  gasPrice: HexString;
+  type?: HexString;
+  blockHash?: HexString;
+  maxFeePerGas?: HexString;
+  maxPriorityFeePerGas?: HexString;
+  transactionIndex?: HexString;
+  accessList?: Array<HexString>;
+  chainId: HexString;
+  v?: HexString;
+  r?: HexString;
+  s?: HexString;
+  yParity?: HexString;
 };
 
 // NOTE Unused at the moment
@@ -211,6 +236,146 @@ type MoralisInternalTransaction = {
   output: string;
 };
 
+type AlchemyERC20TokenBalance = {
+  contractAddress: EvmAddress;
+  tokenBalance: HexString;
+};
+
+type AlchemyERC20Token = {
+  decimals: number | null;
+  logo: string | null;
+  name: string;
+  symbol: string;
+};
+
+type AlchemyJSONRPCError = {
+  jsonrpc: "2.0";
+  id: number;
+  error: {
+    code: number;
+    message: string;
+  };
+};
+
+type AlchemyBalanceRequest = {
+  address: EvmAddress;
+  tokenBalances: AlchemyERC20TokenBalance[];
+};
+
+type AlchemyPaginatedRequest<T extends object> = T & {
+  pageKey?: string;
+};
+
+type AlchemyLog = {
+  blockHash: HexString;
+  address: EvmAddress;
+  logIndex: HexString;
+  data: HexString;
+  removed: boolean;
+  topics: HexString[];
+  blockNumber: HexString;
+  transactionIndex: HexString;
+  transactionHash: HexString;
+};
+
+type AlchemyTransaction = {
+  blockHash: HexString;
+  blockNumber: HexString;
+  hash: HexString;
+  input: HexString;
+  r: HexString;
+  s: HexString;
+  v: HexString;
+  gas: HexString;
+  from: HexString;
+  transactionIndex: HexString;
+  to: HexString;
+  type: HexString;
+  value: HexString;
+  nonce: HexString;
+  gasPrice: HexString;
+};
+
+type AlchemyTransactionReceipt = {
+  transactionHash: HexString;
+  blockHash: HexString;
+  blockNumber: HexString;
+  logsBloom: HexString;
+  gasUsed: HexString;
+  contractAddress: EvmAddress | null;
+  cumulativeGasUsed: HexString;
+  transactionIndex: HexString;
+  from: EvmAddress;
+  to: EvmAddress;
+  type: HexString;
+  effectiveGasPrice: HexString;
+  logs: AlchemyLog[];
+  status: HexString;
+};
+
+type AlchemyTransactionWithReceipt = AlchemyTransaction & {
+  receipt: AlchemyTransactionReceipt;
+};
+
+type AlchemyTransfer = {
+  blockNum: HexString;
+  uniqueId: HexString;
+  hash: HexString;
+  from: HexString;
+  to: HexString;
+  value: number;
+  erc721TokenId: null; // Ignoring this for now
+  erc1155Metadata: null; // Ignoring this for now
+  tokenId: null; // Ignoring this for now
+  asset: string;
+  category: string;
+  rawContract: {
+    value: HexString;
+    address: null;
+    decimal: HexString;
+  };
+};
+
+type AlchemyBlock = {
+  number: HexString;
+  hash: HexString;
+  transactions: []; // Ignored for now
+  totalDifficulty: HexString;
+  logsBloom: HexString;
+  receiptsRoot: HexString;
+  extraData: HexString;
+  nonce: HexString;
+  miner: HexString;
+  difficulty: HexString;
+  gasLimit: HexString;
+  gasUsed: HexString;
+  uncles: [];
+  sha3Uncles: HexString;
+  size: HexString;
+  transactionsRoot: HexString;
+  stateRoot: HexString;
+  mixHash: HexString;
+  parentHash: HexString;
+  timestamp: HexString;
+};
+
+interface EvmIndexer {
+  SUPPORTED_CHAIN_IDS: Map<ChainId, string>;
+  fetchAccountTransactions: (
+    c: ChainId,
+    a: EvmAddress,
+    p?: string
+  ) => Promise<{ evmTransactions: Array<FinalizedTransaction>; nextPage: string | null }>;
+  fetchAllERC20TokenAmounts: (c: ChainId, a: EvmAddress) => Promise<TokenAmount[]>;
+  fetchERC20Token: (c: ChainId, a: EvmAddress) => Promise<Token>;
+  fetchERC20TokenAmounts: (
+    c: ChainId,
+    a: EvmAddress,
+    p?: string
+  ) => Promise<{ tokens: TokenAmount[]; nextPage: string | null }>;
+  fetchTransaction: (c: ChainId, t: string) => Promise<FinalizedTransaction | null>;
+}
+
 export type {
   EtherscanERC20Event,
   MoralisAccountTransaction,
@@ -218,4 +383,17 @@ export type {
   MoralisERC20Token,
   MoralisERC20TokenBalance,
   MoralisTransaction,
+  AlchemyERC20TokenBalance,
+  AlchemyERC20Token,
+  AlchemyBalanceRequest,
+  AlchemyPaginatedRequest,
+  AlchemyLog,
+  AlchemyTransaction,
+  AlchemyTransactionReceipt,
+  AlchemyTransactionWithReceipt,
+  AlchemyTransfer,
+  AlchemyBlock,
+  AlchemyJSONRPCError,
+  EvmIndexer,
+  RawEvmTransaction,
 };

@@ -1,11 +1,14 @@
 import { z } from "zod";
 
 type TonTransactionParams = z.infer<typeof tonTransactionParamsSchema>;
+const tonTransactionParamsSchema = z.string();
 
-const tonTransactionParamsSchema = z.object({
-  pubKey: z.string().optional(),
+const tonTransactionParamsPayloadSchema = z.object({
+  timeout: z.number(),
 });
 
-export type { TonTransactionParams };
+export { tonTransactionParamsPayloadSchema, tonTransactionParamsSchema };
 
-export { tonTransactionParamsSchema };
+type TonTransactionParamsPayload = z.infer<typeof tonTransactionParamsPayloadSchema>;
+
+export type { TonTransactionParams, TonTransactionParamsPayload };

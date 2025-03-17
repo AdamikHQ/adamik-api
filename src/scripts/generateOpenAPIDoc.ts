@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+
 import { generateOpenAPISpec } from "~/app/tools/openapi";
 
 const dir = path.join(__dirname, "../../public");
@@ -13,7 +14,7 @@ const filePath = path.join(dir, fileName);
 
 console.log(`Generating ${filePath}...`);
 // Get the API URL from environment variable
-const apiUrl = process.env.API_URL || "https://api.adamik.io";
+const apiUrl = process.env.API_URL || "https://api-staging.adamik.io";
 
 const spec = generateOpenAPISpec();
 spec.servers = [{ url: apiUrl }];

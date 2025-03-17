@@ -2,405 +2,441 @@
 
 ## algorand
 
-| nodeURL | https://mainnet-api.algonode.cloud/v2 |
-| explorerURL | https://mainnet-idx.algonode.cloud/v2 |
+| node | https://mainnet-api.algonode.cloud/v2 |<br />
+| algoindexer | https://mainnet-idx.algonode.cloud/v2 |
 
 ## cosmoshub
 
-| nodeURL | https://lcd-cosmos.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-cosmos.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
 
-| nodeURL | https://api-t.cosmos.nodestake.top |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://api-t.cosmos.nodestake.top |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## osmosis
 
-| nodeURL | https://lcd-osmosis.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-osmosis.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## osmosis-testnet
 
-| nodeURL | https://g.w.lavanet.xyz:443/gateway/osmosist/rest/REDACTED |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://g.w.lavanet.xyz/gateway/osmosist/rest/REDACTED |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## celestia
 
-| nodeURL | https://lcd-celestia.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-celestia.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## celestia-testnet
 
-| nodeURL | https://g.w.lavanet.xyz:443/gateway/celestiatm/rest/REDACTED |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://g.w.lavanet.xyz/gateway/celestiatm/rest/REDACTED |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## dydx
 
-| nodeURL | https://lcd-dydx.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-dydx.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## axelar
 
-| nodeURL | https://lcd-axelar.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-axelar.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## ethereum
 
-| nodeURL | https://site1.moralis-nodes.com/eth/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/eth/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |<br />
+| alchemy | https://eth-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
 
 ## sepolia
 
-| nodeURL | https://site1.moralis-nodes.com/sepolia/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/sepolia/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## holesky
 
-| nodeURL | https://site1.moralis-nodes.com/holesky/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/holesky/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## zksync
 
-| nodeURL | https://site1.moralis-nodes.com/zksync/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/zksync/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## zksync-sepolia
 
-| nodeURL | https://site1.moralis-nodes.com/zksync-sepolia/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/zksync-sepolia/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## injective-evm-testnet
 
-| nodeURL | https://testnet.rpc.inevm.com/http |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://testnet.rpc.inevm.com/http |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## base
 
-| nodeURL | https://site1.moralis-nodes.com/base/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/base/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## base-sepolia
 
-| nodeURL | https://site1.moralis-nodes.com/base-sepolia/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/base-sepolia/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## optimism
 
-| nodeURL | https://site1.moralis-nodes.com/optimism/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/optimism/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## optimism-sepolia
 
-| nodeURL | https://site1.moralis-nodes.com/optimism-sepolia/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/optimism-sepolia/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## arbitrum
 
-| nodeURL | https://site1.moralis-nodes.com/arbitrum/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/arbitrum/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## arbitrum-sepolia
 
-| nodeURL | https://site1.moralis-nodes.com/arbitrum-sepolia/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/arbitrum-sepolia/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## bitcoin
 
-| nodeURL |  |
-| explorerURL | https://api.blockchair.com/bitcoin |
+| blockchair | https://api.blockchair.com/bitcoin |
 
 ## bitcoin-testnet
 
-| nodeURL |  |
-| explorerURL | https://api.blockchair.com/bitcoin/testnet |
+| blockchair | https://api.blockchair.com/bitcoin/testnet |
+
+## bitcoin-signet
+
+| mempoolspace | https://mempool.space/signet/api |
 
 ## polygon
 
-| nodeURL | https://site1.moralis-nodes.com/polygon/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/polygon/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## polygon-amoy
 
-| nodeURL | https://site1.moralis-nodes.com/amoy/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/amoy/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## bsc
 
-| nodeURL | https://site1.moralis-nodes.com/bsc/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/bsc/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## bsc-testnet
 
-| nodeURL | https://site1.moralis-nodes.com/bsc-testnet/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/bsc-testnet/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## linea
 
-| nodeURL | https://site1.moralis-nodes.com/linea/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/linea/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## linea-sepolia
 
-| nodeURL | https://site1.moralis-nodes.com/linea-sepolia/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/linea-sepolia/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## avalanche
 
-| nodeURL | https://site1.moralis-nodes.com/avalanche/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/avalanche/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## avalanche-fuji
 
-| nodeURL | https://avalanche-fuji-c-chain-rpc.publicnode.com |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://avalanche-fuji-c-chain-rpc.publicnode.com |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## gnosis
 
-| nodeURL | https://site1.moralis-nodes.com/gnosis/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/gnosis/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## gnosis-chiado
 
-| nodeURL | https://site1.moralis-nodes.com/gnosis-testnet/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/gnosis-testnet/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## moonbeam
 
-| nodeURL | https://site1.moralis-nodes.com/moonbeam/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/moonbeam/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## moonriver
 
-| nodeURL | https://site1.moralis-nodes.com/moonriver/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/moonriver/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## moonbase
 
-| nodeURL | https://site1.moralis-nodes.com/moonbase/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/moonbase/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## fantom
 
-| nodeURL | https://rpcapi.fantom.network |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://rpcapi.fantom.network |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## mantle
 
-| nodeURL | https://site1.moralis-nodes.com/mantle/REDACTED |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/mantle/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## rootstock
 
-| nodeURL | https://public-node.rsk.co |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://public-node.rsk.co |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## rootstock-testnet
 
-| nodeURL | https://public-node.testnet.rsk.co |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://public-node.testnet.rsk.co |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## litecoin
 
-| nodeURL |  |
-| explorerURL | https://api.blockchair.com/litecoin |
+| blockchair | https://api.blockchair.com/litecoin |
 
 ## dogecoin
 
-| nodeURL |  |
-| explorerURL | https://api.blockchair.com/dogecoin |
+| blockchair | https://api.blockchair.com/dogecoin |
 
 ## ton
 
-| nodeURL | https://toncenter.com/api/ |
-| explorerURL | https://tonapi.io |
+| node | https://toncenter.com/api/ |<br />
+| tonapi | https://tonapi.io |
 
 ## chiliz
 
-| nodeURL | https://chiliz-rpc.publicnode.com |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://chiliz-rpc.publicnode.com |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## chiliz-testnet
 
-| nodeURL | https://chiliz-spicy.publicnode.com |
-| explorerURL | https://deep-index.moralis.io/api |
+| node | https://chiliz-spicy.publicnode.com |<br />
+| moralis | https://deep-index.moralis.io/api |
 
 ## injective
 
-| nodeURL | https://apis.mintscan.io/injective/lcd |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-injective.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
 
-| nodeURL | https://lcd-akash.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-akash.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## band
 
-| nodeURL | https://lcd-band.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-band.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## dymension
 
-| nodeURL | https://lcd-dymension.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-dymension.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## kyve
 
-| nodeURL | https://lcd-kyve.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-kyve.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## neutron
 
-| nodeURL | https://lcd-neutron.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-neutron.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## terra2
 
-| nodeURL | https://lcd-terra.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-terra.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## stargaze
 
-| nodeURL | https://lcd-stargaze.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://stargaze-api.polkachu.com/ |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## tron
 
-| nodeURL | https://api.trongrid.io |
-| explorerURL | https://apilist.tronscanapi.com |
+| node | https://api.trongrid.io |<br />
+| tronscan | https://apilist.tronscanapi.com |<br />
+| oklink | https://www.oklink.com/api/v5/explorer |
 
 ## evmos
 
-| nodeURL | https://lcd-evmos.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-evmos.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## irisnet
 
-| nodeURL | https://lcd-iris.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-iris.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## juno
 
-| nodeURL | https://lcd-juno.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-juno.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## lum-network
 
-| nodeURL | https://lcd-lum.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-lum.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## omniflix
 
-| nodeURL | https://lcd-omniflix.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-omniflix.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## sei
 
-| nodeURL | https://sei-api.polkachu.com/ |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://sei-api.polkachu.com/ |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## medibloc
 
-| nodeURL | https://lcd-medibloc.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-medibloc.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## passage
 
-| nodeURL | https://lcd-passage.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-passage.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## quasar
 
-| nodeURL | https://lcd-quasar.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-quasar.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## seda
 
-| nodeURL | https://seda-api.polkachu.com/ |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://seda-api.polkachu.com/ |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## sommelier
 
-| nodeURL | https://lcd-sommelier.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-sommelier.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## shentu
 
-| nodeURL | https://lcd-shentu.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-shentu.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## stride
 
-| nodeURL | https://lcd-stride.imperator.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://lcd-stride.imperator.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## chihuahua
 
-| nodeURL | https://chihuahua-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://chihuahua-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## bitsong
 
-| nodeURL | https://bitsong-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://bitsong-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## persistence
 
-| nodeURL | https://persistence-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://persistence-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## comdex
 
-| nodeURL | https://comdex-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://comdex-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## fetch-ai
 
-| nodeURL | https://fetch-api.polkachu.com/ |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://fetch-api.polkachu.com/ |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## humans-ai
 
-| nodeURL | https://humans-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://humans-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## ki
 
-| nodeURL | https://ki-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://ki-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## likecoin
 
-| nodeURL | https://mainnet-node.like.co |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://mainnet-node.like.co |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## mars-hub
 
-| nodeURL | https://mars-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://mars-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## provenance
 
-| nodeURL | https://provenance-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://provenance-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## quicksilver
 
-| nodeURL | https://quicksilver-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://quicksilver-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## saga
 
-| nodeURL | https://saga-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://saga-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## ux-chain
 
-| nodeURL | https://ux-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://ux-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## kava
 
-| nodeURL | https://kava-api.polkachu.com |
-| explorerURL | https://apis.mintscan.io/v1 |
+| node | https://kava-api.polkachu.com |<br />
+| mintscan | https://apis.mintscan.io/v1 |
+
+## starknet
+
+| node | https://starknet-mainnet.public.blastapi.io/rpc/v0_7 |<br />
+| starkscan | https://api.starkscan.co |
+
+## babylon-testnet
+
+| node | https://babylon-testnet-api.polkachu.com |
+
+## monad-testnet
+
+| node | https://testnet-rpc.monad.xyz/ |<br />
+| alchemy | https://monad-testnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
+
+## berachain
+
+| node | https://rpc.berachain.com/ |<br />
+| alchemy | https://berachain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
+
+## berachain-artio
+
+| node | https://bartio.rpc.berachain.com |<br />
+| alchemy | https://berachain-bartio.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
+
+## cronos
+
+| node | https://evm.cronos.org |<br />
+| moralis | https://deep-index.moralis.io/api |
+
+## world-chain
+
+| node | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |<br />
+| alchemy | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |

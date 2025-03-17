@@ -29,14 +29,20 @@ const featureColumns: Partial<Record<ChainFeaturePaths, TableColumn>> = {
   "read.account.balances.tokens": {
     label: "Token Balance",
   },
-  "write.transaction.type.native": {
-    label: "Native Transfer",
+  "write.transaction.type.deployAccount": {
+    label: "Deploy Account",
   },
-  "write.transaction.type.tokens": {
-    label: "Token Transfer",
+  "write.transaction.type.transfer": {
+    label: "Transfer",
   },
-  "read.account.balances.staking": {
-    label: "Staking and Rewards",
+  "write.transaction.type.transferToken": {
+    label: "Transfer Token",
+  },
+  "write.transaction.type.stake": {
+    label: "Stake",
+  },
+  "write.transaction.type.unstake": {
+    label: "Unstake",
   },
   "read.account.transactions.native": {
     label: "Transaction History",

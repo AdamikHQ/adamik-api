@@ -1,6 +1,6 @@
 import { BLOCKCHAIR_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId } from "~/app/model/types_WIP";
+import { ChainId, Provider, ProviderType } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { Xpub } from "../types";
 import {
@@ -32,7 +32,9 @@ async function fetchXpubDashboard(
   chainId: ChainId,
   xpub: Xpub
 ): Promise<{ data: BlockchairXpubData; context: BlockchairResponseContext }> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].providers.find(
+    (p: Provider) => p.type === ProviderType.blockchair
+  )?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -55,12 +57,13 @@ async function fetchXpubDashboard(
       `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.error
     );
-    throw new ThirdPartyProviderError("Error while parsing Xpub data from the explorer");
+    throw new ThirdPartyProviderError("Error while parsing addresses data from the explorer");
   }
 
   const context = parsedResponse.data.context;
+  const data = parsedResponse.data.data[xpub];
 
-  if (context.code != 200 || !parsedResponse.data.data[xpub]) {
+  if (!data || context.code != 200) {
     console.warn(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
       parsedResponse.data
@@ -73,6 +76,20 @@ async function fetchXpubDashboard(
     throw new ThirdPartyProviderError(`Missing current block height in data returned from explorer`);
   }
 
+  // Custom data formatting: we need script_hex for each UTXO, so we add it manually
+  data.utxo.forEach((utxo) => {
+    const utxoAddress = Object.keys(data.addresses).find((address) => address === utxo.address);
+    if (!utxoAddress) {
+      console.warn(
+        `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+        parsedResponse.data
+      );
+      throw new ThirdPartyProviderError("Error in addresses data received from the explorer");
+    }
+
+    utxo.script_hex = data.addresses[utxoAddress].script_hex;
+  });
+
   return {
     data: parsedResponse.data.data[xpub],
     context: parsedResponse.data.context,
@@ -83,7 +100,9 @@ async function fetchAddressesBatch(
   chainId: ChainId,
   addressesBatch: string[]
 ): Promise<BlockchairAddressesResponse | null> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].providers.find(
+    (p: Provider) => p.type === ProviderType.blockchair
+  )?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -113,8 +132,9 @@ async function fetchAddressesBatch(
   }
 
   const context = parsedResponse.data.context;
+  const data = parsedResponse.data.data;
 
-  if (context.code == 404) {
+  if (!data || context.code == 404) {
     return null;
   } else if (context.code != 200) {
     console.warn(
@@ -128,6 +148,20 @@ async function fetchAddressesBatch(
     console.warn(`Missing current block height for chain ID ${chainId} in: ${JSON.stringify(context)}`);
     throw new ThirdPartyProviderError(`Missing current block height in data returned from explorer`);
   }
+
+  // Custom data formatting: we need script_hex for each UTXO, so we add it manually
+  data.utxo.forEach((utxo) => {
+    const utxoAddress = Object.keys(data.addresses).find((address) => address === utxo.address);
+    if (!utxoAddress) {
+      console.warn(
+        `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+        parsedResponse.data
+      );
+      throw new ThirdPartyProviderError("Error in addresses data received from the explorer");
+    }
+
+    utxo.script_hex = data.addresses[utxoAddress].script_hex;
+  });
 
   return parsedResponse.data;
 }
@@ -165,7 +199,9 @@ async function fetchTransaction(
   chainId: ChainId,
   txHash: string
 ): Promise<BlockchairTransactionsResponse | null> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].providers.find(
+    (p: Provider) => p.type === ProviderType.blockchair
+  )?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -213,7 +249,9 @@ async function fetchTransactionsMetadataBatched(
   chainId: ChainId,
   txHashes: string[]
 ): Promise<BlockchairTransactionData[]> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].providers.find(
+    (p: Provider) => p.type === ProviderType.blockchair
+  )?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -270,7 +308,9 @@ async function fetchTransactionsMetadataBatched(
 // This function works for both mempool and confirmed transactions
 // Note: No support of batching for this endpoint
 async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<BlockchairRawTransactionData> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].providers.find(
+    (p: Provider) => p.type === ProviderType.blockchair
+  )?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -313,7 +353,9 @@ async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<Bl
 }
 
 async function fetchStats(chainId: ChainId): Promise<BlockchairStatsData> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].providers.find(
+    (p: Provider) => p.type === ProviderType.blockchair
+  )?.url;
   const url = `${explorerURL}/${chainId}/stats`;
 
   const response = await fetch(url);
@@ -332,7 +374,9 @@ async function fetchStats(chainId: ChainId): Promise<BlockchairStatsData> {
 }
 
 async function fetchFeePerByte(chainId: ChainId): Promise<number> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+  const explorerURL = CHAINS[chainId].providers.find(
+    (p: Provider) => p.type === ProviderType.blockchair
+  )?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -362,11 +406,13 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
   return result.data.suggested_transaction_fee_per_byte_sat;
 }
 
-async function postTransaction(chainId: ChainId, signedTransaction: string): Promise<string> {
-  const explorerURL = CHAINS[chainId].backends.explorerURL;
+async function postTransaction(chainId: ChainId, payload: string): Promise<string> {
+  const explorerURL = CHAINS[chainId].providers.find(
+    (p: Provider) => p.type === ProviderType.blockchair
+  )?.url;
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
-    data: signedTransaction,
+    data: payload,
   });
 
   const url = `${explorerURL}/push/transaction?${queryParams.toString()}`;

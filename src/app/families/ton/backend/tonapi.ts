@@ -2,10 +2,12 @@ import { Account, JettonInfo, JettonsBalances, Seqno, TonApiClient, Transaction 
 import { Address } from "@ton/ton";
 import { TON_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
+import { Provider, ProviderType } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 
+const explorerURL = CHAINS.ton.providers.find((p: Provider) => p.type === ProviderType.tonapi)?.url;
 const api = new TonApiClient({
-  baseUrl: `${CHAINS.ton.backends.explorerURL}`,
+  baseUrl: `${explorerURL}`,
   apiKey: TON_API_KEY,
 });
 
@@ -26,11 +28,12 @@ async function getSeqno(address: string): Promise<bigint | null> {
   let seqNo: Seqno;
   try {
     seqNo = await api.wallet.getAccountSeqno(tonAddress);
+
+    return seqNo?.seqno ? BigInt(seqNo.seqno) : null;
   } catch (e) {
     console.warn(`/!\\ Failed to fetch TON seqno for wallet address '${address}':`, e);
     throw new ThirdPartyProviderError(`Error while fetching data from explorer for ton account '${address}'`);
   }
-  return seqNo?.seqno ? BigInt(seqNo.seqno) : null;
 }
 
 async function getJettonsFromWallet(address: string): Promise<JettonsBalances> {

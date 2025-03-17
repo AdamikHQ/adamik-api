@@ -1,7 +1,7 @@
 meta {
   name: celestia
   type: http
-  seq: 2
+  seq: 3
 }
 
 post {
@@ -19,13 +19,10 @@ body:json {
     "transaction": {
       "data": {
         "mode": "transfer",
-        "recipient": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
-        "sender": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
+        "senderAddress": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
+        "recipientAddress": "celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
         "useMaxAmount": true,
-        "format": "json",
-        "params": {
-          "pubKey": "03833d5aebe72ca68e3816c4a466d395280929f07ccf5e75dc4e2d71c2c92da458"
-        }
+        "format": "json"
       }
     }
   }
@@ -33,5 +30,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.transaction.encoded.sequence: eq "7"
+  ~res.body.transaction.encoded: eq "{"account_number":"1395838","chain_id":"celestia","fee":{"amount":[{"amount":"1928","denom":"utia"}],"gas":"96366"},"memo":"","msgs":[{"type":"cosmos-sdk/MsgSend","value":{"amount":[{"amount":"145899","denom":"utia"}],"from_address":"celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3","to_address":"celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3"}}],"sequence":"7"}"
 }

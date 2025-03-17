@@ -1,6 +1,7 @@
-import { CosmosChainParams, CosmosTransactionParams } from "~/app/families/cosmos/types";
+import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
+import { StarknetTransactionParams } from "../families/starknet/types";
 import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
 
@@ -41,12 +42,11 @@ enum ChainId {
   ROOTSTOCK_TESTNET = "rootstock-testnet", //TODO, fix view error on write API (EIP=1559 not supported)
   BITCOIN = "bitcoin",
   BITCOIN_TESTNET = "bitcoin-testnet",
+  BITCOIN_SIGNET = "bitcoin-signet",
   LITECOIN = "litecoin",
   DOGECOIN = "dogecoin",
-  MONAD_PRIVATE_TESTNET = "monad-private-testnet",
-
-  //All Cosmos based chains
-  //Added through Polkachu nodes
+  STARKNET = "starknet",
+  MONAD_TESTNET = "monad-testnet",
   BITSONG = "bitsong",
   CHIHUAHUA = "chihuahua",
   SEDA = "seda",
@@ -62,7 +62,6 @@ enum ChainId {
   KAVA = "kava",
   SEI = "sei",
   FETCH_AI = "fetch-ai",
-  //Added through Imperator nodes
   COSMOSHUB = "cosmoshub",
   OSMOSIS = "osmosis",
   CELESTIA = "celestia",
@@ -86,19 +85,24 @@ enum ChainId {
   BAND = "band",
   STARGAZE = "stargaze",
   KYVE = "kyve",
-
-  //Added through other node providers
   LIKECOIN = "likecoin",
   OSMOSIS_TESTNET = "osmosis-testnet", //using lavanet
   CELESTIA_TESTNET = "celestia-testnet", //using lavanet
   COSMOSHUB_TESTNET = "cosmoshub-testnet", //using nodestake
   INJECTIVE = "injective", //using mintscan node
+  //BABYLON = "babylon",
+  BABYLON_TESTNET = "babylon-testnet",
 
   //Their own family
   // EGLD = "egld",
   // SOL = "sol",
   // NEAR = "near",
   // ALEPH = "aleph",
+
+  BERACHAIN = "berachain",
+  BERACHAIN_ARTIO = "berachain-artio",
+  CRONOS = "cronos",
+  WORLD_CHAIN = "world-chain",
 }
 
 enum ChainFamily {
@@ -108,6 +112,7 @@ enum ChainFamily {
   BITCOIN = "bitcoin",
   TRON = "tron",
   TON = "ton",
+  STARKNET = "starknet",
 }
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
@@ -130,20 +135,65 @@ type ChainSupportedFeatures = {
   };
   write: {
     transaction: {
-      type: FeaturesSet;
+      type: { [key in TransactionMode]: boolean };
       field: {
         memo: boolean;
       };
     };
+  };
+  utils: {
+    addresses: boolean;
   };
 };
 
 // Define filters as flags: anything put in the object is true to flag that the filter is "ON"
 type ApiRequestFilters = Record<string, true>;
 
-type Backends = {
-  nodeURL: string;
-  explorerURL?: string;
+export enum ProviderType {
+  node = "node",
+  blockchair = "blockchair",
+  mintscan = "mintscan",
+  blockscout = "blockscout",
+  routescan = "routescan",
+  etherscan = "etherscan",
+  alchemy = "alchemy",
+  moralis = "moralis",
+  tonapi = "tonapi",
+  tronscan = "tronscan",
+  starkscan = "starkscan",
+  algoindexer = "algoindexer",
+  mempoolspace = "mempoolspace",
+  oklink = "oklink",
+}
+
+type Provider = {
+  url: string;
+  type: ProviderType;
+};
+
+enum Curve {
+  SECP256K1 = "secp256k1",
+  ED25519 = "ed25519",
+  STARK = "stark",
+}
+
+enum HashFunction {
+  SHA256 = "sha256",
+  KECCAK256 = "keccak256",
+  SHA512_256 = "sha512_256",
+  PEDERSEN = "pedersen",
+}
+
+enum SignatureFormat {
+  RSV = "rsv",
+  RS = "rs",
+}
+
+type SignerSpec = {
+  curve: Curve;
+  hashFunction: HashFunction;
+  signatureFormat: SignatureFormat;
+  coinType: string;
 };
 
 type Chain = {
@@ -153,10 +203,11 @@ type Chain = {
   name: string;
   ticker: string;
   decimals: number;
-  backends: Backends;
+  providers: Provider[];
   isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;
+  signerSpec: SignerSpec;
 };
 
 // Or? : evm.ethereum.fungible | evm.ethereum.nft | algorand.algorand.native | algorand.algorand.fungible | cosmos.injective.native ...
@@ -203,6 +254,7 @@ enum StakingStatus {
 }
 
 type StakingPosition = {
+  stakeId?: string; // Babylon use-case: need to associate a staking position to its transaction hash
   validatorAddresses: string[];
   amount: bigint;
   status: StakingStatus;
@@ -256,12 +308,14 @@ type TypedAddress = {
 };
 
 enum TransactionMode {
+  DEPLOY_ACCOUNT = "deployAccount",
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
-  DELEGATE = "delegate",
-  REDELEGATE = "redelegate",
-  UNDELEGATE = "undelegate",
+  STAKE = "stake",
+  UNSTAKE = "unstake",
   CLAIM_REWARDS = "claimRewards",
+  WITHDRAW = "withdraw",
+  REGISTER_STAKE = "registerStake", // Babylon use-case: register a bitcoin stake
 }
 
 enum TransactionState {
@@ -310,29 +364,31 @@ type FinalizedTransaction = {
       };
     };
   };
-  raw?: unknown; // The raw transaction as returned from the node (or explorer when necessary)
+  raw?: unknown; // The raw transaction as returned from the provider
   //params?: FinalizedTransactionParams; // NOTE Probably a bad idea, difficult for the client to know what to parse in here
 };
 
 type TransactionParams =
-  | CosmosTransactionParams
   | BitcoinTransactionParams
-  | TonTransactionParams
-  | TronTransactionParams;
+  | TronTransactionParams
+  | StarknetTransactionParams
+  | TonTransactionParams;
+
+enum DeployContractType {
+  ARGENTX = "argentx",
+}
 
 // TODO WIP
 // FIXME ambiguity for completed fields (amount, fees...) : required or not?
 // FIXME one 'TransactionData' type with everything in it, or composition of specific types
 // (TransactionWithMemo TransactionWithGas, etc...) ?
-// FIXME Does the 'params' field make sense? It allows chain-specific data into the model...
-// - alternative: all data could be flat?
-// - alternative: an explicit field for each chain? or family? = 'cosmosParams', 'evmParams', etc
-type CommonTransaction = {
+type CommonTransactionData = {
   mode: TransactionMode;
-  sender: string;
-  recipient: string;
-  useMaxAmount: boolean;
+  senderAddress: string;
+  senderPubKey?: string;
+  recipientAddress: string;
   amount?: bigint;
+  useMaxAmount?: boolean;
   fees?: bigint;
   gas?: bigint;
   nonce?: bigint;
@@ -341,44 +397,73 @@ type CommonTransaction = {
   params?: TransactionParams;
 };
 
-type TransferTransaction = CommonTransaction & {
+type DeployAccountTransactionData = CommonTransactionData & {
+  mode: TransactionMode.DEPLOY_ACCOUNT;
+  senderPubKey: string; // Not optional for deploy account transactions
+  contractType: DeployContractType;
+};
+
+type TransferTransactionData = CommonTransactionData & {
   mode: TransactionMode.TRANSFER;
 };
 
-type TransferTokenTransaction = CommonTransaction & {
+// FIXME Should this be merged with TransferTransactionData, just adding optional 'tokenId' to it?
+type TransferTokenTransactionData = CommonTransactionData & {
   mode: TransactionMode.TRANSFER_TOKEN;
   tokenId: string;
 };
 
-type DelegateTransaction = CommonTransaction & {
-  mode: TransactionMode.DELEGATE;
-  validatorAddress: string;
-};
-
-type UndelegateTransaction = CommonTransaction & {
-  mode: TransactionMode.UNDELEGATE;
-  validatorAddress: string;
-};
-
-type RedelegateTransaction = CommonTransaction & {
-  mode: TransactionMode.REDELEGATE;
-  sourceValidatorAddress: string;
+type StakeTransactionData = CommonTransactionData & {
+  mode: TransactionMode.STAKE;
+  sourceValidatorAddress?: string; // cosmos "redelegate" use-case, if provided
   targetValidatorAddress: string;
 };
 
-type ClaimRewardsTransaction = CommonTransaction & {
+type UnstakeTransactionData = CommonTransactionData & {
+  mode: TransactionMode.UNSTAKE;
+  validatorAddress: string;
+  stakeId?: string;
+};
+
+type ClaimRewardsTransactionData = CommonTransactionData & {
   mode: TransactionMode.CLAIM_REWARDS;
   validatorAddress: string;
   compound?: boolean;
+  stakeId?: string;
+};
+
+// NOTE Specific to babylon + bitcoin at the moment,
+// no need to make it more generic until there's another use-case
+type WithdrawTransactionData = CommonTransactionData & {
+  mode: TransactionMode.WITHDRAW;
+  senderPubKey: string; // Not optional for withdraw transactions
+  validatorAddress: string;
+  stakeId: string;
+};
+
+// NOTE Very specific to babylon + bitcoin at the moment,
+// no need to make it more generic until there's another use-case (if ever)
+type RegisterStakeTransactionData = CommonTransactionData & {
+  mode: TransactionMode.REGISTER_STAKE;
+  amount: bigint; // Not optional for register transactions
+  senderPubKey: string; // Not optional for register transactions
+  proofOfPossession: string;
+  validatorPubKey: string;
+  unsignedUnbondingTransaction: string;
+  signedStakingTransaction: string;
+  signedSlashingTransaction: string;
+  signedUnbondingSlashingTransaction: string;
 };
 
 type TransactionData =
-  | TransferTransaction
-  | TransferTokenTransaction
-  | DelegateTransaction
-  | UndelegateTransaction
-  | RedelegateTransaction
-  | ClaimRewardsTransaction;
+  | DeployAccountTransactionData
+  | TransferTransactionData
+  | TransferTokenTransactionData
+  | StakeTransactionData
+  | UnstakeTransactionData
+  | ClaimRewardsTransactionData
+  | WithdrawTransactionData
+  | RegisterStakeTransactionData;
 
 type Transaction = {
   data: TransactionData;
@@ -419,7 +504,11 @@ type Status = {
 export {
   ChainFamily,
   ChainId,
+  Curve,
+  DeployContractType,
   EncodedTransactionFormat,
+  HashFunction,
+  SignatureFormat,
   StakingStatus,
   TokenType,
   TransactionMode,
@@ -438,6 +527,9 @@ export type {
   FeaturesSet,
   FinalizedTransaction,
   Paginated,
+  Provider,
+  RegisterStakeTransactionData,
+  SignerSpec,
   StakingPosition,
   StakingReward,
   Status,

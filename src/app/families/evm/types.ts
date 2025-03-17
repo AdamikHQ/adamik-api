@@ -6,6 +6,7 @@ type EvmChainParams =
     }
   | undefined; // undefined is for type safety, since the data will be coming from requests
 
-type EvmAddress = `0x${string}`;
+type HexString = `0x${string}`;
+type EvmAddress = HexString;
 
-export type { EvmChainParams, EvmAddress };
+export type { EvmChainParams, HexString, EvmAddress };

@@ -4,11 +4,10 @@ import { getSupportedChainIdsSchema } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 
 const supportedChainIds = Object.values(CHAINS)
-  .filter(
-    (chain) =>
-      chain.supportedFeatures.write.transaction.type.native ||
-      chain.supportedFeatures.write.transaction.type.tokens ||
-      chain.supportedFeatures.write.transaction.type.staking
+  .filter((chain) =>
+    // This checks whether any of the supported transaction types in
+    // chain.supportedFeatures.write.transaction.type.* are flagged as true
+    Object.entries(chain.supportedFeatures.write.transaction.type).some((value) => value[1] === true)
   )
   .map((chain) => chain.id);
 

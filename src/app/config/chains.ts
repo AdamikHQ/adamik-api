@@ -1,4 +1,5 @@
-import { Chain, ChainFamily, ChainId, TransactionMode } from "../model/types_WIP";
+import { BITCOIN_SIGNET_FEATURES } from "../families/bitcoin/features";
+import { Chain, ChainFamily, ChainId, ProviderType, TransactionMode } from "../model/types_WIP";
 import {
   ALGORAND_FEATURES,
   BITCOIN_FEATURES,
@@ -6,9 +7,11 @@ import {
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
   NATIVE_READ_WRITE_ONLY,
+  STARKNET_FEATURES,
   TON_FEATURES,
   TRON_FEATURES,
 } from "./features";
+import { getSignerSpecForChain } from "./signers";
 
 const CHAINS: { [key in ChainId]: Chain } = {
   algorand: {
@@ -18,11 +21,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Algorand",
     ticker: "ALGO",
     decimals: 6,
-    backends: {
-      nodeURL: "https://mainnet-api.algonode.cloud/v2",
-      explorerURL: "https://mainnet-idx.algonode.cloud/v2",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://mainnet-api.algonode.cloud/v2",
+      },
+      {
+        type: ProviderType.algoindexer,
+        url: "https://mainnet-idx.algonode.cloud/v2",
+      },
+    ],
     supportedFeatures: ALGORAND_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.ALGORAND, ChainFamily.ALGORAND),
   },
   cosmoshub: {
     family: ChainFamily.COSMOS,
@@ -31,10 +41,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "CosmosHub",
     ticker: "ATOM",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-cosmos.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-cosmos.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "cosmos",
       validatorPrefix: "cosmosvaloper",
@@ -44,6 +60,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.COSMOSHUB),
+    signerSpec: getSignerSpecForChain(ChainId.COSMOSHUB, ChainFamily.COSMOS),
   },
   "cosmoshub-testnet": {
     family: ChainFamily.COSMOS,
@@ -52,10 +69,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "CosmosHub Testnet",
     ticker: "ATOM",
     decimals: 6,
-    backends: {
-      nodeURL: "https://api-t.cosmos.nodestake.top",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://api-t.cosmos.nodestake.top",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     isTestnetFor: ChainId.COSMOSHUB,
     params: {
       prefix: "cosmos",
@@ -66,6 +89,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.COSMOSHUB_TESTNET),
+    signerSpec: getSignerSpecForChain(ChainId.COSMOSHUB_TESTNET, ChainFamily.COSMOS),
   },
   osmosis: {
     family: ChainFamily.COSMOS,
@@ -74,10 +98,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Osmosis",
     ticker: "OSMO",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-osmosis.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-osmosis.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "osmo",
       validatorPrefix: "osmovaloper",
@@ -87,6 +117,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.OSMOSIS),
+    signerSpec: getSignerSpecForChain(ChainId.OSMOSIS, ChainFamily.COSMOS),
   },
   "osmosis-testnet": {
     family: ChainFamily.COSMOS,
@@ -95,10 +126,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Osmosis Testnet",
     ticker: "OSMO",
     decimals: 6,
-    backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/osmosist/rest/REDACTED",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://g.w.lavanet.xyz/gateway/osmosist/rest/REDACTED",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     isTestnetFor: ChainId.OSMOSIS,
     params: {
       prefix: "osmo",
@@ -109,6 +146,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.OSMOSIS_TESTNET),
+    signerSpec: getSignerSpecForChain(ChainId.OSMOSIS_TESTNET, ChainFamily.COSMOS),
   },
   celestia: {
     family: ChainFamily.COSMOS,
@@ -117,10 +155,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Celestia",
     ticker: "TIA",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-celestia.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-celestia.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "celestia",
       validatorPrefix: "celestiavaloper",
@@ -130,6 +174,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.02,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.CELESTIA),
+    signerSpec: getSignerSpecForChain(ChainId.CELESTIA, ChainFamily.COSMOS),
   },
   "celestia-testnet": {
     family: ChainFamily.COSMOS,
@@ -138,10 +183,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Celestia Testnet",
     ticker: "TIA",
     decimals: 6,
-    backends: {
-      nodeURL: "https://g.w.lavanet.xyz:443/gateway/celestiatm/rest/REDACTED",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://g.w.lavanet.xyz/gateway/celestiatm/rest/REDACTED",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     isTestnetFor: ChainId.CELESTIA,
     params: {
       prefix: "celestia",
@@ -152,6 +203,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.02,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.CELESTIA_TESTNET),
+    signerSpec: getSignerSpecForChain(ChainId.CELESTIA_TESTNET, ChainFamily.COSMOS),
   },
   dydx: {
     family: ChainFamily.COSMOS,
@@ -160,14 +212,20 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "dYdX Protocol",
     ticker: "DYDX",
     decimals: 18,
-    backends: {
-      // (configs can be checked with [nodeURL]/cosmos/base/node/v1beta1/config )
-      nodeURL: "https://lcd-dydx.imperator.co", // Used to only accepts fees in IBC token USDC, but seems fixed now...
-      //nodeURL: "https://dydx-rest.publicnode.com", // Works but public node with no guarantee of performance
-      //nodeURL: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live, but we've been blacklisted...
-      //nodeURL: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands twice the standard minimum gas fees, for some reason
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        // (configs can be checked with [nodeURL]/cosmos/base/node/v1beta1/config )
+        type: ProviderType.node,
+        url: "https://lcd-dydx.imperator.co", // Used to only accepts fees in IBC token USDC, but seems fixed now...
+        //url: "https://dydx-rest.publicnode.com", // Works but public node with no guarantee of performance
+        //url: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live, but we've been blacklisted...
+        //url: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands twice the standard minimum gas fees, for some reason
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "dydx",
       validatorPrefix: "dydxvaloper",
@@ -177,6 +235,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 12500000000,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.DYDX),
+    signerSpec: getSignerSpecForChain(ChainId.DYDX, ChainFamily.COSMOS),
   },
   axelar: {
     family: ChainFamily.COSMOS,
@@ -185,10 +244,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Axelar",
     ticker: "AXL",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-axelar.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-axelar.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "axelar",
       validatorPrefix: "axelarvaloper",
@@ -198,6 +263,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.007,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.AXELAR),
+    signerSpec: getSignerSpecForChain(ChainId.AXELAR, ChainFamily.COSMOS),
   },
   ethereum: {
     family: ChainFamily.EVM,
@@ -206,13 +272,22 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Ethereum",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://ethereum-rpc.publicnode.com",
-      nodeURL: "https://site1.moralis-nodes.com/eth/REDACTED",
-      //explorerURL: "https://api.etherscan.io/api",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/eth/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+      {
+        type: ProviderType.alchemy,
+        url: "https://eth-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.ETHEREUM),
+    signerSpec: getSignerSpecForChain(ChainId.ETHEREUM, ChainFamily.EVM),
   },
   sepolia: {
     family: ChainFamily.EVM,
@@ -221,14 +296,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Sepolia",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://ethereum-sepolia-rpc.publicnode.com",
-      nodeURL: "https://site1.moralis-nodes.com/sepolia/REDACTED",
-      //explorerURL: "https://api-sepolia.etherscan.io/api",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
     isTestnetFor: ChainId.ETHEREUM,
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/sepolia/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.SEPOLIA),
+    signerSpec: getSignerSpecForChain(ChainId.SEPOLIA, ChainFamily.EVM),
   },
   holesky: {
     family: ChainFamily.EVM,
@@ -237,29 +317,39 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Holesky",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://ethereum-holesky-rpc.publicnode.com",
-      nodeURL: "https://site1.moralis-nodes.com/holesky/REDACTED",
-      //explorerURL: "https://api-holesky.etherscan.io/api",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
     isTestnetFor: ChainId.ETHEREUM,
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/holesky/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.HOLESKY),
+    signerSpec: getSignerSpecForChain(ChainId.HOLESKY, ChainFamily.EVM),
   },
   zksync: {
     family: ChainFamily.EVM,
     id: ChainId.ZKSYNC,
     nativeId: "324",
-    name: "ZkSync",
+    name: "zkSync",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://zksync-mainnet.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-      nodeURL: "https://site1.moralis-nodes.com/zksync/REDACTED",
-      //explorerURL: "https://zksync.blockscout.com/api",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/zksync/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.ZKSYNC),
+    signerSpec: getSignerSpecForChain(ChainId.ZKSYNC, ChainFamily.EVM),
   },
   "zksync-sepolia": {
     family: ChainFamily.EVM,
@@ -268,14 +358,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "ZkSync Testnet",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://zksync-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-      nodeURL: "https://site1.moralis-nodes.com/zksync-sepolia/REDACTED",
-      //explorerURL: "https://zksync.blockscout.com/api",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/zksync-sepolia/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.ZKSYNC,
     supportedFeatures: EVM_FEATURES(ChainId.ZKSYNC_SEPOLIA),
+    signerSpec: getSignerSpecForChain(ChainId.ZKSYNC_SEPOLIA, ChainFamily.EVM),
   },
   "injective-evm-testnet": {
     family: ChainFamily.EVM,
@@ -284,12 +379,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Injective Evm Testnet",
     ticker: "INJ",
     decimals: 18,
-    backends: {
-      nodeURL: "https://testnet.rpc.inevm.com/http",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://testnet.rpc.inevm.com/http",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: "injective-evm", // TODO Support the mainnet
     supportedFeatures: EVM_FEATURES(ChainId.INJECTIVE_EVM_TESTNET),
+    signerSpec: getSignerSpecForChain(ChainId.INJECTIVE_EVM_TESTNET, ChainFamily.EVM),
   },
   base: {
     family: ChainFamily.EVM,
@@ -298,16 +400,21 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Base",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://base-mainnet.g.alchemy.com/v2/rOq_ClcjzdlIKQh-h6sMTBW9MhVBf94Z",
-      nodeURL: "https://site1.moralis-nodes.com/base/REDACTED",
-      //explorerURL: "https://api.basescan.org/api",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/base/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     params: {
       isL2Fees: true,
     },
     supportedFeatures: EVM_FEATURES(ChainId.BASE),
+    signerSpec: getSignerSpecForChain(ChainId.BASE, ChainFamily.EVM),
   },
   "base-sepolia": {
     family: ChainFamily.EVM,
@@ -316,17 +423,22 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Base Sepolia",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://sepolia.base.org",
-      nodeURL: "https://site1.moralis-nodes.com/base-sepolia/REDACTED",
-      //explorerURL: "https://api.basescan.org/api",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/base-sepolia/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.BASE,
     params: {
       isL2Fees: true,
     },
     supportedFeatures: EVM_FEATURES(ChainId.BASE_SEPOLIA),
+    signerSpec: getSignerSpecForChain(ChainId.BASE_SEPOLIA, ChainFamily.EVM),
   },
   optimism: {
     family: ChainFamily.EVM,
@@ -335,16 +447,21 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Optimism",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://opt-mainnet.g.alchemy.com/v2/pDuVOEX6OCaN6lq_xILoecc3lcFXuyTz",
-      nodeURL: "https://site1.moralis-nodes.com/optimism/REDACTED",
-      //explorerURL: "https://api-optimistic.etherscan.io/api",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/optimism/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     params: {
       isL2Fees: true,
     },
     supportedFeatures: EVM_FEATURES(ChainId.OPTIMISM),
+    signerSpec: getSignerSpecForChain(ChainId.OPTIMISM, ChainFamily.EVM),
   },
   "optimism-sepolia": {
     family: ChainFamily.EVM,
@@ -353,17 +470,22 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Optimism Sepolia",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://opt-sepolia.g.alchemy.com/v2/6dtfsgvoSwhyPVqp0_nvAWJ40CbiOqQ8",
-      nodeURL: "https://site1.moralis-nodes.com/optimism-sepolia/REDACTED",
-      //explorerURL: "https://api-sepolia-optimistic.etherscan.io/api",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/optimism-sepolia/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.OPTIMISM,
     params: {
       isL2Fees: true,
     },
     supportedFeatures: EVM_FEATURES(ChainId.OPTIMISM_SEPOLIA),
+    signerSpec: getSignerSpecForChain(ChainId.OPTIMISM_SEPOLIA, ChainFamily.EVM),
   },
   arbitrum: {
     family: ChainFamily.EVM,
@@ -372,13 +494,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Arbitrum One",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://arbitrum-one.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-      nodeURL: "https://site1.moralis-nodes.com/arbitrum/REDACTED",
-      //explorerURL: "https://api.arbiscan.io/api",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/arbitrum/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.ARBITRUM),
+    signerSpec: getSignerSpecForChain(ChainId.ARBITRUM, ChainFamily.EVM),
   },
   "arbitrum-sepolia": {
     family: ChainFamily.EVM,
@@ -387,14 +514,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Arbitrum Sepolia",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://arbitrum-sepolia.blastapi.io/c4df2f44-6c3f-46b7-8872-733d6e1fc3fa",
-      nodeURL: "https://site1.moralis-nodes.com/arbitrum-sepolia/REDACTED",
-      //explorerURL: "https://api-sepolia.arbiscan.io/api",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/arbitrum-sepolia/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.ARBITRUM,
     supportedFeatures: EVM_FEATURES(ChainId.ARBITRUM_SEPOLIA),
+    signerSpec: getSignerSpecForChain(ChainId.ARBITRUM_SEPOLIA, ChainFamily.EVM),
   },
   [ChainId.BITCOIN]: {
     id: ChainId.BITCOIN,
@@ -402,46 +534,58 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.BITCOIN,
     ticker: "BTC",
     decimals: 8,
-    backends: {
-      nodeURL: "",
-      explorerURL: "https://api.blockchair.com/bitcoin",
-    },
+    providers: [
+      {
+        type: ProviderType.blockchair,
+        url: "https://api.blockchair.com/bitcoin",
+      },
+    ],
     params: {
       confirmations: 6,
     },
     nativeId: "bitcoin",
     supportedFeatures: BITCOIN_FEATURES,
-  },
-  "monad-private-testnet": {
-    id: ChainId.MONAD_PRIVATE_TESTNET,
-    name: "Monad Private Testnet",
-    family: ChainFamily.EVM,
-    nativeId: "10143",
-    ticker: "MON",
-    decimals: 18,
-    backends: {
-      nodeURL: "https://rpc.monad-testnet.category.xyz/rpc/gw3K5ihInuOcijq3jnRO7JKyo7LmOltg6NZTfL7R",
-      //explorerURL: "https://monad.xyz",
-    },
-    supportedFeatures: EVM_FEATURES(ChainId.MONAD_PRIVATE_TESTNET),
-    isTestnetFor: "monad",
+    signerSpec: getSignerSpecForChain(ChainId.BITCOIN, ChainFamily.BITCOIN),
   },
   [ChainId.BITCOIN_TESTNET]: {
     id: ChainId.BITCOIN_TESTNET,
+    nativeId: "bitcoin-testnet",
     name: "Bitcoin Testnet",
     family: ChainFamily.BITCOIN,
     ticker: "BTC",
     decimals: 8,
-    backends: {
-      nodeURL: "",
-      explorerURL: "https://api.blockchair.com/bitcoin/testnet",
-    },
+    providers: [
+      {
+        type: ProviderType.blockchair,
+        url: "https://api.blockchair.com/bitcoin/testnet",
+      },
+    ],
     isTestnetFor: ChainId.BITCOIN,
     params: {
       confirmations: 6,
     },
-    nativeId: "bitcoin-testnet",
     supportedFeatures: BITCOIN_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.BITCOIN_TESTNET, ChainFamily.BITCOIN),
+  },
+  "bitcoin-signet": {
+    id: ChainId.BITCOIN_SIGNET,
+    nativeId: "bitcoin-signet",
+    name: "Bitcoin Signet",
+    family: ChainFamily.BITCOIN,
+    ticker: "sBTC",
+    decimals: 8,
+    providers: [
+      {
+        type: ProviderType.mempoolspace,
+        url: "https://mempool.space/signet/api",
+      },
+    ],
+    isTestnetFor: ChainId.BITCOIN,
+    params: {
+      confirmations: 6,
+    },
+    supportedFeatures: BITCOIN_SIGNET_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.BITCOIN_SIGNET, ChainFamily.BITCOIN),
   },
   polygon: {
     family: ChainFamily.EVM,
@@ -450,11 +594,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Polygon",
     ticker: "POL",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/polygon/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/polygon/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.POLYGON),
+    signerSpec: getSignerSpecForChain(ChainId.POLYGON, ChainFamily.EVM),
   },
   "polygon-amoy": {
     family: ChainFamily.EVM,
@@ -463,12 +614,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Polygon Amoy",
     ticker: "MATIC",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/amoy/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/amoy/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.POLYGON,
     supportedFeatures: EVM_FEATURES(ChainId.POLYGON_AMOY),
+    signerSpec: getSignerSpecForChain(ChainId.POLYGON_AMOY, ChainFamily.EVM),
   },
   bsc: {
     family: ChainFamily.EVM,
@@ -477,11 +635,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Binance Smart Chain",
     ticker: "BNB",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/bsc/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/bsc/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.BSC),
+    signerSpec: getSignerSpecForChain(ChainId.BSC, ChainFamily.EVM),
   },
   "bsc-testnet": {
     family: ChainFamily.EVM,
@@ -490,12 +655,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Binance Smart Chain Testnet",
     ticker: "BNB",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/bsc-testnet/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/bsc-testnet/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.BSC,
     supportedFeatures: EVM_FEATURES(ChainId.BSC_TESTNET),
+    signerSpec: getSignerSpecForChain(ChainId.BSC_TESTNET, ChainFamily.EVM),
   },
   linea: {
     family: ChainFamily.EVM,
@@ -504,11 +676,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Linea",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/linea/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/linea/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.LINEA),
+    signerSpec: getSignerSpecForChain(ChainId.LINEA, ChainFamily.EVM),
   },
   "linea-sepolia": {
     family: ChainFamily.EVM,
@@ -517,12 +696,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Linea Sepolia",
     ticker: "ETH",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/linea-sepolia/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/linea-sepolia/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.LINEA,
     supportedFeatures: EVM_FEATURES(ChainId.LINEA_SEPOLIA),
+    signerSpec: getSignerSpecForChain(ChainId.LINEA_SEPOLIA, ChainFamily.EVM),
   },
   avalanche: {
     family: ChainFamily.EVM,
@@ -531,11 +717,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Avalanche",
     ticker: "AVAX",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/avalanche/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/avalanche/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.AVALANCHE),
+    signerSpec: getSignerSpecForChain(ChainId.AVALANCHE, ChainFamily.EVM),
   },
   "avalanche-fuji": {
     family: ChainFamily.EVM,
@@ -544,12 +737,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Avalanche Fuji Testnet",
     ticker: "AVAX",
     decimals: 18,
-    backends: {
-      nodeURL: "https://avalanche-fuji-c-chain-rpc.publicnode.com",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://avalanche-fuji-c-chain-rpc.publicnode.com",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.AVALANCHE,
     supportedFeatures: EVM_FEATURES(ChainId.AVALANCHE_FUJI),
+    signerSpec: getSignerSpecForChain(ChainId.AVALANCHE_FUJI, ChainFamily.EVM),
   },
   gnosis: {
     family: ChainFamily.EVM,
@@ -558,11 +758,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Gnosis",
     ticker: "xDAI",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/gnosis/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/gnosis/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.GNOSIS),
+    signerSpec: getSignerSpecForChain(ChainId.GNOSIS, ChainFamily.EVM),
   },
   "gnosis-chiado": {
     family: ChainFamily.EVM,
@@ -571,12 +778,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Gnosis Chiado",
     ticker: "xDAI",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/gnosis-testnet/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/gnosis-testnet/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.GNOSIS,
     supportedFeatures: EVM_FEATURES(ChainId.GNOSIS_CHIADO),
+    signerSpec: getSignerSpecForChain(ChainId.GNOSIS_CHIADO, ChainFamily.EVM),
   },
   moonbeam: {
     family: ChainFamily.EVM,
@@ -585,11 +799,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Moonbeam",
     ticker: "GLMR",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/moonbeam/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/moonbeam/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.MOONBEAM),
+    signerSpec: getSignerSpecForChain(ChainId.MOONBEAM, ChainFamily.EVM),
   },
   moonriver: {
     family: ChainFamily.EVM,
@@ -598,11 +819,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Moonriver",
     ticker: "MOVR",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/moonriver/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/moonriver/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.MOONRIVER),
+    signerSpec: getSignerSpecForChain(ChainId.MOONRIVER, ChainFamily.EVM),
   },
   moonbase: {
     family: ChainFamily.EVM,
@@ -611,12 +839,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Moonbase",
     ticker: "DEV",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/moonbase/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/moonbase/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.MOONBEAM,
     supportedFeatures: EVM_FEATURES(ChainId.MOONBASE),
+    signerSpec: getSignerSpecForChain(ChainId.MOONBASE, ChainFamily.EVM),
   },
   fantom: {
     family: ChainFamily.EVM,
@@ -625,11 +860,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Fantom",
     ticker: "FTM",
     decimals: 18,
-    backends: {
-      nodeURL: "https://rpcapi.fantom.network",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://rpcapi.fantom.network",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.FANTOM),
+    signerSpec: getSignerSpecForChain(ChainId.FANTOM, ChainFamily.EVM),
   },
   mantle: {
     family: ChainFamily.EVM,
@@ -638,11 +880,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Mantle Network",
     ticker: "MNT",
     decimals: 18,
-    backends: {
-      nodeURL: "https://site1.moralis-nodes.com/mantle/REDACTED",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://site1.moralis-nodes.com/mantle/REDACTED",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: NATIVE_READ_WRITE_ONLY,
+    signerSpec: getSignerSpecForChain(ChainId.MANTLE, ChainFamily.EVM),
   },
   rootstock: {
     family: ChainFamily.EVM,
@@ -651,11 +900,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "RootStock",
     ticker: "RBTC",
     decimals: 18,
-    backends: {
-      nodeURL: "https://public-node.rsk.co",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://public-node.rsk.co",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_ROOTSTOCK_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.ROOTSTOCK, ChainFamily.EVM),
   },
   "rootstock-testnet": {
     family: ChainFamily.EVM,
@@ -664,12 +920,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "RootStock Testnet",
     ticker: "tRBTC",
     decimals: 18,
-    backends: {
-      nodeURL: "https://public-node.testnet.rsk.co",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://public-node.testnet.rsk.co",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.ROOTSTOCK,
     supportedFeatures: EVM_ROOTSTOCK_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.ROOTSTOCK_TESTNET, ChainFamily.EVM),
   },
   [ChainId.LITECOIN]: {
     id: ChainId.LITECOIN,
@@ -677,15 +940,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.BITCOIN,
     ticker: "LTC",
     decimals: 8,
-    backends: {
-      nodeURL: "",
-      explorerURL: "https://api.blockchair.com/litecoin",
-    },
+    providers: [
+      {
+        type: ProviderType.blockchair,
+        url: "https://api.blockchair.com/litecoin",
+      },
+    ],
     params: {
       confirmations: 6,
     },
     nativeId: "litecoin",
     supportedFeatures: BITCOIN_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.LITECOIN, ChainFamily.BITCOIN),
   },
   [ChainId.DOGECOIN]: {
     id: ChainId.DOGECOIN,
@@ -693,15 +959,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     family: ChainFamily.BITCOIN,
     ticker: "DOGE",
     decimals: 8,
-    backends: {
-      nodeURL: "",
-      explorerURL: "https://api.blockchair.com/dogecoin",
-    },
+    providers: [
+      {
+        type: ProviderType.blockchair,
+        url: "https://api.blockchair.com/dogecoin",
+      },
+    ],
     params: {
       confirmations: 60, // confirmations used by Coinbase or Binance
     },
     nativeId: "dogecoin",
     supportedFeatures: BITCOIN_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.DOGECOIN, ChainFamily.BITCOIN),
   },
   ton: {
     family: ChainFamily.TON,
@@ -710,11 +979,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "TON",
     ticker: "TON",
     decimals: 9,
-    backends: {
-      nodeURL: "https://toncenter.com/api/",
-      explorerURL: "https://tonapi.io",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://toncenter.com/api/",
+      },
+      {
+        type: ProviderType.tonapi,
+        url: "https://tonapi.io",
+      },
+    ],
     supportedFeatures: TON_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.TON, ChainFamily.TON),
   },
   chiliz: {
     family: ChainFamily.EVM,
@@ -723,11 +999,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Chiliz Chain",
     ticker: "CHZ",
     decimals: 18,
-    backends: {
-      nodeURL: "https://chiliz-rpc.publicnode.com",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://chiliz-rpc.publicnode.com",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     supportedFeatures: EVM_FEATURES(ChainId.CHILIZ),
+    signerSpec: getSignerSpecForChain(ChainId.CHILIZ, ChainFamily.EVM),
   },
   "chiliz-testnet": {
     family: ChainFamily.EVM,
@@ -736,12 +1019,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Chiliz Spicy Testnet",
     ticker: "CHZ",
     decimals: 18,
-    backends: {
-      nodeURL: "https://chiliz-spicy.publicnode.com",
-      explorerURL: "https://deep-index.moralis.io/api",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://chiliz-spicy.publicnode.com",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
     isTestnetFor: ChainId.CHILIZ,
     supportedFeatures: EVM_FEATURES(ChainId.CHILIZ_TESTNET),
+    signerSpec: getSignerSpecForChain(ChainId.CHILIZ_TESTNET, ChainFamily.EVM),
   },
   //Injective Cosmos based version
   injective: {
@@ -751,11 +1041,17 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Injective",
     ticker: "INJ",
     decimals: 18,
-    backends: {
-      //nodeURL: "https://apis.mintscan.io/injective/lcd", // Error when computing tx fees
-      nodeURL: "https://lcd-injective.imperator.co", // FIXME Frequent HTTP 502 errors!
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        //url: "https://apis.mintscan.io/injective/lcd", // Error when computing tx fees
+        url: "https://lcd-injective.imperator.co", // FIXME Frequent HTTP 502 errors!
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "inj",
       validatorPrefix: "injvaloper",
@@ -766,6 +1062,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 700000000,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.INJECTIVE),
+    signerSpec: getSignerSpecForChain(ChainId.INJECTIVE, ChainFamily.COSMOS),
   },
   akash: {
     family: ChainFamily.COSMOS,
@@ -774,10 +1071,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Akash",
     ticker: "AKT",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-akash.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-akash.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "akash",
       validatorPrefix: "akashvaloper",
@@ -788,6 +1091,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.AKASH),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/akash/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.AKASH, ChainFamily.COSMOS),
   },
 
   band: {
@@ -797,10 +1101,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Band Protocol",
     ticker: "BAND",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-band.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-band.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "band",
       validatorPrefix: "bandvaloper",
@@ -811,6 +1121,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.BAND),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/bandchain/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.BAND, ChainFamily.COSMOS),
   },
 
   //Dymension seems to be EVM based in its transaction handling
@@ -821,10 +1132,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Dymension",
     ticker: "DYM",
     decimals: 18,
-    backends: {
-      nodeURL: "https://lcd-dymension.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-dymension.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "dym",
       validatorPrefix: "dymvaloper",
@@ -835,6 +1152,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.DYMENSION),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/dymension/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.DYMENSION, ChainFamily.COSMOS),
   },
 
   kyve: {
@@ -844,10 +1162,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "KYVE",
     ticker: "KYVE",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-kyve.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-kyve.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "kyve",
       validatorPrefix: "kyvevaloper",
@@ -858,6 +1182,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.KYVE),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kyve/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.KYVE, ChainFamily.COSMOS),
   },
 
   neutron: {
@@ -867,10 +1192,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Neutron",
     ticker: "NTRN",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-neutron.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-neutron.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "neutron",
       validatorPrefix: "neutronvaloper",
@@ -882,6 +1213,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.NEUTRON),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/neutron/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.NEUTRON, ChainFamily.COSMOS),
   },
 
   //Terra 2 is the rebirthed version of Terra
@@ -892,10 +1224,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Terra",
     ticker: "LUNA",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-terra.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-terra.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "terra",
       validatorPrefix: "terravaloper",
@@ -906,6 +1244,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.TERRA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/terra2/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.TERRA, ChainFamily.COSMOS),
   },
 
   stargaze: {
@@ -915,11 +1254,17 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Stargaze",
     ticker: "STARS",
     decimals: 6,
-    backends: {
-      nodeURL: "https://stargaze-api.polkachu.com/",
-      //nodeURL: "https://lcd-stargaze.imperator.co", // Randomly long response times, up to 60s and more...
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://stargaze-api.polkachu.com/",
+        //url: "https://lcd-stargaze.imperator.co", // Randomly long response times, up to 60s and more...
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "stars",
       validatorPrefix: "starsvaloper",
@@ -931,8 +1276,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.STARGAZE),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/stargaze/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.STARGAZE, ChainFamily.COSMOS),
   },
-
   tron: {
     family: ChainFamily.TRON,
     id: ChainId.TRON,
@@ -940,13 +1285,23 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Tron",
     ticker: "TRX",
     decimals: 6,
-    backends: {
-      nodeURL: "https://api.trongrid.io",
-      explorerURL: "https://apilist.tronscanapi.com",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://api.trongrid.io",
+      },
+      {
+        type: ProviderType.tronscan,
+        url: "https://apilist.tronscanapi.com",
+      },
+      {
+        type: ProviderType.oklink,
+        url: "https://www.oklink.com/api/v5/explorer",
+      },
+    ],
     supportedFeatures: TRON_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.TRON, ChainFamily.TRON),
   },
-
   evmos: {
     family: ChainFamily.COSMOS,
     id: ChainId.EVMOS,
@@ -954,10 +1309,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Evmos",
     ticker: "EVMOS",
     decimals: 18,
-    backends: {
-      nodeURL: "https://lcd-evmos.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-evmos.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "evmos",
       validatorPrefix: "evmosvaloper",
@@ -968,6 +1329,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 25000000000,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.EVMOS),
+    signerSpec: getSignerSpecForChain(ChainId.EVMOS, ChainFamily.COSMOS),
   },
 
   irisnet: {
@@ -977,10 +1339,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "IRISnet",
     ticker: "IRIS",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-iris.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-iris.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "iaa",
       validatorPrefix: "iva",
@@ -990,6 +1358,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.3,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.IRISNET),
+    signerSpec: getSignerSpecForChain(ChainId.IRISNET, ChainFamily.COSMOS),
   },
 
   juno: {
@@ -999,10 +1368,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Juno",
     ticker: "JUNO",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-juno.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-juno.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "juno",
       validatorPrefix: "junovaloper",
@@ -1012,6 +1387,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.1,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.JUNO),
+    signerSpec: getSignerSpecForChain(ChainId.JUNO, ChainFamily.COSMOS),
   },
 
   "lum-network": {
@@ -1021,10 +1397,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Lum Network",
     ticker: "LUM",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-lum.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-lum.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "lum",
       validatorPrefix: "lumvaloper",
@@ -1034,6 +1416,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.LUM_NETWORK),
+    signerSpec: getSignerSpecForChain(ChainId.LUM_NETWORK, ChainFamily.COSMOS),
   },
 
   omniflix: {
@@ -1043,10 +1426,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "OmniFlix",
     ticker: "FLIX",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-omniflix.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-omniflix.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "omniflix",
       validatorPrefix: "omniflixvaloper",
@@ -1056,6 +1445,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.0025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.OMNIFLIX),
+    signerSpec: getSignerSpecForChain(ChainId.OMNIFLIX, ChainFamily.COSMOS),
   },
 
   sei: {
@@ -1065,10 +1455,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Sei",
     ticker: "SEI",
     decimals: 6,
-    backends: {
-      nodeURL: "https://sei-api.polkachu.com/",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://sei-api.polkachu.com/",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "sei",
       validatorPrefix: "seivaloper",
@@ -1078,6 +1474,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.02,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.SEI),
+    signerSpec: getSignerSpecForChain(ChainId.SEI, ChainFamily.COSMOS),
   },
 
   medibloc: {
@@ -1087,10 +1484,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "MediBloc",
     ticker: "MED",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-medibloc.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-medibloc.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "panacea",
       validatorPrefix: "panaceavaloper",
@@ -1100,6 +1503,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 7,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.MEDIBLOC),
+    signerSpec: getSignerSpecForChain(ChainId.MEDIBLOC, ChainFamily.COSMOS),
   },
 
   passage: {
@@ -1109,10 +1513,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Passage",
     ticker: "PASG",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-passage.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-passage.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "pasg",
       validatorPrefix: "pasgvaloper",
@@ -1122,6 +1532,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.0025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.PASSAGE),
+    signerSpec: getSignerSpecForChain(ChainId.PASSAGE, ChainFamily.COSMOS),
   },
 
   quasar: {
@@ -1131,10 +1542,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Quasar",
     ticker: "QSR",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-quasar.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-quasar.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "quasar",
       validatorPrefix: "quasarvaloper",
@@ -1145,6 +1562,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.QUASAR),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/quasar/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.QUASAR, ChainFamily.COSMOS),
   },
 
   seda: {
@@ -1154,10 +1572,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Seda",
     ticker: "SEDA",
     decimals: 18,
-    backends: {
-      nodeURL: "https://seda-api.polkachu.com/",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://seda-api.polkachu.com/",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "seda",
       validatorPrefix: "sedavaloper",
@@ -1168,6 +1592,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.SEDA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/seda/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.SEDA, ChainFamily.COSMOS),
   },
 
   sommelier: {
@@ -1177,10 +1602,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Sommelier",
     ticker: "SOMM",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-sommelier.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-sommelier.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "somm",
       validatorPrefix: "sommvaloper",
@@ -1191,6 +1622,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.SOMMELIER),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/sommelier/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.SOMMELIER, ChainFamily.COSMOS),
   },
 
   shentu: {
@@ -1200,10 +1632,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Shentu",
     ticker: "CTK",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-shentu.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-shentu.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "shentu",
       validatorPrefix: "shentuvaloper",
@@ -1214,6 +1652,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.SHENTU),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/shentu/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.SHENTU, ChainFamily.COSMOS),
   },
 
   stride: {
@@ -1223,10 +1662,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Stride",
     ticker: "STRD",
     decimals: 6,
-    backends: {
-      nodeURL: "https://lcd-stride.imperator.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://lcd-stride.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "stride",
       validatorPrefix: "stridevaloper",
@@ -1236,6 +1681,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.005,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.STRIDE),
+    signerSpec: getSignerSpecForChain(ChainId.STRIDE, ChainFamily.COSMOS),
   },
 
   chihuahua: {
@@ -1245,10 +1691,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Chihuahua",
     ticker: "HUAHUA",
     decimals: 6,
-    backends: {
-      nodeURL: "https://chihuahua-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://chihuahua-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "chihuahua",
       validatorPrefix: "chihuahuavaloper",
@@ -1259,6 +1711,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.CHIHUAHUA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/chihuahua/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.CHIHUAHUA, ChainFamily.COSMOS),
   },
   bitsong: {
     family: ChainFamily.COSMOS,
@@ -1267,10 +1720,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Bitsong",
     ticker: "BTSG",
     decimals: 6,
-    backends: {
-      nodeURL: "https://bitsong-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://bitsong-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "bitsong",
       validatorPrefix: "bitsongvaloper",
@@ -1281,6 +1740,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.BITSONG),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/bitsong/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.BITSONG, ChainFamily.COSMOS),
   },
   persistence: {
     family: ChainFamily.COSMOS,
@@ -1289,10 +1749,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Persistence",
     ticker: "XPRT",
     decimals: 6,
-    backends: {
-      nodeURL: "https://persistence-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://persistence-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "persistence",
       validatorPrefix: "persistencevaloper",
@@ -1303,6 +1769,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.PERSISTENCE),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/persistence/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.PERSISTENCE, ChainFamily.COSMOS),
   },
   comdex: {
     family: ChainFamily.COSMOS,
@@ -1311,10 +1778,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Comdex",
     ticker: "CMDX",
     decimals: 6,
-    backends: {
-      nodeURL: "https://comdex-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://comdex-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "comdex",
       validatorPrefix: "comdexvaloper",
@@ -1325,6 +1798,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.COMDEX),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/comdex/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.COMDEX, ChainFamily.COSMOS),
   },
   "fetch-ai": {
     family: ChainFamily.COSMOS,
@@ -1333,10 +1807,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Fetch.ai",
     ticker: "FET",
     decimals: 18,
-    backends: {
-      nodeURL: "https://fetch-api.polkachu.com/",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://fetch-api.polkachu.com/",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "fetch",
       validatorPrefix: "fetchvaloper",
@@ -1347,6 +1827,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.FETCH_AI),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/fetchhub/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.FETCH_AI, ChainFamily.COSMOS),
   },
   "humans-ai": {
     family: ChainFamily.COSMOS,
@@ -1355,10 +1836,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Humans.ai",
     ticker: "HEART",
     decimals: 6,
-    backends: {
-      nodeURL: "https://humans-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://humans-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "human",
       validatorPrefix: "humanvaloper",
@@ -1369,6 +1856,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.HUMANS_AI),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/humans/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.HUMANS_AI, ChainFamily.COSMOS),
   },
   ki: {
     family: ChainFamily.COSMOS,
@@ -1377,10 +1865,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Ki Chain",
     ticker: "XKI",
     decimals: 6,
-    backends: {
-      nodeURL: "https://ki-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://ki-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "ki",
       validatorPrefix: "kivaloper",
@@ -1391,6 +1885,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.KI),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kichain/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.KI, ChainFamily.COSMOS),
   },
   likecoin: {
     family: ChainFamily.COSMOS,
@@ -1399,11 +1894,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "LikeCoin",
     ticker: "LIKE",
     decimals: 9,
-    backends: {
-      //Need to check if a better node URL is available
-      nodeURL: "https://mainnet-node.like.co",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://mainnet-node.like.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "like",
       validatorPrefix: "likevaloper",
@@ -1414,6 +1914,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.LIKECOIN),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/likecoin/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.LIKECOIN, ChainFamily.COSMOS),
   },
   "mars-hub": {
     family: ChainFamily.COSMOS,
@@ -1422,10 +1923,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Mars Hub",
     ticker: "MARS",
     decimals: 6,
-    backends: {
-      nodeURL: "https://mars-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://mars-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "mars",
       validatorPrefix: "marsvaloper",
@@ -1436,6 +1943,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.MARS_HUB),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/mars/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.MARS_HUB, ChainFamily.COSMOS),
   },
   provenance: {
     family: ChainFamily.COSMOS,
@@ -1444,10 +1952,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Provenance",
     ticker: "HASH",
     decimals: 9,
-    backends: {
-      nodeURL: "https://provenance-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://provenance-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "pb",
       validatorPrefix: "pbvaloper",
@@ -1458,6 +1972,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.PROVENANCE),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/provenance/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.PROVENANCE, ChainFamily.COSMOS),
   },
   quicksilver: {
     family: ChainFamily.COSMOS,
@@ -1466,10 +1981,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Quicksilver",
     ticker: "QCK",
     decimals: 6,
-    backends: {
-      nodeURL: "https://quicksilver-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://quicksilver-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "quick",
       validatorPrefix: "quickvaloper",
@@ -1480,6 +2001,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.QUICKSILVER),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/quicksilver/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.QUICKSILVER, ChainFamily.COSMOS),
   },
   saga: {
     family: ChainFamily.COSMOS,
@@ -1488,10 +2010,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Saga",
     ticker: "SAGA",
     decimals: 6,
-    backends: {
-      nodeURL: "https://saga-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://saga-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "saga",
       validatorPrefix: "sagavaloper",
@@ -1502,6 +2030,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.SAGA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/saga/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.SAGA, ChainFamily.COSMOS),
   },
   "ux-chain": {
     family: ChainFamily.COSMOS,
@@ -1510,10 +2039,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "UX Chain",
     ticker: "UX",
     decimals: 6,
-    backends: {
-      nodeURL: "https://ux-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://ux-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "ux",
       validatorPrefix: "uxvaloper",
@@ -1524,6 +2059,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.UX_CHAIN),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/ux/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.UX_CHAIN, ChainFamily.COSMOS),
   },
   kava: {
     family: ChainFamily.COSMOS,
@@ -1532,10 +2068,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Kava",
     ticker: "KAVA",
     decimals: 6,
-    backends: {
-      nodeURL: "https://kava-api.polkachu.com",
-      explorerURL: "https://apis.mintscan.io/v1",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://kava-api.polkachu.com",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+    ],
     params: {
       prefix: "kava",
       validatorPrefix: "kavavaloper",
@@ -1546,25 +2088,185 @@ const CHAINS: { [key in ChainId]: Chain } = {
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.KAVA),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/kava/chain.json
+    signerSpec: getSignerSpecForChain(ChainId.KAVA, ChainFamily.COSMOS),
+  },
+  starknet: {
+    family: ChainFamily.STARKNET,
+    id: ChainId.STARKNET,
+    nativeId: "starknet",
+    name: "Starknet",
+    ticker: "STRK",
+    decimals: 18,
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://starknet-mainnet.public.blastapi.io/rpc/v0_7", //FIXME: Find a better node
+      },
+      {
+        type: ProviderType.starkscan,
+        url: "https://api.starkscan.co",
+      },
+    ],
+    supportedFeatures: STARKNET_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.STARKNET, ChainFamily.STARKNET),
+  },
+  // TODO Test this (later)
+  /*
+  babylon: {
+    family: ChainFamily.COSMOS,
+    id: ChainId.BABYLON,
+    nativeId: "bbn-1",
+    name: "Babylon",
+    ticker: "BABY",
+    decimals: 6,
+    backends: {
+      nodeURL: "TODO",
+    },
+    params: {
+      prefix: "bbn",
+      validatorPrefix: "bbnvaloper",
+      denom: "ubbn",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.007,
+    },
+    supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON),
+  },
+  */
+  "babylon-testnet": {
+    family: ChainFamily.COSMOS,
+    id: ChainId.BABYLON_TESTNET,
+    nativeId: "bbn-test-5",
+    name: "Babylon Testnet",
+    ticker: "BABY",
+    decimals: 6,
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://babylon-testnet-api.polkachu.com",
+      },
+    ],
+    params: {
+      prefix: "bbn",
+      validatorPrefix: "bbnvaloper",
+      denom: "ubbn",
+      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
+      defaultGas: 100000,
+      minGasPrice: 0.007,
+    },
+    isTestnetFor: "BABYLON", //TODO: update with ChainId.BABYLON when it's added
+    supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON_TESTNET),
+    signerSpec: getSignerSpecForChain(ChainId.BABYLON_TESTNET, ChainFamily.COSMOS),
+  },
+  "monad-testnet": {
+    id: ChainId.MONAD_TESTNET,
+    name: "Monad Private Testnet",
+    family: ChainFamily.EVM,
+    nativeId: "10143",
+    ticker: "MON",
+    decimals: 18,
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://testnet-rpc.monad.xyz/",
+      },
+      {
+        type: ProviderType.alchemy,
+        url: "https://monad-testnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.MONAD_TESTNET),
+    isTestnetFor: "monad",
+    signerSpec: getSignerSpecForChain(ChainId.MONAD_TESTNET, ChainFamily.EVM),
+  },
+  berachain: {
+    id: ChainId.BERACHAIN,
+    name: "Berachain",
+    family: ChainFamily.EVM,
+    nativeId: "80094",
+    ticker: "BERA",
+    decimals: 18,
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://rpc.berachain.com/",
+      },
+      {
+        type: ProviderType.alchemy,
+        url: "https://berachain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN),
+    signerSpec: getSignerSpecForChain(ChainId.BERACHAIN, ChainFamily.EVM),
+  },
+  "berachain-artio": {
+    id: ChainId.BERACHAIN_ARTIO,
+    name: "Berachain Artio",
+    family: ChainFamily.EVM,
+    nativeId: "80084",
+    ticker: "BERA",
+    decimals: 18,
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://bartio.rpc.berachain.com",
+      },
+      {
+        type: ProviderType.alchemy,
+        url: "https://berachain-bartio.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN_ARTIO),
+    isTestnetFor: ChainId.BERACHAIN,
+    signerSpec: getSignerSpecForChain(ChainId.BERACHAIN_ARTIO, ChainFamily.EVM),
+  },
+  cronos: {
+    id: ChainId.CRONOS,
+    name: "CRONOS",
+    family: ChainFamily.EVM,
+    nativeId: "25",
+    ticker: "CRO",
+    decimals: 18,
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://evm.cronos.org",
+      },
+      {
+        type: ProviderType.moralis,
+        url: "https://deep-index.moralis.io/api",
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.CRONOS),
+    signerSpec: getSignerSpecForChain(ChainId.CRONOS, ChainFamily.EVM),
+  },
+  "world-chain": {
+    id: ChainId.WORLD_CHAIN,
+    name: "Worldchain",
+    family: ChainFamily.EVM,
+    nativeId: "480",
+    ticker: "WLD",
+    decimals: 18,
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
+      {
+        type: ProviderType.alchemy,
+        url: "https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN),
+    signerSpec: getSignerSpecForChain(ChainId.WORLD_CHAIN, ChainFamily.EVM),
   },
 } as const;
 
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
-  const supportedModes: TransactionMode[] = [];
-  const supportedTransactions = CHAINS[chainId].supportedFeatures.write.transaction.type;
+  const transactionFeatures = CHAINS[chainId].supportedFeatures.write.transaction.type;
 
-  if (supportedTransactions.native) {
-    supportedModes.push(TransactionMode.TRANSFER);
-  }
-  if (supportedTransactions.tokens) {
-    supportedModes.push(TransactionMode.TRANSFER_TOKEN);
-  }
-  if (supportedTransactions.staking) {
-    supportedModes.push(TransactionMode.DELEGATE);
-    supportedModes.push(TransactionMode.REDELEGATE);
-    supportedModes.push(TransactionMode.UNDELEGATE);
-    supportedModes.push(TransactionMode.CLAIM_REWARDS);
-  }
+  const supportedFeatures = Object.entries(transactionFeatures).filter((entry) => entry[1] === true);
+  const supportedModes = Object.keys(supportedFeatures) as TransactionMode[];
 
   return supportedModes;
 }

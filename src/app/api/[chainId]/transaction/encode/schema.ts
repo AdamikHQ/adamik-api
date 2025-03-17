@@ -2,19 +2,38 @@ import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
   encodedTransactionSchema,
+  formatSchema,
   getSupportedChainIdsSchema,
-  inputTransactionDataSchema,
-  outputTransactionDataSchema,
+  inputClaimRewardsSchema,
+  inputDeployAccountSchema,
+  inputRegisterStakeSchema,
+  inputStakeSchema,
+  inputTransferNativeSchema,
+  inputTransferTokenSchema,
+  inputUnstakeSchema,
+  inputWithdrawSchema,
+  memoSchema,
+  outputClaimRewardsSchema,
+  outputDeployAccountSchema,
+  outputFeesSchema,
+  outputGasSchema,
+  outputNonceSchema,
+  outputParamsSchema,
+  outputRegisterStakeSchema,
+  outputStakeSchema,
+  outputTransferNativeSchema,
+  outputTransferTokenSchema,
+  outputUnstakeSchema,
+  outputWithdrawSchema,
   statusSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
 
 const supportedChainIds = Object.values(CHAINS)
-  .filter(
-    (chain) =>
-      chain.supportedFeatures.write.transaction.type.native ||
-      chain.supportedFeatures.write.transaction.type.tokens ||
-      chain.supportedFeatures.write.transaction.type.staking
+  .filter((chain) =>
+    // This checks whether any of the supported transaction types in
+    // chain.supportedFeatures.write.transaction.type.* are flagged as true
+    Object.entries(chain.supportedFeatures.write.transaction.type).some((value) => value[1] === true)
   )
   .map((chain) => chain.id);
 
@@ -23,12 +42,53 @@ const pathParamsSchema = z.object({
 });
 
 const requestSchema = z.object({
-  transaction: inputTransactionDataSchema,
+  transaction: z.object({
+    data: z
+      .object({
+        memo: memoSchema.optional(),
+        format: formatSchema.optional(),
+      })
+      .and(
+        z.discriminatedUnion("mode", [
+          inputDeployAccountSchema,
+          inputTransferNativeSchema,
+          inputStakeSchema,
+          inputTransferTokenSchema,
+          inputUnstakeSchema,
+          inputClaimRewardsSchema,
+          inputWithdrawSchema,
+          inputRegisterStakeSchema,
+        ])
+      ),
+  }),
 });
 
 const responseSchema = z.object({
   chainId: getSupportedChainIdsSchema(supportedChainIds),
-  transaction: outputTransactionDataSchema.merge(encodedTransactionSchema),
+  transaction: z.object({
+    data: z
+      .object({
+        fees: outputFeesSchema,
+        gas: outputGasSchema.optional(),
+        nonce: outputNonceSchema.optional(),
+        memo: memoSchema.optional(),
+        format: formatSchema.optional(),
+        params: outputParamsSchema.optional(),
+      })
+      .and(
+        z.discriminatedUnion("mode", [
+          outputDeployAccountSchema,
+          outputTransferNativeSchema,
+          outputTransferTokenSchema,
+          outputStakeSchema,
+          outputUnstakeSchema,
+          outputClaimRewardsSchema,
+          outputWithdrawSchema,
+          outputRegisterStakeSchema,
+        ])
+      ),
+    encoded: encodedTransactionSchema,
+  }),
   status: statusSchema,
 });
 

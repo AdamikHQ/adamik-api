@@ -1,0 +1,12 @@
+{
+  "request": {
+    "url": "https://api.starkscan.co/api/pro/v0/token-contract/0x042543c7d220465bd3f8f42314b51f4f3a61d58de3770523b281da61dbf27c8a",
+    "method": "GET"
+  },
+  "response": {
+    "contract_address": "0x042543c7d220465bd3f8f42314b51f4f3a61d58de3770523b281da61dbf27c8a",
+    "name": "Nostra Pool STRK/USDC",
+    "symbol": "NOSTRA-STRK/USDC",
+    "decimals": "18"
+  }
+}

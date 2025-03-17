@@ -1,13 +1,23 @@
-import coinSelect from "coinselect";
-import split from "coinselect/split.js";
-import { CHAINS } from "~/app/config/chains";
-import { Status, Transaction } from "~/app/model/types_WIP";
-import { fetchAddressesDashboard, fetchFeePerByte, fetchXpubDashboard } from "../backend/blockchair";
-import { UtxoWithMetadata } from "../backend/types";
-import { getCurrentBlockHeight, isValidXpub } from "../logic";
+import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
+import { ChainId, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
+import { fetchNetworkInfo } from "../backend/babylon";
+import { fetchRawTransaction as fetchRawTransactionBlockchair } from "../backend/blockchair";
+import { fetchTransactionRaw as fetchTransactionRawMempoolSpace } from "../backend/mempoolSpace";
+import { getNetworkForChainId } from "../logic";
+import {
+  buildSlashingPsbt,
+  buildStakingPsbt,
+  buildStakingScripts,
+  buildTransferPsbt,
+  buildUnbondingPsbt,
+  buildUnbondingSlashingPsbt,
+} from "../psbt";
 import { BitcoinService } from "../service";
-import { BitcoinChainParams, BitcoinTransactionParams } from "../types";
 
+// NOTE bitcoin family does it differently than others:
+// PSBTs are already encoded transactions, but they have to be computed
+// here in completeTransaction to be able to deduce fees and amount...
 async function completeTransaction(
   this: BitcoinService,
   _: {
@@ -17,99 +27,121 @@ async function completeTransaction(
 ): Promise<void> {
   const { transaction, status } = _;
 
-  const feeRate = await fetchFeePerByte(this.chainId);
-
-  const { data, context } = await (async () => {
-    return isValidXpub(this.chainId, transaction.data.sender)
-      ? await fetchXpubDashboard(this.chainId, transaction.data.sender)
-      : await fetchAddressesDashboard(this.chainId, [transaction.data.sender]);
-  })();
-
-  let allUtxos: UtxoWithMetadata[] = data?.utxo || [];
-  const currentBlockHeight = getCurrentBlockHeight(this.chainId, allUtxos, context);
-
-  // Select UTXOs using either:
-  // - coinSelect: finds optimal UTXOs for exact amount
-  // - split: uses all UTXOs to send maximum amount
-  const selectionAlgorithm = transaction.data.useMaxAmount ? split : coinSelect;
-  const { inputs, outputs, fee } = selectionAlgorithm(
-    allUtxos,
-    [
+  switch (transaction.data.mode) {
+    case TransactionMode.TRANSFER:
       {
-        address: transaction.data.recipient,
-        value: transaction.data.amount ? Number(transaction.data.amount) : undefined,
-      },
-    ],
-    feeRate
-  );
+        const { psbt: transferPsbt, fee: fees } = await buildTransferPsbt(
+          this.chainId,
+          transaction.data,
+          status
+        );
 
-  // inputs and outputs will be undefined if no solution was found
-  if (!inputs || !outputs) {
-    status.errors.push({
-      message:
-        "No solution found during UTXO selection, you might not have enough funds or an account that's too fragmented.",
-    });
-    return;
-  }
+        transaction.data.fees = BigInt(fees);
 
-  // Store inputs and outputs in the transaction, as they'll be needed later to encode it
-  const params: BitcoinTransactionParams = {
-    inputs: [],
-    outputs: [],
-  };
+        // TODO Test this
+        if (transaction.data.useMaxAmount) {
+          const recipientOutput = transferPsbt.txOutputs.find(
+            (output) => output.address === transaction.data.recipientAddress
+          );
 
-  // Check selected UTXOs and add warnings
-  for (const input of inputs) {
-    // NOTE The published 'UTXO' type from coinselect is WRONG!
-    // The runtime data actually matches the UtxoWithMetadata type
-    const utxo = input as UtxoWithMetadata;
-    params.inputs.push(utxo);
-
-    // Case 1: UTXO is in mempool (block_id = -1)
-    if (utxo.block_id === -1) {
-      status.warnings.push({
-        message: `Using unconfirmed input from transaction ${utxo.transaction_hash} (still pending in mempool)`,
-      });
-    }
-
-    // Case 2: UTXO is in a block but has < 6 confirmations
-    else if (utxo.block_id > 0) {
-      const confirmations_required = (CHAINS[this.chainId].params as BitcoinChainParams).confirmations;
-      const confirmations = currentBlockHeight - utxo.block_id + 1;
-      if (confirmations < confirmations_required) {
-        status.warnings.push({
-          message: `Using input from transaction ${
-            utxo.transaction_hash
-          } with only ${confirmations} confirmation${confirmations === 1 ? "" : "s"}`,
-        });
-      }
-    }
-  }
-
-  for (const out of outputs) {
-    // value in out is always defined after calling selectionAlgorithm
-    if ("value" in out) {
-      // in case useMaxAmount is true, we need to overwrite the amount in the transaction with the amount selected by the algorithm
-      if ("address" in out) {
-        if (transaction.data.useMaxAmount && out.address === transaction.data.recipient) {
-          transaction.data.amount = BigInt(out.value);
+          if (recipientOutput) {
+            transaction.data.amount = BigInt(recipientOutput.value);
+          }
         }
-        params.outputs.push(out);
-      }
-      // no address in the output, this is the change
-      else {
-        // Take the address of the first input, its as good as any other one
-        // FIXME Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
-        params.outputs.push({
-          value: out.value,
-          address: (inputs[0] as UtxoWithMetadata).address,
-        });
-      }
-    }
-  }
 
-  transaction.data.fees = BigInt(fee);
-  transaction.data.params = params;
+        transaction.data.params = {
+          transferPsbt: transferPsbt.toHex(),
+        };
+      }
+      break;
+
+    case TransactionMode.STAKE:
+      {
+        const babylonNetworkInfo = await fetchNetworkInfo();
+        const bitcoinNetworkInfo = getNetworkForChainId(this.chainId);
+        const stakingScripts = buildStakingScripts(transaction.data, babylonNetworkInfo);
+
+        // When staking, the staking transaction is the one that we are building (unsigned)
+        const {
+          transaction: stakingTransaction,
+          psbt: stakingPsbt,
+          fee: fees,
+        } = await buildStakingPsbt(this.chainId, transaction.data, stakingScripts, bitcoinNetworkInfo);
+
+        // TODO Test these
+
+        const { transaction: unbondingTransaction, psbt: unbondingPsbt } = buildUnbondingPsbt(
+          stakingScripts,
+          stakingTransaction,
+          babylonNetworkInfo,
+          bitcoinNetworkInfo
+        );
+
+        const { psbt: slashingPsbt } = buildSlashingPsbt(
+          stakingScripts,
+          stakingTransaction,
+          babylonNetworkInfo,
+          bitcoinNetworkInfo
+        );
+        const { psbt: unbondingSlashingPsbt } = buildUnbondingSlashingPsbt(
+          stakingScripts,
+          unbondingTransaction,
+          babylonNetworkInfo,
+          bitcoinNetworkInfo
+        );
+
+        transaction.data.fees = BigInt(fees);
+
+        transaction.data.params = {
+          stakingPsbt: stakingPsbt.toHex(),
+          slashingPsbt: slashingPsbt.toHex(),
+          unbondingPsbt: unbondingPsbt.toHex(),
+          unbondingSlashingPsbt: unbondingSlashingPsbt.toHex(),
+        };
+      }
+      break;
+    case TransactionMode.UNSTAKE: {
+      // TODO in prevalidateTransaction
+      if (!transaction.data.stakeId?.length) {
+        throw new UserInputError(`Missing 'stakeId' field in transaction`);
+      }
+
+      const babylonNetworkInfo = await fetchNetworkInfo();
+      const bitcoinNetworkInfo = getNetworkForChainId(this.chainId);
+      const stakingScripts = buildStakingScripts(transaction.data, babylonNetworkInfo);
+
+      // When unstaking, the staking transaction was previously broadcasted and
+      // should now be confirmed, so we retrieve it from the network
+      // TODO Handle case where staking tx is not found
+      const stakingTransaction =
+        this.chainId === ChainId.BITCOIN_SIGNET
+          ? await fetchTransactionRawMempoolSpace(this.chainId, transaction.data.stakeId)
+          : BitcoinTransaction.fromHex(
+              (await fetchRawTransactionBlockchair(this.chainId, transaction.data.stakeId)).raw_transaction
+            );
+
+      // FIXME Not good! Must be the same unbonding tx that was build during stake flow
+      // --> must be provided by the API ?
+      // --> can be retrieved through delegations ?...
+      const { psbt: unbondingPsbt, fee: fees } = buildUnbondingPsbt(
+        stakingScripts,
+        stakingTransaction,
+        babylonNetworkInfo,
+        bitcoinNetworkInfo
+      );
+
+      transaction.data.fees = BigInt(fees);
+
+      transaction.data.params = {
+        unbondingPsbt: unbondingPsbt.toHex(),
+      };
+    }
+
+    default:
+      throw new UnsupportedFeatureError(
+        `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chainId}`
+      );
+  }
 }
 
 export { completeTransaction };
