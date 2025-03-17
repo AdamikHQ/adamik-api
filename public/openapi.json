@@ -6960,7 +6960,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                   },
                                   "amount": {
                                     "type": "string",
@@ -7001,7 +7001,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -7034,7 +7034,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                   }
                                 },
                                 "required": [
@@ -7044,7 +7044,7 @@
                                   "stakeId"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
                               },
                               {
                                 "type": "object",
@@ -7103,7 +7103,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
                               }
                             ]
                           }
@@ -7435,7 +7435,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                     },
                                     "amount": {
                                       "type": "string",
@@ -7477,7 +7477,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                     },
                                     "compound": {
                                       "type": "boolean",
@@ -7510,7 +7510,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                     }
                                   },
                                   "required": [
@@ -7520,7 +7520,7 @@
                                     "stakeId"
                                   ],
                                   "title": "Withdraw Unlocked Funds",
-                                  "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                                  "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
                                 },
                                 {
                                   "type": "object",
@@ -7584,7 +7584,7 @@
                                     "signedUnbondingSlashingTransaction"
                                   ],
                                   "title": "Register Stake",
-                                  "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                                  "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
                                 }
                               ]
                             }
@@ -7953,7 +7953,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                   },
                                   "amount": {
                                     "type": "string",
@@ -7994,7 +7994,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -8027,7 +8027,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                   }
                                 },
                                 "required": [
@@ -8037,7 +8037,7 @@
                                   "stakeId"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
                               },
                               {
                                 "type": "object",
@@ -8096,7 +8096,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
                               }
                             ]
                           }
@@ -8586,7 +8586,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                   },
                                   "amount": {
                                     "type": "string",
@@ -8627,7 +8627,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -8660,7 +8660,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
                                   }
                                 },
                                 "required": [
@@ -8670,7 +8670,7 @@
                                   "stakeId"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
                               },
                               {
                                 "type": "object",
@@ -8729,7 +8729,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment. See <TODO doc link>."
+                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
                               }
                             ]
                           }

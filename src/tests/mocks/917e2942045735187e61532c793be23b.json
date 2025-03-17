@@ -5,7 +5,7 @@
   },
   "response": {
     "totalFrozenV2": 0,
-    "transactions_out": 60,
+    "transactions_out": 91,
     "frozenForEnergyV2": 0,
     "rewardNum": 0,
     "delegatedFrozenV2BalanceForBandwidth": 0,
@@ -21,12 +21,12 @@
     },
     "redTag": "",
     "delegateFrozenForEnergy": 0,
-    "balance": 63442382,
+    "balance": 53247799,
     "frozenForBandWidthV2": 0,
     "canWithdrawAmountV2": 0,
     "delegated": {},
-    "transactions_in": 3147,
-    "totalTransactionCount": 1041,
+    "transactions_in": 4770,
+    "totalTransactionCount": 1934,
     "representative": {
       "lastWithDrawTime": 0,
       "allowance": 0,
@@ -41,11 +41,11 @@
       "total": 0,
       "balances": []
     },
-    "transactions": 3207,
+    "transactions": 4861,
     "delegatedFrozenV2BalanceForEnergy": 0,
     "name": "",
     "frozenForEnergy": 0,
-    "energyCost": 11.277347620843113,
+    "energyCost": 11.16432097955404,
     "activePermissions": [
       {
         "operations": "7fff1fc0033ec30f000000000000000000000000000000000000000000000000",
@@ -62,15 +62,15 @@
       }
     ],
     "acquiredDelegatedFrozenV2BalanceForBandwidth": 0,
-    "netCost": 1.54898869539104,
+    "netCost": 1.632297825655208,
     "acquiredDelegateFrozenForBandWidth": 0,
     "greyTag": "",
     "withPriceTokens": [
       {
-        "amount": "63.442382",
+        "amount": "53.247799",
         "tokenPriceInTrx": 1,
         "tokenId": "_",
-        "balance": "63442382",
+        "balance": "53247799",
         "tokenName": "trx",
         "tokenDecimal": 6,
         "tokenAbbr": "trx",
@@ -81,7 +81,7 @@
       },
       {
         "tokenId": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
-        "balance": "7145333760",
+        "balance": "9937797761",
         "tokenName": "Tether USD",
         "tokenAbbr": "USDT",
         "tokenDecimal": 6,
@@ -89,17 +89,17 @@
         "tokenType": "trc20",
         "tokenLogo": "https://static.tronscan.org/production/logo/usdtlogo.png",
         "vip": true,
-        "tokenPriceInTrx": 4.165977526630845,
-        "amount": 29767.299864436674,
-        "nrOfTokenHolders": 59293318,
-        "transferCount": 2256489934
+        "tokenPriceInTrx": 4.630146076661283,
+        "amount": 46013.455313747436,
+        "nrOfTokenHolders": 62713194,
+        "transferCount": 2378133764
       }
     ],
     "unfreezeV2": 0,
     "feedbackRisk": false,
     "voteTotal": 0,
     "totalFrozen": 0,
-    "latest_operation_time": 1737047232000,
+    "latest_operation_time": 1742218179000,
     "frozenForBandWidth": 0,
     "reward": 1,
     "addressTagLogo": "",
@@ -108,11 +108,29 @@
     "bandwidth": {
       "energyRemaining": 0,
       "totalEnergyLimit": 180000000000,
-      "totalEnergyWeight": 15961200509,
+      "totalEnergyWeight": 16122789462,
       "netUsed": 0,
       "storageLimit": 0,
       "storagePercentage": 0,
       "assets": {
+        "1001829": {
+          "netPercentage": 0,
+          "netLimit": 0,
+          "netRemaining": 0,
+          "netUsed": 0
+        },
+        "1003533": {
+          "netPercentage": 0,
+          "netLimit": 0,
+          "netRemaining": 0,
+          "netUsed": 0
+        },
+        "1004031": {
+          "netPercentage": 0,
+          "netLimit": 0,
+          "netRemaining": 0,
+          "netUsed": 0
+        },
         "1004989": {
           "netPercentage": 0,
           "netLimit": 0,
@@ -178,7 +196,7 @@
       "netRemaining": 0,
       "energyLimit": 0,
       "freeNetUsed": 0,
-      "totalNetWeight": 27889164175,
+      "totalNetWeight": 26465758449,
       "freeNetPercentage": 0,
       "energyPercentage": 0,
       "totalNetLimit": 43200000000

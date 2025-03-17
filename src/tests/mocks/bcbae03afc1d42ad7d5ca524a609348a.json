@@ -1,9 +1,0 @@
-{
-  "request": {
-    "url": "https://deep-index.moralis.io/api/v2.2/erc20/metadata?chain=eth&addresses%5B0%5D=invalid+token+id",
-    "method": "GET"
-  },
-  "response": {
-    "message": "addresses with value 'invalid token id' is not a valid hex address"
-  }
-}

@@ -16,6 +16,9 @@ params:path {
 
 assert {
   res.status: eq 200
-  res.body.validators: isArray 
-  res.body.pagination.nextPage: eq IkZEQUVVT2RpcG1naVk3MDViRWhUcnRiT082SU0i
+  res.body.validators: isArray
+  res.body.validators[0].address: isString
+  res.body.validators[0].name: isString
+  res.body.validators[0].commission: isNumber
+  res.body.validators[0].stakedAmount: matches ^\d+$
 }

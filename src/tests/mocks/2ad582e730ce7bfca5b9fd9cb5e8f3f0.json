@@ -14696,7 +14696,7 @@
       },
       {
         "asset-holding": {
-          "amount": 43794000000000,
+          "amount": 7868000000000,
           "asset-id": 765171236,
           "is-frozen": false
         },
@@ -15888,7 +15888,7 @@
       },
       {
         "asset-holding": {
-          "amount": 128940,
+          "amount": 140622,
           "asset-id": 787168529,
           "is-frozen": false
         },
@@ -18159,7 +18159,7 @@
       },
       {
         "asset-holding": {
-          "amount": 78923734911,
+          "amount": 0,
           "asset-id": 829992960,
           "is-frozen": false
         },
@@ -21021,6 +21021,6 @@
       }
     ],
     "next-token": "835875685",
-    "round": 46299509
+    "round": 48140979
   }
 }

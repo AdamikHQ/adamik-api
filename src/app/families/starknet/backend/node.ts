@@ -127,7 +127,7 @@ const estimateTransferFees = async (
   const account = await createStarknetAccount(provider, sender);
 
   const transferCall = await populateTransferCall(contractId, recipient, amount, provider);
-  const fee = await account.estimateInvokeFee(transferCall);
+  const fee = await account.estimateInvokeFee(transferCall, { version: "0x3" });
 
   const marginedFee = marginFees(fee.suggestedMaxFee);
 
@@ -150,6 +150,7 @@ const buildTransferPayload = async (
   const transferCall = await populateTransferCall(contractId, recipient, amount, provider);
 
   const payload = await account.getExecutePayloadToSign(transferCall, { nonce, version: "0x3" });
+
   return payload;
 };
 

@@ -15003,7 +15003,7 @@
       },
       {
         "asset-holding": {
-          "amount": 22433,
+          "amount": 24263,
           "asset-id": 864699877,
           "is-frozen": false
         },
@@ -20687,6 +20687,6 @@
       }
     ],
     "next-token": "872492586",
-    "round": 46299509
+    "round": 48140979
   }
 }

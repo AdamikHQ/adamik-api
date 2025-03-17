@@ -75,13 +75,13 @@
       "code": 200,
       "source": "R",
       "results": 1,
-      "state": 885573,
-      "market_price_usd": 85479,
+      "state": 888188,
+      "market_price_usd": 83166,
       "cache": {
         "live": true,
         "duration": 120,
-        "since": "2025-02-27 15:46:19",
-        "until": "2025-02-27 15:48:19",
+        "since": "2025-03-17 13:38:52",
+        "until": "2025-03-17 13:40:52",
         "time": null
       },
       "api": {
@@ -92,9 +92,9 @@
         "notice": "Try out our new API v.3: https://3xpl.com/data"
       },
       "servers": "API4,BTC5,BTC5",
-      "time": 0.0023648738861083984,
-      "render_time": 0.05068230628967285,
-      "full_time": 0.05304718017578125,
+      "time": 0.0024890899658203125,
+      "render_time": 0.055310726165771484,
+      "full_time": 0.0577998161315918,
       "request_cost": 1
     }
   }
