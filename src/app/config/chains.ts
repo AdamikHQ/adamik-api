@@ -2153,6 +2153,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.007,
     },
+    isTestnetFor: "BABYLON", //TODO: update with ChainId.BABYLON when it's added
     supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON_TESTNET),
     signerSpec: getSignerSpecForChain(ChainId.BABYLON_TESTNET, ChainFamily.COSMOS),
   },
