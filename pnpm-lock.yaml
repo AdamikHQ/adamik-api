@@ -95,8 +95,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       starknet:
-        specifier: ^6.24.0
-        version: 6.24.0
+        specifier: git+ssh://git@github.com/AdamikHQ/starknet.js#adamik-001
+        version: https://codeload.github.com/AdamikHQ/starknet.js/tar.gz/579d1ee3c18a6c03567b1d47142d3d4ce4e0f238
       tronweb:
         specifier: ^6.0.0
         version: 6.0.0
@@ -4235,8 +4235,9 @@ packages:
     resolution: {integrity: sha512-XlkWvfIm6RmsWtNJx+uqtKLS8eqFbxUg0ZzLXqY0caEy9l7hruX8IpiDnjsLavoBgqCCR71TqWO8MaXYheJ3RQ==}
     engines: {node: '>=10'}
 
-  starknet@6.24.0:
-    resolution: {integrity: sha512-oGa33pwbsz5zPu9fkouN4P0JO0AKaq0RqfL/uRLMj6d6OgLkD0EhYpoJWwaEbQRBcs38e6WBtUox+c3O4YEgGg==}
+  starknet@https://codeload.github.com/AdamikHQ/starknet.js/tar.gz/579d1ee3c18a6c03567b1d47142d3d4ce4e0f238:
+    resolution: {tarball: https://codeload.github.com/AdamikHQ/starknet.js/tar.gz/579d1ee3c18a6c03567b1d47142d3d4ce4e0f238}
+    version: 6.24.0
 
   statuses@2.0.1:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
@@ -10320,7 +10321,7 @@ snapshots:
     dependencies:
       escape-string-regexp: 2.0.0
 
-  starknet@6.24.0:
+  starknet@https://codeload.github.com/AdamikHQ/starknet.js/tar.gz/579d1ee3c18a6c03567b1d47142d3d4ce4e0f238:
     dependencies:
       '@noble/curves': 1.7.0
       '@noble/hashes': 1.6.0
