@@ -7,7 +7,7 @@ import {
   RpcError,
   shortString,
   Provider as StarknetProvider,
-} from "starknet";
+} from "Starknet";
 import { CHAINS } from "~/app/config/chains";
 import { Provider, ProviderType, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
