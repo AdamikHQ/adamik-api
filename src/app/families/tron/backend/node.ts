@@ -2,8 +2,9 @@ import { TronWeb } from "tronweb";
 import { toHex } from "tronweb/utils";
 import { TRONGRID_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { Provider, ProviderType } from "~/app/model/types_WIP";
+import { Provider, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
+import { TokenStore } from "~/app/tools/tokenStore";
 
 const nodeUrl = CHAINS.tron.backends.find((p: Provider) => p.type === ProviderType.node)?.url;
 
@@ -23,7 +24,6 @@ const createTransaction = (from: string, to: string, amount: bigint) => {
 // FIXME: Hack to bypass contract needed type
 const broadcast = async (signedTransaction: any) => {
   const result = await tronWeb.trx.sendRawTransaction(signedTransaction);
-  console.log(result);
   // NOTE: sendRawTransaction doesn't include Error in the response
   if (Object.keys(result).includes("Error")) {
     throw new UserInputError((result as any).Error);
@@ -49,11 +49,31 @@ const isValidAddress = async (address: string) => {
   return tronWeb.isAddress(address);
 };
 
-const getTRC10TokenInfo = (tokenId: string) => {
-  return tronWeb.trx.getTokenByID(tokenId);
+const getTRC10TokenInfo = async (tokenId: string) => {
+  const [loadedToken] = await TokenStore.load(CHAINS.tron.id, [tokenId]);
+  if (loadedToken !== null) {
+    return loadedToken;
+  }
+
+  const tokenInfo = await tronWeb.trx.getTokenByID(tokenId);
+
+  const token = {
+    type: TokenType.TRC10,
+    id: tokenId,
+    name: tokenInfo.name,
+    ticker: tokenInfo.abbr,
+    decimals: tokenInfo.precision,
+  };
+  await TokenStore.save(CHAINS.tron.id, [token]);
+  return token;
 };
 
-const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string) => {
+const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string): Promise<Token> => {
+  const [loadedToken] = await TokenStore.load(CHAINS.tron.id, [tokenId]);
+  if (loadedToken !== null) {
+    return loadedToken;
+  }
+
   tronWeb.setAddress(ownerAddress || tokenId);
   const contract = await tronWeb.contract().at(tokenId);
 
@@ -61,7 +81,18 @@ const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string) => {
   const symbol = await contract.symbol().call();
   const decimals = await contract.decimals().call();
 
-  return { name, symbol, decimals };
+  const token = {
+    type: TokenType.TRC20,
+    id: tokenId,
+    name: name,
+    ticker: symbol,
+    decimals: Number(decimals),
+    contractAddress: tokenId,
+  };
+
+  await TokenStore.save(CHAINS.tron.id, [token]);
+
+  return token;
 };
 
 const createTRC10TokenTransaction = (tokenId: string, amount: bigint, to: string, from: string) => {

@@ -101,7 +101,7 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
   // NOTE These parameters are specific to Metamask-like signers
   // Will need a more precise format than "JSON" if other signers require other parameters
   const commonData = {
-    chainId: toHex(chain.nativeId),
+    chainId: toHex(Number(chain.nativeId)),
     maxPriorityFeePerGas: toHex(maxPriorityFeePerGas),
     maxFeePerGas: toHex(maxFeePerGas),
     gas: toHex(transaction.data.gas!),
@@ -196,7 +196,7 @@ async function encodeTransactionToBroadcast(
 
   const parsedTansaction: TransactionSerializable = isHexString(signedTransaction.encoded)
     ? parseTransaction(signedTransaction.encoded)
-    : (signedTransaction.encoded as TransactionSerializable);
+    : (JSON.parse(signedTransaction.encoded) as TransactionSerializable);
 
   const chainParams = CHAINS[this.chainId].params as EvmChainParams;
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;

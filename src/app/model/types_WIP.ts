@@ -163,6 +163,7 @@ export enum ProviderType {
   starkscan = "starkscan",
   algoindexer = "algoindexer",
   mempoolspace = "mempoolspace",
+  oklink = "oklink",
 }
 
 type Provider = {
@@ -519,7 +520,6 @@ export type {
   AccountState,
   AccountTokens,
   ApiRequestFilters,
-  Provider,
   Chain,
   ChainParams,
   ChainSupportedFeatures,
@@ -527,6 +527,7 @@ export type {
   FeaturesSet,
   FinalizedTransaction,
   Paginated,
+  Provider,
   RegisterStakeTransactionData,
   SignerSpec,
   StakingPosition,

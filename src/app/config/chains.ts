@@ -1294,6 +1294,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.tronscan,
         url: "https://apilist.tronscanapi.com",
       },
+      {
+        providerType: ProviderType.oklink,
+        url: "https://www.oklink.com/api/v5/explorer",
+      },
     ],
     supportedFeatures: TRON_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.TRON, ChainFamily.TRON),
@@ -2150,6 +2154,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.007,
     },
+    isTestnetFor: "BABYLON", //TODO: update with ChainId.BABYLON when it's added
     supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON_TESTNET),
     signerSpec: getSignerSpecForChain(ChainId.BABYLON_TESTNET, ChainFamily.COSMOS),
   },
