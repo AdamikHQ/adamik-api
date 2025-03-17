@@ -8,6 +8,9 @@ patchedDependencies:
   coinselect@3.1.13:
     hash: rgmirwghbjfxxpvt2uxigomtpq
     path: patches/coinselect@3.1.13.patch
+  starknet@6.24.0:
+    hash: gk4pdufjud4kd7ysrnq4yahqxu
+    path: patches/starknet@6.24.0.patch
 
 importers:
 
@@ -95,8 +98,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       starknet:
-        specifier: github:AdamikHQ/starknet.js#develop
-        version: https://codeload.github.com/AdamikHQ/starknet.js/tar.gz/2f12ca3e89b780a5ea65b37e5ccdff772b6f8912
+        specifier: 6.24.0
+        version: 6.24.0(patch_hash=gk4pdufjud4kd7ysrnq4yahqxu)
       tronweb:
         specifier: ^6.0.0
         version: 6.0.0
@@ -2762,8 +2765,8 @@ packages:
       picomatch:
         optional: true
 
-  fetch-cookie@3.1.0:
-    resolution: {integrity: sha512-s/XhhreJpqH0ftkGVcQt8JE9bqk+zRn4jF5mPJXWZeQMCI5odV9K+wEWYbnzFPHgQZlvPSMjS4n4yawWE8RINw==}
+  fetch-cookie@3.0.1:
+    resolution: {integrity: sha512-ZGXe8Y5Z/1FWqQ9q/CrJhkUD73DyBU9VF0hBQmEO/wPHe4A9PKTjplFDLeFX8aOsYypZUcX5Ji/eByn3VCVO3Q==}
 
   file-entry-cache@8.0.0:
     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}
@@ -4235,9 +4238,8 @@ packages:
     resolution: {integrity: sha512-XlkWvfIm6RmsWtNJx+uqtKLS8eqFbxUg0ZzLXqY0caEy9l7hruX8IpiDnjsLavoBgqCCR71TqWO8MaXYheJ3RQ==}
     engines: {node: '>=10'}
 
-  starknet@https://codeload.github.com/AdamikHQ/starknet.js/tar.gz/2f12ca3e89b780a5ea65b37e5ccdff772b6f8912:
-    resolution: {tarball: https://codeload.github.com/AdamikHQ/starknet.js/tar.gz/2f12ca3e89b780a5ea65b37e5ccdff772b6f8912}
-    version: 6.20.3
+  starknet@6.24.0:
+    resolution: {integrity: sha512-oGa33pwbsz5zPu9fkouN4P0JO0AKaq0RqfL/uRLMj6d6OgLkD0EhYpoJWwaEbQRBcs38e6WBtUox+c3O4YEgGg==}
 
   statuses@2.0.1:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
@@ -4368,13 +4370,6 @@ packages:
     resolution: {integrity: sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==}
     engines: {node: '>=8'}
 
-  tldts-core@6.1.70:
-    resolution: {integrity: sha512-RNnIXDB1FD4T9cpQRErEqw6ZpjLlGdMOitdV+0xtbsnwr4YFka1zpc7D4KD+aAn8oSG5JyFrdasZTE04qDE9Yg==}
-
-  tldts@6.1.70:
-    resolution: {integrity: sha512-/W1YVgYVJd9ZDjey5NXadNh0mJXkiUMUue9Zebd0vpdo1sU+H4zFFTaJ1RKD4N6KFoHfcXy6l+Vu7bh+bdWCzA==}
-    hasBin: true
-
   tmpl@1.0.5:
     resolution: {integrity: sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw==}
 
@@ -4393,10 +4388,6 @@ packages:
   tough-cookie@4.1.4:
     resolution: {integrity: sha512-Loo5UUvLD9ScZ6jh8beX1T6sO1w2/MpCRpEP7V280GKMVUQ0Jzar2U3UJPsrdbziLEMMhu3Ujnq//rhiFuIeag==}
     engines: {node: '>=6'}
-
-  tough-cookie@5.0.0:
-    resolution: {integrity: sha512-FRKsF7cz96xIIeMZ82ehjC3xW2E+O2+v11udrDYewUbszngYhsGa8z6YUMMzO9QJZzzyd0nGGXnML/TReX6W8Q==}
-    engines: {node: '>=16'}
 
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
@@ -8279,7 +8270,7 @@ snapshots:
       debug: 4.3.7
       enhanced-resolve: 5.15.0
       eslint: 9.17.0
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@6.13.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@9.17.0))(eslint@9.17.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@6.13.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1)(eslint@9.17.0)
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@6.13.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-typescript@3.6.1)(eslint@9.17.0)
       fast-glob: 3.3.2
       get-tsconfig: 4.10.0
@@ -8291,7 +8282,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@6.13.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@9.17.0))(eslint@9.17.0):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@6.13.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1)(eslint@9.17.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -8313,7 +8304,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.17.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@6.13.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1(@typescript-eslint/parser@6.13.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.31.0)(eslint@9.17.0))(eslint@9.17.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@6.13.2(eslint@9.17.0)(typescript@5.7.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.1)(eslint@9.17.0)
       hasown: 2.0.2
       is-core-module: 2.16.0
       is-glob: 4.0.3
@@ -8585,10 +8576,10 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.2
 
-  fetch-cookie@3.1.0:
+  fetch-cookie@3.0.1:
     dependencies:
       set-cookie-parser: 2.7.1
-      tough-cookie: 5.0.0
+      tough-cookie: 4.1.4
 
   file-entry-cache@8.0.0:
     dependencies:
@@ -10332,14 +10323,14 @@ snapshots:
     dependencies:
       escape-string-regexp: 2.0.0
 
-  starknet@https://codeload.github.com/AdamikHQ/starknet.js/tar.gz/2f12ca3e89b780a5ea65b37e5ccdff772b6f8912:
+  starknet@6.24.0(patch_hash=gk4pdufjud4kd7ysrnq4yahqxu):
     dependencies:
       '@noble/curves': 1.7.0
       '@noble/hashes': 1.6.0
       '@scure/base': 1.2.1
       '@scure/starknet': 1.1.0
       abi-wan-kanabi: 2.2.4
-      fetch-cookie: 3.1.0
+      fetch-cookie: 3.0.1
       isomorphic-fetch: 3.0.0
       lossless-json: 4.0.2
       pako: 2.1.0
@@ -10480,12 +10471,6 @@ snapshots:
       glob: 7.2.3
       minimatch: 3.1.2
 
-  tldts-core@6.1.70: {}
-
-  tldts@6.1.70:
-    dependencies:
-      tldts-core: 6.1.70
-
   tmpl@1.0.5: {}
 
   to-fast-properties@2.0.0: {}
@@ -10502,10 +10487,6 @@ snapshots:
       punycode: 2.3.1
       universalify: 0.2.0
       url-parse: 1.5.10
-
-  tough-cookie@5.0.0:
-    dependencies:
-      tldts: 6.1.70
 
   tr46@0.0.3: {}
 
