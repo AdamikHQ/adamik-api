@@ -6,7 +6,7 @@ function generateProvidersMarkdown() {
   const chains = Object.entries(CHAINS);
   const chainsTable = chains
     .map(([chainId, chain]) => {
-      const backendsTable = chain.backends
+      const backendsTable = chain.providers
         .map(({ type, url }) => {
           return `| ${type} | ${url} |`;
         })

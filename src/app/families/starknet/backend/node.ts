@@ -4,9 +4,9 @@ import {
   ec,
   Invocation,
   InvocationsDetailsWithNonce,
-  Provider as StarknetProvider,
   RpcError,
   shortString,
+  Provider as StarknetProvider,
 } from "starknet";
 import { CHAINS } from "~/app/config/chains";
 import { Provider, ProviderType, TransactionMode } from "~/app/model/types_WIP";
@@ -15,7 +15,7 @@ import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { createStarknetAccount, isCompactSignature, marginFees } from "../logic";
 import { StarknetTransactionParamsToBroadcast } from "../types";
 
-const nodeUrl = CHAINS.starknet.backends.find((p: Provider) => p.type === ProviderType.node)?.url;
+const nodeUrl = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
 
 const fetchTokenInfo = async (tokenId: string) => {
   const provider = new StarknetProvider({

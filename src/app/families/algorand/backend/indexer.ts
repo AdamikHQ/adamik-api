@@ -1,8 +1,8 @@
 import { CHAINS } from "~/app/config/chains";
-import { AlgoTransaction } from "./types";
 import { Provider, ProviderType } from "~/app/model/types_WIP";
+import { AlgoTransaction } from "./types";
 
-const ROOT_URL = CHAINS.algorand.backends.find((p: Provider) => p.type === ProviderType.algoindexer)?.url;
+const ROOT_URL = CHAINS.algorand.providers.find((p: Provider) => p.type === ProviderType.algoindexer)?.url;
 
 async function fetchTransaction(transactionId: string): Promise<AlgoTransaction | null> {
   const url = `${ROOT_URL}/transactions/${transactionId}`;

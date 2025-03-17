@@ -203,7 +203,7 @@ type Chain = {
   name: string;
   ticker: string;
   decimals: number;
-  backends: Provider[];
+  providers: Provider[];
   isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;

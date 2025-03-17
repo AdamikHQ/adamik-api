@@ -6,7 +6,7 @@ import { Provider, ProviderType, Token, TokenType } from "~/app/model/types_WIP"
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { TokenStore } from "~/app/tools/tokenStore";
 
-const nodeUrl = CHAINS.tron.backends.find((p: Provider) => p.type === ProviderType.node)?.url;
+const nodeUrl = CHAINS.tron.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
 
 const tronWeb = new TronWeb({
   fullHost: nodeUrl,

@@ -1,14 +1,4 @@
-import {
-  Provider,
-  ChainId,
-  FinalizedTransaction,
-  ProviderType,
-  Token,
-  TokenAmount,
-  TokenType,
-  TransactionState,
-} from "~/app/model/types_WIP";
-import { EvmAddress } from "~/app/families/evm/types";
+import { CHAINS } from "~/app/config/chains";
 import {
   AlchemyBalanceRequest,
   AlchemyBlock,
@@ -19,9 +9,19 @@ import {
   AlchemyTransfer,
   EvmIndexer,
 } from "~/app/families/evm/backend/types";
-import { TokenStore } from "~/app/tools/tokenStore";
+import { EvmAddress } from "~/app/families/evm/types";
+import {
+  ChainId,
+  FinalizedTransaction,
+  Provider,
+  ProviderType,
+  Token,
+  TokenAmount,
+  TokenType,
+  TransactionState,
+} from "~/app/model/types_WIP";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
-import { CHAINS } from "~/app/config/chains";
+import { TokenStore } from "~/app/tools/tokenStore";
 
 const SUPPORTED_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth-mainnet"],
@@ -48,7 +48,7 @@ const SUPPORTED_CHAIN_IDS: Map<ChainId, string> = new Map([
 ]);
 
 async function sendRequest(chainId: ChainId, method: string, params: any[]) {
-  const explorer = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.alchemy);
+  const explorer = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.alchemy);
   if (!explorer) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Alchemy API`);
     return null;

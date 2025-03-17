@@ -5,17 +5,17 @@ import {
   CallData,
   encode,
   hash,
-  Provider as StarknetProvider,
   RawArgs,
+  Provider as StarknetProvider,
 } from "starknet";
 import { CHAINS } from "~/app/config/chains";
+import { Provider, ProviderType } from "~/app/model/types_WIP";
 import { createStarknetAccount, marginFees } from "../logic";
 import { StarknetDeployAccountPayload } from "../types";
-import { Provider, ProviderType } from "~/app/model/types_WIP";
 
 const ARGENT_X_CLASS_HASH = "0x036078334509b514626504edc9fb252328d1a240e4e948bef8d0c08dff45927f";
 
-const nodeUrl = CHAINS.starknet.backends.find((p: Provider) => p.type === ProviderType.node)?.url;
+const nodeUrl = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
 
 class ArgentX {
   private static getConstructorCallData = (pubkey: string): RawArgs => {

@@ -3,7 +3,7 @@ import { TON_CENTER_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { Provider, ProviderType } from "~/app/model/types_WIP";
 
-const nodeUrl = CHAINS.ton.backends.find((p: Provider) => p.type === ProviderType.node)?.url;
+const nodeUrl = CHAINS.ton.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
 
 // Configure the HTTP client with your host and token
 const nodeClient = new TonClient({

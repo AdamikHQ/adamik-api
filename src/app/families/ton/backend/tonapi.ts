@@ -2,10 +2,10 @@ import { Account, JettonInfo, JettonsBalances, Seqno, TonApiClient, Transaction 
 import { Address } from "@ton/ton";
 import { TON_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { Provider, ProviderType } from "~/app/model/types_WIP";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 
-const explorerURL = CHAINS.ton.backends.find((p: Provider) => p.type === ProviderType.tonapi)?.url;
+const explorerURL = CHAINS.ton.providers.find((p: Provider) => p.type === ProviderType.tonapi)?.url;
 const api = new TonApiClient({
   baseUrl: `${explorerURL}`,
   apiKey: TON_API_KEY,

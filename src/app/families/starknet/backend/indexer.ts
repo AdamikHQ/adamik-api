@@ -2,8 +2,8 @@ import { Contract, Provider as StarknetProvider, shortString } from "starknet";
 import { STARKSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
-  Provider,
   FinalizedTransaction,
+  Provider,
   ProviderType,
   TransactionMode,
   TransactionState,
@@ -22,8 +22,8 @@ import {
   TransactionResponse,
 } from "./types";
 
-const ROOT_URL = CHAINS.starknet.backends.find((p: Provider) => p.type === ProviderType.starkscan)?.url;
-const nodeUrl = CHAINS.starknet.backends.find((p: Provider) => p.type === ProviderType.node)?.url;
+const ROOT_URL = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.starkscan)?.url;
+const nodeUrl = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
 
 async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any) {
   const response = await fetch(url, {
@@ -135,12 +135,9 @@ async function getTransactionHistorySymbols(transactions: TransactionHistory[]) 
   });
 
   const symbolsAddresses = Object.entries(
-    transactions.reduce(
-      (acc, transaction) => {
-        return { ...acc, [transaction.from_address]: transaction.from_address };
-      },
-      {} as Record<string, string>
-    )
+    transactions.reduce((acc, transaction) => {
+      return { ...acc, [transaction.from_address]: transaction.from_address };
+    }, {} as Record<string, string>)
   ).map(([symbolAddress]) => symbolAddress);
 
   const symbols = await Promise.all(

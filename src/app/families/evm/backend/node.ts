@@ -47,7 +47,7 @@ import { EvmAddress, EvmChainParams } from "../types";
 const CLIENTS = new Map<ChainId, any>();
 
 function getClientConfig(chainId: ChainId) {
-  const nodeURL = CHAINS[chainId].backends.find((p: Provider) => p.type === ProviderType.node)?.url;
+  const nodeURL = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.node)?.url;
   const transport = http(nodeURL);
 
   switch (chainId) {
