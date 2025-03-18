@@ -3,7 +3,7 @@
 ## algorand
 
 | node | https://mainnet-api.algonode.cloud/v2 |<br />
-| indexer | https://mainnet-idx.algonode.cloud/v2 |
+| algoindexer | https://mainnet-idx.algonode.cloud/v2 |
 
 ## cosmoshub
 
@@ -116,7 +116,7 @@
 
 ## bitcoin-signet
 
-| indexer | https://mempool.space/signet/api |
+| mempoolspace | https://mempool.space/signet/api |
 
 ## polygon
 
@@ -269,7 +269,8 @@
 ## tron
 
 | node | https://api.trongrid.io |<br />
-| tronscan | https://apilist.tronscanapi.com |
+| tronscan | https://apilist.tronscanapi.com |<br />
+| oklink | https://www.oklink.com/api/v5/explorer |
 
 ## evmos
 
@@ -409,7 +410,7 @@
 ## starknet
 
 | node | https://starknet-mainnet.public.blastapi.io/rpc/v0_7 |<br />
-| indexer | https://api.starkscan.co |
+| starkscan | https://api.starkscan.co |
 
 ## babylon-testnet
 

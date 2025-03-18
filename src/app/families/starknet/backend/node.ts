@@ -4,21 +4,21 @@ import {
   ec,
   Invocation,
   InvocationsDetailsWithNonce,
-  Provider,
   RpcError,
   shortString,
+  Provider as StarknetProvider,
 } from "starknet";
 import { CHAINS } from "~/app/config/chains";
-import { Backend, ProviderType, TransactionMode } from "~/app/model/types_WIP";
+import { Provider, ProviderType, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { createStarknetAccount, isCompactSignature, marginFees } from "../logic";
 import { StarknetTransactionParamsToBroadcast } from "../types";
 
-const nodeUrl = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
+const nodeUrl = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
 
 const fetchTokenInfo = async (tokenId: string) => {
-  const provider = new Provider({
+  const provider = new StarknetProvider({
     nodeUrl,
   });
 
@@ -55,7 +55,7 @@ const broadcast = async (signedTransaction: string): Promise<string> => {
       ? ec.starkCurve.Signature.fromCompact(transactionParams.payload.signature)
       : ec.starkCurve.Signature.fromDER(transactionParams.payload.signature);
 
-    const provider = new Provider({ nodeUrl });
+    const provider = new StarknetProvider({ nodeUrl });
 
     if (transactionParams.mode === TransactionMode.DEPLOY_ACCOUNT) {
       const result = await provider.deployAccountContract(
@@ -85,7 +85,7 @@ const broadcast = async (signedTransaction: string): Promise<string> => {
 };
 
 const getNonce = async (address: string) => {
-  const provider = new Provider({
+  const provider = new StarknetProvider({
     nodeUrl,
   });
 
@@ -107,7 +107,7 @@ const populateTransferCall = async (
   contractId: string,
   recipient: string,
   amount: bigint,
-  provider: Provider
+  provider: StarknetProvider
 ) => {
   const { abi: ERC20Abi } = await provider.getClassAt(contractId);
   const starknetTokenContract = new Contract(ERC20Abi, contractId, provider);
@@ -121,13 +121,13 @@ const estimateTransferFees = async (
   amount: bigint,
   contractId: string
 ) => {
-  const provider = new Provider({
+  const provider = new StarknetProvider({
     nodeUrl,
   });
   const account = await createStarknetAccount(provider, sender);
 
   const transferCall = await populateTransferCall(contractId, recipient, amount, provider);
-  const fee = await account.estimateInvokeFee(transferCall);
+  const fee = await account.estimateInvokeFee(transferCall, { version: "0x3" });
 
   const marginedFee = marginFees(fee.suggestedMaxFee);
 
@@ -140,7 +140,7 @@ const buildTransferPayload = async (
   amount: bigint,
   contractId: string
 ) => {
-  const provider = new Provider({
+  const provider = new StarknetProvider({
     nodeUrl,
   });
   const nonce = await provider.getNonceForAddress(sender);
@@ -150,11 +150,12 @@ const buildTransferPayload = async (
   const transferCall = await populateTransferCall(contractId, recipient, amount, provider);
 
   const payload = await account.getExecutePayloadToSign(transferCall, { nonce, version: "0x3" });
+
   return payload;
 };
 
 const buildStakePayload = async (poolAddress: string, sender: string, amount: BigInt) => {
-  const provider = new Provider({
+  const provider = new StarknetProvider({
     nodeUrl,
   });
 

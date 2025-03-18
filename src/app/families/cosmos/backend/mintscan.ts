@@ -1,9 +1,9 @@
 import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
-  Backend,
   ChainId,
   FinalizedTransaction,
+  Provider,
   ProviderType,
   TransactionMode,
   TransactionState,
@@ -16,7 +16,7 @@ import { MintscanAccountTransactionsResponse, MintscanTransaction } from "./type
 const MINTSCAN_PAGE_SIZE = 20;
 
 const getRootUrl = (chainId: ChainId) =>
-  CHAINS[chainId].backends.find((b: Backend) => b.providerType === ProviderType.mintscan)?.url;
+  CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.mintscan)?.url;
 
 const MINTSCAN_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.COSMOSHUB, "cosmos"],

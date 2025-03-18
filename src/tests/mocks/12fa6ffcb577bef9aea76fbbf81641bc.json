@@ -267,7 +267,8 @@
         "value": 1000
       },
       {
-        "key": "getAllowStrictMath"
+        "key": "getAllowStrictMath",
+        "value": 1
       }
     ]
   }

@@ -204,7 +204,7 @@ const validatorAddressSchema = z.string().openapi({
 
 const stakeIdSchema = z.string().openapi({
   description:
-    "Unique identifier of a staking position. Only required for Babylon staking at the moment. See <TODO doc link>.",
+    "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon).",
 });
 
 const stakingCompoundSchema = z.boolean().openapi({
@@ -434,7 +434,7 @@ const inputWithdrawSchema = z
   })
   .openapi({
     title: "Withdraw Unlocked Funds",
-    description: "Only supported for Babylon staking at the moment. See <TODO doc link>.",
+    description: "Only supported for Babylon staking at the moment (documentation will come soon).",
   });
 
 const outputWithdrawSchema = z
@@ -446,7 +446,7 @@ const outputWithdrawSchema = z
   })
   .openapi({
     title: "Withdraw Unlocked Funds",
-    description: "Only supported for Babylon staking at the moment. See <TODO doc link>.",
+    description: "Only supported for Babylon staking at the moment (documentation will come soon).",
   });
 
 const inputRegisterStakeSchema = z
@@ -464,7 +464,7 @@ const inputRegisterStakeSchema = z
   })
   .openapi({
     title: "Register Stake",
-    description: "Only supported for Babylon staking at the moment. See <TODO doc link>.",
+    description: "Only supported for Babylon staking at the moment (documentation will come soon).",
   });
 
 const outputRegisterStakeSchema = z
@@ -483,7 +483,7 @@ const outputRegisterStakeSchema = z
   })
   .openapi({
     title: "Register Stake",
-    description: "Only supported for Babylon staking at the moment. See <TODO doc link>.",
+    description: "Only supported for Babylon staking at the moment (documentation will come soon).",
   });
 
 const encodedTransactionSchema = z.string();

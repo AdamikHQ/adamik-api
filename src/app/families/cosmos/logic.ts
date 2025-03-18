@@ -1,4 +1,4 @@
-import { AminoMsg, StdFee, encodeSecp256k1Pubkey, serializeSignDoc } from "@cosmjs/amino";
+import { AminoMsg, StdFee, encodeSecp256k1Pubkey } from "@cosmjs/amino";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { Int53 } from "@cosmjs/math";
 import {
@@ -38,7 +38,7 @@ import { fetchNetworkInfo } from "../bitcoin/backend/babylon";
 import { buildBabylonRegistrationMessage } from "../bitcoin/psbt";
 import { fetchBalances, fetchDelegations, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
-import { buildSignDocAminoForInjective } from "./chains/injective";
+import { buildSignDocProtobufForInjective } from "./chains/injective";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
 import { CosmosChainParams } from "./types";
 
@@ -547,21 +547,16 @@ async function encodeToSign(
     : serializedSignDoc.toString("hex");
   */
 
-  let serializedSignDoc: Buffer;
   if (chainId === ChainId.INJECTIVE) {
-    // TODO Implement protobuf signing for Injective
-    //buildSignDocProtobufForInjective(account, transactionData, chain.nativeId)
-    const signDoc = buildSignDocAminoForInjective(account, transactionData, chain.nativeId);
-    serializedSignDoc = Buffer.from(serializeSignDoc(signDoc));
-  } else {
-    const signDoc = await buildSignDocProtobuf(chainId, account, transactionData, chain.nativeId, feeData);
-    serializedSignDoc = Buffer.from(SignDocProtobuf.encode(signDoc).finish());
+    return buildSignDocProtobufForInjective(account, transactionData, chain.nativeId, feeData, format);
   }
+
+  const signDoc = await buildSignDocProtobuf(chainId, account, transactionData, chain.nativeId, feeData);
 
   // TODO Test the protobuf format with Keplr, then deprecate the JSON format here if possible
   return format === EncodedTransactionFormat.JSON
-    ? serializedSignDoc.toString("utf8")
-    : serializedSignDoc.toString("hex");
+    ? JSON.stringify(SignDocProtobuf.toJSON(signDoc))
+    : Buffer.from(SignDocProtobuf.encode(signDoc).finish()).toString("hex");
 }
 
 async function encodeToBroadcast(

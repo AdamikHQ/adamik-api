@@ -1,9 +1,9 @@
-import { Contract, Provider, shortString } from "starknet";
+import { Contract, Provider as StarknetProvider, shortString } from "starknet";
 import { STARKSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
-  Backend,
   FinalizedTransaction,
+  Provider,
   ProviderType,
   TransactionMode,
   TransactionState,
@@ -22,8 +22,8 @@ import {
   TransactionResponse,
 } from "./types";
 
-const ROOT_URL = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.indexer)?.url;
-const nodeUrl = CHAINS.starknet.backends.find((b: Backend) => b.providerType === ProviderType.node)?.url;
+const ROOT_URL = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.starkscan)?.url;
+const nodeUrl = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
 
 async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any) {
   const response = await fetch(url, {
@@ -90,7 +90,7 @@ const starkScanToAdamikTransaction = async (
     parsedTransaction.blockHeight = BigInt(transaction.block_number);
   }
 
-  const provider = new Provider({
+  const provider = new StarknetProvider({
     nodeUrl,
   });
 
@@ -130,7 +130,7 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 }
 
 async function getTransactionHistorySymbols(transactions: TransactionHistory[]) {
-  const provider = new Provider({
+  const provider = new StarknetProvider({
     nodeUrl,
   });
 

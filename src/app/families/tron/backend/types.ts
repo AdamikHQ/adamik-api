@@ -204,4 +204,114 @@ interface TronscanAccountTokensInfo {
   >;
 }
 
-export type { TronscanAccountInfo, TronscanAccountTokensInfo, TronscanTransactionInfo };
+type OkLinkTransactionInfo = {
+  chainFullName: string;
+  chainShortName: string;
+  txid: string;
+  height: string;
+  transactionTime: string;
+  amount: string;
+  transactionSymbol: string;
+  txfee: string;
+  index: string;
+  confirm: string;
+  inputDetails: Array<{
+    inputHash: string;
+    isContract: boolean;
+    amount: string;
+  }>;
+  outputDetails: Array<{
+    outputHash: string;
+    isContract: boolean;
+    amount: string;
+  }>;
+  state: string;
+  gasLimit: string;
+  gasUsed: string;
+  gasPrice: string;
+  totalTransactionSize: string;
+  virtualSize: string;
+  weight: string;
+  nonce: string;
+  transactionType: string;
+  methodId: string;
+  isAaTransaction: boolean;
+  tokenTransferDetails: Array<{
+    index: string;
+    token: string;
+    tokenContractAddress: string;
+    symbol: string;
+    from: string;
+    to: string;
+    tokenId: string;
+    amount: string;
+    isFromContract: boolean;
+    isToContract: boolean;
+  }>;
+  contractDetails: Array<unknown>;
+};
+
+type OkLinkAccountState = {
+  chainFullName: string;
+  chainShortName: string;
+  address: string;
+  contractAddress: string;
+  balance: string;
+  balanceSymbol: string;
+  transactionCount: string;
+  verifying: string;
+  sendAmount: string;
+  receiveAmount: string;
+  tokenAmount: string;
+  totalTokenValue: string;
+  createContractAddress: string;
+  createContractTransactionHash: string;
+  firstTransactionTime: string;
+  lastTransactionTime: string;
+  token: string;
+  bandwidth: string;
+  energy: string;
+  votingRights: string;
+  unclaimedVotingRewards: string;
+  isAaAddress: boolean;
+};
+
+type OkLinkAccountStateResponse = {
+  code: string;
+  msg: string;
+  data: OkLinkAccountState[];
+};
+
+type OkLinkTokenInfo = {
+  symbol: string;
+  tokenContractAddress: string;
+  tokenType: string;
+  holdingAmount: string;
+  priceUsd: string;
+  valueUsd: string;
+  tokenId: string;
+};
+
+type OkLinkTokensAccountState = {
+  limit: string;
+  page: string;
+  totalPage: string;
+  tokenList: OkLinkTokenInfo[];
+};
+
+type OkLinkTokensAccountStateResponse = {
+  code: string;
+  msg: string;
+  data: OkLinkTokensAccountState[];
+};
+
+export type {
+  OkLinkAccountState,
+  OkLinkAccountStateResponse,
+  OkLinkTokenInfo,
+  OkLinkTokensAccountStateResponse,
+  OkLinkTransactionInfo,
+  TronscanAccountInfo,
+  TronscanAccountTokensInfo,
+  TronscanTransactionInfo,
+};

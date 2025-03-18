@@ -64,6 +64,6 @@ Same as Viem, it uses its own IDs to identify chains, so we need a mapping with 
      - in the tab "Networks" look for the network you are adding
      - Valid ids are the subdomain in the url https://<chain-name>.g.alchemy.com/v2/... 
 2. If you don't find your chain there, it means it isn't supported by Moralis or Alchemy - nothing else to do
-3. If you found your chain, then update the relevant `CHAIN_IDS` with Adamik's ChainId and the Indexer's ID
+3. If you found your chain, then update the relevant `SUPPORTED_CHAIN_IDS` with Adamik's ChainId and the Indexer's ID
    - for Moralis: [/src/app/families/evm/backend/moralis.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/families/evm/backend/moralis.ts)
    - for Alchemy: [/src/app/families/evm/backend/alchemy.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/families/evm/backend/alchemy.ts)
