@@ -6,6 +6,7 @@ import {
   Curve,
   DeployContractType,
   EncodedTransactionFormat,
+  EncodedTransactionFormatDetails,
   HashFunction,
   SignatureFormat,
   TokenType,
@@ -486,7 +487,13 @@ const outputRegisterStakeSchema = z
     description: "Only supported for Babylon staking at the moment (documentation will come soon).",
   });
 
-const encodedTransactionSchema = z.string();
+const encodedTransactionSchema = z.array(
+  z.object({
+    format: z.nativeEnum(EncodedTransactionFormat),
+    value: z.string(),
+    details: z.nativeEnum(EncodedTransactionFormatDetails),
+  })
+);
 
 const signatureSchema = z.string();
 

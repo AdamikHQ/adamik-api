@@ -6783,8 +6783,19 @@
                               "format": {
                                 "type": "string",
                                 "enum": [
-                                  "json",
-                                  "hex"
+                                  "HASH_KECCAK256",
+                                  "HASH_SHA256",
+                                  "HASH_SHA512_256",
+                                  "HASH_PEDERSEN",
+                                  "EVM_RLP",
+                                  "WALLET_CONNECT_JSON",
+                                  "COSMOS_PROTOBUF",
+                                  "COSMOS_AMINO",
+                                  "COSMOS_PROTOBUF_JSON",
+                                  "TON_BOC",
+                                  "TRON_RAW_TRANSACTION",
+                                  "ALGORAND_MSGPACK",
+                                  "BITCOIN_PSBT"
                                 ],
                                 "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                               }
@@ -7249,8 +7260,19 @@
                                 "format": {
                                   "type": "string",
                                   "enum": [
-                                    "json",
-                                    "hex"
+                                    "HASH_KECCAK256",
+                                    "HASH_SHA256",
+                                    "HASH_SHA512_256",
+                                    "HASH_PEDERSEN",
+                                    "EVM_RLP",
+                                    "WALLET_CONNECT_JSON",
+                                    "COSMOS_PROTOBUF",
+                                    "COSMOS_AMINO",
+                                    "COSMOS_PROTOBUF_JSON",
+                                    "TON_BOC",
+                                    "TRON_RAW_TRANSACTION",
+                                    "ALGORAND_MSGPACK",
+                                    "BITCOIN_PSBT"
                                   ],
                                   "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                                 },
@@ -7591,7 +7613,55 @@
                           ]
                         },
                         "encoded": {
-                          "type": "string"
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "format": {
+                                "type": "string",
+                                "enum": [
+                                  "HASH_KECCAK256",
+                                  "HASH_SHA256",
+                                  "HASH_SHA512_256",
+                                  "HASH_PEDERSEN",
+                                  "EVM_RLP",
+                                  "WALLET_CONNECT_JSON",
+                                  "COSMOS_PROTOBUF",
+                                  "COSMOS_AMINO",
+                                  "COSMOS_PROTOBUF_JSON",
+                                  "TON_BOC",
+                                  "TRON_RAW_TRANSACTION",
+                                  "ALGORAND_MSGPACK",
+                                  "BITCOIN_PSBT"
+                                ]
+                              },
+                              "value": {
+                                "type": "string"
+                              },
+                              "details": {
+                                "type": "string",
+                                "enum": [
+                                  "Recursive-length prefix (RLP) serialization",
+                                  "Transaction hashed with Keccak256",
+                                  "Transaction hashed with SHA256",
+                                  "Transaction hashed with SHA512_256",
+                                  "Pedersen hash of the transaction",
+                                  "Wallet Connect EVM JSON Format",
+                                  "Cosmos Protobuf hex encoded",
+                                  "Cosmos Protobuf JSON",
+                                  "TON Bag of Cells in hex format",
+                                  "TRON raw transaction in hex format",
+                                  "Algorand Msgpack",
+                                  "Bitcoin PSBT"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "format",
+                              "value",
+                              "details"
+                            ]
+                          }
                         }
                       },
                       "required": [
@@ -7776,8 +7846,19 @@
                               "format": {
                                 "type": "string",
                                 "enum": [
-                                  "json",
-                                  "hex"
+                                  "HASH_KECCAK256",
+                                  "HASH_SHA256",
+                                  "HASH_SHA512_256",
+                                  "HASH_PEDERSEN",
+                                  "EVM_RLP",
+                                  "WALLET_CONNECT_JSON",
+                                  "COSMOS_PROTOBUF",
+                                  "COSMOS_AMINO",
+                                  "COSMOS_PROTOBUF_JSON",
+                                  "TON_BOC",
+                                  "TRON_RAW_TRANSACTION",
+                                  "ALGORAND_MSGPACK",
+                                  "BITCOIN_PSBT"
                                 ],
                                 "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                               }
@@ -8403,8 +8484,19 @@
                               "format": {
                                 "type": "string",
                                 "enum": [
-                                  "json",
-                                  "hex"
+                                  "HASH_KECCAK256",
+                                  "HASH_SHA256",
+                                  "HASH_SHA512_256",
+                                  "HASH_PEDERSEN",
+                                  "EVM_RLP",
+                                  "WALLET_CONNECT_JSON",
+                                  "COSMOS_PROTOBUF",
+                                  "COSMOS_AMINO",
+                                  "COSMOS_PROTOBUF_JSON",
+                                  "TON_BOC",
+                                  "TRON_RAW_TRANSACTION",
+                                  "ALGORAND_MSGPACK",
+                                  "BITCOIN_PSBT"
                                 ],
                                 "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                               },
@@ -8736,7 +8828,55 @@
                         ]
                       },
                       "encoded": {
-                        "type": "string"
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "format": {
+                              "type": "string",
+                              "enum": [
+                                "HASH_KECCAK256",
+                                "HASH_SHA256",
+                                "HASH_SHA512_256",
+                                "HASH_PEDERSEN",
+                                "EVM_RLP",
+                                "WALLET_CONNECT_JSON",
+                                "COSMOS_PROTOBUF",
+                                "COSMOS_AMINO",
+                                "COSMOS_PROTOBUF_JSON",
+                                "TON_BOC",
+                                "TRON_RAW_TRANSACTION",
+                                "ALGORAND_MSGPACK",
+                                "BITCOIN_PSBT"
+                              ]
+                            },
+                            "value": {
+                              "type": "string"
+                            },
+                            "details": {
+                              "type": "string",
+                              "enum": [
+                                "Recursive-length prefix (RLP) serialization",
+                                "Transaction hashed with Keccak256",
+                                "Transaction hashed with SHA256",
+                                "Transaction hashed with SHA512_256",
+                                "Pedersen hash of the transaction",
+                                "Wallet Connect EVM JSON Format",
+                                "Cosmos Protobuf hex encoded",
+                                "Cosmos Protobuf JSON",
+                                "TON Bag of Cells in hex format",
+                                "TRON raw transaction in hex format",
+                                "Algorand Msgpack",
+                                "Bitcoin PSBT"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "format",
+                            "value",
+                            "details"
+                          ]
+                        }
                       },
                       "signature": {
                         "type": "string"

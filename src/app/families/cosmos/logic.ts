@@ -511,9 +511,10 @@ function buildBroadcastPayload({
 async function encodeToSign(
   chainId: ChainId,
   account: CosmosAccount,
-  transactionData: TransactionData,
-  format?: EncodedTransactionFormat
-): Promise<string> {
+  transactionData: TransactionData
+): Promise<
+  Record<EncodedTransactionFormat.COSMOS_PROTOBUF | EncodedTransactionFormat.COSMOS_PROTOBUF_JSON, string>
+> {
   if (!transactionData.fees) {
     throw new Error("Missing fees data in transaction");
   } else if (!transactionData.gas) {
@@ -548,15 +549,18 @@ async function encodeToSign(
   */
 
   if (chainId === ChainId.INJECTIVE) {
-    return buildSignDocProtobufForInjective(account, transactionData, chain.nativeId, feeData, format);
+    return buildSignDocProtobufForInjective(account, transactionData, chain.nativeId, feeData);
   }
 
   const signDoc = await buildSignDocProtobuf(chainId, account, transactionData, chain.nativeId, feeData);
 
   // TODO Test the protobuf format with Keplr, then deprecate the JSON format here if possible
-  return format === EncodedTransactionFormat.JSON
-    ? JSON.stringify(SignDocProtobuf.toJSON(signDoc))
-    : Buffer.from(SignDocProtobuf.encode(signDoc).finish()).toString("hex");
+  return {
+    [EncodedTransactionFormat.COSMOS_PROTOBUF_JSON]: JSON.stringify(SignDocProtobuf.toJSON(signDoc)),
+    [EncodedTransactionFormat.COSMOS_PROTOBUF]: Buffer.from(
+      SignDocProtobuf.encode(signDoc).finish()
+    ).toString("hex"),
+  };
 }
 
 async function encodeToBroadcast(

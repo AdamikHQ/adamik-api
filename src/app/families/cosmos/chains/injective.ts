@@ -23,9 +23,8 @@ function buildSignDocProtobufForInjective(
   account: CosmosAccount,
   transactionData: TransactionData,
   networkId: string,
-  feeData: StdFee,
-  format?: EncodedTransactionFormat
-): string {
+  feeData: StdFee
+): Record<EncodedTransactionFormat.COSMOS_PROTOBUF | EncodedTransactionFormat.COSMOS_PROTOBUF_JSON, string> {
   const { pubKey } = resolvePubKey(ChainId.INJECTIVE, account, transactionData);
 
   const protoMsgs = buildMessagesForInjective(transactionData);
@@ -69,9 +68,14 @@ function buildSignDocProtobufForInjective(
     chainId: networkId as CosmosChainId,
   });
 
-  return format === EncodedTransactionFormat.JSON
-    ? JSON.stringify(CosmosTxV1Beta1Tx.SignDoc.toJSON(signDoc))
-    : Buffer.from(CosmosTxV1Beta1Tx.SignDoc.encode(signDoc).finish()).toString("hex");
+  return {
+    [EncodedTransactionFormat.COSMOS_PROTOBUF_JSON]: JSON.stringify(
+      CosmosTxV1Beta1Tx.SignDoc.toJSON(signDoc)
+    ),
+    [EncodedTransactionFormat.COSMOS_PROTOBUF]: Buffer.from(
+      CosmosTxV1Beta1Tx.SignDoc.encode(signDoc).finish()
+    ).toString("hex"),
+  };
 }
 
 function buildSignDocAminoForInjective(

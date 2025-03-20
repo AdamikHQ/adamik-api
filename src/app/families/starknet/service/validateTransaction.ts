@@ -44,11 +44,6 @@ async function prevalidateTransaction(
         status.errors.push({ message: "Balance is too low to cover transfer amount" });
       }
 
-      if (transaction.data.format) {
-        status.warnings.push({
-          message: `Field 'format' is not supported for chain ID ${this.chainId}, it will be ignored`,
-        });
-      }
       break;
     }
 

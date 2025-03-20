@@ -7,18 +7,19 @@ import {
   Signature,
   toHex,
   TransactionSerializable,
-  BaseError as ViemError,
 } from "viem";
 import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
   EncodedTransactionFormat,
+  EncodedTransactionFormatDetails,
   Status,
   Transaction,
   TransactionMode,
 } from "~/app/model/types_WIP";
-import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
+import { UserInputError } from "~/app/tools/handlers/errors";
+import { keccak256 } from "~/app/tools/hash";
 import { estimateFeesPerGas } from "../backend/node";
 import { isHexString } from "../logic";
 import { EvmService } from "../service";
@@ -33,30 +34,28 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction, status } = _;
 
-  try {
-    switch (transaction.data.format) {
-      // HEX is the proper format and current default, when format is not explicitely provided
-      case undefined:
-      case EncodedTransactionFormat.HEX:
-        await encodeTransactionAsHex(this.chainId, transaction);
-        break;
-      // JSON doesn't really make sense, it's only for Metamask and signers that actually do the encoding themselves...
-      case EncodedTransactionFormat.JSON:
-        await encodeTransactionAsJSON(this.chainId, transaction);
-        break;
-      default:
-        throw new UnsupportedFeatureError(
-          `Unsupported encoding format '${transaction.data.format}' for chainId ${this.chainId}`
-        );
-    }
-  } catch (e: any) {
-    const message =
-      (e instanceof ViemError ? e.shortMessage : e.message) || "Failed to encode the transaction";
-    status.errors.push({ message });
-  }
+  const rawTransaction = await encodeTransactionAsHex(this.chainId, transaction);
+
+  transaction.encoded = [
+    {
+      format: EncodedTransactionFormat.EVM_RLP,
+      value: rawTransaction,
+      details: EncodedTransactionFormatDetails.EVM_RLP,
+    },
+    {
+      format: EncodedTransactionFormat.HASH_KECCAK256,
+      value: keccak256(Buffer.from(rawTransaction, "hex")),
+      details: EncodedTransactionFormatDetails.HASH_KECCAK256,
+    },
+    {
+      format: EncodedTransactionFormat.WALLET_CONNECT_JSON,
+      value: await encodeTransactionAsJSON(this.chainId, transaction),
+      details: EncodedTransactionFormatDetails.WALLET_CONNECT_JSON,
+    },
+  ];
 }
 
-async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction): Promise<void> {
+async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction): Promise<string> {
   const chain = CHAINS[chainId];
   const chainParams = chain.params as EvmChainParams;
 
@@ -81,7 +80,7 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
 
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
-  transaction.encoded = serializeTransactionFn({
+  return serializeTransactionFn({
     chainId: Number(chain.nativeId),
     maxFeePerGas,
     maxPriorityFeePerGas,
@@ -93,7 +92,7 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
   });
 }
 
-async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transaction): Promise<void> {
+async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transaction): Promise<string> {
   const chain = CHAINS[chainId];
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
@@ -111,13 +110,13 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
 
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER: {
-      transaction.encoded = JSON.stringify({
+      return JSON.stringify({
         ...commonData,
         value: toHex(transaction.data.amount!),
         to: transaction.data.recipientAddress,
       });
-      break;
     }
+
     case TransactionMode.TRANSFER_TOKEN: {
       const data = encodeFunctionData({
         abi: erc20Abi,
@@ -125,15 +124,16 @@ async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transactio
         args: [transaction.data.recipientAddress as EvmAddress, transaction.data.amount!],
       });
 
-      transaction.encoded = JSON.stringify({
+      return JSON.stringify({
         ...commonData,
         value: toHex(0n),
         to: transaction.data.tokenId,
         data,
       });
-      break;
     }
   }
+
+  throw new UserInputError("Invalid transaction mode");
 }
 
 async function encodeTransactionToBroadcast(
@@ -194,9 +194,15 @@ async function encodeTransactionToBroadcast(
     }
   })();
 
-  const parsedTansaction: TransactionSerializable = isHexString(signedTransaction.encoded)
-    ? parseTransaction(signedTransaction.encoded)
-    : (JSON.parse(signedTransaction.encoded) as TransactionSerializable);
+  const rawTransaction = signedTransaction.encoded.find((encoded) => {
+    return encoded.format === EncodedTransactionFormat.EVM_RLP;
+  });
+
+  if (!rawTransaction) {
+    throw new UserInputError("Missing raw transaction");
+  }
+
+  const parsedTansaction: TransactionSerializable = parseTransaction(rawTransaction.value as `0x${string}`);
 
   const chainParams = CHAINS[this.chainId].params as EvmChainParams;
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;

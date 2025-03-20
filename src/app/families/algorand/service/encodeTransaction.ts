@@ -1,6 +1,7 @@
 import { Transaction as AlgoTransaction, decodeMsgpack } from "algosdk";
 import { buildRawTransaction, encodeToBroadcast, encodeToSign } from "~/app/families/algorand/logic";
-import { Status, Transaction } from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, Status, Transaction } from "~/app/model/types_WIP";
+import { UserInputError } from "~/app/tools/handlers/errors";
 import { AlgorandService } from "../service";
 
 async function encodeTransactionToSign(
@@ -34,12 +35,20 @@ async function encodeTransactionToBroadcast(
     throw new Error("missing transaction signature");
   }
 
-  const transactionPayload = decodeMsgpack(Buffer.from(signedTransaction.encoded, "hex"), AlgoTransaction);
+  const encodedTransaction = signedTransaction.encoded.find((encoded) => {
+    return encoded.format === EncodedTransactionFormat.ALGORAND_MSGPACK;
+  });
+
+  if (!encodedTransaction) {
+    throw new UserInputError("Missing encoded transaction");
+  }
+
+  const transactionPayload = decodeMsgpack(Buffer.from(encodedTransaction.value, "hex"), AlgoTransaction);
 
   const signature = Buffer.from(signedTransaction.signature, "hex");
 
-  const encodedTransaction = encodeToBroadcast(transactionPayload, signature);
-  return encodedTransaction.toString("hex");
+  const broadcastPayload = encodeToBroadcast(transactionPayload, signature);
+  return broadcastPayload.toString("hex");
 }
 
 export { encodeTransactionToBroadcast, encodeTransactionToSign };

@@ -1,5 +1,10 @@
 import { hexToString, stringToHex } from "viem";
-import { Status, Transaction } from "~/app/model/types_WIP";
+import {
+  EncodedTransactionFormat,
+  EncodedTransactionFormatDetails,
+  Status,
+  Transaction,
+} from "~/app/model/types_WIP";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { buildTransaction } from "../logic";
 import { StarknetService } from "../service";
@@ -20,7 +25,15 @@ async function encodeTransactionToSign(
     throw new Error("Failed to build transaction");
   }
 
-  transaction.encoded = payload.payload.toSign;
+  // TODO: check if we can have less than an hash
+  // Doesn't seems to be the case but less dig later : https://starknetjs.com/docs/guides/signature
+  transaction.encoded = [
+    {
+      format: EncodedTransactionFormat.HASH_PEDERSEN,
+      value: payload.payload.toSign,
+      details: EncodedTransactionFormatDetails.HASH_PEDERSEN,
+    },
+  ];
   const params = stringToHex(
     JSON.stringify({
       mode: transaction.data.mode,

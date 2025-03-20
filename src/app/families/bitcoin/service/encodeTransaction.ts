@@ -1,4 +1,10 @@
-import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import {
+  EncodedTransactionFormat,
+  EncodedTransactionFormatDetails,
+  Status,
+  Transaction,
+  TransactionMode,
+} from "~/app/model/types_WIP";
 import { AdamikApiServerError } from "~/app/tools/handlers/errors";
 import { BitcoinService } from "../service";
 import { BitcoinTransactionParams } from "../types";
@@ -18,7 +24,13 @@ async function encodeTransactionToSign(
           console.warn(`Missing psbt in transaction:`, transaction);
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
-        transaction.encoded = params.transferPsbt;
+        transaction.encoded = [
+          {
+            format: EncodedTransactionFormat.BITCOIN_PSBT,
+            value: params.transferPsbt,
+            details: EncodedTransactionFormatDetails.BITCOIN_PSBT,
+          },
+        ];
       }
       break;
     case TransactionMode.STAKE:
@@ -32,7 +44,13 @@ async function encodeTransactionToSign(
           console.warn(`Missing psbt(s) in transaction.params:`, transaction);
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
-        transaction.encoded = params.stakingPsbt;
+        transaction.encoded = [
+          {
+            format: EncodedTransactionFormat.BITCOIN_PSBT,
+            value: params.stakingPsbt,
+            details: EncodedTransactionFormatDetails.BITCOIN_PSBT,
+          },
+        ];
       }
       break;
     case TransactionMode.UNSTAKE:
@@ -41,7 +59,13 @@ async function encodeTransactionToSign(
           console.warn(`Missing psbt in transaction:`, transaction);
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
-        transaction.encoded = params.unbondingPsbt;
+        transaction.encoded = [
+          {
+            format: EncodedTransactionFormat.BITCOIN_PSBT,
+            value: params.unbondingPsbt,
+            details: EncodedTransactionFormatDetails.BITCOIN_PSBT,
+          },
+        ];
       }
       break;
     case TransactionMode.WITHDRAW:
