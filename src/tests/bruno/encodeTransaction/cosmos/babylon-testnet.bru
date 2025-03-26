@@ -22,7 +22,6 @@ body:json {
         "senderAddress": "bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49",
         "recipientAddress": "bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49",
         "useMaxAmount": true,
-        "format": "json",
         "params": {
           "pubKey": "03833d5aebe72ca68e3816c4a466d395280929f07ccf5e75dc4e2d71c2c92da458"
         }
@@ -33,5 +32,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  ~res.body.transaction.encoded: eq
+  ~res.body.transaction.encoded[0].value: eq
 }

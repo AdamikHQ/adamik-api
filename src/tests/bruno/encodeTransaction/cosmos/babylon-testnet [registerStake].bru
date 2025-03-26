@@ -35,5 +35,5 @@ body:json {
 
 assert {
   ~res.status: eq 200
-  ~res.body.transaction.encoded: eq
+  ~res.body.transaction.encoded[0].value: eq
 }
