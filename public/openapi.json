@@ -7637,29 +7637,11 @@
                               },
                               "value": {
                                 "type": "string"
-                              },
-                              "details": {
-                                "type": "string",
-                                "enum": [
-                                  "Recursive-length prefix (RLP) serialization",
-                                  "Transaction hashed with Keccak256",
-                                  "Transaction hashed with SHA256",
-                                  "Transaction hashed with SHA512_256",
-                                  "Pedersen hash of the transaction",
-                                  "Wallet Connect EVM JSON Format",
-                                  "Cosmos Protobuf hex encoded",
-                                  "Cosmos Protobuf JSON",
-                                  "TON Bag of Cells in hex format",
-                                  "TRON raw transaction in hex format",
-                                  "Algorand Msgpack",
-                                  "Bitcoin PSBT"
-                                ]
                               }
                             },
                             "required": [
                               "format",
-                              "value",
-                              "details"
+                              "value"
                             ]
                           }
                         }
@@ -8852,29 +8834,11 @@
                             },
                             "value": {
                               "type": "string"
-                            },
-                            "details": {
-                              "type": "string",
-                              "enum": [
-                                "Recursive-length prefix (RLP) serialization",
-                                "Transaction hashed with Keccak256",
-                                "Transaction hashed with SHA256",
-                                "Transaction hashed with SHA512_256",
-                                "Pedersen hash of the transaction",
-                                "Wallet Connect EVM JSON Format",
-                                "Cosmos Protobuf hex encoded",
-                                "Cosmos Protobuf JSON",
-                                "TON Bag of Cells in hex format",
-                                "TRON raw transaction in hex format",
-                                "Algorand Msgpack",
-                                "Bitcoin PSBT"
-                              ]
                             }
                           },
                           "required": [
                             "format",
-                            "value",
-                            "details"
+                            "value"
                           ]
                         }
                       },

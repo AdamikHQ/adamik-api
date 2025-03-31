@@ -467,7 +467,6 @@ type TransactionData =
 type EncodedTransaction = {
   format: EncodedTransactionFormat;
   value: string;
-  details?: EncodedTransactionFormatDetails;
 };
 
 enum EncodedTransactionFormat {
@@ -484,21 +483,6 @@ enum EncodedTransactionFormat {
   TRON_RAW_TRANSACTION = "TRON_RAW_TRANSACTION",
   ALGORAND_MSGPACK = "ALGORAND_MSGPACK",
   BITCOIN_PSBT = "BITCOIN_PSBT",
-}
-
-enum EncodedTransactionFormatDetails {
-  EVM_RLP = "Recursive-length prefix (RLP) serialization",
-  HASH_KECCAK256 = "Transaction hashed with Keccak256",
-  HASH_SHA256 = "Transaction hashed with SHA256",
-  HASH_SHA512_256 = "Transaction hashed with SHA512_256",
-  HASH_PEDERSEN = "Pedersen hash of the transaction",
-  WALLET_CONNECT_JSON = "Wallet Connect EVM JSON Format",
-  COSMOS_PROTOBUF = "Cosmos Protobuf hex encoded",
-  COSMOS_PROTOBUF_JSON = "Cosmos Protobuf JSON",
-  TON_BOC = "TON Bag of Cells in hex format",
-  TRON_RAW_TRANSACTION = "TRON raw transaction in hex format",
-  ALGORAND_MSGPACK = "Algorand Msgpack",
-  BITCOIN_PSBT = "Bitcoin PSBT",
 }
 
 type Transaction = {
@@ -538,7 +522,6 @@ export {
   Curve,
   DeployContractType,
   EncodedTransactionFormat,
-  EncodedTransactionFormatDetails,
   HashFunction,
   SignatureFormat,
   StakingStatus,

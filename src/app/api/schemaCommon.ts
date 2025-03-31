@@ -6,7 +6,6 @@ import {
   Curve,
   DeployContractType,
   EncodedTransactionFormat,
-  EncodedTransactionFormatDetails,
   HashFunction,
   SignatureFormat,
   TokenType,
@@ -491,7 +490,6 @@ const encodedTransactionSchema = z.array(
   z.object({
     format: z.nativeEnum(EncodedTransactionFormat),
     value: z.string(),
-    details: z.nativeEnum(EncodedTransactionFormatDetails),
   })
 );
 
