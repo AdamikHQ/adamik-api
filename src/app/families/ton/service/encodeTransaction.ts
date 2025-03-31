@@ -1,12 +1,6 @@
 import { Address } from "@ton/core";
 import { hexToString } from "viem";
-import {
-  EncodedTransactionFormat,
-  EncodedTransactionFormatDetails,
-  Status,
-  Transaction,
-  TransactionMode,
-} from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
 import { buildTransaction, createExternalMessage, packSignatureToFront } from "../logic";
 import { TonService } from "../service";
@@ -33,12 +27,10 @@ async function encodeTransactionToSign(
     {
       format: EncodedTransactionFormat.TON_BOC, // https://docs.ton.org/v3/documentation/data-formats/tlb/cell-boc#bag-of-cells
       value: builtTransaction.endCell().toBoc().toString("hex"),
-      details: EncodedTransactionFormatDetails.TON_BOC,
     },
     {
       format: EncodedTransactionFormat.HASH_SHA256, // https://docs.ton.org/v3/documentation/data-formats/tlb/cell-boc#standard-cell-representation-hash-calculation
       value: builtTransaction.endCell().hash().toString("hex"),
-      details: EncodedTransactionFormatDetails.HASH_SHA256,
     },
   ];
 }

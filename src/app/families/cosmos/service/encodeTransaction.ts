@@ -1,9 +1,4 @@
-import {
-  EncodedTransactionFormat,
-  EncodedTransactionFormatDetails,
-  Status,
-  Transaction,
-} from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, Status, Transaction } from "~/app/model/types_WIP";
 import { sha256 } from "~/app/tools/hash";
 import { fetchAccount } from "../backend/node";
 import { encodeToBroadcast, encodeToSign, resolvePubKey } from "../logic";
@@ -26,17 +21,14 @@ async function encodeTransactionToSign(
     {
       format: EncodedTransactionFormat.COSMOS_PROTOBUF,
       value: rawTransactions[EncodedTransactionFormat.COSMOS_PROTOBUF],
-      details: EncodedTransactionFormatDetails.COSMOS_PROTOBUF,
     },
     {
       format: EncodedTransactionFormat.HASH_SHA256,
       value: sha256(Buffer.from(rawTransactions[EncodedTransactionFormat.COSMOS_PROTOBUF], "hex")),
-      details: EncodedTransactionFormatDetails.HASH_SHA256,
     },
     {
       format: EncodedTransactionFormat.COSMOS_PROTOBUF_JSON,
       value: rawTransactions[EncodedTransactionFormat.COSMOS_PROTOBUF_JSON],
-      details: EncodedTransactionFormatDetails.COSMOS_PROTOBUF_JSON,
     },
   ];
 }

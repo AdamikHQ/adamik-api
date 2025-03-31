@@ -9,7 +9,6 @@ import { fetchAccount, fetchTransactionParams } from "~/app/families/algorand/ba
 import {
   EncodedTransaction,
   EncodedTransactionFormat,
-  EncodedTransactionFormatDetails,
   TransactionData,
   TransactionMode,
   TransactionSpendableAmounts,
@@ -148,12 +147,10 @@ function encodeToSign(payload: AlgoTransaction): EncodedTransaction[] {
     {
       format: EncodedTransactionFormat.ALGORAND_MSGPACK,
       value: Buffer.from(msgPackEncoded).toString("hex"),
-      details: EncodedTransactionFormatDetails.ALGORAND_MSGPACK,
     },
     {
       format: EncodedTransactionFormat.HASH_SHA512_256,
       value: sha512_256(prefixedTx),
-      details: EncodedTransactionFormatDetails.HASH_SHA512_256,
     },
   ];
 }

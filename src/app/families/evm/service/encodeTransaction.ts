@@ -13,7 +13,6 @@ import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
   EncodedTransactionFormat,
-  EncodedTransactionFormatDetails,
   Status,
   Transaction,
   TransactionMode,
@@ -40,17 +39,14 @@ async function encodeTransactionToSign(
     {
       format: EncodedTransactionFormat.EVM_RLP,
       value: rawTransaction,
-      details: EncodedTransactionFormatDetails.EVM_RLP,
     },
     {
       format: EncodedTransactionFormat.HASH_KECCAK256,
       value: keccak256(Buffer.from(rawTransaction, "hex")),
-      details: EncodedTransactionFormatDetails.HASH_KECCAK256,
     },
     {
       format: EncodedTransactionFormat.WALLET_CONNECT_JSON,
       value: await encodeTransactionAsJSON(this.chainId, transaction),
-      details: EncodedTransactionFormatDetails.WALLET_CONNECT_JSON,
     },
   ];
 }

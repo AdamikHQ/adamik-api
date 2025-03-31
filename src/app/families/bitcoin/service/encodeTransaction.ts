@@ -1,10 +1,4 @@
-import {
-  EncodedTransactionFormat,
-  EncodedTransactionFormatDetails,
-  Status,
-  Transaction,
-  TransactionMode,
-} from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { AdamikApiServerError } from "~/app/tools/handlers/errors";
 import { BitcoinService } from "../service";
 import { BitcoinTransactionParams } from "../types";
@@ -28,7 +22,6 @@ async function encodeTransactionToSign(
           {
             format: EncodedTransactionFormat.BITCOIN_PSBT,
             value: params.transferPsbt,
-            details: EncodedTransactionFormatDetails.BITCOIN_PSBT,
           },
         ];
       }
@@ -48,7 +41,6 @@ async function encodeTransactionToSign(
           {
             format: EncodedTransactionFormat.BITCOIN_PSBT,
             value: params.stakingPsbt,
-            details: EncodedTransactionFormatDetails.BITCOIN_PSBT,
           },
         ];
       }
@@ -63,7 +55,6 @@ async function encodeTransactionToSign(
           {
             format: EncodedTransactionFormat.BITCOIN_PSBT,
             value: params.unbondingPsbt,
-            details: EncodedTransactionFormatDetails.BITCOIN_PSBT,
           },
         ];
       }

@@ -1,10 +1,5 @@
 import { hexToString, stringToHex } from "viem";
-import {
-  EncodedTransactionFormat,
-  EncodedTransactionFormatDetails,
-  Status,
-  Transaction,
-} from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, Status, Transaction } from "~/app/model/types_WIP";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { buildTransaction } from "../logic";
 import { StarknetService } from "../service";
@@ -31,7 +26,6 @@ async function encodeTransactionToSign(
     {
       format: EncodedTransactionFormat.HASH_PEDERSEN,
       value: payload.payload.toSign,
-      details: EncodedTransactionFormatDetails.HASH_PEDERSEN,
     },
   ];
   const params = stringToHex(
