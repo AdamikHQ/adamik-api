@@ -13,9 +13,9 @@ const mempoolSpaceUtxoSchema = z.object({
   vout: z.number(),
   status: z.object({
     confirmed: z.boolean(),
-    block_height: z.number(),
-    block_hash: z.string(),
-    block_time: z.number(),
+    block_height: z.number().optional(),
+    block_hash: z.string().optional(),
+    block_time: z.number().optional(),
   }),
   value: z.number(),
 });
@@ -30,5 +30,31 @@ const mempoolSpaceAddressValidationSchema = z.object({
   iswitness: z.boolean(),
 });
 
-export { mempoolSpaceAddressValidationSchema, mempoolSpaceFeesSchema, mempoolSpaceUtxoSchema };
-export type { MempoolSpaceUTXO };
+// Schema for the address balance response
+const mempoolSpaceAddressBalanceSchema = z.object({
+  address: z.string(),
+  chain_stats: z.object({
+    funded_txo_count: z.number(),
+    funded_txo_sum: z.number(),
+    spent_txo_count: z.number(),
+    spent_txo_sum: z.number(),
+    tx_count: z.number(),
+  }),
+  mempool_stats: z.object({
+    funded_txo_count: z.number(),
+    funded_txo_sum: z.number(),
+    spent_txo_count: z.number(),
+    spent_txo_sum: z.number(),
+    tx_count: z.number(),
+  }),
+});
+
+type MempoolSpaceAddressBalance = z.infer<typeof mempoolSpaceAddressBalanceSchema>;
+
+export {
+  mempoolSpaceAddressBalanceSchema,
+  mempoolSpaceAddressValidationSchema,
+  mempoolSpaceFeesSchema,
+  mempoolSpaceUtxoSchema,
+};
+export type { MempoolSpaceAddressBalance, MempoolSpaceUTXO };

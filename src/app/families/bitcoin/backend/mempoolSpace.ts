@@ -3,6 +3,8 @@ import { CHAINS } from "~/app/config/chains";
 import { ChainId, Provider, ProviderType } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
 import {
+  MempoolSpaceAddressBalance,
+  mempoolSpaceAddressBalanceSchema,
   mempoolSpaceAddressValidationSchema,
   mempoolSpaceFeesSchema,
   MempoolSpaceUTXO,
@@ -59,6 +61,32 @@ async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<Mem
   // TODO Error management
 
   const data = mempoolSpaceUtxoSchema.array().parse(result);
+
+  return data;
+}
+
+async function fetchAddressBalance(chainId: ChainId, address: string): Promise<MempoolSpaceAddressBalance> {
+  const explorerURL = CHAINS[chainId].backends.find(
+    (b: Backend) => b.providerType === ProviderType.indexer
+  )?.url;
+  const url = `${explorerURL}/address/${address}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new ThirdPartyProviderError(
+      `Error while fetching balance for address ${address} from the explorer`
+    );
+  }
+
+  const result = await response.json();
+
+  // Parse and validate the response data
+  const data = mempoolSpaceAddressBalanceSchema.parse(result);
 
   return data;
 }
@@ -142,4 +170,11 @@ async function postTransaction(chainId: ChainId, payload: string): Promise<strin
   return txHash;
 }
 
-export { fetchAddressScriptPubKey, fetchAddressUtxos, fetchFeePerByte, fetchTransactionRaw, postTransaction };
+export {
+  fetchAddressBalance,
+  fetchAddressScriptPubKey,
+  fetchAddressUtxos,
+  fetchFeePerByte,
+  fetchTransactionRaw,
+  postTransaction,
+};
