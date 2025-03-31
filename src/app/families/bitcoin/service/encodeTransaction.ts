@@ -25,7 +25,7 @@ async function encodeTransactionToSign(
       {
         if (
           !params.stakingPsbt ||
-          !params.unbondingPsbt ||
+          !params.unbondingTransaction ||
           !params.slashingPsbt ||
           !params.unbondingSlashingPsbt
         ) {
@@ -37,11 +37,11 @@ async function encodeTransactionToSign(
       break;
     case TransactionMode.UNSTAKE:
       {
-        if (!params.unbondingPsbt) {
+        if (!params.unbondingTransaction) {
           console.warn(`Missing psbt in transaction:`, transaction);
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
-        transaction.encoded = params.unbondingPsbt;
+        transaction.encoded = params.unbondingTransaction;
       }
       break;
     case TransactionMode.WITHDRAW:

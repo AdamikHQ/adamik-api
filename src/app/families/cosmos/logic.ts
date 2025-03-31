@@ -32,8 +32,8 @@ import {
 } from "~/app/model/types_WIP";
 import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
-import { fetchNetworkInfo } from "../bitcoin/backend/babylon";
-import { buildBabylonRegistrationMessage } from "../bitcoin/psbt";
+import { fetchStakingParams } from "../bitcoin/backend/babylon";
+import { BABYLON_BITCOIN_CHAIN, buildBabylonRegistrationMessage } from "../bitcoin/psbt";
 import { fetchBalances, fetchDelegations, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
 import { buildSignDocProtobufForInjective } from "./chains/injective";
@@ -373,12 +373,11 @@ async function buildMessages(
           );
         }
 
-        const babylonNetworkInfo = await fetchNetworkInfo();
+        const babylonStakingParams = await fetchStakingParams();
         const protoRegisterStakeMsg: ProtoMsg = buildBabylonRegistrationMessage(
-          // TODO Change to BITCOIN
-          ChainId.BITCOIN_SIGNET,
+          BABYLON_BITCOIN_CHAIN,
           transactionData,
-          babylonNetworkInfo
+          babylonStakingParams
         );
 
         protoMsgs.push(protoRegisterStakeMsg);

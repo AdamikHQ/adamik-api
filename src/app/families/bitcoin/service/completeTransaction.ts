@@ -1,7 +1,7 @@
 import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
 import { ChainId, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
-import { fetchNetworkInfo } from "../backend/babylon";
+import { fetchStakingParams } from "../backend/babylon";
 import { fetchRawTransaction as fetchRawTransactionBlockchair } from "../backend/blockchair";
 import { fetchTransactionRaw as fetchTransactionRawMempoolSpace } from "../backend/mempoolSpace";
 import { getNetworkForChainId } from "../logic";
@@ -57,9 +57,9 @@ async function completeTransaction(
 
     case TransactionMode.STAKE:
       {
-        const babylonNetworkInfo = await fetchNetworkInfo();
+        const babylonStakingParams = await fetchStakingParams();
         const bitcoinNetworkInfo = getNetworkForChainId(this.chainId);
-        const stakingScripts = buildStakingScripts(transaction.data, babylonNetworkInfo);
+        const stakingScripts = buildStakingScripts(transaction.data, babylonStakingParams);
 
         // When staking, the staking transaction is the one that we are building (unsigned)
         const {
@@ -71,20 +71,20 @@ async function completeTransaction(
         const { transaction: unbondingTransaction } = buildUnbondingPsbt(
           stakingScripts,
           stakingTransaction,
-          babylonNetworkInfo,
+          babylonStakingParams,
           bitcoinNetworkInfo
         );
 
         const { psbt: slashingPsbt } = buildSlashingPsbt(
           stakingScripts,
           stakingTransaction,
-          babylonNetworkInfo,
+          babylonStakingParams,
           bitcoinNetworkInfo
         );
         const { psbt: unbondingSlashingPsbt } = buildUnbondingSlashingPsbt(
           stakingScripts,
           unbondingTransaction,
-          babylonNetworkInfo,
+          babylonStakingParams,
           bitcoinNetworkInfo
         );
 
@@ -104,9 +104,9 @@ async function completeTransaction(
         throw new UserInputError(`Missing 'stakeId' field in transaction`);
       }
 
-      const babylonNetworkInfo = await fetchNetworkInfo();
+      const babylonStakingParams = await fetchStakingParams();
       const bitcoinNetworkInfo = getNetworkForChainId(this.chainId);
-      const stakingScripts = buildStakingScripts(transaction.data, babylonNetworkInfo);
+      const stakingScripts = buildStakingScripts(transaction.data, babylonStakingParams);
 
       // When unstaking, the staking transaction was previously broadcasted and
       // should now be confirmed, so we retrieve it from the network
@@ -124,7 +124,7 @@ async function completeTransaction(
       const { psbt: unbondingPsbt, fee: fees } = buildUnbondingPsbt(
         stakingScripts,
         stakingTransaction,
-        babylonNetworkInfo,
+        babylonStakingParams,
         bitcoinNetworkInfo
       );
 

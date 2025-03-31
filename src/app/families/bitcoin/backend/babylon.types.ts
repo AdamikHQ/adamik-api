@@ -68,12 +68,28 @@ const babylonNetworkInfoV2Schema = z.object({
   version: z.number(),
 });
 
-type BabylonNetworkInfoV2 = z.infer<typeof babylonNetworkInfoV2Schema>;
+//type BabylonNetworkInfoV2 = z.infer<typeof babylonNetworkInfoV2Schema>;
+/*
+type BabylonNetworkInfoV2 = {
+  version: number;
+  btcActivationHeight: number;
+	covenantNoCoordPks: string[];
+	covenantQuorum: number;
+	unbondingTime: number;
+	unbondingFeeSat: number;
+	maxStakingAmountSat: number;
+	minStakingAmountSat: number;
+	maxStakingTimeBlocks: number;
+	minStakingTimeBlocks: number;
+  slashingPkScriptHex: string;
+  slashingRate: number;
+  minSlashingTxFeeSat: number;
+  minCommissionRate: string;
+  maxActiveFinalityProviders: number;
+  delegationCreationBaseGasFee: number;
+  allowListExpirationHeight: number;
+}
+*/
 
 export { babylonFinalityProviderV1Schema, babylonGlobalParamsV1Schema, babylonNetworkInfoV2Schema };
-export type {
-  BabylonFinalityProviderV1,
-  BabylonGlobalParamsV1,
-  BabylonNetworkInfoV2,
-  BabylonUnbondingBroadcastPayloadV1,
-};
+export type { BabylonFinalityProviderV1, BabylonGlobalParamsV1, BabylonUnbondingBroadcastPayloadV1 };

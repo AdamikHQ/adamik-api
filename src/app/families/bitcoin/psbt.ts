@@ -10,6 +10,7 @@ import {
   unbondingTransaction as createUnbondingTransaction,
   findInputUTXO,
   getPsbtInputFields,
+  StakingParams,
   StakingScriptData,
   StakingScripts,
   UTXO,
@@ -41,7 +42,6 @@ import {
   UnsupportedFeatureError,
   UserInputError,
 } from "~/app/tools/handlers/errors";
-import { BabylonNetworkInfoV2 } from "./backend/babylon.types";
 import {
   fetchAddressesDashboard,
   fetchFeePerByte as fetchFeePerByteBlockchair,
@@ -78,6 +78,8 @@ import {
 
 // FIXME Babylon constants should go elsewhere
 
+export const BABYLON_BITCOIN_CHAIN: ChainId = ChainId.BITCOIN_SIGNET;
+
 // No idea what that is, should be imported from btc-staking-lib instead, but it doesn't expose it...
 // https://github.com/babylonlabs-io/btc-staking-ts/blob/de1d1cff3ef4ad45b5c61f0d7b11fd4479de278a/src/constants/transaction.ts
 export const REDEEM_VERSION = 192;
@@ -96,7 +98,7 @@ function isSafeNumber(bigint: bigint): boolean {
 
 function buildStakingScripts(
   transactionData: TransactionData,
-  babylonNetworkInfo: BabylonNetworkInfoV2
+  babylonNetworkInfo: StakingParams
 ): StakingScripts {
   if (
     transactionData.mode !== TransactionMode.STAKE &&
@@ -125,15 +127,15 @@ function buildStakingScripts(
       : transactionData.validatorAddress;
   const finalityProviders: Buffer[] = [Buffer.from(validatorAddress, "hex")];
 
-  const covenantPks: Buffer[] = babylonNetworkInfo.covenant_pks.map((pk) => Buffer.from(pk, "hex"));
+  const covenantPks: Buffer[] = babylonNetworkInfo.covenantNoCoordPks.map((pk) => Buffer.from(pk, "hex"));
 
   const stakingScriptData = new StakingScriptData(
     senderPubKeyNoCoord,
     finalityProviders,
     covenantPks,
-    babylonNetworkInfo.covenant_quorum,
-    babylonNetworkInfo.min_staking_time_blocks,
-    babylonNetworkInfo.unbonding_time_blocks
+    babylonNetworkInfo.covenantQuorum,
+    babylonNetworkInfo.minStakingTimeBlocks,
+    babylonNetworkInfo.unbondingTime
   );
 
   return stakingScriptData.buildScripts();
@@ -160,6 +162,7 @@ async function buildStakingPsbt(
   let allUtxos: UTXO[];
 
   // Using mempool.space for signet and blockchair for mainnet
+  // TODO Only use mempool.space for everything?
   if (chainId === ChainId.BITCOIN_SIGNET) {
     feePerByte = await fetchFeePerByteMempoolSpace(chainId);
 
@@ -227,22 +230,26 @@ async function buildStakingPsbt(
 function buildSlashingPsbt(
   scripts: StakingScripts,
   stakingTransaction: BitcoinTransaction,
-  babylonNetworkInfo: BabylonNetworkInfoV2,
+  babylonNetworkInfo: StakingParams,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ): PsbtWithFee {
+  if (!babylonNetworkInfo.slashing) {
+    throw new AdamikApiServerError("Slashing parameters are required but not provided");
+  }
+
   try {
     const { psbt } = createSlashTimelockUnbondedTransaction(
       scripts,
       stakingTransaction,
-      babylonNetworkInfo.slashing_pk_script,
-      Number(babylonNetworkInfo.slashing_rate),
-      babylonNetworkInfo.min_slashing_tx_fee_sat,
+      babylonNetworkInfo.slashing.slashingPkScriptHex,
+      babylonNetworkInfo.slashing.slashingRate,
+      babylonNetworkInfo.slashing.minSlashingTxFeeSat,
       bitcoinNetworkInfo
     );
 
     return {
       psbt,
-      fee: babylonNetworkInfo.min_slashing_tx_fee_sat,
+      fee: babylonNetworkInfo.slashing.minSlashingTxFeeSat,
     };
   } catch (error: any) {
     console.warn("/!\\ Failed to build bitcoin slashing psbt:", error);
@@ -257,21 +264,25 @@ function buildSlashingPsbt(
 function buildUnbondingSlashingPsbt(
   scripts: StakingScripts,
   unbondingTransaction: BitcoinTransaction,
-  babylonNetworkInfo: BabylonNetworkInfoV2,
+  babylonNetworkInfo: StakingParams,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ): PsbtWithFee {
+  if (!babylonNetworkInfo.slashing) {
+    throw new AdamikApiServerError("Slashing parameters are required but not provided");
+  }
+
   try {
     const { psbt } = createSlashEarlyUnbondedTransaction(
       scripts,
       unbondingTransaction,
-      babylonNetworkInfo.slashing_pk_script,
-      Number(babylonNetworkInfo.slashing_rate),
-      babylonNetworkInfo.min_slashing_tx_fee_sat,
+      babylonNetworkInfo.slashing.slashingPkScriptHex,
+      babylonNetworkInfo.slashing.slashingRate,
+      babylonNetworkInfo.slashing.minSlashingTxFeeSat,
       bitcoinNetworkInfo
     );
     return {
       psbt,
-      fee: babylonNetworkInfo.min_slashing_tx_fee_sat,
+      fee: babylonNetworkInfo.slashing.minSlashingTxFeeSat,
     };
   } catch (error: any) {
     console.warn("/!\\ Failed to build bitcoin unbonding slashing psbt:", error);
@@ -288,11 +299,10 @@ function buildUnbondingSlashingPsbt(
 function buildUnbondingTransaction(
   scripts: StakingScripts,
   stakingTransaction: BitcoinTransaction,
-  babylonNetworkInfo: BabylonNetworkInfoV2,
+  babylonNetworkInfo: StakingParams,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ): { transaction: BitcoinTransaction; fee: number } {
-  // TODO Test this
-  const { unbonding_fee_sat: unbondingFee } = babylonNetworkInfo;
+  const { unbondingFeeSat: unbondingFee } = babylonNetworkInfo;
 
   const { outputAddress } = deriveStakingOutputInfo(scripts, bitcoinNetworkInfo);
   const stakingOutputIndex = findMatchingTxOutputIndex(stakingTransaction, outputAddress, bitcoinNetworkInfo);
@@ -315,7 +325,7 @@ function buildUnbondingTransaction(
 function buildUnbondingPsbt(
   scripts: StakingScripts,
   stakingTransaction: BitcoinTransaction,
-  babylonNetworkInfo: BabylonNetworkInfoV2,
+  babylonNetworkInfo: StakingParams,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ): { transaction: BitcoinTransaction; psbt: Psbt; fee: number } {
   const { transaction: unbondingTransaction, fee: unbondingFee } = buildUnbondingTransaction(
@@ -510,7 +520,7 @@ async function buildTransferPsbt(
 function buildBabylonRegistrationMessage(
   chainId: ChainId,
   transactionData: RegisterStakeTransactionData,
-  babylonNetworkInfo: BabylonNetworkInfoV2
+  babylonNetworkInfo: StakingParams
 ): ProtoMsg {
   //////////////////// Retrieve data from the input transaction
 
@@ -569,14 +579,14 @@ function buildBabylonRegistrationMessage(
     pop: proofOfPossession,
     btcPk: Uint8Array.from(Buffer.from(btcPubKeyNoCoordHex, "hex")),
     fpBtcPkList: [Uint8Array.from(Buffer.from(btcFinalityProviderPubKeyNoCoordHex, "hex"))],
-    stakingTime: babylonNetworkInfo.min_staking_time_blocks,
+    stakingTime: babylonNetworkInfo.minStakingTimeBlocks,
     stakingValue: btcStakingAmountSat,
     stakingTx: Uint8Array.from(clearTxSignatures(btcStakingTransaction).toBuffer()),
     slashingTx: Uint8Array.from(clearTxSignatures(btcSignedSlashingTransaction).toBuffer()),
     delegatorSlashingSig: Uint8Array.from(btcSlashingSignatures),
-    unbondingTime: babylonNetworkInfo.unbonding_time_blocks,
+    unbondingTime: babylonNetworkInfo.unbondingTime,
     unbondingTx: Uint8Array.from(btcUnbondingTransaction.toBuffer()),
-    unbondingValue: btcStakingAmountSat - babylonNetworkInfo.unbonding_fee_sat,
+    unbondingValue: btcStakingAmountSat - babylonNetworkInfo.unbondingFeeSat,
     unbondingSlashingTx: Uint8Array.from(clearTxSignatures(btcSignedUnbondingSlashingTransaction).toBuffer()),
     delegatorUnbondingSlashingSig: Uint8Array.from(btcUnbondingSlashingSignatures),
     // Inclusion proof is required in post-stake registration,

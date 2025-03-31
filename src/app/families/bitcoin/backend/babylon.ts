@@ -1,14 +1,20 @@
+import {
+  getBabylonParamByBtcHeight,
+  StakingParams,
+  VersionedStakingParams,
+} from "@babylonlabs-io/btc-staking-ts";
 import { CHAINS } from "~/app/config/chains";
 import { Provider, ProviderType } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { BABYLON_BITCOIN_CHAIN } from "../psbt";
 import {
   BabylonFinalityProviderV1,
   babylonFinalityProviderV1Schema,
-  BabylonNetworkInfoV2,
   babylonNetworkInfoV2Schema,
   BabylonUnbondingBroadcastPayloadV1,
 } from "./babylon.types";
+import { getLatestBlockHeight } from "./mempoolSpace";
 
 // Spec: https://staking-api.testnet.babylonlabs.io/swagger/index.html
 
@@ -17,7 +23,7 @@ const ROOT_URL = CHAINS["babylon-testnet"].providers.find(
   (p: Provider) => p.type === ProviderType.babylon
 )?.url;
 
-async function fetchNetworkInfo(): Promise<BabylonNetworkInfoV2> {
+async function fetchStakingParams(): Promise<StakingParams> {
   const url = `${ROOT_URL}/network-info`;
 
   const response = await fetch(url);
@@ -47,15 +53,27 @@ async function fetchNetworkInfo(): Promise<BabylonNetworkInfoV2> {
     throw new ThirdPartyProviderError(`Error while fetching data from the provider`);
   }
 
-  // Get the highest value among available versions
-  // FIXME Should we instead get the one closest to current block height?...
-  // https://github.com/babylonlabs-io/babylon/blob/c3bf51131c7c9febb83b3db310da2e1e67bd7dd5/docs/register-bitcoin-stake.md#32-babylon-chain-btc-staking-parameters
-  const latestVersion = globalParams.data.reduce(
-    (previous, current) => (current.version > previous.version ? current : previous),
-    globalParams.data[0]
-  );
+  const parsedParams: VersionedStakingParams[] = globalParams.data.map((param) => ({
+    version: param.version,
+    btcActivationHeight: param.btc_activation_height,
+    covenantNoCoordPks: param.covenant_pks,
+    covenantQuorum: param.covenant_quorum,
+    unbondingTime: param.unbonding_time_blocks,
+    unbondingFeeSat: param.unbonding_fee_sat,
+    maxStakingAmountSat: param.max_staking_value_sat,
+    minStakingAmountSat: param.min_staking_value_sat,
+    maxStakingTimeBlocks: param.max_staking_time_blocks,
+    minStakingTimeBlocks: param.min_staking_time_blocks,
+    slashing: {
+      slashingPkScriptHex: param.slashing_pk_script,
+      slashingRate: parseFloat(param.slashing_rate),
+      minSlashingTxFeeSat: param.min_slashing_tx_fee_sat,
+    },
+  }));
 
-  return latestVersion;
+  const bitcoinLatestBlockHeight = await getLatestBlockHeight(BABYLON_BITCOIN_CHAIN);
+
+  return getBabylonParamByBtcHeight(bitcoinLatestBlockHeight, parsedParams);
 }
 
 async function fetchFinalityProviders(
@@ -129,4 +147,4 @@ async function postUnbondingTransaction(payload: BabylonUnbondingBroadcastPayloa
   // FIXME Does the endpoint return a hash or something?...
 }
 
-export { fetchFinalityProviders, fetchNetworkInfo };
+export { fetchFinalityProviders, fetchStakingParams };

@@ -66,8 +66,8 @@ async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<Mem
 }
 
 async function fetchAddressBalance(chainId: ChainId, address: string): Promise<MempoolSpaceAddressBalance> {
-  const explorerURL = CHAINS[chainId].backends.find(
-    (b: Backend) => b.providerType === ProviderType.indexer
+  const explorerURL = CHAINS[chainId].providers.find(
+    (b: Provider) => b.type === ProviderType.mempoolspace
   )?.url;
   const url = `${explorerURL}/address/${address}`;
 
@@ -170,11 +170,33 @@ async function postTransaction(chainId: ChainId, payload: string): Promise<strin
   return txHash;
 }
 
+async function getLatestBlockHeight(chainId: ChainId): Promise<number> {
+  const explorerURL = CHAINS[chainId].providers.find(
+    (p: Provider) => p.type === ProviderType.mempoolspace
+  )?.url;
+  const url = `${explorerURL}/blocks/tip/height`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new ThirdPartyProviderError("Error while fetching latest block height from the explorer");
+  }
+
+  // The response is a plain text number
+  const height = await response.text();
+  return parseInt(height, 10);
+}
+
 export {
   fetchAddressBalance,
   fetchAddressScriptPubKey,
   fetchAddressUtxos,
   fetchFeePerByte,
   fetchTransactionRaw,
+  getLatestBlockHeight,
   postTransaction,
 };
