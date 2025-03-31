@@ -6,6 +6,7 @@ import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
+  APTOS = "aptos",
   ALGORAND = "algorand",
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",
@@ -106,6 +107,7 @@ enum ChainId {
 }
 
 enum ChainFamily {
+  APTOS = "aptos",
   ALGORAND = "algorand",
   COSMOS = "cosmos",
   EVM = "evm",
@@ -164,6 +166,7 @@ export enum ProviderType {
   algoindexer = "algoindexer",
   mempoolspace = "mempoolspace",
   oklink = "oklink",
+  aptosindexer = "aptosindexer",
 }
 
 type Provider = {
@@ -218,6 +221,7 @@ enum TokenType {
   ERC20 = "ERC20",
   IBC = "IBC",
   JETTON = "JETTON",
+  APTOS_COIN = "APTOS_COIN",
 }
 
 type Token = {

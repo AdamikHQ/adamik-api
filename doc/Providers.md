@@ -440,3 +440,8 @@
 
 | node | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |<br />
 | alchemy | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
+
+## aptos
+
+| node | https://api.mainnet.aptoslabs.com/v1 |<br />
+| aptosindexer | https://api.mainnet.aptoslabs.com/v1/graphql |
