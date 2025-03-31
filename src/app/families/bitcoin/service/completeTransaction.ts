@@ -68,9 +68,7 @@ async function completeTransaction(
           fee: fees,
         } = await buildStakingPsbt(this.chainId, transaction.data, stakingScripts, bitcoinNetworkInfo);
 
-        // TODO Test these
-
-        const { transaction: unbondingTransaction, psbt: unbondingPsbt } = buildUnbondingPsbt(
+        const { transaction: unbondingTransaction } = buildUnbondingPsbt(
           stakingScripts,
           stakingTransaction,
           babylonNetworkInfo,
@@ -95,8 +93,8 @@ async function completeTransaction(
         transaction.data.params = {
           stakingPsbt: stakingPsbt.toHex(),
           slashingPsbt: slashingPsbt.toHex(),
-          unbondingPsbt: unbondingPsbt.toHex(),
           unbondingSlashingPsbt: unbondingSlashingPsbt.toHex(),
+          unbondingTransaction: unbondingTransaction.toHex(),
         };
       }
       break;
@@ -133,7 +131,7 @@ async function completeTransaction(
       transaction.data.fees = BigInt(fees);
 
       transaction.data.params = {
-        unbondingPsbt: unbondingPsbt.toHex(),
+        unbondingTransaction: unbondingPsbt.toHex(),
       };
     }
 

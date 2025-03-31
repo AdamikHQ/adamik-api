@@ -78,11 +78,6 @@ import {
 
 // FIXME Babylon constants should go elsewhere
 
-// Should be imported from btc-staking-lib instead, but it doesn't expose it...
-// https://github.com/babylonlabs-io/btc-staking-ts/blob/de1d1cff3ef4ad45b5c61f0d7b11fd4479de278a/src/constants/registry.ts
-export const BABYLON_REGISTRY_TYPE_URLS = {
-  MsgCreateBTCDelegation: "/babylon.btcstaking.v1.MsgCreateBTCDelegation",
-};
 // No idea what that is, should be imported from btc-staking-lib instead, but it doesn't expose it...
 // https://github.com/babylonlabs-io/btc-staking-ts/blob/de1d1cff3ef4ad45b5c61f0d7b11fd4479de278a/src/constants/transaction.ts
 export const REDEEM_VERSION = 192;
@@ -95,29 +90,10 @@ export const TAPROOT_INTERNAL_PUBKEY = Buffer.from(
   "hex"
 ).subarray(1, 33); // Do a subarray(1, 33) to get the public coordinate
 
-// "The amount of covenant emulator signatures required for the staking to be activated"
-// https://github.com/babylonlabs-io/btc-staking-ts#define-staking-parameters
-const BABYLON_COVENANT_THRESHOLD: number = 3;
-
-// "The magic bytes appended to the data embed script used to identify the staking transaction on BTC"
-// https://github.com/babylonlabs-io/btc-staking-ts#define-staking-parameters
-//const BABYLON_MAGIC_BYTES: Buffer = Buffer.from("62627434", "hex"); // "bbt4" tag
-
-// Length of a BTC public key without the coordinate, in bytes
-const NO_COORD_PK_BYTE_LENGTH = 32;
-
-// Hardcoded to the max (~455 days)
-const BABYLON_STAKING_DURATION: number = 65535;
-
-// Hardcoded to 7 days
-const BABYLON_UNBONDING_TIME: number = 1008;
-
 function isSafeNumber(bigint: bigint): boolean {
   return bigint >= BigInt(Number.MIN_SAFE_INTEGER) && bigint <= BigInt(Number.MAX_SAFE_INTEGER);
 }
 
-// 'covenantPubKeysHex' is a list of the public keys of covenant emulators, without the coordinate bytes
-// Can be retrieved using fetchNetworkInfo from babylon provider
 function buildStakingScripts(
   transactionData: TransactionData,
   babylonNetworkInfo: BabylonNetworkInfoV2
@@ -155,9 +131,9 @@ function buildStakingScripts(
     senderPubKeyNoCoord,
     finalityProviders,
     covenantPks,
-    BABYLON_COVENANT_THRESHOLD,
-    BABYLON_STAKING_DURATION,
-    BABYLON_UNBONDING_TIME
+    babylonNetworkInfo.covenant_quorum,
+    babylonNetworkInfo.min_staking_time_blocks,
+    babylonNetworkInfo.unbonding_time_blocks
   );
 
   return stakingScriptData.buildScripts();
@@ -176,9 +152,12 @@ async function buildStakingPsbt(
 
   const amount = Number(transactionData.amount);
 
-  let changeAddress: string;
-  let allUtxos: UTXO[];
+  // Use the sender address as the change address
+  // NOTE Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
+  const changeAddress = transactionData.senderAddress;
+
   let feePerByte: number;
+  let allUtxos: UTXO[];
 
   // Using mempool.space for signet and blockchair for mainnet
   if (chainId === ChainId.BITCOIN_SIGNET) {
@@ -191,20 +170,12 @@ async function buildStakingPsbt(
     const utxos = await fetchAddressUtxos(chainId, transactionData.senderAddress);
     const scriptPubKey = await fetchAddressScriptPubKey(chainId, transactionData.senderAddress);
 
-    // Use the sender address as the change address
-    // FIXME Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
-    changeAddress = transactionData.senderAddress;
-
     // TODO Filter-out ordinals
     allUtxos = utxos.map((utxo) => ({
       txid: utxo.txid,
       value: utxo.value,
       vout: utxo.vout,
       scriptPubKey,
-      // TODO? (KO, seems not required)
-      // rawTxHex?: string;
-      // redeemScript?: string;
-      // witnessScript?: string;
     }));
   } else {
     feePerByte = await fetchFeePerByteBlockchair(chainId);
@@ -220,10 +191,6 @@ async function buildStakingPsbt(
         value: utxo.value,
         scriptPubKey: utxo.script_hex!,
       })) || [];
-
-    // Take the address of the first input, it's as good as any other one
-    // FIXME Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
-    changeAddress = data?.utxo[0].address || "";
   }
 
   if (!transactionData.senderPubKey) {
@@ -505,7 +472,6 @@ async function buildTransferPsbt(
       psbt.addInput(inputData);
     }
 
-    // TODO Do this for staking transactions too?
     // Enable RBF: https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki#summary
     // 0xfffffffd is stricly smaller than 0xffffffff - 1
     psbt.setInputSequence(inputIndex, 0xfffffffd);
@@ -524,7 +490,7 @@ async function buildTransferPsbt(
       // no address in the output, this is the change
       else {
         // Take the address of the first input, its as good as any other one
-        // FIXME Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
+        // NOTE Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
         psbtOutputs.push({
           value: out.value,
           address: (inputs[0] as UtxoWithMetadata).address,
@@ -550,37 +516,38 @@ function buildBabylonRegistrationMessage(
 
   // substring because staker pubkey is expected without the coordinate bytes
   // https://github.com/babylonlabs-io/btc-staking-ts#define-staking-parameters
-  const btcPubKeyNoCoordHex = transactionData.senderPubKey.substring(2);
+  const btcPubKeyNoCoordHex = transactionData.senderForeignPubKey.substring(2);
 
   const btcFinalityProviderPubKeyNoCoordHex = transactionData.validatorPubKey;
 
-  // NOTE Weak conversion here...
+  if (!!transactionData.amount && !isSafeNumber(transactionData.amount)) {
+    console.warn("Bigint amount too large to be cast to Number:", transactionData.amount);
+    throw new AdamikApiServerError("Amount is too large to be cast as number");
+  }
+
   const btcStakingAmountSat = Number(transactionData.amount);
 
   const btcStakingTransactionHex = transactionData.signedStakingTransaction;
   const btcSignedSlashingTransactionHex = transactionData.signedSlashingTransaction;
-  const btcUnbondingPsbtHex = transactionData.unsignedUnbondingTransaction;
+  const btcUnbondingTransactionHex = transactionData.unsignedUnbondingTransaction;
   const btcSignedUnbondingSlashingTransactionHex = transactionData.signedUnbondingSlashingTransaction;
   const signedBbnAddress = transactionData.proofOfPossession;
 
-  //////////////////// Prepare the data to build the cosmos message
+  //////////////////// Prepare the data to build the babylon message
 
-  const btcStakingTransaction = BitcoinTransaction.fromHex(btcStakingTransactionHex);
+  const btcStakingTransaction = Psbt.fromHex(btcStakingTransactionHex).extractTransaction();
 
-  const btcSignedSlashingTransaction = BitcoinTransaction.fromHex(btcSignedSlashingTransactionHex);
+  const btcUnbondingTransaction = BitcoinTransaction.fromHex(btcUnbondingTransactionHex);
 
+  const btcSignedSlashingTransaction = Psbt.fromHex(btcSignedSlashingTransactionHex).extractTransaction();
   const btcSlashingSignatures = extractSignatureFromTransaction(btcSignedSlashingTransaction);
   if (!btcSlashingSignatures) {
     throw new Error("No signature found in the staking output slashing PSBT");
   }
 
-  // TODO Make sure this works
-  const btcUnbondingTransaction = Psbt.fromHex(btcUnbondingPsbtHex).data.getTransaction();
-
-  const btcSignedUnbondingSlashingTransaction = BitcoinTransaction.fromHex(
+  const btcSignedUnbondingSlashingTransaction = Psbt.fromHex(
     btcSignedUnbondingSlashingTransactionHex
-  );
-
+  ).extractTransaction();
   const btcUnbondingSlashingSignatures = extractSignatureFromTransaction(
     btcSignedUnbondingSlashingTransaction
   );
@@ -602,17 +569,15 @@ function buildBabylonRegistrationMessage(
     pop: proofOfPossession,
     btcPk: Uint8Array.from(Buffer.from(btcPubKeyNoCoordHex, "hex")),
     fpBtcPkList: [Uint8Array.from(Buffer.from(btcFinalityProviderPubKeyNoCoordHex, "hex"))],
-    stakingTime: BABYLON_STAKING_DURATION,
+    stakingTime: babylonNetworkInfo.min_staking_time_blocks,
     stakingValue: btcStakingAmountSat,
-    stakingTx: Uint8Array.from(btcStakingTransaction.toBuffer()),
-    slashingTx: Uint8Array.from(Buffer.from(clearTxSignatures(btcSignedSlashingTransaction).toHex(), "hex")),
+    stakingTx: Uint8Array.from(clearTxSignatures(btcStakingTransaction).toBuffer()),
+    slashingTx: Uint8Array.from(clearTxSignatures(btcSignedSlashingTransaction).toBuffer()),
     delegatorSlashingSig: Uint8Array.from(btcSlashingSignatures),
-    unbondingTime: BABYLON_UNBONDING_TIME,
-    unbondingTx: Uint8Array.from(btcUnbondingTransaction),
+    unbondingTime: babylonNetworkInfo.unbonding_time_blocks,
+    unbondingTx: Uint8Array.from(btcUnbondingTransaction.toBuffer()),
     unbondingValue: btcStakingAmountSat - babylonNetworkInfo.unbonding_fee_sat,
-    unbondingSlashingTx: Uint8Array.from(
-      Buffer.from(clearTxSignatures(btcSignedUnbondingSlashingTransaction).toHex(), "hex")
-    ),
+    unbondingSlashingTx: Uint8Array.from(clearTxSignatures(btcSignedUnbondingSlashingTransaction).toBuffer()),
     delegatorUnbondingSlashingSig: Uint8Array.from(btcUnbondingSlashingSignatures),
     // Inclusion proof is required in post-stake registration,
     // but not in pre-stake registration, which is the one we support
@@ -621,8 +586,8 @@ function buildBabylonRegistrationMessage(
   });
 
   return {
-    typeUrl: BABYLON_REGISTRY_TYPE_URLS.MsgCreateBTCDelegation,
-    value: message,
+    typeUrl: "/babylon.btcstaking.v1.MsgCreateBTCDelegation",
+    value: btcstakingtx.MsgCreateBTCDelegation.encode(message).finish(),
   };
 }
 
@@ -661,7 +626,7 @@ const stakingTransactionToPsbt = (
   inputUTXOs: UTXO[],
   publicKeyNoCoord?: Buffer
 ): Psbt => {
-  if (publicKeyNoCoord && publicKeyNoCoord.length !== NO_COORD_PK_BYTE_LENGTH) {
+  if (publicKeyNoCoord && publicKeyNoCoord.length !== 32) {
     throw new Error("Invalid public key");
   }
 
@@ -732,7 +697,7 @@ const unbondingTransactionToPsbt = (
   // This is the tapleaf we are actually spending
   const inputRedeem = {
     output: scripts.unbondingScript,
-    redeemVersion: REDEEM_VERSION,
+    redeemVersion: 192,
   };
 
   // Create a P2TR payment that includes scriptTree + redeem
@@ -903,8 +868,6 @@ const findMatchingTxOutputIndex = (
 };
 
 export {
-  BABYLON_STAKING_DURATION,
-  BABYLON_UNBONDING_TIME,
   buildBabylonRegistrationMessage,
   buildSlashingPsbt,
   buildStakingPsbt,

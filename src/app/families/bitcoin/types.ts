@@ -14,9 +14,9 @@ type BitcoinChainParams = {
 type BitcoinTransactionParams = {
   transferPsbt?: string;
   stakingPsbt?: string;
-  unbondingPsbt?: string;
   slashingPsbt?: string;
   unbondingSlashingPsbt?: string;
+  unbondingTransaction?: string;
 };
 
 const utxoWithMetadataSchema = z
