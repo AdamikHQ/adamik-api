@@ -1,3 +1,5 @@
+import { CHAINS } from "~/app/config/chains";
+import { Provider, ProviderType } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import {
@@ -10,8 +12,10 @@ import {
 
 // Spec: https://staking-api.testnet.babylonlabs.io/swagger/index.html
 
-// TODO This URL will likely change when babylon phase-2 becomes active on bitcoin mainnet
-const ROOT_URL = "https://staking-api.testnet.babylonlabs.io/v2";
+// TODO Change to babylon when going mainnet
+const ROOT_URL = CHAINS["babylon-testnet"].providers.find(
+  (p: Provider) => p.type === ProviderType.babylon
+)?.url;
 
 async function fetchNetworkInfo(): Promise<BabylonNetworkInfoV2> {
   const url = `${ROOT_URL}/network-info`;
@@ -68,7 +72,7 @@ async function fetchFinalityProviders(
       throw new InvalidPaginationTokenError("Provided pagination token is invalid");
     }
   }
-  
+
   const response = await fetch(url.toString());
 
   if (!response.ok) {

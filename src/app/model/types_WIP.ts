@@ -164,6 +164,7 @@ export enum ProviderType {
   algoindexer = "algoindexer",
   mempoolspace = "mempoolspace",
   oklink = "oklink",
+  babylon = "babylon",
 }
 
 type Provider = {
@@ -446,7 +447,7 @@ type WithdrawTransactionData = CommonTransactionData & {
 type RegisterStakeTransactionData = CommonTransactionData & {
   mode: TransactionMode.REGISTER_STAKE;
   amount: bigint; // Not optional for register transactions
-  senderPubKey: string; // Not optional for register transactions
+  senderForeignPubKey: string;
   proofOfPossession: string;
   validatorPubKey: string;
   unsignedUnbondingTransaction: string;

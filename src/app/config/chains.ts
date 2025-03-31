@@ -2140,10 +2140,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Babylon Testnet",
     ticker: "BABY",
     decimals: 6,
+    // TODO Update with mainnet URLs when babylon phase-2 becomes active on bitcoin mainnet
     providers: [
       {
         type: ProviderType.node,
-        url: "https://babylon-testnet-api.polkachu.com",
+        //url: "https://babylon-testnet-api.polkachu.com",
+        //url: "https://lcd-babylon-testnet.imperator.co",
+        url: "https://babylon-testnet-api.nodes.guru",
+      },
+      {
+        type: ProviderType.babylon,
+        url: "https://staking-api.testnet.babylonlabs.io/v2", // Targeting bbn-test-5 testnet
+        //url: "https://staking-api.phase-2-devnet.babylonlabs.io/v2", // Targeting devnet-9 testnet
       },
     ],
     params: {
@@ -2152,7 +2160,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       denom: "ubbn",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
-      minGasPrice: 0.007,
+      minGasPrice: 0.005,
     },
     isTestnetFor: "BABYLON", //TODO: update with ChainId.BABYLON when it's added
     supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON_TESTNET),
