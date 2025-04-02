@@ -1,6 +1,7 @@
 import { CHAINS } from "~/app/config/chains";
 import { AccountState, ChainId } from "~/app/model/types_WIP";
 import { fetchAddressesDashboard, fetchXpubDashboard } from "../backend/blockchair";
+import { fetchAddressBalance } from "../backend/mempoolSpace";
 import { getCurrentBlockHeight, isValidXpub } from "../logic";
 import { BitcoinService } from "../service";
 import { BitcoinChainParams, Xpub } from "../types";
@@ -13,13 +14,6 @@ const createEmptyBalances = () => ({
   },
 });
 
-/**
- * Gets account state for either an xpub or individual address
- *
- * NOTE: we noticed some inconsistencies in the data returned by the explorer for xpubs and addresses (sometimes mempool transactions are missing)
- * FIXME: This is a bug, and we should fix it by ensuring that mempool transactions are always included in the response for xpubs
- * Currently being discussed with the Blockchain explorer team
- */
 async function getAccountState(this: BitcoinService, accountId: string): Promise<AccountState> {
   return isValidXpub(this.chainId, accountId)
     ? getXpubState(this.chainId, accountId)
@@ -27,6 +21,44 @@ async function getAccountState(this: BitcoinService, accountId: string): Promise
 }
 
 async function getAddressesState(chainId: ChainId, addresses: string[]): Promise<AccountState> {
+  // For bitcoin-signet, use mempool.space API
+  // FIXME Implementations for different providers should be handled
+  // properly through provider abstraction, same as done in EVM & Tron family
+  if (chainId === ChainId.BITCOIN_SIGNET) {
+    // Since mempool.space only supports querying one address at a time,
+    // we need to fetch each address balance separately
+    const aggregatedBalances = createEmptyBalances();
+
+    for (const address of addresses) {
+      try {
+        const addressBalance = await fetchAddressBalance(chainId, address);
+
+        // Calculate confirmed balance (chain_stats)
+        const confirmedBalance = BigInt(
+          addressBalance.chain_stats.funded_txo_sum - addressBalance.chain_stats.spent_txo_sum
+        );
+
+        // Calculate unconfirmed/mempool balance
+        const mempoolBalance = BigInt(
+          addressBalance.mempool_stats.funded_txo_sum - addressBalance.mempool_stats.spent_txo_sum
+        );
+
+        // Add to aggregated balances
+        aggregatedBalances.native.available += confirmedBalance + mempoolBalance;
+        aggregatedBalances.native.total += confirmedBalance + mempoolBalance;
+        aggregatedBalances.native.unconfirmed += mempoolBalance;
+      } catch (error) {
+        console.warn(`/!\\ Failed to fetch balance for bitcoin-signet address ${address}:`, error);
+        // Continue with other addresses if one fails
+      }
+    }
+
+    return {
+      balances: aggregatedBalances,
+    };
+  }
+
+  // For other Bitcoin chains, use the original implementation with blockchair
   const addressesResponse = await fetchAddressesDashboard(chainId, addresses);
 
   // Return zero balances if no data found

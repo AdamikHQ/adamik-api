@@ -17,12 +17,10 @@ import {
 import { bech32 } from "bech32";
 import { BigNumber } from "bignumber.js";
 import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
-import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
-import { PubKey } from "cosmjs-types/cosmos/crypto/secp256k1/keys";
 import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1beta1/tx";
 import { MsgBeginRedelegate, MsgDelegate, MsgUndelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { AuthInfo, Fee, SignDoc as SignDocProtobuf, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { SignDoc as SignDocProtobuf, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
@@ -34,12 +32,12 @@ import {
 } from "~/app/model/types_WIP";
 import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
-import { fetchNetworkInfo } from "../bitcoin/backend/babylon";
-import { buildBabylonRegistrationMessage } from "../bitcoin/psbt";
+import { fetchBabylonStakingParams } from "../bitcoin/backend/babylon";
+import { CURRENT_BABYLON_BITCOIN_CHAIN, buildBabylonRegistrationMessage } from "../bitcoin/psbt";
 import { fetchBalances, fetchDelegations, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
 import { buildSignDocProtobufForInjective } from "./chains/injective";
-import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_PUBKEY, COSMOS_MOCK_SIGNATURE } from "./constants";
+import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_SIGNATURE } from "./constants";
 import { CosmosChainParams } from "./types";
 
 // TODO Keep this file as a fourre-tout or split it?
@@ -127,41 +125,45 @@ async function getEstimatedFees(
   gasWanted: bigint;
   gasWantedFees: bigint;
 }> {
-  const chainParams = CHAINS[chainId].params as CosmosChainParams;
+  const chain = CHAINS[chainId];
+  const chainParams = chain.params as CosmosChainParams;
 
-  const { protoMsgs } = await buildMessages(chainId, transactionData);
-
-  const txBytes = buildBroadcastPayload({
-    protoMsgs,
-    pubKeyType: chainParams.defaultPubKeyType,
-    pubKey: COSMOS_MOCK_PUBKEY,
-    sequence: account.sequence,
-    gasLimit: undefined,
-    feeAmount: [
+  // Simulation data
+  const feeData: StdFee = {
+    amount: [
       {
         denom: chainParams.denom,
         amount: "1", // Amount should just not be 0 as it would impact the simulation by requiring less gas
       },
     ],
-    memo: transactionData.memo || "",
-    signature: COSMOS_MOCK_SIGNATURE,
+    gas: "0",
+  };
+
+  const { bodyBytes, authInfoBytes } = await buildSignDocProtobuf(
+    chainId,
+    account,
+    transactionData,
+    chain.nativeId,
+    feeData
+  );
+
+  // Create a TxRaw with the extracted bytes and the signature
+  const txRaw = TxRaw.encode({
+    bodyBytes,
+    authInfoBytes,
+    signatures: [COSMOS_MOCK_SIGNATURE],
+  }).finish();
+
+  const payload = JSON.stringify({
+    tx_bytes: Buffer.from(txRaw).toString("base64"),
   });
 
-  const gasWanted = await (async (): Promise<BigNumber> => {
-    try {
-      const payload = JSON.stringify({
-        tx_bytes: Buffer.from(txBytes).toString("base64"),
-      });
+  const gasUsed = await simulateTransaction(chainId, payload);
 
-      const gasUsed = await simulateTransaction(chainId, payload);
-
-      // Need to use the BigNumber lib to multiply bigints and floats...
-      return new BigNumber(gasUsed.toString()).times(COSMOS_GAS_AMPLIFIER).integerValue(BigNumber.ROUND_CEIL);
-    } catch (e) {
-      console.warn("/!\\ Failed to estimate gas usage during tx simulation, using default value. Error:", e);
-      return new BigNumber(chainParams?.defaultGas);
-    }
-  })();
+  // Need to use the BigNumber lib to multiply bigints and floats...
+  const gasWanted = new BigNumber(gasUsed.toString())
+    .times(COSMOS_GAS_AMPLIFIER)
+    .integerValue(BigNumber.ROUND_CEIL);
 
   const gasWantedFees = gasWanted.times(chainParams?.minGasPrice).integerValue(BigNumber.ROUND_CEIL);
 
@@ -371,12 +373,11 @@ async function buildMessages(
           );
         }
 
-        const babylonNetworkInfo = await fetchNetworkInfo();
+        const babylonStakingParams = await fetchBabylonStakingParams();
         const protoRegisterStakeMsg: ProtoMsg = buildBabylonRegistrationMessage(
-          // TODO Change to BITCOIN
-          ChainId.BITCOIN_SIGNET,
+          CURRENT_BABYLON_BITCOIN_CHAIN,
           transactionData,
-          babylonNetworkInfo
+          babylonStakingParams
         );
 
         protoMsgs.push(protoRegisterStakeMsg);
@@ -449,65 +450,8 @@ async function buildSignDocProtobuf(
   return makeSignDocProtobuf(bodyBytes, authInfoBytes, networkId, Number(account.accountNumber));
 }
 
-// FIXME Should we rebuild everything like this if we already build a protobuf encoded?
-// Or can we just add signatures to the existing encoded?... --> seems possible with SignDoc.decode !
-function buildBroadcastPayload({
-  protoMsgs,
-  memo,
-  pubKeyType,
-  pubKey,
-  feeAmount,
-  gasLimit,
-  sequence,
-  signature,
-}: {
-  protoMsgs: Array<ProtoMsg>;
-  memo: string;
-  pubKeyType: string;
-  pubKey: string;
-  feeAmount: Coin[];
-  gasLimit: bigint | undefined;
-  sequence: bigint;
-  signature: Uint8Array;
-}): Uint8Array {
-  const signedTx = TxRaw.encode({
-    bodyBytes: TxBody.encode(
-      TxBody.fromPartial({
-        messages: protoMsgs,
-        memo,
-      })
-    ).finish(),
-    authInfoBytes: AuthInfo.encode({
-      signerInfos: [
-        {
-          publicKey: {
-            typeUrl: pubKeyType,
-            value: PubKey.encode({
-              key: Buffer.from(pubKey, isHex(pubKey) ? "hex" : "base64"),
-            }).finish(),
-          },
-          modeInfo: {
-            single: {
-              mode: SignMode.SIGN_MODE_DIRECT,
-            },
-            multi: undefined,
-          },
-          sequence,
-        },
-      ],
-      fee: Fee.fromPartial({
-        amount: feeAmount,
-        gasLimit,
-      }),
-    }).finish(),
-    signatures: [signature],
-  }).finish();
-
-  return signedTx;
-}
-
-// TODO Currently providing payload for an Amino signer (like Ledger)
-// Need to support providing payload for Protobuf signer as well?...
+// TODO Currently providing payload for a Protobuf signer
+// Need to support providing payload for an Amino signer (like Ledger) as well?
 async function encodeToSign(
   chainId: ChainId,
   account: CosmosAccount,
@@ -553,7 +497,6 @@ async function encodeToSign(
 
   const signDoc = await buildSignDocProtobuf(chainId, account, transactionData, chain.nativeId, feeData);
 
-  // TODO Test the protobuf format with Keplr, then deprecate the JSON format here if possible
   return format === EncodedTransactionFormat.JSON
     ? JSON.stringify(SignDocProtobuf.toJSON(signDoc))
     : Buffer.from(SignDocProtobuf.encode(signDoc).finish()).toString("hex");
@@ -570,6 +513,9 @@ async function encodeToBroadcast(
   if (transactionData.nonce === undefined) {
     throw new Error("Missing transaction nonce");
   }
+  if (!signedTransaction.encoded) {
+    throw new Error("Missing encoded transaction");
+  }
   if (!signedTransaction.signature) {
     throw new Error("Missing signature in transaction");
   }
@@ -577,27 +523,25 @@ async function encodeToBroadcast(
   const signature = isHex(signedTransaction.signature)
     ? // For reference - specific formatting compliant with signatures from a Ledger device
       //? Buffer.from(Secp256k1Signature.fromDer(fromHex(signedTransaction.signature)).toFixedLength())
-      Buffer.from(fromHex(signedTransaction.signature))
-    : Buffer.from(fromBase64(signedTransaction.signature));
+      fromHex(signedTransaction.signature)
+    : fromBase64(signedTransaction.signature);
 
-  const { protoMsgs } = await buildMessages(chainId, transactionData);
+  // Decode the encoded SignDocProtobuf
+  const signDoc = isHex(signedTransaction.encoded)
+    ? SignDocProtobuf.decode(fromHex(signedTransaction.encoded))
+    : SignDocProtobuf.fromJSON(JSON.parse(signedTransaction.encoded));
 
-  const chainParams = chainId && (CHAINS[chainId].params as CosmosChainParams);
+  // Extract bodyBytes and authInfoBytes from the SignDoc
+  const { bodyBytes, authInfoBytes } = signDoc;
 
-  // fees is safe to cast as it's guaranteed to be filled in by completeTransaction
-  const fees = transactionData.fees as bigint;
-  const txBytes = buildBroadcastPayload({
-    pubKeyType: account.pubKeyType,
-    pubKey: account.pubKey,
-    feeAmount: [{ amount: fees.toString(), denom: chainParams.denom }] as Coin[],
-    gasLimit: transactionData.gas,
-    sequence: transactionData.nonce,
-    memo: transactionData.memo || "",
-    protoMsgs,
-    signature,
-  });
+  // Create a TxRaw with the extracted bytes and the signature
+  const txRaw = TxRaw.encode({
+    bodyBytes,
+    authInfoBytes,
+    signatures: [signature],
+  }).finish();
 
-  return Buffer.from(txBytes).toString("hex");
+  return Buffer.from(txRaw).toString("hex");
 }
 
 export {
