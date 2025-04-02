@@ -1,9 +1,9 @@
 import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
 import { ChainId, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
-import { fetchStakingParams } from "../backend/babylon";
+import { fetchBabylonStakingParams } from "../backend/babylon";
 import { fetchRawTransaction as fetchRawTransactionBlockchair } from "../backend/blockchair";
-import { fetchTransactionRaw as fetchTransactionRawMempoolSpace } from "../backend/mempoolSpace";
+import { fetchNativeTransaction as fetchNativeTransactionMempoolSpace } from "../backend/mempoolSpace";
 import { getNetworkForChainId } from "../logic";
 import {
   buildSlashingPsbt,
@@ -57,7 +57,7 @@ async function completeTransaction(
 
     case TransactionMode.STAKE:
       {
-        const babylonStakingParams = await fetchStakingParams();
+        const babylonStakingParams = await fetchBabylonStakingParams();
         const bitcoinNetworkInfo = getNetworkForChainId(this.chainId);
         const stakingScripts = buildStakingScripts(transaction.data, babylonStakingParams);
 
@@ -104,16 +104,16 @@ async function completeTransaction(
         throw new UserInputError(`Missing 'stakeId' field in transaction`);
       }
 
-      const babylonStakingParams = await fetchStakingParams();
+      const babylonStakingParams = await fetchBabylonStakingParams();
       const bitcoinNetworkInfo = getNetworkForChainId(this.chainId);
       const stakingScripts = buildStakingScripts(transaction.data, babylonStakingParams);
 
       // When unstaking, the staking transaction was previously broadcasted and
       // should now be confirmed, so we retrieve it from the network
       // TODO Handle case where staking tx is not found
-      const stakingTransaction =
+      const stakingTransaction: BitcoinTransaction =
         this.chainId === ChainId.BITCOIN_SIGNET
-          ? await fetchTransactionRawMempoolSpace(this.chainId, transaction.data.stakeId)
+          ? await fetchNativeTransactionMempoolSpace(this.chainId, transaction.data.stakeId)
           : BitcoinTransaction.fromHex(
               (await fetchRawTransactionBlockchair(this.chainId, transaction.data.stakeId)).raw_transaction
             );

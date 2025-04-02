@@ -539,6 +539,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.blockchair,
         url: "https://api.blockchair.com/bitcoin",
       },
+      {
+        type: ProviderType.mempoolspace,
+        url: "https://mempool.space/api",
+      },
     ],
     params: {
       confirmations: 6,
@@ -2119,16 +2123,30 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Babylon",
     ticker: "BABY",
     decimals: 6,
-    backends: {
-      nodeURL: "TODO",
-    },
+    // TODO validate that mainnet URLs are functional
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://babylon-api.nodes.guru",
+        //url: "https://babylon-api.polkachu.com",
+        //url: "https://lcd-babylon.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+      {
+        type: ProviderType.babylon,
+        url: "https://staking-api.babylonlabs.io/v2", // Targeting bbn-1 mainnet
+      },
+    ]
     params: {
       prefix: "bbn",
       validatorPrefix: "bbnvaloper",
       denom: "ubbn",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
-      minGasPrice: 0.007,
+      minGasPrice: 0.005,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON),
   },
@@ -2140,7 +2158,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Babylon Testnet",
     ticker: "BABY",
     decimals: 6,
-    // TODO Update with mainnet URLs when babylon phase-2 becomes active on bitcoin mainnet
     providers: [
       {
         type: ProviderType.node,
@@ -2152,6 +2169,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.babylon,
         url: "https://staking-api.testnet.babylonlabs.io/v2", // Targeting bbn-test-5 testnet
         //url: "https://staking-api.phase-2-devnet.babylonlabs.io/v2", // Targeting devnet-9 testnet
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
       },
     ],
     params: {

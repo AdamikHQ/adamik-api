@@ -55,7 +55,7 @@ async function completeTransaction(
   // FIXME Should we use this to compute fees for babylon?
   /*
   if (transaction.data.mode === TransactionMode.REGISTER_STAKE) {
-    const { delegation_creation_base_gas_fee } = await fetchStakingParams();
+    const { delegation_creation_base_gas_fee } = await fetchBabylonStakingParams();
 
     const gasWantedFees = new BigNumber(delegation_creation_base_gas_fee);
 

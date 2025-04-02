@@ -68,28 +68,72 @@ const babylonNetworkInfoV2Schema = z.object({
   version: z.number(),
 });
 
-//type BabylonNetworkInfoV2 = z.infer<typeof babylonNetworkInfoV2Schema>;
-/*
-type BabylonNetworkInfoV2 = {
-  version: number;
-  btcActivationHeight: number;
-	covenantNoCoordPks: string[];
-	covenantQuorum: number;
-	unbondingTime: number;
-	unbondingFeeSat: number;
-	maxStakingAmountSat: number;
-	minStakingAmountSat: number;
-	maxStakingTimeBlocks: number;
-	minStakingTimeBlocks: number;
-  slashingPkScriptHex: string;
-  slashingRate: number;
-  minSlashingTxFeeSat: number;
-  minCommissionRate: string;
-  maxActiveFinalityProviders: number;
-  delegationCreationBaseGasFee: number;
-  allowListExpirationHeight: number;
+enum BabylonDelegationState {
+  PENDING = "PENDING",
+  VERIFIED = "VERIFIED",
+  ACTIVE = "ACTIVE",
+  SLASHED = "SLASHED",
+  TIMELOCK_UNBONDING = "TIMELOCK_UNBONDING",
+  EARLY_UNBONDING = "EARLY_UNBONDING",
+  TIMELOCK_WITHDRAWABLE = "TIMELOCK_WITHDRAWABLE",
+  EARLY_UNBONDING_WITHDRAWABLE = "EARLY_UNBONDING_WITHDRAWABLE",
+  TIMELOCK_SLASHING_WITHDRAWABLE = "TIMELOCK_SLASHING_WITHDRAWABLE",
+  EARLY_UNBONDING_SLASHING_WITHDRAWABLE = "EARLY_UNBONDING_SLASHING_WITHDRAWABLE",
+  TIMELOCK_WITHDRAWN = "TIMELOCK_WITHDRAWN",
+  EARLY_UNBONDING_WITHDRAWN = "EARLY_UNBONDING_WITHDRAWN",
+  TIMELOCK_SLASHING_WITHDRAWN = "TIMELOCK_SLASHING_WITHDRAWN",
+  EARLY_UNBONDING_SLASHING_WITHDRAWN = "EARLY_UNBONDING_SLASHING_WITHDRAWN",
 }
-*/
 
-export { babylonFinalityProviderV1Schema, babylonGlobalParamsV1Schema, babylonNetworkInfoV2Schema };
-export type { BabylonFinalityProviderV1, BabylonGlobalParamsV1, BabylonUnbondingBroadcastPayloadV1 };
+const babylonDelegationV2Schema = z.object({
+  data: z.object({
+    delegation_staking: z.object({
+      bbn_inception_height: z.number(),
+      bbn_inception_time: z.string(),
+      end_height: z.number(),
+      slashing: z.object({
+        slashing_tx_hex: z.string(),
+        spending_height: z.number(),
+      }),
+      staking_amount: z.number(),
+      staking_timelock: z.number(),
+      staking_tx_hash_hex: z.string(),
+      staking_tx_hex: z.string(),
+      start_height: z.number(),
+    }),
+    delegation_unbonding: z.object({
+      covenant_unbonding_signatures: z.array(
+        z.object({
+          covenant_btc_pk_hex: z.string(),
+          signature_hex: z.string(),
+        })
+      ),
+      slashing: z.object({
+        spending_height: z.number(),
+        unbonding_slashing_tx_hex: z.string(),
+      }),
+      unbonding_timelock: z.number(),
+      unbonding_tx: z.string(),
+    }),
+    finality_provider_btc_pks_hex: z.array(z.string()),
+    params_version: z.number(),
+    staker_btc_pk_hex: z.string(),
+    state: z.nativeEnum(BabylonDelegationState),
+  }),
+});
+
+type BabylonDelegationV2 = z.infer<typeof babylonDelegationV2Schema>;
+
+export {
+  BabylonDelegationState,
+  babylonDelegationV2Schema,
+  babylonFinalityProviderV1Schema,
+  babylonGlobalParamsV1Schema,
+  babylonNetworkInfoV2Schema,
+};
+export type {
+  BabylonDelegationV2,
+  BabylonFinalityProviderV1,
+  BabylonGlobalParamsV1,
+  BabylonUnbondingBroadcastPayloadV1,
+};

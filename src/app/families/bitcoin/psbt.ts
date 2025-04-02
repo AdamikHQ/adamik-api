@@ -78,7 +78,9 @@ import {
 
 // FIXME Babylon constants should go elsewhere
 
-export const BABYLON_BITCOIN_CHAIN: ChainId = ChainId.BITCOIN_SIGNET;
+// TODO Change values when going mainnet
+export const CURRENT_BABYLON_BITCOIN_CHAIN: ChainId = ChainId.BITCOIN_SIGNET;
+export const CURRENT_BABYLON_CHAIN: ChainId = ChainId.BABYLON_TESTNET;
 
 // No idea what that is, should be imported from btc-staking-lib instead, but it doesn't expose it...
 // https://github.com/babylonlabs-io/btc-staking-ts/blob/de1d1cff3ef4ad45b5c61f0d7b11fd4479de278a/src/constants/transaction.ts

@@ -49,12 +49,58 @@ const mempoolSpaceAddressBalanceSchema = z.object({
   }),
 });
 
+// Schema for the transaction response
+const mempoolSpaceTransactionSchema = z.object({
+  txid: z.string(),
+  version: z.number(),
+  locktime: z.number(),
+  size: z.number(),
+  weight: z.number(),
+  fee: z.number(),
+  status: z.object({
+    confirmed: z.boolean(),
+    block_height: z.number().optional(),
+    block_hash: z.string().optional(),
+    block_time: z.number().optional(),
+  }),
+  vin: z.array(
+    z.object({
+      txid: z.string(),
+      vout: z.number(),
+      prevout: z.object({
+        scriptpubkey: z.string(),
+        scriptpubkey_asm: z.string(),
+        scriptpubkey_type: z.string(),
+        scriptpubkey_address: z.string().optional(),
+        value: z.number(),
+      }),
+      scriptsig: z.string(),
+      scriptsig_asm: z.string(),
+      witness: z.array(z.string()).optional(),
+      is_coinbase: z.boolean(),
+      sequence: z.number(),
+    })
+  ),
+  vout: z.array(
+    z.object({
+      scriptpubkey: z.string(),
+      scriptpubkey_asm: z.string(),
+      scriptpubkey_type: z.string(),
+      scriptpubkey_address: z.string().optional(),
+      value: z.number(),
+    })
+  ),
+});
+
 type MempoolSpaceAddressBalance = z.infer<typeof mempoolSpaceAddressBalanceSchema>;
+type MempoolSpaceTransaction = z.infer<typeof mempoolSpaceTransactionSchema>;
 
 export {
   mempoolSpaceAddressBalanceSchema,
   mempoolSpaceAddressValidationSchema,
   mempoolSpaceFeesSchema,
+  mempoolSpaceTransactionSchema,
   mempoolSpaceUtxoSchema,
 };
-export type { MempoolSpaceAddressBalance, MempoolSpaceUTXO };
+
+export type { MempoolSpaceAddressBalance, MempoolSpaceTransaction, MempoolSpaceUTXO };

@@ -32,8 +32,8 @@ import {
 } from "~/app/model/types_WIP";
 import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
-import { fetchStakingParams } from "../bitcoin/backend/babylon";
-import { BABYLON_BITCOIN_CHAIN, buildBabylonRegistrationMessage } from "../bitcoin/psbt";
+import { fetchBabylonStakingParams } from "../bitcoin/backend/babylon";
+import { CURRENT_BABYLON_BITCOIN_CHAIN, buildBabylonRegistrationMessage } from "../bitcoin/psbt";
 import { fetchBalances, fetchDelegations, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
 import { buildSignDocProtobufForInjective } from "./chains/injective";
@@ -373,9 +373,9 @@ async function buildMessages(
           );
         }
 
-        const babylonStakingParams = await fetchStakingParams();
+        const babylonStakingParams = await fetchBabylonStakingParams();
         const protoRegisterStakeMsg: ProtoMsg = buildBabylonRegistrationMessage(
-          BABYLON_BITCOIN_CHAIN,
+          CURRENT_BABYLON_BITCOIN_CHAIN,
           transactionData,
           babylonStakingParams
         );
@@ -497,7 +497,6 @@ async function encodeToSign(
 
   const signDoc = await buildSignDocProtobuf(chainId, account, transactionData, chain.nativeId, feeData);
 
-  // TODO Test the protobuf format with Keplr, then deprecate the JSON format here if possible
   return format === EncodedTransactionFormat.JSON
     ? JSON.stringify(SignDocProtobuf.toJSON(signDoc))
     : Buffer.from(SignDocProtobuf.encode(signDoc).finish()).toString("hex");

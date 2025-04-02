@@ -471,7 +471,8 @@ const inputRegisterStakeSchema = z
 const outputRegisterStakeSchema = z
   .object({
     mode: z.literal(TransactionMode.REGISTER_STAKE),
-    senderPubKey: stakerForeignPubKeySchema,
+    senderPubKey: senderPubKeySchema,
+    senderForeignPubKey: stakerForeignPubKeySchema,
     senderAddress: senderAddressSchema,
     proofOfPossession: proofOfPossessionSchema,
     amount: outputStakedAmountSchema,

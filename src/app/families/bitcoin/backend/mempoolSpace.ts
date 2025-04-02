@@ -1,19 +1,53 @@
-import { Transaction } from "bitcoinjs-lib";
+import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, Provider, ProviderType } from "~/app/model/types_WIP";
+import {
+  ChainId,
+  FinalizedTransaction,
+  Provider,
+  ProviderType,
+  TransactionMode,
+  TransactionState,
+} from "~/app/model/types_WIP";
 import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
+import { BitcoinChainParams } from "../types";
 import {
   MempoolSpaceAddressBalance,
   mempoolSpaceAddressBalanceSchema,
   mempoolSpaceAddressValidationSchema,
   mempoolSpaceFeesSchema,
+  MempoolSpaceTransaction,
+  mempoolSpaceTransactionSchema,
   MempoolSpaceUTXO,
   mempoolSpaceUtxoSchema,
 } from "./mempoolSpace.types";
 
 // TODO Just a POC for now, need to improve error handling
 
-async function fetchTransactionRaw(chainId: ChainId, transactionId: string): Promise<Transaction> {
+async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<FinalizedTransaction> {
+  const explorerURL = CHAINS[chainId].providers.find(
+    (p: Provider) => p.type === ProviderType.mempoolspace
+  )?.url;
+  const url = `${explorerURL}/tx/${transactionId}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new ThirdPartyProviderError(
+      `Error while fetching transaction with ID ${transactionId} from the explorer`
+    );
+  }
+
+  const result = await response.json();
+  const data = mempoolSpaceTransactionSchema.parse(result);
+
+  return await mempoolSpaceToAdamikTransaction(chainId, data);
+}
+
+async function fetchNativeTransaction(chainId: ChainId, transactionId: string): Promise<BitcoinTransaction> {
   const explorerURL = CHAINS[chainId].providers.find(
     (p: Provider) => p.type === ProviderType.mempoolspace
   )?.url;
@@ -35,7 +69,7 @@ async function fetchTransactionRaw(chainId: ChainId, transactionId: string): Pro
   const result = await response.arrayBuffer();
 
   // TODO Test this
-  const data = Transaction.fromBuffer(Buffer.from(result));
+  const data = BitcoinTransaction.fromBuffer(Buffer.from(result));
 
   return data;
 }
@@ -170,7 +204,7 @@ async function postTransaction(chainId: ChainId, payload: string): Promise<strin
   return txHash;
 }
 
-async function getLatestBlockHeight(chainId: ChainId): Promise<number> {
+async function fetchLatestBlockHeight(chainId: ChainId): Promise<number> {
   const explorerURL = CHAINS[chainId].providers.find(
     (p: Provider) => p.type === ProviderType.mempoolspace
   )?.url;
@@ -191,12 +225,63 @@ async function getLatestBlockHeight(chainId: ChainId): Promise<number> {
   return parseInt(height, 10);
 }
 
+async function mempoolSpaceToAdamikTransaction(
+  chainId: ChainId,
+  mempoolSpaceTransaction: MempoolSpaceTransaction
+): Promise<FinalizedTransaction> {
+  const parsedTransaction: FinalizedTransaction["parsed"] = {
+    id: mempoolSpaceTransaction.txid,
+    // NOTE Impossible to check for other tx modes (e.g staking) with bitcoin
+    // explorer alone, needs to be refined by the caller of this function
+    mode: TransactionMode.TRANSFER,
+    state: TransactionState.UNKNOWN,
+    fees: {
+      amount: BigInt(mempoolSpaceTransaction.fee),
+    },
+    senders: mempoolSpaceTransaction.vin.map((input) => ({
+      address: input.prevout.scriptpubkey_address || input.prevout.scriptpubkey,
+      amount: BigInt(input.prevout.value),
+    })),
+    recipients: mempoolSpaceTransaction.vout.map((output) => ({
+      address: output.scriptpubkey_address || output.scriptpubkey,
+      amount: BigInt(output.value),
+    })),
+  };
+
+  const transactionBlockHeight = mempoolSpaceTransaction.status.block_height;
+  const transactionTimestamp = mempoolSpaceTransaction.status.block_time;
+  if (
+    !mempoolSpaceTransaction.status.confirmed ||
+    transactionBlockHeight === undefined ||
+    transactionTimestamp === undefined
+  ) {
+    parsedTransaction.state = TransactionState.PENDING;
+  } else {
+    const bitcoinParams = CHAINS[chainId].params as BitcoinChainParams;
+    const latestBlockHeight = await fetchLatestBlockHeight(chainId);
+    const isTransactionConfirmed = latestBlockHeight - transactionBlockHeight >= bitcoinParams.confirmations;
+
+    parsedTransaction.state = isTransactionConfirmed
+      ? TransactionState.CONFIRMED
+      : TransactionState.UNCONFIRMED;
+
+    parsedTransaction.blockHeight = BigInt(transactionBlockHeight);
+    parsedTransaction.timestamp = transactionTimestamp * 1000;
+  }
+
+  return {
+    raw: mempoolSpaceTransaction,
+    parsed: parsedTransaction,
+  };
+}
+
 export {
   fetchAddressBalance,
   fetchAddressScriptPubKey,
   fetchAddressUtxos,
   fetchFeePerByte,
-  fetchTransactionRaw,
-  getLatestBlockHeight,
+  fetchLatestBlockHeight,
+  fetchNativeTransaction,
+  fetchTransaction,
   postTransaction,
 };

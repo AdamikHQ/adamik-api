@@ -7,39 +7,37 @@ import { CHAINS } from "~/app/config/chains";
 import { Provider, ProviderType } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
-import { BABYLON_BITCOIN_CHAIN } from "../psbt";
+import { CURRENT_BABYLON_BITCOIN_CHAIN, CURRENT_BABYLON_CHAIN } from "../psbt";
 import {
+  BabylonDelegationV2,
+  babylonDelegationV2Schema,
   BabylonFinalityProviderV1,
   babylonFinalityProviderV1Schema,
   babylonNetworkInfoV2Schema,
   BabylonUnbondingBroadcastPayloadV1,
 } from "./babylon.types";
-import { getLatestBlockHeight } from "./mempoolSpace";
+import { fetchLatestBlockHeight } from "./mempoolSpace";
 
-// Spec: https://staking-api.testnet.babylonlabs.io/swagger/index.html
+// Doc : https://docs.babylonlabs.io/api/staking-api/babylon-staking-api/
 
-// TODO Change to babylon when going mainnet
-const ROOT_URL = CHAINS["babylon-testnet"].providers.find(
+const ROOT_URL = CHAINS[CURRENT_BABYLON_CHAIN].providers.find(
   (p: Provider) => p.type === ProviderType.babylon
 )?.url;
 
-async function fetchStakingParams(): Promise<StakingParams> {
+async function fetchBabylonStakingParams(): Promise<StakingParams> {
   const url = `${ROOT_URL}/network-info`;
 
   const response = await fetch(url);
 
   if (!response.ok) {
-    console.warn(
-      `/!\\ Error received from bitcoin babylon endpoint ${url.toString()}:`,
-      await response.text()
-    );
+    console.warn(`/!\\ Error received from babylon API endpoint ${url.toString()}:`, await response.text());
     throw new ThirdPartyProviderError("Error while fetching data from the provider");
   }
 
   const { data, message } = await response.json();
 
   if (message) {
-    console.warn(`/!\\ Error received from bitcoin babylon endpoint: ${url.toString()}:`, message);
+    console.warn(`/!\\ Error received from babylon API endpoint: ${url.toString()}:`, message);
     throw new ThirdPartyProviderError(`Error while fetching data from the provider`);
   }
 
@@ -47,7 +45,7 @@ async function fetchStakingParams(): Promise<StakingParams> {
 
   if (!globalParams.success) {
     console.warn(
-      `/!\\ Invalid data returned from bitcoin babylon endpoint: ${url.toString()}:`,
+      `/!\\ Invalid data returned from babylon API endpoint: ${url.toString()}:`,
       globalParams.error
     );
     throw new ThirdPartyProviderError(`Error while fetching data from the provider`);
@@ -71,12 +69,12 @@ async function fetchStakingParams(): Promise<StakingParams> {
     },
   }));
 
-  const bitcoinLatestBlockHeight = await getLatestBlockHeight(BABYLON_BITCOIN_CHAIN);
+  const bitcoinLatestBlockHeight = await fetchLatestBlockHeight(CURRENT_BABYLON_BITCOIN_CHAIN);
 
   return getBabylonParamByBtcHeight(bitcoinLatestBlockHeight, parsedParams);
 }
 
-async function fetchFinalityProviders(
+async function fetchBabylonFinalityProviders(
   paginationToken?: string
 ): Promise<{ validators: BabylonFinalityProviderV1[]; nextPage: string | null }> {
   const url = new URL(`${ROOT_URL}/finality-providers`);
@@ -94,10 +92,7 @@ async function fetchFinalityProviders(
   const response = await fetch(url.toString());
 
   if (!response.ok) {
-    console.warn(
-      `/!\\ Error received from bitcoin babylon endpoint ${url.toString()}:`,
-      await response.text()
-    );
+    console.warn(`/!\\ Error received from babylon API endpoint ${url.toString()}:`, await response.text());
     throw new ThirdPartyProviderError("Error while fetching data from the provider");
   }
 
@@ -114,7 +109,7 @@ async function fetchFinalityProviders(
 
   if (!finalityProviders.success) {
     console.warn(
-      `/!\\ Invalid data returned from bitcoin babylon endpoint: ${url.toString()}:`,
+      `/!\\ Invalid data returned from babylon API endpoint: ${url.toString()}:`,
       finalityProviders.error
     );
     throw new ThirdPartyProviderError(`Error while fetching data from the provider`);
@@ -137,14 +132,46 @@ async function postUnbondingTransaction(payload: BabylonUnbondingBroadcastPayloa
   });
 
   if (!response.ok) {
-    console.warn(
-      `/!\\ Invalid response from bitcoin babylon endpoint ${url.toString()}:`,
-      await response.text()
-    );
+    console.warn(`/!\\ Invalid response from babylon API endpoint ${url.toString()}:`, await response.text());
     throw new ThirdPartyProviderError("Error during transaction broadcast to the node");
   }
 
   // FIXME Does the endpoint return a hash or something?...
 }
 
-export { fetchFinalityProviders, fetchStakingParams };
+async function fetchBabylonDelegation(transactionId: string): Promise<BabylonDelegationV2 | null> {
+  const url = new URL(`${ROOT_URL}/delegation`);
+  url.searchParams.set("staking_tx_hash_hex", transactionId);
+
+  const response = await fetch(url.toString());
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      return null;
+    } else {
+      console.warn(`/!\\ Error received from babylon API endpoint ${url.toString()}:`, await response.text());
+      throw new ThirdPartyProviderError("Error while fetching delegation data from the provider");
+    }
+  }
+
+  const result = await response.json();
+
+  if (result?.message) {
+    console.warn(`/!\\ Error received from babylon API endpoint: ${url.toString()}:`, result.message);
+    throw new ThirdPartyProviderError("Error while fetching delegation data from the provider");
+  }
+
+  const parsedResult = babylonDelegationV2Schema.safeParse(result);
+
+  if (!parsedResult.success) {
+    console.warn(
+      `/!\\ Invalid data returned from babylon API endpoint: ${url.toString()}:`,
+      parsedResult.error
+    );
+    throw new ThirdPartyProviderError("Error while fetching delegation data from the provider");
+  }
+
+  return parsedResult.data;
+}
+
+export { fetchBabylonDelegation, fetchBabylonFinalityProviders, fetchBabylonStakingParams };
