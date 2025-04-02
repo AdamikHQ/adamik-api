@@ -107,3 +107,12 @@ export class AdamikApiServerError extends AdamikHttpError {
     super(message);
   }
 }
+
+export class BabylonTransactionAlreadyUsedError extends UserInputError {
+  name = "BabylonTransactionAlreadyUsedError";
+  statusText = "Transaction already used";
+
+  constructor() {
+    super("The Bitcoin staking transaction is already used");
+  }
+}

@@ -1,8 +1,10 @@
+import { CHAINS } from "~/app/config/chains";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { fetchAccount } from "../backend/node";
 import { COSMOS_MOCK_FEES } from "../constants";
 import { getAvailableBalance, getEstimatedFees, getStakedBalance, resolvePubKey } from "../logic";
 import { CosmosService } from "../service";
+import { CosmosChainParams } from "../types";
 
 async function completeTransaction(
   this: CosmosService,
@@ -12,6 +14,8 @@ async function completeTransaction(
   }
 ): Promise<void> {
   const { transaction } = args;
+
+  const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
 
   const spendableBalance = await (async (): Promise<bigint> => {
     switch (transaction.data.mode) {
@@ -47,16 +51,36 @@ async function completeTransaction(
   }
 
   const account = await fetchAccount(this.chainId, transaction.data.senderAddress);
+
+  // FIXME Should we use this to compute fees for babylon?
+  /*
+  if (transaction.data.mode === TransactionMode.REGISTER_STAKE) {
+    const { delegation_creation_base_gas_fee } = await fetchBabylonStakingParams();
+
+    const gasWantedFees = new BigNumber(delegation_creation_base_gas_fee);
+
+    transaction.data.fees = BigInt(gasWantedFees.toFixed());
+    transaction.data.gas = BigInt(
+      gasWantedFees.dividedBy(chainParams?.minGasPrice).integerValue(BigNumber.ROUND_CEIL).toFixed()
+    );
+  } else {
+    const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data);
+
+    transaction.data.fees = gasWantedFees;
+    transaction.data.gas = gasWanted;
+  }
+  /*/
   const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data);
 
-  // TODO Use delegation_creation_base_gas_fee for babylon's MsgCreateBTCDelegation message
   transaction.data.fees = gasWantedFees;
   transaction.data.gas = gasWanted;
+  //*/
 
   if (transaction.data.useMaxAmount) {
     switch (transaction.data.mode) {
       case TransactionMode.TRANSFER: {
-        transaction.data.amount = spendableBalance > gasWantedFees ? spendableBalance - gasWantedFees : 0n;
+        transaction.data.amount =
+          spendableBalance > transaction.data.fees ? spendableBalance - transaction.data.fees : 0n;
         break;
       }
 
@@ -64,7 +88,8 @@ async function completeTransaction(
         if (transaction.data.sourceValidatorAddress?.length) {
           transaction.data.amount = spendableBalance;
         } else {
-          transaction.data.amount = spendableBalance > gasWantedFees ? spendableBalance - gasWantedFees : 0n;
+          transaction.data.amount =
+            spendableBalance > transaction.data.fees ? spendableBalance - transaction.data.fees : 0n;
         }
         break;
       }

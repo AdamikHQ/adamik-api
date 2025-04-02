@@ -3,13 +3,13 @@
     "url": "https://lcd-injective.imperator.co/cosmos/tx/v1beta1/simulate",
     "method": "POST",
     "params": {
-      "tx_bytes": "CpsBCoYBChwvY29zbW9zLmJhbmsudjFiZXRhMS5Nc2dTZW5kEmYKKmluajFha3h5Y3NscThjanQwdWZmdzRyam1mbTNlY2hjaHB0dTUyYTJkcRIqaW5qMWFreHljc2xxOGNqdDB1ZmZ3NHJqbWZtM2VjaGNocHR1NTJhMmRxGgwKA2luahIFMTAwMDASEGFkYW1pay10ZXN0LW1lbW8SbwphClQKLS9pbmplY3RpdmUuY3J5cHRvLnYxYmV0YTEuZXRoc2VjcDI1NmsxLlB1YktleRIjCiEDgz1a6+cspo44FsSkZtOVKAkp8HzPXnXcTi1xwsktpFgSBAoCCAEY3q2NKRIKCggKA2luahIBMRpAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+      "tx_bytes": "CpsBCoYBChwvY29zbW9zLmJhbmsudjFiZXRhMS5Nc2dTZW5kEmYKKmluajFha3h5Y3NscThjanQwdWZmdzRyam1mbTNlY2hjaHB0dTUyYTJkcRIqaW5qMWFreHljc2xxOGNqdDB1ZmZ3NHJqbWZtM2VjaGNocHR1NTJhMmRxGgwKA2luahIFMTAwMDASEGFkYW1pay10ZXN0LW1lbW8SYQpTCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohAuCghumv/N4EYLDfm60KhVZ8z3p9FtP/jjJtbqihS+IBEgQKAggBGOGtjSkSCgoICgNpbmoSATEaQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
     }
   },
   "response": {
     "gas_info": {
       "gas_wanted": "150000000",
-      "gas_used": "109814"
+      "gas_used": "109737"
     },
     "result": {
       "data": "EiYKJC9jb3Ntb3MuYmFuay52MWJldGExLk1zZ1NlbmRSZXNwb25zZQ==",
@@ -95,7 +95,7 @@
           "attributes": [
             {
               "key": "acc_seq",
-              "value": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq/86202078",
+              "value": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq/86202081",
               "index": false
             }
           ]

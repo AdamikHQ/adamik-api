@@ -32,6 +32,7 @@ const MINTSCAN_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.SEI, "sei"],
   [ChainId.STRIDE, "stride"],
   [ChainId.KAVA, "kava"],
+  [ChainId.BABYLON_TESTNET, "babylon-testnet"],
   //NOT SUPPORTED BY MINTSCAN YET
   // [ChainId.IRISNET, "iris"],
   // [ChainId.TERRA, "terra2"],

@@ -12,6 +12,7 @@ import {
   TokenType,
 } from "~/app/model/types_WIP";
 import {
+  BabylonTransactionAlreadyUsedError,
   InvalidPaginationTokenError,
   ThirdPartyProviderError,
   UserInputError,
@@ -404,7 +405,12 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
 
   if (!data?.gas_info?.gas_used) {
     console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
-    throw new ThirdPartyProviderError("Error while getting gas estimate from the node");
+    if (data?.message.includes("the BTC staking tx is already used")) {
+      // Babylon use-case
+      throw new BabylonTransactionAlreadyUsedError();
+    } else {
+      throw new ThirdPartyProviderError("Error while getting gas estimate from the node");
+    }
   }
 
   return BigInt(data.gas_info.gas_used);

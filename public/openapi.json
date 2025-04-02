@@ -5114,6 +5114,7 @@
                 "stride",
                 "kava",
                 "starknet",
+                "babylon-testnet",
                 "monad-testnet",
                 "cronos",
                 "world-chain"
@@ -6347,6 +6348,7 @@
                 "stride",
                 "kava",
                 "starknet",
+                "babylon-testnet",
                 "monad-testnet",
                 "cronos",
                 "world-chain"
@@ -6432,6 +6434,7 @@
                         "stride",
                         "kava",
                         "starknet",
+                        "babylon-testnet",
                         "monad-testnet",
                         "cronos",
                         "world-chain"
@@ -7055,6 +7058,10 @@
                                   },
                                   "senderPubKey": {
                                     "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "senderForeignPubKey": {
+                                    "type": "string",
                                     "description": "Staker's pubkey on the foreign chain. (hex)"
                                   },
                                   "senderAddress": {
@@ -7093,6 +7100,7 @@
                                 "required": [
                                   "mode",
                                   "senderPubKey",
+                                  "senderForeignPubKey",
                                   "senderAddress",
                                   "proofOfPossession",
                                   "amount",
@@ -7531,6 +7539,10 @@
                                     },
                                     "senderPubKey": {
                                       "type": "string",
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                    },
+                                    "senderForeignPubKey": {
+                                      "type": "string",
                                       "description": "Staker's pubkey on the foreign chain. (hex)"
                                     },
                                     "senderAddress": {
@@ -7573,6 +7585,7 @@
                                   "required": [
                                     "mode",
                                     "senderPubKey",
+                                    "senderForeignPubKey",
                                     "senderAddress",
                                     "proofOfPossession",
                                     "amount",
@@ -8048,6 +8061,10 @@
                                   },
                                   "senderPubKey": {
                                     "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "senderForeignPubKey": {
+                                    "type": "string",
                                     "description": "Staker's pubkey on the foreign chain. (hex)"
                                   },
                                   "senderAddress": {
@@ -8086,6 +8103,7 @@
                                 "required": [
                                   "mode",
                                   "senderPubKey",
+                                  "senderForeignPubKey",
                                   "senderAddress",
                                   "proofOfPossession",
                                   "amount",
@@ -8681,6 +8699,10 @@
                                   },
                                   "senderPubKey": {
                                     "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "senderForeignPubKey": {
+                                    "type": "string",
                                     "description": "Staker's pubkey on the foreign chain. (hex)"
                                   },
                                   "senderAddress": {
@@ -8719,6 +8741,7 @@
                                 "required": [
                                   "mode",
                                   "senderPubKey",
+                                  "senderForeignPubKey",
                                   "senderAddress",
                                   "proofOfPossession",
                                   "amount",
