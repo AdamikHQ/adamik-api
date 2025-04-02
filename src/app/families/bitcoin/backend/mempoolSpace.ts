@@ -193,8 +193,17 @@ async function postTransaction(chainId: ChainId, payload: string): Promise<strin
     method: "POST",
     body: payload,
   });
+  // FIXME DEBUG TBR
+  console.log("M.S - url:", url);
+  console.log("M.S - payload:", payload);
+  console.log("M.S - response.ok:", response.ok);
+  console.log("M.S - response.status:", response.status);
 
   if (!response.ok) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+      await response.text()
+    );
     throw new UserInputError(`Transaction broadcast failed`);
   }
 
