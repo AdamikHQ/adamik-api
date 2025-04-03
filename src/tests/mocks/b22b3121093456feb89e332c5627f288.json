@@ -1,0 +1,11 @@
+{
+  "request": {
+    "url": "https://mempool.space/signet/api/tx/52bfb146f0f8c8b98b0fa584056dfb75658b078aac04f3c5a641db9df297387b/raw",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": "AgAAAAABAUSlSerWOsnGmHuQZpII7OXpPyjeSx+XteQDbJlfR7PVAQAAAAD/////AlDDAAAAAAAAIlEgqA/lJ4xSyrLgoMlwJxP2H+jy8kg0am19zBJFM4wU7BYJ3QYAAAAAACJRIHSqCkru/AUtDmPt2lpfnNSpprJF+tM+opQIwTDikWBBAUAbXeZEzt8w9CGVvxoX+tpHreXgk4SmQ+k4xd4LXlXsF99UFJVpqGxG4H16+pMi2iFIT9eoECloyFhdz9iJlTNLAAAAAA==",
+    "type": "binary"
+  }
+}

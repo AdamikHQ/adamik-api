@@ -1,6 +1,6 @@
 import * as crypto from "crypto";
 import fs from "fs";
-import { bypass, http, HttpResponse, JsonBodyType, passthrough } from "msw";
+import { bypass, http, HttpResponse, passthrough } from "msw";
 import { setupServer } from "msw/node";
 import path from "path";
 
@@ -119,7 +119,6 @@ const handlers = [
           // Handle binary responses
           responseType = "binary";
           // Convert to base64 to store in JSON
-          // FIXME Need to migrate to Node v22 for Response.bytes() to work
           const binary = await response.clone().bytes();
           responseBody = Buffer.from(binary).toString("base64");
         } else {
@@ -162,11 +161,11 @@ const handlers = [
 
     console.log("<<<<<<<<<< MSW");
 
-    // Check if the response was binary data
-    let responseData: JsonBodyType =
-      responseType === "binary" ? Buffer.from(responseBody, "base64") : responseBody;
-
-    return HttpResponse.json(responseData, { status: responseStatus });
+    if (responseType === "binary") {
+      return new HttpResponse(Buffer.from(responseBody, "base64"), { status: responseStatus });
+    } else {
+      return HttpResponse.json(responseBody, { status: responseStatus });
+    }
   }),
 ];
 
