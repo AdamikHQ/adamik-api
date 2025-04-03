@@ -15,6 +15,20 @@ import { MintscanAccountTransactionsResponse, MintscanTransaction } from "./type
 
 const MINTSCAN_PAGE_SIZE = 20;
 
+// Define supported message types for filtering transactions
+enum SUPPORTED_MESSAGE_TYPES {
+  MSG_SEND = "cosmos-sdk/MsgSend",
+  MSG_DELEGATE = "cosmos-sdk/MsgDelegate",
+  MSG_BEGIN_REDELEGATE = "cosmos-sdk/MsgBeginRedelegate",
+  MSG_UNDELEGATE = "cosmos-sdk/MsgUndelegate",
+  MSG_WITHDRAW_DELEGATOR_REWARD = "cosmos-sdk/MsgWithdrawDelegatorReward",
+  MSG_SEND_PROTO = "/cosmos.bank.v1beta1.MsgSend",
+  MSG_DELEGATE_PROTO = "/cosmos.staking.v1beta1.MsgDelegate",
+  MSG_BEGIN_REDELEGATE_PROTO = "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+  MSG_UNDELEGATE_PROTO = "/cosmos.staking.v1beta1.MsgUndelegate",
+  MSG_WITHDRAW_DELEGATOR_REWARD_PROTO = "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+}
+
 const getRootUrl = (chainId: ChainId) =>
   CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.mintscan)?.url;
 
@@ -106,6 +120,14 @@ async function fetchAccountTransactions(
   // or the endpoint returns aberrant results... hence this default value
   searchParams.set("fromDateTime", "1970-01-01");
 
+  // 20 Results per page
+  searchParams.set("take", "20");
+
+  // Add supported message types to filter transactions
+  Object.values(SUPPORTED_MESSAGE_TYPES).forEach((type) => {
+    searchParams.append("messageTypes", type);
+  });
+
   const url = `${getRootUrl(chainId)}/${mintscanChainId}/accounts/${address}/transactions?` + searchParams;
 
   const response: MintscanAccountTransactionsResponse = await fetchWithHeaders(url.toString()).then(
@@ -194,7 +216,7 @@ function parseLegacyAminoTransaction(
 
   // TODO Handling only the 1st message at the moment, but should handle them all into individual transactions
   switch (tx.value.msg[0]["type"]) {
-    case "cosmos-sdk/MsgSend": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_SEND: {
       const message = tx.value.msg[0]["cosmos-sdk/MsgSend"].value;
 
       parsedTransaction.mode = TransactionMode.TRANSFER;
@@ -217,7 +239,7 @@ function parseLegacyAminoTransaction(
 
       break;
     }
-    case "cosmos-sdk/MsgDelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_DELEGATE: {
       const message = tx.value.msg[0]["cosmos-sdk/MsgDelegate"].value;
 
       parsedTransaction.mode = TransactionMode.STAKE;
@@ -238,7 +260,7 @@ function parseLegacyAminoTransaction(
 
       break;
     }
-    case "cosmos-sdk/MsgBeginRedelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_BEGIN_REDELEGATE: {
       const message = tx.value.msg[0]["cosmos-sdk/MsgBeginRedelegate"].value;
 
       parsedTransaction.mode = TransactionMode.STAKE;
@@ -263,7 +285,7 @@ function parseLegacyAminoTransaction(
 
       break;
     }
-    case "cosmos-sdk/MsgUndelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_UNDELEGATE: {
       const message = tx.value.msg[0]["cosmos-sdk/MsgUndelegate"].value;
 
       parsedTransaction.mode = TransactionMode.UNSTAKE;
@@ -284,7 +306,7 @@ function parseLegacyAminoTransaction(
 
       break;
     }
-    case "cosmos-sdk/MsgWithdrawDelegatorReward": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_WITHDRAW_DELEGATOR_REWARD: {
       const message = tx.value.msg[0]["cosmos-sdk/MsgWithdrawDelegatorReward"].value;
 
       const chain = CHAINS[chainId];
@@ -381,7 +403,7 @@ function parseProtobufTransaction(
 
   // TODO Handling only the 1st message at the moment, but should handle them all into individual transactions
   switch (tx.body.messages[0]["@type"]) {
-    case "/cosmos.bank.v1beta1.MsgSend": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_SEND_PROTO: {
       const message = tx.body.messages[0]["/cosmos-bank-v1beta1-MsgSend"];
 
       parsedTransaction.mode = TransactionMode.TRANSFER;
@@ -404,7 +426,7 @@ function parseProtobufTransaction(
 
       break;
     }
-    case "/cosmos.staking.v1beta1.MsgDelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_DELEGATE_PROTO: {
       const message = tx.body.messages[0]["/cosmos-staking-v1beta1-MsgDelegate"];
 
       parsedTransaction.mode = TransactionMode.STAKE;
@@ -425,7 +447,7 @@ function parseProtobufTransaction(
 
       break;
     }
-    case "/cosmos.staking.v1beta1.MsgBeginRedelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_BEGIN_REDELEGATE_PROTO: {
       const message = tx.body.messages[0]["/cosmos-staking-v1beta1-MsgBeginRedelegate"];
 
       parsedTransaction.mode = TransactionMode.STAKE;
@@ -450,7 +472,7 @@ function parseProtobufTransaction(
 
       break;
     }
-    case "/cosmos.staking.v1beta1.MsgUndelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_UNDELEGATE_PROTO: {
       const message = tx.body.messages[0]["/cosmos-staking-v1beta1-MsgUndelegate"];
 
       parsedTransaction.mode = TransactionMode.UNSTAKE;
@@ -471,7 +493,7 @@ function parseProtobufTransaction(
 
       break;
     }
-    case "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_WITHDRAW_DELEGATOR_REWARD_PROTO: {
       const message = tx.body.messages[0]["/cosmos-distribution-v1beta1-MsgWithdrawDelegatorReward"];
 
       const chain = CHAINS[chainId];

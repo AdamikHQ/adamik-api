@@ -4,9 +4,12 @@
     "method": "GET"
   },
   "response": {
-    "contract_address": "0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8",
-    "name": "USD Coin",
-    "symbol": "USDC",
-    "decimals": "6"
+    "status": 200,
+    "body": {
+      "contract_address": "0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8",
+      "name": "USD Coin",
+      "symbol": "USDC",
+      "decimals": "6"
+    }
   }
 }

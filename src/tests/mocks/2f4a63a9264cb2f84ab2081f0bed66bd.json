@@ -4,9 +4,12 @@
     "method": "GET"
   },
   "response": {
-    "contract_address": "0x01799bb45263473b86903b81a619b5c0a4283b8ee6574fcf9acb8e9f5fcd3b37",
-    "name": "ekuborwd.\\u00e2\\u0080\\u008bcom - Ekubo Reward",
-    "symbol": "ekuborwd.\\u00e2\\u0080\\u008bcom",
-    "decimals": "8"
+    "status": 200,
+    "body": {
+      "contract_address": "0x01799bb45263473b86903b81a619b5c0a4283b8ee6574fcf9acb8e9f5fcd3b37",
+      "name": "ekuborwd.\\u00e2\\u0080\\u008bcom - Ekubo Reward",
+      "symbol": "ekuborwd.\\u00e2\\u0080\\u008bcom",
+      "decimals": "8"
+    }
   }
 }

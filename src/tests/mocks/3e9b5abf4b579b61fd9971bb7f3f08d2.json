@@ -4,15 +4,18 @@
     "method": "GET"
   },
   "response": {
-    "balances": [
-      {
-        "denom": "inj",
-        "amount": "339637650100000000"
+    "status": 200,
+    "body": {
+      "balances": [
+        {
+          "denom": "inj",
+          "amount": "339637650100000000"
+        }
+      ],
+      "pagination": {
+        "next_key": null,
+        "total": "1"
       }
-    ],
-    "pagination": {
-      "next_key": null,
-      "total": "1"
     }
   }
 }

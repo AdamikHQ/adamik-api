@@ -4,31 +4,34 @@
     "method": "GET"
   },
   "response": {
-    "rewards": [
-      {
-        "validator_address": "injvaloper1ntn4j2lsu3k60g8xj9pqshqvdj2q5tygyvczpy",
-        "reward": [
-          {
-            "denom": "inj",
-            "amount": "816054421295480.260000000000000000"
-          }
-        ]
-      },
-      {
-        "validator_address": "injvaloper1h37jxecva2xgm78ejw3683vrw932j6nuzgdxgj",
-        "reward": [
-          {
-            "denom": "inj",
-            "amount": "16926102640941400.399999999999999999"
-          }
-        ]
-      }
-    ],
-    "total": [
-      {
-        "denom": "inj",
-        "amount": "17742157062236880.659999999999999999"
-      }
-    ]
+    "status": 200,
+    "body": {
+      "rewards": [
+        {
+          "validator_address": "injvaloper1ntn4j2lsu3k60g8xj9pqshqvdj2q5tygyvczpy",
+          "reward": [
+            {
+              "denom": "inj",
+              "amount": "816054421295480.260000000000000000"
+            }
+          ]
+        },
+        {
+          "validator_address": "injvaloper1h37jxecva2xgm78ejw3683vrw932j6nuzgdxgj",
+          "reward": [
+            {
+              "denom": "inj",
+              "amount": "16926102640941400.399999999999999999"
+            }
+          ]
+        }
+      ],
+      "total": [
+        {
+          "denom": "inj",
+          "amount": "17742157062236880.659999999999999999"
+        }
+      ]
+    }
   }
 }

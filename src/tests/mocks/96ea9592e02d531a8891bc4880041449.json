@@ -4,93 +4,96 @@
     "method": "GET"
   },
   "response": {
-    "asset-holdings": [
-      {
-        "asset-holding": {
-          "amount": 110,
-          "asset-id": 604,
-          "is-frozen": false
+    "status": 200,
+    "body": {
+      "asset-holdings": [
+        {
+          "asset-holding": {
+            "amount": 110,
+            "asset-id": 604,
+            "is-frozen": false
+          },
+          "asset-params": {
+            "clawback": "RL6VDLXCN5G7N2GRTS7YLVDSFT4PVBBUOVTVS7T26OQ5MLXYQKRMI5ADXY",
+            "creator": "FTGQNEGQPB7PJFK6MWILALT3DSLQ2SHC23SD7R3NTG7GDTZNHRRDXVGL3Y",
+            "decimals": 0,
+            "default-frozen": false,
+            "freeze": "RL6VDLXCN5G7N2GRTS7YLVDSFT4PVBBUOVTVS7T26OQ5MLXYQKRMI5ADXY",
+            "manager": "RL6VDLXCN5G7N2GRTS7YLVDSFT4PVBBUOVTVS7T26OQ5MLXYQKRMI5ADXY",
+            "name": "IanCoin",
+            "name-b64": "SWFuQ29pbg==",
+            "reserve": "FTGQNEGQPB7PJFK6MWILALT3DSLQ2SHC23SD7R3NTG7GDTZNHRRDXVGL3Y",
+            "total": 23000000,
+            "unit-name": "IANC",
+            "unit-name-b64": "SUFOQw=="
+          }
         },
-        "asset-params": {
-          "clawback": "RL6VDLXCN5G7N2GRTS7YLVDSFT4PVBBUOVTVS7T26OQ5MLXYQKRMI5ADXY",
-          "creator": "FTGQNEGQPB7PJFK6MWILALT3DSLQ2SHC23SD7R3NTG7GDTZNHRRDXVGL3Y",
-          "decimals": 0,
-          "default-frozen": false,
-          "freeze": "RL6VDLXCN5G7N2GRTS7YLVDSFT4PVBBUOVTVS7T26OQ5MLXYQKRMI5ADXY",
-          "manager": "RL6VDLXCN5G7N2GRTS7YLVDSFT4PVBBUOVTVS7T26OQ5MLXYQKRMI5ADXY",
-          "name": "IanCoin",
-          "name-b64": "SWFuQ29pbg==",
-          "reserve": "FTGQNEGQPB7PJFK6MWILALT3DSLQ2SHC23SD7R3NTG7GDTZNHRRDXVGL3Y",
-          "total": 23000000,
-          "unit-name": "IANC",
-          "unit-name-b64": "SUFOQw=="
-        }
-      },
-      {
-        "asset-holding": {
-          "amount": 110000,
-          "asset-id": 312769,
-          "is-frozen": false
+        {
+          "asset-holding": {
+            "amount": 110000,
+            "asset-id": 312769,
+            "is-frozen": false
+          },
+          "asset-params": {
+            "clawback": "XIU7HGGAJ3QOTATPDSIIHPFVKMICXKHMOR2FJKHTVLII4FAOA3CYZQDLG4",
+            "creator": "XIU7HGGAJ3QOTATPDSIIHPFVKMICXKHMOR2FJKHTVLII4FAOA3CYZQDLG4",
+            "decimals": 6,
+            "default-frozen": false,
+            "freeze": "XIU7HGGAJ3QOTATPDSIIHPFVKMICXKHMOR2FJKHTVLII4FAOA3CYZQDLG4",
+            "manager": "XIU7HGGAJ3QOTATPDSIIHPFVKMICXKHMOR2FJKHTVLII4FAOA3CYZQDLG4",
+            "name": "Tether USDt",
+            "name-b64": "VGV0aGVyIFVTRHQ=",
+            "reserve": "XIU7HGGAJ3QOTATPDSIIHPFVKMICXKHMOR2FJKHTVLII4FAOA3CYZQDLG4",
+            "total": 18446744073709552000,
+            "unit-name": "USDt",
+            "unit-name-b64": "VVNEdA==",
+            "url": "tether.to",
+            "url-b64": "dGV0aGVyLnRv"
+          }
         },
-        "asset-params": {
-          "clawback": "XIU7HGGAJ3QOTATPDSIIHPFVKMICXKHMOR2FJKHTVLII4FAOA3CYZQDLG4",
-          "creator": "XIU7HGGAJ3QOTATPDSIIHPFVKMICXKHMOR2FJKHTVLII4FAOA3CYZQDLG4",
-          "decimals": 6,
-          "default-frozen": false,
-          "freeze": "XIU7HGGAJ3QOTATPDSIIHPFVKMICXKHMOR2FJKHTVLII4FAOA3CYZQDLG4",
-          "manager": "XIU7HGGAJ3QOTATPDSIIHPFVKMICXKHMOR2FJKHTVLII4FAOA3CYZQDLG4",
-          "name": "Tether USDt",
-          "name-b64": "VGV0aGVyIFVTRHQ=",
-          "reserve": "XIU7HGGAJ3QOTATPDSIIHPFVKMICXKHMOR2FJKHTVLII4FAOA3CYZQDLG4",
-          "total": 18446744073709552000,
-          "unit-name": "USDt",
-          "unit-name-b64": "VVNEdA==",
-          "url": "tether.to",
-          "url-b64": "dGV0aGVyLnRv"
-        }
-      },
-      {
-        "asset-holding": {
-          "amount": 0,
-          "asset-id": 31566704,
-          "is-frozen": false
+        {
+          "asset-holding": {
+            "amount": 0,
+            "asset-id": 31566704,
+            "is-frozen": false
+          },
+          "asset-params": {
+            "creator": "2UEQTE5QDNXPI7M3TU44G6SYKLFWLPQO7EBZM7K7MHMQQMFI4QJPLHQFHM",
+            "decimals": 6,
+            "default-frozen": false,
+            "freeze": "3ERES6JFBIJ7ZPNVQJNH2LETCBQWUPGTO4ROA6VFUR25WFSYKGX3WBO5GE",
+            "manager": "37XL3M57AXBUJARWMT5R7M35OERXMH3Q22JMMEFLBYNDXXADGFN625HAL4",
+            "name": "USDC",
+            "name-b64": "VVNEQw==",
+            "reserve": "2UEQTE5QDNXPI7M3TU44G6SYKLFWLPQO7EBZM7K7MHMQQMFI4QJPLHQFHM",
+            "total": 18446744073709552000,
+            "unit-name": "USDC",
+            "unit-name-b64": "VVNEQw==",
+            "url": "https://www.centre.io/usdc",
+            "url-b64": "aHR0cHM6Ly93d3cuY2VudHJlLmlvL3VzZGM="
+          }
         },
-        "asset-params": {
-          "creator": "2UEQTE5QDNXPI7M3TU44G6SYKLFWLPQO7EBZM7K7MHMQQMFI4QJPLHQFHM",
-          "decimals": 6,
-          "default-frozen": false,
-          "freeze": "3ERES6JFBIJ7ZPNVQJNH2LETCBQWUPGTO4ROA6VFUR25WFSYKGX3WBO5GE",
-          "manager": "37XL3M57AXBUJARWMT5R7M35OERXMH3Q22JMMEFLBYNDXXADGFN625HAL4",
-          "name": "USDC",
-          "name-b64": "VVNEQw==",
-          "reserve": "2UEQTE5QDNXPI7M3TU44G6SYKLFWLPQO7EBZM7K7MHMQQMFI4QJPLHQFHM",
-          "total": 18446744073709552000,
-          "unit-name": "USDC",
-          "unit-name-b64": "VVNEQw==",
-          "url": "https://www.centre.io/usdc",
-          "url-b64": "aHR0cHM6Ly93d3cuY2VudHJlLmlvL3VzZGM="
+        {
+          "asset-holding": {
+            "amount": 0,
+            "asset-id": 142838028,
+            "is-frozen": false
+          },
+          "asset-params": {
+            "creator": "2BLB6GIAMLNXHOYSCSP4Q7FMS5KZHSYJCALUW46WPANP7KR4KMFTQWDCHM",
+            "decimals": 2,
+            "default-frozen": false,
+            "manager": "2BLB6GIAMLNXHOYSCSP4Q7FMS5KZHSYJCALUW46WPANP7KR4KMFTQWDCHM",
+            "name": "ALGO FAM TOKEN",
+            "name-b64": "QUxHTyBGQU0gVE9LRU4=",
+            "reserve": "2BLB6GIAMLNXHOYSCSP4Q7FMS5KZHSYJCALUW46WPANP7KR4KMFTQWDCHM",
+            "total": 1000000,
+            "unit-name": "FAME",
+            "unit-name-b64": "RkFNRQ=="
+          }
         }
-      },
-      {
-        "asset-holding": {
-          "amount": 0,
-          "asset-id": 142838028,
-          "is-frozen": false
-        },
-        "asset-params": {
-          "creator": "2BLB6GIAMLNXHOYSCSP4Q7FMS5KZHSYJCALUW46WPANP7KR4KMFTQWDCHM",
-          "decimals": 2,
-          "default-frozen": false,
-          "manager": "2BLB6GIAMLNXHOYSCSP4Q7FMS5KZHSYJCALUW46WPANP7KR4KMFTQWDCHM",
-          "name": "ALGO FAM TOKEN",
-          "name-b64": "QUxHTyBGQU0gVE9LRU4=",
-          "reserve": "2BLB6GIAMLNXHOYSCSP4Q7FMS5KZHSYJCALUW46WPANP7KR4KMFTQWDCHM",
-          "total": 1000000,
-          "unit-name": "FAME",
-          "unit-name-b64": "RkFNRQ=="
-        }
-      }
-    ],
-    "round": 48140979
+      ],
+      "round": 48140979
+    }
   }
 }

@@ -1,0 +1,39 @@
+{
+  "request": {
+    "url": "https://www.oklink.com/api/v5/explorer/address/address-summary?chainShortName=TRON&address=TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": "0",
+      "msg": "",
+      "data": [
+        {
+          "chainFullName": "TRON",
+          "chainShortName": "TRON",
+          "address": "TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre",
+          "contractAddress": "",
+          "balance": "2.026762",
+          "balanceSymbol": "TRX",
+          "transactionCount": "88",
+          "verifying": "0",
+          "sendAmount": "31.336988",
+          "receiveAmount": "2352.8115000000007",
+          "tokenAmount": "6",
+          "totalTokenValue": "",
+          "createContractAddress": "",
+          "createContractTransactionHash": "",
+          "firstTransactionTime": "0",
+          "lastTransactionTime": "1743423633000",
+          "token": "",
+          "bandwidth": "600,600",
+          "energy": "0,0",
+          "votingRights": "0,0",
+          "unclaimedVotingRewards": "0",
+          "isAaAddress": false
+        }
+      ]
+    }
+  }
+}

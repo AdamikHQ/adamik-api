@@ -2,7 +2,7 @@
   "request": {
     "url": "https://api.trongrid.io/wallet/triggerconstantcontract",
     "method": "POST",
-    "params": {
+    "body": {
       "contract_address": "41a614f803b6fd780986a42c78ec9c7f77e6ded13c",
       "owner_address": "411c506ba436e22d4892be0a949f3f065878a38d97",
       "function_selector": "transfer(address,uint256)",
@@ -11,51 +11,54 @@
     }
   },
   "response": {
-    "result": {
-      "result": true
-    },
-    "energy_used": 64285,
-    "constant_result": [
-      "0000000000000000000000000000000000000000000000000000000000000000"
-    ],
-    "logs": [
-      {
-        "address": "a614f803b6fd780986a42c78ec9c7f77e6ded13c",
-        "data": "0000000000000000000000000000000000000000000000000000000000003039",
-        "topics": [
-          "ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
-          "0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97",
-          "0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97"
-        ]
-      }
-    ],
-    "energy_penalty": 49635,
-    "transaction": {
-      "ret": [
-        {}
-      ],
-      "visible": false,
-      "txID": "d005840fce3659b5365f9f3d45542ba94d840cd442aeb5260bcfe21d88691593",
-      "raw_data": {
-        "contract": [
-          {
-            "parameter": {
-              "value": {
-                "data": "a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d970000000000000000000000000000000000000000000000000000000000003039",
-                "owner_address": "411c506ba436e22d4892be0a949f3f065878a38d97",
-                "contract_address": "41a614f803b6fd780986a42c78ec9c7f77e6ded13c"
-              },
-              "type_url": "type.googleapis.com/protocol.TriggerSmartContract"
-            },
-            "type": "TriggerSmartContract"
-          }
-        ],
-        "ref_block_bytes": "1434",
-        "ref_block_hash": "8aae80ae45a5c2d3",
-        "expiration": 1742218800000,
-        "timestamp": 1742218741777
+    "status": 200,
+    "body": {
+      "result": {
+        "result": true
       },
-      "raw_data_hex": "0a02143422088aae80ae45a5c2d34080d7d4a2da325aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15411c506ba436e22d4892be0a949f3f065878a38d97121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d970000000000000000000000000000000000000000000000000000000000003039709190d1a2da32"
+      "energy_used": 64285,
+      "constant_result": [
+        "0000000000000000000000000000000000000000000000000000000000000000"
+      ],
+      "logs": [
+        {
+          "address": "a614f803b6fd780986a42c78ec9c7f77e6ded13c",
+          "data": "0000000000000000000000000000000000000000000000000000000000003039",
+          "topics": [
+            "ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            "0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97",
+            "0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97"
+          ]
+        }
+      ],
+      "energy_penalty": 49635,
+      "transaction": {
+        "ret": [
+          {}
+        ],
+        "visible": false,
+        "txID": "d005840fce3659b5365f9f3d45542ba94d840cd442aeb5260bcfe21d88691593",
+        "raw_data": {
+          "contract": [
+            {
+              "parameter": {
+                "value": {
+                  "data": "a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d970000000000000000000000000000000000000000000000000000000000003039",
+                  "owner_address": "411c506ba436e22d4892be0a949f3f065878a38d97",
+                  "contract_address": "41a614f803b6fd780986a42c78ec9c7f77e6ded13c"
+                },
+                "type_url": "type.googleapis.com/protocol.TriggerSmartContract"
+              },
+              "type": "TriggerSmartContract"
+            }
+          ],
+          "ref_block_bytes": "1434",
+          "ref_block_hash": "8aae80ae45a5c2d3",
+          "expiration": 1742218800000,
+          "timestamp": 1742218741777
+        },
+        "raw_data_hex": "0a02143422088aae80ae45a5c2d34080d7d4a2da325aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15411c506ba436e22d4892be0a949f3f065878a38d97121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d970000000000000000000000000000000000000000000000000000000000003039709190d1a2da32"
+      }
     }
   }
 }

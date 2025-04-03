@@ -4,11 +4,14 @@
     "method": "GET"
   },
   "response": {
-    "consensus-version": "https://github.com/algorandfoundation/specs/tree/236dcc18c9c507d794813ab768e467ea42d1b4d9",
-    "fee": 0,
-    "genesis-hash": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
-    "genesis-id": "mainnet-v1.0",
-    "last-round": 48141068,
-    "min-fee": 1000
+    "status": 200,
+    "body": {
+      "consensus-version": "https://github.com/algorandfoundation/specs/tree/236dcc18c9c507d794813ab768e467ea42d1b4d9",
+      "fee": 0,
+      "genesis-hash": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+      "genesis-id": "mainnet-v1.0",
+      "last-round": 48141068,
+      "min-fee": 1000
+    }
   }
 }

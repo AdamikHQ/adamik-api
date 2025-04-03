@@ -2,7 +2,7 @@
   "request": {
     "url": "https://site1.moralis-nodes.com/eth/REDACTED",
     "method": "POST",
-    "params": {
+    "body": {
       "jsonrpc": "2.0",
       "id": 0,
       "method": "eth_getBalance",
@@ -13,8 +13,11 @@
     }
   },
   "response": {
-    "jsonrpc": "2.0",
-    "id": 0,
-    "result": "0x15fbc8b776b995"
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 0,
+      "result": "0x15fbc8b776b995"
+    }
   }
 }

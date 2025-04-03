@@ -4,9 +4,12 @@
     "method": "GET"
   },
   "response": {
-    "contract_address": "0x05211ac61a7e4ae2ccaa25a5c0f21e715227b0b7cd3cf9f223edf7d5fd90a2b9",
-    "name": "strkfi\\u00e2\\u0080\\u00a4net - STRK Gift Token",
-    "symbol": "strkfi\\u00e2\\u0080\\u00a4net",
-    "decimals": "8"
+    "status": 200,
+    "body": {
+      "contract_address": "0x05211ac61a7e4ae2ccaa25a5c0f21e715227b0b7cd3cf9f223edf7d5fd90a2b9",
+      "name": "strkfi\\u00e2\\u0080\\u00a4net - STRK Gift Token",
+      "symbol": "strkfi\\u00e2\\u0080\\u00a4net",
+      "decimals": "8"
+    }
   }
 }

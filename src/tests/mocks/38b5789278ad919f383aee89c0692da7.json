@@ -4,9 +4,12 @@
     "method": "GET"
   },
   "response": {
-    "contract_address": "0x068acbba22b46d5309b61fbb8469794375420eac85b076e0105653c472a5a919",
-    "name": "vstrkhq.com - vSTRK Bonus Token",
-    "symbol": "vSTKB",
-    "decimals": "8"
+    "status": 200,
+    "body": {
+      "contract_address": "0x068acbba22b46d5309b61fbb8469794375420eac85b076e0105653c472a5a919",
+      "name": "vstrkhq.com - vSTRK Bonus Token",
+      "symbol": "vSTKB",
+      "decimals": "8"
+    }
   }
 }

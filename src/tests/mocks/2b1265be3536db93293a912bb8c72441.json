@@ -4,7 +4,10 @@
     "method": "GET"
   },
   "response": {
-    "rewards": [],
-    "total": []
+    "status": 200,
+    "body": {
+      "rewards": [],
+      "total": []
+    }
   }
 }

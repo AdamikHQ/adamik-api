@@ -2,7 +2,7 @@
   "request": {
     "url": "https://site1.moralis-nodes.com/eth/REDACTED",
     "method": "POST",
-    "params": {
+    "body": {
       "jsonrpc": "2.0",
       "id": 1,
       "method": "eth_estimateGas",
@@ -16,8 +16,11 @@
     }
   },
   "response": {
-    "jsonrpc": "2.0",
-    "id": 1,
-    "result": "0x5208"
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": "0x5208"
+    }
   }
 }

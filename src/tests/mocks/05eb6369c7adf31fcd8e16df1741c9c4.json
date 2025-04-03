@@ -4,10 +4,13 @@
     "method": "GET"
   },
   "response": {
-    "fastestFee": 1,
-    "halfHourFee": 1,
-    "hourFee": 1,
-    "economyFee": 1,
-    "minimumFee": 1
+    "status": 200,
+    "body": {
+      "fastestFee": 1,
+      "halfHourFee": 1,
+      "hourFee": 1,
+      "economyFee": 1,
+      "minimumFee": 1
+    }
   }
 }
