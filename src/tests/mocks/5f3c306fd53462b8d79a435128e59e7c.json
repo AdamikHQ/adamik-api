@@ -4,10 +4,13 @@
     "method": "GET"
   },
   "response": {
-    "delegation_responses": [],
-    "pagination": {
-      "next_key": null,
-      "total": "0"
+    "status": 200,
+    "body": {
+      "delegation_responses": [],
+      "pagination": {
+        "next_key": null,
+        "total": "0"
+      }
     }
   }
 }

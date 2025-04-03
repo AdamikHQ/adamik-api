@@ -3,5 +3,8 @@
     "url": "https://mempool.space/signet/api/blocks/tip/height",
     "method": "GET"
   },
-  "response": 242073
+  "response": {
+    "status": 200,
+    "body": 242073
+  }
 }

@@ -4,18 +4,21 @@
     "method": "GET"
   },
   "response": {
-    "account": {
-      "@type": "/injective.types.v1beta1.EthAccount",
-      "base_account": {
-        "address": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
-        "pub_key": {
-          "@type": "/injective.crypto.v1beta1.ethsecp256k1.PubKey",
-          "key": "AuCghumv/N4EYLDfm60KhVZ8z3p9FtP/jjJtbqihS+IB"
+    "status": 200,
+    "body": {
+      "account": {
+        "@type": "/injective.types.v1beta1.EthAccount",
+        "base_account": {
+          "address": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
+          "pub_key": {
+            "@type": "/injective.crypto.v1beta1.ethsecp256k1.PubKey",
+            "key": "AuCghumv/N4EYLDfm60KhVZ8z3p9FtP/jjJtbqihS+IB"
+          },
+          "account_number": "5073",
+          "sequence": "86202081"
         },
-        "account_number": "5073",
-        "sequence": "86202081"
-      },
-      "code_hash": "xdJGAYb3IzySfn2y3McDwOUAtlPKgic7e/rYBF2FpHA="
+        "code_hash": "xdJGAYb3IzySfn2y3McDwOUAtlPKgic7e/rYBF2FpHA="
+      }
     }
   }
 }

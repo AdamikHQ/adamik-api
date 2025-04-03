@@ -4,16 +4,19 @@
     "method": "GET"
   },
   "response": {
-    "address": "0:ac81281f785448acd0d46b8ccc45d75a164de7147b0d2a0202a6d6ca72157899",
-    "balance": 73581168,
-    "last_activity": 1717363341,
-    "status": "active",
-    "interfaces": [
-      "jetton_master"
-    ],
-    "get_methods": [
-      "get_jetton_data"
-    ],
-    "is_wallet": false
+    "status": 200,
+    "body": {
+      "address": "0:ac81281f785448acd0d46b8ccc45d75a164de7147b0d2a0202a6d6ca72157899",
+      "balance": 73581168,
+      "last_activity": 1717363341,
+      "status": "active",
+      "interfaces": [
+        "jetton_master"
+      ],
+      "get_methods": [
+        "get_jetton_data"
+      ],
+      "is_wallet": false
+    }
   }
 }

@@ -4,7 +4,10 @@
     "method": "GET"
   },
   "response": {
-    "errorCode": "NOT_FOUND",
-    "message": "staking delegation not found, please retry"
+    "status": 200,
+    "body": {
+      "errorCode": "NOT_FOUND",
+      "message": "staking delegation not found, please retry"
+    }
   }
 }

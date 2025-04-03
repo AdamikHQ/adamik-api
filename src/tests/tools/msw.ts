@@ -1,6 +1,6 @@
 import * as crypto from "crypto";
 import fs from "fs";
-import { bypass, http, HttpResponse, passthrough } from "msw";
+import { bypass, http, HttpResponse, JsonBodyType, passthrough } from "msw";
 import { setupServer } from "msw/node";
 import path from "path";
 
@@ -40,7 +40,10 @@ async function applyFilters(requestUrl: string, requestBody: string): Promise<st
     const result = evaluate(filter, [json]).next().value;
     return JSON.stringify(result);
   } catch (e) {
-    throw new Error(`Error while using jq to filter request body: ${e}`);
+    console.warn(`Error while using jq to filter request body: ${e}`);
+    console.warn(`    Request body: ${requestBody}`);
+    console.warn(`    Error: ${e}`);
+    return requestBody;
   }
 }
 
@@ -68,12 +71,18 @@ const handlers = [
     console.log("Request:", request.method + " " + request.url);
     const mockFilePath = await computeMockFilepath(request.clone());
 
-    let responseBody;
+    let responseBody: string;
+    let responseStatus: number;
+    let responseType: string;
     if (fs.existsSync(mockFilePath)) {
-      const mockResponse = fs.readFileSync(mockFilePath, { encoding: "utf-8" });
-
-      responseBody = JSON.parse(mockResponse).response;
       console.log("Response found in mocks:", mockFilePath.split("/").pop());
+
+      const mockResponse = fs.readFileSync(mockFilePath, { encoding: "utf-8" });
+      const mockResponseJson = JSON.parse(mockResponse);
+
+      responseBody = mockResponseJson.response.body;
+      responseStatus = mockResponseJson.response.status;
+      responseType = mockResponseJson.response.type;
     } else {
       try {
         console.log("Response NOT found in mocks, fetching...");
@@ -82,29 +91,43 @@ const handlers = [
           return passthrough();
         }
 
+        let requestBody: unknown = undefined;
+        if (!!request.body) {
+          try {
+            requestBody = await request.clone().json();
+          } catch (e) {
+            requestBody = await request.clone().text();
+          }
+        }
+
         // FIXME Weird infinite loop may happen with this fetch() in some cases where the endpoint returns an error...
         // (since msw v2.7.0, need to check later if a newer version fixes this)
-        responseBody = await fetch(bypass(request)).then((response) => {
-          try {
-            return response.json();
-          } catch (e) {
-            return response.text();
-          }
-        });
+        const response = await fetch(bypass(request));
 
-        const requestBody = await request
-          .clone()
-          .text()
-          .then((requestString) => {
-            try {
-              return JSON.parse(requestString);
-            } catch (e) {
-              if (!!request.body) {
-                console.error("Error: failed to parse request body as JSON");
-                throw e;
-              }
-            }
-          });
+        responseStatus = response.status;
+
+        const contentType = response.headers.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+          // Handle JSON responses
+          responseType = "json";
+          responseBody = await response.clone().json();
+        } else if (contentType.includes("text/")) {
+          // Handle text-based responses
+          responseType = "text";
+          responseBody = await response.clone().text();
+        } else if (contentType.includes("application/octet-stream")) {
+          // Handle binary responses
+          responseType = "binary";
+          // Convert to base64 to store in JSON
+          // FIXME Need to migrate to Node v22 for Response.bytes() to work
+          const binary = await response.clone().bytes();
+          responseBody = Buffer.from(binary).toString("base64");
+        } else {
+          // Fallback for unknown content types - treat as text
+          console.log(`Unknown content type: ${contentType}, treating as text`);
+          responseType = "unknown";
+          responseBody = await response.clone().text();
+        }
 
         fs.writeFileSync(
           mockFilePath,
@@ -113,9 +136,13 @@ const handlers = [
               request: {
                 url: request.url,
                 method: request.method,
-                params: requestBody,
+                body: requestBody,
               },
-              response: responseBody,
+              response: {
+                status: responseStatus,
+                body: responseBody,
+                type: responseType,
+              },
             },
             null,
             2
@@ -132,8 +159,14 @@ const handlers = [
         return passthrough();
       }
     }
+
     console.log("<<<<<<<<<< MSW");
-    return HttpResponse.json(responseBody);
+
+    // Check if the response was binary data
+    let responseData: JsonBodyType =
+      responseType === "binary" ? Buffer.from(responseBody, "base64") : responseBody;
+
+    return HttpResponse.json(responseData, { status: responseStatus });
   }),
 ];
 

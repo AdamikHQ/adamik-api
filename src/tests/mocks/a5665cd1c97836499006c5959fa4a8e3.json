@@ -3,42 +3,45 @@
     "url": "https://deep-index.moralis.io/api/v2.2/erc20/metadata?chain=eth&addresses%5B0%5D=0xdAC17F958D2ee523a2206206994597C13D831ec7",
     "method": "GET"
   },
-  "response": [
-    {
-      "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-      "address_label": "Tether USD (USDT)",
-      "name": "Tether USD",
-      "symbol": "USDT",
-      "decimals": "6",
-      "logo": "https://logo.moralis.io/0x1_0xdac17f958d2ee523a2206206994597c13d831ec7_0b0d126af6c744c185e112a2c8dc1495.png",
-      "logo_hash": "ee7aa2cdf100649a3521a082116258e862e6971261a39b5cd4e4354fcccbc54d",
-      "thumbnail": "https://logo.moralis.io/0x1_0xdac17f958d2ee523a2206206994597c13d831ec7_0b0d126af6c744c185e112a2c8dc1495.png",
-      "total_supply": "75897206995361567",
-      "total_supply_formatted": "75897206995.361567",
-      "fully_diluted_valuation": "75875078548.54",
-      "block_number": "4634748",
-      "validated": 1,
-      "created_at": "2017-11-28T00:41:21.000Z",
-      "possible_spam": false,
-      "verified_contract": true,
-      "categories": [
-        "Stablecoins",
-        "Platform-Based Utility Tokens",
-        "Exchange-Issued Asset Tokens",
-        "Asset-backed Tokens"
-      ],
-      "links": {
-        "facebook": "https://www.facebook.com/tether.to",
-        "reddit": "https://www.reddit.com",
-        "twitter": "https://twitter.com/Tether_to",
-        "website": "https://tether.to/",
-        "email": "support@tether.to",
-        "moralis": "https://moralis.com/chain/ethereum/token/price/0xdac17f958d2ee523a2206206994597c13d831ec7"
-      },
-      "security_score": 41,
-      "description": "Tether tokens are the pioneering stablecoins in the digital token space, backed 1-to-1 by fiat currency and supported by Tether's reserves. They are widely adopted across major exchanges, OTC desks, and wallets, offering exceptional liquidity for traders, opportunities for merchants, and playing a pivotal role in the digital token ecosystem.",
-      "circulating_supply": "143465026337.5506",
-      "market_cap": "143423197944.50"
-    }
-  ]
+  "response": {
+    "status": 200,
+    "body": [
+      {
+        "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        "address_label": "Tether USD (USDT)",
+        "name": "Tether USD",
+        "symbol": "USDT",
+        "decimals": "6",
+        "logo": "https://logo.moralis.io/0x1_0xdac17f958d2ee523a2206206994597c13d831ec7_0b0d126af6c744c185e112a2c8dc1495.png",
+        "logo_hash": "ee7aa2cdf100649a3521a082116258e862e6971261a39b5cd4e4354fcccbc54d",
+        "thumbnail": "https://logo.moralis.io/0x1_0xdac17f958d2ee523a2206206994597c13d831ec7_0b0d126af6c744c185e112a2c8dc1495.png",
+        "total_supply": "75897206995361567",
+        "total_supply_formatted": "75897206995.361567",
+        "fully_diluted_valuation": "75875078548.54",
+        "block_number": "4634748",
+        "validated": 1,
+        "created_at": "2017-11-28T00:41:21.000Z",
+        "possible_spam": false,
+        "verified_contract": true,
+        "categories": [
+          "Stablecoins",
+          "Platform-Based Utility Tokens",
+          "Exchange-Issued Asset Tokens",
+          "Asset-backed Tokens"
+        ],
+        "links": {
+          "facebook": "https://www.facebook.com/tether.to",
+          "reddit": "https://www.reddit.com",
+          "twitter": "https://twitter.com/Tether_to",
+          "website": "https://tether.to/",
+          "email": "support@tether.to",
+          "moralis": "https://moralis.com/chain/ethereum/token/price/0xdac17f958d2ee523a2206206994597c13d831ec7"
+        },
+        "security_score": 41,
+        "description": "Tether tokens are the pioneering stablecoins in the digital token space, backed 1-to-1 by fiat currency and supported by Tether's reserves. They are widely adopted across major exchanges, OTC desks, and wallets, offering exceptional liquidity for traders, opportunities for merchants, and playing a pivotal role in the digital token ecosystem.",
+        "circulating_supply": "143465026337.5506",
+        "market_cap": "143423197944.50"
+      }
+    ]
+  }
 }

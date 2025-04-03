@@ -4,15 +4,18 @@
     "method": "GET"
   },
   "response": {
-    "balances": [
-      {
-        "denom": "ubbn",
-        "amount": "990535460"
+    "status": 200,
+    "body": {
+      "balances": [
+        {
+          "denom": "ubbn",
+          "amount": "990535460"
+        }
+      ],
+      "pagination": {
+        "next_key": null,
+        "total": "1"
       }
-    ],
-    "pagination": {
-      "next_key": null,
-      "total": "1"
     }
   }
 }
