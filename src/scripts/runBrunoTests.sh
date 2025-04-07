@@ -10,7 +10,7 @@ status=$?;
 
 if [ $status -ne 0 ]
 then
-  echo -e "\n❌ RUNS WITH FAILURES (scroll above for details):"
+  echo -e "\n❌ RUNS WITH FAILURES (scroll above for details)"
 else
   echo -e "\n✅ ALL RUNS SUCCESSFUL!"
 fi

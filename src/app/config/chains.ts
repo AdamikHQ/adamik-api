@@ -3,6 +3,7 @@ import { Chain, ChainFamily, ChainId, ProviderType, TransactionMode } from "../m
 import {
   ALGORAND_FEATURES,
   BITCOIN_FEATURES,
+  COSMOS_BABYLON_FEATURES,
   COSMOS_FEATURES,
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
@@ -12,10 +13,6 @@ import {
   TRON_FEATURES,
 } from "./features";
 import { getSignerSpecForChain } from "./signers";
-
-// TODO Remove and replace with hardocded values when going mainnet
-export const CURRENT_BABYLON_BITCOIN_CHAIN: ChainId = ChainId.BITCOIN_SIGNET;
-export const CURRENT_BABYLON_CHAIN: ChainId = ChainId.BABYLON_TESTNET;
 
 const CHAINS: { [key in ChainId]: Chain } = {
   algorand: {
@@ -2152,7 +2149,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.005,
     },
-    supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON),
+    supportedFeatures: COSMOS_BABYLON_FEATURES(ChainId.BABYLON),
   },
   */
   "babylon-testnet": {
@@ -2188,7 +2185,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.005,
     },
     isTestnetFor: "BABYLON", //TODO: update with ChainId.BABYLON when it's added
-    supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON_TESTNET),
+    supportedFeatures: COSMOS_BABYLON_FEATURES(ChainId.BABYLON_TESTNET),
     signerSpec: getSignerSpecForChain(ChainId.BABYLON_TESTNET, ChainFamily.COSMOS),
   },
   "monad-testnet": {
