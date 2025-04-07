@@ -1,4 +1,4 @@
-import { fetchBabylonDelegation } from "~/app/families/cosmos/backend/babylon";
+import { fetchBabylonDelegation } from "~/app/families/babylon/backend/babylonAPI";
 import { ChainId, FinalizedTransaction, TransactionMode } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
 import { fetchTransaction as fetchTransactionFromBlockchair } from "../backend/blockchair";

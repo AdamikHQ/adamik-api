@@ -1,18 +1,7 @@
-import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
-import { fetchBabylonStakingParams } from "~/app/families/cosmos/backend/babylon";
-import { ChainId, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
-import { fetchRawTransaction as fetchRawTransactionBlockchair } from "../backend/blockchair";
-import { fetchNativeTransaction as fetchNativeTransactionMempoolSpace } from "../backend/mempoolSpace";
-import { getNetworkForChainId } from "../logic";
-import {
-  buildSlashingPsbt,
-  buildStakingPsbt,
-  buildStakingScripts,
-  buildTransferPsbt,
-  buildUnbondingPsbt,
-  buildUnbondingSlashingPsbt,
-} from "../psbt";
+import { buildBabylonStakingPayloads } from "~/app/families/babylon/logic";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
+import { buildTransferPsbt } from "../logic";
 import { BitcoinService } from "../service";
 
 // NOTE bitcoin family does it differently than others:
@@ -57,36 +46,8 @@ async function completeTransaction(
 
     case TransactionMode.STAKE:
       {
-        const babylonStakingParams = await fetchBabylonStakingParams();
-        const bitcoinNetworkInfo = getNetworkForChainId(this.chainId);
-        const stakingScripts = buildStakingScripts(transaction.data, babylonStakingParams);
-
-        // When staking, the staking transaction is the one that we are building (unsigned)
-        const {
-          transaction: stakingTransaction,
-          psbt: stakingPsbt,
-          fee: fees,
-        } = await buildStakingPsbt(this.chainId, transaction.data, stakingScripts, bitcoinNetworkInfo);
-
-        const { transaction: unbondingTransaction } = buildUnbondingPsbt(
-          stakingScripts,
-          stakingTransaction,
-          babylonStakingParams,
-          bitcoinNetworkInfo
-        );
-
-        const { psbt: slashingPsbt } = buildSlashingPsbt(
-          stakingScripts,
-          stakingTransaction,
-          babylonStakingParams,
-          bitcoinNetworkInfo
-        );
-        const { psbt: unbondingSlashingPsbt } = buildUnbondingSlashingPsbt(
-          stakingScripts,
-          unbondingTransaction,
-          babylonStakingParams,
-          bitcoinNetworkInfo
-        );
+        const { stakingPsbt, slashingPsbt, unbondingSlashingPsbt, unbondingTransaction, fees } =
+          await buildBabylonStakingPayloads(this.chainId, transaction.data);
 
         transaction.data.fees = BigInt(fees);
 
@@ -99,12 +60,14 @@ async function completeTransaction(
       }
       break;
     case TransactionMode.UNSTAKE: {
+      // FIXME Implem properly + move everything to babylon.ts
+      /*
       // TODO in prevalidateTransaction
       if (!transaction.data.stakeId?.length) {
         throw new UserInputError(`Missing 'stakeId' field in transaction`);
       }
 
-      const babylonStakingParams = await fetchBabylonStakingParams();
+      const babylonStakingParams = await fetchAllBabylonStakingParams();
       const bitcoinNetworkInfo = getNetworkForChainId(this.chainId);
       const stakingScripts = buildStakingScripts(transaction.data, babylonStakingParams);
 
@@ -133,6 +96,8 @@ async function completeTransaction(
       transaction.data.params = {
         unbondingTransaction: unbondingPsbt.toHex(),
       };
+      break;
+      */
     }
 
     default:

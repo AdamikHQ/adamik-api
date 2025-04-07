@@ -1,4 +1,4 @@
-import { fetchBabylonFinalityProviders } from "~/app/families/cosmos/backend/babylon";
+import { fetchBabylonFinalityProviders } from "~/app/families/babylon/backend/babylonAPI";
 import { ChainValidators, Paginated, Validator } from "~/app/model/types_WIP";
 import { BitcoinService } from "../service";
 

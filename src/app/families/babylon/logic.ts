@@ -653,7 +653,7 @@ function babylonBlocksToDisplayTime(blocks: number | undefined): string {
   });
 }
 
-async function buildBitcoinStakingPayloads(
+async function buildBabylonStakingPayloads(
   chainId: ChainId,
   transactionData: TransactionData
 ): Promise<{
@@ -667,7 +667,6 @@ async function buildBitcoinStakingPayloads(
   const bitcoinNetworkInfo = getNetworkForChainId(chainId);
   const stakingScripts = buildStakingScripts(transactionData, babylonStakingParams);
 
-  // When staking, the staking transaction is the one that we are building (unsigned)
   const {
     transaction: stakingTransaction,
     psbt: stakingPsbt,
@@ -842,7 +841,7 @@ async function getCurrentBabylonStakingParams(): Promise<StakingParams> {
 export {
   babylonBlocksToDisplayTime,
   buildBabylonRegistrationMessage,
-  buildBitcoinStakingPayloads,
+  buildBabylonStakingPayloads,
   buildSlashingPsbt,
   buildStakingPsbt,
   buildStakingScripts,
