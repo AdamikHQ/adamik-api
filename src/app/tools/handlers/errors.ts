@@ -116,3 +116,12 @@ export class BabylonTransactionAlreadyUsedError extends UserInputError {
     super("The Bitcoin staking transaction is already used");
   }
 }
+
+export class BabylonInvalidProofOfPossessionError extends UserInputError {
+  name = "BabylonInvalidProofOfPossessionError";
+  statusText = "Invalid proof of possession";
+
+  constructor() {
+    super("Invalid proof of possession");
+  }
+}

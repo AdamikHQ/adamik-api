@@ -1,5 +1,6 @@
 import { Address, beginCell, Builder, Cell, external, internal, storeMessage, toNano } from "@ton/core";
 import { TransactionData, TransactionMode } from "~/app/model/types_WIP";
+import { UserInputError } from "~/app/tools/handlers/errors";
 import { estimateFees, getWalletJetonAddress } from "./backend/node";
 import { fetchAccount } from "./backend/tonapi";
 import { createWalletTransferV4, initWalletV4 } from "./wallets/walletv4";
@@ -51,7 +52,7 @@ async function buildTransaction(transaction: TransactionData, timeout: number) {
   let toJettonAddress;
   if (transaction.nonce === 0n && !transaction.senderPubKey) {
     // FIXME Should be done in validateTransaction instead
-    throw new Error("Missing wallet public key");
+    throw new UserInputError("Missing wallet public key");
   } else {
     if (transaction.mode === TransactionMode.TRANSFER_TOKEN && transaction.tokenId !== undefined) {
       const destinationAddress = Address.parse(transaction.recipientAddress);

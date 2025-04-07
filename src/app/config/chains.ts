@@ -13,6 +13,10 @@ import {
 } from "./features";
 import { getSignerSpecForChain } from "./signers";
 
+// TODO Remove and replace with hardocded values when going mainnet
+export const CURRENT_BABYLON_BITCOIN_CHAIN: ChainId = ChainId.BITCOIN_SIGNET;
+export const CURRENT_BABYLON_CHAIN: ChainId = ChainId.BABYLON_TESTNET;
+
 const CHAINS: { [key in ChainId]: Chain } = {
   algorand: {
     family: ChainFamily.ALGORAND,

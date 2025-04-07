@@ -1,3 +1,4 @@
+import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
 import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
@@ -10,8 +11,10 @@ import {
 } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { MINTSCAN_CHAIN_IDS } from "../features";
 import { CosmosChainParams } from "../types";
-import { MintscanAccountTransactionsResponse, MintscanTransaction } from "./types";
+import { fetchBabylonDelegation } from "./babylon";
+import { BabylonDelegationState, MintscanAccountTransactionsResponse, MintscanTransaction } from "./types";
 
 const MINTSCAN_PAGE_SIZE = 20;
 
@@ -27,39 +30,11 @@ enum SUPPORTED_MESSAGE_TYPES {
   MSG_BEGIN_REDELEGATE_PROTO = "/cosmos.staking.v1beta1.MsgBeginRedelegate",
   MSG_UNDELEGATE_PROTO = "/cosmos.staking.v1beta1.MsgUndelegate",
   MSG_WITHDRAW_DELEGATOR_REWARD_PROTO = "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+  MSG_CREATE_BTC_DELEGATION = "/babylon.btcstaking.v1.MsgCreateBTCDelegation",
 }
 
 const getRootUrl = (chainId: ChainId) =>
   CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.mintscan)?.url;
-
-const MINTSCAN_CHAIN_IDS: Map<ChainId, string> = new Map([
-  [ChainId.COSMOSHUB, "cosmos"],
-  [ChainId.OSMOSIS, "osmosis"],
-  [ChainId.CELESTIA, "celestia"],
-  [ChainId.DYDX, "dydx"],
-  [ChainId.AXELAR, "axelar"],
-  [ChainId.INJECTIVE, "injective"],
-  [ChainId.AKASH, "akash"],
-  [ChainId.NEUTRON, "neutron"],
-  [ChainId.EVMOS, "evmos"],
-  [ChainId.JUNO, "juno"],
-  [ChainId.SEI, "sei"],
-  [ChainId.STRIDE, "stride"],
-  [ChainId.KAVA, "kava"],
-  [ChainId.BABYLON_TESTNET, "babylon-testnet"],
-  //NOT SUPPORTED BY MINTSCAN YET
-  // [ChainId.IRISNET, "iris"],
-  // [ChainId.TERRA, "terra2"],
-  // [ChainId.LUM_NETWORK, "lum"],
-  // [ChainId.OMNIFLIX, "omniflix"],
-  // [ChainId.STARGAZE, "stargaze"],
-  // [ChainId.BAND, "band"],
-  // [ChainId.DYMENSION, "dymension"],
-  // [ChainId.KYVE, "kyve"],
-  // [ChainId.CHIHUAHUA, "chihuahua"],
-  // [ChainId.SEDA, "seda"],
-  // [ChainId.SHENTU, "shentu"],
-]);
 
 async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   const newOptions: RequestInit = {
@@ -152,19 +127,19 @@ async function fetchAccountTransactions(
   };
 }
 
-function mintscanToAdamikTransaction(
+async function mintscanToAdamikTransaction(
   chainId: ChainId,
   mintscanTransaction: MintscanTransaction
-): FinalizedTransaction["parsed"] {
+): Promise<FinalizedTransaction["parsed"]> {
   // https://docs.cosmos.network/v0.46/core/transactions.html#signing-transactions
 
   if ("type" in mintscanTransaction.tx && mintscanTransaction.tx.type === "cosmos-sdk/StdTx") {
-    return parseLegacyAminoTransaction(chainId, mintscanTransaction);
+    return await parseLegacyAminoTransaction(chainId, mintscanTransaction);
   } else if (
     "@type" in mintscanTransaction.tx &&
     mintscanTransaction.tx["@type"] === "/cosmos.tx.v1beta1.Tx"
   ) {
-    return parseProtobufTransaction(chainId, mintscanTransaction);
+    return await parseProtobufTransaction(chainId, mintscanTransaction);
   }
 }
 
@@ -172,10 +147,10 @@ function mintscanToAdamikTransaction(
 // because mintscan types are a PITA and only a few JSON keys differ...
 // FIXME Should refacto though, to put as much as possible in common
 
-function parseLegacyAminoTransaction(
+async function parseLegacyAminoTransaction(
   chainId: ChainId,
   mintscanTransaction: MintscanTransaction
-): FinalizedTransaction["parsed"] {
+): Promise<FinalizedTransaction["parsed"]> {
   if (!("type" in mintscanTransaction.tx && mintscanTransaction.tx.type === "cosmos-sdk/StdTx")) {
     console.warn(
       `/!\\ Invalid mintscan payload for transaction ${mintscanTransaction.txhash} of chainId ${chainId}`
@@ -354,10 +329,10 @@ function parseLegacyAminoTransaction(
   return parsedTransaction;
 }
 
-function parseProtobufTransaction(
+async function parseProtobufTransaction(
   chainId: ChainId,
   mintscanTransaction: MintscanTransaction
-): FinalizedTransaction["parsed"] {
+): Promise<FinalizedTransaction["parsed"]> {
   if (!("@type" in mintscanTransaction.tx && mintscanTransaction.tx["@type"] === "/cosmos.tx.v1beta1.Tx")) {
     console.warn(
       `/!\\ Invalid mintscan payload for transaction ${mintscanTransaction.txhash} of chainId ${chainId}`
@@ -530,6 +505,55 @@ function parseProtobufTransaction(
       };
 
       break;
+    }
+    // NOTE No equivalent in parseLegacyAminoTransaction
+    // as this is a modern type that doesn't have a legacy version
+    case SUPPORTED_MESSAGE_TYPES.MSG_CREATE_BTC_DELEGATION: {
+      const message = tx.body.messages[0]["/babylon-btcstaking-v1-MsgCreateBTCDelegation"];
+
+      parsedTransaction.mode = TransactionMode.REGISTER_STAKE;
+
+      parsedTransaction.senders = [
+        {
+          address: message.staker_addr,
+          amount: 0n,
+        },
+      ];
+
+      parsedTransaction.validators = {
+        target: {
+          // TODO Support multiple validators?
+          address: message.fp_btc_pk_list[0],
+          amount: BigInt(message.staking_value),
+        },
+      };
+
+      // Slightly different meaning for the transaction's state here:
+      // it's not about this babylon tx itself, but about the babylon delegation it represents
+
+      // 1 - parse the babylon message to retrieve the bitcoin staking tx
+      const bitcoinTransactionId = BitcoinTransaction.fromBuffer(
+        Buffer.from(message.staking_tx, "base64")
+      ).getId();
+
+      // 2 - from the bitcoin tx id, fetch the related babylon delegation
+      const babylonDelegation = await fetchBabylonDelegation(bitcoinTransactionId);
+
+      // 3 - set the Adamik transaction state according to the babylon delegation state
+      switch (babylonDelegation?.data.state) {
+        // No delegation found yet --> pending
+        case undefined:
+          parsedTransaction.state = TransactionState.PENDING;
+          break;
+        // Delegation found but not verified yet --> unconfirmed
+        case BabylonDelegationState.PENDING:
+          parsedTransaction.state = TransactionState.UNCONFIRMED;
+          break;
+        // All other cases (verified, active, etc) mean the delegation is confirmed
+        default:
+          parsedTransaction.state = TransactionState.CONFIRMED;
+          break;
+      }
     }
     // Type not supported (yet?)
     default:

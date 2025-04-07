@@ -1,7 +1,7 @@
 import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
+import { fetchBabylonStakingParams } from "~/app/families/cosmos/backend/babylon";
 import { ChainId, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
-import { fetchBabylonStakingParams } from "../backend/babylon";
 import { fetchRawTransaction as fetchRawTransactionBlockchair } from "../backend/blockchair";
 import { fetchNativeTransaction as fetchNativeTransactionMempoolSpace } from "../backend/mempoolSpace";
 import { getNetworkForChainId } from "../logic";

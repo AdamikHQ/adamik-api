@@ -213,6 +213,17 @@ function babylonBlocksToDisplayTime(blocks: number | undefined): string {
   });
 }
 
+function isValidTransactionHash(transactionHash: string): boolean {
+  // Check if the string is exactly 64 characters long
+  if (transactionHash.length !== 64) {
+    return false;
+  }
+
+  // Check if the string contains only valid hexadecimal characters
+  const hexRegex = /^[0-9a-f]{64}$/;
+  return hexRegex.test(transactionHash);
+}
+
 export {
   babylonBlocksToDisplayTime,
   getCurrentBlockHeight,
@@ -220,6 +231,7 @@ export {
   isP2SHScript,
   isTaprootAddress,
   isValidAddress,
+  isValidTransactionHash,
   isValidXpub,
   isWitnessScript,
 };

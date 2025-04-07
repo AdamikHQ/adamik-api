@@ -21,7 +21,7 @@ import { MsgWithdrawDelegatorReward } from "cosmjs-types/cosmos/distribution/v1b
 import { MsgBeginRedelegate, MsgDelegate, MsgUndelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
 import { SignDoc as SignDocProtobuf, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { CHAINS } from "~/app/config/chains";
+import { CHAINS, CURRENT_BABYLON_BITCOIN_CHAIN } from "~/app/config/chains";
 import {
   ChainId,
   EncodedTransactionFormat,
@@ -32,8 +32,8 @@ import {
 } from "~/app/model/types_WIP";
 import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
-import { fetchBabylonStakingParams } from "../bitcoin/backend/babylon";
-import { CURRENT_BABYLON_BITCOIN_CHAIN, buildBabylonRegistrationMessage } from "../bitcoin/psbt";
+import { buildBabylonRegistrationMessage } from "../bitcoin/psbt";
+import { fetchBabylonStakingParams } from "./backend/babylon";
 import { fetchBalances, fetchDelegations, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
 import { buildSignDocProtobufForInjective } from "./chains/injective";

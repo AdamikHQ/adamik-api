@@ -23,7 +23,10 @@ import {
 
 // TODO Just a POC for now, need to improve error handling
 
-async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<FinalizedTransaction> {
+async function fetchTransaction(
+  chainId: ChainId,
+  transactionId: string
+): Promise<FinalizedTransaction | null> {
   const explorerURL = CHAINS[chainId].providers.find(
     (p: Provider) => p.type === ProviderType.mempoolspace
   )?.url;
@@ -32,13 +35,17 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
   const response = await fetch(url);
 
   if (!response.ok) {
-    console.warn(
-      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
-      await response.text()
-    );
-    throw new ThirdPartyProviderError(
-      `Error while fetching transaction with ID ${transactionId} from the explorer`
-    );
+    if (response.status === 404) {
+      return null;
+    } else {
+      console.warn(
+        `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+        await response.text()
+      );
+      throw new ThirdPartyProviderError(
+        `Error while fetching transaction with ID ${transactionId} from the explorer`
+      );
+    }
   }
 
   const result = await response.json();
@@ -190,11 +197,6 @@ async function postTransaction(chainId: ChainId, payload: string): Promise<strin
     method: "POST",
     body: payload,
   });
-  // FIXME DEBUG TBR
-  console.log("M.S - url:", url);
-  console.log("M.S - payload:", payload);
-  console.log("M.S - response.ok:", response.ok);
-  console.log("M.S - response.status:", response.status);
 
   if (!response.ok) {
     console.warn(
