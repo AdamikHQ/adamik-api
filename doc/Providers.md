@@ -275,7 +275,7 @@
 
 ## evmos
 
-| node | https://lcd-evmos.imperator.co |<br />
+| node | https://evmos-api.polkachu.com/ |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## irisnet

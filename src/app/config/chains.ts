@@ -1316,7 +1316,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-evmos.imperator.co",
+        //url: "https://lcd-evmos.imperator.co", // Occasional HTTP 504 Gateway Timeout errors...
+        url: "https://evmos-api.polkachu.com",
       },
       {
         type: ProviderType.mintscan,
