@@ -1,4 +1,3 @@
-import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
 import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
@@ -11,10 +10,10 @@ import {
 } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { getBabylonDelegationState } from "../../babylon/logic";
 import { MINTSCAN_CHAIN_IDS } from "../features";
 import { CosmosChainParams } from "../types";
-import { fetchBabylonDelegation } from "./babylon";
-import { BabylonDelegationState, MintscanAccountTransactionsResponse, MintscanTransaction } from "./types";
+import { MintscanAccountTransactionsResponse, MintscanTransaction } from "./types";
 
 const MINTSCAN_PAGE_SIZE = 20;
 
@@ -530,30 +529,9 @@ async function parseProtobufTransaction(
 
       // Slightly different meaning for the transaction's state here:
       // it's not about this babylon tx itself, but about the babylon delegation it represents
+      parsedTransaction.state = await getBabylonDelegationState(message);
 
-      // 1 - parse the babylon message to retrieve the bitcoin staking tx
-      const bitcoinTransactionId = BitcoinTransaction.fromBuffer(
-        Buffer.from(message.staking_tx, "base64")
-      ).getId();
-
-      // 2 - from the bitcoin tx id, fetch the related babylon delegation
-      const babylonDelegation = await fetchBabylonDelegation(bitcoinTransactionId);
-
-      // 3 - set the Adamik transaction state according to the babylon delegation state
-      switch (babylonDelegation?.data.state) {
-        // No delegation found yet --> pending
-        case undefined:
-          parsedTransaction.state = TransactionState.PENDING;
-          break;
-        // Delegation found but not verified yet --> unconfirmed
-        case BabylonDelegationState.PENDING:
-          parsedTransaction.state = TransactionState.UNCONFIRMED;
-          break;
-        // All other cases (verified, active, etc) mean the delegation is confirmed
-        default:
-          parsedTransaction.state = TransactionState.CONFIRMED;
-          break;
-      }
+      break;
     }
     // Type not supported (yet?)
     default:

@@ -52,29 +52,12 @@ async function completeTransaction(
 
   const account = await fetchAccount(this.chainId, transaction.data.senderAddress);
 
-  // FIXME Should we use this to compute fees for babylon?
-  /*
-  if (transaction.data.mode === TransactionMode.REGISTER_STAKE) {
-    const { delegation_creation_base_gas_fee } = await fetchBabylonStakingParams();
-
-    const gasWantedFees = new BigNumber(delegation_creation_base_gas_fee);
-
-    transaction.data.fees = BigInt(gasWantedFees.toFixed());
-    transaction.data.gas = BigInt(
-      gasWantedFees.dividedBy(chainParams?.minGasPrice).integerValue(BigNumber.ROUND_CEIL).toFixed()
-    );
-  } else {
-    const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data);
-
-    transaction.data.fees = gasWantedFees;
-    transaction.data.gas = gasWanted;
-  }
-  /*/
+  // NOTE getEstimatedFees calls the node's /simulate endpoint,
+  // which also performs some validation on the transaction data
   const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data);
 
   transaction.data.fees = gasWantedFees;
   transaction.data.gas = gasWanted;
-  //*/
 
   if (transaction.data.useMaxAmount) {
     switch (transaction.data.mode) {

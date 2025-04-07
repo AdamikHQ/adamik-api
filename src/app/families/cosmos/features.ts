@@ -1,3 +1,4 @@
+import { produce } from "immer";
 import { ChainId, ChainSupportedFeatures } from "~/app/model/types_WIP";
 
 // Defined here to avoid circular dependency in mintscan.ts
@@ -60,7 +61,7 @@ const COSMOS_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
         unstake: true,
         claimRewards: true,
         withdraw: false,
-        registerStake: true,
+        registerStake: false,
       },
       field: {
         memo: true,
@@ -71,4 +72,11 @@ const COSMOS_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
     addresses: true,
   },
 });
-export { COSMOS_FEATURES, MINTSCAN_CHAIN_IDS };
+
+// Babylon has only one difference: support of the registerStake tx type
+const COSMOS_BABYLON_FEATURES = (chainId: ChainId): ChainSupportedFeatures =>
+  produce(COSMOS_FEATURES(chainId), (features) => {
+    features.write.transaction.type.registerStake = true;
+  });
+
+export { COSMOS_BABYLON_FEATURES, COSMOS_FEATURES, MINTSCAN_CHAIN_IDS };
