@@ -449,3 +449,8 @@
 
 | node | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |<br />
 | alchemy | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
+
+## solana
+
+| node | https://mainnet.helius-rpc.com/?api-key=673b4df3-c775-466c-9394-db949575ba8f |<br />
+| helius | https://api-mainnet.helius-rpc.com |

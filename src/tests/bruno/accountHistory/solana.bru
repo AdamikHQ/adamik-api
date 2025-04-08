@@ -1,0 +1,29 @@
+meta {
+  name: solana
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/history
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: solana
+  accountId: 2k5AXX4guW9XwRQ1AKCpAuUqgWDpQpwFfpVFh3hnm2Ha
+}
+
+body:json {
+  {
+    "chainId": "tron",
+    "accountId": "TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transactions: isArray 
+  res.body.transactions[0].parsed.mode: isString 
+}

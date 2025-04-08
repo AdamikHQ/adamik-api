@@ -1,4 +1,5 @@
 import { BITCOIN_SIGNET_FEATURES } from "../families/bitcoin/features";
+import { SOLANA_FEATURES } from "../families/solana/features";
 import { Chain, ChainFamily, ChainId, ProviderType, TransactionMode } from "../model/types_WIP";
 import {
   ALGORAND_FEATURES,
@@ -2291,6 +2292,26 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ],
     supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN),
     signerSpec: getSignerSpecForChain(ChainId.WORLD_CHAIN, ChainFamily.EVM),
+  },
+  solana: {
+    id: ChainId.SOLANA,
+    name: "Solana",
+    family: ChainFamily.SOLANA,
+    nativeId: "solana",
+    ticker: "SOL",
+    decimals: 9,
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://mainnet.helius-rpc.com/?api-key=673b4df3-c775-466c-9394-db949575ba8f",
+      },
+      {
+        type: ProviderType.helius,
+        url: "https://api-mainnet.helius-rpc.com",
+      },
+    ],
+    supportedFeatures: SOLANA_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.SOLANA, ChainFamily.SOLANA),
   },
 } as const;
 

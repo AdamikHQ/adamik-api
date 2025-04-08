@@ -1,0 +1,32 @@
+meta {
+  name: solana
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state/tokens
+  body: none
+  auth: none
+}
+
+params:query {
+  ~nextPage: 
+}
+
+params:path {
+  chainId: solana
+  accountId: 8pFhUqCU7Fkxfg2DLytRDf7a9oK4XGtN92PrYwtVQc6G
+}
+
+body:json {
+  {
+    "chainId": "tron",
+    "accountId": "TT2T17KZhoDu47i2E4FWxfG79zdkEWkU9N"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.balances.tokens: isArray
+}
