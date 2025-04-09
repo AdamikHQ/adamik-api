@@ -4,31 +4,35 @@
     "method": "GET"
   },
   "response": {
-    "rewards": [
-      {
-        "validator_address": "injvaloper1ntn4j2lsu3k60g8xj9pqshqvdj2q5tygyvczpy",
-        "reward": [
-          {
-            "denom": "inj",
-            "amount": "886631155571189.680000000000000000"
-          }
-        ]
-      },
-      {
-        "validator_address": "injvaloper1h37jxecva2xgm78ejw3683vrw932j6nuzgdxgj",
-        "reward": [
-          {
-            "denom": "inj",
-            "amount": "17634564116851604.699999999999999999"
-          }
-        ]
-      }
-    ],
-    "total": [
-      {
-        "denom": "inj",
-        "amount": "18521195272422794.379999999999999999"
-      }
-    ]
+    "status": 200,
+    "body": {
+      "rewards": [
+        {
+          "validator_address": "injvaloper1ntn4j2lsu3k60g8xj9pqshqvdj2q5tygyvczpy",
+          "reward": [
+            {
+              "denom": "inj",
+              "amount": "886898628512007.400000000000000000"
+            }
+          ]
+        },
+        {
+          "validator_address": "injvaloper1h37jxecva2xgm78ejw3683vrw932j6nuzgdxgj",
+          "reward": [
+            {
+              "denom": "inj",
+              "amount": "17637326057950205.299999999999999999"
+            }
+          ]
+        }
+      ],
+      "total": [
+        {
+          "denom": "inj",
+          "amount": "18524224686462212.699999999999999999"
+        }
+      ]
+    },
+    "type": "json"
   }
 }
