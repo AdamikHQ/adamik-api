@@ -532,9 +532,16 @@ async function encodeToBroadcast(
     : fromBase64(signedTransaction.signature);
 
   // Decode the encoded SignDocProtobuf
-  const signDoc = isHex(signedTransaction.encoded)
-    ? SignDocProtobuf.decode(fromHex(signedTransaction.encoded))
-    : SignDocProtobuf.fromJSON(JSON.parse(signedTransaction.encoded));
+
+  const encodedTransaction = signedTransaction.encoded.find(
+    (e) => e.format === EncodedTransactionFormat.SIGNDOC_DIRECT
+  );
+
+  if (!encodedTransaction) {
+    throw new UserInputError("Missing encoded transaction");
+  }
+
+  const signDoc = SignDocProtobuf.decode(fromHex(encodedTransaction.value));
 
   // Extract bodyBytes and authInfoBytes from the SignDoc
   const { bodyBytes, authInfoBytes } = signDoc;
