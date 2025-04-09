@@ -229,7 +229,7 @@
 
 ## injective
 
-| node | https://lcd-injective.imperator.co |<br />
+| node | https://injective-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
