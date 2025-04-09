@@ -8,7 +8,7 @@ import {
 import { prevalidateTransactionCommon } from "../../common";
 import { getNonce } from "../backend/node";
 import { ArgentX } from "../contracts/argentx";
-import { calculateAccountState } from "../logic";
+import { calculateAccountState, verifyStarknetPublicKeyFormat } from "../logic";
 import { StarknetService } from "../service";
 import { validateAddress } from "./validateAddress";
 
@@ -113,6 +113,7 @@ async function validateTransaction(
       status.warnings.push({ message: "Network fees are above 10% of the amount" });
     }
   } else if (transaction.data.mode === TransactionMode.DEPLOY_ACCOUNT) {
+    verifyStarknetPublicKeyFormat(transaction.data.senderPubKey);
     const address = ArgentX.generateAddress(transaction.data.senderPubKey);
     accountData = await calculateAccountState(address);
   }
