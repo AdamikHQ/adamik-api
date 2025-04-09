@@ -1,10 +1,10 @@
 import { DeployContractType, TypedAddress } from "~/app/model/types_WIP";
 import { ArgentX } from "../contracts/argentx";
-import { extractX } from "../logic";
+import { verifyStarknetPublicKeyFormat } from "../logic";
 import { StarknetService } from "../service";
 
 async function pubkeyToAddresses(this: StarknetService, pubkey: string): Promise<TypedAddress[]> {
-  const sanitizedPubkey = extractX(pubkey);
+  verifyStarknetPublicKeyFormat(pubkey);
 
   return [
     // {
@@ -13,7 +13,7 @@ async function pubkeyToAddresses(this: StarknetService, pubkey: string): Promise
     // },
     {
       type: DeployContractType.ARGENTX,
-      address: ArgentX.generateAddress(sanitizedPubkey),
+      address: ArgentX.generateAddress(pubkey),
     },
     // TODO: Uncomment when braavos match calculated address
     // {

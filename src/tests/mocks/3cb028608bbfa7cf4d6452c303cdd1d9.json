@@ -2,13 +2,16 @@
   "request": {
     "url": "https://babylon-testnet-api.polkachu.com/cosmos/tx/v1beta1/simulate",
     "method": "POST",
-    "params": {
+    "body": {
       "tx_bytes": "CjMKMQotL2JhYnlsb24uYnRjc3Rha2luZy52MS5Nc2dDcmVhdGVCVENEZWxlZ2F0aW9uEgASXwpQCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohA4M9WuvnLKaOOBbEpGbTlSgJKfB8z1513E4tccLJLaRYEgQKAggBGAcSCwoJCgR1YmJuEgExGkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     }
   },
   "response": {
-    "code": 2,
-    "message": "failed to deserialize staking tx: EOF with gas used: '1162'",
-    "details": []
+    "status": 200,
+    "body": {
+      "code": 2,
+      "message": "failed to deserialize staking tx: EOF with gas used: '1162'",
+      "details": []
+    }
   }
 }

@@ -2,7 +2,7 @@
   "request": {
     "url": "https://site1.moralis-nodes.com/eth/edd8151f3c634ee2a808f34c47c7ad70",
     "method": "POST",
-    "params": {
+    "body": {
       "jsonrpc": "2.0",
       "id": 0,
       "method": "eth_getTransactionCount",
@@ -13,8 +13,11 @@
     }
   },
   "response": {
-    "jsonrpc": "2.0",
-    "id": 0,
-    "result": "0x7"
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 0,
+      "result": "0x7"
+    }
   }
 }

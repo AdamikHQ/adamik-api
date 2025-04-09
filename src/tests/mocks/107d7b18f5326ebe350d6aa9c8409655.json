@@ -4,30 +4,33 @@
     "method": "POST"
   },
   "response": {
-    "data": null,
-    "context": {
-      "code": 400,
-      "error": "Invalid request",
-      "market_price_usd": 83166,
-      "cache": {
-        "live": true,
-        "duration": 120,
-        "since": "2025-03-17 13:38:33",
-        "until": "2025-03-17 13:40:33",
-        "time": null
-      },
-      "api": {
-        "version": "2.0.95-ie",
-        "last_major_update": "2022-11-07 02:00:00",
-        "next_major_update": "2023-11-12 02:00:00",
-        "documentation": "https://blockchair.com/api/docs",
-        "notice": "Try out our new API v.3: https://3xpl.com/data"
-      },
-      "servers": "API4",
-      "time": 0.000041961669921875,
-      "render_time": 0.008232831954956055,
-      "full_time": 0.00827479362487793,
-      "request_cost": 1
+    "status": 200,
+    "body": {
+      "data": null,
+      "context": {
+        "code": 400,
+        "error": "Invalid request",
+        "market_price_usd": 83166,
+        "cache": {
+          "live": true,
+          "duration": 120,
+          "since": "2025-03-17 13:38:33",
+          "until": "2025-03-17 13:40:33",
+          "time": null
+        },
+        "api": {
+          "version": "2.0.95-ie",
+          "last_major_update": "2022-11-07 02:00:00",
+          "next_major_update": "2023-11-12 02:00:00",
+          "documentation": "https://blockchair.com/api/docs",
+          "notice": "Try out our new API v.3: https://3xpl.com/data"
+        },
+        "servers": "API4",
+        "time": 4.1961669921875e-05,
+        "render_time": 0.008232831954956055,
+        "full_time": 0.00827479362487793,
+        "request_cost": 1
+      }
     }
   }
 }

@@ -4,626 +4,629 @@
     "method": "GET"
   },
   "response": {
-    "rewards": [
-      {
-        "validator_address": "cosmosvaloper196ax4vc0lwpxndu9dyhvca7jhxp70rmcvrj90c",
-        "reward": [
-          {
-            "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
-            "amount": "0.059325594567536756"
-          },
-          {
-            "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
-            "amount": "0.169378048397957182"
-          },
-          {
-            "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
-            "amount": "0.001524955515452066"
-          },
-          {
-            "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
-            "amount": "0.423727975436044097"
-          },
-          {
-            "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
-            "amount": "0.199828795381032739"
-          },
-          {
-            "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
-            "amount": "0.028074492985783514"
-          },
-          {
-            "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
-            "amount": "0.001429026994788687"
-          },
-          {
-            "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
-            "amount": "177454560.374511583295239211"
-          },
-          {
-            "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
-            "amount": "0.049564309426576814"
-          },
-          {
-            "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
-            "amount": "41996717548.414321750066598767"
-          },
-          {
-            "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
-            "amount": "0.329393608539950986"
-          },
-          {
-            "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
-            "amount": "0.011102279599186845"
-          },
-          {
-            "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
-            "amount": "0.000005028562093015"
-          },
-          {
-            "denom": "uatom",
-            "amount": "430.983869045212312286"
-          }
-        ]
-      },
-      {
-        "validator_address": "cosmosvaloper1grgelyng2v6v3t8z87wu3sxgt9m5s03xfytvz7",
-        "reward": [
-          {
-            "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
-            "amount": "0.000000055926729482"
-          },
-          {
-            "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
-            "amount": "0.000000044849428204"
-          },
-          {
-            "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
-            "amount": "0.000000000873758185"
-          },
-          {
-            "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
-            "amount": "0.000000152245423360"
-          },
-          {
-            "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
-            "amount": "0.000000110784204784"
-          },
-          {
-            "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
-            "amount": "0.000000010110804350"
-          },
-          {
-            "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
-            "amount": "0.000000001737787025"
-          },
-          {
-            "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
-            "amount": "269.617533980563627830"
-          },
-          {
-            "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
-            "amount": "0.000000012967686691"
-          },
-          {
-            "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
-            "amount": "46973.009520533518392663"
-          },
-          {
-            "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
-            "amount": "0.000000109291864284"
-          },
-          {
-            "denom": "ibc/DEC41A02E47658D40FC71E5A35A9C807111F5A6662A3FB5DA84C4E6F53E616B3",
-            "amount": "0.000000000000008871"
-          },
-          {
-            "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
-            "amount": "0.000000011219977785"
-          },
-          {
-            "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
-            "amount": "0.000000005965893596"
-          },
-          {
-            "denom": "uatom",
-            "amount": "0.000129473997380896"
-          }
-        ]
-      },
-      {
-        "validator_address": "cosmosvaloper1vf44d85es37hwl9f4h9gv0e064m0lla60j9luj",
-        "reward": [
-          {
-            "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
-            "amount": "0.000136110690176054"
-          },
-          {
-            "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
-            "amount": "0.000105990960594003"
-          },
-          {
-            "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
-            "amount": "0.000002097367924322"
-          },
-          {
-            "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
-            "amount": "0.000359853579234192"
-          },
-          {
-            "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
-            "amount": "0.000263718491332192"
-          },
-          {
-            "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
-            "amount": "0.000024134824182542"
-          },
-          {
-            "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
-            "amount": "0.000004178488077852"
-          },
-          {
-            "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
-            "amount": "650364.728595839893831163"
-          },
-          {
-            "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
-            "amount": "0.000030705081112902"
-          },
-          {
-            "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
-            "amount": "113074064.955682921976368641"
-          },
-          {
-            "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
-            "amount": "0.000257804441593056"
-          },
-          {
-            "denom": "ibc/DEC41A02E47658D40FC71E5A35A9C807111F5A6662A3FB5DA84C4E6F53E616B3",
-            "amount": "0.000000000022084173"
-          },
-          {
-            "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
-            "amount": "0.000026665004214549"
-          },
-          {
-            "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
-            "amount": "0.000014789722422315"
-          },
-          {
-            "denom": "uatom",
-            "amount": "0.314926320737030349"
-          }
-        ]
-      },
-      {
-        "validator_address": "cosmosvaloper10wljxpl03053h9690apmyeakly3ylhejrucvtm",
-        "reward": [
-          {
-            "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
-            "amount": "4.265681626226865096"
-          },
-          {
-            "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
-            "amount": "12.147781859105557840"
-          },
-          {
-            "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
-            "amount": "0.109361105619410344"
-          },
-          {
-            "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
-            "amount": "30.478015637467300588"
-          },
-          {
-            "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
-            "amount": "14.330787845257008048"
-          },
-          {
-            "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
-            "amount": "2.013342886396978920"
-          },
-          {
-            "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
-            "amount": "0.102490302525753380"
-          },
-          {
-            "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
-            "amount": "12726124255.569193434079936612"
-          },
-          {
-            "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
-            "amount": "3.554486140555621152"
-          },
-          {
-            "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
-            "amount": "3012010097218.706299517634987140"
-          },
-          {
-            "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
-            "amount": "23.622308289185568704"
-          },
-          {
-            "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
-            "amount": "0.796196846061039752"
-          },
-          {
-            "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
-            "amount": "0.000361463588033576"
-          },
-          {
-            "denom": "uatom",
-            "amount": "30999.053962174442892020"
-          }
-        ]
-      },
-      {
-        "validator_address": "cosmosvaloper156gqf9837u7d4c4678yt3rl4ls9c5vuursrrzf",
-        "reward": [
-          {
-            "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
-            "amount": "0.442374892756412318"
-          },
-          {
-            "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
-            "amount": "1.399779171443739127"
-          },
-          {
-            "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
-            "amount": "0.013420671985072285"
-          },
-          {
-            "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
-            "amount": "3.217676845624800519"
-          },
-          {
-            "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
-            "amount": "1.854249348673612617"
-          },
-          {
-            "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
-            "amount": "0.236836662798137099"
-          },
-          {
-            "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
-            "amount": "0.006782331051743664"
-          },
-          {
-            "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
-            "amount": "1425188033.857042543251891403"
-          },
-          {
-            "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
-            "amount": "0.406118137196106995"
-          },
-          {
-            "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
-            "amount": "338480401959.636600902360332197"
-          },
-          {
-            "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
-            "amount": "2.784244213599334088"
-          },
-          {
-            "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
-            "amount": "0.100427968561594042"
-          },
-          {
-            "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
-            "amount": "0.000187555445900975"
-          },
-          {
-            "denom": "uatom",
-            "amount": "3252.023141076477126859"
-          }
-        ]
-      },
-      {
-        "validator_address": "cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d",
-        "reward": [
-          {
-            "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
-            "amount": "0.187914949197509583"
-          },
-          {
-            "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
-            "amount": "0.594539082652284406"
-          },
-          {
-            "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
-            "amount": "0.005691090577654223"
-          },
-          {
-            "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
-            "amount": "1.366448260779287595"
-          },
-          {
-            "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
-            "amount": "0.786686353876107027"
-          },
-          {
-            "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
-            "amount": "0.100417197332436796"
-          },
-          {
-            "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
-            "amount": "0.002881042868645312"
-          },
-          {
-            "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
-            "amount": "604441387.386667916910075433"
-          },
-          {
-            "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
-            "amount": "0.172211413150348831"
-          },
-          {
-            "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
-            "amount": "143766944986.110898057382497581"
-          },
-          {
-            "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
-            "amount": "1.180597885604377828"
-          },
-          {
-            "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
-            "amount": "0.042588988796991273"
-          },
-          {
-            "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
-            "amount": "0.000079659147020348"
-          },
-          {
-            "denom": "uatom",
-            "amount": "1381.266750607274586251"
-          }
-        ]
-      },
-      {
-        "validator_address": "cosmosvaloper1crqm3598z6qmyn2kkcl9dz7uqs4qdqnr6s8jdn",
-        "reward": [
-          {
-            "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
-            "amount": "1.018211601076034610"
-          },
-          {
-            "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
-            "amount": "3.492589799088063854"
-          },
-          {
-            "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
-            "amount": "0.033339243423467739"
-          },
-          {
-            "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
-            "amount": "7.592613089553595623"
-          },
-          {
-            "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
-            "amount": "4.764350338315119005"
-          },
-          {
-            "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
-            "amount": "0.570755616450527405"
-          },
-          {
-            "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
-            "amount": "0.018995375098015252"
-          },
-          {
-            "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
-            "amount": "3461701086.771622065617878874"
-          },
-          {
-            "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
-            "amount": "0.970804177561858019"
-          },
-          {
-            "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
-            "amount": "806891564904.588642218743011061"
-          },
-          {
-            "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
-            "amount": "6.737378219384877633"
-          },
-          {
-            "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
-            "amount": "0.266861349953081858"
-          },
-          {
-            "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
-            "amount": "0.000446234255695302"
-          },
-          {
-            "denom": "uatom",
-            "amount": "7656.438472468911533591"
-          }
-        ]
-      },
-      {
-        "validator_address": "cosmosvaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4epsluffn",
-        "reward": [
-          {
-            "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
-            "amount": "0.899152891747807262"
-          },
-          {
-            "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
-            "amount": "2.403208420532222788"
-          },
-          {
-            "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
-            "amount": "0.021023516690870416"
-          },
-          {
-            "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
-            "amount": "6.188530627740733518"
-          },
-          {
-            "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
-            "amount": "2.910156663841348676"
-          },
-          {
-            "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
-            "amount": "0.391575946184706750"
-          },
-          {
-            "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
-            "amount": "0.024010028818588498"
-          },
-          {
-            "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
-            "amount": "2536824551.057300440577694698"
-          },
-          {
-            "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
-            "amount": "0.702778154196650028"
-          },
-          {
-            "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
-            "amount": "592134803753.251979729507203706"
-          },
-          {
-            "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
-            "amount": "4.615154952194542290"
-          },
-          {
-            "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
-            "amount": "0.157000754850920952"
-          },
-          {
-            "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
-            "amount": "0.000064435189067028"
-          },
-          {
-            "denom": "uatom",
-            "amount": "6304.360061989988681066"
-          }
-        ]
-      },
-      {
-        "validator_address": "cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2",
-        "reward": [
-          {
-            "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
-            "amount": "2.249555458733000000"
-          },
-          {
-            "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
-            "amount": "4.926139533944000000"
-          },
-          {
-            "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
-            "amount": "0.043936968000000000"
-          },
-          {
-            "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
-            "amount": "16.878271465474000000"
-          },
-          {
-            "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
-            "amount": "7.411931744690000000"
-          },
-          {
-            "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
-            "amount": "0.777641615914000000"
-          },
-          {
-            "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
-            "amount": "0.115229557792000000"
-          },
-          {
-            "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
-            "amount": "5777343468.098518241904000000"
-          },
-          {
-            "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
-            "amount": "1.544520688335000000"
-          },
-          {
-            "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
-            "amount": "1260193476274.513486648845000000"
-          },
-          {
-            "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
-            "amount": "9.877940650344000000"
-          },
-          {
-            "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
-            "amount": "0.343842720925000000"
-          },
-          {
-            "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
-            "amount": "0.000216735525000000"
-          },
-          {
-            "denom": "uatom",
-            "amount": "17231.614049741061000000"
-          }
-        ]
-      }
-    ],
-    "total": [
-      {
-        "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
-        "amount": "9.122353180922071161"
-      },
-      {
-        "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
-        "amount": "25.133521950973847404"
-      },
-      {
-        "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
-        "amount": "0.228299650053609580"
-      },
-      {
-        "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
-        "amount": "66.145643907900419492"
-      },
-      {
-        "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
-        "amount": "32.258254919309765088"
-      },
-      {
-        "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
-        "amount": "4.118668562997557376"
-      },
-      {
-        "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
-        "amount": "0.271821845375399670"
-      },
-      {
-        "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
-        "amount": "26709727977.460986046094175224"
-      },
-      {
-        "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
-        "amount": "7.400513738470961432"
-      },
-      {
-        "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
-        "amount": "6195587127683.187432280034391756"
-      },
-      {
-        "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
-        "amount": "49.147275732586108869"
-      },
-      {
-        "denom": "ibc/DEC41A02E47658D40FC71E5A35A9C807111F5A6662A3FB5DA84C4E6F53E616B3",
-        "amount": "0.000000000022093044"
-      },
-      {
-        "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
-        "amount": "1.718047584972007056"
-      },
-      {
-        "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
-        "amount": "0.001375907401126155"
-      },
-      {
-        "denom": "uatom",
-        "amount": "67256.055362898102543318"
-      }
-    ]
+    "status": 200,
+    "body": {
+      "rewards": [
+        {
+          "validator_address": "cosmosvaloper196ax4vc0lwpxndu9dyhvca7jhxp70rmcvrj90c",
+          "reward": [
+            {
+              "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
+              "amount": "0.059325594567536756"
+            },
+            {
+              "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
+              "amount": "0.169378048397957182"
+            },
+            {
+              "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
+              "amount": "0.001524955515452066"
+            },
+            {
+              "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
+              "amount": "0.423727975436044097"
+            },
+            {
+              "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
+              "amount": "0.199828795381032739"
+            },
+            {
+              "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
+              "amount": "0.028074492985783514"
+            },
+            {
+              "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
+              "amount": "0.001429026994788687"
+            },
+            {
+              "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
+              "amount": "177454560.374511583295239211"
+            },
+            {
+              "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
+              "amount": "0.049564309426576814"
+            },
+            {
+              "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
+              "amount": "41996717548.414321750066598767"
+            },
+            {
+              "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
+              "amount": "0.329393608539950986"
+            },
+            {
+              "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
+              "amount": "0.011102279599186845"
+            },
+            {
+              "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
+              "amount": "0.000005028562093015"
+            },
+            {
+              "denom": "uatom",
+              "amount": "430.983869045212312286"
+            }
+          ]
+        },
+        {
+          "validator_address": "cosmosvaloper1grgelyng2v6v3t8z87wu3sxgt9m5s03xfytvz7",
+          "reward": [
+            {
+              "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
+              "amount": "0.000000055926729482"
+            },
+            {
+              "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
+              "amount": "0.000000044849428204"
+            },
+            {
+              "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
+              "amount": "0.000000000873758185"
+            },
+            {
+              "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
+              "amount": "0.000000152245423360"
+            },
+            {
+              "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
+              "amount": "0.000000110784204784"
+            },
+            {
+              "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
+              "amount": "0.000000010110804350"
+            },
+            {
+              "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
+              "amount": "0.000000001737787025"
+            },
+            {
+              "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
+              "amount": "269.617533980563627830"
+            },
+            {
+              "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
+              "amount": "0.000000012967686691"
+            },
+            {
+              "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
+              "amount": "46973.009520533518392663"
+            },
+            {
+              "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
+              "amount": "0.000000109291864284"
+            },
+            {
+              "denom": "ibc/DEC41A02E47658D40FC71E5A35A9C807111F5A6662A3FB5DA84C4E6F53E616B3",
+              "amount": "0.000000000000008871"
+            },
+            {
+              "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
+              "amount": "0.000000011219977785"
+            },
+            {
+              "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
+              "amount": "0.000000005965893596"
+            },
+            {
+              "denom": "uatom",
+              "amount": "0.000129473997380896"
+            }
+          ]
+        },
+        {
+          "validator_address": "cosmosvaloper1vf44d85es37hwl9f4h9gv0e064m0lla60j9luj",
+          "reward": [
+            {
+              "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
+              "amount": "0.000136110690176054"
+            },
+            {
+              "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
+              "amount": "0.000105990960594003"
+            },
+            {
+              "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
+              "amount": "0.000002097367924322"
+            },
+            {
+              "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
+              "amount": "0.000359853579234192"
+            },
+            {
+              "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
+              "amount": "0.000263718491332192"
+            },
+            {
+              "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
+              "amount": "0.000024134824182542"
+            },
+            {
+              "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
+              "amount": "0.000004178488077852"
+            },
+            {
+              "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
+              "amount": "650364.728595839893831163"
+            },
+            {
+              "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
+              "amount": "0.000030705081112902"
+            },
+            {
+              "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
+              "amount": "113074064.955682921976368641"
+            },
+            {
+              "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
+              "amount": "0.000257804441593056"
+            },
+            {
+              "denom": "ibc/DEC41A02E47658D40FC71E5A35A9C807111F5A6662A3FB5DA84C4E6F53E616B3",
+              "amount": "0.000000000022084173"
+            },
+            {
+              "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
+              "amount": "0.000026665004214549"
+            },
+            {
+              "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
+              "amount": "0.000014789722422315"
+            },
+            {
+              "denom": "uatom",
+              "amount": "0.314926320737030349"
+            }
+          ]
+        },
+        {
+          "validator_address": "cosmosvaloper10wljxpl03053h9690apmyeakly3ylhejrucvtm",
+          "reward": [
+            {
+              "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
+              "amount": "4.265681626226865096"
+            },
+            {
+              "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
+              "amount": "12.147781859105557840"
+            },
+            {
+              "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
+              "amount": "0.109361105619410344"
+            },
+            {
+              "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
+              "amount": "30.478015637467300588"
+            },
+            {
+              "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
+              "amount": "14.330787845257008048"
+            },
+            {
+              "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
+              "amount": "2.013342886396978920"
+            },
+            {
+              "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
+              "amount": "0.102490302525753380"
+            },
+            {
+              "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
+              "amount": "12726124255.569193434079936612"
+            },
+            {
+              "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
+              "amount": "3.554486140555621152"
+            },
+            {
+              "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
+              "amount": "3012010097218.706299517634987140"
+            },
+            {
+              "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
+              "amount": "23.622308289185568704"
+            },
+            {
+              "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
+              "amount": "0.796196846061039752"
+            },
+            {
+              "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
+              "amount": "0.000361463588033576"
+            },
+            {
+              "denom": "uatom",
+              "amount": "30999.053962174442892020"
+            }
+          ]
+        },
+        {
+          "validator_address": "cosmosvaloper156gqf9837u7d4c4678yt3rl4ls9c5vuursrrzf",
+          "reward": [
+            {
+              "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
+              "amount": "0.442374892756412318"
+            },
+            {
+              "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
+              "amount": "1.399779171443739127"
+            },
+            {
+              "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
+              "amount": "0.013420671985072285"
+            },
+            {
+              "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
+              "amount": "3.217676845624800519"
+            },
+            {
+              "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
+              "amount": "1.854249348673612617"
+            },
+            {
+              "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
+              "amount": "0.236836662798137099"
+            },
+            {
+              "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
+              "amount": "0.006782331051743664"
+            },
+            {
+              "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
+              "amount": "1425188033.857042543251891403"
+            },
+            {
+              "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
+              "amount": "0.406118137196106995"
+            },
+            {
+              "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
+              "amount": "338480401959.636600902360332197"
+            },
+            {
+              "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
+              "amount": "2.784244213599334088"
+            },
+            {
+              "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
+              "amount": "0.100427968561594042"
+            },
+            {
+              "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
+              "amount": "0.000187555445900975"
+            },
+            {
+              "denom": "uatom",
+              "amount": "3252.023141076477126859"
+            }
+          ]
+        },
+        {
+          "validator_address": "cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d",
+          "reward": [
+            {
+              "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
+              "amount": "0.187914949197509583"
+            },
+            {
+              "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
+              "amount": "0.594539082652284406"
+            },
+            {
+              "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
+              "amount": "0.005691090577654223"
+            },
+            {
+              "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
+              "amount": "1.366448260779287595"
+            },
+            {
+              "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
+              "amount": "0.786686353876107027"
+            },
+            {
+              "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
+              "amount": "0.100417197332436796"
+            },
+            {
+              "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
+              "amount": "0.002881042868645312"
+            },
+            {
+              "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
+              "amount": "604441387.386667916910075433"
+            },
+            {
+              "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
+              "amount": "0.172211413150348831"
+            },
+            {
+              "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
+              "amount": "143766944986.110898057382497581"
+            },
+            {
+              "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
+              "amount": "1.180597885604377828"
+            },
+            {
+              "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
+              "amount": "0.042588988796991273"
+            },
+            {
+              "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
+              "amount": "0.000079659147020348"
+            },
+            {
+              "denom": "uatom",
+              "amount": "1381.266750607274586251"
+            }
+          ]
+        },
+        {
+          "validator_address": "cosmosvaloper1crqm3598z6qmyn2kkcl9dz7uqs4qdqnr6s8jdn",
+          "reward": [
+            {
+              "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
+              "amount": "1.018211601076034610"
+            },
+            {
+              "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
+              "amount": "3.492589799088063854"
+            },
+            {
+              "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
+              "amount": "0.033339243423467739"
+            },
+            {
+              "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
+              "amount": "7.592613089553595623"
+            },
+            {
+              "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
+              "amount": "4.764350338315119005"
+            },
+            {
+              "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
+              "amount": "0.570755616450527405"
+            },
+            {
+              "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
+              "amount": "0.018995375098015252"
+            },
+            {
+              "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
+              "amount": "3461701086.771622065617878874"
+            },
+            {
+              "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
+              "amount": "0.970804177561858019"
+            },
+            {
+              "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
+              "amount": "806891564904.588642218743011061"
+            },
+            {
+              "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
+              "amount": "6.737378219384877633"
+            },
+            {
+              "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
+              "amount": "0.266861349953081858"
+            },
+            {
+              "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
+              "amount": "0.000446234255695302"
+            },
+            {
+              "denom": "uatom",
+              "amount": "7656.438472468911533591"
+            }
+          ]
+        },
+        {
+          "validator_address": "cosmosvaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4epsluffn",
+          "reward": [
+            {
+              "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
+              "amount": "0.899152891747807262"
+            },
+            {
+              "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
+              "amount": "2.403208420532222788"
+            },
+            {
+              "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
+              "amount": "0.021023516690870416"
+            },
+            {
+              "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
+              "amount": "6.188530627740733518"
+            },
+            {
+              "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
+              "amount": "2.910156663841348676"
+            },
+            {
+              "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
+              "amount": "0.391575946184706750"
+            },
+            {
+              "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
+              "amount": "0.024010028818588498"
+            },
+            {
+              "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
+              "amount": "2536824551.057300440577694698"
+            },
+            {
+              "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
+              "amount": "0.702778154196650028"
+            },
+            {
+              "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
+              "amount": "592134803753.251979729507203706"
+            },
+            {
+              "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
+              "amount": "4.615154952194542290"
+            },
+            {
+              "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
+              "amount": "0.157000754850920952"
+            },
+            {
+              "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
+              "amount": "0.000064435189067028"
+            },
+            {
+              "denom": "uatom",
+              "amount": "6304.360061989988681066"
+            }
+          ]
+        },
+        {
+          "validator_address": "cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2",
+          "reward": [
+            {
+              "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
+              "amount": "2.249555458733000000"
+            },
+            {
+              "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
+              "amount": "4.926139533944000000"
+            },
+            {
+              "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
+              "amount": "0.043936968000000000"
+            },
+            {
+              "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
+              "amount": "16.878271465474000000"
+            },
+            {
+              "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
+              "amount": "7.411931744690000000"
+            },
+            {
+              "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
+              "amount": "0.777641615914000000"
+            },
+            {
+              "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
+              "amount": "0.115229557792000000"
+            },
+            {
+              "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
+              "amount": "5777343468.098518241904000000"
+            },
+            {
+              "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
+              "amount": "1.544520688335000000"
+            },
+            {
+              "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
+              "amount": "1260193476274.513486648845000000"
+            },
+            {
+              "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
+              "amount": "9.877940650344000000"
+            },
+            {
+              "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
+              "amount": "0.343842720925000000"
+            },
+            {
+              "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
+              "amount": "0.000216735525000000"
+            },
+            {
+              "denom": "uatom",
+              "amount": "17231.614049741061000000"
+            }
+          ]
+        }
+      ],
+      "total": [
+        {
+          "denom": "ibc/0025F8A87464A471E66B234C4F93AEC5B4DA3D42D7986451A059273426290DD5",
+          "amount": "9.122353180922071161"
+        },
+        {
+          "denom": "ibc/054892D6BB43AF8B93AAC28AA5FD7019D2C59A15DAFD6F45C1FA2BF9BDA22454",
+          "amount": "25.133521950973847404"
+        },
+        {
+          "denom": "ibc/5CAE744C89BC70AE7B38019A1EDF83199B7E10F00F160E7F4F12BCA7A32A7EE5",
+          "amount": "0.228299650053609580"
+        },
+        {
+          "denom": "ibc/6B8A3F5C2AD51CD6171FA41A7E8C35AD594AB69226438DB94450436EA57B3A89",
+          "amount": "66.145643907900419492"
+        },
+        {
+          "denom": "ibc/715BD634CF4D914C3EE93B0F8A9D2514B743F6FE36BC80263D1BC5EE4B3C5D40",
+          "amount": "32.258254919309765088"
+        },
+        {
+          "denom": "ibc/88DCAA43A9CD099E1F9BBB80B9A90F64782EBA115A84B2CD8398757ADA4F4B40",
+          "amount": "4.118668562997557376"
+        },
+        {
+          "denom": "ibc/A4D99E716D91A579AC3A9684AAB7B5CB0A0861DD3DD942901D970EDB6787860E",
+          "amount": "0.271821845375399670"
+        },
+        {
+          "denom": "ibc/B011C1A0AD5E717F674BA59FD8E05B2F946E4FD41C9CB3311C95F7ED4B815620",
+          "amount": "26709727977.460986046094175224"
+        },
+        {
+          "denom": "ibc/B05539B66B72E2739B986B86391E5D08F12B8D5D2C2A7F8F8CF9ADF674DFA231",
+          "amount": "7.400513738470961432"
+        },
+        {
+          "denom": "ibc/B38AAA0F7A3EC4D7C8E12DFA33FF93205FE7A42738A4B0590E2FF15BC60A612B",
+          "amount": "6195587127683.187432280034391756"
+        },
+        {
+          "denom": "ibc/D41ECC8FEF1B7E9C4BCC58B1362588420853A9D0B898EDD513D9B79AFFA195C8",
+          "amount": "49.147275732586108869"
+        },
+        {
+          "denom": "ibc/DEC41A02E47658D40FC71E5A35A9C807111F5A6662A3FB5DA84C4E6F53E616B3",
+          "amount": "0.000000000022093044"
+        },
+        {
+          "denom": "ibc/E92E07E68705FAD13305EE9C73684B30A7B66A52F54C9890327E0A4C0F1D22E3",
+          "amount": "1.718047584972007056"
+        },
+        {
+          "denom": "ibc/FA33D22EED651DC2D251315AAE2E7C5BA924D308081EE9760AE653AA2F6661CB",
+          "amount": "0.001375907401126155"
+        },
+        {
+          "denom": "uatom",
+          "amount": "67256.055362898102543318"
+        }
+      ]
+    }
   }
 }

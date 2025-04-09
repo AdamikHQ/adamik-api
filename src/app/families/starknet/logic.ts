@@ -1,4 +1,4 @@
-import { Account, Provider, stark } from "starknet";
+import { Account, ec, Provider, stark } from "starknet";
 import {
   AccountState,
   DeployContractType,
@@ -7,6 +7,7 @@ import {
   Transaction,
   TransactionMode,
 } from "~/app/model/types_WIP";
+import { UserInputError } from "~/app/tools/handlers/errors";
 import { fetchTokenBalances, fetchTokenContract } from "./backend/indexer";
 import { buildTransferPayload, fetchTokenInfo } from "./backend/node";
 import { TokenBalance } from "./backend/types";
@@ -140,17 +141,6 @@ const marginFees = (fees: bigint) => {
   return (fees * 11n) / 10n;
 };
 
-// Transform pubkey from this form :
-// 02003ad61094c6a6a65ce677eb4ac3cada7925d7a6e37a9bb6021e0ed1140f38e3
-// to this form :
-// 0x3ad61094c6a6a65ce677eb4ac3cada7925d7a6e37a9bb6021e0ed1140f38e3
-// If we do not respect this format, we couldnt derivate pubkey to get contract address
-const extractX = (bytes: string): string => {
-  const hex = bytes.substring(2);
-  const stripped = hex.replace(/^0+/gm, ""); // strip leading 0s
-  return `0x${stripped}`;
-};
-
 const isDERSignature = (signature: string) => {
   const sigBytes =
     typeof signature === "string" ? Buffer.from(signature.replace("0x", ""), "hex") : signature;
@@ -163,13 +153,25 @@ const isCompactSignature = (signature: string) => {
   return sigBytes.length === 64 || sigBytes.length === 65;
 };
 
+const verifyStarknetPublicKeyFormat = (pubkey: string) => {
+  if (!pubkey.startsWith("0x")) {
+    throw new UserInputError("Invalid Starknet public key format. It should start with 0x.");
+  }
+
+  if (ec.starkCurve.CURVE.p < BigInt(pubkey)) {
+    throw new UserInputError(
+      "Invalid Starknet public key format. It should be less than the curve p. Verify if you did extractX in your pubkey"
+    );
+  }
+};
+
 export {
   buildTransaction,
   calculateAccountState,
   createStarknetAccount,
-  extractX,
   isCompactSignature,
   isDERSignature,
   mapTokenBalancesToTokenAmounts,
   marginFees,
+  verifyStarknetPublicKeyFormat,
 };

@@ -2,7 +2,7 @@
   "request": {
     "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7",
     "method": "POST",
-    "params": {
+    "body": {
       "id": 1,
       "jsonrpc": "2.0",
       "method": "starknet_getNonce",
@@ -13,11 +13,14 @@
     }
   },
   "response": {
-    "error": {
-      "code": 20,
-      "message": "Contract not found"
-    },
-    "id": 1,
-    "jsonrpc": "2.0"
+    "status": 200,
+    "body": {
+      "error": {
+        "code": 20,
+        "message": "Contract not found"
+      },
+      "id": 1,
+      "jsonrpc": "2.0"
+    }
   }
 }

@@ -4,20 +4,23 @@
     "method": "GET"
   },
   "response": {
-    "address": "tb1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqsxh76tx",
-    "chain_stats": {
-      "funded_txo_count": 9,
-      "funded_txo_sum": 3536010,
-      "spent_txo_count": 6,
-      "spent_txo_sum": 3069760,
-      "tx_count": 9
-    },
-    "mempool_stats": {
-      "funded_txo_count": 0,
-      "funded_txo_sum": 0,
-      "spent_txo_count": 0,
-      "spent_txo_sum": 0,
-      "tx_count": 0
+    "status": 200,
+    "body": {
+      "address": "tb1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqsxh76tx",
+      "chain_stats": {
+        "funded_txo_count": 9,
+        "funded_txo_sum": 3536010,
+        "spent_txo_count": 6,
+        "spent_txo_sum": 3069760,
+        "tx_count": 9
+      },
+      "mempool_stats": {
+        "funded_txo_count": 0,
+        "funded_txo_sum": 0,
+        "spent_txo_count": 0,
+        "spent_txo_sum": 0,
+        "tx_count": 0
+      }
     }
   }
 }

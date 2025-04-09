@@ -2,7 +2,7 @@
   "request": {
     "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7",
     "method": "POST",
-    "params": {
+    "body": {
       "id": 3,
       "jsonrpc": "2.0",
       "method": "starknet_call",
@@ -17,10 +17,13 @@
     }
   },
   "response": {
-    "id": 3,
-    "jsonrpc": "2.0",
-    "result": [
-      "0x55534443"
-    ]
+    "status": 200,
+    "body": {
+      "id": 3,
+      "jsonrpc": "2.0",
+      "result": [
+        "0x55534443"
+      ]
+    }
   }
 }

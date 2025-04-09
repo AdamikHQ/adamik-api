@@ -66,12 +66,9 @@ async function fetchNativeTransaction(chainId: ChainId, transactionId: string): 
   }
   // TODO Error management
 
-  const result = await response.arrayBuffer();
+  const result = await response.bytes();
 
-  // TODO Test this
-  const data = BitcoinTransaction.fromBuffer(Buffer.from(result));
-
-  return data;
+  return BitcoinTransaction.fromBuffer(Buffer.from(result));
 }
 
 async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<MempoolSpaceUTXO[]> {

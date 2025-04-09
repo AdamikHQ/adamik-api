@@ -1,0 +1,16 @@
+{
+  "request": {
+    "url": "https://api.trongrid.io/wallet/getcontract?value=41ea4e3dfacdf6d5b25f74ce4b689d79105043583c",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "consume_user_resource_percent": 100,
+      "origin_address": "41c22dd1b7bc7574e94563c8282f64b065bc07b2fa",
+      "abi": {},
+      "contract_address": "41ea4e3dfacdf6d5b25f74ce4b689d79105043583c",
+      "code_hash": "5125831a898b6793bea8bc063e4cdcbfc840aa3de646492373ec9e5a98caf4b4"
+    }
+  }
+}

@@ -2,7 +2,7 @@
   "request": {
     "url": "https://testnet-rpc.monad.xyz/",
     "method": "POST",
-    "params": {
+    "body": {
       "jsonrpc": "2.0",
       "id": 0,
       "method": "eth_getBalance",
@@ -13,8 +13,11 @@
     }
   },
   "response": {
-    "jsonrpc": "2.0",
-    "result": "0x0",
-    "id": 0
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": "0x0",
+      "id": 0
+    }
   }
 }
