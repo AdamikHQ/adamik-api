@@ -36,7 +36,7 @@ async function encodeTransactionToBroadcast(
   }
 
   const encodedTransaction = signedTransaction.encoded.find((encoded) => {
-    return encoded.format === EncodedTransactionFormat.ALGORAND_MSGPACK;
+    return encoded.format === EncodedTransactionFormat.MSGPACK;
   });
 
   if (!encodedTransaction) {

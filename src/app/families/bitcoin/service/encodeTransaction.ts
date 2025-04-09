@@ -20,7 +20,7 @@ async function encodeTransactionToSign(
         }
         transaction.encoded = [
           {
-            format: EncodedTransactionFormat.BITCOIN_PSBT,
+            format: EncodedTransactionFormat.PSBT,
             value: params.transferPsbt,
           },
         ];
@@ -39,7 +39,7 @@ async function encodeTransactionToSign(
         }
         transaction.encoded = [
           {
-            format: EncodedTransactionFormat.BITCOIN_PSBT,
+            format: EncodedTransactionFormat.PSBT,
             value: params.stakingPsbt,
           },
         ];
@@ -53,7 +53,7 @@ async function encodeTransactionToSign(
         }
         transaction.encoded = [
           {
-            format: EncodedTransactionFormat.BITCOIN_PSBT,
+            format: EncodedTransactionFormat.PSBT,
             value: params.unbondingPsbt,
           },
         ];

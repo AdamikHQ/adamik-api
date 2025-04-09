@@ -90,7 +90,7 @@ async function computeFees(transaction: TransactionData): Promise<bigint> {
       amount: transaction.amount || 0n,
     });
     const encoded = encodeToSign(rawTransaction);
-    const encodedTx = encoded.find((encoded) => encoded.format === EncodedTransactionFormat.ALGORAND_MSGPACK);
+    const encodedTx = encoded.find((encoded) => encoded.format === EncodedTransactionFormat.MSGPACK);
     if (!encodedTx) {
       throw new AdamikApiServerError("Missing encoded transaction");
     }
@@ -145,7 +145,7 @@ function encodeToSign(payload: AlgoTransaction): EncodedTransaction[] {
 
   return [
     {
-      format: EncodedTransactionFormat.ALGORAND_MSGPACK,
+      format: EncodedTransactionFormat.MSGPACK,
       value: Buffer.from(msgPackEncoded).toString("hex"),
     },
     {

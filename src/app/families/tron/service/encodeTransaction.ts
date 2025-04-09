@@ -14,7 +14,7 @@ async function encodeTransactionToSign(
 
   transaction.encoded = [
     {
-      format: EncodedTransactionFormat.TRON_RAW_TRANSACTION,
+      format: EncodedTransactionFormat.RAW_TRANSACTION,
       value: builtTransaction.raw_data_hex,
     },
     {

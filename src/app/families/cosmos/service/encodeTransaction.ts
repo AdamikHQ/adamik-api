@@ -19,16 +19,16 @@ async function encodeTransactionToSign(
 
   transaction.encoded = [
     {
-      format: EncodedTransactionFormat.COSMOS_PROTOBUF,
-      value: rawTransactions[EncodedTransactionFormat.COSMOS_PROTOBUF],
+      format: EncodedTransactionFormat.SIGNDOC_DIRECT,
+      value: rawTransactions[EncodedTransactionFormat.SIGNDOC_DIRECT],
     },
     {
       format: EncodedTransactionFormat.HASH_SHA256,
-      value: sha256(Buffer.from(rawTransactions[EncodedTransactionFormat.COSMOS_PROTOBUF], "hex")),
+      value: sha256(Buffer.from(rawTransactions[EncodedTransactionFormat.SIGNDOC_DIRECT], "hex")),
     },
     {
-      format: EncodedTransactionFormat.COSMOS_PROTOBUF_JSON,
-      value: rawTransactions[EncodedTransactionFormat.COSMOS_PROTOBUF_JSON],
+      format: EncodedTransactionFormat.SIGNDOC_DIRECT_JSON,
+      value: rawTransactions[EncodedTransactionFormat.SIGNDOC_DIRECT_JSON],
     },
   ];
 }

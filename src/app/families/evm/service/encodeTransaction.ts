@@ -37,7 +37,7 @@ async function encodeTransactionToSign(
 
   transaction.encoded = [
     {
-      format: EncodedTransactionFormat.EVM_RLP,
+      format: EncodedTransactionFormat.RLP,
       value: rawTransaction,
     },
     {
@@ -45,7 +45,7 @@ async function encodeTransactionToSign(
       value: keccak256(Buffer.from(rawTransaction, "hex")),
     },
     {
-      format: EncodedTransactionFormat.WALLET_CONNECT_JSON,
+      format: EncodedTransactionFormat.WALLET_CONNECT,
       value: await encodeTransactionAsJSON(this.chainId, transaction),
     },
   ];
@@ -191,11 +191,11 @@ async function encodeTransactionToBroadcast(
   })();
 
   const rawTransaction = signedTransaction.encoded.find((encoded) => {
-    return encoded.format === EncodedTransactionFormat.EVM_RLP;
+    return encoded.format === EncodedTransactionFormat.RLP;
   });
 
   if (!rawTransaction) {
-    throw new UserInputError("Missing raw transaction");
+    throw new UserInputError("Missing encoded transaction in RLP format");
   }
 
   const parsedTansaction: TransactionSerializable = parseTransaction(rawTransaction.value as `0x${string}`);

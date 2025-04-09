@@ -25,7 +25,7 @@ async function encodeTransactionToSign(
 
   transaction.encoded = [
     {
-      format: EncodedTransactionFormat.TON_BOC, // https://docs.ton.org/v3/documentation/data-formats/tlb/cell-boc#bag-of-cells
+      format: EncodedTransactionFormat.BOC, // https://docs.ton.org/v3/documentation/data-formats/tlb/cell-boc#bag-of-cells
       value: builtTransaction.endCell().toBoc().toString("hex"),
     },
     {

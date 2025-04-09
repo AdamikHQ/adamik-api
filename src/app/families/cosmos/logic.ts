@@ -513,7 +513,7 @@ async function encodeToSign(
   account: CosmosAccount,
   transactionData: TransactionData
 ): Promise<
-  Record<EncodedTransactionFormat.COSMOS_PROTOBUF | EncodedTransactionFormat.COSMOS_PROTOBUF_JSON, string>
+  Record<EncodedTransactionFormat.SIGNDOC_DIRECT | EncodedTransactionFormat.SIGNDOC_DIRECT_JSON, string>
 > {
   if (!transactionData.fees) {
     throw new Error("Missing fees data in transaction");
@@ -556,10 +556,10 @@ async function encodeToSign(
 
   // TODO Test the protobuf format with Keplr, then deprecate the JSON format here if possible
   return {
-    [EncodedTransactionFormat.COSMOS_PROTOBUF_JSON]: JSON.stringify(SignDocProtobuf.toJSON(signDoc)),
-    [EncodedTransactionFormat.COSMOS_PROTOBUF]: Buffer.from(
-      SignDocProtobuf.encode(signDoc).finish()
-    ).toString("hex"),
+    [EncodedTransactionFormat.SIGNDOC_DIRECT_JSON]: JSON.stringify(SignDocProtobuf.toJSON(signDoc)),
+    [EncodedTransactionFormat.SIGNDOC_DIRECT]: Buffer.from(SignDocProtobuf.encode(signDoc).finish()).toString(
+      "hex"
+    ),
   };
 }
 
