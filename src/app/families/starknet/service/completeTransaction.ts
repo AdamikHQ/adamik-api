@@ -3,7 +3,6 @@ import { UserInputError } from "~/app/tools/handlers/errors";
 import { estimateTransferFees, getNonce } from "../backend/node";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { ArgentX } from "../contracts/argentx";
-import { extractX } from "../logic";
 
 async function completeTransaction({
   transaction,
@@ -12,10 +11,6 @@ async function completeTransaction({
   transaction: Transaction;
   status: Status;
 }): Promise<void> {
-  if (transaction.data.senderPubKey) {
-    transaction.data.senderPubKey = extractX(transaction.data.senderPubKey);
-  }
-
   switch (transaction.data.mode) {
     case TransactionMode.DEPLOY_ACCOUNT:
       switch (transaction.data.contractType) {
