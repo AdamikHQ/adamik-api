@@ -1,8 +1,15 @@
 import { BLOCKCHAIR_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, Provider, ProviderType } from "~/app/model/types_WIP";
+import {
+  ChainId,
+  FinalizedTransaction,
+  Provider,
+  ProviderType,
+  TransactionMode,
+  TransactionState,
+} from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
-import { Xpub } from "../types";
+import { BitcoinChainParams, Xpub } from "../types";
 import {
   BlockchairAddressesResponse,
   BlockchairRawTransactionData,
@@ -197,8 +204,8 @@ async function fetchAddressesDashboard(
 
 async function fetchTransaction(
   chainId: ChainId,
-  txHash: string
-): Promise<BlockchairTransactionsResponse | null> {
+  transactionId: string
+): Promise<FinalizedTransaction | null> {
   const explorerURL = CHAINS[chainId].providers.find(
     (p: Provider) => p.type === ProviderType.blockchair
   )?.url;
@@ -206,7 +213,7 @@ async function fetchTransaction(
     key: BLOCKCHAIR_API_KEY,
   });
 
-  const url = `${explorerURL}/dashboards/transaction/${txHash}?${queryParams.toString()}`;
+  const url = `${explorerURL}/dashboards/transaction/${transactionId}?${queryParams.toString()}`;
 
   const response = await fetch(url);
 
@@ -228,6 +235,10 @@ async function fetchTransaction(
     throw new ThirdPartyProviderError("Error while parsing transaction data from the explorer");
   }
 
+  if (!parsedResponse?.data || Array.isArray(parsedResponse.data)) {
+    return null;
+  }
+
   const context = parsedResponse.data.context;
 
   if (context.code == 404 || context.results === 0) {
@@ -235,19 +246,19 @@ async function fetchTransaction(
   } else if (context.code != 200) {
     console.warn(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
-      parsedResponse.data
+      parsedResponse?.data
     );
     throw new ThirdPartyProviderError("Error in transaction data received from the explorer");
   }
 
-  return parsedResponse.data;
+  return await blockchairToAdamikTransaction(chainId, parsedResponse.data.data[transactionId]);
 }
 
 // Fetches metadata for multiple transactions in a single request
 // Note: Blockchair API allows batching transactions with comma-separated hashes
 async function fetchTransactionsMetadataBatched(
   chainId: ChainId,
-  txHashes: string[]
+  transactionIds: string[]
 ): Promise<BlockchairTransactionData[]> {
   const explorerURL = CHAINS[chainId].providers.find(
     (p: Provider) => p.type === ProviderType.blockchair
@@ -256,11 +267,11 @@ async function fetchTransactionsMetadataBatched(
     key: BLOCKCHAIR_API_KEY,
   });
 
-  // Split txHashes into batches
+  // Split transactionIds into batches
   const BATCH_SIZE = 10; // Max size accepted by Blockchair
   const batches: string[][] = [];
-  for (let i = 0; i < txHashes.length; i += BATCH_SIZE) {
-    batches.push(txHashes.slice(i, i + BATCH_SIZE));
+  for (let i = 0; i < transactionIds.length; i += BATCH_SIZE) {
+    batches.push(transactionIds.slice(i, i + BATCH_SIZE));
   }
 
   let results: BlockchairTransactionData[] = [];
@@ -307,7 +318,10 @@ async function fetchTransactionsMetadataBatched(
 
 // This function works for both mempool and confirmed transactions
 // Note: No support of batching for this endpoint
-async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<BlockchairRawTransactionData> {
+async function fetchRawTransaction(
+  chainId: ChainId,
+  transactionId: string
+): Promise<BlockchairRawTransactionData> {
   const explorerURL = CHAINS[chainId].providers.find(
     (p: Provider) => p.type === ProviderType.blockchair
   )?.url;
@@ -315,7 +329,7 @@ async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<Bl
     key: BLOCKCHAIR_API_KEY,
   });
 
-  const url = `${explorerURL}/raw/transaction/${txHash}?${queryParams.toString()}`;
+  const url = `${explorerURL}/raw/transaction/${transactionId}?${queryParams.toString()}`;
 
   const response = await fetch(url);
 
@@ -340,7 +354,7 @@ async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<Bl
   if (
     parsedResponse.data.context.code !== 200 ||
     !parsedResponse.data.data ||
-    !parsedResponse.data.data[txHash]
+    !parsedResponse.data.data[transactionId]
   ) {
     console.warn(
       `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
@@ -349,7 +363,7 @@ async function fetchRawTransaction(chainId: ChainId, txHash: string): Promise<Bl
     throw new ThirdPartyProviderError("Error in raw transaction metadata received from the explorer");
   }
 
-  return parsedResponse.data.data[txHash];
+  return parsedResponse.data.data[transactionId];
 }
 
 async function fetchStats(chainId: ChainId): Promise<BlockchairStatsData> {
@@ -448,6 +462,54 @@ async function postTransaction(chainId: ChainId, payload: string): Promise<strin
   }
 
   return parsedResponse.data.data.transaction_hash;
+}
+
+async function blockchairToAdamikTransaction(
+  chainId: ChainId,
+  blockchairTransaction: BlockchairTransactionData
+): Promise<FinalizedTransaction> {
+  const parsedTransaction: FinalizedTransaction["parsed"] = {
+    id: blockchairTransaction.transaction.hash,
+    // NOTE Impossible to check for other tx modes (e.g staking) with bitcoin
+    // explorer alone, needs to be refined by the caller of this function
+    mode: TransactionMode.TRANSFER,
+    state: TransactionState.UNKNOWN,
+    fees: {
+      amount: blockchairTransaction.transaction.fee,
+    },
+    senders: blockchairTransaction.inputs.map((input) => ({
+      address: input.recipient,
+      amount: input.value,
+    })),
+    recipients: blockchairTransaction.outputs.map((output) => ({
+      address: output.recipient,
+      amount: output.value,
+    })),
+  };
+
+  const transactionBlockHeight = blockchairTransaction.transaction.block_id;
+  if (transactionBlockHeight === undefined || transactionBlockHeight === -1) {
+    parsedTransaction.state = TransactionState.PENDING;
+  } else {
+    const bitcoinParams = CHAINS[chainId].params as BitcoinChainParams;
+    const { blocks: latestBlock } = await fetchStats(chainId);
+    const isTransactionConfirmed = latestBlock - transactionBlockHeight >= bitcoinParams.confirmations;
+
+    parsedTransaction.state = isTransactionConfirmed
+      ? TransactionState.CONFIRMED
+      : TransactionState.UNCONFIRMED;
+
+    // NOTE Blockchair returns transaction time in a bad format, e.g: "2024-09-10 11:05:14"
+    // instead of a timestamp or a proper ISO string: "2024-09-10T11:05:14.000Z"
+    // This format is ambiguous about the timezone, so we have to append 'UTC' for Date to handle it correctly...
+    parsedTransaction.timestamp = new Date(blockchairTransaction.transaction.time + " UTC").getTime();
+    parsedTransaction.blockHeight = BigInt(blockchairTransaction.transaction.block_id);
+  }
+
+  return {
+    parsed: parsedTransaction,
+    raw: blockchairTransaction,
+  };
 }
 
 export {

@@ -4,9 +4,12 @@
     "method": "GET"
   },
   "response": {
-    "contract_address": "0x04cb6f9b3d1466524a695c9bdb4a0d7c37aa606e38724b99c0b6952bacaf2e63",
-    "name": "ekbrwd.com - Ekubo Reward Token",
-    "symbol": "ekbrwd.com",
-    "decimals": "8"
+    "status": 200,
+    "body": {
+      "contract_address": "0x04cb6f9b3d1466524a695c9bdb4a0d7c37aa606e38724b99c0b6952bacaf2e63",
+      "name": "ekbrwd.com - Ekubo Reward Token",
+      "symbol": "ekbrwd.com",
+      "decimals": "8"
+    }
   }
 }

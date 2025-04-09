@@ -2,7 +2,7 @@
   "request": {
     "url": "https://toncenter.com/api/v2/jsonRPC",
     "method": "POST",
-    "params": {
+    "body": {
       "id": "1",
       "jsonrpc": "2.0",
       "method": "runGetMethod",
@@ -19,43 +19,46 @@
     }
   },
   "response": {
-    "ok": true,
-    "result": {
-      "@type": "smc.runResult",
-      "gas_used": 3143,
-      "stack": [
-        [
-          "cell",
-          {
-            "bytes": "te6cckEBAQEAJAAAQ4AAvFOM/b8TgZ730GPB34W57ioQFKaJ9p57aCNZmNgEKxB6JS2P",
-            "object": {
-              "data": {
-                "b64": "gAC8U4z9vxOBnvfQY8HfhbnuKhAUpon2nntoI1mY2AQrAA==",
-                "len": 267
-              },
-              "refs": [],
-              "special": false
+    "status": 200,
+    "body": {
+      "ok": true,
+      "result": {
+        "@type": "smc.runResult",
+        "gas_used": 3143,
+        "stack": [
+          [
+            "cell",
+            {
+              "bytes": "te6cckEBAQEAJAAAQ4AAvFOM/b8TgZ730GPB34W57ioQFKaJ9p57aCNZmNgEKxB6JS2P",
+              "object": {
+                "data": {
+                  "b64": "gAC8U4z9vxOBnvfQY8HfhbnuKhAUpon2nntoI1mY2AQrAA==",
+                  "len": 267
+                },
+                "refs": [],
+                "special": false
+              }
             }
-          }
-        ]
-      ],
-      "exit_code": 0,
-      "@extra": "1742218751.2254558:4:0.016955735097986646",
-      "block_id": {
-        "@type": "ton.blockIdExt",
-        "workchain": -1,
-        "shard": "-9223372036854775808",
-        "seqno": 45933990,
-        "root_hash": "6kg//oXV5kvzq7VBWffvDeTXRtTA6R5Jgvx0Yj8E7y8=",
-        "file_hash": "TIjfS29b9SGz556qpmWUWtOA0alavdXd1NSsqINHdBs="
+          ]
+        ],
+        "exit_code": 0,
+        "@extra": "1742218751.2254558:4:0.016955735097986646",
+        "block_id": {
+          "@type": "ton.blockIdExt",
+          "workchain": -1,
+          "shard": "-9223372036854775808",
+          "seqno": 45933990,
+          "root_hash": "6kg//oXV5kvzq7VBWffvDeTXRtTA6R5Jgvx0Yj8E7y8=",
+          "file_hash": "TIjfS29b9SGz556qpmWUWtOA0alavdXd1NSsqINHdBs="
+        },
+        "last_transaction_id": {
+          "@type": "internal.transactionId",
+          "lt": "55032982000001",
+          "hash": "AwzbKGoj3W2Rk8YC7VLnOYcYUC6hHjE8q27slCnUnd8="
+        }
       },
-      "last_transaction_id": {
-        "@type": "internal.transactionId",
-        "lt": "55032982000001",
-        "hash": "AwzbKGoj3W2Rk8YC7VLnOYcYUC6hHjE8q27slCnUnd8="
-      }
-    },
-    "id": "1",
-    "jsonrpc": "2.0"
+      "id": "1",
+      "jsonrpc": "2.0"
+    }
   }
 }

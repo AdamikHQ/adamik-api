@@ -108,7 +108,8 @@
 
 ## bitcoin
 
-| blockchair | https://api.blockchair.com/bitcoin |
+| blockchair | https://api.blockchair.com/bitcoin |<br />
+| mempoolspace | https://mempool.space/api |
 
 ## bitcoin-testnet
 
@@ -228,7 +229,7 @@
 
 ## injective
 
-| node | https://lcd-injective.imperator.co |<br />
+| node | https://injective-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
@@ -274,7 +275,7 @@
 
 ## evmos
 
-| node | https://lcd-evmos.imperator.co |<br />
+| node | https://evmos-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## irisnet
@@ -414,7 +415,9 @@
 
 ## babylon-testnet
 
-| node | https://babylon-testnet-api.polkachu.com |
+| node | https://babylon-testnet-api.nodes.guru |<br />
+| babylon | https://staking-api.testnet.babylonlabs.io/v2 |<br />
+| mintscan | https://apis.mintscan.io/v1 |
 
 ## monad-testnet
 

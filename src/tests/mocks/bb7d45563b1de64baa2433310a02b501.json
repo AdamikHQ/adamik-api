@@ -1,0 +1,49 @@
+{
+  "request": {
+    "url": "https://www.oklink.com/api/v5/explorer/address/token-balance?chainShortName=TRON&address=TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre&protocolType=token_20&limit=50",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": "0",
+      "msg": "",
+      "data": [
+        {
+          "limit": "50",
+          "page": "1",
+          "totalPage": "1",
+          "tokenList": [
+            {
+              "symbol": "SUNDOG",
+              "tokenContractAddress": "TXL6rJbvmjD46zeN1JssfgxvSo99qC8MRT",
+              "tokenType": "TRC20",
+              "holdingAmount": "13.409316",
+              "priceUsd": "0.05004505112330206",
+              "valueUsd": "0.67106990474851228599096",
+              "tokenId": ""
+            },
+            {
+              "symbol": "JST",
+              "tokenContractAddress": "TCFLL5dx5ZJdKnWuesXxi1VPwjLVmWZZy9",
+              "tokenType": "TRC20",
+              "holdingAmount": "1.234",
+              "priceUsd": "0.030902721860448838",
+              "valueUsd": "0.038133958775793866092",
+              "tokenId": ""
+            },
+            {
+              "symbol": "WIN",
+              "tokenContractAddress": "TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7",
+              "tokenType": "TRC20",
+              "holdingAmount": "1",
+              "priceUsd": "0.000047327199079742",
+              "valueUsd": "0.000047327199079742",
+              "tokenId": ""
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

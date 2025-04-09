@@ -4,110 +4,113 @@
     "method": "GET"
   },
   "response": {
-    "delegation_responses": [
-      {
-        "delegation": {
-          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
-          "validator_address": "cosmosvaloper196ax4vc0lwpxndu9dyhvca7jhxp70rmcvrj90c",
-          "shares": "12002.400354943783239989"
+    "status": 200,
+    "body": {
+      "delegation_responses": [
+        {
+          "delegation": {
+            "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+            "validator_address": "cosmosvaloper196ax4vc0lwpxndu9dyhvca7jhxp70rmcvrj90c",
+            "shares": "12002.400354943783239989"
+          },
+          "balance": {
+            "denom": "uatom",
+            "amount": "12000"
+          }
         },
-        "balance": {
-          "denom": "uatom",
-          "amount": "12000"
-        }
-      },
-      {
-        "delegation": {
-          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
-          "validator_address": "cosmosvaloper1grgelyng2v6v3t8z87wu3sxgt9m5s03xfytvz7",
-          "shares": "0.000303514036899938"
+        {
+          "delegation": {
+            "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+            "validator_address": "cosmosvaloper1grgelyng2v6v3t8z87wu3sxgt9m5s03xfytvz7",
+            "shares": "0.000303514036899938"
+          },
+          "balance": {
+            "denom": "uatom",
+            "amount": "0"
+          }
         },
-        "balance": {
-          "denom": "uatom",
-          "amount": "0"
-        }
-      },
-      {
-        "delegation": {
-          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
-          "validator_address": "cosmosvaloper1vf44d85es37hwl9f4h9gv0e064m0lla60j9luj",
-          "shares": "0.700845961652318870"
+        {
+          "delegation": {
+            "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+            "validator_address": "cosmosvaloper1vf44d85es37hwl9f4h9gv0e064m0lla60j9luj",
+            "shares": "0.700845961652318870"
+          },
+          "balance": {
+            "denom": "uatom",
+            "amount": "0"
+          }
         },
-        "balance": {
-          "denom": "uatom",
-          "amount": "0"
-        }
-      },
-      {
-        "delegation": {
-          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
-          "validator_address": "cosmosvaloper10wljxpl03053h9690apmyeakly3ylhejrucvtm",
-          "shares": "883876.000000000000000000"
+        {
+          "delegation": {
+            "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+            "validator_address": "cosmosvaloper10wljxpl03053h9690apmyeakly3ylhejrucvtm",
+            "shares": "883876.000000000000000000"
+          },
+          "balance": {
+            "denom": "uatom",
+            "amount": "883876"
+          }
         },
-        "balance": {
-          "denom": "uatom",
-          "amount": "883876"
-        }
-      },
-      {
-        "delegation": {
-          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
-          "validator_address": "cosmosvaloper156gqf9837u7d4c4678yt3rl4ls9c5vuursrrzf",
-          "shares": "56953.340902455561548791"
+        {
+          "delegation": {
+            "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+            "validator_address": "cosmosvaloper156gqf9837u7d4c4678yt3rl4ls9c5vuursrrzf",
+            "shares": "56953.340902455561548791"
+          },
+          "balance": {
+            "denom": "uatom",
+            "amount": "56936"
+          }
         },
-        "balance": {
-          "denom": "uatom",
-          "amount": "56936"
-        }
-      },
-      {
-        "delegation": {
-          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
-          "validator_address": "cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d",
-          "shares": "25249.000000000000000000"
+        {
+          "delegation": {
+            "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+            "validator_address": "cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d",
+            "shares": "25249.000000000000000000"
+          },
+          "balance": {
+            "denom": "uatom",
+            "amount": "25249"
+          }
         },
-        "balance": {
-          "denom": "uatom",
-          "amount": "25249"
-        }
-      },
-      {
-        "delegation": {
-          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
-          "validator_address": "cosmosvaloper1crqm3598z6qmyn2kkcl9dz7uqs4qdqnr6s8jdn",
-          "shares": "117306.731009607999784187"
+        {
+          "delegation": {
+            "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+            "validator_address": "cosmosvaloper1crqm3598z6qmyn2kkcl9dz7uqs4qdqnr6s8jdn",
+            "shares": "117306.731009607999784187"
+          },
+          "balance": {
+            "denom": "uatom",
+            "amount": "117295"
+          }
         },
-        "balance": {
-          "denom": "uatom",
-          "amount": "117295"
-        }
-      },
-      {
-        "delegation": {
-          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
-          "validator_address": "cosmosvaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4epsluffn",
-          "shares": "201626.000000000000000000"
+        {
+          "delegation": {
+            "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+            "validator_address": "cosmosvaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4epsluffn",
+            "shares": "201626.000000000000000000"
+          },
+          "balance": {
+            "denom": "uatom",
+            "amount": "201626"
+          }
         },
-        "balance": {
-          "denom": "uatom",
-          "amount": "201626"
+        {
+          "delegation": {
+            "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+            "validator_address": "cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2",
+            "shares": "1000000.000000000000000000"
+          },
+          "balance": {
+            "denom": "uatom",
+            "amount": "1000000"
+          }
         }
-      },
-      {
-        "delegation": {
-          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
-          "validator_address": "cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2",
-          "shares": "1000000.000000000000000000"
-        },
-        "balance": {
-          "denom": "uatom",
-          "amount": "1000000"
-        }
+      ],
+      "pagination": {
+        "next_key": null,
+        "total": "9"
       }
-    ],
-    "pagination": {
-      "next_key": null,
-      "total": "9"
     }
   }
 }

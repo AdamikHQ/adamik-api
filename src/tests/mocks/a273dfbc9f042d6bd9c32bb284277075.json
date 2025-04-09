@@ -4,9 +4,12 @@
     "method": "GET"
   },
   "response": {
-    "contract_address": "0x03fe2b97c1fd336e750087d68b9b867997fd64a2661ff3ca5a7c771641e8e7ac",
-    "name": "Wrapped BTC",
-    "symbol": "WBTC",
-    "decimals": "8"
+    "status": 200,
+    "body": {
+      "contract_address": "0x03fe2b97c1fd336e750087d68b9b867997fd64a2661ff3ca5a7c771641e8e7ac",
+      "name": "Wrapped BTC",
+      "symbol": "WBTC",
+      "decimals": "8"
+    }
   }
 }

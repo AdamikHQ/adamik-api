@@ -4,9 +4,12 @@
     "method": "GET"
   },
   "response": {
-    "contract_address": "0x047ad51726d891f972e74e4ad858a261b43869f7126ce7436ee0b2529a98f486",
-    "name": "zkLend Interest-Bearing USDC",
-    "symbol": "zUSDC",
-    "decimals": "6"
+    "status": 200,
+    "body": {
+      "contract_address": "0x047ad51726d891f972e74e4ad858a261b43869f7126ce7436ee0b2529a98f486",
+      "name": "zkLend Interest-Bearing USDC",
+      "symbol": "zUSDC",
+      "decimals": "6"
+    }
   }
 }
