@@ -4,10 +4,14 @@
     "method": "GET"
   },
   "response": {
-    "unbonding_responses": [],
-    "pagination": {
-      "next_key": null,
-      "total": "0"
-    }
+    "status": 200,
+    "body": {
+      "unbonding_responses": [],
+      "pagination": {
+        "next_key": null,
+        "total": "0"
+      }
+    },
+    "type": "json"
   }
 }
