@@ -1,4 +1,4 @@
-import { Account, Provider, stark } from "starknet";
+import { Account, ec, Provider, stark } from "starknet";
 import {
   AccountState,
   DeployContractType,
@@ -7,6 +7,7 @@ import {
   Transaction,
   TransactionMode,
 } from "~/app/model/types_WIP";
+import { UserInputError } from "~/app/tools/handlers/errors";
 import { fetchTokenBalances, fetchTokenContract } from "./backend/indexer";
 import { buildTransferPayload, fetchTokenInfo } from "./backend/node";
 import { TokenBalance } from "./backend/types";
@@ -152,6 +153,18 @@ const isCompactSignature = (signature: string) => {
   return sigBytes.length === 64 || sigBytes.length === 65;
 };
 
+const verifyStarknetPublicKeyFormat = (pubkey: string) => {
+  if (!pubkey.startsWith("0x")) {
+    throw new UserInputError("Invalid Starknet public key format. It should start with 0x.");
+  }
+
+  if (ec.starkCurve.CURVE.p < BigInt(pubkey)) {
+    throw new UserInputError(
+      "Invalid Starknet public key format. It should be less than the curve p. Verify if you did extractX in your pubkey"
+    );
+  }
+};
+
 export {
   buildTransaction,
   calculateAccountState,
@@ -160,4 +173,5 @@ export {
   isDERSignature,
   mapTokenBalancesToTokenAmounts,
   marginFees,
+  verifyStarknetPublicKeyFormat,
 };
