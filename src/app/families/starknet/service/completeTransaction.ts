@@ -11,7 +11,7 @@ async function completeTransaction({
   transaction: Transaction;
   status: Status;
 }): Promise<void> {
-  if (transaction.data.mode === TransactionMode.DEPLOY_ACCOUNT) {
+  if (transaction.data.senderPubKey) {
     verifyStarknetPublicKeyFormat(transaction.data.senderPubKey);
   }
 
