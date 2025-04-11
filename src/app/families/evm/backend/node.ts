@@ -35,6 +35,7 @@ import {
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, Provider, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { berachain } from "../chains/berachain";
@@ -152,11 +153,16 @@ async function estimateGas({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId).estimateGas({
-    account: senderAddress,
-    to: recipientAddress,
-    value: amount,
-  });
+  try {
+    return await getClient(chainId).estimateGas({
+      account: senderAddress,
+      to: recipientAddress,
+      value: amount,
+    });
+  } catch (e) {
+    console.warn(`/!\\ estimateGas call failed on node of chain ${chainId}`);
+    throw new ThirdPartyProviderError(`Error from the node while estimating gas for ${chainId} account`);
+  }
 }
 
 async function estimateERC20Gas({
@@ -172,17 +178,27 @@ async function estimateERC20Gas({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId).estimateContractGas({
-    address: contractAddress,
-    abi: erc20Abi,
-    functionName: "transfer",
-    account: senderAddress,
-    args: [recipientAddress, amount],
-  });
+  try {
+    return await getClient(chainId).estimateContractGas({
+      address: contractAddress,
+      abi: erc20Abi,
+      functionName: "transfer",
+      account: senderAddress,
+      args: [recipientAddress, amount],
+    });
+  } catch (e) {
+    console.warn(`/!\\ estimateContractGas call failed on node of chain ${chainId}`);
+    throw new ThirdPartyProviderError(`Error from the node while estimating gas for ${chainId} account`);
+  }
 }
 
 async function estimateFeesPerGas(chainId: ChainId): Promise<FeeValuesEIP1559> {
-  return await getClient(chainId).estimateFeesPerGas();
+  try {
+    return await getClient(chainId).estimateFeesPerGas();
+  } catch (e) {
+    console.warn(`/!\\ estimateFeesPerGas call failed on node of chain ${chainId}`);
+    throw new ThirdPartyProviderError(`Error from the node while estimating gas fees for ${chainId} account`);
+  }
 }
 
 async function estimateFeesForL2({
@@ -196,11 +212,16 @@ async function estimateFeesForL2({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId).estimateTotalFee({
-    account: senderAddress,
-    to: recipientAddress,
-    value: amount,
-  });
+  try {
+    return await getClient(chainId).estimateTotalFee({
+      account: senderAddress,
+      to: recipientAddress,
+      value: amount,
+    });
+  } catch (e) {
+    console.warn(`/!\\ estimateTotalFee call failed on node of chain ${chainId}`);
+    throw new ThirdPartyProviderError(`Error from the node while estimating gas fees for ${chainId} account`);
+  }
 }
 
 async function estimateERC20FeesForL2({
@@ -216,13 +237,18 @@ async function estimateERC20FeesForL2({
   recipientAddress: EvmAddress;
   amount: bigint;
 }): Promise<bigint> {
-  return await getClient(chainId).estimateContractTotalFee({
-    address: contractAddress,
-    abi: erc20Abi,
-    functionName: "transfer",
-    account: senderAddress,
-    args: [recipientAddress, amount],
-  });
+  try {
+    return await getClient(chainId).estimateContractTotalFee({
+      address: contractAddress,
+      abi: erc20Abi,
+      functionName: "transfer",
+      account: senderAddress,
+      args: [recipientAddress, amount],
+    });
+  } catch (e) {
+    console.warn(`/!\\ estimateContractTotalFee call failed on node of chain ${chainId}`);
+    throw new ThirdPartyProviderError(`Error from the node while estimating gas fees for ${chainId} account`);
+  }
 }
 
 async function makeERC20ContractCall(
@@ -243,7 +269,7 @@ async function makeERC20ContractCall(
     });
   } catch (e) {
     console.warn(`/!\\ ${functionName} call failed on contract ${contractAdress} for chain ${chainId}`);
-    throw e;
+    throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
   }
 
   return value;
@@ -296,11 +322,21 @@ async function fetchERC20Balance({
 }
 
 async function fetchBalance(chainId: ChainId, address: EvmAddress): Promise<bigint> {
-  return await getClient(chainId).getBalance({ address });
+  try {
+    return await getClient(chainId).getBalance({ address });
+  } catch (e) {
+    console.warn(`/!\\ getBalance call failed on node of chain ${chainId}`);
+    throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
+  }
 }
 
 async function fetchNonce(chainId: ChainId, address: EvmAddress): Promise<number> {
-  return await getClient(chainId).getTransactionCount({ address });
+  try {
+    return await getClient(chainId).getTransactionCount({ address });
+  } catch (e) {
+    console.warn(`/!\\ getTransactionCount call failed on node of chain ${chainId}`);
+    throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
+  }
 }
 
 // TODO: Node implementation for fetching transactions
@@ -323,7 +359,12 @@ async function fetchNonce(chainId: ChainId, address: EvmAddress): Promise<number
 // }
 
 async function broadcast(chainId: ChainId, signedTransaction: string) {
-  return await getClient(chainId).sendRawTransaction({ serializedTransaction: signedTransaction });
+  try {
+    return await getClient(chainId).sendRawTransaction({ serializedTransaction: signedTransaction });
+  } catch (e) {
+    console.warn(`/!\\ sendRawTransaction call failed on node of chain ${chainId}`);
+    throw new ThirdPartyProviderError(`Error while sending ${chainId} raw transaction to the node`);
+  }
 }
 
 export {
