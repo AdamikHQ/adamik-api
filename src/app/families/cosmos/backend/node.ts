@@ -11,9 +11,11 @@ import {
   TokenStakingReward,
   TokenType,
 } from "~/app/model/types_WIP";
+import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import {
   BabylonTransactionAlreadyUsedError,
   InvalidPaginationTokenError,
+  InvalidTransactionError,
   ThirdPartyProviderError,
   UserInputError,
 } from "~/app/tools/handlers/errors";
@@ -393,23 +395,27 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
 
   const response = await fetchWithHeaders(url, options);
 
-  if (!response.ok) {
-    console.warn(
-      `/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`,
-      await response.text()
-    );
-    throw new ThirdPartyProviderError(`Error while simulating transaction on the node for ${chainId}`);
-  }
-
-  const data = await response.json();
+  const data = await (async () => {
+    try {
+      return await response.json();
+    } catch (e) {
+      console.warn(
+        `/!\\ Error while parsing response from ${chainId} node endpoint ${url}:`,
+        await response.text()
+      );
+      throw new ThirdPartyProviderError(`Error while getting gas estimate for ${chainId} transaction`);
+    }
+  })();
 
   if (!data?.gas_info?.gas_used) {
-    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint ${url}:`, data);
+    // TODO Isolate Babylon-specific error handling
     if (data?.message.includes("the BTC staking tx is already used")) {
-      // Babylon use-case
       throw new BabylonTransactionAlreadyUsedError();
+    } else if (data?.message.includes("insufficient funds")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
     } else {
-      throw new ThirdPartyProviderError("Error while getting gas estimate from the node");
+      throw new ThirdPartyProviderError(`Error while getting gas estimate for ${chainId} transaction`);
     }
   }
 
