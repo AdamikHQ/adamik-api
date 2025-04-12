@@ -1,6 +1,7 @@
 import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
 import { CHAINS } from "~/app/config/chains";
 import {
+  AccountState,
   ChainId,
   FinalizedTransaction,
   Provider,
@@ -11,7 +12,6 @@ import {
 import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
 import { BitcoinChainParams } from "../types";
 import {
-  MempoolSpaceAddressBalance,
   mempoolSpaceAddressBalanceSchema,
   mempoolSpaceAddressValidationSchema,
   mempoolSpaceFeesSchema,
@@ -103,7 +103,7 @@ async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<Mem
   return data;
 }
 
-async function fetchAddressBalance(chainId: ChainId, address: string): Promise<MempoolSpaceAddressBalance> {
+async function fetchAddressData(chainId: ChainId, address: string): Promise<AccountState> {
   const explorerURL = CHAINS[chainId].providers.find(
     (b: Provider) => b.type === ProviderType.mempoolspace
   )?.url;
@@ -123,10 +123,24 @@ async function fetchAddressBalance(chainId: ChainId, address: string): Promise<M
 
   const result = await response.json();
 
-  // Parse and validate the response data
+  // TODO Error management
+
   const data = mempoolSpaceAddressBalanceSchema.parse(result);
 
-  return data;
+  const confirmedBalance = BigInt(data.chain_stats.funded_txo_sum - data.chain_stats.spent_txo_sum);
+
+  // unconfirmed + mempool balance
+  const unconfirmedBalance = BigInt(data.mempool_stats.funded_txo_sum - data.mempool_stats.spent_txo_sum);
+
+  return {
+    balances: {
+      native: {
+        available: confirmedBalance + unconfirmedBalance,
+        total: confirmedBalance + unconfirmedBalance,
+        unconfirmed: unconfirmedBalance,
+      },
+    },
+  };
 }
 
 async function fetchAddressScriptPubKey(chainId: ChainId, address: string): Promise<string> {
@@ -284,7 +298,7 @@ async function mempoolSpaceToAdamikTransaction(
 }
 
 export {
-  fetchAddressBalance,
+  fetchAddressData,
   fetchAddressScriptPubKey,
   fetchAddressUtxos,
   fetchFeePerByte,

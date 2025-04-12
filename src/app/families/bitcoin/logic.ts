@@ -5,18 +5,15 @@ import split from "coinselect/split.js";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, Status, TransactionData } from "~/app/model/types_WIP";
 import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
+import { AdamikApiServerError, InvalidTransactionError } from "~/app/tools/handlers/errors";
 import {
-  AdamikApiServerError,
-  InvalidTransactionError,
-  ThirdPartyProviderError,
-} from "~/app/tools/handlers/errors";
-import {
-  fetchAddressesDashboard,
+  fetchAddressUTXOs,
   fetchFeePerByte as fetchFeePerByteBlockchair,
+  fetchLatestBlockHeight,
   fetchRawTransaction,
-  fetchXpubDashboard,
+  fetchXpubUTXOs,
 } from "./backend/blockchair";
-import { BlockchairRawTransactionData, BlockchairResponseContext } from "./backend/types";
+import { BlockchairRawTransactionData } from "./backend/blockchair.types";
 import {
   BitcoinChainParams,
   PsbtInputExtended,
@@ -73,6 +70,25 @@ const xpubRegex =
 // FIXME: we'll want to validate also the xpub prefix with chainId (make sure that lpub are not used for BTC for example)
 function isValidXpub(_chainId: ChainId, str: string): str is Xpub {
   return xpubRegex.test(str);
+}
+
+function isValidPubKey(_chainId: ChainId, pubKeyHex: string): boolean {
+  // Check if it's a valid hex string
+  if (!/^[0-9a-fA-F]+$/.test(pubKeyHex)) {
+    return false;
+  }
+
+  // Validate compressed format (33 bytes starting with 02 or 03)
+  if (pubKeyHex.length === 66 && (pubKeyHex.startsWith("02") || pubKeyHex.startsWith("03"))) {
+    return true;
+  }
+
+  // Validate uncompressed format (65 bytes starting with 04)
+  if (pubKeyHex.length === 130 && pubKeyHex.startsWith("04")) {
+    return true;
+  }
+
+  return false;
 }
 
 // Looks like a hack but it's actually the best way to check if the address is valid
@@ -142,36 +158,6 @@ function isValidTransactionHash(transactionHash: string): boolean {
   return hexRegex.test(transactionHash);
 }
 
-/**
- * Get current block height from API response context (instead of using fetchStats for fresh blockchain data)
- *
- * Note: For mempool-only transactions (block_id = -1), the API doesn't return block height
- * In this case, we return MAX_SAFE_INTEGER to ensure these are counted as unconfirmed
- */
-// FIXME Function's signature and purpose are neither natural nor clear, should be refacto and/or removed
-function getCurrentBlockHeight(
-  chainId: ChainId,
-  utxoData: { block_id: number }[],
-  responseContext: BlockchairResponseContext
-): number {
-  const hasNonMempoolTx = utxoData?.some((utxo) => utxo.block_id !== -1);
-
-  // For mempool-only transactions, return MAX_SAFE_INTEGER
-  if (!hasNonMempoolTx) {
-    return Number.MAX_SAFE_INTEGER;
-  }
-
-  // For transactions in blocks, we need the block height
-  if (!responseContext.state) {
-    console.warn(
-      `Missing current block height for chain ID ${chainId} in: ${JSON.stringify(responseContext)}`
-    );
-    throw new ThirdPartyProviderError(`Missing current block height in data returned from explorer`);
-  }
-
-  return responseContext.state;
-}
-
 // Transfer PSBT is built manually, only using the bitcoin-js lib
 // TODO Refacto to support mempool.space too, with providers abstraction
 async function buildTransferPsbt(
@@ -183,13 +169,11 @@ async function buildTransferPsbt(
 
   const psbt = new Psbt({ network: getNetworkForChainId(chainId) });
 
-  const { data, context } = isValidXpub(chainId, transactionData.senderAddress)
-    ? await fetchXpubDashboard(chainId, transactionData.senderAddress)
-    : await fetchAddressesDashboard(chainId, [transactionData.senderAddress]);
+  const allUtxos = isValidXpub(chainId, transactionData.senderAddress)
+    ? await fetchXpubUTXOs(chainId, transactionData.senderAddress)
+    : await fetchAddressUTXOs(chainId, transactionData.senderAddress);
 
   const feePerByte = await fetchFeePerByteBlockchair(chainId);
-
-  const allUtxos: UtxoWithMetadata[] = data?.utxo || [];
 
   // Select UTXOs using either:
   // - coinSelect: finds optimal UTXOs for exact amount
@@ -231,7 +215,7 @@ async function buildTransferPsbt(
   // NOTE The published 'UTXO' type from coinselect is WRONG!
   // The runtime data actually matches the UtxoWithMetadata type
   const psbtInputs = inputs as UtxoWithMetadata[];
-  const currentBlockHeight = getCurrentBlockHeight(chainId, allUtxos, context);
+  const latestBlockHeight = await fetchLatestBlockHeight(chainId);
 
   const rawTransactions = new Map<string, BlockchairRawTransactionData>(); // tx hash and raw tx string
 
@@ -254,7 +238,7 @@ async function buildTransferPsbt(
     // UTXO is in a block but has < 6 confirmations
     else if (input.block_id > 0) {
       const confirmations_required = chainParams.confirmations;
-      const confirmations = currentBlockHeight - input.block_id + 1;
+      const confirmations = latestBlockHeight - input.block_id + 1;
       if (confirmations < confirmations_required) {
         status.warnings.push({
           message: `Using input from transaction ${
@@ -343,11 +327,11 @@ async function buildTransferPsbt(
 
 export {
   buildTransferPsbt,
-  getCurrentBlockHeight,
   getNetworkForChainId,
   isP2SHScript,
   isTaprootAddress,
   isValidAddress,
+  isValidPubKey,
   isValidTransactionHash,
   isValidXpub,
   isWitnessScript,

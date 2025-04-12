@@ -57,13 +57,13 @@ const BlockchairAddressData = z.object({
 
 // https://blockchair.com/api/docs#link_300
 const BlockchairAddressesResponse = z.object({
-  data: z
-    .object({
-      addresses: z.record(z.string(), BlockchairAddressData),
-      transactions: z.array(z.string()),
-      utxo: utxoWithMetadataSchema.array(),
-    })
-    .nullable(),
+  data: z.object({
+    addresses: z.record(z.string(), BlockchairAddressData),
+    transactions: z.array(z.string()),
+    utxo: utxoWithMetadataSchema.array(),
+  }),
+  // FIXME Is this really possible?
+  //.nullable(),
   context: BlockchairResponseContext,
 });
 

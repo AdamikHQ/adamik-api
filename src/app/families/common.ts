@@ -1,5 +1,28 @@
-import { ChainId, Status, TransactionData, TransactionMode } from "../model/types_WIP";
-import { UnsupportedFeatureError } from "../tools/handlers/errors";
+import { AccountState, ChainId, Status, TransactionData, TransactionMode } from "../model/types_WIP";
+import { ThirdPartyProviderError, UnsupportedFeatureError } from "../tools/handlers/errors";
+
+// Handles multiple providers
+async function getAccountStatefromProviders(
+  chainId: ChainId,
+  accountId: string,
+  fetchAccountDataFunctions: ((chainId: ChainId, accountId: string) => Promise<AccountState>)[]
+) {
+  const errors: Error[] = [];
+
+  // Failover: try all providers until one works
+  for (const fetchAccountDataFunction of fetchAccountDataFunctions) {
+    try {
+      return await fetchAccountDataFunction(chainId, accountId);
+    } catch (error) {
+      errors.push(error as Error);
+      continue; // Try next service if available
+    }
+  }
+
+  // Reaching here means even failover didn't work
+  console.warn(`/!\\ Failed to fetch state of account ${accountId}:`, JSON.stringify(errors, null, 2));
+  throw new ThirdPartyProviderError("Failed to fetch account state");
+}
 
 // Validations that couldn't have been done with Zod
 async function prevalidateTransactionCommon(
@@ -135,4 +158,4 @@ function validateAmountOrUseMaxAmount(
   }
 }
 
-export { prevalidateTransactionCommon };
+export { getAccountStatefromProviders, prevalidateTransactionCommon };

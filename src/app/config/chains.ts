@@ -2115,8 +2115,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: STARKNET_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.STARKNET, ChainFamily.STARKNET),
   },
-  // TODO Test this (later)
-  /*
   babylon: {
     family: ChainFamily.COSMOS,
     id: ChainId.BABYLON,
@@ -2124,10 +2122,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Babylon",
     ticker: "BABY",
     decimals: 6,
-    // TODO validate that mainnet URLs are functional
     providers: [
       {
         type: ProviderType.node,
+        // TODO validate that mainnet URLs are correct
         url: "https://babylon-api.nodes.guru",
         //url: "https://babylon-api.polkachu.com",
         //url: "https://lcd-babylon.imperator.co",
@@ -2140,7 +2138,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.babylon,
         url: "https://staking-api.babylonlabs.io/v2", // Targeting bbn-1 mainnet
       },
-    ]
+    ],
     params: {
       prefix: "bbn",
       validatorPrefix: "bbnvaloper",
@@ -2150,8 +2148,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
       minGasPrice: 0.005,
     },
     supportedFeatures: COSMOS_BABYLON_FEATURES(ChainId.BABYLON),
+    signerSpec: getSignerSpecForChain(ChainId.BABYLON, ChainFamily.COSMOS),
   },
-  */
   "babylon-testnet": {
     family: ChainFamily.COSMOS,
     id: ChainId.BABYLON_TESTNET,
@@ -2167,13 +2165,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
         url: "https://babylon-testnet-api.nodes.guru",
       },
       {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+      {
         type: ProviderType.babylon,
         url: "https://staking-api.testnet.babylonlabs.io/v2", // Targeting bbn-test-5 testnet
         //url: "https://staking-api.phase-2-devnet.babylonlabs.io/v2", // Targeting devnet-9 testnet
-      },
-      {
-        type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
       },
     ],
     params: {
@@ -2184,7 +2182,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       defaultGas: 100000,
       minGasPrice: 0.005,
     },
-    isTestnetFor: "BABYLON", //TODO: update with ChainId.BABYLON when it's added
+    isTestnetFor: ChainId.BABYLON,
     supportedFeatures: COSMOS_BABYLON_FEATURES(ChainId.BABYLON_TESTNET),
     signerSpec: getSignerSpecForChain(ChainId.BABYLON_TESTNET, ChainFamily.COSMOS),
   },

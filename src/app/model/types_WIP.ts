@@ -86,19 +86,12 @@ enum ChainId {
   STARGAZE = "stargaze",
   KYVE = "kyve",
   LIKECOIN = "likecoin",
-  OSMOSIS_TESTNET = "osmosis-testnet", //using lavanet
-  CELESTIA_TESTNET = "celestia-testnet", //using lavanet
-  COSMOSHUB_TESTNET = "cosmoshub-testnet", //using nodestake
-  INJECTIVE = "injective", //using mintscan node
-  //BABYLON = "babylon",
+  OSMOSIS_TESTNET = "osmosis-testnet",
+  CELESTIA_TESTNET = "celestia-testnet",
+  COSMOSHUB_TESTNET = "cosmoshub-testnet",
+  INJECTIVE = "injective",
+  BABYLON = "babylon",
   BABYLON_TESTNET = "babylon-testnet",
-
-  //Their own family
-  // EGLD = "egld",
-  // SOL = "sol",
-  // NEAR = "near",
-  // ALEPH = "aleph",
-
   BERACHAIN = "berachain",
   BERACHAIN_ARTIO = "berachain-artio",
   CRONOS = "cronos",
@@ -287,7 +280,7 @@ type AccountState = {
       unlocking: bigint;
       unlocked: bigint;
       positions: StakingPosition[];
-      rewards: {
+      rewards?: {
         native: StakingReward[];
         tokens: TokenStakingReward[];
       };

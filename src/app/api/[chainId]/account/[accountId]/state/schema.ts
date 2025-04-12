@@ -42,6 +42,10 @@ const queryParamsSchema = z.object({
         "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
       example: "native,tokens,staking",
     }),
+  pubkey: z.string().optional().openapi({
+    description:
+      "Optional public key (in hex format) associated with the accountId. Required for Bitcoin's Babylon Staking data.",
+  }),
 });
 
 const responseSchema = z.object({

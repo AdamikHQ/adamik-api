@@ -1,12 +1,15 @@
 import { VersionedStakingParams } from "@babylonlabs-io/btc-staking-ts";
 import { CHAINS } from "~/app/config/chains";
-import { Provider, ProviderType } from "~/app/model/types_WIP";
+import { AccountState, ChainId, Provider, ProviderType } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { CURRENT_BABYLON_COSMOS_CHAIN } from "../types";
 import {
+  BabylonDelegationState,
+  BabylonDelegationsV2,
+  babylonDelegationsV2ResponseSchema,
   BabylonDelegationV2,
-  babylonDelegationV2Schema,
+  babylonDelegationV2ResponseSchema,
   BabylonFinalityProviderStatus,
   BabylonFinalityProviderV2,
   babylonFinalityProviderV2Schema,
@@ -15,9 +18,15 @@ import {
 
 // Doc : https://docs.babylonlabs.io/api/staking-api/babylon-staking-api/
 
+// TODO Use getRootUrl instead to support both bitcoin chains
 const ROOT_URL = CHAINS[CURRENT_BABYLON_COSMOS_CHAIN].providers.find(
   (p: Provider) => p.type === ProviderType.babylon
 )?.url;
+
+const getRootUrl = (chainId: ChainId) =>
+  CHAINS[chainId === ChainId.BITCOIN_SIGNET ? ChainId.BABYLON_TESTNET : ChainId.BABYLON].providers.find(
+    (p: Provider) => p.type === ProviderType.babylon
+  )?.url;
 
 async function fetchAllBabylonStakingParams(): Promise<VersionedStakingParams[]> {
   const url = `${ROOT_URL}/network-info`;
@@ -140,7 +149,7 @@ async function fetchBabylonDelegation(bitcoinTransactionId: string): Promise<Bab
     throw new ThirdPartyProviderError("Error while fetching delegation data from the provider");
   }
 
-  const parsedResult = babylonDelegationV2Schema.safeParse(result);
+  const parsedResult = babylonDelegationV2ResponseSchema.safeParse(result);
 
   if (!parsedResult.success) {
     console.warn(
@@ -153,4 +162,129 @@ async function fetchBabylonDelegation(bitcoinTransactionId: string): Promise<Bab
   return parsedResult.data;
 }
 
-export { fetchAllBabylonStakingParams, fetchBabylonDelegation, fetchBabylonFinalityProviders };
+async function fetchBabylonDelegations(
+  bitcoinPubKeyHex: string,
+  paginationToken?: string
+): Promise<{
+  delegations: BabylonDelegationsV2;
+  nextPage: string | null;
+}> {
+  const url = new URL(`${ROOT_URL}/delegations`);
+
+  // Add required staker_pk_hex parameter
+  url.searchParams.set("staker_pk_hex", bitcoinPubKeyHex);
+
+  const paginationData = paginationFromB64(paginationToken);
+
+  if (paginationData) {
+    if (typeof paginationData === "string") {
+      url.searchParams.set("pagination.key", paginationData);
+    } else {
+      throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+    }
+  }
+
+  const response = await fetch(url.toString());
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      return {
+        delegations: { data: [] },
+        nextPage: null,
+      };
+    } else {
+      console.warn(`/!\\ Error received from babylon API endpoint ${url.toString()}:`, await response.text());
+      throw new ThirdPartyProviderError("Error while fetching delegations data from the provider");
+    }
+  }
+
+  const result = await response.json();
+
+  if (result?.message) {
+    if (result.message === "invalid pagination key format") {
+      throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+    }
+    console.warn(`/!\\ Error received from babylon API endpoint: ${url.toString()}:`, result.message);
+    throw new ThirdPartyProviderError("Error while fetching delegations data from the provider");
+  }
+
+  const parsedResult = babylonDelegationsV2ResponseSchema.safeParse(result);
+
+  if (!parsedResult.success) {
+    console.warn(
+      `/!\\ Invalid data returned from babylon API endpoint: ${url.toString()}:`,
+      parsedResult.error
+    );
+    throw new ThirdPartyProviderError("Error while fetching delegations data from the provider");
+  }
+
+  return {
+    delegations: parsedResult.data,
+    nextPage: paginationToB64(parsedResult.data.pagination.next_key || null),
+  };
+}
+
+async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<AccountState> {
+  const stakingState: AccountState["balances"]["staking"] = {
+    total: 0n,
+    locked: 0n,
+    unlocking: 0n,
+    unlocked: 0n,
+    positions: [],
+  };
+
+  // substring because staker pubkey is expected without the coordinate bytes
+  const bitcoinPubKeyNoCoordHex = bitcoinPubKeyHex.substring(2);
+  const { delegations } = await fetchBabylonDelegations(bitcoinPubKeyNoCoordHex);
+
+  // Process each delegation to categorize them as locked, unlocking, or unlocked
+  for (const delegation of delegations.data) {
+    const stakingAmount = BigInt(delegation.delegation_staking.staking_amount);
+
+    // Categorize the delegation based on its state
+    switch (delegation.state) {
+      case BabylonDelegationState.PENDING:
+      case BabylonDelegationState.VERIFIED:
+      case BabylonDelegationState.ACTIVE:
+        // These are actively staked (locked) amounts
+        stakingState.locked += stakingAmount;
+        break;
+
+      case BabylonDelegationState.TIMELOCK_UNBONDING:
+      case BabylonDelegationState.EARLY_UNBONDING:
+        // These are in the process of being unstaked (unlocking)
+        stakingState.unlocking += stakingAmount;
+        break;
+
+      case BabylonDelegationState.TIMELOCK_WITHDRAWABLE:
+      case BabylonDelegationState.EARLY_UNBONDING_WITHDRAWABLE:
+      case BabylonDelegationState.TIMELOCK_SLASHING_WITHDRAWABLE:
+      case BabylonDelegationState.EARLY_UNBONDING_SLASHING_WITHDRAWABLE:
+        // These have completed unstaking and are ready to be withdrawn (unlocked)
+        stakingState.unlocked += stakingAmount;
+        break;
+
+      // We don't count withdrawn amounts as they're not part of staking anymore
+      default:
+        // No action needed for other states
+        break;
+    }
+  }
+
+  // Calculate the total staking amount
+  stakingState.total = stakingState.locked + stakingState.unlocking + stakingState.unlocked;
+
+  return {
+    balances: {
+      staking: stakingState,
+    },
+  };
+}
+
+export {
+  fetchAllBabylonStakingParams,
+  fetchBabylonDelegation,
+  fetchBabylonDelegations,
+  fetchBabylonFinalityProviders,
+  fetchBabylonStakingData,
+};

@@ -27,9 +27,9 @@ import {
 import { Taptree } from "bitcoinjs-lib/src/types";
 import { add, differenceInCalendarDays, differenceInWeeks, formatDistanceStrict } from "date-fns";
 import {
-  fetchAddressesDashboard,
+  fetchAddressUTXOs,
   fetchFeePerByte as fetchFeePerByteBlockchair,
-  fetchXpubDashboard,
+  fetchXpubUTXOs,
 } from "~/app/families/bitcoin/backend/blockchair";
 import {
   fetchAddressScriptPubKey,
@@ -102,7 +102,6 @@ function buildStakingScripts(
   }
 
   // substring because staker pubkey is expected without the coordinate bytes
-  // https://github.com/babylonlabs-io/btc-staking-ts#define-staking-parameters
   const senderPubKeyNoCoord: Buffer = Buffer.from(transactionData.senderPubKey.substring(2), "hex");
 
   // TODO Only 1 validator at the moment, we could support several
@@ -142,18 +141,18 @@ async function buildStakingPsbt(
   const changeAddress = transactionData.senderAddress;
 
   let feePerByte: number;
-  let allUtxos: UTXO[];
+  let babylonUtxos: UTXO[];
 
   // FIXME Currently using mempool.space for signet and blockchair for mainnet
   // TODO Should support both mempool.space and blockchair, with providers abstraction
   if (chainId === ChainId.BITCOIN_SIGNET) {
     feePerByte = await fetchFeePerByteMempoolSpace(chainId);
 
-    const utxos = await fetchAddressUtxos(chainId, transactionData.senderAddress);
+    const allUtxos = await fetchAddressUtxos(chainId, transactionData.senderAddress);
     const scriptPubKey = await fetchAddressScriptPubKey(chainId, transactionData.senderAddress);
 
     // TODO Filter-out ordinals
-    allUtxos = utxos.map((utxo) => ({
+    babylonUtxos = allUtxos.map((utxo) => ({
       txid: utxo.txid,
       value: utxo.value,
       vout: utxo.vout,
@@ -162,12 +161,12 @@ async function buildStakingPsbt(
   } else {
     feePerByte = await fetchFeePerByteBlockchair(chainId);
 
-    const { data } = isValidXpub(chainId, transactionData.senderAddress)
-      ? await fetchXpubDashboard(chainId, transactionData.senderAddress)
-      : await fetchAddressesDashboard(chainId, [transactionData.senderAddress]);
+    const allUtxos = isValidXpub(chainId, transactionData.senderAddress)
+      ? await fetchXpubUTXOs(chainId, transactionData.senderAddress)
+      : await fetchAddressUTXOs(chainId, transactionData.senderAddress);
 
-    allUtxos =
-      data?.utxo.map((utxo: UtxoWithMetadata) => ({
+    babylonUtxos =
+      allUtxos.map((utxo: UtxoWithMetadata) => ({
         txid: utxo.transaction_hash,
         vout: utxo.vout,
         value: utxo.value,
@@ -180,14 +179,13 @@ async function buildStakingPsbt(
   }
 
   // substring because staker pubkey is expected without the coordinate bytes
-  // https://github.com/babylonlabs-io/btc-staking-ts#define-staking-parameters
   const senderPubKeyNoCoord = Buffer.from(transactionData.senderPubKey.substring(2), "hex");
 
   const { transaction: stakingTransaction, fee } = createStakingTransaction(
     scripts,
     amount,
     changeAddress,
-    allUtxos,
+    babylonUtxos,
     bitcoinNetworkInfo,
     feePerByte
   );
@@ -195,7 +193,7 @@ async function buildStakingPsbt(
   const stakingPsbt = stakingTransactionToPsbt(
     stakingTransaction,
     bitcoinNetworkInfo,
-    allUtxos,
+    babylonUtxos,
     senderPubKeyNoCoord
   );
 
@@ -708,7 +706,6 @@ async function buildBabylonRegistrationMessage(
   //////////////////// Retrieve data from the input transaction
 
   // substring because staker pubkey is expected without the coordinate bytes
-  // https://github.com/babylonlabs-io/btc-staking-ts#define-staking-parameters
   const bitcoinPubKeyNoCoordHex = transactionData.senderForeignPubKey.substring(2);
 
   const bitcoinFinalityProviderPubKeyNoCoordHex = transactionData.validatorPubKey;
