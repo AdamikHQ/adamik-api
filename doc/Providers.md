@@ -280,7 +280,7 @@
 
 ## irisnet
 
-| node | https://lcd-iris.imperator.co |<br />
+| node | https://apis.mintscan.io/iris/lcd |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## juno
