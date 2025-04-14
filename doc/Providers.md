@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| node | https://lcd-cosmos.imperator.co |<br />
+| node | https://cosmos-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
