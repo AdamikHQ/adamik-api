@@ -44,7 +44,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-cosmos.imperator.co",
+        //url: "https://lcd-cosmos.imperator.co", // FIXME Frequent HTTP 502 errors
+        url: "https://cosmos-api.polkachu.com",
       },
       {
         type: ProviderType.mintscan,
