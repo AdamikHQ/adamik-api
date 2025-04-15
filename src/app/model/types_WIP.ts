@@ -242,6 +242,7 @@ type ChainValidators = {
 
 enum StakingStatus {
   FREE = "free", // Can be used as part of the available balance
+  PENDING = "pending", // Submitted to the chain, waiting for confirmation
   LOCKED = "locked",
   UNLOCKING = "unlocking",
   UNLOCKED = "unlocked", // Can't be used as part of the avaialble balance, needs a transaction first

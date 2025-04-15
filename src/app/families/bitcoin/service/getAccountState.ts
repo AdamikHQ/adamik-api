@@ -32,7 +32,10 @@ async function getAddressNativeBalances(
   chainId: ChainId,
   address: string
 ): Promise<AccountState["balances"]["native"]> {
-  const fetchAccountDataFunctions = [fetchAddressDataFromBlockchair, fetchAddressDataFromMS];
+  // FIXME Doesn't take into account:
+  // - supported providers by chain
+  // - supported functions by provider
+  const fetchAccountDataFunctions = [fetchAddressDataFromMS, fetchAddressDataFromBlockchair];
 
   const nativeState = await getAccountStatefromProviders(chainId, address, fetchAccountDataFunctions);
   return nativeState.balances.native;

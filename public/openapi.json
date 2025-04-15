@@ -4339,6 +4339,57 @@
                             "signerSpec"
                           ]
                         },
+                        "babylon": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
+                        },
                         "babylon-testnet": {
                           "type": "object",
                           "properties": {
@@ -4785,6 +4836,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -4925,6 +4977,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet"
               ]
             },
@@ -4996,6 +5049,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet"
                       ]
                     },
@@ -5114,6 +5168,7 @@
                 "stride",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "cronos",
@@ -5621,6 +5676,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -5649,6 +5705,15 @@
               "type": "string",
               "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
               "example": "native,tokens,staking"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pubkey",
+            "description": "Optional public key (in hex format) associated with the accountId. Required for Bitcoin's Babylon Staking data.",
+            "schema": {
+              "type": "string",
+              "description": "Optional public key (in hex format) associated with the accountId. Required for Bitcoin's Babylon Staking data."
             }
           }
         ],
@@ -5746,6 +5811,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
@@ -5859,6 +5925,10 @@
                               "items": {
                                 "type": "object",
                                 "properties": {
+                                  "stakeId": {
+                                    "type": "string",
+                                    "description": "Unique identifier for the staking position."
+                                  },
                                   "validatorAddresses": {
                                     "type": "array",
                                     "items": {
@@ -5874,14 +5944,15 @@
                                     "type": "string",
                                     "enum": [
                                       "free",
+                                      "pending",
                                       "locked",
                                       "unlocking",
                                       "unlocked"
                                     ]
                                   },
                                   "completionDate": {
-                                    "type": "number",
-                                    "description": "Unix timestamp (in milliseconds) when the unbonding period will complete. Only present for positions with 'unlocking' status."
+                                    "type": "string",
+                                    "description": "Unix timestamp (in milliseconds) when the current position status will expire, when relevant."
                                   }
                                 },
                                 "required": [
@@ -6087,6 +6158,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "cronos",
@@ -6196,6 +6268,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "cronos",
@@ -6348,6 +6421,7 @@
                 "stride",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "cronos",
@@ -6434,6 +6508,7 @@
                         "stride",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "cronos",
@@ -6754,6 +6829,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -7222,6 +7298,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
@@ -7757,6 +7834,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -8225,6 +8303,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
@@ -8377,6 +8456,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -8871,6 +8951,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
@@ -8988,6 +9069,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -9108,6 +9190,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
@@ -9227,6 +9310,7 @@
           "celestia-testnet",
           "cosmoshub-testnet",
           "injective",
+          "babylon",
           "babylon-testnet",
           "berachain",
           "berachain-artio",

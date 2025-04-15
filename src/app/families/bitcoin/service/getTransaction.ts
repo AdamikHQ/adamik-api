@@ -1,8 +1,9 @@
 import { fetchBabylonDelegation } from "~/app/families/babylon/backend/babylonAPI";
-import { ChainId, FinalizedTransaction, TransactionMode } from "~/app/model/types_WIP";
+import { FinalizedTransaction, TransactionMode } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
+import { getTransactionfromProviders } from "../../common";
 import { fetchTransaction as fetchTransactionFromBlockchair } from "../backend/blockchair";
-import { fetchTransaction as fetchTransactionFromMempoolSpace } from "../backend/mempoolSpace";
+import { fetchTransaction as fetchTransactionFromMS } from "../backend/mempoolSpace";
 import { isValidTransactionHash } from "../logic";
 import { BitcoinService } from "../service";
 
@@ -11,15 +12,17 @@ async function getTransaction(this: BitcoinService, transactionId: string): Prom
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
-  // For bitcoin-signet, use mempool.space API
-  // FIXME Implementations for different providers should be handled
-  // properly through provider abstraction, same as done in EVM & Tron family
-  const fetchTransactionFunction =
-    this.chainId === ChainId.BITCOIN_SIGNET
-      ? fetchTransactionFromMempoolSpace
-      : fetchTransactionFromBlockchair;
+  // FIXME Doesn't take into account:
+  // - supported providers by chain
+  // - supported functions by provider
+  const fetchTransactionFunctions = [fetchTransactionFromMS, fetchTransactionFromBlockchair];
 
-  const bitcoinTransaction = await fetchTransactionFunction(this.chainId, transactionId);
+  const bitcoinTransaction = await getTransactionfromProviders(
+    this.chainId,
+    transactionId,
+    fetchTransactionFunctions
+  );
+
   if (!bitcoinTransaction) {
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }

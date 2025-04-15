@@ -1,9 +1,13 @@
 import { VersionedStakingParams } from "@babylonlabs-io/btc-staking-ts";
+import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
 import { CHAINS } from "~/app/config/chains";
-import { AccountState, ChainId, Provider, ProviderType } from "~/app/model/types_WIP";
+import { fetchTransaction as fetchTransactionFromBlockchair } from "~/app/families/bitcoin/backend/blockchair";
+import { fetchTransaction as fetchTransactionFromMS } from "~/app/families/bitcoin/backend/mempoolSpace";
+import { AccountState, ChainId, Provider, ProviderType, StakingStatus } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
-import { CURRENT_BABYLON_COSMOS_CHAIN } from "../types";
+import { getTransactionfromProviders } from "../../common";
+import { CURRENT_BABYLON_BITCOIN_CHAIN, CURRENT_BABYLON_COSMOS_CHAIN } from "../types";
 import {
   BabylonDelegationState,
   BabylonDelegationsV2,
@@ -27,6 +31,9 @@ const getRootUrl = (chainId: ChainId) =>
   CHAINS[chainId === ChainId.BITCOIN_SIGNET ? ChainId.BABYLON_TESTNET : ChainId.BABYLON].providers.find(
     (p: Provider) => p.type === ProviderType.babylon
   )?.url;
+
+// Average Bitcoin block time is around 10 minutes
+const AVERAGE_BITCOIN_BLOCK_TIME_MS = 10 * 60 * 1000;
 
 async function fetchAllBabylonStakingParams(): Promise<VersionedStakingParams[]> {
   const url = `${ROOT_URL}/network-info`;
@@ -138,7 +145,7 @@ async function fetchBabylonDelegation(bitcoinTransactionId: string): Promise<Bab
       return null;
     } else {
       console.warn(`/!\\ Error received from babylon API endpoint ${url.toString()}:`, await response.text());
-      throw new ThirdPartyProviderError("Error while fetching delegation data from the provider");
+      throw new ThirdPartyProviderError("Error while fetching staking data from the provider");
     }
   }
 
@@ -146,7 +153,7 @@ async function fetchBabylonDelegation(bitcoinTransactionId: string): Promise<Bab
 
   if (result?.message) {
     console.warn(`/!\\ Error received from babylon API endpoint: ${url.toString()}:`, result.message);
-    throw new ThirdPartyProviderError("Error while fetching delegation data from the provider");
+    throw new ThirdPartyProviderError("Error while fetching staking data from the provider");
   }
 
   const parsedResult = babylonDelegationV2ResponseSchema.safeParse(result);
@@ -156,7 +163,7 @@ async function fetchBabylonDelegation(bitcoinTransactionId: string): Promise<Bab
       `/!\\ Invalid data returned from babylon API endpoint: ${url.toString()}:`,
       parsedResult.error
     );
-    throw new ThirdPartyProviderError("Error while fetching delegation data from the provider");
+    throw new ThirdPartyProviderError("Error while fetching staking data from the provider");
   }
 
   return parsedResult.data;
@@ -241,6 +248,14 @@ async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<Accoun
   for (const delegation of delegations.data) {
     const stakingAmount = BigInt(delegation.delegation_staking.staking_amount);
 
+    let stakingStatus: StakingStatus;
+    let completionDate: number | undefined;
+
+    // FIXME Doesn't take into account:
+    // - supported providers by chain
+    // - supported functions by provider
+    const fetchTransactionFunctions = [fetchTransactionFromMS, fetchTransactionFromBlockchair];
+
     // Categorize the delegation based on its state
     switch (delegation.state) {
       case BabylonDelegationState.PENDING:
@@ -248,12 +263,46 @@ async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<Accoun
       case BabylonDelegationState.ACTIVE:
         // These are actively staked (locked) amounts
         stakingState.locked += stakingAmount;
+        stakingStatus =
+          delegation.state === BabylonDelegationState.ACTIVE ? StakingStatus.LOCKED : StakingStatus.PENDING;
+
+        const bitcoinStakingTransaction = await getTransactionfromProviders(
+          CURRENT_BABYLON_BITCOIN_CHAIN,
+          delegation.delegation_staking.staking_tx_hash_hex,
+          fetchTransactionFunctions
+        );
+
+        if (bitcoinStakingTransaction?.parsed?.timestamp) {
+          const stakingStartingTime = bitcoinStakingTransaction.parsed.timestamp;
+          const stakingDuration =
+            // (staking_timelock is a number of blocks)
+            delegation.delegation_staking.staking_timelock * AVERAGE_BITCOIN_BLOCK_TIME_MS;
+          completionDate = stakingStartingTime + stakingDuration;
+        }
         break;
 
       case BabylonDelegationState.TIMELOCK_UNBONDING:
       case BabylonDelegationState.EARLY_UNBONDING:
         // These are in the process of being unstaked (unlocking)
         stakingState.unlocking += stakingAmount;
+        stakingStatus = StakingStatus.UNLOCKING;
+
+        const bitcoinUnbondingTransactionId = BitcoinTransaction.fromHex(
+          delegation.delegation_unbonding.unbonding_tx
+        ).getId();
+        const bitcoinUnbondingTransaction = await getTransactionfromProviders(
+          CURRENT_BABYLON_BITCOIN_CHAIN,
+          bitcoinUnbondingTransactionId,
+          fetchTransactionFunctions
+        );
+
+        if (bitcoinUnbondingTransaction?.parsed?.timestamp) {
+          const unbondingStartingTime = bitcoinUnbondingTransaction.parsed.timestamp;
+          const unbondingDuration =
+            // (unbonding_timelock is a number of blocks)
+            delegation.delegation_unbonding.unbonding_timelock * AVERAGE_BITCOIN_BLOCK_TIME_MS;
+          completionDate = unbondingStartingTime + unbondingDuration;
+        }
         break;
 
       case BabylonDelegationState.TIMELOCK_WITHDRAWABLE:
@@ -262,13 +311,23 @@ async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<Accoun
       case BabylonDelegationState.EARLY_UNBONDING_SLASHING_WITHDRAWABLE:
         // These have completed unstaking and are ready to be withdrawn (unlocked)
         stakingState.unlocked += stakingAmount;
+        stakingStatus = StakingStatus.UNLOCKED;
         break;
 
       // We don't count withdrawn amounts as they're not part of staking anymore
       default:
         // No action needed for other states
-        break;
+        continue; // Skip adding this to positions
     }
+
+    // Create a staking position for this delegation
+    stakingState.positions.push({
+      stakeId: delegation.delegation_staking.staking_tx_hash_hex, // Use transaction hash as stake ID
+      validatorAddresses: delegation.finality_provider_btc_pks_hex, // Use finality provider BTC public keys
+      amount: stakingAmount,
+      status: stakingStatus,
+      completionDate,
+    });
   }
 
   // Calculate the total staking amount

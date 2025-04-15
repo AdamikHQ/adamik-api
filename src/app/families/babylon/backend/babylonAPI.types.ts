@@ -116,7 +116,7 @@ const babylonDelegationV2Schema = z.object({
 });
 type BabylonDelegationV2 = z.infer<typeof babylonDelegationV2Schema>;
 
-const babylonDelegationV2ResponseSchema = babylonDelegationV2Schema.merge(babylonPaginationSchema);
+const babylonDelegationV2ResponseSchema = babylonDelegationV2Schema;
 type BabylonDelegationV2Response = z.infer<typeof babylonDelegationV2ResponseSchema>;
 
 // Multiple delegations
