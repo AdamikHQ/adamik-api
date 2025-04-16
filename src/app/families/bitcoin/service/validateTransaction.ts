@@ -30,6 +30,12 @@ async function prevalidateTransaction(
       break;
     case TransactionMode.STAKE:
     case TransactionMode.UNSTAKE:
+      if (isValidXpub(this.chainId, transaction.data.senderAddress)) {
+        status.errors.push({
+          message: `Xpub are not supported for ${this.chainId} transaction mode '${transaction.data.mode}'`,
+        });
+      }
+
       // FIXME Try to support useMaxAmount for staking transactions too
       if (transaction.data.useMaxAmount) {
         status.errors.push({

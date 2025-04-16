@@ -1,0 +1,22 @@
+{
+  "request": {
+    "url": "https://www.oklink.com/api/v5/explorer/address/token-balance?chainShortName=TRON&address=tron&protocolType=token_20&limit=50",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": "0",
+      "msg": "",
+      "data": [
+        {
+          "limit": "50",
+          "page": "1",
+          "totalPage": "0",
+          "tokenList": []
+        }
+      ]
+    },
+    "type": "json"
+  }
+}

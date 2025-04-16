@@ -1,0 +1,11 @@
+{
+  "request": {
+    "url": "https://mempool.space/api/blocks/tip/height",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": "892659",
+    "type": "text"
+  }
+}

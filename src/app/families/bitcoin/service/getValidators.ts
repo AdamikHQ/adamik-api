@@ -1,5 +1,5 @@
+import { fetchBabylonFinalityProviders } from "~/app/families/babylon/backend/babylonAPI";
 import { ChainValidators, Paginated, Validator } from "~/app/model/types_WIP";
-import { fetchBabylonFinalityProviders } from "../backend/babylon";
 import { BitcoinService } from "../service";
 
 async function getValidators(

@@ -1,5 +1,60 @@
-import { ChainId, Status, TransactionData, TransactionMode } from "../model/types_WIP";
-import { UnsupportedFeatureError } from "../tools/handlers/errors";
+import {
+  AccountState,
+  ChainId,
+  FinalizedTransaction,
+  Status,
+  TransactionData,
+  TransactionMode,
+} from "../model/types_WIP";
+import { ThirdPartyProviderError, UnsupportedFeatureError } from "../tools/handlers/errors";
+
+// Handles multiple providers
+async function getAccountStatefromProviders(
+  chainId: ChainId,
+  accountId: string,
+  fetchAccountDataFunctions: ((chainId: ChainId, accountId: string) => Promise<AccountState>)[]
+): Promise<AccountState> {
+  const errors: Error[] = [];
+
+  // Failover: try all providers until one works
+  for (const fetchAccountDataFunction of fetchAccountDataFunctions) {
+    try {
+      return await fetchAccountDataFunction(chainId, accountId);
+    } catch (error) {
+      errors.push(error as Error);
+      continue; // Try next provider if available
+    }
+  }
+
+  // Reaching here means even failover didn't work
+  console.warn(`/!\\ Failed to fetch state of account ${accountId}:`, JSON.stringify(errors, null, 2));
+  throw new ThirdPartyProviderError("Failed to fetch account state");
+}
+
+async function getTransactionfromProviders(
+  chainId: ChainId,
+  transactionId: string,
+  fetchTransactionFunctions: ((
+    chainId: ChainId,
+    transactionId: string
+  ) => Promise<FinalizedTransaction | null>)[]
+): Promise<FinalizedTransaction | null> {
+  const errors: Error[] = [];
+
+  // Failover: try all providers until one works
+  for (const fetchTransactionFunction of fetchTransactionFunctions) {
+    try {
+      return await fetchTransactionFunction(chainId, transactionId);
+    } catch (error) {
+      errors.push(error as Error);
+      continue; // Try next provider if available
+    }
+  }
+
+  // Reaching here means even failover didn't work
+  console.warn(`/!\\ Failed to fetch transation with ID ${transactionId}:`, JSON.stringify(errors, null, 2));
+  throw new ThirdPartyProviderError("Failed to fetch transaction");
+}
 
 // Validations that couldn't have been done with Zod
 async function prevalidateTransactionCommon(
@@ -135,4 +190,4 @@ function validateAmountOrUseMaxAmount(
   }
 }
 
-export { prevalidateTransactionCommon };
+export { getAccountStatefromProviders, getTransactionfromProviders, prevalidateTransactionCommon };

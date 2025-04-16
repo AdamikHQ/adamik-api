@@ -1,0 +1,43 @@
+meta {
+  name: bitcoin-signet [staking]
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state?pubkey=02bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c
+  body: none
+  auth: none
+}
+
+params:query {
+  pubkey: 02bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c
+}
+
+params:path {
+  chainId: bitcoin-signet
+  accountId: tb1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqsxh76tx
+}
+
+body:json {
+  {
+    "chainId": "bitcoin",
+    "accountId": "xpub6BtWBf3Pu6hYwJBKvEwG7JtrTxxDrSGy39HaTgZz6GTSaFWFdoCtuEXSQtoKGaYdz1emg8xTXKYwjhu3xXRPzFnYS1z4yjKj7hLDQyNeDZr"
+  }
+}
+
+assert {
+  res.body.balances: isDefined tokens
+  res.body.balances.native.total: matches ^\d+$
+  res.body.balances.native.available: matches ^\d+$
+  res.body.balances.staking: isDefined
+  res.body.balances.staking.total: matches ^\d+$
+  res.body.balances.staking.locked: matches ^\d+$
+  res.body.balances.staking.unlocking: matches ^\d+$
+  res.body.balances.staking.unlocked: matches ^\d+$
+  res.body.balances.staking.positions: isArray
+  res.status: eq 200
+  ~res.body.balances.staking.rewards: isDefined
+  ~res.body.balances.staking.rewards.native: isArray
+  ~res.body.balances.staking.rewards.tokens: isArray
+}

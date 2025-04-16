@@ -1,0 +1,3573 @@
+{
+  "request": {
+    "url": "https://staking-api.testnet.babylonlabs.io/v2/finality-providers",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "btc_pk": "bef341a7adb10213a7ec7825afeb7d57fbfa7b5f7bdf201204fb0ef62fb9cfa6",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "verse2",
+            "identity": "",
+            "website": "https://verse2.io",
+            "security_contact": "ted@verse2.io",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 4881156022,
+          "active_delegations": 14588
+        },
+        {
+          "btc_pk": "d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Babylon Foundation 0",
+            "identity": "",
+            "website": "https://babylonlabs.io",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 18881117815,
+          "active_delegations": 46028
+        },
+        {
+          "btc_pk": "e4889630fa8695dae630c41cd9b85ef165ccc2dc5e5935d5a24393a9defee9ef",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Babylon Foundation 1",
+            "identity": "",
+            "website": "https://babylonlabs.io",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.070000000000000000",
+          "active_tvl": 11305179705,
+          "active_delegations": 24915
+        },
+        {
+          "btc_pk": "d66124f8f42fd83e4c901a100ae3b5d706ef6cfd217b04bc64152e739a30c41e",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Babylon Foundation 2",
+            "identity": "",
+            "website": "https://babylonlabs.io",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.140000000000000000",
+          "active_tvl": 8847581358,
+          "active_delegations": 20490
+        },
+        {
+          "btc_pk": "1f93235732e64cac33569ad1c3dbf041382c3b774fcfb0533b9b31d4c2a76bf9",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Crosnest",
+            "identity": "",
+            "website": "https://cros-nest.com",
+            "security_contact": "chainmaster@cros-nest.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 656209324,
+          "active_delegations": 3996
+        },
+        {
+          "btc_pk": "1133860095d3f2b1aee4a7c089fbbb0baca9ce0032e987f63367d5cb4d1757df",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "B-Harvest",
+            "identity": "",
+            "website": "https://bharvest.io/",
+            "security_contact": "contact@bharvest.io",
+            "details": "Provides secure validation services for dPoS networks"
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 1246443856,
+          "active_delegations": 1147
+        },
+        {
+          "btc_pk": "435be3f952206f9688c6782d1101cd12658a6a2eb3c1e5f0b06cc54fb7fde8cf",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Stakin",
+            "identity": "83D300CB42D06962",
+            "website": "https://stakin.com",
+            "security_contact": "security@stakin.com",
+            "details": "Leading institutional-grade web3 infrastructure and non-custodial staking service provider. ISO27001 Certified and Audited."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 340581347,
+          "active_delegations": 649
+        },
+        {
+          "btc_pk": "c124a251541d7114b51f8a0dc1374febb4011e41b269ca46af799f4373a6731b",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "BwareLabs",
+            "identity": "",
+            "website": "https://bwarelabs.com",
+            "security_contact": "validators@bwarelabs.com",
+            "details": "Guaranteed availability and up-time backed by a professional blockchain infrastructure team."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 191512045,
+          "active_delegations": 905
+        },
+        {
+          "btc_pk": "b97ce872c58dd00feb162c499a61a39f9ceece4cee2804cd65a1bff1ebb4982a",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Nodeinfra-Decenter",
+            "identity": "",
+            "website": "https://nodeinfra.com/",
+            "security_contact": "security@nodeinfra.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 125070905,
+          "active_delegations": 644
+        },
+        {
+          "btc_pk": "13d16cebc8d998efb5aa94d46a449ae2e0ebb29947922185a218eeda1788c52a",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "stakefish",
+            "identity": "",
+            "website": "https://stake.fish",
+            "security_contact": "wilson@stake.fish",
+            "details": "stakefish has been operating validators from 2018. We are one of the largest and most trusted validators in the crypto ecosystem. We support 20+ protocols and help stake over  billion worth of assets for both institutions and retail investors."
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 466202464,
+          "active_delegations": 2676
+        },
+        {
+          "btc_pk": "aa4af8a1357668b0ffbe48d7c80818d67926be2b550923ba26a87cbc7f4df99c",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Hex Trust",
+            "identity": "DEA21069031BB3F4",
+            "website": "https://hextrust.com",
+            "security_contact": "security@hextrust.com",
+            "details": "Hex Trust is a fully licensed digital asset custodian dedicated to providing solutions for protocols, foundations, financial institutions, and the Web3 ecosystem."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 2273927793,
+          "active_delegations": 1680
+        },
+        {
+          "btc_pk": "e8d2bb3f81dcf65dc396321defa811b91b2edb43ac79833c52c69aca8102c011",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "ContributionDAO",
+            "identity": "",
+            "website": "https://contributiondao.com",
+            "security_contact": "contacts@contributiondao.com",
+            "details": "Secure Network with Institutional-Grade Solution"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 87131260,
+          "active_delegations": 502
+        },
+        {
+          "btc_pk": "c1f57e1d27ab9f4c21e8e4a620f05fde3dae09834cd0620f568fe30832171f76",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "UNUSED",
+            "identity": "",
+            "website": "x",
+            "security_contact": "security@restake.net",
+            "details": "x"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 46769210,
+          "active_delegations": 243
+        },
+        {
+          "btc_pk": "fd45e77e0958960243779bf03164f2551ad5e025c367b542dc707e79917aa535",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Next Finance Tech",
+            "identity": "",
+            "website": "https://nxt-fintech.com/",
+            "security_contact": "support@nxt-fintech.com",
+            "details": "Next Finance Tech: Japan's No. 1 Staking Service Provider, Founded by Goldman Sachs Alumni and Trusted by Institutions. We offer secure, audited staking solutions tailored to meet the needs of professional investors."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 92408340,
+          "active_delegations": 297
+        },
+        {
+          "btc_pk": "bf68df67066633cba986c13a14a1edc34171884533ccb27f3ed26c8c93da1e83",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Everstake",
+            "identity": "",
+            "website": "https://everstake.one",
+            "security_contact": "account-babylon@everstake.one",
+            "details": "Everstake is a staking-as-a-service company. We help institutional investors and regular token holders to profit off their crypto assets. Choose the most promising projects, delegate with Everstake, and make a stable passive income."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 513862660,
+          "active_delegations": 874
+        },
+        {
+          "btc_pk": "213f3eee15df488926a64abdd7d83b147327cb6f485a76837df6c70f0cc8dad3",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Nodes.Guru",
+            "identity": "28B672FCE6BBD562",
+            "website": "https://nodes.guru",
+            "security_contact": "security@nodes.guru",
+            "details": "Guru of non-custodial staking. Professional node running, low fees, best uptime and 24/7 customer support"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 125754780,
+          "active_delegations": 507
+        },
+        {
+          "btc_pk": "69a101ca6c4425380783e7a39e688376ba1e0c33d0dcfd87f4a1010d04cfabb9",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "CoinSummerLabs",
+            "identity": "",
+            "website": "https://coinsummer.io",
+            "security_contact": "k@coinsummer.io",
+            "details": "Backed by crypto-native degens, CoinSummer is a trusted liquidity provider, staking validator, and AVS operator supporting the crypto and DeFi evolution."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 174928990,
+          "active_delegations": 461
+        },
+        {
+          "btc_pk": "7837cdb0a8942e8d28892208f9840f70dff2e7f949382cf8a8fdd7e7f110f181",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "interchain.FM🥩",
+            "identity": "",
+            "website": "https://interchain.fm/",
+            "security_contact": "staking@rockx.com",
+            "details": "Interchain.FM is the Cosmos Radio Station which shines a light on the protocols that solve the hardest problems in Web3."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 47199544,
+          "active_delegations": 280
+        },
+        {
+          "btc_pk": "a3cf88e404a6ecd7add1c1b911fdf905a04d94027766fc401655598148162a9f",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Keplr",
+            "identity": "",
+            "website": "https://www.keplr.app",
+            "security_contact": "node-operator@chainapsis.com",
+            "details": "Keplr Infra handles hundreds of millions of requests every day, providing robust infrastructure for your seamless Interchain experience. We promise to securely protect both your assets and the network. Stake with us and earn rewards!"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 95538540,
+          "active_delegations": 258
+        },
+        {
+          "btc_pk": "b08ef538aca95b0ed788ff1c6ecbcca92eb06f0c136b15b99318db47361e7956",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Kiln",
+            "identity": "9B74364A5E526BED",
+            "website": "https://www.kiln.fi/",
+            "security_contact": "security@kiln.fi",
+            "details": "Democratising value creation in digital assets"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 80507020,
+          "active_delegations": 343
+        },
+        {
+          "btc_pk": "85cab4c8d9c9220a52e3f941d5eecc946e7ba35e73750631571eeee0b9f6d962",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Provalidator",
+            "identity": "",
+            "website": "https://provalidator.com",
+            "security_contact": "zenon@provalidator.com",
+            "details": "Supporting Blockchain Infrastructure"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 37032100,
+          "active_delegations": 176
+        },
+        {
+          "btc_pk": "07a034011fc231b2c48d9e7a27084fafc79278d9aa7d5f30238c954982ea21b0",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Coinage x DAIC",
+            "identity": "",
+            "website": "https://daic.capital",
+            "security_contact": "office@daic.capital",
+            "details": "The official Finality Provider node from Coinage (Coinage.Media) and DAIC (https://daic.capital/telegram)"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 23359100,
+          "active_delegations": 144
+        },
+        {
+          "btc_pk": "78ebf444229a641e9bdbf8e6f929e4de4193a8ba1bb772591b0fbabbc2292819",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "HoodRun",
+            "identity": "",
+            "website": "https://hoodrun.io",
+            "security_contact": "contact@hoodrun.io",
+            "details": "Discover and Unlock the HoodRun Advantage; We make the Staking Experience the fastest and safest"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 123877950,
+          "active_delegations": 611
+        },
+        {
+          "btc_pk": "b0dad28e34e330fccca2a870de14bb993a79e873fda7aa0d8dced3138e5f892b",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Allnodes",
+            "identity": "3999DA33020A4DBC",
+            "website": "https://www.allnodes.com",
+            "security_contact": "support@allnodes.com",
+            "details": "Reliable non-custodial Validator run by the industry leader - Allnodes"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 231746101,
+          "active_delegations": 1735
+        },
+        {
+          "btc_pk": "6d66869d0b366e947d37678605978d86683d44fd9d5a3b518a4ae7e8c351a4ee",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "RickyChez",
+            "identity": "373472AA987738BD",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 139014606,
+          "active_delegations": 397
+        },
+        {
+          "btc_pk": "d3a6dd8a3d9e4c87d942285e99ef6e1c884688c9bc89c257694dd2cdb3341f47",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "OKX Earn",
+            "identity": "",
+            "website": "https://www.okx.com",
+            "security_contact": "earn@okx.com",
+            "details": "OKX Earn serves as a one-stop shop for all the decentralised earning options available on the OKX platform and we are the leading staking service provider for blockchain projects"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1578858265,
+          "active_delegations": 2799
+        },
+        {
+          "btc_pk": "c071e33aa19165c2942f7a9676904ec5162472f237fb8fd1cdee5e4c8750332e",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Renderlynx",
+            "identity": "858CFD395B18E495",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 260064807,
+          "active_delegations": 533
+        },
+        {
+          "btc_pk": "f71e6fa91d91349c4336afe14a4c1ca895831fecc1257d567547aafe2ce630f4",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "CroutonDigital",
+            "identity": "",
+            "website": "https://crouton.digital",
+            "security_contact": "official@crouton.digital",
+            "details": "Your everyday crypto partner"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 44096840,
+          "active_delegations": 308
+        },
+        {
+          "btc_pk": "f9426630bf011aae02f6b438e30a3df433124fca24d154d78705c22f50871c1c",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "ArchMsc",
+            "identity": "FE9B8C41E183E423",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 75423230,
+          "active_delegations": 439
+        },
+        {
+          "btc_pk": "894add70131a47375ce48ff2adc969721c13b600f8726ad21ee018b9b97f4db4",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Cosmostation",
+            "identity": "",
+            "website": "https://www.cosmostation.io ",
+            "security_contact": "node@stamper.network",
+            "details": "Cosmostation is an institutional-grade cryptocurrency infrastructure provider, managing billions of dollars across 70 protocols. Since 2018, we have served more than 500k users globally, providing products that enable protocols to scale."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 24880650,
+          "active_delegations": 178
+        },
+        {
+          "btc_pk": "b9a534540583813bab3c85f6c9c9daacf6b0a003117e1b1f3f5bb2e2034222f0",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "TLanderon",
+            "identity": "7F793204BA34FF98",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 67277330,
+          "active_delegations": 177
+        },
+        {
+          "btc_pk": "f98498da57745d9e0fe73b7898c23ef76f6c43270535398bf53bf72bb0e1c976",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "MattWhew",
+            "identity": "5DEB0D19723BF8F4",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 24427349,
+          "active_delegations": 119
+        },
+        {
+          "btc_pk": "8bd5c712db49407e5277b35ae20ffccfa6196c5a4917af264b8dffdd2a2ad5aa",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "DevinHPBR",
+            "identity": "58CDBA8927F0BC5E",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 192131312,
+          "active_delegations": 240
+        },
+        {
+          "btc_pk": "c20acf33c17e5a6c92cced9f1d530cccab7aa3e53400456202f02fac95e9c481",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Ankr",
+            "identity": "",
+            "website": "https://www.ankr.com",
+            "security_contact": "validator@ankr.com",
+            "details": "Ankr Staking - makes staking, liquid staking, and other yield-earning opportunities easy and accessible to any crypto investor."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1671228053,
+          "active_delegations": 13779
+        },
+        {
+          "btc_pk": "616b86a45e295e01479cdd141a7277f98de870af51f6bd63ad60476060e986fc",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "yTochkaaa",
+            "identity": "88BEA0F2B935A4BF",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 34545937,
+          "active_delegations": 255
+        },
+        {
+          "btc_pk": "62c39f0d4a3beac6d0b8b28770fe4d46213200275be218526085d979ecf503eb",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "01node",
+            "identity": "7BDD4C2E94392626",
+            "website": "https://01node.com",
+            "security_contact": "secops@01node.com",
+            "details": "01node FP - Securely validating one block at a time since 2019"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 110678680,
+          "active_delegations": 272
+        },
+        {
+          "btc_pk": "276479a27bda42e818ed76a5568a15a76de9e8d530dba4900f93df0687ad96dd",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Dremling",
+            "identity": "67667CE782BDD772",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 103547034,
+          "active_delegations": 258
+        },
+        {
+          "btc_pk": "93216f4c596fe0aa71f4c732f3595ce2ec0049a7899ea7387ac3bf415f1eee3b",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Alysanyan",
+            "identity": "38FBB916D7A8609C",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 38764380,
+          "active_delegations": 88
+        },
+        {
+          "btc_pk": "326e834ccd6cf713f168d78de082fb2b76a6cfd90d1f7bffa2bc0384dba61a84",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Villarael",
+            "identity": "50B2452D41744514",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 11979860,
+          "active_delegations": 110
+        },
+        {
+          "btc_pk": "9be64340119c7a4b9bed5e74cc57fc417d7e92f4a8548aed958f6510e3a4205f",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "UtherSunlighter",
+            "identity": "222134AC9038E7FA",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 56819105,
+          "active_delegations": 187
+        },
+        {
+          "btc_pk": "b190d96b19c77afb339f914cb9765795dc775bb8a6aa9cb1ec0a44f6c34a66a8",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "TWan",
+            "identity": "E21496CC11E743B9",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 211162500,
+          "active_delegations": 303
+        },
+        {
+          "btc_pk": "14451f02bb013502600a3a5dcbd01719971cd4d339d7778e012a0a5fd6fc02ad",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "OrangeBob",
+            "identity": "3A4D5732E464C7BD",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 20510500,
+          "active_delegations": 74
+        },
+        {
+          "btc_pk": "2877658a1e7608fe84543a75ca879334bb8f2e7aecae71adb7767192bda50739",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Gate Earn",
+            "identity": "51EE937969F9BB4D",
+            "website": "https://www.gate.io/web3",
+            "security_contact": "web3-earn@gate.io",
+            "details": "Gate.io Earn serves as a one-stop shop for all the decentralised earning options available on the Gate.io Web3 platform and we are the leading staking service provider for blockchain projects."
+          },
+          "commission": "0.030000000000000000",
+          "active_tvl": 165757460,
+          "active_delegations": 171
+        },
+        {
+          "btc_pk": "7e30b12f46df6427ec614d5a116d33dbf361e557457f9d546f3c9e9d2e96aa5a",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Freytara",
+            "identity": "4C86ACE40AA4591B",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 28688780,
+          "active_delegations": 122
+        },
+        {
+          "btc_pk": "d7c1d6c21a3fbcdfab4826cfda15b9ce0f7610d8309d591a61dec713a60386be",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "MitchelNodes",
+            "identity": "A089D966C935BE06",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 24720663,
+          "active_delegations": 150
+        },
+        {
+          "btc_pk": "4c7e66d1a8c9e51e589d7f648d62a66119c1899e9061e0ba49448e1afff0c891",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Brilee",
+            "identity": "4A4E5A63959D454F",
+            "website": "",
+            "security_contact": "TKACHENKOYURII@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 3484300,
+          "active_delegations": 47
+        },
+        {
+          "btc_pk": "72273cf5cf81166d60efb63c44ca2d5fcbc018a3516ad571ef3bc03a6755e30d",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Figment",
+            "identity": "",
+            "website": "https://figment.io",
+            "security_contact": "info@figment.io",
+            "details": "Figment"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 30808040,
+          "active_delegations": 123
+        },
+        {
+          "btc_pk": "7259aa77dcb96e09d5ae1204bc0648ce6160d8945db4ca12d883aac5e2042c1f",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Alezz1x",
+            "identity": "001B9B1CF102111E",
+            "website": "",
+            "security_contact": "Zeolkaralavias@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 129551698,
+          "active_delegations": 686
+        },
+        {
+          "btc_pk": "f63c13dc5a671879f7af243e0a8d23aedf2e907d4bfef8936174fc91cd439a08",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "CalvinJoe",
+            "identity": "D7A3C03A8133833D",
+            "website": "",
+            "security_contact": "dvadcatodinpilot@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 28161504,
+          "active_delegations": 175
+        },
+        {
+          "btc_pk": "861db7cd9f2ef32e02d62170b3409896f831baa633ea50abb4bd0a5c2766ed4c",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Caroliner",
+            "identity": "2F9AF2334C50CA57",
+            "website": "",
+            "security_contact": "LevTolctoy@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 55526145,
+          "active_delegations": 113
+        },
+        {
+          "btc_pk": "86dcb1636ba2ca6a3a25ac4efc0e09c19af48b5ed52b22dff6687dfac4c8c555",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "WebJoker",
+            "identity": "FFA1B192BC739F68",
+            "website": "",
+            "security_contact": "IndexRud@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 23625140,
+          "active_delegations": 75
+        },
+        {
+          "btc_pk": "eb35c86d0b544998913a8a9aff048b03f9e99789852ed24a3292b57b7e7d5edc",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "MarkCN",
+            "identity": "B4749DEE24418182",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 6273500,
+          "active_delegations": 35
+        },
+        {
+          "btc_pk": "12aeedcea11f65ade8c13fbccd7893fe38b0c133a5a94e13974308329099a137",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "AndreasV",
+            "identity": "EDC11262A4B6A0AF",
+            "website": "",
+            "security_contact": "Sweezyloop@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 36399000,
+          "active_delegations": 61
+        },
+        {
+          "btc_pk": "b2c64fae9778802b5a951e6023ec233e7efc5e4c489a0525aaf89f645242cbd6",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Luganodes",
+            "identity": "4F2E11CB85CB269B",
+            "website": "https://www.luganodes.com/",
+            "security_contact": "devops@luganodes.com",
+            "details": "Swiss-Operated Institutional Grade Staking Provider"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1097300,
+          "active_delegations": 21
+        },
+        {
+          "btc_pk": "247b789935e9686a3d33b4640fb510e035cc6d0d976e0754fb83f89c7359bcd3",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "AndrewNode",
+            "identity": "1F652346DD4E8A97",
+            "website": "",
+            "security_contact": "didiiiika@outlook.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 42598160,
+          "active_delegations": 82
+        },
+        {
+          "btc_pk": "3d9c1b7e58a1646e209f0b2c02538578c3b81dc21c02741825dde09e7611ad67",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Antho",
+            "identity": "0C50A24D6D0F5933",
+            "website": "",
+            "security_contact": "Riasnyiandrii@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 10157122,
+          "active_delegations": 96
+        },
+        {
+          "btc_pk": "1fea1dbe3b264f0932dffeb83af61c876c4034850850b050ac7932f77ca7aece",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "RozaS",
+            "identity": "AD0C97CE3B53C99D",
+            "website": "",
+            "security_contact": "Serdyuchenko.Roza@outlook.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 12461900,
+          "active_delegations": 36
+        },
+        {
+          "btc_pk": "310608de56c70ee16349e01a5381803ecfc2347453982b57559796d86b7816d1",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Campbell",
+            "identity": "F49E1AA85896E720",
+            "website": "",
+            "security_contact": "zhrakivskyiandrii@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 65516400,
+          "active_delegations": 107
+        },
+        {
+          "btc_pk": "cafed26767c1e4aedb87fcbe28f63cc6f2882ae7244120fce0699fe30ea0fae4",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "P2P.ORG - P2P Validator",
+            "identity": "",
+            "website": "https://p2p.org",
+            "security_contact": "cosmos-security@p2p.org",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 42473420,
+          "active_delegations": 53
+        },
+        {
+          "btc_pk": "57f2739e33a415c392a39f3a7803625d2db78d899bb616d9eb1bb8d62dff3869",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Staketab",
+            "identity": "",
+            "website": "https://staketab.com",
+            "security_contact": "support@staketab.com",
+            "details": "Professional staking provider offering infrastructure solutions for the Web3 ecosystem. Our experience in developing Web3 services since 2017 enables us to create best-in-class, data-rich products for each customer."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 872300,
+          "active_delegations": 13
+        },
+        {
+          "btc_pk": "143a1961c97682d59b5f48d5b469ac74ac45273245947865e3c4ad575e4fa646",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Stakecito",
+            "identity": "",
+            "website": "https://stakecito.com",
+            "security_contact": "security@stakecito.de",
+            "details": "Securing & Decentralizing PoS Networks."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 864068980,
+          "active_delegations": 1515
+        },
+        {
+          "btc_pk": "017058b31a6398be8f38e32cefddee1967282f00cae23474304b0c8b8b48ef6e",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "NihilS",
+            "identity": "9F472E352381228C",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 36146062,
+          "active_delegations": 228
+        },
+        {
+          "btc_pk": "ff76f8dd6a4c4d1bcb7c8a6f3ceca9357f2dc47260f72d589d57fbda9c3715c6",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "L2Scan",
+            "identity": "",
+            "website": "https://unifra.io",
+            "security_contact": "al@unifra.io",
+            "details": "L2Scan is the team behind BabylonScan, Dedicated to Babylon and its ecosystem."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 64488220,
+          "active_delegations": 143
+        },
+        {
+          "btc_pk": "8e7a4b0615f33640fd7856555007935c3b1ceaf74eb3db1ed8dfcaa61a466012",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "GoldenTor",
+            "identity": "B0A3AB06F8140CFF",
+            "website": "",
+            "security_contact": "saintroselove@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 4683400,
+          "active_delegations": 57
+        },
+        {
+          "btc_pk": "11e553b78f131e6d13bb8eb4f7981959e5d583695a092f0cf199f5328a0d00df",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Staking4All",
+            "identity": "",
+            "website": "https://www.staking4all.org",
+            "security_contact": "info@staking4all.org",
+            "details": "Staking4All finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 52972580,
+          "active_delegations": 145
+        },
+        {
+          "btc_pk": "60c36dc74c3f0406e7df771077de24a0630c01c36160159fcb57844c3349ecd1",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Cronus",
+            "identity": "3C5FDBFE2364DDB8",
+            "website": "",
+            "security_contact": "samkisanaz73@gmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 9606300,
+          "active_delegations": 72
+        },
+        {
+          "btc_pk": "4559415fbc9d46a5df74903f3b6f503edc09bcc08e81ecfe0bec420d2064b80f",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "SandMan",
+            "identity": "0D01E33D7DBEF9B2",
+            "website": "",
+            "security_contact": "banscorporation@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 22797060,
+          "active_delegations": 80
+        },
+        {
+          "btc_pk": "5e8b804dc66c2595d6fb3269e4414551982324e565a7a94d25b84010c2da82b2",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "JMalone",
+            "identity": "D6C31BB8315F0D95",
+            "website": "",
+            "security_contact": "pakideabdollah0@gmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 876900,
+          "active_delegations": 10
+        },
+        {
+          "btc_pk": "98eeae1c1fcf4ec3f4bf17424e0d2087183625374c6178060d5553abe828b3ad",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "CertiK",
+            "identity": "",
+            "website": "https://www.certik.com",
+            "security_contact": "node@certik.com",
+            "details": "CertiK is the world's leading smart contract auditor. We provide full-cycle security solutions for enterprises, including auditing, security rating,Compliance&AML,investment and other security-related services, elevating the entire Web3 journey of our clients."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 58532160,
+          "active_delegations": 68
+        },
+        {
+          "btc_pk": "715a18a4d44181cbfa1748ad19fffb77964b86bc0769c4e43deb3e70158ead59",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Twaltoner",
+            "identity": "C78594E24D129A4F",
+            "website": "",
+            "security_contact": "AciessNull@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 27726120,
+          "active_delegations": 82
+        },
+        {
+          "btc_pk": "d7b904985706a1e7b4baa4eae7dd304f560606e78e9429b83199c65890e6c195",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "JBrandon",
+            "identity": "BC8C3BDC4E653C09",
+            "website": "",
+            "security_contact": "Ternovodafone@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.070000000000000000",
+          "active_tvl": 3593100,
+          "active_delegations": 9
+        },
+        {
+          "btc_pk": "c8f62644212edc60ad799f790ac45dc5e4d1577c6a536f6d955bc0983410757a",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Freelander",
+            "identity": "E944FF1F86591C63",
+            "website": "",
+            "security_contact": "orowelantina@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 795500,
+          "active_delegations": 10
+        },
+        {
+          "btc_pk": "48cff772eac5dcea873455bf213d7d9842b9b67c1a1c3c564a63de8e275fdbc6",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "✅ CryptoCrew",
+            "identity": "",
+            "website": "https://ccvalidators.com",
+            "security_contact": "support@ccvalidators.com",
+            "details": "We power the interchain | ccvalidators.com"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 96677740,
+          "active_delegations": 314
+        },
+        {
+          "btc_pk": "78b2687b70e89bc0a301f87bb1bd471f5ae1c2842d2b945516095c4488f228f5",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "CreeptoCat",
+            "identity": "81FE1B083F746187",
+            "website": "",
+            "security_contact": "brawlerseja@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 31463180,
+          "active_delegations": 101
+        },
+        {
+          "btc_pk": "092e9e6eccf5f33132d70c271b244822566728ac88e848035b7952a3dcec762a",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "PRO Delegators",
+            "identity": "44771D06A00DD695",
+            "website": "",
+            "security_contact": "contact@pro-delegators.com",
+            "details": "Advanced Node Services for Professional Delegators"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 105157880,
+          "active_delegations": 138
+        },
+        {
+          "btc_pk": "bcb1f1b3e9705d64262789ec2fe1f7de5bc7bd1b367bc92db62d45d9348ef288",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Robsberry",
+            "identity": "27054F5CE3F4B80A",
+            "website": "",
+            "security_contact": "meldevariata@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 541398940,
+          "active_delegations": 473
+        },
+        {
+          "btc_pk": "6b8d850d89838802404b98069e1934191dd656fe06e251707516a1003ded32fa",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Northtrend",
+            "identity": "1638FF44773987BD",
+            "website": "",
+            "security_contact": "nerverrastinata@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 81351440,
+          "active_delegations": 60
+        },
+        {
+          "btc_pk": "2bec2e78a8e49b44dc0868ba01ab396394f9081d3f96fde9f78956b330fa0b91",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "HeatherYOLO",
+            "identity": "73EF1D15957FD7D0",
+            "website": "",
+            "security_contact": "Joelryexp@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 26508260,
+          "active_delegations": 100
+        },
+        {
+          "btc_pk": "3424b4863e43acd64ceb6685709dbc4cc541bb72c64aca6dc869bb15e8ab30ad",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "HamzaK",
+            "identity": "F73B0C8545FB882C",
+            "website": "",
+            "security_contact": "gvozdaryovalarisa@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 41388946,
+          "active_delegations": 124
+        },
+        {
+          "btc_pk": "14aff6f1f30632875b22fb396047d7de861ad0ff4a597c7c2d6a0b91add31f44",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Lopez",
+            "identity": "81B08637DE4A9927",
+            "website": "",
+            "security_contact": "Yulia_Serdychenko@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.070000000000000000",
+          "active_tvl": 3792830,
+          "active_delegations": 19
+        },
+        {
+          "btc_pk": "aae1b7a5fba0163054c60eaf27cb7fbde54195dfa1764cc0a17b18803a82aae7",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Nevermore",
+            "identity": "35F279314AFA3EEF",
+            "website": "",
+            "security_contact": "tonariplata@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 4964500,
+          "active_delegations": 26
+        },
+        {
+          "btc_pk": "129cc2a2c1ea725a5e11e7116d08a8813feac0ffa373e75cec3fe9f8ac4d0a59",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Oldenzel",
+            "identity": "3CFAB60795F8503B",
+            "website": "https://oldenzel.xyz/",
+            "security_contact": "yuimmlarik@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 4247000,
+          "active_delegations": 42
+        },
+        {
+          "btc_pk": "0a62b76437bc10567aa3a7e566e05159137b2f124fdd12f1f863e45ce62970fb",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Romkah",
+            "identity": "FAB055A5A6E1A9FE",
+            "website": "https://romka-h.notion.site/Romka-h-76559f59f17046c3bf1f076e1aa680f1",
+            "security_contact": "romasamiilenko@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1513800,
+          "active_delegations": 23
+        },
+        {
+          "btc_pk": "a66792b45a563b03980b3b88ea0c9d4a1d7f19d303d79977c2adf62b85f75c09",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Bakerik",
+            "identity": "43536A3F688858DB",
+            "website": "https://bakerik.gitbook.io/bakerik-portfolio",
+            "security_contact": "Yananti@outlook.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 28524460,
+          "active_delegations": 84
+        },
+        {
+          "btc_pk": "0a0b6a70927afe704e5e6437cda263b407fd8d9c9297f277afbba10cc9d42d87",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Jonygel",
+            "identity": "",
+            "website": "https://private.jonygel.online/",
+            "security_contact": "postovical@outlook.com",
+            "details": ""
+          },
+          "commission": "0.070000000000000000",
+          "active_tvl": 21469820,
+          "active_delegations": 38
+        },
+        {
+          "btc_pk": "29edc70b6b46adafbc8e3d0ca319e68fb18a9a3b5fa77bf543808245144e7de1",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "SilverSurfer",
+            "identity": "367B97CCE94F0FCF",
+            "website": "https://slsurfer.click/",
+            "security_contact": "mihalchuk.denis@outlook.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 25718420,
+          "active_delegations": 34
+        },
+        {
+          "btc_pk": "018d298fc06c43d1ef1fe15750533a85f159694949797fc8364c4ab34031cdc3",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Zellic",
+            "identity": "609C091636D1330B",
+            "website": "https://zellic.io/",
+            "security_contact": "security@zellic.io",
+            "details": "The go-to blockchain security firm for top teams, specializing in Cosmos, EVM, ZK, Move (Aptos and Sui). We solve your hardest security problems.\nTwitter: https://twitter.com/zellic_io\nTelegram: t.me/zellic_io"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 885100,
+          "active_delegations": 15
+        },
+        {
+          "btc_pk": "b82dc91fb61bbb33b1ddf3e8de2417d4e731856f9a59108475139f485c5574c5",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Thomilx",
+            "identity": "355B66C6326E35A7",
+            "website": "https://thomilx.gitbook.io/thomilx/",
+            "security_contact": "ivanuykolegmy@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.070000000000000000",
+          "active_tvl": 20002700,
+          "active_delegations": 65
+        },
+        {
+          "btc_pk": "d8f6c0dc04ff76eb42b3b0d6175b05cc32fecae8082b2d1ac4cc301f33e3d367",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "RuthWright",
+            "identity": "557AEA1DF910FD23",
+            "website": "https://absorbing-football-fa1.notion.site/RuthWright-78df9df6bfd041568e997f83ba27e695",
+            "security_contact": "anondjovia57@gmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 786800,
+          "active_delegations": 10
+        },
+        {
+          "btc_pk": "8671601cdf0aef813efa41e4b36a78f41edaefad693bb3fee80af6e803d07297",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "kovtunmykola",
+            "identity": "",
+            "website": "https://github.com/kovtunmykola",
+            "security_contact": "kovtunmykola@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 885100,
+          "active_delegations": 16
+        },
+        {
+          "btc_pk": "512bf1c5c0e27c31690c991682c249cf7ae87199f2a28190548d84ee62a986c1",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Gonzales",
+            "identity": "",
+            "website": "https://gonzales.gitbook.io/gonzales/",
+            "security_contact": "hk5692024@gmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 773500,
+          "active_delegations": 14
+        },
+        {
+          "btc_pk": "02bbcd3b42a118a5aabf8224e9509ff4d5e4decec69ab4692909b634318817df",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Shprota1",
+            "identity": "",
+            "website": "",
+            "security_contact": "Piaidaleraspelt@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.070000000000000000",
+          "active_tvl": 5649600,
+          "active_delegations": 25
+        },
+        {
+          "btc_pk": "a7a5970e3982fbcd58acc8a6045a3ae42989d81583812325fabd9b99b2ae071d",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "NastyQueen",
+            "identity": "68635FA366C15F2B",
+            "website": "https://nasty-queen.gitbook.io/nastyqueen/",
+            "security_contact": "Korshenko.Anastasia@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 987500,
+          "active_delegations": 18
+        },
+        {
+          "btc_pk": "cdec64619746738f51dc5db347f4233f31a162c7e17ec8c7aac8a4ef5b2ab203",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "SunShine",
+            "identity": "",
+            "website": "https://sun-shine-chain.notion.site/SunShine-6d8d2d41cc3742eabce359130ea211dc?pvs=4",
+            "security_contact": "smetaninalena@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 23693900,
+          "active_delegations": 39
+        },
+        {
+          "btc_pk": "45b358d9872b4d0bddb174b879b33fbe4aed6506502cf2404e3a83c4e0cf719e",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Kennethy",
+            "identity": "3FCFF87D2F2CFCDD",
+            "website": "https://kennethy-validator.notion.site/Kennethy-Node-Operator-Portfolio-f54cabd9a69c4d0897077656f3b64209",
+            "security_contact": "boyko.bogdan@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 3760300,
+          "active_delegations": 24
+        },
+        {
+          "btc_pk": "05cb5c1c785559834ccf11565c0e0b8bec61bf864f3e29c088d15484259f7e61",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Robinbobin",
+            "identity": "",
+            "website": "https://github.com/RobinBobinChain",
+            "security_contact": "GudanovaAngelinaMy@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 9170220,
+          "active_delegations": 35
+        },
+        {
+          "btc_pk": "4cc2cb2ed219a16c1249865fda764ce8495d6f81f54f0206976d0ddaa8622bbc",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Nelson",
+            "identity": "",
+            "website": "https://mirror.xyz/0x4cF94AAAeE2Fa5394Fc3aE7eD2C952860a0e9267",
+            "security_contact": "BogdanDombrovskyi@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 29487580,
+          "active_delegations": 95
+        },
+        {
+          "btc_pk": "b8010c7fd549da245ee1eec2a45cda06d237cd4a26c6272b3a22f79665ec2869",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Kryz",
+            "identity": "DEAC37589FE4AA99",
+            "website": "https://kryz-chain.notion.site/Kryz-1124994767164ba29d8df43dbaccabb3?pvs=4",
+            "security_contact": "kryzhanovskiy.mikhail@outlook.com",
+            "details": ""
+          },
+          "commission": "0.080000000000000000",
+          "active_tvl": 19945760,
+          "active_delegations": 37
+        },
+        {
+          "btc_pk": "839eff72777278e1bb9f8984736323bf6a3af78a710e6acc869465566a5eb0fe",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Gigglyn",
+            "identity": "FA44393306BE59C8",
+            "website": "https://gigglyn.gitbook.io/gigglyn/",
+            "security_contact": "BeniukBohdanRomanovich@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 3176000,
+          "active_delegations": 30
+        },
+        {
+          "btc_pk": "0d955c03aec3dd2a2cee4cc7ed0eb4521520b8334d0af50bca989a995dc438a0",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Lombard Finality Provider",
+            "identity": "",
+            "website": "https://lombard.finance",
+            "security_contact": "stanley@lombard.finance",
+            "details": "Lombard finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 33416120,
+          "active_delegations": 28
+        },
+        {
+          "btc_pk": "86f089550268df6d71df7cc6456acc255c9b225aaa39a02809619b5013a45ca6",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "fangdarth",
+            "identity": "",
+            "website": "",
+            "security_contact": "panasyukmaksum@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.080000000000000000",
+          "active_tvl": 3559000,
+          "active_delegations": 8
+        },
+        {
+          "btc_pk": "07896fe9b59e0089c9685db8e9cab5e45824f8e70f2f8770ca96184f413f97fa",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Informal Systems",
+            "identity": "6408AA029ADBE364",
+            "website": "https://informal.systems",
+            "security_contact": "validator@informal.systems",
+            "details": "Informal Systems - infrastructure for decentralized intelligence."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 23169600,
+          "active_delegations": 35
+        },
+        {
+          "btc_pk": "ef2871b2844700612344aea401c693744c81a3ccf50428a32c47e956bc987e84",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Guzel",
+            "identity": "E7838830DB3FBE6D",
+            "website": "",
+            "security_contact": "GuzelKhvan@outlook.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1633720,
+          "active_delegations": 18
+        },
+        {
+          "btc_pk": "8e0083b3ed47328e9b958bf3a91ddf90a23836bccf1c853ec7960103698b9e02",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Sergenode",
+            "identity": "6526975A4DA336D6",
+            "website": "https://github.com/KislitsinSergey",
+            "security_contact": "Kislitsin.Sergey@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 9949700,
+          "active_delegations": 39
+        },
+        {
+          "btc_pk": "03de19c4f95911486b327e2b4e9a5166ea3b287c8aa07358454c080547ac772f",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "puckanode",
+            "identity": "“08D548A0DAE3FD87”",
+            "website": "https://www.puckanode.com/",
+            "security_contact": "puckanode@gmail.com",
+            "details": "BTC is here to stay, Babylon is here to slay"
+          },
+          "commission": "0.030000000000000000",
+          "active_tvl": 5552500,
+          "active_delegations": 59
+        },
+        {
+          "btc_pk": "ce4fe87d5168c69063fe0a505195ff627a8833ccec287c24dd8992947db09f2e",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Anchorage Digital",
+            "identity": "17D0A114A90FD55F",
+            "website": "https://www.anchorage.com/",
+            "security_contact": "babylon-operator@anchorage.com",
+            "details": "Anchorage Digital, a regulated crypto platform, offers institutions an unparalleled combination of secure custody, regulatory compliance, product breadth, and client service."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1440000,
+          "active_delegations": 16
+        },
+        {
+          "btc_pk": "ecead6d9e4391684b32b7fdb92fce6b3fd68b7e2bb92c194463fe91f85a21d0e",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Haris",
+            "identity": "AF6BB2D53342C6B8",
+            "website": "https://github.com/Mernajop",
+            "security_contact": "kolesnikovevgenysergeevich@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 755400,
+          "active_delegations": 13
+        },
+        {
+          "btc_pk": "24bc1cda39218ebcbe98b41a77baa3297ad8b3b37d71d953176bbd4ae0b3065e",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Ru",
+            "identity": "",
+            "website": "https://github.com/RuslanKhvan",
+            "security_contact": "Ruslan.Khvan@outlook.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 375800,
+          "active_delegations": 6
+        },
+        {
+          "btc_pk": "1636d94df9595d8d199602a45dafeb102a81c6a9a4f2b75ddf3794df7b382b3f",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "plotei",
+            "identity": "",
+            "website": "https://github.com/Plotei",
+            "security_contact": "savchenkoartemana@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 8407944,
+          "active_delegations": 58
+        },
+        {
+          "btc_pk": "d77880826d42fe740f76ffb3677a52b338c64c67bf4d1f998d5cf419a75a39ea",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Thompson",
+            "identity": "",
+            "website": "https://teletype.in/@pandathompson",
+            "security_contact": "sitanosrati5677s@gmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1857900,
+          "active_delegations": 34
+        },
+        {
+          "btc_pk": "61999699ee80085e42aff74cd02b434e9e9855e46b2401c913abeba75569443d",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "luckypunch",
+            "identity": "",
+            "website": "",
+            "security_contact": "Quchimshizunero@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 32176460,
+          "active_delegations": 60
+        },
+        {
+          "btc_pk": "2d09dfe628264c9e0b200a55bc1c151697f5afeb63935c5b9e94650a208dc733",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "pSTAKE",
+            "identity": "CCD58C1559B694A8",
+            "website": "https://pstake.finance/",
+            "security_contact": "hello@pstake.finance",
+            "details": "pSTAKE Finance is a multichain liquid staking protocol, backed by Binance Labs."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 19612400,
+          "active_delegations": 124
+        },
+        {
+          "btc_pk": "860639b311132fe18972d92d2ee8885312706f1f4075a157be30180ac9c757e9",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Forbole",
+            "identity": "",
+            "website": "https://forbole.com",
+            "security_contact": "validator@forbole.com",
+            "details": "Started validating since 2018 by a group of Bitcoin lovers."
+          },
+          "commission": "0.030000000000000000",
+          "active_tvl": 71329920,
+          "active_delegations": 169
+        },
+        {
+          "btc_pk": "52abd869bfbe2a17e8e9eecd6462a3e9cb3a59b2c26c34c5377502c75a229e4e",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Clark",
+            "identity": "",
+            "website": "https://github.com/clark-clark",
+            "security_contact": "ysmenkokatarina@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 4269400,
+          "active_delegations": 31
+        },
+        {
+          "btc_pk": "267fab2e7652628be5597cc440983e0642fe92a0136bd2ae1e5920a457e8f0c4",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "DonaldM",
+            "identity": "864103F115B13F58",
+            "website": "https://github.com/donald-big-m",
+            "security_contact": "onishchenkotetyana@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 37071940,
+          "active_delegations": 64
+        },
+        {
+          "btc_pk": "09bf2d19c3e997be9340949e46ef7b1612877cdaea6ddd5f03ed06f7ab6bc0f1",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Lavender.Five Nodes  🐝",
+            "identity": "",
+            "website": "https://lavenderfive.com",
+            "security_contact": "security@lavenderfive.com",
+            "details": "Fortifying crypto networks with Horcrux security, slash insurance, and open source contributions. Connect with us at https://linktr.ee/lavenderfive."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 100000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "9957344430f63647c17afff96d525a433e0ea04be7af67394159b0cd11bba606",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Martezoy",
+            "identity": "",
+            "website": "https://martezoy.gitbook.io/martezoy",
+            "security_contact": "pryiatelchukvladyslavoleks@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 744400,
+          "active_delegations": 13
+        },
+        {
+          "btc_pk": "cd33783cabdc9983c1493751d27dfc26f64d40e026775a4149509a9841cf3837",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "rumba25",
+            "identity": "D0D4F2082077ACC8",
+            "website": "https://github.com/rumba25",
+            "security_contact": "samotokabogdanavolod@hotmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 3170300,
+          "active_delegations": 21
+        },
+        {
+          "btc_pk": "2e39fc67d111ec24917681204b544a28731ff0c9e5dda5899c44076a30cc6143",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "KudasaiJP",
+            "identity": "",
+            "website": "https://0xmakase.co.jp",
+            "security_contact": "validator-dev@kudasai.co.jp",
+            "details": "KudasaiJP/Omakase is a professional staking and validation service. We also contribute to innovative projects via marketing and development support."
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 168775226,
+          "active_delegations": 640
+        },
+        {
+          "btc_pk": "030bd6622049385a958057774d4a95af246d17cd69146bda2021a12a422f37d3",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "GalaxyDigital",
+            "identity": "",
+            "website": "https://galaxy.com",
+            "security_contact": "bci@galaxy.com",
+            "details": "Galaxy is a digital asset and blockchain leader helping institutions, startups, and qualified individuals shape a changing economy. We provide platform solutions custom-made for a digitally native ecosystem."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 36764280,
+          "active_delegations": 46
+        },
+        {
+          "btc_pk": "30195afd15ceb981feccb40555d90c75e19bc3cf3716a1c4f7d60f14650bde8a",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "CosmosSpaces",
+            "identity": "",
+            "website": "https://cosmosspaces.zone",
+            "security_contact": "security@cosmosspaces.zone",
+            "details": "Bare Metal Validators, Relayers, and RPC providers. Top tier infrastructure providers rooted in the Cosmos community."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 6148000,
+          "active_delegations": 43
+        },
+        {
+          "btc_pk": "62bdf47dcd57613c37ee36f0aafa468206e4affa2d9d64f55786be54fe198040",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Pier_Two_Testnet_Babylon_FinalityProvider",
+            "identity": "",
+            "website": "http://piertwo.com/",
+            "security_contact": "",
+            "details": "finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 250000,
+          "active_delegations": 5
+        },
+        {
+          "btc_pk": "2ee029f7d804b7c1000edcfc4e4f32f0106f421c9592064c4c5f1df60972da74",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "NyanCat",
+            "identity": "09D4624417E37ABD",
+            "website": "https://x.com/o___victor",
+            "security_contact": "nyancat.validator@gmail.com",
+            "details": "Your reliable crypto validator. I ensure the security and efficiency of the network by verifying and validating transactions"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 32940602,
+          "active_delegations": 175
+        },
+        {
+          "btc_pk": "6177918788122bc479cf748933a10546713d19fc8d60eee88faba407e523fb91",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Xangle",
+            "identity": "",
+            "website": "https://xangle.io",
+            "security_contact": "validator@crossangle.io",
+            "details": ""
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 4176300,
+          "active_delegations": 20
+        },
+        {
+          "btc_pk": "f7b25dc0fc378ff94ea41e255373f41801ee5e89d2c53ccae32ca7d434c9389d",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Nansen",
+            "identity": "",
+            "website": "https://nansen.ai",
+            "security_contact": "stakingtools@nansen.ai",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1850000,
+          "active_delegations": 3
+        },
+        {
+          "btc_pk": "07458a6f616d1ae93d674b755b09da49eea4062bef986a4da1c2bb9126ca2178",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Imperator.co",
+            "identity": "",
+            "website": "https://www.imperator.co/",
+            "security_contact": "contact@imperator.co",
+            "details": "Imperator.co secure finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 70147140,
+          "active_delegations": 277
+        },
+        {
+          "btc_pk": "a1498c8970d5de57623f060b5e032da701ed770cb57a5ce17f1a21d1487ce0dd",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Enigma",
+            "identity": "",
+            "website": "https://www.enigma-validator.com/",
+            "security_contact": "contact@enigma-validator.com",
+            "details": "Highly secure professional validator across 40+ chains - offering a full refund for any downtime slashing - Reach out to us at contact@enigma-validator.com"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 241359541,
+          "active_delegations": 788
+        },
+        {
+          "btc_pk": "d3ee7967b5fa26abf3af30f77bc365d8e23bb29412cba0a4d000c88faba64183",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Staked",
+            "identity": "E7BFA6515FB02B3B",
+            "website": "https://staked.us",
+            "security_contact": "devops@staked.us",
+            "details": "Staked is the leading provider of validation technology and services."
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 10717000,
+          "active_delegations": 4
+        },
+        {
+          "btc_pk": "f712efa8037fa13cf57388ab32731ff706f3028142b3800e132f77b02bab1015",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "HashKey Cloud",
+            "identity": "",
+            "website": "https://www.hashkey.cloud",
+            "security_contact": "",
+            "details": "HashKey Cloud finality provider for the Babylon testnet-5 network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 61183420,
+          "active_delegations": 95
+        },
+        {
+          "btc_pk": "70dfe459fa96cd48cccc2cb52782b22f3a112c469a4a4bf1119d1ea96a8d6dff",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Validatus",
+            "identity": "",
+            "website": "https://www.validatus.com",
+            "security_contact": "support@validatus.com",
+            "details": "Validatus - verifying blockchain entries on purely Enterprise Linux based systems with regular security audits. Stay safe. Stake with us."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 21242360,
+          "active_delegations": 128
+        },
+        {
+          "btc_pk": "7f067ebae1677f47c79b93681bac6eb6d7bba2d876d3770b47261fa6e5427028",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "DSRV",
+            "identity": "CC434B6FE536F51B",
+            "website": "https://dsrvlabs.com",
+            "security_contact": "validator@dsrvlabs.com",
+            "details": "DSRV is an integrated blockchain solutions company with the mission of enriching the crypto ecosystem via stronger connectivity. We strive to be your gateway to a suite of all-comprehensive blockchain services. Everything distributed, served complete."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 17060281625,
+          "active_delegations": 9408
+        },
+        {
+          "btc_pk": "1138064c255a4d8e3712f2854e67b0fc8109fed80d40d85bdd62b3f855777e65",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Equinox",
+            "identity": "048733E2C6061B87",
+            "website": "https://www.equinoxdao.xyz",
+            "security_contact": "wangzhaozhu1@gmail.com",
+            "details": "professional Node Service Provider by EquinoxDAO"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1103000,
+          "active_delegations": 3
+        },
+        {
+          "btc_pk": "a87dc42229c6196f8f4ffb09cc552fffa7308dea5f941a26c678b6ff5035094c",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "RockXFinalityProvider",
+            "identity": "",
+            "website": "https://rockx.com",
+            "security_contact": "staking@rockx.com",
+            "details": "Stake and build via institutional-grade solutions and a suite of developer tools"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 78442490,
+          "active_delegations": 168
+        },
+        {
+          "btc_pk": "5cae74c45754c89c3a225163a2176de64c25719fbf358b02ef79bf8b0e23f40f",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Meria",
+            "identity": "",
+            "website": "https://meria.com",
+            "security_contact": "it@meria.com",
+            "details": "French Crypto Investment Company"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 917807320,
+          "active_delegations": 254
+        },
+        {
+          "btc_pk": "86df1b71ec85cae0df18609c19b16ae9f1f351423d31e277ece3cdbf8310552f",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "BlockHunters 🎯",
+            "identity": "BEAC09B6FE7F908B",
+            "website": "https://blockhunters.org",
+            "security_contact": "ops@blockhunters.org",
+            "details": "Hunt for the best stake. 🏹"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 41628320,
+          "active_delegations": 72
+        },
+        {
+          "btc_pk": "55a841304c93c67c6fa7b2c4d483626f1c97086232e945797b84037f2d218df9",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "InfStones-FPD",
+            "identity": "",
+            "website": "https://infstones.com/",
+            "security_contact": "sili@infstones.com",
+            "details": "finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 30287200,
+          "active_delegations": 78
+        },
+        {
+          "btc_pk": "1f4bd9f3b7cd2d5ffce46e0a7b587ea8fd3673794c5df223e665538cd61e677e",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "testDoNotDelegate",
+            "identity": "",
+            "website": "test",
+            "security_contact": "test",
+            "details": "test"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 3000000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "477456a08f7d5cb0698e990066ac2028ffb27e8a485cd38882ca414f47e39bd9",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "P-OPS Team",
+            "identity": "",
+            "website": "https://www.pops.one",
+            "security_contact": "security@pops.one",
+            "details": "P-OPS TEAM is a decentralized organization providing you with validation and staking services, blockchain consultation and investment capital.for innovative Web 3.0 projects."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 700000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "2b7925cffa77d619b8bd6e39519eff387d5577111a7b2b91a52fed7f035fed9c",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "testtt",
+            "identity": "",
+            "website": "testt",
+            "security_contact": "test",
+            "details": "test"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 3000000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "13e8eaec4f96eba1ae6c5bb05621e091c48b3bee21bf2e18183fd0663cc4ac5d",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "OrangeCode0",
+            "identity": "",
+            "website": "",
+            "security_contact": "RuarccAlgautr@proton.me",
+            "details": "Hammu's Cryo Dreams"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 269032040,
+          "active_delegations": 122
+        },
+        {
+          "btc_pk": "88043099bb277905b0f6efaee38f5235cbff5ff567c63e6e5d1e98e32757542f",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "gumi",
+            "identity": "",
+            "website": "https://gu3.co.jp/en/blockchain/",
+            "security_contact": "gumi_node@gu3.co.jp",
+            "details": "finality provider for Japanese gamers and crypto funds"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1919200,
+          "active_delegations": 25
+        },
+        {
+          "btc_pk": "aefff21d59f4a288155f1e35a5bf1e97eee6ff81d998888b1ff271040db89826",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Huginn",
+            "identity": "",
+            "website": "https://huginn.tech",
+            "security_contact": "stake@huginn.tech",
+            "details": "Finality Provider for the Babylon Network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 52412340,
+          "active_delegations": 45
+        },
+        {
+          "btc_pk": "1b6822dd0e62e638e87128bb18f76d192340288c91c40a27a3c21810b1111001",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "node101",
+            "identity": "",
+            "website": "https://node101.io",
+            "security_contact": "hello@node101.io",
+            "details": "We provide infrastructure services, host non-profit developer-focused events, and offer user-friendly products for you to make the most of distributed value. Building klein.run & zkvot.io"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1401000,
+          "active_delegations": 16
+        },
+        {
+          "btc_pk": "f32c2675121e95bb018731c1333b4249865ab2d9e82414610eaa2091491d701b",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "WhisperNode 🤐",
+            "identity": "",
+            "website": "https://whispernode.com",
+            "security_contact": "brendan@whispernode.com",
+            "details": "WhisperNode is a premier web3 infrastructure provider renowned for powering the backbone of blockchain ecosystems with our state-of-the-art validation services, RPC endpoints, and IBC relayers."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 149475000,
+          "active_delegations": 57
+        },
+        {
+          "btc_pk": "c1654b121c66f2ec2b814361d01a76fb43928d1a377ad8cd3e1b70931e37c6ab",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "coldlar",
+            "identity": "",
+            "website": "https://www.coldlar.com",
+            "security_contact": "staff@coldlar.com",
+            "details": "ColdLar is a world-leading provider of hardware wallet services, specializing in encrypted asset storage solutions."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 751700,
+          "active_delegations": 12
+        },
+        {
+          "btc_pk": "7b82e0df503a6d220c54faf4c9803b5514b3d3df41a5158570f88d49f8533654",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "SeanLab",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": "finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 8752680,
+          "active_delegations": 119
+        },
+        {
+          "btc_pk": "9e9d3e6ea4f1c38950732af5680a6b93a66bf7efecdf5c02863038445b5e3c28",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Simply Staking",
+            "identity": "",
+            "website": "https://simplystaking.com/",
+            "security_contact": "staking@simplystaking.com",
+            "details": ""
+          },
+          "commission": "0.030000000000000000",
+          "active_tvl": 400000,
+          "active_delegations": 7
+        },
+        {
+          "btc_pk": "c31b914c690f2cb9941781434e7de7d97d6fdf11c5d7261f9f564a579ae757f4",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Hype INFRA",
+            "identity": "",
+            "website": "https://www.hy.pe/",
+            "security_contact": "infra@hype.partners",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 300000,
+          "active_delegations": 5
+        },
+        {
+          "btc_pk": "17adb94ab47c4c4e4c433bd21a9481d85804aab7031e93f2c6ffad0141694062",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "0zonaris",
+            "identity": "CB2A5469006ED319",
+            "website": "https://zonaris.io",
+            "security_contact": "contact@zonaris.com",
+            "details": "Bitcoin staking powered by zonaris' green, institutional-grade, CO2-neutral infrastructure."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 78637840,
+          "active_delegations": 39
+        },
+        {
+          "btc_pk": "2cd7d2588e941f69ef4f0a58d55e72121f35095454627a31671ef79dd51b91b4",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Blockdaemon",
+            "identity": "",
+            "website": "https://www.blockdaemon.com/",
+            "security_contact": "support@blockdaemon.com",
+            "details": "Blockdaemon provides maximum uptime for the Babylon network so that you can be confident your node will be there, ready and secure, for optimal reward generation."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 32107340,
+          "active_delegations": 26
+        },
+        {
+          "btc_pk": "57a37bc99645a6d0756a293dde174c5bf007612eb02887d07220f1937c65e5e1",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Interlock",
+            "identity": "",
+            "website": "https://www.interlock.network",
+            "security_contact": "support@interlock.network",
+            "details": "Interlock acts as a guardian of the blockchain network, ensuring its integrity and security across the globe."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 500000,
+          "active_delegations": 10
+        },
+        {
+          "btc_pk": "6c6b59bc5f88b3ece210ec62a24e62b4202cc29b3eb030dfb4ac37b77664fe12",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "NickLab",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": "finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 63690000,
+          "active_delegations": 10
+        },
+        {
+          "btc_pk": "afbaa3e43643f28595cc5128ea7fb4b3089d6cdf63f2c9cc219c3a8d6fdfdc32",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "IceBerTech",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "0c380d552726bc1d3ebc42d386e64197d74fd14e0dadf82874f7e8452dcf2fca",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "ChainTechno",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 100000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "1ace438e9bc9625c111e606e512c2091991bb7a64b5a58ef45125fbe2b0af7ef",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Koned",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 50000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "021876b8696692cac0b27f8d52f74da734221271d2ef61cea5064fc150812a35",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Lotso",
+            "identity": "",
+            "website": "https://fsql.net",
+            "security_contact": "i@fsql.net",
+            "details": "Cryptocurrency enthusiast team"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1262433813,
+          "active_delegations": 16119
+        },
+        {
+          "btc_pk": "e9759803e999a206667409eb7300f733d853ed631304e9b57f7043181b1de562",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Billiman2000",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 500000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "d5bf815075884854700797b9d894410e86698b72e3e94e204e29954aed2717bd",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "SamirranTap",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 200300,
+          "active_delegations": 4
+        },
+        {
+          "btc_pk": "7a2a7fde35612a5516c99b23ec0df6339618ee99ef142597418ee013ae0a412b",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "kroko",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 50000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "ec4cd3e8d3507176c2151d3502e57c233d3acf8fc5ba23328e01cf37289fbbee",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Beliamyr0",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 2180000,
+          "active_delegations": 4
+        },
+        {
+          "btc_pk": "1f29b05c07dce241310eaa3dbdb5315dfb1977fbc06284244f4d85c7d77836b1",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Chainlabel",
+            "identity": "",
+            "website": "http://chainlabel.net",
+            "security_contact": "info@chainlabel.net",
+            "details": "We safeguards the the blockchain with Immutable Ledger node."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 68968060,
+          "active_delegations": 213
+        },
+        {
+          "btc_pk": "32009354f274871178dbb4ab7fa789f4a96fea8f0ff5de105b306c046e256769",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "CHANGER",
+            "identity": "",
+            "website": "https://yong.land/",
+            "security_contact": "soaryong.c@gmail.com",
+            "details": "Changer serves as a guardian of truth, ensuring the accuracy and integrity of transactions and records on the blockchain."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 113542000,
+          "active_delegations": 70
+        },
+        {
+          "btc_pk": "c36c19d1acee7b5193b2ffd6d0685364308682c5d05e2722d1ced2b965db4744",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "ShadowNode",
+            "identity": "",
+            "website": "https://shadownode.org",
+            "security_contact": "contact@shadownode.org",
+            "details": "Shadownode upholds transparency by making all blockchain transactions and data publicly accessible, fostering trust and accountability within the ecosystem."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 803000,
+          "active_delegations": 16
+        },
+        {
+          "btc_pk": "6fc536ecb484cce6156de873ea30c59cbf0bf3ab605dafd5ff3b7327909504f1",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Layerium",
+            "identity": "",
+            "website": "https://www.layerium.org",
+            "security_contact": "node@layerium.org",
+            "details": "Layerium is a node provider that offers blockchain nodes, with a focus on privacy and security."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 10200000,
+          "active_delegations": 5
+        },
+        {
+          "btc_pk": "3862a06f75cc707729588eddb85119fdae37404f879a9a90f545f54ab531531b",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Aternos",
+            "identity": "",
+            "website": "https://aternoschain.com",
+            "security_contact": "node@aternoschain.com",
+            "details": "Aternos mine new blocks on a blockchain network and verify transactions."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1439902,
+          "active_delegations": 27
+        },
+        {
+          "btc_pk": "3b84fe3aad569a76cbb0e04f95b4de5b7a111f61c451e3df6a0b97aa03300fd9",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Viridis",
+            "identity": "",
+            "website": "https://viridis.network",
+            "security_contact": "service@viridis.network",
+            "details": "Viridis nodes offer scalability and flexibility node solutions."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 300000,
+          "active_delegations": 6
+        },
+        {
+          "btc_pk": "30d6852a68e9ee20c8009322ba2eccfba22ca0ae77cbecbe0588ca7ff0fff456",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Aguscrypto",
+            "identity": "",
+            "website": "http://aguscrypto.xyz/",
+            "security_contact": "contact@aguscrypto.xyz",
+            "details": "Aguscrypto acts as a guardian of the Bitcoin network, ensuring its security, integrity, and adherence to Satoshi's vision."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1679486134,
+          "active_delegations": 573
+        },
+        {
+          "btc_pk": "312c11ba1aface770cacc2cf07c9ba0050973988c159bb1bc459666821a4a3ce",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Wellnode",
+            "identity": "",
+            "website": "https://wellnode.online",
+            "security_contact": "tech@wellnode.online",
+            "details": "Wellnode maintains a full copy of the blockchain and processes transactions."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 602530,
+          "active_delegations": 11
+        },
+        {
+          "btc_pk": "0a9205c5371e431354886542b7860922ea149d9a6c99288cf0991b61aa9284b8",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Cryptounity",
+            "identity": "",
+            "website": "https://cryptounity.org",
+            "security_contact": "contact@cryptounity.org",
+            "details": "Cryptounity located at the edge of the network, responsible for collecting and forwarding transaction data. "
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 891902,
+          "active_delegations": 3
+        },
+        {
+          "btc_pk": "59f19690c77004d0f4222c628cb5270e5a7a5c171987e89e33ba18d3e1a28abc",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Decentr",
+            "identity": "",
+            "website": "https://decentr.net",
+            "security_contact": "yann.w3217@gmail.com",
+            "details": "Decentr maintain a distributed ledger, a shared copy of the blockchain's transaction history."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 5903800,
+          "active_delegations": 53
+        },
+        {
+          "btc_pk": "cdc98a7b89bf4579dce2c0a178e94cca5ca3c8efbd78eb63b7c005583807d7c3",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Diabase",
+            "identity": "",
+            "website": "https://www.diabasecoin.com",
+            "security_contact": "suppport@diabasecoin.com",
+            "details": "Diabase is a provider of node infrastructure, offering high-performance and reliable nodes for developers and businesses."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 650000,
+          "active_delegations": 13
+        },
+        {
+          "btc_pk": "137f9805423d87a6b04a1e27f47df82360974b8949902762438def95eb6a6682",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Nebulacloud",
+            "identity": "",
+            "website": "https://nebulacloudnetwork.com",
+            "security_contact": "info@nebulacloudnetwork.com",
+            "details": "Nebulacloud is responsible for validating transactions and maintaining network consensus"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1179902,
+          "active_delegations": 8
+        },
+        {
+          "btc_pk": "03bfc42b1ee2ec78d41b1f3a3eb7abaae72bdbcb5daf88c723265611b94686d9",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Blockbox",
+            "identity": "",
+            "website": "https://www.blockbox.site",
+            "security_contact": "info@blockbox.site",
+            "details": "Blockbox provides node solutions for compliance and security purposes."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 350000,
+          "active_delegations": 7
+        },
+        {
+          "btc_pk": "3c003148a807d555d1a44602360081c4f51533a464937fad9c0c7de2a75664d4",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Doricnode",
+            "identity": "",
+            "website": "https://doric.network",
+            "security_contact": "inquiry@doric.network",
+            "details": "Doricnode aims to distribute the blockchain network across a global network of edge computing power."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 884000,
+          "active_delegations": 15
+        },
+        {
+          "btc_pk": "b759efedb8a11b8135d8f778a57bdb5623490a189f001aa40b6edf36a7f1c483",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Kstadium",
+            "identity": "",
+            "website": "https://kstadium.io",
+            "security_contact": "tech@kstadium.io",
+            "details": " Kstadium run both Bitcoin and Ethereum nodes, along with a suite of management tools."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 196722000,
+          "active_delegations": 26
+        },
+        {
+          "btc_pk": "5778d746eb3abf33e1181e71881fcf74fbf07bf27a2f2b2f8bef1eb99be7e660",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "blockshell",
+            "identity": "",
+            "website": "https://blockshell.com",
+            "security_contact": "info@blockshell.com",
+            "details": "Blockshell empower projects with secure, reliable, and scalable blockchain node solutions."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 11666000,
+          "active_delegations": 94
+        },
+        {
+          "btc_pk": "879270978744dece271e953d78959f7aa93459390a8ac58a32eae43a962f89e3",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "AnchorNode",
+            "identity": "",
+            "website": "https://anchornode.io",
+            "security_contact": "vickyzhu622@gmail.com",
+            "details": "Anchor Node serves as a symbol of blockchain's decentralized architecture."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 404614040,
+          "active_delegations": 329
+        },
+        {
+          "btc_pk": "decf52bb1bafe6b24006e225bac7e52de2af5d33a502b9cb818bf67339856112",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "illuminex",
+            "identity": "",
+            "website": "https://illuminex.xyz",
+            "security_contact": "contact@illuminex.xyz",
+            "details": "illuminex plays a vital role in constructing and maintaining the blockchain network, connecting participants and facilitating seamless transactions."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 860000,
+          "active_delegations": 14
+        },
+        {
+          "btc_pk": "88ea2f734002101cc0bc4ac9107f84594a491949d261dd3edfb5f4eea46a0634",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Selfkey",
+            "identity": "",
+            "website": "https://selfkey.org",
+            "security_contact": "service@selfkey.org",
+            "details": "We play role in maintaining the consensus process, ensuring that all participants agree on the validity of transactions and the state of the blockchain."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 540000,
+          "active_delegations": 9
+        },
+        {
+          "btc_pk": "fb1fb16c02a89990d08bb8bb3cdb0fe1e388b7f795da0e44d72300b5ecb9294f",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Keeper",
+            "identity": "",
+            "website": "https://keeper-wallet.app",
+            "security_contact": "SECURITY_CONTACT",
+            "details": "Keeper act as gatekeepers, validating and verifying the authenticity of transactions"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 4767000,
+          "active_delegations": 50
+        },
+        {
+          "btc_pk": "2122d08453ac78948a9447f8c18d430e2548542afe61ea40cae1f65b9d3addfd",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "NodeStake",
+            "identity": "",
+            "website": "https://nodestake.org",
+            "security_contact": "info@nodestake.org",
+            "details": "NodeStake is the professional validator, infrastructure provider and IBC relayer. ⚛️7*24h Services | https://twitter.com/Nodestake_top"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 12683000,
+          "active_delegations": 22
+        },
+        {
+          "btc_pk": "f5ded5f07a737f6eab6945707e51ff0d82f1e40807e890a8a5808b91eea0a39b",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "ICA",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 180956760,
+          "active_delegations": 2419
+        },
+        {
+          "btc_pk": "cff7c4e34ca8456d2431981f71646042bfd6584d146a3f2688627f5b2ed6fa9c",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "BBN-FR",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 112044620,
+          "active_delegations": 1423
+        },
+        {
+          "btc_pk": "bac0d69a7bcf5c99f21e136d4811688e8aaf5b84332469fa049f429d7062fa53",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Binance",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 471581680,
+          "active_delegations": 1503
+        },
+        {
+          "btc_pk": "9a30ad7f51caaa10c4637b8f5c699bc902b61de1ee878b294b8f319c801c8bd7",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Gitee",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 22623220,
+          "active_delegations": 435
+        },
+        {
+          "btc_pk": "a3a800caacdf4d749cbb8473c0aa7c83cd7d34910de4adfa225fc955827f7e94",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Babylon-CN",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 52412500,
+          "active_delegations": 534
+        },
+        {
+          "btc_pk": "4d5b533c2fdc4a121a9ac097f53ad34fea97618cee0ebf8f8f978827fde01160",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "DelegateLab",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 77875920,
+          "active_delegations": 295
+        },
+        {
+          "btc_pk": "1b8c2800d66ada1909b687633140c9620431f7c9698aca2ee9772e4e6150b08e",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Signet",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 76445240,
+          "active_delegations": 541
+        },
+        {
+          "btc_pk": "7d4aacac041333bd23a3f79755f0571e57bd1b1efdba93dc20b5be20630a9f43",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Babylon-HK",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 18544160,
+          "active_delegations": 238
+        },
+        {
+          "btc_pk": "1d9313f8df759c887dee689495420a8691d8bfaa5d4c2e65bc5894a7ce136df8",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "AKABabylon",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 131008260,
+          "active_delegations": 1010
+        },
+        {
+          "btc_pk": "c6658cda6e6cf911eb2253fbb53122f6b051b3cfd55da86736796b5cb0bb0703",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "OKX",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 410123160,
+          "active_delegations": 3530
+        },
+        {
+          "btc_pk": "22889f7859de100c5a63ea7f271ccb75e28f0ef1d4a53621059aee06cd2c73fe",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "AmberGroup",
+            "identity": "",
+            "website": "https://www.ambergroup.io/",
+            "security_contact": "blockchain_infra@ambergroup.io",
+            "details": "finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 6752000,
+          "active_delegations": 4
+        },
+        {
+          "btc_pk": "91a53f539d528157b741b18a148721640c7bd14c88112c7a303d80e81322d1de",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "BreizhNode",
+            "identity": "",
+            "website": "https://medium.com/@breizh-node",
+            "security_contact": "",
+            "details": "Crypto, blockchain, and masternode enthusiast - Setting up your own node has never been easier"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 12310000,
+          "active_delegations": 4
+        },
+        {
+          "btc_pk": "df1600cd5dc5bfde5937887e1dc671f14ce33b82056f43fe51e6bc24d10cbac1",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Chainflow",
+            "identity": "",
+            "website": "https://chainflow.io",
+            "security_contact": "",
+            "details": "Building crypto infrastructure for a brighter future. We are a leading, independent and values-driven operator since 2017."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1450000,
+          "active_delegations": 3
+        },
+        {
+          "btc_pk": "94c0d27c2015db39a3a0ec9457137e2d52b4b29188c95967d226017860454abe",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Bflux",
+            "identity": "",
+            "website": "https://www.google.com/",
+            "security_contact": "support@blockdaemon.com",
+            "details": "Bflux provides maximum uptime for the Babylon network so that you can be confident your node will be there, ready and secure, for optimal reward generation. Contact us to stake on Bitcoin today."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 267988604,
+          "active_delegations": 184
+        },
+        {
+          "btc_pk": "04c53d1cdb0ff06eff75e31718f3370a15b119be65f73fd2801842128a74dbbf",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "VC Test",
+            "identity": "",
+            "website": " ",
+            "security_contact": "",
+            "details": " "
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 3000000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "29bc35485f77b7813824b4cd3798139666bd52f082bdf4889ace520b0def6768",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Nodend",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "3f29469164664c44097c4eb8beddedf571dea836821e50fe8fc6bd0a5ab736ee",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "InfraSingularity",
+            "identity": "62ECC4FAFB20EB61",
+            "website": "https://infrasingularity.com",
+            "security_contact": "tech@infrasingularity.com",
+            "details": "InfraSingularity aims to radically transform the Web3 ecosystem as a pioneering Web3 Investor, and builder."
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 17075160,
+          "active_delegations": 19
+        },
+        {
+          "btc_pk": "35d1e307169c9941e283c1f259678dc960e1f9858ea168cc1e2d3235d77faaa6",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Bro_n_Bro",
+            "identity": "",
+            "website": "https://bronbro.io",
+            "security_contact": "bro.n.bro.foundation@gmail.com",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 100000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "c14904e2fc62863dc003a15efa7a0b3495db7c511aace11ac3dfd1fa890df866",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "ValiDAO",
+            "identity": "",
+            "website": "https://validao.xyz/",
+            "security_contact": "",
+            "details": "ValiDAO finality provider for the Babylon Test network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 250000,
+          "active_delegations": 3
+        },
+        {
+          "btc_pk": "7bdef31403ee5f3d1261b35ef5147083e630c5b2294d454dda365f2b9bb68756",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Beerbylon",
+            "identity": "",
+            "website": "https://www.web3c.cc",
+            "security_contact": "stephane@web3c.cc",
+            "details": "Professional infra design and node running"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 22438880,
+          "active_delegations": 7
+        },
+        {
+          "btc_pk": "dc31125c66f1b832c19e092ff5ea93b4e8d601b3366811bda705e4f85129b000",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Vitwit",
+            "identity": "",
+            "website": "https://vitwit.com",
+            "security_contact": "validators@vitwit.com",
+            "details": "Vitwit has been at the forefront of the blockchain industry since 2017. With extensive experience and expertise, we have established ourselves as a reliable validator across more than 20 Proof-of-Stake (PoS) networks, with staked assets totaling over 34 million USD"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 50000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "b595181a664702935f4c7fbf610c0e814bea343b8c66e3f1dc9229fdecbab436",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "ITRocket",
+            "identity": "",
+            "website": "https://itrocket.net/services/testnet/babylon/",
+            "security_contact": "itrocket7@gmail.com",
+            "details": "Trusted Validator & contributor in various ecosystems"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1020461800,
+          "active_delegations": 42
+        },
+        {
+          "btc_pk": "bcc394e1d1854c38100f6ab789b99951c7fcfe9f310a57131276d1284fad6fc0",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Kleomedes",
+            "identity": "",
+            "website": "https://kleomed.es",
+            "security_contact": "marco@kleomed.es",
+            "details": "The First Community Governed Validator in the Cosmos 🪐"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 96654440,
+          "active_delegations": 68
+        },
+        {
+          "btc_pk": "c8b1e922dce1f33f67dd264956a8ba29ee5e02ea2a43b253bd798695e281baa5",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "blockscape",
+            "identity": "C46C8329BB5F48D8",
+            "website": "https://blockscape.network/",
+            "security_contact": "blockscape@mway.io",
+            "details": "finality provider for the Babylon network"
+          },
+          "commission": "0.060000000000000000",
+          "active_tvl": 6996000,
+          "active_delegations": 7
+        },
+        {
+          "btc_pk": "32da5fd22935bcf6b97e83d009b0514eeabe4c503a695937b55b7e99c95aa071",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Axol",
+            "identity": "",
+            "website": "https://axol.io/",
+            "security_contact": "support@axol.io",
+            "details": "Axol provides maximum uptime for the Babylon network so that you can be confident your node will be there, ready and secure, for optimal reward generation. Contact us to stake on Bitcoin today."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 184927500,
+          "active_delegations": 186
+        },
+        {
+          "btc_pk": "3df6b7a9c8f11c84059b39416b1cb148805efd9133930e0245dcee01986eebd6",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "POSTHUMAN",
+            "identity": "8A9FC930E1A980D6",
+            "website": "https://posthuman.digital/",
+            "security_contact": "validator@posthuman.digital",
+            "details": "We are more than just a validator! We are here to contribute!"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 111487240,
+          "active_delegations": 41
+        },
+        {
+          "btc_pk": "08049ad40ee6aa4a17a41eacb5c5b7bf08e50b501ff4c02b48715e3113960e73",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Hightower",
+            "identity": "6E67298E94108B40",
+            "website": "htw.tech",
+            "security_contact": "security@htw.tech",
+            "details": "Reliable validator and trusted infrastructure provider"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 22305260,
+          "active_delegations": 10
+        },
+        {
+          "btc_pk": "a58c2af4fb292e8acd864ea495552f680ad1a0e3c276dd7ee7d9ed5fd2609c79",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "launchnodes",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 100000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "838899a2493a00a6855d60c42b478fe7ef9250a807e084852caba4e71100f3a5",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "QuantNode",
+            "identity": "08E399BBC31D22E8AB6FDFF5B1CBEF22E3E0004E",
+            "website": "https://quantnode.tech",
+            "security_contact": "security@quantnode.tech",
+            "details": "Non-Custodial Staking Provider with an in-house Web3 development arm. Support over 20 mainnets, including Aptos, Avail, Axelar, dYdX, Graph Network, and Sui with assets under delegation exceeding $170M"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 306100,
+          "active_delegations": 6
+        },
+        {
+          "btc_pk": "5762e494e8f960de36269c0aceac69615cf70bd9a99664c2290ee7fd4c85158e",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Stake&Relax 🦥",
+            "identity": "",
+            "website": "https://linktr.ee/stakeandrelax",
+            "security_contact": "stakeandrelax_validator@proton.me",
+            "details": "StakeandRelax to get Stake🥩&Rolex⌚Twitter:@StakeandRelax"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 17024580,
+          "active_delegations": 12
+        },
+        {
+          "btc_pk": "4d9e7ad1516c18f299f83b12e0bd5469b8db60d57c6345fb6146d5806a622985",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Xangle2",
+            "identity": "",
+            "website": "https://xangle.io",
+            "security_contact": "validator@crossangle.io",
+            "details": ""
+          },
+          "commission": "0.100000000000000000",
+          "active_tvl": 52101459,
+          "active_delegations": 65
+        },
+        {
+          "btc_pk": "0f5c19935a08f661a1c4dfeb5e51ce7f0cfcf4d2eeb405fe4c7d7bd668fc85e4",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "PumpBTC",
+            "identity": "",
+            "website": "https://pumpbtc.xyz",
+            "security_contact": "josechef@pumpbtc.xyz",
+            "details": "PumpBTC is a liquid staking protocol on Babylon to allow BTC HODLER to maximize yield."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 20050000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "9c79b5db46c00af5a99f526500fbc7eedb65bcc80e78d0b26af9f9b5990f6639",
+          "state": "FINALITY_PROVIDER_STATUS_SLASHED",
+          "description": {
+            "moniker": "test-slash-fp",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": "test for slashing finality provider"
+          },
+          "commission": "0.070000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "756c9ab3070b326ce2af216bbd5a4d8fe8c3972a9a8e6048042fd0a105650ddc",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Upnode",
+            "identity": "",
+            "website": "https://upnode.org",
+            "security_contact": "dev@upnode.org",
+            "details": "Professionally managed institutional grade blockchain infrastructure provider."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 150000,
+          "active_delegations": 3
+        },
+        {
+          "btc_pk": "3742769a01da6c7c4537ad7a4e181392ab3fd1fe04c78c137937974e74b39044",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Jetking",
+            "identity": "",
+            "website": "https://www.jetking.com",
+            "security_contact": "",
+            "details": "Jetking is India's foremost IT training institute. We offer courses in Cloud Computing, Cyber Security, Ethical Hacking, Gaming & Metaverse Design."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 100000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "5e2d609d282468a0743a25a803d8d703943c82b0d760aa7901fe7ca0d809b440",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "caliber",
+            "identity": "",
+            "website": "https://caliber.build",
+            "security_contact": "thang@caliber.build",
+            "details": "Caliber offers trusted Proof-of-Stake infrastructure and validation services, allowing you to comfortably stake your Bitcoin and earn rewards with Babylon."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 100000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "84c7704a56b968a346ac072a28374c057131908fc863f5192eb05434c9f9f003",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "FinalityProviderFrom4103",
+            "identity": "",
+            "website": "",
+            "security_contact": "ckqang2602@gmail.com",
+            "details": "finality provider for the Babylon network"
+          },
+          "commission": "0.030000000000000000",
+          "active_tvl": 24435400,
+          "active_delegations": 6
+        },
+        {
+          "btc_pk": "b93a595f06be43bce19ca087588aa622bbf25abad081b7a8c1898ca95bb72c88",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "ChakraBBNTest5FP",
+            "identity": "",
+            "website": "https://chakrachain.io",
+            "security_contact": "security@chakrachain.io",
+            "details": "chakra test finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 100000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "e52f9431632be9ba39aaf9798f638db41a73e6c6a832a6748fb032e0e3b3aa2d",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "GlobalStake",
+            "identity": "",
+            "website": "https://globalstake.io/",
+            "security_contact": "support@globalstake.io",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 800000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "bf361fde54f9e782920242ebd526368c7da3accb4388ca221b1854dc2af30381",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Validation Cloud 1",
+            "identity": "",
+            "website": "https://www.validationcloud.io",
+            "security_contact": "",
+            "details": "Validation Cloud is a Web3 platform that delivers elite, high-performance node and staking infrastructure."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 18100000,
+          "active_delegations": 3
+        },
+        {
+          "btc_pk": "d53d2a95baf5fe23d1d027aa868c4e1205b06e2b981aa0473af2004ab484c221",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "BreizhNode_test",
+            "identity": "",
+            "website": "https://x.com/breizhnode_",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 50000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "88b32b005d5b7e29e6f82998aff023bff7b600c6a1a74ffac984b3aa0579b384",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "6block.com",
+            "identity": "",
+            "website": "https://6block.com",
+            "security_contact": "contact@6block.com",
+            "details": "Crypto mining and staking solution provider"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 83647812,
+          "active_delegations": 239
+        },
+        {
+          "btc_pk": "b0ab7f82522a1c21a4aff5bc7a01f54399c7cc80e201db94701fb17511fdbde0",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "ViaBTC",
+            "identity": "",
+            "website": "https://www.viabtc.com/",
+            "security_contact": "support@viabtc.com",
+            "details": "ViaBTC is an innovation-driven blockchain service provider that boasts abundant experience, extensive investments, secure and reliable products, and a global user base"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1050000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "983f05c916cb405d0abbfb5630afd881b4a0fbd5108540b06a602908b5b3d9ae",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "NodeStake",
+            "identity": "",
+            "website": "https://nodestake.org",
+            "security_contact": "info@nodestake.org",
+            "details": "NodeStake is the professional validator, infrastructure provider and IBC relayer. ⚛️7*24h Services | https://twitter.com/Nodestake_top"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1100000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "1554e54e1e3d941001c99393b9a8088d5279cfc84fdca671af36fa33a714fec3",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Laam",
+            "identity": "",
+            "website": "https://onekey.so",
+            "security_contact": "dev@onekey.so",
+            "details": "OneKey - Fully open source crypto app and hardware wallet, backed by Coinbase Venture, Ribbit, Dragonfly and other prominent crypto funds."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 70000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "6f555d3b743491ade9705afa4596b1916eb835f025c4624e3d56845a80d29cae",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "AtlasNodes",
+            "identity": "",
+            "website": "https://atlas-nodes.com",
+            "security_contact": "info@atlas-nodes.com",
+            "details": "Stake BTC  Meme "
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "f4940b238dcd00535fde9730345bab6ff4ea6d413cc3602c4033c10f251c7e81",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Chakra",
+            "identity": "",
+            "website": "https://chakrachain.io",
+            "security_contact": "fp@chakrachain.io",
+            "details": "The first Modular Settlement Network backed by @StarkWareLtd & Bitcoin OGs"
+          },
+          "commission": "0.030000000000000000",
+          "active_tvl": 191930100,
+          "active_delegations": 691
+        },
+        {
+          "btc_pk": "9e454eed15e7590ba4ba1d14a80414cbed4a011d768731c44f0885c018d8623a",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "crackedyodanode",
+            "identity": "",
+            "website": "https://x.com/CrackedYoda",
+            "security_contact": "",
+            "details": "this is yoda node"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "db9160428e401753dc1a9952ffd4fa3386c7609cf8411d2b6d79c42323ca9923",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "lorenzo",
+            "identity": "",
+            "website": "https://www.lorenzo-protocol.xyz",
+            "security_contact": "thorsivodin@gmail.com",
+            "details": "finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "5127f9330eb96b9c5c9e84f81747b21ce1a7a500cf41cb223ea952f3bfedc848",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "OneKey",
+            "identity": "",
+            "website": "https://onekey.so",
+            "security_contact": "dev@onekey.so",
+            "details": "OneKey - Fully open source crypto app and hardware wallet, backed by Coinbase Venture, Ribbit, Dragonfly and other prominent crypto funds."
+          },
+          "commission": "0.030000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "4528ca54025d54ec317290187e527bf70ed460946c9ef26371d64191fdc35399",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "Laam",
+            "identity": "",
+            "website": "https://onekey.so",
+            "security_contact": "dev@onekey.so",
+            "details": "OneKey - Fully open source crypto app and hardware wallet, backed by Coinbase Venture, Ribbit, Dragonfly and other prominent crypto funds."
+          },
+          "commission": "0.030000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "c7aa7dbcf1195e0029020fc34bfb54c422c352027d76968edb19160f7af03c6d",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Stakecito",
+            "identity": "D16E26E5C8154E17",
+            "website": "https://stakecito.com",
+            "security_contact": "security@stakecito.de",
+            "details": "Securing & Decentralizing PoS Networks."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "27df0b60c1ec84ecaac8652113d0d300b03bda6ae0dc2959ad82718a65f908d0",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Solv Protocol",
+            "identity": "",
+            "website": "https://app.solv.finance",
+            "security_contact": "contact@solv.finance",
+            "details": "Pioneering A Decentralized Bitcoin Reserve with SolvBTC."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 25500000,
+          "active_delegations": 4
+        },
+        {
+          "btc_pk": "3985904cb984b9204ab0b0ea44bdde12cfd847193eedaace7cd461ff6f1f92e6",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "MyFinalityProvider",
+            "identity": "",
+            "website": "https://myfinalityprovider.com",
+            "security_contact": "security@myfinalityprovider.com",
+            "details": "finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "3e7af699845fae4817923f8c3484bc4759dc306d17255d859dcd0e08d9cc426c",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Chorus One",
+            "identity": "",
+            "website": "https://chorus.one",
+            "security_contact": "security@chorus.one",
+            "details": "Secure Babylon and shape its future by delegating to Chorus One, a highly secure and stable validator. By delegating, you agree to the terms of service at: https://chorus.one/tos"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 22105000,
+          "active_delegations": 6
+        },
+        {
+          "btc_pk": "c4641cf0f5c549e2cd36aad731deb1b1199a464be472a1d5cc4dada01079d245",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "cobo",
+            "identity": "",
+            "website": "https://www.cobo.com",
+            "security_contact": "devops@cobo.com",
+            "details": "Cobo is the first leading company in the world to offer Proof-of-Stake (PoS) and masternode rewards on user holdings, making it easy for users to grow their digital assets effortlessly."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 250000,
+          "active_delegations": 5
+        },
+        {
+          "btc_pk": "26881e3fca4054fbe8a3b80c91a5d86216510678faad542811cee164d2e117b3",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "mahirofp0",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": "mahiro finality provider 0"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 100000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "eb11c3cccafbbe40780d5b481c6e5630b6fbfe0204ef617f48714130b72eda54",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "01zonaris",
+            "identity": "CB2A5469006ED319",
+            "website": "https://zonaris.io",
+            "security_contact": "contact@zonaris.com",
+            "details": "Bitcoin staking powered by zonaris' green, institutional-grade, CO2-neutral infrastructure."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 16200000,
+          "active_delegations": 6
+        },
+        {
+          "btc_pk": "e4e585e5cde473c849ec1e1e3fe6123942d2e0e2c4ab2a16c36ae4b805a05be3",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "A human-readable name for the finality provider",
+            "identity": "",
+            "website": "https://www.antpool.com",
+            "security_contact": "",
+            "details": "Antpool always maintains blockchain security as a world-leading mining pool"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "615e9392eda947e85d827f19290c4dc2a5986dca278be4f480820741aa0fb1da",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Liquify",
+            "identity": "",
+            "website": "https://liquify.com",
+            "security_contact": "contact@liquify.com",
+            "details": " Liquify finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "7283e1ead11c62654e71ff5a02b3d60785e6506a7e437ef1ce756ca41da643ff",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "Cubist",
+            "identity": "",
+            "website": "https://cubist.dev",
+            "security_contact": "security+babylon-fp@cubist.dev",
+            "details": "Cubist is the creator of CubeSigner, the premier hardware-backed key management infrastructure. CubeSigner gives high-security, low-latency signing for a wide range of Web3 applications including staking, wallets, trading, and more."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "46f52ca820fd50901109807064e59e4c8e37f1c95ff9efa2dde3e4802e0a1c34",
+          "state": "FINALITY_PROVIDER_STATUS_INACTIVE",
+          "description": {
+            "moniker": "GoodProvider",
+            "identity": "",
+            "website": "https://myfinalityprovider.com",
+            "security_contact": "test@abc.com",
+            "details": "finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "5949b0c8e57dcb338471aec80141f7e6b73125779446672fcc3f600ccf46674d",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "mikemike",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 50000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "bdf030f2b314309a3bd3ccb51a49aaeb48dec59f99b0892216dd491920f45254",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "MyFinalityProvider",
+            "identity": "",
+            "website": "https://myfinalityprovider.com",
+            "security_contact": "security@myfinalityprovider.com",
+            "details": "finality provider for the Babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1000000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "e917322abbf37ea1f187ed2d55df649da2039c7a50181d93ea9dcb18e710aa21",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Lombard x Kiln",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.080000000000000000",
+          "active_tvl": 2000000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "d152f5ac6c8cc1c8e6377e8ebb25920f3ccc8a578797c88580ff8ad2d7496149",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Lombard x Figment",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.080000000000000000",
+          "active_tvl": 5000000,
+          "active_delegations": 2
+        },
+        {
+          "btc_pk": "ca5c0b7fc09aea5d52ccfba76466d76e08cfeedb7202638f9693a7fabe054a82",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Colossus",
+            "identity": "32A5F1629806ED70",
+            "website": "https://colossus.digital",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 211150000,
+          "active_delegations": 7
+        },
+        {
+          "btc_pk": "e96b8c97cc88406dda57c130a8002dd93048e435082f1c15dbeaf4a8b3a7c2b3",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Lombard x Galaxy",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": ""
+          },
+          "commission": "0.080000000000000000",
+          "active_tvl": 1000000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "4b888dc2c7b150fd74e2cf5620fb34e946fc9a06a60879c1446879150b94a6b7",
+          "state": "FINALITY_PROVIDER_STATUS_SLASHED",
+          "description": {
+            "moniker": "Slushy",
+            "identity": "",
+            "website": "",
+            "security_contact": "",
+            "details": "This is a test finality provider for slashing."
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 0,
+          "active_delegations": 0
+        },
+        {
+          "btc_pk": "ac87758206a9e153ccc8c8299c7cf3633afcf74cfb8b10fba00bc8b7462d1683",
+          "state": "FINALITY_PROVIDER_STATUS_JAILED",
+          "description": {
+            "moniker": "test fp",
+            "identity": "",
+            "website": "https://p2p.org",
+            "security_contact": "security@p2p.org",
+            "details": "Lombard x P2P Finality Provider"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 1500000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "738a8bc79d3a19ce1d73772f2f91946d401e4c0cc445e4936251b87cd6259340",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "Lombard x P2P",
+            "identity": "",
+            "website": "https://p2p.org",
+            "security_contact": "security@p2p.org",
+            "details": "Lombard x P2P"
+          },
+          "commission": "0.080000000000000000",
+          "active_tvl": 1500000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "6fe8a22bd739f320da4db027d918866a4216a6b8fc85b128dccb2b7d9fa85ae0",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "btwo",
+            "identity": "",
+            "website": "https://www.bsquared.network",
+            "security_contact": "",
+            "details": "btwo testnet detail"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 50000,
+          "active_delegations": 1
+        },
+        {
+          "btc_pk": "ea4d428bb56f9a0185eb6715eb2f0b1959dd00a1f935065e768dd7916b25c4de",
+          "state": "FINALITY_PROVIDER_STATUS_ACTIVE",
+          "description": {
+            "moniker": "ngrave-finality-provider",
+            "identity": "",
+            "website": "https://ngrave.io/",
+            "security_contact": "mohamed.jaseel@ngrave.io",
+            "details": "Finality provider for the babylon network"
+          },
+          "commission": "0.050000000000000000",
+          "active_tvl": 50000,
+          "active_delegations": 1
+        }
+      ],
+      "pagination": {
+        "next_key": ""
+      }
+    },
+    "type": "json"
+  }
+}

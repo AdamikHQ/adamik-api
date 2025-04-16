@@ -41,7 +41,7 @@ abstract class BaseChainService {
 
   // Data
   abstract getTransaction(transactionId: string, status: Status): Promise<FinalizedTransaction>;
-  abstract getAccountState(accountId: string): Promise<AccountState>;
+  abstract getAccountState(accountId: string, pubKey?: string): Promise<AccountState>;
   abstract getAccountHistory(accountId: string, paginationToken?: string): Promise<Paginated<AccountHistory>>;
 
   // Crafting

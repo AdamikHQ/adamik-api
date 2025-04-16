@@ -13,6 +13,7 @@ import {
 } from "~/app/model/types_WIP";
 import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import {
+  BabylonInvalidProofOfPossessionError,
   BabylonTransactionAlreadyUsedError,
   InvalidPaginationTokenError,
   InvalidTransactionError,
@@ -70,7 +71,7 @@ async function fetchAllWithPagination<T>(chainId: ChainId, urlString: string, da
     result = await response.json();
 
     if (!result || !Array.isArray(result[dataKey])) {
-      console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url.toString()}:`, result);
+      console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint ${url.toString()}:`, result);
       break;
     }
 
@@ -197,7 +198,7 @@ async function fetchRewards(
   const data: CosmosRewards = await response.json();
 
   if (!data?.rewards) {
-    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint ${url}:`, data);
     return { native: [], tokens: [] };
   }
 
@@ -285,7 +286,7 @@ async function fetchValidators(
   }
 
   if (!Array.isArray(data?.validators)) {
-    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url.toString()}:`, data);
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint ${url.toString()}:`, data);
     throw new ThirdPartyProviderError(`Error while fetching ${chainId} validators from the node`);
   }
 
@@ -350,7 +351,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
       account.pubKeyType = accountData.pub_key["@type"];
     }
   } catch (e) {
-    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint ${url}:`, data);
     throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
   }
 
@@ -364,7 +365,7 @@ async function fetchIBCTokenTicker(chainId: ChainId, ibcTokenId: string): Promis
 
   const data = await fetchWithHeaders(url);
   if (!data?.denom_trace?.base_denom) {
-    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint ${url}:`, data);
     return "";
   }
 
@@ -378,7 +379,7 @@ async function fetchNetworkId(chainId: ChainId): Promise<string> {
   const url = `${getNodeRootUrl(chainId)}/cosmos/base/tendermint/v1beta1/node_info`;
   const data = await fetchWithHeaders(chainId, url);
   if (!data?.default_node_info?.network) {
-    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint: ${url}:`, data);
+    console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint ${url}:`, data);
     throw new ThirdPartyProviderError(`Error while fetching ${chainId} network ID from the node`);
   }
 
@@ -409,9 +410,11 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
 
   if (!data?.gas_info?.gas_used) {
     console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint ${url}:`, data);
-    // TODO Isolate Babylon-specific error handling
+    // TODO Babylon-specific error handling
     if (data?.message.includes("the BTC staking tx is already used")) {
       throw new BabylonTransactionAlreadyUsedError();
+    } else if (data?.message.includes("the proof of possession is not valid")) {
+      throw new BabylonInvalidProofOfPossessionError();
     } else if (data?.message.includes("insufficient funds")) {
       throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
     } else {

@@ -1,0 +1,32 @@
+{
+  "request": {
+    "url": "https://cosmos-api.polkachu.com/cosmos/staking/v1beta1/delegators/cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl/unbonding_delegations",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "unbonding_responses": [
+        {
+          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+          "validator_address": "cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2",
+          "entries": [
+            {
+              "creation_height": "25282323",
+              "completion_time": "2025-05-05T13:06:05.434634328Z",
+              "initial_balance": "1000000",
+              "balance": "1000000",
+              "unbonding_id": "1267601",
+              "unbonding_on_hold_ref_count": "0"
+            }
+          ]
+        }
+      ],
+      "pagination": {
+        "next_key": null,
+        "total": "1"
+      }
+    },
+    "type": "json"
+  }
+}

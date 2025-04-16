@@ -1,6 +1,7 @@
 import { BLOCKCHAIR_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
+  AccountState,
   ChainId,
   FinalizedTransaction,
   Provider,
@@ -9,19 +10,17 @@ import {
   TransactionState,
 } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
-import { BitcoinChainParams, Xpub } from "../types";
+import { BitcoinChainParams, UtxoWithMetadata, Xpub } from "../types";
 import {
   BlockchairAddressesResponse,
   BlockchairRawTransactionData,
   BlockchairRawTransactionResponse,
-  BlockchairResponseContext,
   BlockchairStatsData,
   BlockchairTransactionBroadcastStatus,
   BlockchairTransactionData,
   BlockchairTransactionsResponse,
-  BlockchairXpubData,
   BlockchairXpubResponse,
-} from "./types";
+} from "./blockchair.types";
 
 // TODO Need proper mapping between Adamik ChainID <> Blockchair ChainID (to support more than bitcoin)
 
@@ -35,10 +34,7 @@ import {
  * - Default limit is 100 addresses (can be changed with ?limit parameter up to 10000)
  * - Premium API users get increased limit of up to 20,000 addresses (10,000 main + 10,000 change)
  */
-async function fetchXpubDashboard(
-  chainId: ChainId,
-  xpub: Xpub
-): Promise<{ data: BlockchairXpubData; context: BlockchairResponseContext }> {
+async function fetchXpubUTXOs(chainId: ChainId, xpub: Xpub): Promise<UtxoWithMetadata[]> {
   const explorerURL = CHAINS[chainId].providers.find(
     (p: Provider) => p.type === ProviderType.blockchair
   )?.url;
@@ -97,10 +93,112 @@ async function fetchXpubDashboard(
     utxo.script_hex = data.addresses[utxoAddress].script_hex;
   });
 
-  return {
-    data: parsedResponse.data.data[xpub],
-    context: parsedResponse.data.context,
-  };
+  return data.utxo;
+}
+
+async function fetchAddressUTXOs(chainId: ChainId, address: string): Promise<UtxoWithMetadata[]> {
+  const explorerURL = CHAINS[chainId].providers.find(
+    (p: Provider) => p.type === ProviderType.blockchair
+  )?.url;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
+
+  const url = `${explorerURL}/dashboards/addresses/${address}?${queryParams.toString()}`;
+
+  const response = await fetch(url);
+
+  if (response.status >= 500) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`,
+      await response.text()
+    );
+    throw new ThirdPartyProviderError("Error while fetching addresses data from the explorer");
+  }
+
+  const parsedResponse = BlockchairAddressesResponse.safeParse(await response.json());
+
+  if (!parsedResponse.success) {
+    console.warn(
+      `/!\\ Error while parsing response from ${chainId} explorer endpoint ${url.toString()}:`,
+      parsedResponse.error
+    );
+    throw new ThirdPartyProviderError("Error while parsing addresses data from the explorer");
+  }
+
+  const context = parsedResponse.data.context;
+  const data = parsedResponse.data.data;
+
+  if (context.code == 404 || !data) {
+    return [];
+  } else if (context.code != 200) {
+    console.warn(
+      `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+      parsedResponse.data
+    );
+    throw new ThirdPartyProviderError("Error in addresses data received from the explorer");
+  }
+
+  if (!context.state) {
+    console.warn(`Missing current block height for chain ID ${chainId} in: ${JSON.stringify(context)}`);
+    throw new ThirdPartyProviderError(`Missing current block height in data returned from explorer`);
+  }
+
+  // Custom data formatting: we need script_hex for each UTXO, so we add it manually
+  data.utxo.forEach((utxo) => {
+    const utxoAddress = Object.keys(data.addresses).find((address) => address === utxo.address);
+    if (!utxoAddress) {
+      console.warn(
+        `/!\\ Error in data received from ${chainId} explorer endpoint ${url.toString()}:`,
+        parsedResponse.data
+      );
+      throw new ThirdPartyProviderError("Error in addresses data received from the explorer");
+    }
+
+    utxo.script_hex = data.addresses[utxoAddress].script_hex;
+  });
+
+  return data.utxo;
+}
+
+async function fetchXpubData(chainId: ChainId, xpub: Xpub): Promise<AccountState> {
+  const utxos = await fetchXpubUTXOs(chainId, xpub);
+  return utxosToAccountState(chainId, utxos);
+}
+
+async function fetchAddressData(chainId: ChainId, address: string): Promise<AccountState> {
+  const utxos = await fetchAddressUTXOs(chainId, address);
+  return utxosToAccountState(chainId, utxos);
+}
+
+// Unused at the moment, multiple addresses are not supported
+/*
+async function fetchAddressesUTXOs(chainId: ChainId, addresses: string[]): Promise<UtxoWithMetadata[]> {
+  // Split addresses into batches
+  const BATCH_SIZE = 100;
+  const batches: string[][] = [];
+  for (let i = 0; i < addresses.length; i += BATCH_SIZE) {
+    batches.push(addresses.slice(i, i + BATCH_SIZE));
+  }
+
+  // Fetch data for each batch
+  const responses: BlockchairAddressesResponse[] = await Promise.all(
+    batches
+      .map(async (addressesBatch) => fetchAddressesBatch(chainId, addressesBatch))
+      // Filter-out cases where null was returned
+      .filter(Boolean) as Promise<BlockchairAddressesResponse>[]
+  );
+
+  // Merge all responses
+  const aggregated = responses.reduce(
+    (merged, current) => ({
+      ...merged,
+      ...current,
+    }),
+    responses[0]
+  );
+
+  return aggregated.data.utxo;
 }
 
 async function fetchAddressesBatch(
@@ -172,35 +270,7 @@ async function fetchAddressesBatch(
 
   return parsedResponse.data;
 }
-
-async function fetchAddressesDashboard(
-  chainId: ChainId,
-  addresses: string[]
-): Promise<BlockchairAddressesResponse> {
-  // Split addresses into batches
-  const BATCH_SIZE = 100;
-  const batches: string[][] = [];
-  for (let i = 0; i < addresses.length; i += BATCH_SIZE) {
-    batches.push(addresses.slice(i, i + BATCH_SIZE));
-  }
-
-  // Fetch data for each batch
-  const responses: BlockchairAddressesResponse[] = await Promise.all(
-    batches
-      .map(async (addressesBatch) => fetchAddressesBatch(chainId, addressesBatch))
-      // Filter-out cases where null was returned
-      .filter(Boolean) as Promise<BlockchairAddressesResponse>[]
-  );
-
-  // Merge all responses
-  return responses.reduce(
-    (merged, current) => ({
-      ...merged,
-      ...current,
-    }),
-    responses[0]
-  );
-}
+*/
 
 async function fetchTransaction(
   chainId: ChainId,
@@ -366,7 +436,7 @@ async function fetchRawTransaction(
   return parsedResponse.data.data[transactionId];
 }
 
-async function fetchStats(chainId: ChainId): Promise<BlockchairStatsData> {
+async function fetchLatestBlockHeight(chainId: ChainId): Promise<number> {
   const explorerURL = CHAINS[chainId].providers.find(
     (p: Provider) => p.type === ProviderType.blockchair
   )?.url;
@@ -382,9 +452,10 @@ async function fetchStats(chainId: ChainId): Promise<BlockchairStatsData> {
     throw new ThirdPartyProviderError("Error while fetching transaction metadata from the explorer");
   }
 
-  const result = await response.json();
+  const result: { data: BlockchairStatsData } = await response.json();
 
-  return result.data;
+  // -1 because blocks is the total nb of blocks, and block height starts at #0
+  return result.data.blocks - 1;
 }
 
 async function fetchFeePerByte(chainId: ChainId): Promise<number> {
@@ -464,6 +535,47 @@ async function postTransaction(chainId: ChainId, payload: string): Promise<strin
   return parsedResponse.data.data.transaction_hash;
 }
 
+async function utxosToAccountState(chainId: ChainId, utxos: UtxoWithMetadata[]): Promise<AccountState> {
+  const chainParams = CHAINS[chainId].params as BitcoinChainParams;
+
+  const latestBlockHeight = await fetchLatestBlockHeight(chainId);
+
+  const { confirmedBalance, unconfirmedBalance } = utxos
+    // FIXME Is this required??
+    //.filter((utxo) => utxo.address === address)
+    .reduce(
+      (acc, utxo) => {
+        // Pure mempool transactions should ALWAYS be counted as unconfirmed
+        if (utxo.block_id === -1) {
+          acc.unconfirmedBalance += BigInt(utxo.value);
+          return acc;
+        }
+
+        // For transactions in blocks, check if they have enough confirmations
+        if (latestBlockHeight - utxo.block_id + 1 < chainParams.confirmations) {
+          acc.unconfirmedBalance += BigInt(utxo.value);
+        } else {
+          acc.confirmedBalance += BigInt(utxo.value);
+        }
+        return acc;
+      },
+      { confirmedBalance: 0n, unconfirmedBalance: 0n }
+    );
+
+  return {
+    balances: {
+      native: {
+        // available: includes ALL spendable amounts (both confirmed and unconfirmed)
+        available: confirmedBalance + unconfirmedBalance,
+        // total: same as available for Bitcoin (no locked amounts)
+        total: confirmedBalance + unconfirmedBalance,
+        // unconfirmed: track unconfirmed amount for information
+        unconfirmed: unconfirmedBalance,
+      },
+    },
+  };
+}
+
 async function blockchairToAdamikTransaction(
   chainId: ChainId,
   blockchairTransaction: BlockchairTransactionData
@@ -492,8 +604,8 @@ async function blockchairToAdamikTransaction(
     parsedTransaction.state = TransactionState.PENDING;
   } else {
     const bitcoinParams = CHAINS[chainId].params as BitcoinChainParams;
-    const { blocks: latestBlock } = await fetchStats(chainId);
-    const isTransactionConfirmed = latestBlock - transactionBlockHeight >= bitcoinParams.confirmations;
+    const latestBlockHeight = await fetchLatestBlockHeight(chainId);
+    const isTransactionConfirmed = latestBlockHeight - transactionBlockHeight >= bitcoinParams.confirmations;
 
     parsedTransaction.state = isTransactionConfirmed
       ? TransactionState.CONFIRMED
@@ -513,12 +625,14 @@ async function blockchairToAdamikTransaction(
 }
 
 export {
-  fetchAddressesDashboard,
+  fetchAddressData,
+  fetchAddressUTXOs,
   fetchFeePerByte,
+  fetchLatestBlockHeight,
   fetchRawTransaction,
-  fetchStats,
   fetchTransaction,
   fetchTransactionsMetadataBatched,
-  fetchXpubDashboard,
+  fetchXpubData,
+  fetchXpubUTXOs,
   postTransaction,
 };

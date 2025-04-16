@@ -1,0 +1,20 @@
+meta {
+  name: bitcoin-signet
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/:chainId/validators
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: bitcoin-signet
+}
+
+assert {
+  res.status: eq 200
+  res.body.validators: isArray 
+}
