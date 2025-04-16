@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| node | https://lcd-cosmos.imperator.co |<br />
+| node | https://cosmos-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
@@ -229,7 +229,7 @@
 
 ## injective
 
-| node | https://lcd-injective.imperator.co |<br />
+| node | https://injective-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
@@ -275,12 +275,12 @@
 
 ## evmos
 
-| node | https://lcd-evmos.imperator.co |<br />
+| node | https://evmos-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## irisnet
 
-| node | https://lcd-iris.imperator.co |<br />
+| node | https://apis.mintscan.io/iris/lcd |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## juno

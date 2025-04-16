@@ -47,6 +47,7 @@ jobs:
         working-directory: head
         env:
           API_URL: ${{ env.API_URL }}
+          REDIS_URL: ${{ secrets.REDIS_URL }}
         run: pnpm run doc:openapi
 
       - name: Configure git
@@ -94,4 +95,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git push || echo "No changes to push"
+          git push --no-verify || echo "No changes to push"

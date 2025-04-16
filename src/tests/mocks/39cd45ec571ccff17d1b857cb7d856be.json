@@ -1,0 +1,38 @@
+{
+  "request": {
+    "url": "https://injective-api.polkachu.com/cosmos/distribution/v1beta1/delegators/inj1vmzrwxhgllkjaswzawaue7m7f9qcrc0rfth2v2/rewards",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "rewards": [
+        {
+          "validator_address": "injvaloper1ntn4j2lsu3k60g8xj9pqshqvdj2q5tygyvczpy",
+          "reward": [
+            {
+              "denom": "inj",
+              "amount": "886898628512007.400000000000000000"
+            }
+          ]
+        },
+        {
+          "validator_address": "injvaloper1h37jxecva2xgm78ejw3683vrw932j6nuzgdxgj",
+          "reward": [
+            {
+              "denom": "inj",
+              "amount": "17637326057950205.299999999999999999"
+            }
+          ]
+        }
+      ],
+      "total": [
+        {
+          "denom": "inj",
+          "amount": "18524224686462212.699999999999999999"
+        }
+      ]
+    },
+    "type": "json"
+  }
+}

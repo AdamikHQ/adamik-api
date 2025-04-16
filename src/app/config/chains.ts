@@ -45,7 +45,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-cosmos.imperator.co",
+        //url: "https://lcd-cosmos.imperator.co", // FIXME Frequent HTTP 502 errors
+        url: "https://cosmos-api.polkachu.com",
       },
       {
         type: ProviderType.mintscan,
@@ -1050,7 +1051,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.node,
         //url: "https://apis.mintscan.io/injective/lcd", // Error when computing tx fees
-        url: "https://lcd-injective.imperator.co", // FIXME Frequent HTTP 502 errors!
+        //url: "https://lcd-injective.imperator.co", // FIXME Frequent HTTP 502 errors
+        url: "https://injective-api.polkachu.com",
       },
       {
         type: ProviderType.mintscan,
@@ -1317,7 +1319,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-evmos.imperator.co",
+        //url: "https://lcd-evmos.imperator.co", // Occasional HTTP 504 Gateway Timeout errors...
+        url: "https://evmos-api.polkachu.com",
       },
       {
         type: ProviderType.mintscan,
@@ -1347,7 +1350,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-iris.imperator.co",
+        url: "https://apis.mintscan.io/iris/lcd",
+        //url: "https://lcd-iris.imperator.co", // FIXME Frequent HTTP 502 errors
       },
       {
         type: ProviderType.mintscan,

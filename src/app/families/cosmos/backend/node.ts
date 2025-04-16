@@ -11,10 +11,12 @@ import {
   TokenStakingReward,
   TokenType,
 } from "~/app/model/types_WIP";
+import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import {
   BabylonInvalidProofOfPossessionError,
   BabylonTransactionAlreadyUsedError,
   InvalidPaginationTokenError,
+  InvalidTransactionError,
   ThirdPartyProviderError,
   UserInputError,
 } from "~/app/tools/handlers/errors";
@@ -413,6 +415,8 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
       throw new BabylonTransactionAlreadyUsedError();
     } else if (data?.message.includes("the proof of possession is not valid")) {
       throw new BabylonInvalidProofOfPossessionError();
+    } else if (data?.message.includes("insufficient funds")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
     } else {
       throw new ThirdPartyProviderError(`Error while getting gas estimate for ${chainId} transaction`);
     }
