@@ -1,7 +1,7 @@
 meta {
-  name: cosmoshub
+  name: babylon-testnet
   type: http
-  seq: 4
+  seq: 2
 }
 
 post {
@@ -11,7 +11,7 @@ post {
 }
 
 params:path {
-  chainId: cosmoshub
+  chainId: babylon-testnet
 }
 
 body:json {
@@ -22,5 +22,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.addresses[0].address: eq cosmos1dsx5hhngvdenhcf6shqan2ujm8y8esdye45j33
+  res.body.addresses[0].address: eq bbn1dsx5hhngvdenhcf6shqan2ujm8y8esdywt9rwg
 }
