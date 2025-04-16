@@ -1,6 +1,6 @@
 {
   "request": {
-    "url": "https://babylon-testnet-api.polkachu.com/cosmos/staking/v1beta1/delegations/bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49",
+    "url": "https://babylon-testnet-api.nodes.guru/cosmos/staking/v1beta1/delegations/bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq",
     "method": "GET"
   },
   "response": {
@@ -11,6 +11,7 @@
         "next_key": null,
         "total": "0"
       }
-    }
+    },
+    "type": "json"
   }
 }

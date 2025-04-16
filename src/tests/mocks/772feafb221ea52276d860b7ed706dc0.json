@@ -1,0 +1,76 @@
+{
+  "request": {
+    "url": "https://staking-api.testnet.babylonlabs.io/v2/delegation?staking_tx_hash_hex=eb7ce45ca671deb0c383cd8e571cc928fbbf64521544eeb43c1fb089141a90eb",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "params_version": 6,
+        "staker_btc_pk_hex": "bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+        "finality_provider_btc_pks_hex": [
+          "d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76"
+        ],
+        "delegation_staking": {
+          "staking_tx_hash_hex": "eb7ce45ca671deb0c383cd8e571cc928fbbf64521544eeb43c1fb089141a90eb",
+          "staking_tx_hex": "02000000015010e33c2a3c6c4d9e0f410652dcb8032602e3df6ed8c4739382733f0be43a2f0100000000ffffffff0250c3000000000000225120a80fe5278c52cab2e0a0c9702713f61fe8f2f248346a6d7dcc1245338c14ec169a8f04000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e291604100000000",
+          "staking_timelock": 10000,
+          "staking_amount": 50000,
+          "start_height": 241915,
+          "end_height": 251915,
+          "bbn_inception_height": 642335,
+          "bbn_inception_time": "2025-04-01T13:11:22Z",
+          "slashing": {
+            "slashing_tx_hex": "",
+            "spending_height": 0
+          }
+        },
+        "delegation_unbonding": {
+          "unbonding_timelock": 1008,
+          "unbonding_tx": "0200000001eb901a1489b01f3cb4ee44155264bffb28c91c578ecd83c3b0de71a65ce47ceb0000000000ffffffff0180bb000000000000225120925f6e5d2f54928dbbf7c7b989e2d0e8b6023baece6b7ae6efed0c4f5489199900000000",
+          "covenant_unbonding_signatures": [
+            {
+              "covenant_btc_pk_hex": "d21faf78c6751a0d38e6bd8028b907ff07e9a869a43fc837d6b3f8dff6119a36",
+              "signature_hex": "5fb5a1cdb556e66c4047f418a6f9421d5721cbed5912c53985225031c214bd4ed16af0d996a6fbd75b68d6c4c5c129015c28d2c0c3b137d97dc0ff69f65d8e12"
+            },
+            {
+              "covenant_btc_pk_hex": "3bb93dfc8b61887d771f3630e9a63e97cbafcfcc78556a474df83a31a0ef899c",
+              "signature_hex": "2367d6f74dd77a9f9fbb4a14ca7cbc3f44c069df8cdbf6c05bfac3e3b023b95e4f25bc03eafc5721f0b5c4775e2c41a8fcc4303e4e0507db4cbef82e43f6716e"
+            },
+            {
+              "covenant_btc_pk_hex": "17921cf156ccb4e73d428f996ed11b245313e37e27c978ac4d2cc21eca4672e4",
+              "signature_hex": "b7863249bc533dd7bc465d63f12ce746e8acdb67270288f3c3aac3434b84acad671e1b3bf3f0b41bec8ae2c08e3a516868a22b6c4c4fd0cbfef040ccbacb7f33"
+            },
+            {
+              "covenant_btc_pk_hex": "79a71ffd71c503ef2e2f91bccfc8fcda7946f4653cef0d9f3dde20795ef3b9f0",
+              "signature_hex": "03a1ae7b21ed0825e403c10644225d2556487cdb809bc8ae30b55083434eb9943e5510e888e6e7adfdb370580d66166e6f168c129daece30313df378434e1c0a"
+            },
+            {
+              "covenant_btc_pk_hex": "fa9d882d45f4060bdb8042183828cd87544f1ea997380e586cab77d5fd698737",
+              "signature_hex": "28c1e073eb973737b33817e043265d55614af94777cd3ab178fe99359b1f49ca2dc12158c740257956a6e57cac81c5572a7bd6be6a160fde715ca49c6ff600c2"
+            },
+            {
+              "covenant_btc_pk_hex": "f5199efae3f28bb82476163a7e458c7ad445d9bffb0682d10d3bdb2cb41f8e8e",
+              "signature_hex": "8e48bc8fc2b8a6e0bbb6b16f7852e3005cb5657df1c908e563d7eb99f417b44730b63b63935231e2c45c7822dab31130b439e79c423e8e3516de9287ebd98698"
+            },
+            {
+              "covenant_btc_pk_hex": "40afaf47c4ffa56de86410d8e47baa2bb6f04b604f4ea24323737ddc3fe092df",
+              "signature_hex": "1fac10dd362f2c5ff0f652afa97698832a3cbf2505f3772a4d81a622194af962402380ef3b00ec8d2eaa2f3ab10350063b65b22149f22bba1f9220221ebd8756"
+            },
+            {
+              "covenant_btc_pk_hex": "0aee0509b16db71c999238a4827db945526859b13c95487ab46725357c9a9f25",
+              "signature_hex": "20fecc82915cb600cbb98a038efa9d9496b5bb2f710404a7ab891c15ab19e137abad25dce299e8caba6e28d75f777684544e2eaa75d0c401ed413e79fdd9b52d"
+            }
+          ],
+          "slashing": {
+            "unbonding_slashing_tx_hex": "",
+            "spending_height": 0
+          }
+        },
+        "state": "ACTIVE"
+      }
+    },
+    "type": "json"
+  }
+}

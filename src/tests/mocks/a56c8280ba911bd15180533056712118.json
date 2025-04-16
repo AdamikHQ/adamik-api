@@ -1,0 +1,288 @@
+{
+  "request": {
+    "url": "https://apis.mintscan.io/v1/babylon-testnet/txs/5FE03AA08DED2BFE811916BF11BCA1D16918C6FC0DC1E20ADB148F10E2C8FC41",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": [
+      {
+        "height": "642335",
+        "txhash": "5FE03AA08DED2BFE811916BF11BCA1D16918C6FC0DC1E20ADB148F10E2C8FC41",
+        "codespace": "",
+        "code": 0,
+        "data": "12370A352F626162796C6F6E2E6274637374616B696E672E76312E4D736743726561746542544344656C65676174696F6E526573706F6E7365",
+        "info": "",
+        "gas_wanted": "1574588",
+        "gas_used": "1214684",
+        "tx": {
+          "@type": "/cosmos.tx.v1beta1.Tx",
+          "/cosmos-tx-v1beta1-Tx": {
+            "body": {
+              "messages": [
+                {
+                  "@type": "/babylon.btcstaking.v1.MsgCreateBTCDelegation",
+                  "/babylon-btcstaking-v1-MsgCreateBTCDelegation": {
+                    "staker_addr": "bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq",
+                    "pop": {
+                      "btc_sig_type": "ECDSA",
+                      "btc_sig": "IJ3I0qjh45y4tgC6wqcC4RtopdMgFkj1/lozvCL7PEuoJVlNqe1LAC1QJh8tegSgW94gBu7DLwnTrfdbTwemlMY="
+                    },
+                    "btc_pk": "bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+                    "fp_btc_pk_list": [
+                      "d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76"
+                    ],
+                    "staking_time": 10000,
+                    "staking_value": "50000",
+                    "staking_tx": "AgAAAAFQEOM8KjxsTZ4PQQZS3LgDJgLj327YxHOTgnM/C+Q6LwEAAAAA/////wJQwwAAAAAAACJRIKgP5SeMUsqy4KDJcCcT9h/o8vJINGptfcwSRTOMFOwWmo8EAAAAAAAiUSB0qgpK7vwFLQ5j7dpaX5zUqaayRfrTPqKUCMEw4pFgQQAAAAA=",
+                    "staking_tx_inclusion_proof": null,
+                    "slashing_tx": "AgAAAAHrkBoUibAfPLTuRBVSZL/7KMkcV47Ng8Ow3nGmXOR86wAAAAAA/////wLECQAAAAAAABYAFFvhJiTQiitCQJXXwHIhwzRQ0UvxHKIAAAAAAAAiUSCNUK7VvJ0uYtZeJ68rx6QkrBkG3S3Hops9iLjHvVAm4AAAAAA=",
+                    "delegator_slashing_sig": "23/xvkqWNL03ZxAfXnAFE6UR8dViTgq2od9YEakZuRw1Ko9F2xolvhQRF9iXoF9yOyfqMFSRyOAwuvjsyDFaSQ==",
+                    "unbonding_time": 1008,
+                    "unbonding_tx": "AgAAAAHrkBoUibAfPLTuRBVSZL/7KMkcV47Ng8Ow3nGmXOR86wAAAAAA/////wGAuwAAAAAAACJRIJJfbl0vVJKNu/fHuYni0Oi2Ajuuzmt65u/tDE9UiRmZAAAAAA==",
+                    "unbonding_value": "48000",
+                    "unbonding_slashing_tx": "AgAAAAGFf/v6mOyKkVVS9deziQujSkNA2bB3KzDktrlx+PCdqwAAAAAA/////wJgCQAAAAAAABYAFFvhJiTQiitCQJXXwHIhwzRQ0UvxsJoAAAAAAAAiUSCNUK7VvJ0uYtZeJ68rx6QkrBkG3S3Hops9iLjHvVAm4AAAAAA=",
+                    "delegator_unbonding_slashing_sig": "iEc35LPXqs5xcOG3GLyrRk8QUnSs31qLuHdWtL1lLiiJNEP8IxZYRoi7GM3bMvBH+54CqXIg5ZFWrPFhgUar/Q=="
+                  }
+                }
+              ],
+              "memo": "",
+              "timeout_height": "0",
+              "extension_options": [],
+              "non_critical_extension_options": []
+            },
+            "auth_info": {
+              "signer_infos": [
+                {
+                  "public_key": {
+                    "@type": "/cosmos.crypto.secp256k1.PubKey",
+                    "/cosmos-crypto-secp256k1-PubKey": {
+                      "key": "Az1ijJMPa7WgSUdKXouGdDJev5zo4bBoDQOAR1R5FZPf"
+                    }
+                  },
+                  "mode_info": {
+                    "single": {
+                      "mode": "SIGN_MODE_DIRECT"
+                    }
+                  },
+                  "sequence": "0"
+                }
+              ],
+              "fee": {
+                "amount": [
+                  {
+                    "denom": "ubbn",
+                    "amount": "7873"
+                  }
+                ],
+                "gas_limit": "1574588",
+                "payer": "",
+                "granter": ""
+              },
+              "tip": null
+            },
+            "signatures": [
+              "fE2LJ8DcObaU4jGBjvbZF6zeY6tA/xHFfV8wp0JTwVse/K38VDQm6l6PJtmuYBEkIf/8B4IWta1iwFzpRPYL6Q=="
+            ]
+          }
+        },
+        "timestamp": "2025-04-01T13:11:22Z",
+        "timestamp__@@date": 1743513082000,
+        "logs": [
+          {
+            "msg_index": 0,
+            "events": [
+              {
+                "type": "message",
+                "attributes": [
+                  {
+                    "key": "action",
+                    "value": "/babylon.btcstaking.v1.MsgCreateBTCDelegation",
+                    "index": true
+                  },
+                  {
+                    "key": "sender",
+                    "value": "bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq",
+                    "index": true
+                  },
+                  {
+                    "key": "module",
+                    "value": "btcstaking",
+                    "index": true
+                  },
+                  {
+                    "key": "msg_index",
+                    "value": "0",
+                    "index": true
+                  }
+                ]
+              },
+              {
+                "type": "babylon.btcstaking.v1.EventBTCDelegationCreated",
+                "attributes": [
+                  {
+                    "key": "finality_provider_btc_pks_hex",
+                    "value": "[\"d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76\"]",
+                    "index": true
+                  },
+                  {
+                    "key": "new_state",
+                    "value": "\"PENDING\"",
+                    "index": true
+                  },
+                  {
+                    "key": "params_version",
+                    "value": "\"6\"",
+                    "index": true
+                  },
+                  {
+                    "key": "staker_addr",
+                    "value": "\"bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq\"",
+                    "index": true
+                  },
+                  {
+                    "key": "staker_btc_pk_hex",
+                    "value": "\"bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c\"",
+                    "index": true
+                  },
+                  {
+                    "key": "staking_output_index",
+                    "value": "\"0\"",
+                    "index": true
+                  },
+                  {
+                    "key": "staking_time",
+                    "value": "\"10000\"",
+                    "index": true
+                  },
+                  {
+                    "key": "staking_tx_hex",
+                    "value": "\"02000000015010e33c2a3c6c4d9e0f410652dcb8032602e3df6ed8c4739382733f0be43a2f0100000000ffffffff0250c3000000000000225120a80fe5278c52cab2e0a0c9702713f61fe8f2f248346a6d7dcc1245338c14ec169a8f04000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e291604100000000\"",
+                    "index": true
+                  },
+                  {
+                    "key": "unbonding_time",
+                    "value": "\"1008\"",
+                    "index": true
+                  },
+                  {
+                    "key": "unbonding_tx",
+                    "value": "\"0200000001eb901a1489b01f3cb4ee44155264bffb28c91c578ecd83c3b0de71a65ce47ceb0000000000ffffffff0180bb000000000000225120925f6e5d2f54928dbbf7c7b989e2d0e8b6023baece6b7ae6efed0c4f5489199900000000\"",
+                    "index": true
+                  },
+                  {
+                    "key": "msg_index",
+                    "value": "0",
+                    "index": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "msg_index": null,
+            "events": [
+              {
+                "type": "coin_spent",
+                "attributes": [
+                  {
+                    "key": "spender",
+                    "value": "bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq",
+                    "index": true
+                  },
+                  {
+                    "key": "amount",
+                    "value": "7873ubbn",
+                    "index": true
+                  }
+                ]
+              },
+              {
+                "type": "coin_received",
+                "attributes": [
+                  {
+                    "key": "receiver",
+                    "value": "bbn17xpfvakm2amg962yls6f84z3kell8c5l88j35y",
+                    "index": true
+                  },
+                  {
+                    "key": "amount",
+                    "value": "7873ubbn",
+                    "index": true
+                  }
+                ]
+              },
+              {
+                "type": "transfer",
+                "attributes": [
+                  {
+                    "key": "recipient",
+                    "value": "bbn17xpfvakm2amg962yls6f84z3kell8c5l88j35y",
+                    "index": true
+                  },
+                  {
+                    "key": "sender",
+                    "value": "bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq",
+                    "index": true
+                  },
+                  {
+                    "key": "amount",
+                    "value": "7873ubbn",
+                    "index": true
+                  }
+                ]
+              },
+              {
+                "type": "message",
+                "attributes": [
+                  {
+                    "key": "sender",
+                    "value": "bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq",
+                    "index": true
+                  }
+                ]
+              },
+              {
+                "type": "tx",
+                "attributes": [
+                  {
+                    "key": "fee",
+                    "value": "7873ubbn",
+                    "index": true
+                  },
+                  {
+                    "key": "fee_payer",
+                    "value": "bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq",
+                    "index": true
+                  }
+                ]
+              },
+              {
+                "type": "tx",
+                "attributes": [
+                  {
+                    "key": "acc_seq",
+                    "value": "bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq/0",
+                    "index": true
+                  }
+                ]
+              },
+              {
+                "type": "tx",
+                "attributes": [
+                  {
+                    "key": "signature",
+                    "value": "fE2LJ8DcObaU4jGBjvbZF6zeY6tA/xHFfV8wp0JTwVse/K38VDQm6l6PJtmuYBEkIf/8B4IWta1iwFzpRPYL6Q==",
+                    "index": true
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "chain_id": "bbn-test-5"
+      }
+    ],
+    "type": "json"
+  }
+}
