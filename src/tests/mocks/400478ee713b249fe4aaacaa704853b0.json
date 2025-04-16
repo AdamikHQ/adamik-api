@@ -11,7 +11,7 @@
     "body": {
       "gas_info": {
         "gas_wanted": "250000000",
-        "gas_used": "68106"
+        "gas_used": "68040"
       },
       "result": {
         "data": "EiYKJC9jb3Ntb3MuYmFuay52MWJldGExLk1zZ1NlbmRSZXNwb25zZQ==",
@@ -224,6 +224,7 @@
           }
         ]
       }
-    }
+    },
+    "type": "json"
   }
 }

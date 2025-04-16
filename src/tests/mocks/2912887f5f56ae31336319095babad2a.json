@@ -1,0 +1,13 @@
+{
+  "request": {
+    "url": "https://apilist.tronscanapi.com/api/accountv2?address=tron",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "message": "some parameters are invalid or out of range"
+    },
+    "type": "json"
+  }
+}

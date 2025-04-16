@@ -1,0 +1,30 @@
+meta {
+  name: babylon-testnet
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: babylon-testnet
+  transactionId: 5FE03AA08DED2BFE811916BF11BCA1D16918C6FC0DC1E20ADB148F10E2C8FC41
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.raw: isDefined
+  res.body.transaction.parsed: isDefined
+  res.body.transaction.parsed.timestamp: eq "1743513082000"
+  res.body.transaction.parsed.mode: eq registerStake
+  res.body.transaction.parsed.validators.target.address: eq d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76
+  res.body.transaction.parsed.validators.target.amount: eq "50000"
+}

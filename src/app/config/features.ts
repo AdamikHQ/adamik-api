@@ -1,7 +1,7 @@
 import { ALGORAND_FEATURES } from "../families/algorand/features";
 import { BITCOIN_FEATURES } from "../families/bitcoin/features";
-import { COSMOS_FEATURES } from "../families/cosmos/features";
-import { EVM_FEATURES } from "../families/evm/features";
+import { COSMOS_BABYLON_FEATURES, COSMOS_FEATURES } from "../families/cosmos/features";
+import { EVM_FEATURES, EVM_ROOTSTOCK_FEATURES } from "../families/evm/features";
 import { STARKNET_FEATURES } from "../families/starknet/features";
 import { TON_FEATURES } from "../families/ton/features";
 import { TRON_FEATURES } from "../families/tron/features";
@@ -41,42 +41,10 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
   },
 };
 
-const EVM_ROOTSTOCK_FEATURES: ChainSupportedFeatures = {
-  read: {
-    token: false,
-    validators: false,
-    account: {
-      balances: { native: true, tokens: false, staking: false },
-      transactions: { native: false, tokens: false, staking: false },
-    },
-    transaction: { native: false, tokens: false, staking: false },
-  },
-  write: {
-    transaction: {
-      //Issue with EIP-1559 txs on rootstock
-      type: {
-        deployAccount: false,
-        transfer: false,
-        transferToken: false,
-        stake: false,
-        unstake: false,
-        claimRewards: false,
-        withdraw: false,
-        registerStake: false,
-      },
-      field: {
-        memo: false,
-      },
-    },
-  },
-  utils: {
-    addresses: true,
-  },
-};
-
 export {
   ALGORAND_FEATURES,
   BITCOIN_FEATURES,
+  COSMOS_BABYLON_FEATURES,
   COSMOS_FEATURES,
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,

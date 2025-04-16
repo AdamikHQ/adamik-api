@@ -1,0 +1,27 @@
+meta {
+  name: monad
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: monad-testnet
+  transactionId: 0xd180d6eaedb6cbd46b5af08623ab19603033c7113f17fca08f024972e6656e36
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.raw: isDefined
+  res.body.transaction.parsed: isDefined
+  res.body.transaction.parsed.timestamp: matches ^\d*$
+}

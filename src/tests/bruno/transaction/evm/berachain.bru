@@ -1,0 +1,24 @@
+meta {
+  name: berachain
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{api_url}}/api/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: berachain
+  transactionId: 0x6b843401620204b1e21af7bba724f13f836afc77f5bd83e2b5602955dc940eab
+}
+
+assert {
+  res.status: eq 400
+}

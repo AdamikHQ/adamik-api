@@ -1,0 +1,335 @@
+{
+  "request": {
+    "url": "https://staking-api.testnet.babylonlabs.io/v2/delegations?staker_pk_hex=bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "params_version": 6,
+          "staker_btc_pk_hex": "bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+          "finality_provider_btc_pks_hex": [
+            "d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76"
+          ],
+          "delegation_staking": {
+            "staking_tx_hash_hex": "eb7ce45ca671deb0c383cd8e571cc928fbbf64521544eeb43c1fb089141a90eb",
+            "staking_tx_hex": "02000000015010e33c2a3c6c4d9e0f410652dcb8032602e3df6ed8c4739382733f0be43a2f0100000000ffffffff0250c3000000000000225120a80fe5278c52cab2e0a0c9702713f61fe8f2f248346a6d7dcc1245338c14ec169a8f04000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e291604100000000",
+            "staking_timelock": 10000,
+            "staking_amount": 50000,
+            "start_height": 241915,
+            "end_height": 251915,
+            "bbn_inception_height": 642335,
+            "bbn_inception_time": "2025-04-01T13:11:22Z",
+            "slashing": {
+              "slashing_tx_hex": "",
+              "spending_height": 0
+            }
+          },
+          "delegation_unbonding": {
+            "unbonding_timelock": 1008,
+            "unbonding_tx": "0200000001eb901a1489b01f3cb4ee44155264bffb28c91c578ecd83c3b0de71a65ce47ceb0000000000ffffffff0180bb000000000000225120925f6e5d2f54928dbbf7c7b989e2d0e8b6023baece6b7ae6efed0c4f5489199900000000",
+            "covenant_unbonding_signatures": [
+              {
+                "covenant_btc_pk_hex": "d21faf78c6751a0d38e6bd8028b907ff07e9a869a43fc837d6b3f8dff6119a36",
+                "signature_hex": "5fb5a1cdb556e66c4047f418a6f9421d5721cbed5912c53985225031c214bd4ed16af0d996a6fbd75b68d6c4c5c129015c28d2c0c3b137d97dc0ff69f65d8e12"
+              },
+              {
+                "covenant_btc_pk_hex": "3bb93dfc8b61887d771f3630e9a63e97cbafcfcc78556a474df83a31a0ef899c",
+                "signature_hex": "2367d6f74dd77a9f9fbb4a14ca7cbc3f44c069df8cdbf6c05bfac3e3b023b95e4f25bc03eafc5721f0b5c4775e2c41a8fcc4303e4e0507db4cbef82e43f6716e"
+              },
+              {
+                "covenant_btc_pk_hex": "17921cf156ccb4e73d428f996ed11b245313e37e27c978ac4d2cc21eca4672e4",
+                "signature_hex": "b7863249bc533dd7bc465d63f12ce746e8acdb67270288f3c3aac3434b84acad671e1b3bf3f0b41bec8ae2c08e3a516868a22b6c4c4fd0cbfef040ccbacb7f33"
+              },
+              {
+                "covenant_btc_pk_hex": "79a71ffd71c503ef2e2f91bccfc8fcda7946f4653cef0d9f3dde20795ef3b9f0",
+                "signature_hex": "03a1ae7b21ed0825e403c10644225d2556487cdb809bc8ae30b55083434eb9943e5510e888e6e7adfdb370580d66166e6f168c129daece30313df378434e1c0a"
+              },
+              {
+                "covenant_btc_pk_hex": "fa9d882d45f4060bdb8042183828cd87544f1ea997380e586cab77d5fd698737",
+                "signature_hex": "28c1e073eb973737b33817e043265d55614af94777cd3ab178fe99359b1f49ca2dc12158c740257956a6e57cac81c5572a7bd6be6a160fde715ca49c6ff600c2"
+              },
+              {
+                "covenant_btc_pk_hex": "f5199efae3f28bb82476163a7e458c7ad445d9bffb0682d10d3bdb2cb41f8e8e",
+                "signature_hex": "8e48bc8fc2b8a6e0bbb6b16f7852e3005cb5657df1c908e563d7eb99f417b44730b63b63935231e2c45c7822dab31130b439e79c423e8e3516de9287ebd98698"
+              },
+              {
+                "covenant_btc_pk_hex": "40afaf47c4ffa56de86410d8e47baa2bb6f04b604f4ea24323737ddc3fe092df",
+                "signature_hex": "1fac10dd362f2c5ff0f652afa97698832a3cbf2505f3772a4d81a622194af962402380ef3b00ec8d2eaa2f3ab10350063b65b22149f22bba1f9220221ebd8756"
+              },
+              {
+                "covenant_btc_pk_hex": "0aee0509b16db71c999238a4827db945526859b13c95487ab46725357c9a9f25",
+                "signature_hex": "20fecc82915cb600cbb98a038efa9d9496b5bb2f710404a7ab891c15ab19e137abad25dce299e8caba6e28d75f777684544e2eaa75d0c401ed413e79fdd9b52d"
+              }
+            ],
+            "slashing": {
+              "unbonding_slashing_tx_hex": "",
+              "spending_height": 0
+            }
+          },
+          "state": "ACTIVE"
+        },
+        {
+          "params_version": 5,
+          "staker_btc_pk_hex": "bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+          "finality_provider_btc_pks_hex": [
+            "143a1961c97682d59b5f48d5b469ac74ac45273245947865e3c4ad575e4fa646"
+          ],
+          "delegation_staking": {
+            "staking_tx_hash_hex": "e6dd797fe3ced5a30f1d89c911f593f099bf9e018d3968498ba12cc8b2ea8532",
+            "staking_tx_hex": "02000000017b3897f29ddb41a6c5f304ac8a078b6575fb6d0584a50f8bb9c8f8f046b1bf520100000000ffffffff0250c30000000000002251201ad080b6feca801f192293708abe80cd7cb1be37d39ffb767847ad3d9d94e4c94d1706000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e291604100000000",
+            "staking_timelock": 10000,
+            "staking_amount": 50000,
+            "bbn_inception_height": 288089,
+            "bbn_inception_time": "2025-02-13T16:53:52Z",
+            "slashing": {
+              "slashing_tx_hex": "",
+              "spending_height": 0
+            }
+          },
+          "delegation_unbonding": {
+            "unbonding_timelock": 1008,
+            "unbonding_tx": "02000000013285eab2c82ca18b4968398d019ebf99f093f511c9891d0fa3d5cee37f79dde60000000000ffffffff0180bb00000000000022512075d014ac6038c71f3b2617b0e5fdbdeeb913e48a44929482f2746b2d50c21dd100000000",
+            "covenant_unbonding_signatures": [
+              {
+                "covenant_btc_pk_hex": "3bb93dfc8b61887d771f3630e9a63e97cbafcfcc78556a474df83a31a0ef899c",
+                "signature_hex": "5d6eb61c6d08844f8b8a8c24cee9a0a3de7f89b3344c003708ed07832b655378fe4cd79cc9855890c665620b746aca5b0e1f4ee3c2c041c50fc0c3247cc8bf7f"
+              },
+              {
+                "covenant_btc_pk_hex": "17921cf156ccb4e73d428f996ed11b245313e37e27c978ac4d2cc21eca4672e4",
+                "signature_hex": "73143b4c1ab624eefb215d0eae217a5e8c761dd556d6f32daa4f66ee5dd56b34c016463ee4fa8e9c3a7ab7e600b2d199b64c437228ce199f25946bf807ab6387"
+              },
+              {
+                "covenant_btc_pk_hex": "0aee0509b16db71c999238a4827db945526859b13c95487ab46725357c9a9f25",
+                "signature_hex": "8c7fb6c629778d53afff3052b506126eba07d608247dee79caffcd6eb4348ef602ce2560d8cd238f67f77db2dd7dfb39d710f2036b3f5a3d83bbf027f8a48f29"
+              },
+              {
+                "covenant_btc_pk_hex": "fa9d882d45f4060bdb8042183828cd87544f1ea997380e586cab77d5fd698737",
+                "signature_hex": "3149864d4751f4231c6823d2616818b56a58b02c285ab6b126edb43a82056556513bcec729adacad65a882ceea130f97c435c7d8468e79c223f5b835fef24240"
+              },
+              {
+                "covenant_btc_pk_hex": "79a71ffd71c503ef2e2f91bccfc8fcda7946f4653cef0d9f3dde20795ef3b9f0",
+                "signature_hex": "0812b69043359ac2a2fbd5b438f21b4c031d14bac9138cbae3b390621041f80dd36c436699f5929d274f84b9a5a02a172cf31c06c4e007e8e2b85fe689a1b0b8"
+              },
+              {
+                "covenant_btc_pk_hex": "113c3a32a9d320b72190a04a020a0db3976ef36972673258e9a38a364f3dc3b0",
+                "signature_hex": "80e7e7d4ee529903d25d368f86360f4f097393224fb9f1d536e0aed00c6bc3022a49014dd762c18dffb8e01e895ff45371cf0455d02feeade5f864f12b9e12b1"
+              },
+              {
+                "covenant_btc_pk_hex": "40afaf47c4ffa56de86410d8e47baa2bb6f04b604f4ea24323737ddc3fe092df",
+                "signature_hex": "4b001f92c0ecd7d21cb5e84f0222aaa642333963758014806e5348bcd9ad5d5c23583b94be25adb8f50eb64ee2abe62647cbb5847850c4026e93a2b216118258"
+              }
+            ],
+            "slashing": {
+              "unbonding_slashing_tx_hex": "",
+              "spending_height": 0
+            }
+          },
+          "state": "VERIFIED"
+        },
+        {
+          "params_version": 5,
+          "staker_btc_pk_hex": "bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+          "finality_provider_btc_pks_hex": [
+            "d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76"
+          ],
+          "delegation_staking": {
+            "staking_tx_hash_hex": "52bfb146f0f8c8b98b0fa584056dfb75658b078aac04f3c5a641db9df297387b",
+            "staking_tx_hex": "020000000144a549ead63ac9c6987b90669208ece5e93f28de4b1f97b5e4036c995f47b3d50100000000ffffffff0250c3000000000000225120a80fe5278c52cab2e0a0c9702713f61fe8f2f248346a6d7dcc1245338c14ec1609dd06000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e291604100000000",
+            "staking_timelock": 10000,
+            "staking_amount": 50000,
+            "start_height": 235089,
+            "end_height": 245089,
+            "bbn_inception_height": 280419,
+            "bbn_inception_time": "2025-02-12T17:30:46Z",
+            "slashing": {
+              "slashing_tx_hex": "",
+              "spending_height": 0
+            }
+          },
+          "delegation_unbonding": {
+            "unbonding_timelock": 1008,
+            "unbonding_tx": "02000000017b3897f29ddb41a6c5f304ac8a078b6575fb6d0584a50f8bb9c8f8f046b1bf520000000000ffffffff0180bb000000000000225120925f6e5d2f54928dbbf7c7b989e2d0e8b6023baece6b7ae6efed0c4f5489199900000000",
+            "covenant_unbonding_signatures": [
+              {
+                "covenant_btc_pk_hex": "3bb93dfc8b61887d771f3630e9a63e97cbafcfcc78556a474df83a31a0ef899c",
+                "signature_hex": "bfb4651c3e115aa10b273bf163e923408000139812278e631f782b0462967465b7cdefcb75cda6bfb9e59120159a9227cf08c8c7d74957b6cfa947c461d21f7d"
+              },
+              {
+                "covenant_btc_pk_hex": "79a71ffd71c503ef2e2f91bccfc8fcda7946f4653cef0d9f3dde20795ef3b9f0",
+                "signature_hex": "f2c8958ba6cba4f081d6c489ed0ce699183402eada3259864fcb55b6a8f3937c849067af92e5ee306684d25fb3b4a8cf6330a553de67667871ba9e6877270f15"
+              },
+              {
+                "covenant_btc_pk_hex": "17921cf156ccb4e73d428f996ed11b245313e37e27c978ac4d2cc21eca4672e4",
+                "signature_hex": "b413b74a9c14e0c43f00f0af5b3c8259ade08a2301013aa3ee69d4f6d67ecf22ac7b2aadf844f8f42ac3c566bf47d85be45dc06ec878719f1a2fb7a010901690"
+              },
+              {
+                "covenant_btc_pk_hex": "113c3a32a9d320b72190a04a020a0db3976ef36972673258e9a38a364f3dc3b0",
+                "signature_hex": "1d81b8f732f5665fcf81a0974950acbdb2830a457d13aee2628b704a678fd48aa5f1cbe242a64db22f492554eda9467ecee4a6e95934c88db1aec5abd95c26f1"
+              },
+              {
+                "covenant_btc_pk_hex": "40afaf47c4ffa56de86410d8e47baa2bb6f04b604f4ea24323737ddc3fe092df",
+                "signature_hex": "0e58bc281bdd94de669e1d0deffaccaf69c386ec5e921a07b7bc42271e072da2d7e1075e4cbc0a045bd40fa8d0f5fd5afc9683f758851b41d9b95360b4c50d72"
+              },
+              {
+                "covenant_btc_pk_hex": "0aee0509b16db71c999238a4827db945526859b13c95487ab46725357c9a9f25",
+                "signature_hex": "5abfb4ea33f280f6676bb7c4dbdd593d54750b06b41293bbf46a58f2aa7408424c7fff40b381c19adaadef2cf431a42e332a8e7ec79b6ca544c0b8239f347ce5"
+              },
+              {
+                "covenant_btc_pk_hex": "fa9d882d45f4060bdb8042183828cd87544f1ea997380e586cab77d5fd698737",
+                "signature_hex": "f2c4cb11e85abf3179db3e6008721b17e6a49beafe831bc49c98e2b455f856cabec22611b7e9fd821e90887ce1b5501b067a11fcf59e5417bab58f58b957ba1a"
+              },
+              {
+                "covenant_btc_pk_hex": "f5199efae3f28bb82476163a7e458c7ad445d9bffb0682d10d3bdb2cb41f8e8e",
+                "signature_hex": "9e6a3d597815e0b563445cd0b31d5cfc9ca597739b1a0f7a40b104f83b270d12289b5d63705246072df811efbcdc945709baf5753220a9400ad6d9ef74492146"
+              }
+            ],
+            "slashing": {
+              "unbonding_slashing_tx_hex": "",
+              "spending_height": 0
+            }
+          },
+          "state": "ACTIVE"
+        },
+        {
+          "params_version": 5,
+          "staker_btc_pk_hex": "bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+          "finality_provider_btc_pks_hex": [
+            "d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76"
+          ],
+          "delegation_staking": {
+            "staking_tx_hash_hex": "d5b3475f996c03e4b5971f4bde283fe9e5ec089266907b98c6c93ad6ea49a544",
+            "staking_tx_hex": "02000000010921d42528ff9aa517ae7a8625a6ead19964e3fbdb934f19e0ffd6e1b6383b940100000000ffffffff0250c3000000000000225120a80fe5278c52cab2e0a0c9702713f61fe8f2f248346a6d7dcc1245338c14ec1631a507000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e291604100000000",
+            "staking_timelock": 10000,
+            "staking_amount": 50000,
+            "start_height": 234080,
+            "end_height": 244080,
+            "bbn_inception_height": 221997,
+            "bbn_inception_time": "2025-02-05T10:15:56Z",
+            "slashing": {
+              "slashing_tx_hex": "",
+              "spending_height": 0
+            }
+          },
+          "delegation_unbonding": {
+            "unbonding_timelock": 1008,
+            "unbonding_tx": "020000000144a549ead63ac9c6987b90669208ece5e93f28de4b1f97b5e4036c995f47b3d50000000000ffffffff0180bb000000000000225120925f6e5d2f54928dbbf7c7b989e2d0e8b6023baece6b7ae6efed0c4f5489199900000000",
+            "covenant_unbonding_signatures": [
+              {
+                "covenant_btc_pk_hex": "3bb93dfc8b61887d771f3630e9a63e97cbafcfcc78556a474df83a31a0ef899c",
+                "signature_hex": "f0281fcdd0529966e85177a2ae9e7eabdb227af2acdcf34b69589e515d2a944c1a970b608e50316330d7dda830fb1de44ace9877ca75f1e73b416402f50b52fe"
+              },
+              {
+                "covenant_btc_pk_hex": "17921cf156ccb4e73d428f996ed11b245313e37e27c978ac4d2cc21eca4672e4",
+                "signature_hex": "a3ca93d8fbc33d44faa4a1b135ae095bf589c06d77f6ba30cae2c2014491c5af9a0e2f14b5e1fcba5595d3bafc63d656503373af70f608d70a07b99a1bbb247c"
+              },
+              {
+                "covenant_btc_pk_hex": "0aee0509b16db71c999238a4827db945526859b13c95487ab46725357c9a9f25",
+                "signature_hex": "e8be9ad4e640225f3077203383d9fc0b5eb1149ac96a9bc7288ce4a69251ed46095c52840833ef41051d8600e2b99cd514638b3e9b95252fcd9ffcd8e1c957b2"
+              },
+              {
+                "covenant_btc_pk_hex": "fa9d882d45f4060bdb8042183828cd87544f1ea997380e586cab77d5fd698737",
+                "signature_hex": "91ab434e87a278f135661d1fd56241d5a9dd511c2e9462bcade17a153f31df6fa151c132eea245e3a51c447eef5b84d302004aae158d4da1d371ede17a6da913"
+              },
+              {
+                "covenant_btc_pk_hex": "79a71ffd71c503ef2e2f91bccfc8fcda7946f4653cef0d9f3dde20795ef3b9f0",
+                "signature_hex": "c0391213d05153b664034855de8a2a559c551268a939a7a8da6448cdee560bae848b79a3fd87e408ed17452dee1f7c4c80ed7b3326c078a96bf8df5329ed3703"
+              },
+              {
+                "covenant_btc_pk_hex": "113c3a32a9d320b72190a04a020a0db3976ef36972673258e9a38a364f3dc3b0",
+                "signature_hex": "740798e45977bad636ea466894b70c8a7591ea5b6c5facd923dcd9887c486301bcb521e70c1416fc7162b25cd6d2e927a6c44d6a2f5c3bf4e02afa63fcb3eae7"
+              },
+              {
+                "covenant_btc_pk_hex": "40afaf47c4ffa56de86410d8e47baa2bb6f04b604f4ea24323737ddc3fe092df",
+                "signature_hex": "1fa104a623249e6f9cc0a718e3aad075e487cc4b95f718491b4ff4e6c2b4f36179afee66510538b448ff564ce0b4a3529064a90dc23a2159d946ada631f659b5"
+              },
+              {
+                "covenant_btc_pk_hex": "f5199efae3f28bb82476163a7e458c7ad445d9bffb0682d10d3bdb2cb41f8e8e",
+                "signature_hex": "4348587c4d60c93f443076ef345cb756658dc78826212760e30f86cff424600ecc78df44f059d39b2f91f0ef0bb49ef5c154112626b614ea658fed916a7b0e97"
+              }
+            ],
+            "slashing": {
+              "unbonding_slashing_tx_hex": "",
+              "spending_height": 0
+            }
+          },
+          "state": "EARLY_UNBONDING_WITHDRAWABLE"
+        },
+        {
+          "params_version": 5,
+          "staker_btc_pk_hex": "bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+          "finality_provider_btc_pks_hex": [
+            "d66124f8f42fd83e4c901a100ae3b5d706ef6cfd217b04bc64152e739a30c41e"
+          ],
+          "delegation_staking": {
+            "staking_tx_hash_hex": "943b38b6e1d6ffe0194f93dbfbe36499d1eaa625867aae17a59aff2825d42109",
+            "staking_tx_hex": "02000000012d248b9110c5d2a309a3620a15bee75496b3782d7e1c73b8b1baf77e305f28990200000000ffffffff0250c30000000000002251206d43bae7f65e974794ad8d31a97f852f7591d2f11114fdd741234be864aa8fca596d08000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e291604100000000",
+            "staking_timelock": 10000,
+            "staking_amount": 50000,
+            "start_height": 233997,
+            "end_height": 243997,
+            "bbn_inception_height": 216577,
+            "bbn_inception_time": "2025-02-04T18:06:28Z",
+            "slashing": {
+              "slashing_tx_hex": "",
+              "spending_height": 0
+            }
+          },
+          "delegation_unbonding": {
+            "unbonding_timelock": 1008,
+            "unbonding_tx": "02000000010921d42528ff9aa517ae7a8625a6ead19964e3fbdb934f19e0ffd6e1b6383b940000000000ffffffff0180bb0000000000002251206f5554b3505cbccc88c8e86541dbac87e53f962c18b953780ccde2e4d5969d3c00000000",
+            "covenant_unbonding_signatures": [
+              {
+                "covenant_btc_pk_hex": "3bb93dfc8b61887d771f3630e9a63e97cbafcfcc78556a474df83a31a0ef899c",
+                "signature_hex": "e0c9b4426a4aab40abf6ff26b2c2f9caaa4bc537777e97215ef973a3c560412bcf93845e961d08eefa983100064f8c3694d56781c9d1bba396a82067c8bde98a"
+              },
+              {
+                "covenant_btc_pk_hex": "17921cf156ccb4e73d428f996ed11b245313e37e27c978ac4d2cc21eca4672e4",
+                "signature_hex": "d70aa745d61b701b1efa0876cc820833cbe1b3dde3aa52d63bca35723caefdb49fc132cda62569c1ac93ac6d3186a9afe55ced5d1fb9e6d15d70c0cad5c326eb"
+              },
+              {
+                "covenant_btc_pk_hex": "f5199efae3f28bb82476163a7e458c7ad445d9bffb0682d10d3bdb2cb41f8e8e",
+                "signature_hex": "b1057db5da42521d53f6a33ec1025291b4a33a8c9f255aad64e858be81d27409bbd1fe8e79ede41041ec2e1151016eaaa5d22d3717c79900a03d224f51caba58"
+              },
+              {
+                "covenant_btc_pk_hex": "0aee0509b16db71c999238a4827db945526859b13c95487ab46725357c9a9f25",
+                "signature_hex": "3f0adece813da5b3082505f068e6ed5536e885930c38fa9333421c0261474d733eb86c7b6a4ba021194671a743cd4a7dba8679297c1982fb39f67d1b2763a8a0"
+              },
+              {
+                "covenant_btc_pk_hex": "fa9d882d45f4060bdb8042183828cd87544f1ea997380e586cab77d5fd698737",
+                "signature_hex": "42494884abca8f2950b365993cee0d7e0ae4dd0c4fb78430ccd4d6ab79a903b9911c2174cb6876dd57ca407b1cc174caa5d43a58f6b20d44cc639aaa5293314d"
+              },
+              {
+                "covenant_btc_pk_hex": "79a71ffd71c503ef2e2f91bccfc8fcda7946f4653cef0d9f3dde20795ef3b9f0",
+                "signature_hex": "5c2801534cad53915694991c0235ba37970e81a8ff10d79d8642a78dc2a64d28af11464e0f9a82da1b2f686a064ab5d27914c58711b0d0d2fc1155c3ca405283"
+              },
+              {
+                "covenant_btc_pk_hex": "113c3a32a9d320b72190a04a020a0db3976ef36972673258e9a38a364f3dc3b0",
+                "signature_hex": "2ae92b7af2527284f10162ab53285769c6f1afc82d0718ea8992d567b4645b72a179ed6f906bbf6b4c439b7cfaebf1d81b0494eb27e6eff2ec82195a03fbc68c"
+              },
+              {
+                "covenant_btc_pk_hex": "40afaf47c4ffa56de86410d8e47baa2bb6f04b604f4ea24323737ddc3fe092df",
+                "signature_hex": "6dd5bc753d40df9770e023ebe720ce9aafbc31ad94b4856fffc2ce669760fcedf6ccb2af1707913426eeb6565e318553eba8f9047d96625f99a3c2abd9b5bf84"
+              },
+              {
+                "covenant_btc_pk_hex": "d21faf78c6751a0d38e6bd8028b907ff07e9a869a43fc837d6b3f8dff6119a36",
+                "signature_hex": "20269a2d7ddca1b7c425ba47c4fa78d3a2c8d2b63e3803863facfc919166097bd48a16b99c694cd180b77d73c40228e484c303e9d2ccbe6c2fa428da9f82d664"
+              }
+            ],
+            "slashing": {
+              "unbonding_slashing_tx_hex": "",
+              "spending_height": 0
+            }
+          },
+          "state": "EARLY_UNBONDING_WITHDRAWABLE"
+        }
+      ],
+      "pagination": {
+        "next_key": ""
+      }
+    },
+    "type": "json"
+  }
+}

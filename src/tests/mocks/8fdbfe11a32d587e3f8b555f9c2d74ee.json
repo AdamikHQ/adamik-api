@@ -1,0 +1,27 @@
+{
+  "request": {
+    "url": "https://mempool.space/api/address/bc1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqs3lg43f",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "address": "bc1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqs3lg43f",
+      "chain_stats": {
+        "funded_txo_count": 2,
+        "funded_txo_sum": 18496,
+        "spent_txo_count": 1,
+        "spent_txo_sum": 10000,
+        "tx_count": 2
+      },
+      "mempool_stats": {
+        "funded_txo_count": 0,
+        "funded_txo_sum": 0,
+        "spent_txo_count": 0,
+        "spent_txo_sum": 0,
+        "tx_count": 0
+      }
+    },
+    "type": "json"
+  }
+}

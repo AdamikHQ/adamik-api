@@ -1,0 +1,74 @@
+{
+  "request": {
+    "url": "https://mempool.space/api/tx/9a451241f56b311063b5d6434a5ea49f5eb965e4a0cc9c1676f03801019ee90c",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "txid": "9a451241f56b311063b5d6434a5ea49f5eb965e4a0cc9c1676f03801019ee90c",
+      "version": 1,
+      "locktime": 0,
+      "vin": [
+        {
+          "txid": "76f4938f863add0d5da2f26ca84d1fa4917c18e076bb473a42a815111b58cafe",
+          "vout": 6,
+          "prevout": {
+            "scriptpubkey": "00146b0ee38b3409549561660d006b147acef0d41699",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 6b0ee38b3409549561660d006b147acef0d41699",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qdv8w8ze5p92f2ctxp5qxk9r6emcdg95ecmn5hl",
+            "value": 22268528
+          },
+          "scriptsig": "",
+          "scriptsig_asm": "",
+          "witness": [
+            "304402205c64d74ec285e9d652b66cea0de3e951db52a38ca56ca0e417a038f3162ce42b022000ff6db5b11d3fb3e34b74dc6081d25dc1d981fc9b97e9c8571eded30d41bc4701",
+            "0280d526e247fa7c2b03e4d7c06965a8e4eab21bf17982295ed833feb57dfdacff"
+          ],
+          "is_coinbase": false,
+          "sequence": 4294967293
+        },
+        {
+          "txid": "8ad4690e77d2054d18a8450ab71e01123147a50c8815534d667d783788dd7bdc",
+          "vout": 7,
+          "prevout": {
+            "scriptpubkey": "00146b0ee38b3409549561660d006b147acef0d41699",
+            "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 6b0ee38b3409549561660d006b147acef0d41699",
+            "scriptpubkey_type": "v0_p2wpkh",
+            "scriptpubkey_address": "bc1qdv8w8ze5p92f2ctxp5qxk9r6emcdg95ecmn5hl",
+            "value": 26001920
+          },
+          "scriptsig": "",
+          "scriptsig_asm": "",
+          "witness": [
+            "304402206bf1f8fa128ecb4bb24911a7f4b69f30fd14eb860c86d56b91b522b6c0b5012b022003bdd2c2e6558a68122b7fd0353ef9beec856cba4792ed55111e477b99db1cf101",
+            "0280d526e247fa7c2b03e4d7c06965a8e4eab21bf17982295ed833feb57dfdacff"
+          ],
+          "is_coinbase": false,
+          "sequence": 4294967293
+        }
+      ],
+      "vout": [
+        {
+          "scriptpubkey": "0014dd0e2cc5e43c91b2957328ef72e4fe6bb251555b",
+          "scriptpubkey_asm": "OP_0 OP_PUSHBYTES_20 dd0e2cc5e43c91b2957328ef72e4fe6bb251555b",
+          "scriptpubkey_type": "v0_p2wpkh",
+          "scriptpubkey_address": "bc1qm58ze30y8jgm99tn9rhh9e87dwe9z42mlkaen4",
+          "value": 48259768
+        }
+      ],
+      "size": 339,
+      "weight": 708,
+      "sigops": 2,
+      "fee": 10680,
+      "status": {
+        "confirmed": true,
+        "block_height": 860744,
+        "block_hash": "0000000000000000000064c1de6526a5ed1f42633affe6588babaccb01b24fec",
+        "block_time": 1725966314
+      }
+    },
+    "type": "json"
+  }
+}

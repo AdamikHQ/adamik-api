@@ -1,0 +1,27 @@
+meta {
+  name: bitcoin [taproot]
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_url}}/api/:chainId/address/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: bitcoin
+}
+
+body:json {
+  {
+    "pubkey": "02bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.addresses[3].type: eq p2tr
+  res.body.addresses[3].address: eq bc1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqs3lg43f
+}

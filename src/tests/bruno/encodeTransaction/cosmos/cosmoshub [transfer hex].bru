@@ -1,0 +1,38 @@
+meta {
+  name: cosmoshub [transfer hex]
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: cosmoshub
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "transfer",
+        "senderAddress": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+        "recipientAddress": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+        "amount": "10000",
+        "memo": "adamik-test-memo"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded: eq 0aa3010a8e010a1c2f636f736d6f732e62616e6b2e763162657461312e4d736753656e64126e0a2d636f736d6f73316738343933346a70753376356465357971756b6b6b68786d63767377337532616a787670646c122d636f736d6f73316738343933346a70753376356465357971756b6b6b68786d63767377337532616a787670646c1a0e0a057561746f6d1205313030303012106164616d696b2d746573742d6d656d6f12680a510a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a210388459b2653519948b12492f1a0b464720110c147a8155d23d423a5cc3c21d89a12040a02080118a70112130a0d0a057561746f6d1204323739311093e8061a0b636f736d6f736875622d3420f6f201
+  res.body.transaction.data.senderPubKey: eq A4hFmyZTUZlIsSSS8aC0ZHIBEMFHqBVdI9Qjpcw8Idia
+  res.body.transaction.data.fees: eq "2791"
+  res.body.transaction.data.gas: eq "111635"
+  res.body.transaction.data.nonce: eq "167"
+}

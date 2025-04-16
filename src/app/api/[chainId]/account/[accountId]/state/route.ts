@@ -15,6 +15,7 @@ export const GET = apiHandler(
 
     // Parse supported query params
     const filters: ApiRequestFilters = {};
+    const pubKey = queryParams.pubkey;
     const include = queryParams.include;
     if (include) {
       // Use the schema to validate and process the include array
@@ -34,7 +35,7 @@ export const GET = apiHandler(
       throw new UserInputError(`Invalid accountId ${accountId} for chainId ${chainId}`);
     }
 
-    const state = await service.getAccountState(accountId);
+    const state = await service.getAccountState(accountId, pubKey);
 
     // Apply filters
     // Each field is returned if (explicitly demanded OR nothing specific demanded)
