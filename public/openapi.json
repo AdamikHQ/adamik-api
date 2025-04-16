@@ -4435,7 +4435,8 @@
                                 "bitcoin",
                                 "tron",
                                 "ton",
-                                "starknet"
+                                "starknet",
+                                "solana"
                               ]
                             },
                             "id": {
