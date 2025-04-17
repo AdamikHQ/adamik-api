@@ -28,6 +28,7 @@ async function validateTransaction(
   }
 ): Promise<void> {
   const { transaction, status } = _;
+  console.log("VALIDATE TX");
 
   const maxSpendable = await getMaxSpendable(this.chainId, transaction.data);
   // amount & fees are safe to cast as they're guaranteed to be filed in by completeTransaction

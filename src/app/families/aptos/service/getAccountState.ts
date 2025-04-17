@@ -1,10 +1,10 @@
 import { AccountState } from "~/app/model/types_WIP";
-import { getAccountCoinsData, populateCoinData } from "~/app/families/aptos/backend/node";
+import { fetchAccountCoins, populateCoinData } from "~/app/families/aptos/backend/node";
 import { AptosCoinIdentifier } from "~/app/families/aptos/types";
 import { AptosService } from "~/app/families/aptos/service";
 
 export async function getAccountState(this: AptosService, address: string): Promise<AccountState> {
-  const accountCoins = await getAccountCoinsData(address);
+  const accountCoins = await fetchAccountCoins(this.chainId, address);
   const native = accountCoins.find((coin) => coin.type === AptosCoinIdentifier);
 
   const nativeBalance = BigInt(native?.data.coin.value ?? 0);

@@ -1,8 +1,9 @@
 import { ChainValidators, Paginated } from "~/app/model/types_WIP";
-import { getValidators as getValidatorsFn } from "~/app/families/aptos/backend/node";
+import { fetchValidators } from "~/app/families/aptos/backend/node";
+import { AptosService } from "~/app/families/aptos/service";
 
-export async function getValidators(): Promise<Paginated<ChainValidators>> {
-  const validatorSet = await getValidatorsFn();
+export async function getValidators(this: AptosService): Promise<Paginated<ChainValidators>> {
+  const validatorSet = await fetchValidators(this.chainId);
   console.log(validatorSet);
   const validators = validatorSet.data.active_validators;
 

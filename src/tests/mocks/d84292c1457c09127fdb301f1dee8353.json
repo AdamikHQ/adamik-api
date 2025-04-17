@@ -1,0 +1,25 @@
+{
+  "request": {
+    "url": "https://api.mainnet.aptoslabs.com/v1/graphql",
+    "method": "POST",
+    "params": {
+      "query": "\n    query CoinMetadata($type: String!) {\n      coin_infos(where: { coin_type: { _eq: $type } }) {\n        name\n        symbol\n        decimals\n        coin_type\n        supply_aggregator_table_handle\n      }\n    }\n  ",
+      "variables": {
+        "type": "0x50788befc1107c0cc4473848a92e5c783c635866ce3c98de71d2eeb7d2a34f85::apt_rewards::APTRewards"
+      }
+    }
+  },
+  "response": {
+    "data": {
+      "coin_infos": [
+        {
+          "name": "https://aptosx.app",
+          "symbol": "APT Reward",
+          "decimals": 6,
+          "coin_type": "0x50788befc1107c0cc4473848a92e5c783c635866ce3c98de71d2eeb7d2a34f85::apt_rewards::APTRewards",
+          "supply_aggregator_table_handle": null
+        }
+      ]
+    }
+  }
+}

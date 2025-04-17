@@ -11,9 +11,10 @@ get {
 }
 
 params:path {
-  chainId: ton
+  chainId: aptos
 }
 
 assert {
-  res.status: eq 400
+  res.status: eq 200
+  res.body.validators: isArray
 }

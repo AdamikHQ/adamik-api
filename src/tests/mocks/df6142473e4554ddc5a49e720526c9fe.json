@@ -1,0 +1,178 @@
+{
+  "request": {
+    "url": "https://api.mainnet.aptoslabs.com/v1/transactions/by_hash/0x9e7a75284eb2d0ea2830607171ec461dceba0028eae76b194049452145eb5e6e",
+    "method": "GET"
+  },
+  "response": {
+    "version": "2573565895",
+    "hash": "0x9e7a75284eb2d0ea2830607171ec461dceba0028eae76b194049452145eb5e6e",
+    "state_change_hash": "0xec6e207b005c7db3fa3f693387962fe84eef9aeed7e7512a6ef4e079b41420e2",
+    "event_root_hash": "0x15e46fdce25860106cf1b0d7178174cc64bb9bdfcc2b42f045685c7e1f62988c",
+    "state_checkpoint_hash": null,
+    "gas_used": "135",
+    "success": true,
+    "vm_status": "Executed successfully",
+    "accumulator_root_hash": "0xb9583e2cabca61ae44d0998b391e131f243f0a6d242b3ca142e93ba02f984504",
+    "changes": [
+      {
+        "address": "0xff1a69cbb94723aed9509fd4936ecd7fad63a683ceb71a0d67a8c3b552b17f56",
+        "state_key_hash": "0xee104f48e71644a08134f6460a5d909f2c26aa0a7a896fa36d31e5c7c5335b8b",
+        "data": {
+          "type": "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>",
+          "data": {
+            "coin": {
+              "value": "893703101"
+            },
+            "deposit_events": {
+              "counter": "31",
+              "guid": {
+                "id": {
+                  "addr": "0xff1a69cbb94723aed9509fd4936ecd7fad63a683ceb71a0d67a8c3b552b17f56",
+                  "creation_num": "2"
+                }
+              }
+            },
+            "frozen": false,
+            "withdraw_events": {
+              "counter": "30",
+              "guid": {
+                "id": {
+                  "addr": "0xff1a69cbb94723aed9509fd4936ecd7fad63a683ceb71a0d67a8c3b552b17f56",
+                  "creation_num": "3"
+                }
+              }
+            }
+          }
+        },
+        "type": "write_resource"
+      },
+      {
+        "address": "0xff1a69cbb94723aed9509fd4936ecd7fad63a683ceb71a0d67a8c3b552b17f56",
+        "state_key_hash": "0xd40dcacd3e5cd2bcae3d358820253f6855dbe235b5cf969e7e17483446c61221",
+        "data": {
+          "type": "0x1::account::Account",
+          "data": {
+            "authentication_key": "0xff1a69cbb94723aed9509fd4936ecd7fad63a683ceb71a0d67a8c3b552b17f56",
+            "coin_register_events": {
+              "counter": "7",
+              "guid": {
+                "id": {
+                  "addr": "0xff1a69cbb94723aed9509fd4936ecd7fad63a683ceb71a0d67a8c3b552b17f56",
+                  "creation_num": "0"
+                }
+              }
+            },
+            "guid_creation_num": "16",
+            "key_rotation_events": {
+              "counter": "0",
+              "guid": {
+                "id": {
+                  "addr": "0xff1a69cbb94723aed9509fd4936ecd7fad63a683ceb71a0d67a8c3b552b17f56",
+                  "creation_num": "1"
+                }
+              }
+            },
+            "rotation_capability_offer": {
+              "for": {
+                "vec": []
+              }
+            },
+            "sequence_number": "1057712",
+            "signer_capability_offer": {
+              "for": {
+                "vec": []
+              }
+            }
+          }
+        },
+        "type": "write_resource"
+      },
+      {
+        "state_key_hash": "0xeb2fc2aaa53c64cd7661d57b15f4b67fc3096b1bc9382b3f73963862982917f9",
+        "handle": "0x08e10debd6d1ed4afae6bad4d7df3008cf19bb872601192fd7a0d1d37ed55575",
+        "key": "0x4f3078663232626564653233376130376531323162353664393161343931656237626364666431663539303739323661396535383333386639363461303162313766613a3a61737365743a3a55534454",
+        "value": "0x88a0020000000000220700000000000001c4f16700000000010000000000000000dd025a6700000000d0a1808e020000000000000000000000000000000000000000000000000000000000000000000000f58303000000000049c8c00400000000",
+        "data": null,
+        "type": "write_table_item"
+      },
+      {
+        "state_key_hash": "0x6e4b28d40f98a106a65163530924c0dcb40c1349d3aa915d108b4d6cfc1ddb19",
+        "handle": "0x1b854694ae746cdbd8d44186ca4929b2b337df21d1c74633be19b2710552fdca",
+        "key": "0x0619dc29a0aac8fa146714058e8dd6d2d0f3bdf5f6331907bf91f3acd81e6935",
+        "value": "0xae656c59a46f97010000000000000000",
+        "data": null,
+        "type": "write_table_item"
+      },
+      {
+        "state_key_hash": "0x9e6c29dc296a41cdcf1d34aab7736682b777a62f938438d3b07e51e19369ed3e",
+        "handle": "0xaae2e07674b369a40c9c70832935dfac3569ec0775cde67faf01ae6b981d38fd",
+        "key": "0x1a3078313a3a6170746f735f636f696e3a3a4170746f73436f696e",
+        "value": "0x26c6000000000000a50100000000000001c4f167000000000100000000000000000000000000000000ce84e85e02000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "data": null,
+        "type": "write_table_item"
+      },
+      {
+        "state_key_hash": "0x0f4ab32e8f20961605bea34b222b6ad423225ecb8838ef79095f2215746ebf14",
+        "handle": "0xaae2e07674b369a40c9c70832935dfac3569ec0775cde67faf01ae6b981d38fd",
+        "key": "0x4f3078663232626564653233376130376531323162353664393161343931656237626364666431663539303739323661396535383333386639363461303162313766613a3a61737365743a3a55534443",
+        "value": "0x671d000000000000220000000000000001c4f1670000000001000000000000000037d5cf6700000000d9194a7d0200000000000000000000000000000000000000000000000000000000000000000000000000000000000000044cde0500000000",
+        "data": null,
+        "type": "write_table_item"
+      },
+      {
+        "state_key_hash": "0x639f57b0a3be205edf3ad96278f866fbf3419a0c50f6b327510bbf6d435be93c",
+        "handle": "0xaae2e07674b369a40c9c70832935dfac3569ec0775cde67faf01ae6b981d38fd",
+        "key": "0x5a3078313131616533653562633831366135653633633264613937643061613338383635313965306364356534623034363635396661333537393662643131353432613a3a73746170745f746f6b656e3a3a5374616b6564417074",
+        "value": "0x3455010000000000100100000000000001c4f1670000000001000000000000000000000000000000004d438d5a02000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "data": null,
+        "type": "write_table_item"
+      },
+      {
+        "state_key_hash": "0xfdd1d1a88ce00c3dbfe475a403dd36a9272f8b11a8664f9e81ca5b30cb8033cc",
+        "handle": "0xdfdf27209c680a85bdf3fa65f33b91a226b1a2ba42837726767097c2a0174334",
+        "key": "0x1a3078313a3a6170746f735f636f696e3a3a4170746f73436f696e",
+        "value": "0x3dc688e4752500003d2dc0905a00000001c4f167000000000100000000000000000000000000000000ce84e85e02000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "data": null,
+        "type": "write_table_item"
+      }
+    ],
+    "sender": "0xff1a69cbb94723aed9509fd4936ecd7fad63a683ceb71a0d67a8c3b552b17f56",
+    "sequence_number": "1057711",
+    "max_gas_amount": "500000",
+    "gas_unit_price": "100",
+    "expiration_timestamp_secs": "1744014658",
+    "payload": {
+      "function": "0x3c1d4a86594d681ff7e5d5a233965daeabdc6a15fe5672ceeda5260038857183::lend::traverse_pool",
+      "type_arguments": [],
+      "arguments": [
+        "475",
+        "4"
+      ],
+      "type": "entry_function_payload"
+    },
+    "signature": {
+      "public_key": "0x954c7466b5830c10d295ee3e2453610e0dc6161cf7a379578ed37cd971efaa19",
+      "signature": "0xdb601e85203b30ebbf3da12a40eadd1e62462dd16873f859403440fb28bfe660052083d2766728048250e72033f4f4b720ae061d88edb37fcdd6c7a722a8c20f",
+      "type": "ed25519_signature"
+    },
+    "events": [
+      {
+        "guid": {
+          "creation_number": "0",
+          "account_address": "0x0"
+        },
+        "sequence_number": "0",
+        "type": "0x1::transaction_fee::FeeStatement",
+        "data": {
+          "execution_gas_units": "123",
+          "io_gas_units": "12",
+          "storage_fee_octas": "0",
+          "storage_fee_refund_octas": "0",
+          "total_charge_gas_units": "135"
+        }
+      }
+    ],
+    "timestamp": "1744014639269714",
+    "type": "user_transaction"
+  }
+}

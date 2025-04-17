@@ -1,0 +1,27 @@
+meta {
+  name: aptos
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{api_url}}/api/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: aptos
+  transactionId: 0x9e7a75284eb2d0ea2830607171ec461dceba0028eae76b194049452145eb5e6e
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.raw: isDefined
+  res.body.transaction.parsed: isDefined
+  res.body.transaction.parsed.timestamp: eq "1744014639269714"
+}

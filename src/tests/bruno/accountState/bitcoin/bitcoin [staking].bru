@@ -15,13 +15,6 @@ params:path {
   accountId: 02bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c
 }
 
-body:json {
-  {
-    "chainId": "bitcoin",
-    "accountId": "xpub6BtWBf3Pu6hYwJBKvEwG7JtrTxxDrSGy39HaTgZz6GTSaFWFdoCtuEXSQtoKGaYdz1emg8xTXKYwjhu3xXRPzFnYS1z4yjKj7hLDQyNeDZr"
-  }
-}
-
 assert {
   ~res.status: eq 200
   ~res.body.chainId: eq "bitcoin"

@@ -4,6 +4,7 @@ import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoi
 import { StarknetTransactionParams } from "../families/starknet/types";
 import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
+import { AptosTransactionParams } from "~/app/families/aptos/types";
 
 enum ChainId {
   APTOS = "aptos",
@@ -376,7 +377,8 @@ type TransactionParams =
   | BitcoinTransactionParams
   | TronTransactionParams
   | StarknetTransactionParams
-  | TonTransactionParams;
+  | TonTransactionParams
+  | AptosTransactionParams;
 
 enum DeployContractType {
   ARGENTX = "argentx",

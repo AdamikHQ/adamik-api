@@ -1,0 +1,11 @@
+{
+  "request": {
+    "url": "https://api.mainnet.aptoslabs.com/v1/estimate_gas_price",
+    "method": "GET"
+  },
+  "response": {
+    "deprioritized_gas_estimate": 100,
+    "gas_estimate": 100,
+    "prioritized_gas_estimate": 150
+  }
+}

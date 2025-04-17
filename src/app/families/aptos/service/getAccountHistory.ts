@@ -1,8 +1,12 @@
 import { AccountHistory, FinalizedTransaction, Paginated, TransactionState } from "~/app/model/types_WIP";
 import { getAccountTransactions } from "~/app/families/aptos/backend/node";
+import { AptosService } from "~/app/families/aptos/service";
 
-export async function getAccountHistory(address: string): Promise<Paginated<AccountHistory>> {
-  const transactions = await getAccountTransactions(address);
+export async function getAccountHistory(
+  this: AptosService,
+  address: string
+): Promise<Paginated<AccountHistory>> {
+  const transactions = await getAccountTransactions(this.chainId, address);
 
   return {
     transactions: transactions.map((tx) => {

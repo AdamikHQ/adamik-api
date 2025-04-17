@@ -1,0 +1,35 @@
+meta {
+  name: aptos
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/validate
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: aptos
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "tokenId": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC",
+        "mode": "transferToken",
+        "senderAddress": "0x061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807",
+        "recipientAddress": "0x6b13ac8af6993a87f19fd3cd2c6b31b7cc24ac846d127922078cf8ba888c7c23",
+        "amount": "1234560",
+        "useMaxAmount": false
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.status.errors: isEmpty
+}

@@ -23,7 +23,7 @@ const APTOS_FEATURES: ChainSupportedFeatures = {
         registerStake: true,
       },
       field: {
-        memo: true,
+        memo: false,
       },
     },
   },

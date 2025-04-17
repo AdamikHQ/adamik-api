@@ -3,16 +3,31 @@ import {
   ValidatorSetResponse,
   AccountCoinResource,
   AptosTransaction,
+  TransactionPayload,
+  AptosTransactionParams,
 } from "~/app/families/aptos/types";
-
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, Provider, ProviderType, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import {
+  ChainId,
+  Provider,
+  ProviderType,
+  TokenAmount,
+  TokenType,
+  TransactionData,
+} from "~/app/model/types_WIP";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getCoinData } from "~/app/families/aptos/backend/indexer";
+import { Aptos, AptosConfig, Account, AccountAddress, MoveFunctionId } from "@aptos-labs/ts-sdk";
+import { AccountResponse, CoinBalance, GasPriceEstimate } from "~/app/families/aptos/backend/types";
 
-const nodeUrl = String(CHAINS.aptos.providers.find((p: Provider) => p.type === ProviderType.node)?.url);
+async function nodeRequest<T>(
+  chainId: ChainId,
+  path: string,
+  method: "GET" | "POST" = "GET",
+  data?: unknown
+): Promise<T> {
+  const nodeUrl = String(CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.node)?.url);
 
-async function nodeRequest<T>(path: string, method: "GET" | "POST" = "GET", data?: unknown): Promise<T> {
   const response = await fetch(`${nodeUrl}${path}`, {
     method,
     headers: {
@@ -28,38 +43,93 @@ async function nodeRequest<T>(path: string, method: "GET" | "POST" = "GET", data
   return (await response.json()) as T;
 }
 
-export async function getAccount(address: string) {
-  return nodeRequest(`/accounts/${address}`);
+export async function fetchAccount(chainId: ChainId, address: string) {
+  return nodeRequest<AccountResponse>(chainId, `/accounts/${address}`);
 }
 
-export async function getAccountResources(address: string) {
-  return nodeRequest(`/accounts/${address}/resources`);
+export async function fetchAccountResources(chainId: ChainId, address: string) {
+  return nodeRequest(chainId, `/accounts/${address}/resources`);
 }
 
-export async function getAccountModules(address: string) {
-  return nodeRequest(`/accounts/${address}/modules`);
+export async function fetchAccountModules(chainId: ChainId, address: string) {
+  return nodeRequest(chainId, `/accounts/${address}/modules`);
 }
 
-export async function submitTransaction(txnPayload: any) {
-  return nodeRequest("/transactions", "POST", txnPayload);
+export async function submitTransaction(chainId: ChainId, tx: TransactionPayload) {
+  return nodeRequest(chainId, "/transactions", "POST", tx);
 }
 
-export async function getTransaction(hash: string) {
-  return nodeRequest(`/transactions/by_hash/${hash}`);
+export async function simulateTransaction(chainId: ChainId, tx: TransactionData) {
+  const aptosTx: TransactionPayload = {
+    sender: tx.senderAddress,
+    sequence_number: await fetchSequenceNumber(chainId, tx.senderAddress),
+    max_gas_amount: "2000",
+    gas_unit_price: (await fetchGasPrice(chainId)).toString(),
+    expiration_timestamp_secs: (Date.now() / 1000 + 360).toString(),
+    payload: (tx.params as AptosTransactionParams)?.payload ?? {
+      function: "0x1::aptos_account::transfer" as MoveFunctionId,
+      arguments: [tx.recipientAddress, 1],
+    },
+  };
+  const nodeUrl = String(CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.node)?.url);
+  const config = new AptosConfig({ fullnode: nodeUrl });
+  const aptos = new Aptos(config);
+
+  const senderAddress = AccountAddress.fromString(tx.senderAddress);
+
+  const transaction = await aptos.transaction.build.simple({
+    sender: senderAddress,
+    data: {
+      function: aptosTx.payload.function,
+      functionArguments: aptosTx.payload.arguments,
+    },
+  });
+  const [simulationResult] = await aptos.transaction.simulate.simple({
+    transaction,
+  });
+  return simulationResult;
 }
 
-export async function getAccountCoinsData(address: string): Promise<AccountCoinResource> {
-  const resources = await nodeRequest<AptosResource[]>(`/accounts/${address}/resources`);
+export async function fetchGasPrice(chainId: ChainId): Promise<bigint> {
+  const estimate = await nodeRequest<GasPriceEstimate>(chainId, "/estimate_gas_price");
+  return BigInt(estimate.gas_estimate);
+}
+
+export async function fetchSequenceNumber(chainId: ChainId, accountAddress: string): Promise<string> {
+  try {
+    const account = await fetchAccount(chainId, accountAddress);
+    return account.sequence_number;
+  } catch {
+    return "0";
+  }
+}
+
+export async function fetchTransaction(chainId: ChainId, hash: string) {
+  return nodeRequest(chainId, `/transactions/by_hash/${hash}`);
+}
+
+export async function fetchNativeBalance(chainId: ChainId, address: string) {
+  return nodeRequest<CoinBalance>(
+    chainId,
+    `/v1/accounts/${address}/resource/0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`
+  );
+}
+
+export async function fetchAccountCoins(chainId: ChainId, address: string): Promise<AccountCoinResource> {
+  const resources = await nodeRequest<AptosResource[]>(chainId, `/accounts/${address}/resources`);
   return resources.filter((res) => res.type.startsWith("0x1::coin::CoinStore<")) as AccountCoinResource;
 }
 
-export async function getValidators(): Promise<ValidatorSetResponse> {
-  return nodeRequest<ValidatorSetResponse>("/accounts/0x1/resource/0x1::stake::ValidatorSet");
+export async function fetchValidators(chainId: ChainId): Promise<ValidatorSetResponse> {
+  return nodeRequest<ValidatorSetResponse>(chainId, "/accounts/0x1/resource/0x1::stake::ValidatorSet");
 }
 
-export async function getTransactionByHash(txId: string): Promise<AptosTransaction | null> {
+export async function fetchTransactionByHash(
+  chainId: ChainId,
+  txId: string
+): Promise<AptosTransaction | null> {
   try {
-    return await nodeRequest(`/transactions/by_hash/${txId}`);
+    return await nodeRequest(chainId, `/transactions/by_hash/${txId}`);
   } catch {
     return null;
   }
@@ -92,6 +162,6 @@ export async function populateCoinData(
   );
 }
 
-export async function getAccountTransactions(address: string): Promise<AptosTransaction[]> {
-  return nodeRequest<AptosTransaction[]>(`/accounts/${address}/transactions`);
+export async function getAccountTransactions(chainId: ChainId, address: string): Promise<AptosTransaction[]> {
+  return nodeRequest<AptosTransaction[]>(chainId, `/accounts/${address}/transactions`);
 }

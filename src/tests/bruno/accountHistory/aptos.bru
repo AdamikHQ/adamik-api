@@ -15,14 +15,7 @@ params:path {
   accountId: 0x84b1675891d370d5de8f169031f9c3116d7add256ecf50a4bc71e3135ddba6e0
 }
 
-body:json {
-  {
-    "chainId": "ton",
-    "accountId": "UQCj2rKgLdwEkDo6N6zjmuDrrKy40qERCh1wPICJbzAixpOe"
-  }
-}
-
 assert {
-  res.status: eq 400
-  res.body.status.errors[0].message: eq "Unsupported feature for chainId 'ton'"
+  res.status: eq 200
+  res.body.transactions: isArray
 }

@@ -1,12 +1,12 @@
 import { AccountTokens, Paginated } from "~/app/model/types_WIP";
-import { getAccountCoinsData, populateCoinData } from "~/app/families/aptos/backend/node";
+import { fetchAccountCoins, populateCoinData } from "~/app/families/aptos/backend/node";
 import { AptosService } from "~/app/families/aptos/service";
 
 export async function getAccountTokens(
   this: AptosService,
   address: string
 ): Promise<Paginated<AccountTokens>> {
-  const accountCoins = await getAccountCoinsData(address);
+  const accountCoins = await fetchAccountCoins(this.chainId, address);
   const tokenAmounts = accountCoins
     .map((coin) => {
       const coinId = coin.type.match(/^0x1::coin::CoinStore<(.+)>$/);

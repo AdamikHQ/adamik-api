@@ -11,23 +11,13 @@ get {
 }
 
 params:path {
-  chainId: ton
-  accountId: UQCj2rKgLdwEkDo6N6zjmuDrrKy40qERCh1wPICJbzAixpOe
-}
-
-body:json {
-  {
-    "chainId": "ton",
-    "accountId": "UQCj2rKgLdwEkDo6N6zjmuDrrKy40qERCh1wPICJbzAixpOe"
-  }
+  chainId: aptos
+  accountId: 0x84b1675891d370d5de8f169031f9c3116d7add256ecf50a4bc71e3135ddba6e0
 }
 
 assert {
-  res.status: eq 400
-  res.body.status.errors[0].message: eq "Not implemented yet"
-  ~res.body.balances: isDefined tokens
-  ~res.body.balances.tokens: isArray
-  ~res.body.balances.native.total: eq "812917632009707"
-  ~res.body.balances.native.available: eq "812917632009707"
-  ~res.status: eq 200
+  res.body.balances: isDefined tokens
+  res.body.balances.tokens: isArray
+  res.body.balances.tokens[0].amount: matches ^\d+$
+  res.status: eq 200
 }

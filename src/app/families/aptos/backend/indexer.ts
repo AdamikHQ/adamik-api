@@ -37,6 +37,7 @@ async function indexerRequest<T>(query: string, variables?: Record<string, unkno
 }
 
 export async function getCoinData(chainId: ChainId, coinType: string): Promise<Token> {
+  // GraphQL query to the indexer:  https://aptos.dev/en/build/indexer
   const query = `
     query CoinMetadata($type: String!) {
       coin_infos(where: { coin_type: { _eq: $type } }) {

@@ -1,3 +1,6 @@
+import { MoveFunctionId } from "@aptos-labs/ts-sdk";
+import { z } from "zod";
+
 export type IndexerResponse<T> = {
   data: T;
   errors?: Array<{
@@ -59,10 +62,10 @@ export type AptosWriteTableItem = {
 };
 
 export type AptosEntryFunctionPayload = {
-  type: "entry_function_payload";
-  function: string;
-  type_arguments: string[];
+  function: MoveFunctionId;
   arguments: string[];
+  type?: string;
+  type_arguments?: string[];
 };
 
 export type AptosSignature = {
@@ -161,3 +164,35 @@ export type CoinData = {
 export type CoinInfosResponse = {
   coin_infos: CoinData[];
 };
+
+export type TransactionPayload = {
+  sender: string;
+  sequence_number: string;
+  max_gas_amount: string;
+  gas_unit_price: string;
+  expiration_timestamp_secs: string;
+  payload: AptosEntryFunctionPayload;
+  signature?: {
+    type: string;
+    public_key: string;
+    signature: string;
+  };
+};
+
+const moveStructIdSchema = z
+  .string()
+  .regex(/^0x[a-fA-F0-9]+::[A-Za-z_][A-Za-z0-9_]*::[A-Za-z_][A-Za-z0-9_]*$/)
+  .transform((val) => val as `${string}::${string}::${string}`);
+const transactionPayloadSchema = z.object({
+  type: z.string().optional(),
+  function: moveStructIdSchema,
+  type_arguments: z.array(z.string()).optional(),
+  arguments: z.array(z.string()),
+});
+
+const transactionParamsSchema = z.object({
+  payload: transactionPayloadSchema,
+  expiration_timestamp_secs: z.string().optional(),
+});
+
+export type AptosTransactionParams = z.infer<typeof transactionParamsSchema>;

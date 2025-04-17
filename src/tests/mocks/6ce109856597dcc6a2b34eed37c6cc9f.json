@@ -1,0 +1,25 @@
+{
+  "request": {
+    "url": "https://api.mainnet.aptoslabs.com/v1/graphql",
+    "method": "POST",
+    "params": {
+      "query": "\n    query CoinMetadata($type: String!) {\n      coin_infos(where: { coin_type: { _eq: $type } }) {\n        name\n        symbol\n        decimals\n        coin_type\n        supply_aggregator_table_handle\n      }\n    }\n  ",
+      "variables": {
+        "type": "0x1eb35b3b9e911ca2093970ae5abfb970dbec54597d43954bb53b09d2e8356cc3::BMTAmm::BMTAmm"
+      }
+    }
+  },
+  "response": {
+    "data": {
+      "coin_infos": [
+        {
+          "name": "BMTAmm",
+          "symbol": "BMTAmm",
+          "decimals": 8,
+          "coin_type": "0x1eb35b3b9e911ca2093970ae5abfb970dbec54597d43954bb53b09d2e8356cc3::BMTAmm::BMTAmm",
+          "supply_aggregator_table_handle": null
+        }
+      ]
+    }
+  }
+}
