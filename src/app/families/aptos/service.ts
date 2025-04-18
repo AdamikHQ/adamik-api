@@ -7,6 +7,7 @@ import { getTransaction as getTransactionFn } from "./service/getTransaction";
 import { pubkeyToAddresses as pubkeyToAddressesFn } from "./service/pubkeyToAddresses";
 import { validateAddress as validateAddressFn } from "./service/validateAddress";
 import { prevalidateTransaction as prevalidateTransactionFn } from "./service/validateTransaction";
+import { completeTransaction as completeTransactionFn } from "./service/completeTransaction";
 import { validateTransaction as validateTransactionFn } from "./service/validateTransaction";
 import { encodeTransactionToSign as encodeTransactionToSignFn } from "./service/encodeTransaction";
 import { getValidators as getValidatorsFn } from "./service/getValidators";
@@ -21,6 +22,7 @@ class AptosService extends BaseChainService implements TokenService, StakingServ
   override prevalidateTransaction = prevalidateTransactionFn;
   override validateTransaction = validateTransactionFn;
   override encodeTransactionToSign = encodeTransactionToSignFn;
+  override completeTransaction = completeTransactionFn;
 
   getAccountTokens = getAccountTokensFn;
   getValidators = getValidatorsFn;
@@ -28,10 +30,6 @@ class AptosService extends BaseChainService implements TokenService, StakingServ
 
   broadcastTransaction(_payload: string): Promise<string> {
     throw new Error("Unimplemented");
-  }
-
-  completeTransaction(_: { transaction: Transaction; status: Status }): Promise<void> {
-    return Promise.resolve();
   }
 
   encodeTransactionToBroadcast(_: { signedTransaction: Transaction }): Promise<string> {

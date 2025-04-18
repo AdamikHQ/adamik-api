@@ -1,8 +1,14 @@
-import { ChainId, Status, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
+import {
+  ChainId,
+  Status,
+  Transaction,
+  TransactionData,
+  TransactionMode,
+  TransferTokenTransactionData,
+} from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { AptosService } from "../service";
 import { fetchSequenceNumber, simulateTransaction } from "~/app/families/aptos/backend/node";
-import { AptosTransactionParams } from "~/app/families/aptos/types";
 
 async function completeTransaction(
   this: AptosService,
@@ -12,7 +18,6 @@ async function completeTransaction(
   }
 ): Promise<void> {
   const { transaction, status } = _;
-
   try {
     const nonce = await fetchSequenceNumber(this.chainId, transaction.data.senderAddress);
     transaction.data.nonce = BigInt(nonce);
@@ -22,7 +27,7 @@ async function completeTransaction(
         await completeNativeTransaction(this.chainId, transaction.data);
         break;
       case TransactionMode.TRANSFER_TOKEN:
-        await completeTokenTransaction(this.chainId, transaction.data);
+        await completeTokenTransaction(this.chainId, transaction.data as TransferTokenTransactionData);
         break;
       default:
         // should never happen, zod already validated the mode per chain
@@ -31,6 +36,7 @@ async function completeTransaction(
         );
     }
   } catch (e: any) {
+    console.log(e);
     const message = "Failed to complete the transaction";
     status.errors.push({ message });
   }
@@ -49,16 +55,25 @@ async function completeNativeTransaction(chainId: ChainId, transaction: Transact
   };
 }
 
-async function completeTokenTransaction(chainId: ChainId, transaction: TransactionData): Promise<void> {
+async function completeTokenTransaction(
+  chainId: ChainId,
+  transaction: TransferTokenTransactionData
+): Promise<void> {
+  transaction.params = {
+    payload: {
+      function: "0x1::fungible_asset::transfer",
+      arguments: [
+        transaction.senderAddress,
+        transaction.recipientAddress,
+        (transaction.amount ?? 0n).toString(),
+      ],
+      type: "entry_function_payload",
+      type_arguments: [transaction.tokenId],
+    },
+  };
   const simulationResult = await simulateTransaction(chainId, transaction);
   transaction.gas = BigInt(simulationResult.max_gas_amount);
   transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
-  transaction.params = {
-    payload: {
-      function: "0x1::aptos_account::transfer",
-      arguments: [transaction.recipientAddress, (transaction.amount ?? 0n).toString()],
-    },
-  };
   transaction.amount = 0n;
 }
 

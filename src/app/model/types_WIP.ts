@@ -544,6 +544,7 @@ export type {
   TokenStakingReward,
   Transaction,
   TransactionData,
+  TransferTokenTransactionData,
   TransactionSpendableAmounts,
   TypedAddress,
   Validator,

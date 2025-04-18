@@ -17,8 +17,14 @@ import {
 } from "~/app/model/types_WIP";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getCoinData } from "~/app/families/aptos/backend/indexer";
-import { Aptos, AptosConfig, Account, AccountAddress, MoveFunctionId } from "@aptos-labs/ts-sdk";
+import { Aptos, AptosConfig, AccountAddress, MoveFunctionId } from "@aptos-labs/ts-sdk";
 import { AccountResponse, CoinBalance, GasPriceEstimate } from "~/app/families/aptos/backend/types";
+
+export function getClient(chainId: ChainId): Aptos {
+  const nodeUrl = String(CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.node)?.url);
+  const config = new AptosConfig({ fullnode: nodeUrl });
+  return new Aptos(config);
+}
 
 async function nodeRequest<T>(
   chainId: ChainId,
@@ -71,19 +77,19 @@ export async function simulateTransaction(chainId: ChainId, tx: TransactionData)
       arguments: [tx.recipientAddress, 1],
     },
   };
-  const nodeUrl = String(CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.node)?.url);
-  const config = new AptosConfig({ fullnode: nodeUrl });
-  const aptos = new Aptos(config);
+  const aptos = getClient(chainId);
 
   const senderAddress = AccountAddress.fromString(tx.senderAddress);
 
-  const transaction = await aptos.transaction.build.simple({
+  const aptosTransactionData = {
     sender: senderAddress,
     data: {
       function: aptosTx.payload.function,
       functionArguments: aptosTx.payload.arguments,
+      typeArguments: aptosTx.payload.type_arguments,
     },
-  });
+  };
+  const transaction = await aptos.transaction.build.simple(aptosTransactionData);
   const [simulationResult] = await aptos.transaction.simulate.simple({
     transaction,
   });
@@ -109,10 +115,23 @@ export async function fetchTransaction(chainId: ChainId, hash: string) {
 }
 
 export async function fetchNativeBalance(chainId: ChainId, address: string) {
-  return nodeRequest<CoinBalance>(
+  const balance = await nodeRequest<CoinBalance>(
     chainId,
-    `/v1/accounts/${address}/resource/0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`
+    `/accounts/${address}/resource/0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`
   );
+  return BigInt(balance.data.coin.value);
+}
+
+export async function fetchCoinBalance(chainId: ChainId, address: string, coinId: string) {
+  try {
+    const balance = await nodeRequest<CoinBalance>(
+      chainId,
+      `/accounts/${address}/resource/0x1::coin::CoinStore<${coinId}>`
+    );
+    return BigInt(balance.data.coin.value);
+  } catch {
+    return 0n;
+  }
 }
 
 export async function fetchAccountCoins(chainId: ChainId, address: string): Promise<AccountCoinResource> {
