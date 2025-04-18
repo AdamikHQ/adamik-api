@@ -135,8 +135,12 @@ export async function fetchCoinBalance(chainId: ChainId, address: string, coinId
 }
 
 export async function fetchAccountCoins(chainId: ChainId, address: string): Promise<AccountCoinResource> {
-  const resources = await nodeRequest<AptosResource[]>(chainId, `/accounts/${address}/resources`);
-  return resources.filter((res) => res.type.startsWith("0x1::coin::CoinStore<")) as AccountCoinResource;
+  try {
+    const resources = await nodeRequest<AptosResource[]>(chainId, `/accounts/${address}/resources`);
+    return resources.filter((res) => res.type.startsWith("0x1::coin::CoinStore<")) as AccountCoinResource;
+  } catch (e: unknown) {
+    return [] as AccountCoinResource;
+  }
 }
 
 export async function fetchValidators(chainId: ChainId): Promise<ValidatorSetResponse> {
