@@ -24,10 +24,10 @@ async function encodeTransactionToSign(
   const builtTransaction = await buildTransaction(transaction.data, timeout);
 
   transaction.encoded = [
-    {
-      format: EncodedTransactionFormat.BOC, // https://docs.ton.org/v3/documentation/data-formats/tlb/cell-boc#bag-of-cells
-      value: builtTransaction.endCell().toBoc().toString("hex"),
-    },
+    // {
+    //   format: EncodedTransactionFormat.BOC, // https://docs.ton.org/v3/documentation/data-formats/tlb/cell-boc#bag-of-cells
+    //   value: builtTransaction.endCell().toBoc().toString("hex"),
+    // }, doesn't seems to work
     {
       format: EncodedTransactionFormat.HASH_SHA256, // https://docs.ton.org/v3/documentation/data-formats/tlb/cell-boc#standard-cell-representation-hash-calculation
       value: builtTransaction.endCell().hash().toString("hex"),

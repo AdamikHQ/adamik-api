@@ -42,7 +42,7 @@ async function encodeTransactionToSign(
     },
     {
       format: EncodedTransactionFormat.HASH_KECCAK256,
-      value: keccak256(Buffer.from(rawTransaction, "hex")),
+      value: keccak256(Buffer.from(rawTransaction.slice(2), "hex")),
     },
     {
       format: EncodedTransactionFormat.WALLET_CONNECT,
