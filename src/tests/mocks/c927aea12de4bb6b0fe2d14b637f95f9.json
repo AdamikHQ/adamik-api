@@ -4,10 +4,11 @@
     "method": "GET"
   },
   "response": {
-    "status": 200,
+    "status": 404,
     "body": {
       "errorCode": "NOT_FOUND",
       "message": "staking delegation not found, please retry"
-    }
+    },
+    "type": "json"
   }
 }

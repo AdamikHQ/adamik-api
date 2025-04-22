@@ -1,0 +1,27 @@
+meta {
+  name: cosmoshub
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{api_url}}/api/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: cosmoshub
+  transactionId: 26CC0A8E8FA08DCE872CB926E42C11DC1806E104B01BB81C06BB8CA666698182
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.raw: isDefined
+  res.body.transaction.parsed: isDefined
+  res.body.transaction.parsed.timestamp: eq "1729254887000"
+}

@@ -1,0 +1,11 @@
+{
+  "request": {
+    "url": "https://mempool.space/signet/api/tx/e6dd797fe3ced5a30f1d89c911f593f099bf9e018d3968498ba12cc8b2ea8532",
+    "method": "GET"
+  },
+  "response": {
+    "status": 404,
+    "body": "Transaction not found",
+    "type": "text"
+  }
+}

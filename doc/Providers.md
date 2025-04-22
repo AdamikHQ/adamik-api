@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| node | https://lcd-cosmos.imperator.co |<br />
+| node | https://cosmos-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
@@ -280,7 +280,7 @@
 
 ## irisnet
 
-| node | https://lcd-iris.imperator.co |<br />
+| node | https://apis.mintscan.io/iris/lcd |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## juno
@@ -413,11 +413,17 @@
 | node | https://starknet-mainnet.public.blastapi.io/rpc/v0_7 |<br />
 | starkscan | https://api.starkscan.co |
 
+## babylon
+
+| node | https://babylon-api.nodes.guru |<br />
+| mintscan | https://apis.mintscan.io/v1 |<br />
+| babylon | https://staking-api.babylonlabs.io/v2 |
+
 ## babylon-testnet
 
 | node | https://babylon-testnet-api.nodes.guru |<br />
-| babylon | https://staking-api.testnet.babylonlabs.io/v2 |<br />
-| mintscan | https://apis.mintscan.io/v1 |
+| mintscan | https://apis.mintscan.io/v1 |<br />
+| babylon | https://staking-api.testnet.babylonlabs.io/v2 |
 
 ## monad-testnet
 

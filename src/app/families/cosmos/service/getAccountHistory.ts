@@ -16,7 +16,7 @@ async function getAccountHistory(
   );
 
   for (const cosmosTransaction of cosmosTransactions) {
-    const parsedTransaction = mintscanToAdamikTransaction(this.chainId, cosmosTransaction);
+    const parsedTransaction = await mintscanToAdamikTransaction(this.chainId, cosmosTransaction);
 
     transactions.push({
       parsed: parsedTransaction,

@@ -1,0 +1,26 @@
+meta {
+  name: babylon-testnet
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_url}}/api/:chainId/address/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: babylon-testnet
+}
+
+body:json {
+  {
+    "pubkey": "03b642c20d53840395afbc502e229b8368e76e808da3873aca21a94cd51c9980e6"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.addresses[0].address: eq bbn1dsx5hhngvdenhcf6shqan2ujm8y8esdywt9rwg
+}

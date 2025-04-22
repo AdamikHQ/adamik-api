@@ -1,0 +1,27 @@
+meta {
+  name: bitcoin-signet
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/:chainId/transaction/:transactionId?include=raw,parsed
+  body: none
+  auth: none
+}
+
+params:query {
+  include: raw,parsed
+}
+
+params:path {
+  chainId: bitcoin-signet
+  transactionId: eb7ce45ca671deb0c383cd8e571cc928fbbf64521544eeb43c1fb089141a90eb
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.raw: isDefined
+  res.body.transaction.parsed: isDefined
+  res.body.transaction.parsed.timestamp: eq "1743517408000"
+}
