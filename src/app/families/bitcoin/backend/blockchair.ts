@@ -620,13 +620,14 @@ async function blockchairToAdamikTransaction(
   // Babylon Staking - poll the babylon backend to check whether it's a staking tx
   const babylonDelegationFound = await fetchBabylonDelegation(blockchairTransaction.transaction.hash);
   if (babylonDelegationFound) {
-    // FIXME Found no way to differeciate between staking, unbonding, withdraw transactions...
-    // so forced to put "unknown" at the moment...
-    parsedTransaction.mode = "unknown";
+    // FIXME We can only identify 'staking' transactions,
+    // found no way to identify 'unbonding' and 'withdrawal' transactions...
+    parsedTransaction.mode = TransactionMode.STAKE;
+
     parsedTransaction.validators = {
       target: {
         address: babylonDelegationFound.data.finality_provider_btc_pks_hex[0],
-        //amount: BigInt(blockchairTransaction.outputs[0].value),
+        //amount: BigInt(mempoolSpaceTransaction.vout[0].value),
       },
     };
   }

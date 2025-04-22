@@ -21,6 +21,9 @@ async function encodeTransactionToSign(
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
         transaction.encoded = params.transferPsbt;
+
+        // Useless for the user in that case, so we remove it from the response
+        delete transaction.data.params;
       }
       break;
     case TransactionMode.STAKE:
@@ -52,7 +55,15 @@ async function encodeTransactionToSign(
       break;
     case TransactionMode.WITHDRAW:
       {
-        // TODO
+        if (!params.withdrawalPsbt) {
+          console.warn(`Missing psbt in transaction:`, transaction);
+          throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
+        }
+
+        transaction.encoded = params.withdrawalPsbt;
+
+        // Useless for the user in that case, so we remove it from the response
+        delete transaction.data.params;
       }
       break;
   }

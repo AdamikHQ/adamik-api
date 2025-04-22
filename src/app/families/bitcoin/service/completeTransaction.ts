@@ -1,6 +1,7 @@
 import { fetchBabylonDelegation } from "~/app/families/babylon/backend/babylonAPI";
 import {
   buildBabylonStakingPayloads,
+  buildWithdrawalPsbt,
   retrieveUnbondingPsbtFromDelegation,
 } from "~/app/families/babylon/logic";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
@@ -91,9 +92,26 @@ async function completeTransaction(
 
     case TransactionMode.WITHDRAW:
       {
-        // TODO
+        const babylonDelegation = await fetchBabylonDelegation(transaction.data.stakeId);
+        if (!babylonDelegation) {
+          console.warn(`/!\\ Staking position not found for stake ID ${transaction.data.stakeId}`);
+          throw new UserInputError(`Staking position not found for stake ID ${transaction.data.stakeId}`);
+        }
+
+        const { psbt: withdrawalPsbt, fee: fees } = await buildWithdrawalPsbt(
+          this.chainId,
+          transaction.data,
+          babylonDelegation
+        );
+
+        transaction.data.params = {
+          withdrawalPsbt: withdrawalPsbt.toHex(),
+        };
+
+        transaction.data.fees = BigInt(fees);
       }
       break;
+
     default:
       throw new UnsupportedFeatureError(
         `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chainId}`

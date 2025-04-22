@@ -9,6 +9,9 @@ import {
   slashTimelockUnbondedTransaction as createSlashTimelockUnbondedTransaction,
   stakingTransaction as createStakingTransaction,
   unbondingTransaction as createUnbondingTransaction,
+  withdrawEarlyUnbondedTransaction as createWithdrawEarlyUnbondedTransaction,
+  withdrawSlashingTransaction as createWithdrawSlashingTransaction,
+  withdrawTimelockUnbondedTransaction as createWithdrawTimelockUnbondedTransaction,
   findInputUTXO,
   getBabylonParamByBtcHeight,
   getPsbtInputFields,
@@ -26,7 +29,6 @@ import {
   Psbt,
 } from "bitcoinjs-lib";
 import { Taptree } from "bitcoinjs-lib/src/types";
-import { add, differenceInCalendarDays, differenceInWeeks, formatDistanceStrict } from "date-fns";
 import { CHAINS } from "~/app/config/chains";
 import {
   fetchAddressUTXOs,
@@ -38,6 +40,7 @@ import {
   fetchAddressScriptPubKey,
   fetchAddressUtxos,
   fetchLatestBlockHeight as fetchBitcoinLatestBlockHeight,
+  fetchFeePerByte,
   fetchFeePerByte as fetchFeePerByteMempoolSpace,
   fetchTransaction as fetchTransactionFromMS,
 } from "~/app/families/bitcoin/backend/mempoolSpace";
@@ -51,10 +54,11 @@ import {
   ChainId,
   ProviderType,
   RegisterStakeTransactionData,
-  TransactionData,
+  StakeTransactionData,
   TransactionMode,
   TransactionState,
   UnstakeTransactionData,
+  WithdrawTransactionData,
 } from "~/app/model/types_WIP";
 import { validateSafeNumber } from "~/app/tools/amount";
 import "~/app/tools/bigint";
@@ -83,36 +87,10 @@ const fetchTransactionFunctions = [fetchTransactionFromMS, fetchTransactionFromB
 
 // TODO Check when 'Staking' class is exposed by btc-staking-lib, and refacto everything to use it instead
 
-// TODO Also support withdraw transactions or not ?...
-// - withdrawEarlyUnbondedTransaction
-// - withdrawTimelockUnbondedTransaction
-
-// No idea what that is, should be imported from btc-staking-lib instead, but it doesn't expose it...
-// https://github.com/babylonlabs-io/btc-staking-ts/blob/de1d1cff3ef4ad45b5c61f0d7b11fd4479de278a/src/constants/transaction.ts
-const REDEEM_VERSION = 192;
-
-// "internalPubkey denotes an unspendable internal public key to be used for the taproot output"
-// Should be imported from btc-staking-lib instead, but it doesn't expose it...
-// https://github.com/babylonlabs-io/btc-staking-ts/blob/de1d1cff3ef4ad45b5c61f0d7b11fd4479de278a/src/constants/internalPubkey.ts
-const TAPROOT_INTERNAL_PUBKEY = Buffer.from(
-  "0250929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0",
-  "hex"
-).subarray(1, 33); // Do a subarray(1, 33) to get the public coordinate
-
 function buildStakingScripts(
-  transactionData: TransactionData,
+  transactionData: StakeTransactionData | UnstakeTransactionData | WithdrawTransactionData,
   babylonStakingParams: StakingParams
 ): StakingScripts {
-  if (
-    transactionData.mode !== TransactionMode.STAKE &&
-    transactionData.mode !== TransactionMode.UNSTAKE &&
-    transactionData.mode !== TransactionMode.REGISTER_STAKE
-  ) {
-    throw new UnsupportedFeatureError(
-      `Unsupported transaction mode ${transactionData.mode} for chain bitcoin`
-    );
-  }
-
   if (!transactionData.senderPubKey) {
     throw new UserInputError("Public key of the sender address must be provided");
   }
@@ -120,11 +98,8 @@ function buildStakingScripts(
   // substring because staker pubkey is expected without the coordinate bytes
   const senderPubKeyNoCoord: Buffer = Buffer.from(transactionData.senderPubKey.substring(2), "hex");
 
-  // TODO Only 1 validator at the moment, we could support several
   const validatorAddress =
-    transactionData.mode === TransactionMode.REGISTER_STAKE
-      ? transactionData.validatorPubKey
-      : transactionData.mode === TransactionMode.STAKE
+    transactionData.mode === TransactionMode.STAKE
       ? transactionData.targetValidatorAddress
       : transactionData.validatorAddress;
   const finalityProviders: Buffer[] = [Buffer.from(validatorAddress, "hex")];
@@ -143,9 +118,61 @@ function buildStakingScripts(
   return stakingScriptData.buildScripts();
 }
 
+async function buildBabylonStakingPayloads(
+  chainId: ChainId,
+  transactionData: StakeTransactionData
+): Promise<{
+  stakingPsbt: Psbt;
+  slashingPsbt: Psbt;
+  unbondingSlashingPsbt: Psbt;
+  unbondingTransaction: BitcoinTransaction;
+  fees: number;
+}> {
+  const babylonStakingParams = await getCurrentBabylonStakingParams();
+  const bitcoinNetworkInfo = getNetworkForChainId(chainId);
+  const stakingScripts = buildStakingScripts(transactionData, babylonStakingParams);
+
+  const {
+    transaction: stakingTransaction,
+    psbt: stakingPsbt,
+    fee: fees,
+  } = await buildStakingPsbt(chainId, transactionData, stakingScripts, bitcoinNetworkInfo);
+
+  // TODO Maybe we actually don't need the unbonding transaction here,
+  // and we could build it during the babylon registration flow --> to be tested
+  const { transaction: unbondingTransaction } = buildUnbondingPsbt(
+    stakingScripts,
+    stakingTransaction,
+    babylonStakingParams,
+    bitcoinNetworkInfo
+  );
+
+  const { psbt: slashingPsbt } = buildSlashingPsbt(
+    stakingScripts,
+    stakingTransaction,
+    babylonStakingParams,
+    bitcoinNetworkInfo
+  );
+
+  const { psbt: unbondingSlashingPsbt } = buildUnbondingSlashingPsbt(
+    stakingScripts,
+    unbondingTransaction,
+    babylonStakingParams,
+    bitcoinNetworkInfo
+  );
+
+  return {
+    stakingPsbt,
+    slashingPsbt,
+    unbondingSlashingPsbt,
+    unbondingTransaction,
+    fees,
+  };
+}
+
 async function buildStakingPsbt(
   chainId: ChainId,
-  transactionData: TransactionData,
+  transactionData: StakeTransactionData,
   scripts: StakingScripts,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ): Promise<{ transaction: BitcoinTransaction; psbt: Psbt; fee: number }> {
@@ -202,27 +229,38 @@ async function buildStakingPsbt(
   // substring because staker pubkey is expected without the coordinate bytes
   const senderPubKeyNoCoord = Buffer.from(transactionData.senderPubKey.substring(2), "hex");
 
-  const { transaction: stakingTransaction, fee } = createStakingTransaction(
-    scripts,
-    amount,
-    changeAddress,
-    babylonUtxos,
-    bitcoinNetworkInfo,
-    feePerByte
-  );
+  try {
+    const { transaction: stakingTransaction, fee } = createStakingTransaction(
+      scripts,
+      amount,
+      changeAddress,
+      babylonUtxos,
+      bitcoinNetworkInfo,
+      feePerByte
+    );
 
-  const stakingPsbt = stakingTransactionToPsbt(
-    stakingTransaction,
-    bitcoinNetworkInfo,
-    babylonUtxos,
-    senderPubKeyNoCoord
-  );
+    const stakingPsbt = stakingTransactionToPsbt(
+      stakingTransaction,
+      bitcoinNetworkInfo,
+      babylonUtxos,
+      senderPubKeyNoCoord
+    );
 
-  return {
-    transaction: stakingTransaction,
-    psbt: stakingPsbt,
-    fee,
-  };
+    return {
+      transaction: stakingTransaction,
+      psbt: stakingPsbt,
+      fee,
+    };
+  } catch (error: any) {
+    console.warn(`/!\\ Failed to build babylon staking psbt: ${JSON.stringify(error)}`);
+    if (error?.message && error.message.includes("amount is less than dust limit")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
+    } else if (error?.message && error.message.includes("Not enough funds to cover the fee")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low to cover the fees`));
+    } else {
+      throw new AdamikApiServerError(`Failed to build staking transaction`);
+    }
+  }
 }
 
 function buildSlashingPsbt(
@@ -250,11 +288,61 @@ function buildSlashingPsbt(
       fee: babylonStakingParams.slashing.minSlashingTxFeeSat,
     };
   } catch (error: any) {
-    console.warn("/!\\ Failed to build bitcoin slashing psbt:", error);
-    if (error?.includes && error.includes("amount is less than dust limit")) {
+    console.warn(`/!\\ Failed to build babylon slashing psbt: ${JSON.stringify(error)}`);
+    if (error?.message && error.message.includes("amount is less than dust limit")) {
       throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
+    } else if (error?.message && error.message.includes("Not enough funds to cover the fee")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low to cover the fees`));
     } else {
-      throw new AdamikApiServerError(`Failed to build slashing psbt`);
+      throw new AdamikApiServerError(`Failed to build slashing transaction`);
+    }
+  }
+}
+
+function buildUnbondingPsbt(
+  scripts: StakingScripts,
+  stakingTransaction: BitcoinTransaction,
+  babylonStakingParams: StakingParams,
+  bitcoinNetworkInfo: BitcoinNetworkInfo
+): { transaction: BitcoinTransaction; psbt: Psbt; fee: number } {
+  try {
+    const { unbondingFeeSat: unbondingFee } = babylonStakingParams;
+
+    const { outputAddress } = deriveStakingOutputInfo(scripts, bitcoinNetworkInfo);
+    const stakingOutputIndex = findMatchingTxOutputIndex(
+      stakingTransaction,
+      outputAddress,
+      bitcoinNetworkInfo
+    );
+
+    const { transaction: unbondingTransaction } = createUnbondingTransaction(
+      scripts,
+      stakingTransaction,
+      unbondingFee,
+      bitcoinNetworkInfo,
+      stakingOutputIndex
+    );
+
+    const unbondingPsbt = unbondingTransactionToPsbt(
+      scripts,
+      unbondingTransaction,
+      stakingTransaction,
+      bitcoinNetworkInfo
+    );
+
+    return {
+      transaction: unbondingTransaction,
+      psbt: unbondingPsbt,
+      fee: unbondingFee,
+    };
+  } catch (error: any) {
+    console.warn(`/!\\ Failed to build babylon unbonding psbt: ${JSON.stringify(error)}`);
+    if (error?.message && error.message.includes("amount is less than dust limit")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
+    } else if (error?.message && error.message.includes("Not enough funds to cover the fee")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low to cover the fees`));
+    } else {
+      throw new AdamikApiServerError(`Failed to build unbonding transaction`);
     }
   }
 }
@@ -283,67 +371,15 @@ function buildUnbondingSlashingPsbt(
       fee: babylonStakingParams.slashing.minSlashingTxFeeSat,
     };
   } catch (error: any) {
-    console.warn("/!\\ Failed to build bitcoin unbonding slashing psbt:", error);
-    if (error?.includes && error.includes("amount is less than dust limit")) {
+    console.warn(`/!\\ Failed to build babylon unbonding slashing psbt: ${JSON.stringify(error)}`);
+    if (error?.message && error.message.includes("amount is less than dust limit")) {
       throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
+    } else if (error?.message && error.message.includes("Not enough funds to cover the fee")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low to cover the fees`));
     } else {
-      throw new AdamikApiServerError(`Failed to build slashing psbt`);
+      throw new AdamikApiServerError(`Failed to build unbonding slashing transaction`);
     }
   }
-}
-
-// The flow of the unbonding transaction is a bit different than the others, among all the babylon scenarios,
-// and at some step we only need the Transaction object, not the Psbt
-function buildUnbondingTransaction(
-  scripts: StakingScripts,
-  stakingTransaction: BitcoinTransaction,
-  babylonStakingParams: StakingParams,
-  bitcoinNetworkInfo: BitcoinNetworkInfo
-): { transaction: BitcoinTransaction; fee: number } {
-  const { unbondingFeeSat: unbondingFee } = babylonStakingParams;
-
-  const { outputAddress } = deriveStakingOutputInfo(scripts, bitcoinNetworkInfo);
-  const stakingOutputIndex = findMatchingTxOutputIndex(stakingTransaction, outputAddress, bitcoinNetworkInfo);
-
-  const { transaction: unbondingTransaction } = createUnbondingTransaction(
-    scripts,
-    stakingTransaction,
-    unbondingFee,
-    bitcoinNetworkInfo,
-    stakingOutputIndex
-  );
-
-  return {
-    transaction: unbondingTransaction,
-    fee: unbondingFee,
-  };
-}
-
-function buildUnbondingPsbt(
-  scripts: StakingScripts,
-  stakingTransaction: BitcoinTransaction,
-  babylonStakingParams: StakingParams,
-  bitcoinNetworkInfo: BitcoinNetworkInfo
-): { transaction: BitcoinTransaction; psbt: Psbt; fee: number } {
-  const { transaction: unbondingTransaction, fee: unbondingFee } = buildUnbondingTransaction(
-    scripts,
-    stakingTransaction,
-    babylonStakingParams,
-    bitcoinNetworkInfo
-  );
-
-  const unbondingPsbt = unbondingTransactionToPsbt(
-    scripts,
-    unbondingTransaction,
-    stakingTransaction,
-    bitcoinNetworkInfo
-  );
-
-  return {
-    transaction: unbondingTransaction,
-    psbt: unbondingPsbt,
-    fee: unbondingFee,
-  };
 }
 
 // Used to get the unbonding psbt, from the unbonding
@@ -430,7 +466,336 @@ async function finalizeUnbondingBroadcastPayload(
   return signedUnbondingTransaction;
 }
 
+async function buildWithdrawalPsbt(
+  chainId: ChainId,
+  transactionData: WithdrawTransactionData,
+  babylonDelegation: BabylonDelegationV2
+): Promise<PsbtWithFee> {
+  const bitcoinNetworkInfo = getNetworkForChainId(chainId);
+  const delegationState = babylonDelegation.data.state;
+
+  // Get the staking params for this delegation
+  const babylonStakingParams = await getBabylonStakingParamsByVersion(babylonDelegation.data.params_version);
+  if (!babylonStakingParams) {
+    console.warn(`/!\\ Staking params version not found for delegation`);
+    throw new AdamikApiServerError(`Staking params version not found for delegation`);
+  }
+
+  const stakingScripts = buildStakingScripts(transactionData, babylonStakingParams);
+
+  const feeRate = await fetchFeePerByte(chainId);
+
+  try {
+    // End of timelock withdrawal
+    if (delegationState === BabylonDelegationState.TIMELOCK_WITHDRAWABLE) {
+      const stakingTransaction = BitcoinTransaction.fromHex(
+        babylonDelegation.data.delegation_staking.staking_tx_hex
+      );
+
+      return createWithdrawTimelockUnbondedTransaction(
+        stakingScripts,
+        stakingTransaction,
+        transactionData.recipientAddress, // Use recipient as withdrawal address
+        bitcoinNetworkInfo,
+        feeRate
+      );
+    }
+    // Early unbonding withdrawal
+    else if (delegationState === BabylonDelegationState.EARLY_UNBONDING_WITHDRAWABLE) {
+      const unbondingTransaction = BitcoinTransaction.fromHex(
+        babylonDelegation.data.delegation_unbonding.unbonding_tx
+      );
+
+      return createWithdrawEarlyUnbondedTransaction(
+        stakingScripts,
+        unbondingTransaction,
+        transactionData.recipientAddress, // Use recipient as withdrawal address
+        bitcoinNetworkInfo,
+        feeRate
+      );
+    }
+    // Withdrawals after slashing
+    else if (
+      delegationState === BabylonDelegationState.TIMELOCK_SLASHING_WITHDRAWABLE ||
+      delegationState === BabylonDelegationState.EARLY_UNBONDING_SLASHING_WITHDRAWABLE
+    ) {
+      // Get the right transaction depending on slashing provenance
+      const slashingTransaction =
+        delegationState === BabylonDelegationState.TIMELOCK_SLASHING_WITHDRAWABLE
+          ? BitcoinTransaction.fromHex(babylonDelegation.data.delegation_staking.slashing.slashing_tx_hex)
+          : BitcoinTransaction.fromHex(
+              babylonDelegation.data.delegation_unbonding.slashing.unbonding_slashing_tx_hex
+            );
+
+      // Reconstruct and validate the slashingOutputIndex
+      const slashingOutputInfo = deriveSlashingOutput(stakingScripts, bitcoinNetworkInfo);
+      const slashingOutputIndex = findMatchingTxOutputIndex(
+        slashingTransaction,
+        slashingOutputInfo.outputAddress,
+        bitcoinNetworkInfo
+      );
+
+      return createWithdrawSlashingTransaction(
+        stakingScripts,
+        slashingTransaction,
+        transactionData.recipientAddress, // Use recipient as withdrawal address
+        bitcoinNetworkInfo,
+        feeRate,
+        slashingOutputIndex
+      );
+    } else {
+      // TODO Move this to validateTransaction ?
+      console.warn(`/!\\ Delegation is not in a withdrawable state: ${delegationState}`);
+      throw new UserInputError(`Delegation is not in a withdrawable state: ${delegationState}`);
+    }
+  } catch (error: any) {
+    console.warn(`Failed to build babylon withdrawal psbt: ${JSON.stringify(error)}`);
+    if (error?.message && error.message.includes("amount is less than dust limit")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
+    } else if (error?.message && error.message.includes("Not enough funds to cover the fee")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low to cover the fees`));
+    } else {
+      throw new AdamikApiServerError(`Failed to build withdrawal transaction`);
+    }
+  }
+}
+
+async function buildBabylonRegistrationMessage(
+  transactionData: RegisterStakeTransactionData
+): Promise<ProtoMsg> {
+  //////////////////// Retrieve data from the input transaction
+
+  // substring because staker pubkey is expected without the coordinate bytes
+  const bitcoinPubKeyNoCoordHex = transactionData.senderForeignPubKey.substring(2);
+
+  const bitcoinFinalityProviderPubKeyNoCoordHex = transactionData.validatorPubKey;
+
+  validateSafeNumber(transactionData.amount);
+  const bitcoinStakingAmountSat = Number(transactionData.amount);
+
+  const bitcoinStakingTransactionHex = transactionData.signedStakingTransaction;
+  const bitcoinSignedSlashingTransactionHex = transactionData.signedSlashingTransaction;
+  const bitcoinUnbondingTransactionHex = transactionData.unsignedUnbondingTransaction;
+  const bitcoinSignedUnbondingSlashingTransactionHex = transactionData.signedUnbondingSlashingTransaction;
+  const signedBabylonAddress = transactionData.proofOfPossession;
+
+  //////////////////// Prepare the data to build the babylon message
+
+  const bitcoinStakingTransaction = Psbt.fromHex(bitcoinStakingTransactionHex).extractTransaction();
+
+  const bitcoinUnbondingTransaction = BitcoinTransaction.fromHex(bitcoinUnbondingTransactionHex);
+
+  const bitcoinSignedSlashingTransaction = Psbt.fromHex(
+    bitcoinSignedSlashingTransactionHex
+  ).extractTransaction();
+  const bitcoinSlashingSignatures = extractSignatureFromTransaction(bitcoinSignedSlashingTransaction);
+  if (!bitcoinSlashingSignatures) {
+    throw new Error("No signature found in the staking output slashing PSBT");
+  }
+
+  const bitcoinSignedUnbondingSlashingTransaction = Psbt.fromHex(
+    bitcoinSignedUnbondingSlashingTransactionHex
+  ).extractTransaction();
+  const bitcoinUnbondingSlashingSignatures = extractSignatureFromTransaction(
+    bitcoinSignedUnbondingSlashingTransaction
+  );
+  if (!bitcoinUnbondingSlashingSignatures) {
+    throw new Error("No signature found in the unbonding output slashing PSBT");
+  }
+
+  // Create Proof of Possession
+  const ecdsaSig = Uint8Array.from(Buffer.from(signedBabylonAddress, "hex"));
+  const proofOfPossession: ProofOfPossessionBTC = {
+    btcSigType: BTCSigType.ECDSA,
+    btcSig: ecdsaSig,
+  };
+
+  const babylonStakingParams = await getCurrentBabylonStakingParams();
+
+  //////////////////// Build the cosmos message
+
+  const message: btcstakingtx.MsgCreateBTCDelegation = btcstakingtx.MsgCreateBTCDelegation.fromPartial({
+    stakerAddr: transactionData.senderAddress,
+    pop: proofOfPossession,
+    btcPk: Uint8Array.from(Buffer.from(bitcoinPubKeyNoCoordHex, "hex")),
+    fpBtcPkList: [Uint8Array.from(Buffer.from(bitcoinFinalityProviderPubKeyNoCoordHex, "hex"))],
+    stakingTime: babylonStakingParams.minStakingTimeBlocks,
+    stakingValue: bitcoinStakingAmountSat,
+    stakingTx: Uint8Array.from(clearTxSignatures(bitcoinStakingTransaction).toBuffer()),
+    slashingTx: Uint8Array.from(clearTxSignatures(bitcoinSignedSlashingTransaction).toBuffer()),
+    delegatorSlashingSig: Uint8Array.from(bitcoinSlashingSignatures),
+    unbondingTime: babylonStakingParams.unbondingTime,
+    unbondingTx: Uint8Array.from(bitcoinUnbondingTransaction.toBuffer()),
+    unbondingValue: bitcoinStakingAmountSat - babylonStakingParams.unbondingFeeSat,
+    unbondingSlashingTx: Uint8Array.from(
+      clearTxSignatures(bitcoinSignedUnbondingSlashingTransaction).toBuffer()
+    ),
+    delegatorUnbondingSlashingSig: Uint8Array.from(bitcoinUnbondingSlashingSignatures),
+    // Inclusion proof is required in post-stake registration,
+    // but not in pre-stake registration, which is the one we support
+    // https://github.com/babylonlabs-io/babylon/blob/ec7488f11f5c818b74d39c2771ac0d39a9ebed5a/docs/register-bitcoin-stake.md#explanation-of-fields
+    //stakingTxInclusionProof: inclusionProof,
+  });
+
+  return {
+    typeUrl: "/babylon.btcstaking.v1.MsgCreateBTCDelegation",
+    value: btcstakingtx.MsgCreateBTCDelegation.encode(message).finish(),
+  };
+}
+
+async function getBabylonDelegationState(message: BabylonMsgCreateBTCDelegation): Promise<TransactionState> {
+  // 1 - parse the babylon message to retrieve the bitcoin staking tx
+  const bitcoinTransactionId = BitcoinTransaction.fromBuffer(
+    Buffer.from(message.staking_tx, "base64")
+  ).getId();
+
+  // 2 - from the bitcoin tx id, fetch the related babylon delegation
+  const babylonDelegation = await fetchBabylonDelegation(bitcoinTransactionId);
+
+  // 3 - set the Adamik transaction state according to the babylon delegation state
+  switch (babylonDelegation?.data.state) {
+    // No delegation found yet --> pending
+    case undefined:
+      return TransactionState.PENDING;
+      break;
+    // Delegation found but not verified yet --> unconfirmed
+    case BabylonDelegationState.PENDING:
+      return TransactionState.UNCONFIRMED;
+      break;
+    // All other cases (verified, active, etc) mean the delegation is confirmed
+    default:
+      return TransactionState.CONFIRMED;
+      break;
+  }
+}
+
+async function getCurrentBabylonStakingParams(): Promise<StakingParams> {
+  const babylonStakingParams = await fetchAllBabylonStakingParams();
+
+  const bitcoinLatestBlockHeight = await fetchBitcoinLatestBlockHeight(CURRENT_BABYLON_BITCOIN_CHAIN);
+
+  // Specific logic required to determine what version to use
+  // (depends on the current bitcoin block height)
+  return getBabylonParamByBtcHeight(bitcoinLatestBlockHeight, babylonStakingParams);
+}
+
+async function getBabylonStakingParamsByVersion(version: number): Promise<StakingParams | null> {
+  const babylonStakingParams = await fetchAllBabylonStakingParams();
+
+  return babylonStakingParams.find((param) => param.version === version) ?? null;
+}
+
+/*
+function isUnbonding(delegation: BabylonDelegationV2["data"]): boolean {
+  return (
+    [
+      BabylonDelegationState.PENDING,
+      BabylonDelegationState.VERIFIED,
+      BabylonDelegationState.ACTIVE,
+      BabylonDelegationState.TIMELOCK_WITHDRAWABLE,
+      BabylonDelegationState.TIMELOCK_WITHDRAWN,
+    ].includes(delegation.state) === false
+  );
+}
+*/
+
+async function computeCompletionDateForDelegation(
+  delegation: BabylonDelegationV2["data"]
+): Promise<number | undefined> {
+  switch (delegation.state) {
+    case BabylonDelegationState.PENDING:
+    case BabylonDelegationState.VERIFIED:
+      return undefined;
+    case BabylonDelegationState.ACTIVE:
+    case BabylonDelegationState.TIMELOCK_UNBONDING:
+    case BabylonDelegationState.TIMELOCK_WITHDRAWABLE:
+    case BabylonDelegationState.TIMELOCK_WITHDRAWN:
+      return computeCompletionDateForTransaction(
+        delegation.delegation_staking.staking_tx_hex,
+        delegation.delegation_staking.staking_timelock
+      );
+    case BabylonDelegationState.EARLY_UNBONDING:
+    case BabylonDelegationState.EARLY_UNBONDING_WITHDRAWABLE:
+    case BabylonDelegationState.EARLY_UNBONDING_WITHDRAWN:
+      return computeCompletionDateForTransaction(
+        delegation.delegation_unbonding.unbonding_tx,
+        delegation.delegation_unbonding.unbonding_timelock
+      );
+    case BabylonDelegationState.SLASHED:
+    case BabylonDelegationState.TIMELOCK_SLASHING_WITHDRAWABLE:
+    case BabylonDelegationState.TIMELOCK_SLASHING_WITHDRAWN:
+    case BabylonDelegationState.EARLY_UNBONDING_SLASHING_WITHDRAWABLE:
+    case BabylonDelegationState.EARLY_UNBONDING_SLASHING_WITHDRAWN:
+      return (
+        // Either slashing while staking...
+        computeCompletionDateForTransaction(
+          delegation.delegation_staking.slashing.slashing_tx_hex,
+          delegation.delegation_unbonding.unbonding_timelock
+        ) ??
+        // ...or slashing while unbonding
+        computeCompletionDateForTransaction(
+          delegation.delegation_unbonding.slashing.unbonding_slashing_tx_hex,
+          delegation.delegation_unbonding.unbonding_timelock
+        )
+      );
+    default:
+      return undefined;
+  }
+}
+
+async function computeCompletionDateForTransaction(
+  bitcoinTransactionHex: string,
+  timelockBlocks: number // number of blocks
+): Promise<number | undefined> {
+  if (!bitcoinTransactionHex.length) {
+    return undefined;
+  }
+
+  const bitcoinTransactionId = BitcoinTransaction.fromHex(bitcoinTransactionHex).getId();
+
+  const transaction = await getTransactionfromProviders(
+    CURRENT_BABYLON_BITCOIN_CHAIN,
+    bitcoinTransactionId,
+    fetchTransactionFunctions
+  );
+  if (!transaction?.parsed?.timestamp) {
+    return undefined;
+  }
+
+  const startingTime = transaction.parsed.timestamp;
+  const duration = timelockBlocks * AVERAGE_BITCOIN_BLOCK_TIME_MS;
+  return startingTime + duration;
+}
+
 // FIXME Everything below should be imported from btc-staking-lib instead, but it doesn't expose it...
+
+// No idea what that is, should be imported from btc-staking-lib instead, but it doesn't expose it...
+// https://github.com/babylonlabs-io/btc-staking-ts/blob/de1d1cff3ef4ad45b5c61f0d7b11fd4479de278a/src/constants/transaction.ts
+const REDEEM_VERSION = 192;
+
+// "internalPubkey denotes an unspendable internal public key to be used for the taproot output"
+// Should be imported from btc-staking-lib instead, but it doesn't expose it...
+// https://github.com/babylonlabs-io/btc-staking-ts/blob/de1d1cff3ef4ad45b5c61f0d7b11fd4479de278a/src/constants/internalPubkey.ts
+const TAPROOT_INTERNAL_PUBKEY = Buffer.from(
+  "0250929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0",
+  "hex"
+).subarray(1, 33); // Do a subarray(1, 33) to get the public coordinate
+
+// From https://github.com/babylonlabs-io/btc-staking-ts/blob/de1d1cff3ef4ad45b5c61f0d7b11fd4479de278a/src/staking/manager.ts#L794
+const extractSignatureFromTransaction = (signedTransaction: BitcoinTransaction): Buffer | undefined => {
+  // Loop through each input to extract the witness signature
+  for (const input of signedTransaction.ins) {
+    if (input.witness && input.witness.length > 0) {
+      const schnorrSignature = input.witness[0];
+
+      // Check that it's a 64-byte Schnorr signature
+      if (schnorrSignature.length === 64) {
+        return schnorrSignature; // Return the first valid signature found
+      }
+    }
+  }
+  return undefined;
+};
 
 /**
  * Convert a staking transaction to a PSBT.
@@ -652,15 +1017,50 @@ const deriveUnbondingOutputInfo = (
     scriptTree: outputScriptTree,
     network: bitcoinNetworkInfo,
   });
+  const unbondingOutputAddress = unbondingOutput.address;
 
-  if (!unbondingOutput.address) {
-    console.warn("/!\\ Failed to build bitcoin unbonding output");
-    throw new AdamikApiServerError("Failed to build unbonding output");
+  if (!unbondingOutputAddress) {
+    console.warn("/!\\ Failed to find bitcoin unbonding output");
+    throw new AdamikApiServerError("Failed to find unbonding output");
   }
 
   return {
-    outputAddress: unbondingOutput.address,
-    scriptPubKey: address.toOutputScript(unbondingOutput.address, bitcoinNetworkInfo),
+    outputAddress: unbondingOutputAddress,
+    scriptPubKey: address.toOutputScript(unbondingOutputAddress, bitcoinNetworkInfo),
+  };
+};
+
+/**
+ * Derive the slashing output address and scriptPubKey from the staking scripts.
+ *
+ * @param {StakingScripts} scripts - The unbonding timelock scripts, we use the
+ * unbonding timelock script as the timelock of the slashing transaction.
+ * This is due to slashing tx timelock is the same as the unbonding timelock.
+ * @param {networks.Network} network - The Bitcoin network.
+ * @returns {OutputInfo} - The slashing output address and scriptPubKey.
+ * @throws {StakingError} - If the slashing output address cannot be derived.
+ */
+const deriveSlashingOutput = (
+  scripts: {
+    unbondingTimelockScript: Buffer;
+  },
+  bitcoinNetworkInfo: BitcoinNetworkInfo
+) => {
+  const slashingOutput = payments.p2tr({
+    internalPubkey: TAPROOT_INTERNAL_PUBKEY,
+    scriptTree: { output: scripts.unbondingTimelockScript },
+    network: bitcoinNetworkInfo,
+  });
+  const slashingOutputAddress = slashingOutput.address;
+
+  if (!slashingOutputAddress) {
+    console.warn("/!\\ Failed to find bitcoin slashing output");
+    throw new AdamikApiServerError("Failed to find slashing output");
+  }
+
+  return {
+    outputAddress: slashingOutputAddress,
+    scriptPubKey: address.toOutputScript(slashingOutputAddress, bitcoinNetworkInfo),
   };
 };
 
@@ -703,342 +1103,14 @@ const clearTxSignatures = (tx: BitcoinTransaction): BitcoinTransaction => {
   return tx;
 };
 
-const BLOCKS_PER_HOUR = 6;
-const WEEKS_PRECISION = 5;
-const DAY_TO_WEEK_DISPLAY_THRESHOLD = 30;
-
-/**
- * Converts a number of blocks  of the babylon chain into days or weeks
- * Returns the time in days if the difference is less than 7 days
- * Otherwise, returns the time in weeks
- *
- * @param {number | undefined} blocks - The number of blocks to convert.
- * @returns {string} - The converted time in days or weeks.
- * Rounded to 5 weeks if the difference is greater than 7 days.
- *
- * Examples of usage:
- * blocksToDisplayTime(30000); // "29 weeks"
- * blocksToDisplayTime(1); // "1 day"
- * blocksToDisplayTime(200); // "2 days"
- */
-// (copied from https://github.com/babylonlabs-io/simple-staking/blob/db23721053b48641294f20e49930899c87cdcd7b/src/utils/time.ts#L28)
-// TODO Adapt to return a raw timestamp instead of display-formatted strings
-// FIXME Currently unused??
-function babylonBlocksToDisplayTime(blocks: number | undefined): string {
-  // If no blocks are provided, return default value
-  if (!blocks) return "-";
-
-  // Calculate the equivalent time in hours
-  const hours = blocks / BLOCKS_PER_HOUR;
-
-  // Calculate the start and end dates
-  // get the timestamp now
-  const startDate = new Date();
-  const endDate = add(startDate, { hours });
-
-  const dayDifference = differenceInCalendarDays(endDate, startDate);
-  // If the difference is greater than or equal to 30 days, return the difference in weeks
-  if (dayDifference >= DAY_TO_WEEK_DISPLAY_THRESHOLD) {
-    // Calculate the difference in weeks
-    const weeks = differenceInWeeks(endDate, startDate, {
-      roundingMethod: "ceil",
-    });
-    const roundedWeeks = Math.round(weeks / WEEKS_PRECISION) * WEEKS_PRECISION;
-    return `${roundedWeeks} weeks`;
-  }
-
-  // Otherwise, return the difference in days and round up to the nearest day
-  return formatDistanceStrict(startDate, endDate, {
-    unit: "day",
-    roundingMethod: "ceil",
-  });
-}
-
-async function buildBabylonStakingPayloads(
-  chainId: ChainId,
-  transactionData: TransactionData
-): Promise<{
-  stakingPsbt: Psbt;
-  slashingPsbt: Psbt;
-  unbondingSlashingPsbt: Psbt;
-  unbondingTransaction: BitcoinTransaction;
-  fees: number;
-}> {
-  const babylonStakingParams = await getCurrentBabylonStakingParams();
-  const bitcoinNetworkInfo = getNetworkForChainId(chainId);
-  const stakingScripts = buildStakingScripts(transactionData, babylonStakingParams);
-
-  const {
-    transaction: stakingTransaction,
-    psbt: stakingPsbt,
-    fee: fees,
-  } = await buildStakingPsbt(chainId, transactionData, stakingScripts, bitcoinNetworkInfo);
-
-  // TODO Maybe we actually don't need the unbonding transaction here,
-  // and we could build it during the babylon registration flow --> to be tested
-  const { transaction: unbondingTransaction } = buildUnbondingPsbt(
-    stakingScripts,
-    stakingTransaction,
-    babylonStakingParams,
-    bitcoinNetworkInfo
-  );
-
-  const { psbt: slashingPsbt } = buildSlashingPsbt(
-    stakingScripts,
-    stakingTransaction,
-    babylonStakingParams,
-    bitcoinNetworkInfo
-  );
-  const { psbt: unbondingSlashingPsbt } = buildUnbondingSlashingPsbt(
-    stakingScripts,
-    unbondingTransaction,
-    babylonStakingParams,
-    bitcoinNetworkInfo
-  );
-
-  return {
-    stakingPsbt,
-    slashingPsbt,
-    unbondingSlashingPsbt,
-    unbondingTransaction,
-    fees,
-  };
-}
-
-async function buildBabylonRegistrationMessage(
-  transactionData: RegisterStakeTransactionData
-): Promise<ProtoMsg> {
-  //////////////////// Retrieve data from the input transaction
-
-  // substring because staker pubkey is expected without the coordinate bytes
-  const bitcoinPubKeyNoCoordHex = transactionData.senderForeignPubKey.substring(2);
-
-  const bitcoinFinalityProviderPubKeyNoCoordHex = transactionData.validatorPubKey;
-
-  validateSafeNumber(transactionData.amount);
-  const bitcoinStakingAmountSat = Number(transactionData.amount);
-
-  const bitcoinStakingTransactionHex = transactionData.signedStakingTransaction;
-  const bitcoinSignedSlashingTransactionHex = transactionData.signedSlashingTransaction;
-  const bitcoinUnbondingTransactionHex = transactionData.unsignedUnbondingTransaction;
-  const bitcoinSignedUnbondingSlashingTransactionHex = transactionData.signedUnbondingSlashingTransaction;
-  const signedBabylonAddress = transactionData.proofOfPossession;
-
-  //////////////////// Prepare the data to build the babylon message
-
-  const bitcoinStakingTransaction = Psbt.fromHex(bitcoinStakingTransactionHex).extractTransaction();
-
-  const bitcoinUnbondingTransaction = BitcoinTransaction.fromHex(bitcoinUnbondingTransactionHex);
-
-  const bitcoinSignedSlashingTransaction = Psbt.fromHex(
-    bitcoinSignedSlashingTransactionHex
-  ).extractTransaction();
-  const bitcoinSlashingSignatures = extractSignatureFromTransaction(bitcoinSignedSlashingTransaction);
-  if (!bitcoinSlashingSignatures) {
-    throw new Error("No signature found in the staking output slashing PSBT");
-  }
-
-  const bitcoinSignedUnbondingSlashingTransaction = Psbt.fromHex(
-    bitcoinSignedUnbondingSlashingTransactionHex
-  ).extractTransaction();
-  const bitcoinUnbondingSlashingSignatures = extractSignatureFromTransaction(
-    bitcoinSignedUnbondingSlashingTransaction
-  );
-  if (!bitcoinUnbondingSlashingSignatures) {
-    throw new Error("No signature found in the unbonding output slashing PSBT");
-  }
-
-  // Create Proof of Possession
-  const ecdsaSig = Uint8Array.from(Buffer.from(signedBabylonAddress, "hex"));
-  const proofOfPossession: ProofOfPossessionBTC = {
-    btcSigType: BTCSigType.ECDSA,
-    btcSig: ecdsaSig,
-  };
-
-  const babylonStakingParams = await getCurrentBabylonStakingParams();
-
-  //////////////////// Build the cosmos message
-
-  const message: btcstakingtx.MsgCreateBTCDelegation = btcstakingtx.MsgCreateBTCDelegation.fromPartial({
-    stakerAddr: transactionData.senderAddress,
-    pop: proofOfPossession,
-    btcPk: Uint8Array.from(Buffer.from(bitcoinPubKeyNoCoordHex, "hex")),
-    fpBtcPkList: [Uint8Array.from(Buffer.from(bitcoinFinalityProviderPubKeyNoCoordHex, "hex"))],
-    stakingTime: babylonStakingParams.minStakingTimeBlocks,
-    stakingValue: bitcoinStakingAmountSat,
-    stakingTx: Uint8Array.from(clearTxSignatures(bitcoinStakingTransaction).toBuffer()),
-    slashingTx: Uint8Array.from(clearTxSignatures(bitcoinSignedSlashingTransaction).toBuffer()),
-    delegatorSlashingSig: Uint8Array.from(bitcoinSlashingSignatures),
-    unbondingTime: babylonStakingParams.unbondingTime,
-    unbondingTx: Uint8Array.from(bitcoinUnbondingTransaction.toBuffer()),
-    unbondingValue: bitcoinStakingAmountSat - babylonStakingParams.unbondingFeeSat,
-    unbondingSlashingTx: Uint8Array.from(
-      clearTxSignatures(bitcoinSignedUnbondingSlashingTransaction).toBuffer()
-    ),
-    delegatorUnbondingSlashingSig: Uint8Array.from(bitcoinUnbondingSlashingSignatures),
-    // Inclusion proof is required in post-stake registration,
-    // but not in pre-stake registration, which is the one we support
-    // https://github.com/babylonlabs-io/babylon/blob/ec7488f11f5c818b74d39c2771ac0d39a9ebed5a/docs/register-bitcoin-stake.md#explanation-of-fields
-    //stakingTxInclusionProof: inclusionProof,
-  });
-
-  return {
-    typeUrl: "/babylon.btcstaking.v1.MsgCreateBTCDelegation",
-    value: btcstakingtx.MsgCreateBTCDelegation.encode(message).finish(),
-  };
-}
-
-// From https://github.com/babylonlabs-io/btc-staking-ts/blob/de1d1cff3ef4ad45b5c61f0d7b11fd4479de278a/src/staking/manager.ts#L794
-const extractSignatureFromTransaction = (signedTransaction: BitcoinTransaction): Buffer | undefined => {
-  // Loop through each input to extract the witness signature
-  for (const input of signedTransaction.ins) {
-    if (input.witness && input.witness.length > 0) {
-      const schnorrSignature = input.witness[0];
-
-      // Check that it's a 64-byte Schnorr signature
-      if (schnorrSignature.length === 64) {
-        return schnorrSignature; // Return the first valid signature found
-      }
-    }
-  }
-  return undefined;
-};
-
-async function getBabylonDelegationState(message: BabylonMsgCreateBTCDelegation): Promise<TransactionState> {
-  // 1 - parse the babylon message to retrieve the bitcoin staking tx
-  const bitcoinTransactionId = BitcoinTransaction.fromBuffer(
-    Buffer.from(message.staking_tx, "base64")
-  ).getId();
-
-  // 2 - from the bitcoin tx id, fetch the related babylon delegation
-  const babylonDelegation = await fetchBabylonDelegation(bitcoinTransactionId);
-
-  // 3 - set the Adamik transaction state according to the babylon delegation state
-  switch (babylonDelegation?.data.state) {
-    // No delegation found yet --> pending
-    case undefined:
-      return TransactionState.PENDING;
-      break;
-    // Delegation found but not verified yet --> unconfirmed
-    case BabylonDelegationState.PENDING:
-      return TransactionState.UNCONFIRMED;
-      break;
-    // All other cases (verified, active, etc) mean the delegation is confirmed
-    default:
-      return TransactionState.CONFIRMED;
-      break;
-  }
-}
-
-async function getCurrentBabylonStakingParams(): Promise<StakingParams> {
-  const babylonStakingParams = await fetchAllBabylonStakingParams();
-
-  const bitcoinLatestBlockHeight = await fetchBitcoinLatestBlockHeight(CURRENT_BABYLON_BITCOIN_CHAIN);
-
-  // Specific logic required to determine what version to use
-  // (depends on the current bitcoin block height)
-  return getBabylonParamByBtcHeight(bitcoinLatestBlockHeight, babylonStakingParams);
-}
-
-async function getBabylonStakingParamsByVersion(version: number): Promise<StakingParams | null> {
-  const babylonStakingParams = await fetchAllBabylonStakingParams();
-
-  return babylonStakingParams.find((param) => param.version === version) ?? null;
-}
-
-/*
-function isUnbonding(delegation: BabylonDelegationV2["data"]): boolean {
-  return (
-    [
-      BabylonDelegationState.PENDING,
-      BabylonDelegationState.VERIFIED,
-      BabylonDelegationState.ACTIVE,
-      BabylonDelegationState.TIMELOCK_WITHDRAWABLE,
-      BabylonDelegationState.TIMELOCK_WITHDRAWN,
-    ].includes(delegation.state) === false
-  );
-}
-*/
-
-async function computeCompletionDateForDelegation(
-  delegation: BabylonDelegationV2["data"]
-): Promise<number | undefined> {
-  switch (delegation.state) {
-    case BabylonDelegationState.PENDING:
-    case BabylonDelegationState.VERIFIED:
-      return undefined;
-    case BabylonDelegationState.ACTIVE:
-    case BabylonDelegationState.TIMELOCK_UNBONDING:
-    case BabylonDelegationState.TIMELOCK_WITHDRAWABLE:
-    case BabylonDelegationState.TIMELOCK_WITHDRAWN:
-      return computeCompletionDateForTransaction(
-        delegation.delegation_staking.staking_tx_hex,
-        delegation.delegation_staking.staking_timelock
-      );
-    case BabylonDelegationState.EARLY_UNBONDING:
-    case BabylonDelegationState.EARLY_UNBONDING_WITHDRAWABLE:
-    case BabylonDelegationState.EARLY_UNBONDING_WITHDRAWN:
-      return computeCompletionDateForTransaction(
-        delegation.delegation_unbonding.unbonding_tx,
-        delegation.delegation_unbonding.unbonding_timelock
-      );
-    case BabylonDelegationState.SLASHED:
-    case BabylonDelegationState.TIMELOCK_SLASHING_WITHDRAWABLE:
-    case BabylonDelegationState.TIMELOCK_SLASHING_WITHDRAWN:
-    case BabylonDelegationState.EARLY_UNBONDING_SLASHING_WITHDRAWABLE:
-    case BabylonDelegationState.EARLY_UNBONDING_SLASHING_WITHDRAWN:
-      return (
-        // Either slashing while staking...
-        computeCompletionDateForTransaction(
-          delegation.delegation_staking.slashing.slashing_tx_hex,
-          delegation.delegation_unbonding.unbonding_timelock
-        ) ??
-        // ...or slashing while unbonding
-        computeCompletionDateForTransaction(
-          delegation.delegation_unbonding.slashing.unbonding_slashing_tx_hex,
-          delegation.delegation_unbonding.unbonding_timelock
-        )
-      );
-    default:
-      return undefined;
-  }
-}
-
-async function computeCompletionDateForTransaction(
-  bitcoinTransactionHex: string,
-  timelockBlocks: number // number of blocks
-): Promise<number | undefined> {
-  if (!bitcoinTransactionHex.length) {
-    return undefined;
-  }
-
-  const bitcoinTransactionId = BitcoinTransaction.fromHex(bitcoinTransactionHex).getId();
-
-  const transaction = await getTransactionfromProviders(
-    CURRENT_BABYLON_BITCOIN_CHAIN,
-    bitcoinTransactionId,
-    fetchTransactionFunctions
-  );
-  if (!transaction?.parsed?.timestamp) {
-    return undefined;
-  }
-
-  const startingTime = transaction.parsed.timestamp;
-  const duration = timelockBlocks * AVERAGE_BITCOIN_BLOCK_TIME_MS;
-  return startingTime + duration;
-}
-
 export {
-  babylonBlocksToDisplayTime,
   buildBabylonRegistrationMessage,
   buildBabylonStakingPayloads,
   buildSlashingPsbt,
   buildStakingPsbt,
-  buildStakingScripts,
   buildUnbondingPsbt,
   buildUnbondingSlashingPsbt,
-  buildUnbondingTransaction,
-  clearTxSignatures,
+  buildWithdrawalPsbt,
   computeCompletionDateForDelegation,
   finalizeUnbondingBroadcastPayload,
   getBabylonDelegationState,
