@@ -1,5 +1,6 @@
 import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
 import { CHAINS } from "~/app/config/chains";
+import { fetchBabylonDelegation } from "~/app/families/babylon/backend/babylonAPI";
 import {
   AccountState,
   ChainId,
@@ -21,7 +22,7 @@ import {
   mempoolSpaceUtxoSchema,
 } from "./mempoolSpace.types";
 
-// TODO Just a POC for now, need to improve error handling
+// TODO Need to improve error handling
 
 async function fetchTransaction(
   chainId: ChainId,
@@ -253,8 +254,6 @@ async function mempoolSpaceToAdamikTransaction(
 ): Promise<FinalizedTransaction> {
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     id: mempoolSpaceTransaction.txid,
-    // NOTE Impossible to check for other tx modes (e.g staking) with bitcoin
-    // explorer alone, needs to be refined by the caller of this function
     mode: TransactionMode.TRANSFER,
     state: TransactionState.UNKNOWN,
     fees: {
@@ -289,6 +288,20 @@ async function mempoolSpaceToAdamikTransaction(
 
     parsedTransaction.blockHeight = BigInt(transactionBlockHeight);
     parsedTransaction.timestamp = transactionTimestamp * 1000;
+  }
+
+  // Babylon Staking - poll the babylon backend to check whether it's a staking tx
+  const babylonDelegationFound = await fetchBabylonDelegation(mempoolSpaceTransaction.txid);
+  if (babylonDelegationFound) {
+    // FIXME Found no way to differeciate between staking, unbonding, withdraw transactions...
+    // so forced to put "unknown" at the moment...
+    parsedTransaction.mode = "unknown";
+    parsedTransaction.validators = {
+      target: {
+        address: babylonDelegationFound.data.finality_provider_btc_pks_hex[0],
+        //amount: BigInt(mempoolSpaceTransaction.vout[0].value),
+      },
+    };
   }
 
   return {

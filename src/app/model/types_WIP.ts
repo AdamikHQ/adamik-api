@@ -349,12 +349,12 @@ type FinalizedTransaction = {
     validators?: {
       source?: {
         address: string;
-        amount: bigint;
+        amount?: bigint;
         ticker?: string;
       };
       target?: {
         address: string;
-        amount: bigint;
+        amount?: bigint;
         ticker?: string;
       };
     };
@@ -535,5 +535,6 @@ export type {
   TransactionData,
   TransactionSpendableAmounts,
   TypedAddress,
+  UnstakeTransactionData,
   Validator,
 };

@@ -4,6 +4,7 @@ import {
   ProofOfPossessionBTC,
 } from "@babylonlabs-io/babylon-proto-ts/dist/generated/babylon/btcstaking/v1/pop";
 import {
+  createCovenantWitness,
   slashEarlyUnbondedTransaction as createSlashEarlyUnbondedTransaction,
   slashTimelockUnbondedTransaction as createSlashTimelockUnbondedTransaction,
   stakingTransaction as createStakingTransaction,
@@ -26,6 +27,7 @@ import {
 } from "bitcoinjs-lib";
 import { Taptree } from "bitcoinjs-lib/src/types";
 import { add, differenceInCalendarDays, differenceInWeeks, formatDistanceStrict } from "date-fns";
+import { CHAINS } from "~/app/config/chains";
 import {
   fetchAddressUTXOs,
   fetchFeePerByte as fetchFeePerByteBlockchair,
@@ -41,10 +43,12 @@ import { getNetworkForChainId, isValidXpub } from "~/app/families/bitcoin/logic"
 import { PsbtWithFee, UtxoWithMetadata } from "~/app/families/bitcoin/types";
 import {
   ChainId,
+  ProviderType,
   RegisterStakeTransactionData,
   TransactionData,
   TransactionMode,
   TransactionState,
+  UnstakeTransactionData,
 } from "~/app/model/types_WIP";
 import { validateSafeNumber } from "~/app/tools/amount";
 import "~/app/tools/bigint";
@@ -56,7 +60,7 @@ import {
   UserInputError,
 } from "~/app/tools/handlers/errors";
 import { fetchAllBabylonStakingParams, fetchBabylonDelegation } from "./backend/babylonAPI";
-import { BabylonDelegationState } from "./backend/babylonAPI.types";
+import { BabylonDelegationState, BabylonDelegationV2 } from "./backend/babylonAPI.types";
 import { BabylonMsgCreateBTCDelegation, CURRENT_BABYLON_BITCOIN_CHAIN } from "./types";
 
 /**
@@ -85,7 +89,7 @@ const TAPROOT_INTERNAL_PUBKEY = Buffer.from(
 
 function buildStakingScripts(
   transactionData: TransactionData,
-  babylonNetworkInfo: StakingParams
+  babylonStakingParams: StakingParams
 ): StakingScripts {
   if (
     transactionData.mode !== TransactionMode.STAKE &&
@@ -113,15 +117,15 @@ function buildStakingScripts(
       : transactionData.validatorAddress;
   const finalityProviders: Buffer[] = [Buffer.from(validatorAddress, "hex")];
 
-  const covenantPks: Buffer[] = babylonNetworkInfo.covenantNoCoordPks.map((pk) => Buffer.from(pk, "hex"));
+  const covenantPks: Buffer[] = babylonStakingParams.covenantNoCoordPks.map((pk) => Buffer.from(pk, "hex"));
 
   const stakingScriptData = new StakingScriptData(
     senderPubKeyNoCoord,
     finalityProviders,
     covenantPks,
-    babylonNetworkInfo.covenantQuorum,
-    babylonNetworkInfo.minStakingTimeBlocks,
-    babylonNetworkInfo.unbondingTime
+    babylonStakingParams.covenantQuorum,
+    babylonStakingParams.minStakingTimeBlocks,
+    babylonStakingParams.unbondingTime
   );
 
   return stakingScriptData.buildScripts();
@@ -133,6 +137,11 @@ async function buildStakingPsbt(
   scripts: StakingScripts,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ): Promise<{ transaction: BitcoinTransaction; psbt: Psbt; fee: number }> {
+  const chain = CHAINS[chainId];
+
+  const mempoolSpaceSupported = chain.providers.find((p) => p.type === ProviderType.mempoolspace);
+  const blockchairSupported = chain.providers.find((p) => p.type === ProviderType.blockchair);
+
   validateSafeNumber(transactionData.amount);
   const amount = Number(transactionData.amount);
 
@@ -143,9 +152,7 @@ async function buildStakingPsbt(
   let feePerByte: number;
   let babylonUtxos: UTXO[];
 
-  // FIXME Currently using mempool.space for signet and blockchair for mainnet
-  // TODO Should support both mempool.space and blockchair, with providers abstraction
-  if (chainId === ChainId.BITCOIN_SIGNET) {
+  if (mempoolSpaceSupported) {
     feePerByte = await fetchFeePerByteMempoolSpace(chainId);
 
     const allUtxos = await fetchAddressUtxos(chainId, transactionData.senderAddress);
@@ -158,7 +165,7 @@ async function buildStakingPsbt(
       vout: utxo.vout,
       scriptPubKey,
     }));
-  } else {
+  } else if (blockchairSupported) {
     feePerByte = await fetchFeePerByteBlockchair(chainId);
 
     const allUtxos = isValidXpub(chainId, transactionData.senderAddress)
@@ -172,6 +179,8 @@ async function buildStakingPsbt(
         value: utxo.value,
         scriptPubKey: utxo.script_hex!,
       })) || [];
+  } else {
+    throw new UnsupportedFeatureError(`No data provider available for chain ${chainId}`);
   }
 
   if (!transactionData.senderPubKey) {
@@ -207,10 +216,10 @@ async function buildStakingPsbt(
 function buildSlashingPsbt(
   scripts: StakingScripts,
   stakingTransaction: BitcoinTransaction,
-  babylonNetworkInfo: StakingParams,
+  babylonStakingParams: StakingParams,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ): PsbtWithFee {
-  if (!babylonNetworkInfo.slashing) {
+  if (!babylonStakingParams.slashing) {
     throw new AdamikApiServerError("Slashing parameters are required but not provided");
   }
 
@@ -218,15 +227,15 @@ function buildSlashingPsbt(
     const { psbt } = createSlashTimelockUnbondedTransaction(
       scripts,
       stakingTransaction,
-      babylonNetworkInfo.slashing.slashingPkScriptHex,
-      babylonNetworkInfo.slashing.slashingRate,
-      babylonNetworkInfo.slashing.minSlashingTxFeeSat,
+      babylonStakingParams.slashing.slashingPkScriptHex,
+      babylonStakingParams.slashing.slashingRate,
+      babylonStakingParams.slashing.minSlashingTxFeeSat,
       bitcoinNetworkInfo
     );
 
     return {
       psbt,
-      fee: babylonNetworkInfo.slashing.minSlashingTxFeeSat,
+      fee: babylonStakingParams.slashing.minSlashingTxFeeSat,
     };
   } catch (error: any) {
     console.warn("/!\\ Failed to build bitcoin slashing psbt:", error);
@@ -241,10 +250,10 @@ function buildSlashingPsbt(
 function buildUnbondingSlashingPsbt(
   scripts: StakingScripts,
   unbondingTransaction: BitcoinTransaction,
-  babylonNetworkInfo: StakingParams,
+  babylonStakingParams: StakingParams,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ): PsbtWithFee {
-  if (!babylonNetworkInfo.slashing) {
+  if (!babylonStakingParams.slashing) {
     throw new AdamikApiServerError("Slashing parameters are required but not provided");
   }
 
@@ -252,14 +261,14 @@ function buildUnbondingSlashingPsbt(
     const { psbt } = createSlashEarlyUnbondedTransaction(
       scripts,
       unbondingTransaction,
-      babylonNetworkInfo.slashing.slashingPkScriptHex,
-      babylonNetworkInfo.slashing.slashingRate,
-      babylonNetworkInfo.slashing.minSlashingTxFeeSat,
+      babylonStakingParams.slashing.slashingPkScriptHex,
+      babylonStakingParams.slashing.slashingRate,
+      babylonStakingParams.slashing.minSlashingTxFeeSat,
       bitcoinNetworkInfo
     );
     return {
       psbt,
-      fee: babylonNetworkInfo.slashing.minSlashingTxFeeSat,
+      fee: babylonStakingParams.slashing.minSlashingTxFeeSat,
     };
   } catch (error: any) {
     console.warn("/!\\ Failed to build bitcoin unbonding slashing psbt:", error);
@@ -276,10 +285,10 @@ function buildUnbondingSlashingPsbt(
 function buildUnbondingTransaction(
   scripts: StakingScripts,
   stakingTransaction: BitcoinTransaction,
-  babylonNetworkInfo: StakingParams,
+  babylonStakingParams: StakingParams,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ): { transaction: BitcoinTransaction; fee: number } {
-  const { unbondingFeeSat: unbondingFee } = babylonNetworkInfo;
+  const { unbondingFeeSat: unbondingFee } = babylonStakingParams;
 
   const { outputAddress } = deriveStakingOutputInfo(scripts, bitcoinNetworkInfo);
   const stakingOutputIndex = findMatchingTxOutputIndex(stakingTransaction, outputAddress, bitcoinNetworkInfo);
@@ -302,13 +311,13 @@ function buildUnbondingTransaction(
 function buildUnbondingPsbt(
   scripts: StakingScripts,
   stakingTransaction: BitcoinTransaction,
-  babylonNetworkInfo: StakingParams,
+  babylonStakingParams: StakingParams,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ): { transaction: BitcoinTransaction; psbt: Psbt; fee: number } {
   const { transaction: unbondingTransaction, fee: unbondingFee } = buildUnbondingTransaction(
     scripts,
     stakingTransaction,
-    babylonNetworkInfo,
+    babylonStakingParams,
     bitcoinNetworkInfo
   );
 
@@ -324,6 +333,90 @@ function buildUnbondingPsbt(
     psbt: unbondingPsbt,
     fee: unbondingFee,
   };
+}
+
+// Used to get the unbonding psbt, from the unbonding
+// transaction inside a delegation retrieved from the babylon API
+async function retrieveUnbondingPsbtFromDelegation(
+  chainId: ChainId,
+  transactionData: UnstakeTransactionData,
+  babylonDelegation: BabylonDelegationV2
+): Promise<{ unbondingPsbt: Psbt; unbondingFees: bigint }> {
+  const babylonStakingParams = await getBabylonStakingParamsByVersion(babylonDelegation.data.params_version);
+  if (!babylonStakingParams) {
+    console.warn(`/!\\ Staking params version not found for stake ID ${transactionData.stakeId}`);
+    throw new AdamikApiServerError(
+      `Staking params version not found for stake ID ${transactionData.stakeId}`
+    );
+  }
+
+  const stakingTransaction = BitcoinTransaction.fromHex(
+    babylonDelegation.data.delegation_staking.staking_tx_hex
+  );
+  const unbondingTransaction = BitcoinTransaction.fromHex(
+    babylonDelegation.data.delegation_unbonding.unbonding_tx
+  );
+
+  const bitcoinNetworkInfo = getNetworkForChainId(chainId);
+
+  const unbondingPsbt = unbondingTransactionToPsbt(
+    buildStakingScripts(transactionData, babylonStakingParams),
+    unbondingTransaction,
+    stakingTransaction,
+    bitcoinNetworkInfo
+  );
+
+  const unbondingFees = BigInt(babylonStakingParams.unbondingFeeSat);
+
+  return {
+    unbondingPsbt,
+    unbondingFees,
+  };
+}
+
+// From https://github.com/babylonlabs-io/btc-staking-ts/blob/bec554d159a0aebfaa6b163cb31eaf7389b09e78/src/staking/manager.ts#L457-L472
+async function finalizeUnbondingBroadcastPayload(
+  transactionData: UnstakeTransactionData,
+  signedUnbondingTransaction: BitcoinTransaction
+): Promise<BitcoinTransaction> {
+  if (!transactionData.stakeId?.length) {
+    throw new AdamikApiServerError(`Missing 'stakeId' field in transaction`);
+  }
+
+  const babylonDelegation = await fetchBabylonDelegation(transactionData.stakeId);
+  if (!babylonDelegation) {
+    console.warn(`/!\\ Staking position not found for stake ID ${transactionData.stakeId}`);
+    throw new UserInputError(`Staking position not found for stake ID ${transactionData.stakeId}`);
+  }
+
+  const babylonStakingParams = await getBabylonStakingParamsByVersion(babylonDelegation.data.params_version);
+  if (!babylonStakingParams) {
+    console.warn(`/!\\ Staking params version not found for stake ID ${transactionData.stakeId}`);
+    throw new AdamikApiServerError(`Staking params not found for stake ID ${transactionData.stakeId}`);
+  }
+
+  // Add covenant unbonding signatures
+
+  const covenantBuffers = babylonStakingParams.covenantNoCoordPks.map((covenant) =>
+    Buffer.from(covenant, "hex")
+  );
+  const witness = createCovenantWitness(
+    // Since unbonding transactions always have a single input and output,
+    // we expect exactly one signature in TaprootScriptSpendSig when the
+    // signing is successful
+    signedUnbondingTransaction.ins[0].witness,
+    covenantBuffers,
+    babylonDelegation.data.delegation_unbonding.covenant_unbonding_signatures.map((sig) => ({
+      btcPkHex: sig.covenant_btc_pk_hex,
+      sigHex: sig.signature_hex,
+    })),
+    babylonStakingParams.covenantQuorum
+  );
+
+  // Overwrite the witness to include the covenant unbonding signatures
+  signedUnbondingTransaction.ins[0].witness = witness;
+
+  return signedUnbondingTransaction;
 }
 
 // FIXME Everything below should be imported from btc-staking-lib instead, but it doesn't expose it...
@@ -619,7 +712,6 @@ const DAY_TO_WEEK_DISPLAY_THRESHOLD = 30;
  */
 // (copied from https://github.com/babylonlabs-io/simple-staking/blob/db23721053b48641294f20e49930899c87cdcd7b/src/utils/time.ts#L28)
 // TODO Adapt to return a raw timestamp instead of display-formatted strings
-// TODO Move this into a babylon-specific file
 // FIXME Currently unused??
 function babylonBlocksToDisplayTime(blocks: number | undefined): string {
   // If no blocks are provided, return default value
@@ -835,6 +927,12 @@ async function getCurrentBabylonStakingParams(): Promise<StakingParams> {
   return getBabylonParamByBtcHeight(bitcoinLatestBlockHeight, babylonStakingParams);
 }
 
+async function getBabylonStakingParamsByVersion(version: number): Promise<StakingParams | null> {
+  const babylonStakingParams = await fetchAllBabylonStakingParams();
+
+  return babylonStakingParams.find((param) => param.version === version) ?? null;
+}
+
 export {
   babylonBlocksToDisplayTime,
   buildBabylonRegistrationMessage,
@@ -846,6 +944,8 @@ export {
   buildUnbondingSlashingPsbt,
   buildUnbondingTransaction,
   clearTxSignatures,
+  finalizeUnbondingBroadcastPayload,
   getBabylonDelegationState,
-  unbondingTransactionToPsbt,
+  getBabylonStakingParamsByVersion,
+  retrieveUnbondingPsbtFromDelegation,
 };

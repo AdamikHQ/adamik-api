@@ -256,6 +256,20 @@ async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<Accoun
     // - supported functions by provider
     const fetchTransactionFunctions = [fetchTransactionFromMS, fetchTransactionFromBlockchair];
 
+    const bitcoinStakingTransaction = await getTransactionfromProviders(
+      CURRENT_BABYLON_BITCOIN_CHAIN,
+      delegation.delegation_staking.staking_tx_hash_hex,
+      fetchTransactionFunctions
+    );
+
+    if (bitcoinStakingTransaction?.parsed?.timestamp) {
+      const stakingStartingTime = bitcoinStakingTransaction.parsed.timestamp;
+      const stakingDuration =
+        // (staking_timelock is a number of blocks)
+        delegation.delegation_staking.staking_timelock * AVERAGE_BITCOIN_BLOCK_TIME_MS;
+      completionDate = stakingStartingTime + stakingDuration;
+    }
+
     // Categorize the delegation based on its state
     switch (delegation.state) {
       case BabylonDelegationState.PENDING:
@@ -265,20 +279,6 @@ async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<Accoun
         stakingState.locked += stakingAmount;
         stakingStatus =
           delegation.state === BabylonDelegationState.ACTIVE ? StakingStatus.LOCKED : StakingStatus.PENDING;
-
-        const bitcoinStakingTransaction = await getTransactionfromProviders(
-          CURRENT_BABYLON_BITCOIN_CHAIN,
-          delegation.delegation_staking.staking_tx_hash_hex,
-          fetchTransactionFunctions
-        );
-
-        if (bitcoinStakingTransaction?.parsed?.timestamp) {
-          const stakingStartingTime = bitcoinStakingTransaction.parsed.timestamp;
-          const stakingDuration =
-            // (staking_timelock is a number of blocks)
-            delegation.delegation_staking.staking_timelock * AVERAGE_BITCOIN_BLOCK_TIME_MS;
-          completionDate = stakingStartingTime + stakingDuration;
-        }
         break;
 
       case BabylonDelegationState.TIMELOCK_UNBONDING:
@@ -287,9 +287,14 @@ async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<Accoun
         stakingState.unlocking += stakingAmount;
         stakingStatus = StakingStatus.UNLOCKING;
 
+        // In the specific case of early unbonding,
+        // i.e if an unbonding transaction is found,
+        // then replace the initial completion date with the anticipated one
+
         const bitcoinUnbondingTransactionId = BitcoinTransaction.fromHex(
           delegation.delegation_unbonding.unbonding_tx
         ).getId();
+
         const bitcoinUnbondingTransaction = await getTransactionfromProviders(
           CURRENT_BABYLON_BITCOIN_CHAIN,
           bitcoinUnbondingTransactionId,

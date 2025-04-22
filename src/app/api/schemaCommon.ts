@@ -542,14 +542,14 @@ const finalizedTransactionSchema = z.object({
           source: z
             .object({
               address: z.string(),
-              amount: outputAmountSchema,
+              amount: outputAmountSchema.optional(),
               ticker: optionalTickerSchema,
             })
             .optional(),
           target: z
             .object({
               address: z.string(),
-              amount: outputAmountSchema,
+              amount: outputAmountSchema.optional(),
               ticker: optionalTickerSchema,
             })
             .optional(),

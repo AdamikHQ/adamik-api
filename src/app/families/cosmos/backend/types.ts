@@ -1,4 +1,4 @@
-import { BabylonCreateBTCDelegationMessage } from "../../babylon/types";
+import { BabylonCreateBTCDelegationMessage } from "~/app/families/babylon/types";
 
 /*
 {
