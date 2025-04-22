@@ -38,7 +38,7 @@ import {
   TransactionMode,
 } from "~/app/model/types_WIP";
 import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
-import { InvalidTransactionError } from "~/app/tools/handlers/errors";
+import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
 import { buildBabylonRegistrationMessage } from "../babylon/logic";
 import { fetchBalances, fetchDelegations, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
