@@ -1,4 +1,4 @@
-import { StdFee, StdSignDoc } from "@cosmjs/amino";
+import { serializeSignDoc, StdFee, StdSignDoc } from "@cosmjs/amino";
 import {
   CosmosTxV1Beta1Tx,
   createAnyMessage,
@@ -24,7 +24,13 @@ function buildSignDocProtobufForInjective(
   transactionData: TransactionData,
   networkId: string,
   feeData: StdFee
-): Record<EncodedTransactionFormat.SIGNDOC_DIRECT | EncodedTransactionFormat.SIGNDOC_DIRECT_JSON, string> {
+): Record<
+  | EncodedTransactionFormat.SIGNDOC_DIRECT
+  | EncodedTransactionFormat.SIGNDOC_DIRECT_JSON
+  | EncodedTransactionFormat.SIGNDOC_AMINO
+  | EncodedTransactionFormat.SIGNDOC_AMINO_JSON,
+  string
+> {
   const { pubKey } = resolvePubKey(ChainId.INJECTIVE, account, transactionData);
 
   const protoMsgs = buildMessagesForInjective(transactionData);
@@ -68,11 +74,17 @@ function buildSignDocProtobufForInjective(
     chainId: networkId as CosmosChainId,
   });
 
+  const signDocAmino = buildSignDocAminoForInjective(account, transactionData, networkId);
+
+  const serializedSignDocAmino = Buffer.from(serializeSignDoc(signDocAmino));
+
   return {
     [EncodedTransactionFormat.SIGNDOC_DIRECT_JSON]: JSON.stringify(CosmosTxV1Beta1Tx.SignDoc.toJSON(signDoc)),
     [EncodedTransactionFormat.SIGNDOC_DIRECT]: Buffer.from(
       CosmosTxV1Beta1Tx.SignDoc.encode(signDoc).finish()
     ).toString("hex"),
+    [EncodedTransactionFormat.SIGNDOC_AMINO]: serializedSignDocAmino.toString("hex"),
+    [EncodedTransactionFormat.SIGNDOC_AMINO_JSON]: serializedSignDocAmino.toString("utf8"),
   };
 }
 

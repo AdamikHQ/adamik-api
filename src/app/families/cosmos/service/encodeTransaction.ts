@@ -19,16 +19,20 @@ async function encodeTransactionToSign(
 
   transaction.encoded = [
     {
-      format: EncodedTransactionFormat.SIGNDOC_DIRECT,
-      value: rawTransactions[EncodedTransactionFormat.SIGNDOC_DIRECT],
+      raw: {
+        format: EncodedTransactionFormat.SIGNDOC_DIRECT,
+        value: rawTransactions[EncodedTransactionFormat.SIGNDOC_DIRECT],
+      },
+      hash: {
+        format: EncodedTransactionFormat.HASH_SHA256,
+        value: sha256(Buffer.from(rawTransactions[EncodedTransactionFormat.SIGNDOC_DIRECT], "hex")),
+      },
     },
     {
-      format: EncodedTransactionFormat.HASH_SHA256,
-      value: sha256(Buffer.from(rawTransactions[EncodedTransactionFormat.SIGNDOC_DIRECT], "hex")),
-    },
-    {
-      format: EncodedTransactionFormat.SIGNDOC_DIRECT_JSON,
-      value: rawTransactions[EncodedTransactionFormat.SIGNDOC_DIRECT_JSON],
+      raw: {
+        format: EncodedTransactionFormat.SIGNDOC_DIRECT_JSON,
+        value: rawTransactions[EncodedTransactionFormat.SIGNDOC_DIRECT_JSON],
+      },
     },
   ];
 }

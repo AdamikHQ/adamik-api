@@ -24,8 +24,10 @@ async function encodeTransactionToSign(
   // Doesn't seems to be the case but less dig later : https://starknetjs.com/docs/guides/signature
   transaction.encoded = [
     {
-      format: EncodedTransactionFormat.HASH_PEDERSEN,
-      value: payload.payload.toSign,
+      hash: {
+        format: EncodedTransactionFormat.HASH_PEDERSEN,
+        value: payload.payload.toSign,
+      },
     },
   ];
   const params = stringToHex(

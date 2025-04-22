@@ -20,8 +20,10 @@ async function encodeTransactionToSign(
         }
         transaction.encoded = [
           {
-            format: EncodedTransactionFormat.PSBT,
-            value: params.transferPsbt,
+            raw: {
+              format: EncodedTransactionFormat.PSBT,
+              value: params.transferPsbt,
+            },
           },
         ];
       }
@@ -39,8 +41,10 @@ async function encodeTransactionToSign(
         }
         transaction.encoded = [
           {
-            format: EncodedTransactionFormat.PSBT,
-            value: params.stakingPsbt,
+            raw: {
+              format: EncodedTransactionFormat.PSBT,
+              value: params.stakingPsbt,
+            },
           },
         ];
       }
@@ -53,8 +57,10 @@ async function encodeTransactionToSign(
         }
         transaction.encoded = [
           {
-            format: EncodedTransactionFormat.PSBT,
-            value: params.unbondingTransaction,
+            raw: {
+              format: EncodedTransactionFormat.PSBT,
+              value: params.unbondingTransaction,
+            },
           },
         ];
       }

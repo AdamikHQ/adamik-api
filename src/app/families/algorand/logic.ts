@@ -90,11 +90,12 @@ async function computeFees(transaction: TransactionData): Promise<bigint> {
       amount: transaction.amount || 0n,
     });
     const encoded = encodeToSign(rawTransaction);
-    const encodedTx = encoded.find((encoded) => encoded.format === EncodedTransactionFormat.MSGPACK);
+    const encodedTx = encoded.find((encoded) => encoded.raw?.format === EncodedTransactionFormat.MSGPACK);
     if (!encodedTx) {
       throw new AdamikApiServerError("Missing encoded transaction");
     }
-    suggestedFees = Number(params.fee) * (Buffer.from(encodedTx.value, "hex").length + SINGLE_SIGNATURE_SIZE);
+    suggestedFees =
+      Number(params.fee) * (Buffer.from(encodedTx.raw!.value, "hex").length + SINGLE_SIGNATURE_SIZE);
   }
 
   return BigInt(Math.max(suggestedFees, Number(params.minFee)));
@@ -145,12 +146,14 @@ function encodeToSign(payload: AlgoTransaction): EncodedTransaction[] {
 
   return [
     {
-      format: EncodedTransactionFormat.MSGPACK,
-      value: Buffer.from(msgPackEncoded).toString("hex"),
-    },
-    {
-      format: EncodedTransactionFormat.HASH_SHA512_256,
-      value: sha512_256(prefixedTx),
+      raw: {
+        format: EncodedTransactionFormat.MSGPACK,
+        value: Buffer.from(msgPackEncoded).toString("hex"),
+      },
+      hash: {
+        format: EncodedTransactionFormat.HASH_SHA512_256,
+        value: sha512_256(prefixedTx),
+      },
     },
   ];
 }

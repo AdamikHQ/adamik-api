@@ -37,16 +37,20 @@ async function encodeTransactionToSign(
 
   transaction.encoded = [
     {
-      format: EncodedTransactionFormat.RLP,
-      value: rawTransaction,
+      raw: {
+        format: EncodedTransactionFormat.RLP,
+        value: rawTransaction,
+      },
+      hash: {
+        format: EncodedTransactionFormat.HASH_KECCAK256,
+        value: keccak256(Buffer.from(rawTransaction.slice(2), "hex")),
+      },
     },
     {
-      format: EncodedTransactionFormat.HASH_KECCAK256,
-      value: keccak256(Buffer.from(rawTransaction.slice(2), "hex")),
-    },
-    {
-      format: EncodedTransactionFormat.WALLET_CONNECT,
-      value: await encodeTransactionAsJSON(this.chainId, transaction),
+      raw: {
+        format: EncodedTransactionFormat.WALLET_CONNECT,
+        value: await encodeTransactionAsJSON(this.chainId, transaction),
+      },
     },
   ];
 }
@@ -191,14 +195,16 @@ async function encodeTransactionToBroadcast(
   })();
 
   const rawTransaction = signedTransaction.encoded.find((encoded) => {
-    return encoded.format === EncodedTransactionFormat.RLP;
+    return encoded.raw?.format === EncodedTransactionFormat.RLP;
   });
 
   if (!rawTransaction) {
     throw new UserInputError("Missing encoded transaction in RLP format");
   }
 
-  const parsedTansaction: TransactionSerializable = parseTransaction(rawTransaction.value as `0x${string}`);
+  const parsedTansaction: TransactionSerializable = parseTransaction(
+    rawTransaction.raw!.value as `0x${string}`
+  );
 
   const chainParams = CHAINS[this.chainId].params as EvmChainParams;
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;

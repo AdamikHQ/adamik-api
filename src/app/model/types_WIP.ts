@@ -466,8 +466,14 @@ type TransactionData =
   | RegisterStakeTransactionData;
 
 type EncodedTransaction = {
-  format: EncodedTransactionFormat;
-  value: string;
+  hash?: {
+    format: EncodedTransactionFormat;
+    value: string;
+  };
+  raw?: {
+    format: EncodedTransactionFormat;
+    value: string;
+  };
 };
 
 enum EncodedTransactionFormat {

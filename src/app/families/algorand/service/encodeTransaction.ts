@@ -36,14 +36,17 @@ async function encodeTransactionToBroadcast(
   }
 
   const encodedTransaction = signedTransaction.encoded.find((encoded) => {
-    return encoded.format === EncodedTransactionFormat.MSGPACK;
+    return encoded.raw?.format === EncodedTransactionFormat.MSGPACK;
   });
 
   if (!encodedTransaction) {
     throw new UserInputError("Missing encoded transaction");
   }
 
-  const transactionPayload = decodeMsgpack(Buffer.from(encodedTransaction.value, "hex"), AlgoTransaction);
+  const transactionPayload = decodeMsgpack(
+    Buffer.from(encodedTransaction.raw!.value, "hex"),
+    AlgoTransaction
+  );
 
   const signature = Buffer.from(signedTransaction.signature, "hex");
 

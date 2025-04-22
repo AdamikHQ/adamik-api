@@ -490,8 +490,18 @@ const outputRegisterStakeSchema = z
 
 const encodedTransactionSchema = z.array(
   z.object({
-    format: z.nativeEnum(EncodedTransactionFormat),
-    value: z.string(),
+    hash: z
+      .object({
+        format: z.nativeEnum(EncodedTransactionFormat),
+        value: z.string(),
+      })
+      .optional(),
+    raw: z
+      .object({
+        format: z.nativeEnum(EncodedTransactionFormat),
+        value: z.string(),
+      })
+      .optional(),
   })
 );
 

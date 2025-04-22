@@ -14,12 +14,14 @@ async function encodeTransactionToSign(
 
   transaction.encoded = [
     {
-      format: EncodedTransactionFormat.RAW_TRANSACTION,
-      value: builtTransaction.raw_data_hex,
-    },
-    {
-      format: EncodedTransactionFormat.HASH_SHA256,
-      value: sha256(Buffer.from(builtTransaction.raw_data_hex, "hex")),
+      raw: {
+        format: EncodedTransactionFormat.RAW_TRANSACTION,
+        value: builtTransaction.raw_data_hex,
+      },
+      hash: {
+        format: EncodedTransactionFormat.HASH_SHA256,
+        value: sha256(Buffer.from(builtTransaction.raw_data_hex, "hex")),
+      },
     },
   ];
   transaction.data.params = { ...builtTransaction } as TronTransactionParams;

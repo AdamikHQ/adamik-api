@@ -1,4 +1,11 @@
-import { AminoMsg, StdFee, encodeSecp256k1Pubkey } from "@cosmjs/amino";
+import {
+  AminoMsg,
+  StdSignDoc as SignDocAmino,
+  StdFee,
+  encodeSecp256k1Pubkey,
+  makeSignDoc as makeSignDocAmino,
+  serializeSignDoc,
+} from "@cosmjs/amino";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { Int53 } from "@cosmjs/math";
 import {
@@ -390,7 +397,7 @@ async function buildMessages(
 
 // Amino unused at the moment
 // TODO Take a 'format' input to allow to build either amino or protobuf (or build both??)
-/*
+
 // Build payload to sign for SignMode.SIGN_MODE_LEGACY_AMINO_JSON
 // https://github.com/confio/cosmjs-types/blob/66e52711914fccd2a9d1a03e392d3628fdf499e2/src/cosmos/tx/signing/v1beta1/signing.ts#L47
 async function buildSignDocAmino(
@@ -411,7 +418,6 @@ async function buildSignDocAmino(
     account.sequence.toString()
   );
 }
-*/
 
 // Build payload to sign for SignMode.SIGN_MODE_DIRECT
 // https://github.com/confio/cosmjs-types/blob/66e52711914fccd2a9d1a03e392d3628fdf499e2/src/cosmos/tx/signing/v1beta1/signing.ts#L27
@@ -457,7 +463,13 @@ async function encodeToSign(
   account: CosmosAccount,
   transactionData: TransactionData
 ): Promise<
-  Record<EncodedTransactionFormat.SIGNDOC_DIRECT | EncodedTransactionFormat.SIGNDOC_DIRECT_JSON, string>
+  Record<
+    | EncodedTransactionFormat.SIGNDOC_DIRECT
+    | EncodedTransactionFormat.SIGNDOC_DIRECT_JSON
+    | EncodedTransactionFormat.SIGNDOC_AMINO
+    | EncodedTransactionFormat.SIGNDOC_AMINO_JSON,
+    string
+  >
 > {
   if (!transactionData.fees) {
     throw new Error("Missing fees data in transaction");
@@ -478,25 +490,16 @@ async function encodeToSign(
     gas: transactionData.gas.toString(),
   };
 
-  // Amino
-  /*
-  const signDoc =
-    chainId === ChainId.INJECTIVE
-      ? buildSignDocAminoForInjective(account, transactionData, chain.nativeId)
-      : await buildSignDocAmino(chainId, account, transactionData, chain.nativeId, feeData);
-
-  const serializedSignDoc = Buffer.from(serializeSignDoc(signDoc));
-
-  return format === EncodedTransactionFormat.JSON
-    ? serializedSignDoc.toString("utf8")
-    : serializedSignDoc.toString("hex");
-  */
-
   if (chainId === ChainId.INJECTIVE) {
     return buildSignDocProtobufForInjective(account, transactionData, chain.nativeId, feeData);
   }
 
   const signDoc = await buildSignDocProtobuf(chainId, account, transactionData, chain.nativeId, feeData);
+
+  // Amino
+  const signDocAmino = await buildSignDocAmino(chainId, account, transactionData, chain.nativeId, feeData);
+
+  const serializedSignDocAmino = Buffer.from(serializeSignDoc(signDocAmino));
 
   // TODO Test the protobuf format with Keplr, then deprecate the JSON format here if possible
   return {
@@ -504,6 +507,8 @@ async function encodeToSign(
     [EncodedTransactionFormat.SIGNDOC_DIRECT]: Buffer.from(SignDocProtobuf.encode(signDoc).finish()).toString(
       "hex"
     ),
+    [EncodedTransactionFormat.SIGNDOC_AMINO]: serializedSignDocAmino.toString("hex"),
+    [EncodedTransactionFormat.SIGNDOC_AMINO_JSON]: serializedSignDocAmino.toString("utf8"),
   };
 }
 
@@ -534,14 +539,14 @@ async function encodeToBroadcast(
   // Decode the encoded SignDocProtobuf
 
   const encodedTransaction = signedTransaction.encoded.find(
-    (e) => e.format === EncodedTransactionFormat.SIGNDOC_DIRECT
+    (e) => e.raw?.format === EncodedTransactionFormat.SIGNDOC_DIRECT
   );
 
   if (!encodedTransaction) {
     throw new UserInputError("Missing encoded transaction");
   }
 
-  const signDoc = SignDocProtobuf.decode(fromHex(encodedTransaction.value));
+  const signDoc = SignDocProtobuf.decode(fromHex(encodedTransaction.raw!.value));
 
   // Extract bodyBytes and authInfoBytes from the SignDoc
   const { bodyBytes, authInfoBytes } = signDoc;
