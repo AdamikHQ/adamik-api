@@ -5353,8 +5353,7 @@
                                     }
                                   },
                                   "required": [
-                                    "address",
-                                    "amount"
+                                    "address"
                                   ]
                                 },
                                 "target": {
@@ -5373,8 +5372,7 @@
                                     }
                                   },
                                   "required": [
-                                    "address",
-                                    "amount"
+                                    "address"
                                   ]
                                 }
                               }
@@ -5947,7 +5945,8 @@
                                       "pending",
                                       "locked",
                                       "unlocking",
-                                      "unlocked"
+                                      "unlocked",
+                                      "slashed"
                                     ]
                                   },
                                   "completionDate": {
@@ -6664,8 +6663,7 @@
                                       }
                                     },
                                     "required": [
-                                      "address",
-                                      "amount"
+                                      "address"
                                     ]
                                   },
                                   "target": {
@@ -6684,8 +6682,7 @@
                                       }
                                     },
                                     "required": [
-                                      "address",
-                                      "amount"
+                                      "address"
                                     ]
                                   }
                                 }

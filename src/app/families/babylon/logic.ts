@@ -31,6 +31,7 @@ import { CHAINS } from "~/app/config/chains";
 import {
   fetchAddressUTXOs,
   fetchFeePerByte as fetchFeePerByteBlockchair,
+  fetchTransaction as fetchTransactionFromBlockchair,
   fetchXpubUTXOs,
 } from "~/app/families/bitcoin/backend/blockchair";
 import {
@@ -38,8 +39,13 @@ import {
   fetchAddressUtxos,
   fetchLatestBlockHeight as fetchBitcoinLatestBlockHeight,
   fetchFeePerByte as fetchFeePerByteMempoolSpace,
+  fetchTransaction as fetchTransactionFromMS,
 } from "~/app/families/bitcoin/backend/mempoolSpace";
-import { getNetworkForChainId, isValidXpub } from "~/app/families/bitcoin/logic";
+import {
+  AVERAGE_BITCOIN_BLOCK_TIME_MS,
+  getNetworkForChainId,
+  isValidXpub,
+} from "~/app/families/bitcoin/logic";
 import { PsbtWithFee, UtxoWithMetadata } from "~/app/families/bitcoin/types";
 import {
   ChainId,
@@ -59,9 +65,15 @@ import {
   UnsupportedFeatureError,
   UserInputError,
 } from "~/app/tools/handlers/errors";
+import { getTransactionfromProviders } from "../common";
 import { fetchAllBabylonStakingParams, fetchBabylonDelegation } from "./backend/babylonAPI";
 import { BabylonDelegationState, BabylonDelegationV2 } from "./backend/babylonAPI.types";
 import { BabylonMsgCreateBTCDelegation, CURRENT_BABYLON_BITCOIN_CHAIN } from "./types";
+
+// FIXME Doesn't take into account:
+// - supported providers by chain
+// - supported functions by provider
+const fetchTransactionFunctions = [fetchTransactionFromMS, fetchTransactionFromBlockchair];
 
 /**
  * This file contains the logic specific to the Babylon Staking feature,
@@ -307,7 +319,6 @@ function buildUnbondingTransaction(
   };
 }
 
-// TODO Test this
 function buildUnbondingPsbt(
   scripts: StakingScripts,
   stakingTransaction: BitcoinTransaction,
@@ -763,6 +774,8 @@ async function buildBabylonStakingPayloads(
     fee: fees,
   } = await buildStakingPsbt(chainId, transactionData, stakingScripts, bitcoinNetworkInfo);
 
+  // TODO Maybe we actually don't need the unbonding transaction here,
+  // and we could build it during the babylon registration flow --> to be tested
   const { transaction: unbondingTransaction } = buildUnbondingPsbt(
     stakingScripts,
     stakingTransaction,
@@ -933,6 +946,88 @@ async function getBabylonStakingParamsByVersion(version: number): Promise<Stakin
   return babylonStakingParams.find((param) => param.version === version) ?? null;
 }
 
+/*
+function isUnbonding(delegation: BabylonDelegationV2["data"]): boolean {
+  return (
+    [
+      BabylonDelegationState.PENDING,
+      BabylonDelegationState.VERIFIED,
+      BabylonDelegationState.ACTIVE,
+      BabylonDelegationState.TIMELOCK_WITHDRAWABLE,
+      BabylonDelegationState.TIMELOCK_WITHDRAWN,
+    ].includes(delegation.state) === false
+  );
+}
+*/
+
+async function computeCompletionDateForDelegation(
+  delegation: BabylonDelegationV2["data"]
+): Promise<number | undefined> {
+  switch (delegation.state) {
+    case BabylonDelegationState.PENDING:
+    case BabylonDelegationState.VERIFIED:
+      return undefined;
+    case BabylonDelegationState.ACTIVE:
+    case BabylonDelegationState.TIMELOCK_UNBONDING:
+    case BabylonDelegationState.TIMELOCK_WITHDRAWABLE:
+    case BabylonDelegationState.TIMELOCK_WITHDRAWN:
+      return computeCompletionDateForTransaction(
+        delegation.delegation_staking.staking_tx_hex,
+        delegation.delegation_staking.staking_timelock
+      );
+    case BabylonDelegationState.EARLY_UNBONDING:
+    case BabylonDelegationState.EARLY_UNBONDING_WITHDRAWABLE:
+    case BabylonDelegationState.EARLY_UNBONDING_WITHDRAWN:
+      return computeCompletionDateForTransaction(
+        delegation.delegation_unbonding.unbonding_tx,
+        delegation.delegation_unbonding.unbonding_timelock
+      );
+    case BabylonDelegationState.SLASHED:
+    case BabylonDelegationState.TIMELOCK_SLASHING_WITHDRAWABLE:
+    case BabylonDelegationState.TIMELOCK_SLASHING_WITHDRAWN:
+    case BabylonDelegationState.EARLY_UNBONDING_SLASHING_WITHDRAWABLE:
+    case BabylonDelegationState.EARLY_UNBONDING_SLASHING_WITHDRAWN:
+      return (
+        // Either slashing while staking...
+        computeCompletionDateForTransaction(
+          delegation.delegation_staking.slashing.slashing_tx_hex,
+          delegation.delegation_unbonding.unbonding_timelock
+        ) ??
+        // ...or slashing while unbonding
+        computeCompletionDateForTransaction(
+          delegation.delegation_unbonding.slashing.unbonding_slashing_tx_hex,
+          delegation.delegation_unbonding.unbonding_timelock
+        )
+      );
+    default:
+      return undefined;
+  }
+}
+
+async function computeCompletionDateForTransaction(
+  bitcoinTransactionHex: string,
+  timelockBlocks: number // number of blocks
+): Promise<number | undefined> {
+  if (!bitcoinTransactionHex.length) {
+    return undefined;
+  }
+
+  const bitcoinTransactionId = BitcoinTransaction.fromHex(bitcoinTransactionHex).getId();
+
+  const transaction = await getTransactionfromProviders(
+    CURRENT_BABYLON_BITCOIN_CHAIN,
+    bitcoinTransactionId,
+    fetchTransactionFunctions
+  );
+  if (!transaction?.parsed?.timestamp) {
+    return undefined;
+  }
+
+  const startingTime = transaction.parsed.timestamp;
+  const duration = timelockBlocks * AVERAGE_BITCOIN_BLOCK_TIME_MS;
+  return startingTime + duration;
+}
+
 export {
   babylonBlocksToDisplayTime,
   buildBabylonRegistrationMessage,
@@ -944,6 +1039,7 @@ export {
   buildUnbondingSlashingPsbt,
   buildUnbondingTransaction,
   clearTxSignatures,
+  computeCompletionDateForDelegation,
   finalizeUnbondingBroadcastPayload,
   getBabylonDelegationState,
   getBabylonStakingParamsByVersion,
