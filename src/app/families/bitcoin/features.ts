@@ -33,17 +33,16 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
   },
 };
 
-// TODO Support staking for read & write operations
 // FIXME Staking supported only by bitcoin but not other chains
 const BITCOIN_SIGNET_FEATURES: ChainSupportedFeatures = {
   read: {
     token: false,
     validators: true,
     account: {
-      balances: { native: false, tokens: false, staking: true }, // TODO
+      balances: { native: false, tokens: false, staking: true },
       transactions: { native: false, tokens: false, staking: false },
     },
-    transaction: { native: false, tokens: false, staking: true }, // TODO
+    transaction: { native: true, tokens: false, staking: true },
   },
   write: {
     transaction: {
@@ -52,9 +51,9 @@ const BITCOIN_SIGNET_FEATURES: ChainSupportedFeatures = {
         transfer: true,
         transferToken: false,
         stake: true,
-        unstake: true, // TODO
+        unstake: true,
         claimRewards: false,
-        withdraw: true, // TODO
+        withdraw: true,
         registerStake: false,
       },
       field: {

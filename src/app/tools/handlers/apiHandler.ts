@@ -146,7 +146,7 @@ const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
   switch (issue.code) {
     case z.ZodIssueCode.invalid_type:
       if (issue.received === "undefined") {
-        return { message: `expected required field "${issue.path.at(-1)}" to be defined` };
+        return { message: `expected required field '${issue.path.at(-1)}' to be defined` };
       }
   }
   return { message: ctx.defaultError };

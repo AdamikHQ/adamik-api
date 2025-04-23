@@ -16,7 +16,8 @@ type BitcoinTransactionParams = {
   stakingPsbt?: string;
   slashingPsbt?: string;
   unbondingSlashingPsbt?: string;
-  unbondingTransaction?: string;
+  unbondingTransaction?: string; // Should represent a bitcoinjs Transaction object, not a Psbt!
+  withdrawalPsbt?: string;
 };
 
 const utxoWithMetadataSchema = z

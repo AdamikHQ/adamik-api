@@ -1,5 +1,6 @@
 import { BLOCKCHAIR_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
+import { fetchBabylonDelegation } from "~/app/families/babylon/backend/babylonAPI";
 import {
   AccountState,
   ChainId,
@@ -582,8 +583,6 @@ async function blockchairToAdamikTransaction(
 ): Promise<FinalizedTransaction> {
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     id: blockchairTransaction.transaction.hash,
-    // NOTE Impossible to check for other tx modes (e.g staking) with bitcoin
-    // explorer alone, needs to be refined by the caller of this function
     mode: TransactionMode.TRANSFER,
     state: TransactionState.UNKNOWN,
     fees: {
@@ -616,6 +615,21 @@ async function blockchairToAdamikTransaction(
     // This format is ambiguous about the timezone, so we have to append 'UTC' for Date to handle it correctly...
     parsedTransaction.timestamp = new Date(blockchairTransaction.transaction.time + " UTC").getTime();
     parsedTransaction.blockHeight = BigInt(blockchairTransaction.transaction.block_id);
+  }
+
+  // Babylon Staking - poll the babylon backend to check whether it's a staking tx
+  const babylonDelegationFound = await fetchBabylonDelegation(blockchairTransaction.transaction.hash);
+  if (babylonDelegationFound) {
+    // FIXME We can only identify 'staking' transactions,
+    // found no way to identify 'unbonding' and 'withdrawal' transactions...
+    parsedTransaction.mode = TransactionMode.STAKE;
+
+    parsedTransaction.validators = {
+      target: {
+        address: babylonDelegationFound.data.finality_provider_btc_pks_hex[0],
+        //amount: BigInt(mempoolSpaceTransaction.vout[0].value),
+      },
+    };
   }
 
   return {

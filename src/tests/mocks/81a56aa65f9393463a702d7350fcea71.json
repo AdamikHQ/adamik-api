@@ -1,0 +1,17 @@
+{
+  "request": {
+    "url": "https://mempool.space/api/v1/fees/recommended",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "fastestFee": 6,
+      "halfHourFee": 5,
+      "hourFee": 4,
+      "economyFee": 2,
+      "minimumFee": 1
+    },
+    "type": "json"
+  }
+}
