@@ -199,7 +199,7 @@ const validatorAddressSchema = z.string().openapi({
 
 const stakeIdSchema = z.string().openapi({
   description:
-    "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon).",
+    "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik",
 });
 
 const stakingCompoundSchema = z.boolean().openapi({
@@ -426,10 +426,12 @@ const inputWithdrawSchema = z
     senderPubKey: senderPubKeySchema,
     validatorAddress: validatorAddressSchema,
     stakeId: stakeIdSchema,
+    recipientAddress: recipientAddressSchema,
   })
   .openapi({
     title: "Withdraw Unlocked Funds",
-    description: "Only supported for Babylon staking at the moment (documentation will come soon).",
+    description:
+      "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik",
   });
 
 const outputWithdrawSchema = z
@@ -438,10 +440,12 @@ const outputWithdrawSchema = z
     senderPubKey: senderPubKeySchema,
     validatorAddress: validatorAddressSchema,
     stakeId: stakeIdSchema,
+    recipientAddress: recipientAddressSchema,
   })
   .openapi({
     title: "Withdraw Unlocked Funds",
-    description: "Only supported for Babylon staking at the moment (documentation will come soon).",
+    description:
+      "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik",
   });
 
 const inputRegisterStakeSchema = z
@@ -460,7 +464,8 @@ const inputRegisterStakeSchema = z
   })
   .openapi({
     title: "Register Stake",
-    description: "Only supported for Babylon staking at the moment (documentation will come soon).",
+    description:
+      "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik",
   });
 
 const outputRegisterStakeSchema = z
@@ -480,7 +485,8 @@ const outputRegisterStakeSchema = z
   })
   .openapi({
     title: "Register Stake",
-    description: "Only supported for Babylon staking at the moment (documentation will come soon).",
+    description:
+      "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik",
   });
 
 const encodedTransactionSchema = z.array(
@@ -552,14 +558,14 @@ const finalizedTransactionSchema = z.object({
           source: z
             .object({
               address: z.string(),
-              amount: outputAmountSchema,
+              amount: outputAmountSchema.optional(),
               ticker: optionalTickerSchema,
             })
             .optional(),
           target: z
             .object({
               address: z.string(),
-              amount: outputAmountSchema,
+              amount: outputAmountSchema.optional(),
               ticker: optionalTickerSchema,
             })
             .optional(),

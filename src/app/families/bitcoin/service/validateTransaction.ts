@@ -28,8 +28,15 @@ async function prevalidateTransaction(
         });
       }
       break;
-    case TransactionMode.STAKE:
     case TransactionMode.UNSTAKE:
+    case TransactionMode.WITHDRAW:
+      if (!transaction.data.stakeId?.length) {
+        status.errors.push({
+          message: `Stake ID must be provided for ${this.chainId} transaction mode '${transaction.data.mode}'`,
+        });
+      }
+    // NOTE No 'break' clause here! UNSTAKE and WITHDRAW also use validation of STAKE below
+    case TransactionMode.STAKE:
       if (isValidXpub(this.chainId, transaction.data.senderAddress)) {
         status.errors.push({
           message: `Xpub are not supported for ${this.chainId} transaction mode '${transaction.data.mode}'`,

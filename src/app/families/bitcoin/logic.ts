@@ -26,6 +26,9 @@ import {
 // Allows support for Taproot addresses validation: https://github.com/bitcoinjs/bitcoinjs-lib/issues/1919
 initEccLib(ecc);
 
+// Average Bitcoin block time is around 10 minutes
+const AVERAGE_BITCOIN_BLOCK_TIME_MS = 10 * 60 * 1000;
+
 function getNetworkForChainId(chainId: ChainId): networks.Network {
   switch (chainId) {
     case ChainId.BITCOIN:
@@ -326,6 +329,7 @@ async function buildTransferPsbt(
 }
 
 export {
+  AVERAGE_BITCOIN_BLOCK_TIME_MS,
   buildTransferPsbt,
   getNetworkForChainId,
   isP2SHScript,

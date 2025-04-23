@@ -5353,8 +5353,7 @@
                                     }
                                   },
                                   "required": [
-                                    "address",
-                                    "amount"
+                                    "address"
                                   ]
                                 },
                                 "target": {
@@ -5373,8 +5372,7 @@
                                     }
                                   },
                                   "required": [
-                                    "address",
-                                    "amount"
+                                    "address"
                                   ]
                                 }
                               }
@@ -5947,7 +5945,8 @@
                                       "pending",
                                       "locked",
                                       "unlocking",
-                                      "unlocked"
+                                      "unlocked",
+                                      "slashed"
                                     ]
                                   },
                                   "completionDate": {
@@ -6664,8 +6663,7 @@
                                       }
                                     },
                                     "required": [
-                                      "address",
-                                      "amount"
+                                      "address"
                                     ]
                                   },
                                   "target": {
@@ -6684,8 +6682,7 @@
                                       }
                                     },
                                     "required": [
-                                      "address",
-                                      "amount"
+                                      "address"
                                     ]
                                   }
                                 }
@@ -7031,7 +7028,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "amount": {
                                     "type": "string",
@@ -7072,7 +7069,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -7105,17 +7102,22 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId"
+                                  "stakeId",
+                                  "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
                               {
                                 "type": "object",
@@ -7179,7 +7181,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               }
                             ]
                           }
@@ -7504,7 +7506,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                     },
                                     "amount": {
                                       "type": "string",
@@ -7546,7 +7548,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                     },
                                     "compound": {
                                       "type": "boolean",
@@ -7579,17 +7581,22 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    },
+                                    "recipientAddress": {
+                                      "type": "string",
+                                      "description": "Address or ID of the recipient account."
                                     }
                                   },
                                   "required": [
                                     "mode",
                                     "senderPubKey",
                                     "validatorAddress",
-                                    "stakeId"
+                                    "stakeId",
+                                    "recipientAddress"
                                   ],
                                   "title": "Withdraw Unlocked Funds",
-                                  "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                  "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                 },
                                 {
                                   "type": "object",
@@ -7658,7 +7665,7 @@
                                     "signedUnbondingSlashingTransaction"
                                   ],
                                   "title": "Register Stake",
-                                  "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                  "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                 }
                               ]
                             }
@@ -8087,7 +8094,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "amount": {
                                     "type": "string",
@@ -8128,7 +8135,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -8161,17 +8168,22 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId"
+                                  "stakeId",
+                                  "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
                               {
                                 "type": "object",
@@ -8235,7 +8247,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               }
                             ]
                           }
@@ -8719,7 +8731,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "amount": {
                                     "type": "string",
@@ -8760,7 +8772,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -8793,17 +8805,22 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId"
+                                  "stakeId",
+                                  "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
                               {
                                 "type": "object",
@@ -8867,7 +8884,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               }
                             ]
                           }

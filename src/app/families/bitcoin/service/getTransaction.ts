@@ -1,5 +1,4 @@
-import { fetchBabylonDelegation } from "~/app/families/babylon/backend/babylonAPI";
-import { FinalizedTransaction, TransactionMode } from "~/app/model/types_WIP";
+import { FinalizedTransaction } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
 import { getTransactionfromProviders } from "../../common";
 import { fetchTransaction as fetchTransactionFromBlockchair } from "../backend/blockchair";
@@ -25,14 +24,6 @@ async function getTransaction(this: BitcoinService, transactionId: string): Prom
 
   if (!bitcoinTransaction) {
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
-  }
-
-  if (bitcoinTransaction.parsed) {
-    // Poll the babylon backend to check whether it's a staking tx
-    const babylonDelegationFound = await fetchBabylonDelegation(transactionId);
-    bitcoinTransaction.parsed.mode = babylonDelegationFound
-      ? TransactionMode.STAKE
-      : TransactionMode.TRANSFER;
   }
 
   return bitcoinTransaction;

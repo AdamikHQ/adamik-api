@@ -1,0 +1,14 @@
+{
+  "request": {
+    "url": "https://staking-api.testnet.babylonlabs.io/v2/delegation?staking_tx_hash_hex=3af75dcc145858aa7a24054d2ff78bf3aa196b97867dd9ce5ab57ca9ed8a87a3",
+    "method": "GET"
+  },
+  "response": {
+    "status": 404,
+    "body": {
+      "errorCode": "NOT_FOUND",
+      "message": "staking delegation not found, please retry"
+    },
+    "type": "json"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "request": {
+    "url": "https://staking-api.testnet.babylonlabs.io/v2/delegation?staking_tx_hash_hex=943b38b6e1d6ffe0194f93dbfbe36499d1eaa625867aae17a59aff2825d42109",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "params_version": 5,
+        "staker_btc_pk_hex": "bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+        "finality_provider_btc_pks_hex": [
+          "d66124f8f42fd83e4c901a100ae3b5d706ef6cfd217b04bc64152e739a30c41e"
+        ],
+        "delegation_staking": {
+          "staking_tx_hash_hex": "943b38b6e1d6ffe0194f93dbfbe36499d1eaa625867aae17a59aff2825d42109",
+          "staking_tx_hex": "02000000012d248b9110c5d2a309a3620a15bee75496b3782d7e1c73b8b1baf77e305f28990200000000ffffffff0250c30000000000002251206d43bae7f65e974794ad8d31a97f852f7591d2f11114fdd741234be864aa8fca596d08000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e291604100000000",
+          "staking_timelock": 10000,
+          "staking_amount": 50000,
+          "start_height": 233997,
+          "end_height": 243997,
+          "bbn_inception_height": 216577,
+          "bbn_inception_time": "2025-02-04T18:06:28Z",
+          "slashing": {
+            "slashing_tx_hex": "",
+            "spending_height": 0
+          }
+        },
+        "delegation_unbonding": {
+          "unbonding_timelock": 1008,
+          "unbonding_tx": "02000000010921d42528ff9aa517ae7a8625a6ead19964e3fbdb934f19e0ffd6e1b6383b940000000000ffffffff0180bb0000000000002251206f5554b3505cbccc88c8e86541dbac87e53f962c18b953780ccde2e4d5969d3c00000000",
+          "covenant_unbonding_signatures": [
+            {
+              "covenant_btc_pk_hex": "3bb93dfc8b61887d771f3630e9a63e97cbafcfcc78556a474df83a31a0ef899c",
+              "signature_hex": "e0c9b4426a4aab40abf6ff26b2c2f9caaa4bc537777e97215ef973a3c560412bcf93845e961d08eefa983100064f8c3694d56781c9d1bba396a82067c8bde98a"
+            },
+            {
+              "covenant_btc_pk_hex": "17921cf156ccb4e73d428f996ed11b245313e37e27c978ac4d2cc21eca4672e4",
+              "signature_hex": "d70aa745d61b701b1efa0876cc820833cbe1b3dde3aa52d63bca35723caefdb49fc132cda62569c1ac93ac6d3186a9afe55ced5d1fb9e6d15d70c0cad5c326eb"
+            },
+            {
+              "covenant_btc_pk_hex": "f5199efae3f28bb82476163a7e458c7ad445d9bffb0682d10d3bdb2cb41f8e8e",
+              "signature_hex": "b1057db5da42521d53f6a33ec1025291b4a33a8c9f255aad64e858be81d27409bbd1fe8e79ede41041ec2e1151016eaaa5d22d3717c79900a03d224f51caba58"
+            },
+            {
+              "covenant_btc_pk_hex": "0aee0509b16db71c999238a4827db945526859b13c95487ab46725357c9a9f25",
+              "signature_hex": "3f0adece813da5b3082505f068e6ed5536e885930c38fa9333421c0261474d733eb86c7b6a4ba021194671a743cd4a7dba8679297c1982fb39f67d1b2763a8a0"
+            },
+            {
+              "covenant_btc_pk_hex": "fa9d882d45f4060bdb8042183828cd87544f1ea997380e586cab77d5fd698737",
+              "signature_hex": "42494884abca8f2950b365993cee0d7e0ae4dd0c4fb78430ccd4d6ab79a903b9911c2174cb6876dd57ca407b1cc174caa5d43a58f6b20d44cc639aaa5293314d"
+            },
+            {
+              "covenant_btc_pk_hex": "79a71ffd71c503ef2e2f91bccfc8fcda7946f4653cef0d9f3dde20795ef3b9f0",
+              "signature_hex": "5c2801534cad53915694991c0235ba37970e81a8ff10d79d8642a78dc2a64d28af11464e0f9a82da1b2f686a064ab5d27914c58711b0d0d2fc1155c3ca405283"
+            },
+            {
+              "covenant_btc_pk_hex": "113c3a32a9d320b72190a04a020a0db3976ef36972673258e9a38a364f3dc3b0",
+              "signature_hex": "2ae92b7af2527284f10162ab53285769c6f1afc82d0718ea8992d567b4645b72a179ed6f906bbf6b4c439b7cfaebf1d81b0494eb27e6eff2ec82195a03fbc68c"
+            },
+            {
+              "covenant_btc_pk_hex": "40afaf47c4ffa56de86410d8e47baa2bb6f04b604f4ea24323737ddc3fe092df",
+              "signature_hex": "6dd5bc753d40df9770e023ebe720ce9aafbc31ad94b4856fffc2ce669760fcedf6ccb2af1707913426eeb6565e318553eba8f9047d96625f99a3c2abd9b5bf84"
+            },
+            {
+              "covenant_btc_pk_hex": "d21faf78c6751a0d38e6bd8028b907ff07e9a869a43fc837d6b3f8dff6119a36",
+              "signature_hex": "20269a2d7ddca1b7c425ba47c4fa78d3a2c8d2b63e3803863facfc919166097bd48a16b99c694cd180b77d73c40228e484c303e9d2ccbe6c2fa428da9f82d664"
+            }
+          ],
+          "slashing": {
+            "unbonding_slashing_tx_hex": "",
+            "spending_height": 0
+          }
+        },
+        "state": "EARLY_UNBONDING_WITHDRAWABLE"
+      }
+    },
+    "type": "json"
+  }
+}
