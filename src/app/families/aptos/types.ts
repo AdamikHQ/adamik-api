@@ -182,7 +182,7 @@ export type TransactionPayload = {
 const moveStructIdSchema = z
   .string()
   .regex(/^0x[a-fA-F0-9]+::[A-Za-z_][A-Za-z0-9_]*::[A-Za-z_][A-Za-z0-9_]*$/)
-  .transform((val) => val as `${string}::${string}::${string}`);
+  .transform((val) => val as MoveFunctionId);
 const transactionPayloadSchema = z.object({
   type: z.string().optional(),
   function: moveStructIdSchema,
@@ -191,8 +191,9 @@ const transactionPayloadSchema = z.object({
 });
 
 const transactionParamsSchema = z.object({
-  payload: transactionPayloadSchema,
+  payload: transactionPayloadSchema.optional(),
   expiration_timestamp_secs: z.string().optional(),
+  rawTransaction: z.string().optional(),
 });
 
 export type AptosTransactionParams = z.infer<typeof transactionParamsSchema>;

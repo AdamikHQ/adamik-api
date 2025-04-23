@@ -17,7 +17,13 @@ import {
 } from "~/app/model/types_WIP";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getCoinData } from "~/app/families/aptos/backend/indexer";
-import { Aptos, AptosConfig, AccountAddress, MoveFunctionId } from "@aptos-labs/ts-sdk";
+import {
+  Aptos,
+  AptosConfig,
+  AccountAddress,
+  MoveFunctionId,
+  PendingTransactionResponse,
+} from "@aptos-labs/ts-sdk";
 import { AccountResponse, CoinBalance, GasPriceEstimate } from "~/app/families/aptos/backend/types";
 
 export function getClient(chainId: ChainId): Aptos {
@@ -37,9 +43,10 @@ async function nodeRequest<T>(
   const response = await fetch(`${nodeUrl}${path}`, {
     method,
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type":
+        data instanceof Buffer ? "application/x.aptos.signed_transaction+bcs" : "application/json",
     },
-    body: data ? JSON.stringify(data) : undefined,
+    body: data ? (data instanceof Buffer ? data : JSON.stringify(data)) : undefined,
   });
 
   if (!response.ok) {
@@ -74,7 +81,7 @@ export async function simulateTransaction(chainId: ChainId, tx: TransactionData)
     expiration_timestamp_secs: (Date.now() / 1000 + 360).toString(),
     payload: (tx.params as AptosTransactionParams)?.payload ?? {
       function: "0x1::aptos_account::transfer" as MoveFunctionId,
-      arguments: [tx.recipientAddress, 1],
+      arguments: [tx.recipientAddress, "1"],
     },
   };
   const aptos = getClient(chainId);
@@ -110,7 +117,7 @@ export async function fetchSequenceNumber(chainId: ChainId, accountAddress: stri
   }
 }
 
-export async function fetchTransaction(chainId: ChainId, hash: string) {
+export function fetchTransaction(chainId: ChainId, hash: string) {
   return nodeRequest(chainId, `/transactions/by_hash/${hash}`);
 }
 
@@ -166,7 +173,7 @@ export async function populateCoinData(
     chainId,
     coins.map((coin) => coin.id)
   );
-  return await Promise.all(
+  return Promise.all(
     coins.map(async (coin, index) => {
       if (coinData[index] === null) {
         coinData[index] = await getCoinData(chainId, coin.id);
@@ -185,6 +192,17 @@ export async function populateCoinData(
   );
 }
 
-export async function getAccountTransactions(chainId: ChainId, address: string): Promise<AptosTransaction[]> {
+export function getAccountTransactions(chainId: ChainId, address: string): Promise<AptosTransaction[]> {
   return nodeRequest<AptosTransaction[]>(chainId, `/accounts/${address}/transactions`);
+}
+
+export async function broadcast(chainId: ChainId, signedTransaction: string): Promise<string> {
+  const bcsBytes = Buffer.from(signedTransaction, "hex");
+  const resp = await nodeRequest<PendingTransactionResponse>(
+    chainId,
+    "/transactions",
+    "POST",
+    Buffer.from(bcsBytes)
+  );
+  return resp.hash;
 }

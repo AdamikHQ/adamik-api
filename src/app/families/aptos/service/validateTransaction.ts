@@ -31,7 +31,6 @@ export async function validateTransaction(
 
   // TODO: Check that sender address is created
   const maxSpendable = await getMaxSpendable(this.chainId, transaction.data);
-  console.log({ maxSpendable });
 
   const amount = transaction.data.amount as bigint;
   const fees = transaction.data.fees as bigint;

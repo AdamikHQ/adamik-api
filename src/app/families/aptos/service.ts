@@ -9,9 +9,12 @@ import { validateAddress as validateAddressFn } from "./service/validateAddress"
 import { prevalidateTransaction as prevalidateTransactionFn } from "./service/validateTransaction";
 import { completeTransaction as completeTransactionFn } from "./service/completeTransaction";
 import { validateTransaction as validateTransactionFn } from "./service/validateTransaction";
-import { encodeTransactionToSign as encodeTransactionToSignFn } from "./service/encodeTransaction";
+import {
+  encodeTransactionToBroadcast as encodeTransactionToBroadcastFn,
+  encodeTransactionToSign as encodeTransactionToSignFn,
+} from "./service/encodeTransaction";
 import { getValidators as getValidatorsFn } from "./service/getValidators";
-import { Transaction, Status } from "~/app/model/types_WIP";
+import { broadcastTransaction as broadcastTransactionFn } from "./service/broadcastTransaction";
 
 class AptosService extends BaseChainService implements TokenService, StakingService {
   override pubkeyToAddresses = pubkeyToAddressesFn;
@@ -22,19 +25,13 @@ class AptosService extends BaseChainService implements TokenService, StakingServ
   override prevalidateTransaction = prevalidateTransactionFn;
   override validateTransaction = validateTransactionFn;
   override encodeTransactionToSign = encodeTransactionToSignFn;
+  override encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
   override completeTransaction = completeTransactionFn;
+  override broadcastTransaction = broadcastTransactionFn;
 
   getAccountTokens = getAccountTokensFn;
   getValidators = getValidatorsFn;
   getTokenInfo = getTokenInfoFn;
-
-  broadcastTransaction(_payload: string): Promise<string> {
-    throw new Error("Unimplemented");
-  }
-
-  encodeTransactionToBroadcast(_: { signedTransaction: Transaction }): Promise<string> {
-    throw new Error("Unimplemented");
-  }
 }
 
 export { AptosService };
