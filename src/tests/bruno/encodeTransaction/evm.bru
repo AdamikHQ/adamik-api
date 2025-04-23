@@ -29,5 +29,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.transaction.encoded[0].value: eq 0x02ed01078318d72a842f4eaf2c825208948bc6922eb94e4858efaf9f433c35bc241f69e8a687366bf243a854c280c0
+  res.body.transaction.encoded[0].raw.value: eq 0x02ed01078318d72a842f4eaf2c825208948bc6922eb94e4858efaf9f433c35bc241f69e8a687366bf243a854c280c0
 }

@@ -31,7 +31,7 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.transaction.encoded: eq '{"bodyBytes":"Co4BChwvY29zbW9zLmJhbmsudjFiZXRhMS5Nc2dTZW5kEm4KLWNvc21vczFnODQ5MzRqcHUzdjVkZTV5cXVra2toeG1jdnN3M3UyYWp4dnBkbBItY29zbW9zMWc4NDkzNGpwdTN2NWRlNXlxdWtra2h4bWN2c3czdTJhanh2cGRsGg4KBXVhdG9tEgUxMDAwMBIQYWRhbWlrLXRlc3QtbWVtbw==","authInfoBytes":"ClEKRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiEDiEWbJlNRmUixJJLxoLRkcgEQwUeoFV0j1COlzDwh2JoSBAoCCAEYpwESEwoNCgV1YXRvbRIEMjc5MRCT6AY=","chainId":"cosmoshub-4","accountNumber":"31094"}'
+  res.body.transaction.encoded[1].raw.value: eq '{"bodyBytes":"Co4BChwvY29zbW9zLmJhbmsudjFiZXRhMS5Nc2dTZW5kEm4KLWNvc21vczFnODQ5MzRqcHUzdjVkZTV5cXVra2toeG1jdnN3M3UyYWp4dnBkbBItY29zbW9zMWc4NDkzNGpwdTN2NWRlNXlxdWtra2h4bWN2c3czdTJhanh2cGRsGg4KBXVhdG9tEgUxMDAwMBIQYWRhbWlrLXRlc3QtbWVtbw==","authInfoBytes":"ClEKRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiEDiEWbJlNRmUixJJLxoLRkcgEQwUeoFV0j1COlzDwh2JoSBAoCCAEYpwESEwoNCgV1YXRvbRIEMjc5MRCT6AY=","chainId":"cosmoshub-4","accountNumber":"31094"}'
   res.body.transaction.data.senderPubKey: eq A4hFmyZTUZlIsSSS8aC0ZHIBEMFHqBVdI9Qjpcw8Idia
   res.body.transaction.data.fees: eq "2791"
   res.body.transaction.data.gas: eq "111635"
