@@ -1,7 +1,6 @@
 import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
-  formatSchema,
   getSupportedChainIdsSchema,
   inputClaimRewardsSchema,
   inputDeployAccountSchema,
@@ -33,7 +32,6 @@ const requestSchema = z.object({
     data: z
       .object({
         memo: memoSchema.optional(),
-        format: formatSchema.optional(),
       })
       .and(
         z.discriminatedUnion("mode", [
