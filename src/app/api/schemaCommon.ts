@@ -183,11 +183,6 @@ const memoSchema = z.string().openapi({
   description: "Optional free text field, that is supported for some chains.",
 });
 
-const formatSchema = z.nativeEnum(EncodedTransactionFormat).openapi({
-  description:
-    "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point.",
-});
-
 const inputParamsSchema = z.any().openapi({
   description:
     "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back as-is to the broadcast endpoint.",
@@ -607,7 +602,6 @@ export {
   contractTypeSchema,
   encodedTransactionSchema,
   finalizedTransactionSchema,
-  formatSchema,
   getSupportedChainIdsSchema,
   inputAmountSchema,
   inputClaimRewardsSchema,

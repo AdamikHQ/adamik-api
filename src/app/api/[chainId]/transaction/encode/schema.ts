@@ -2,7 +2,6 @@ import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
   encodedTransactionSchema,
-  formatSchema,
   getSupportedChainIdsSchema,
   inputClaimRewardsSchema,
   inputDeployAccountSchema,
@@ -46,7 +45,6 @@ const requestSchema = z.object({
     data: z
       .object({
         memo: memoSchema.optional(),
-        format: formatSchema.optional(),
       })
       .and(
         z.discriminatedUnion("mode", [
@@ -72,7 +70,6 @@ const responseSchema = z.object({
         gas: outputGasSchema.optional(),
         nonce: outputNonceSchema.optional(),
         memo: memoSchema.optional(),
-        format: formatSchema.optional(),
         params: outputParamsSchema.optional(),
       })
       .and(
