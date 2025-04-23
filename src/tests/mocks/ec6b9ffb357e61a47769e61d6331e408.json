@@ -1,0 +1,76 @@
+{
+  "request": {
+    "url": "https://staking-api.testnet.babylonlabs.io/v2/delegation?staking_tx_hash_hex=52bfb146f0f8c8b98b0fa584056dfb75658b078aac04f3c5a641db9df297387b",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "params_version": 5,
+        "staker_btc_pk_hex": "bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+        "finality_provider_btc_pks_hex": [
+          "d23c2c25e1fcf8fd1c21b9a402c19e2e309e531e45e92fb1e9805b6056b0cc76"
+        ],
+        "delegation_staking": {
+          "staking_tx_hash_hex": "52bfb146f0f8c8b98b0fa584056dfb75658b078aac04f3c5a641db9df297387b",
+          "staking_tx_hex": "020000000144a549ead63ac9c6987b90669208ece5e93f28de4b1f97b5e4036c995f47b3d50100000000ffffffff0250c3000000000000225120a80fe5278c52cab2e0a0c9702713f61fe8f2f248346a6d7dcc1245338c14ec1609dd06000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e291604100000000",
+          "staking_timelock": 10000,
+          "staking_amount": 50000,
+          "start_height": 235089,
+          "end_height": 245089,
+          "bbn_inception_height": 280419,
+          "bbn_inception_time": "2025-02-12T17:30:46Z",
+          "slashing": {
+            "slashing_tx_hex": "",
+            "spending_height": 0
+          }
+        },
+        "delegation_unbonding": {
+          "unbonding_timelock": 1008,
+          "unbonding_tx": "02000000017b3897f29ddb41a6c5f304ac8a078b6575fb6d0584a50f8bb9c8f8f046b1bf520000000000ffffffff0180bb000000000000225120925f6e5d2f54928dbbf7c7b989e2d0e8b6023baece6b7ae6efed0c4f5489199900000000",
+          "covenant_unbonding_signatures": [
+            {
+              "covenant_btc_pk_hex": "3bb93dfc8b61887d771f3630e9a63e97cbafcfcc78556a474df83a31a0ef899c",
+              "signature_hex": "bfb4651c3e115aa10b273bf163e923408000139812278e631f782b0462967465b7cdefcb75cda6bfb9e59120159a9227cf08c8c7d74957b6cfa947c461d21f7d"
+            },
+            {
+              "covenant_btc_pk_hex": "79a71ffd71c503ef2e2f91bccfc8fcda7946f4653cef0d9f3dde20795ef3b9f0",
+              "signature_hex": "f2c8958ba6cba4f081d6c489ed0ce699183402eada3259864fcb55b6a8f3937c849067af92e5ee306684d25fb3b4a8cf6330a553de67667871ba9e6877270f15"
+            },
+            {
+              "covenant_btc_pk_hex": "17921cf156ccb4e73d428f996ed11b245313e37e27c978ac4d2cc21eca4672e4",
+              "signature_hex": "b413b74a9c14e0c43f00f0af5b3c8259ade08a2301013aa3ee69d4f6d67ecf22ac7b2aadf844f8f42ac3c566bf47d85be45dc06ec878719f1a2fb7a010901690"
+            },
+            {
+              "covenant_btc_pk_hex": "113c3a32a9d320b72190a04a020a0db3976ef36972673258e9a38a364f3dc3b0",
+              "signature_hex": "1d81b8f732f5665fcf81a0974950acbdb2830a457d13aee2628b704a678fd48aa5f1cbe242a64db22f492554eda9467ecee4a6e95934c88db1aec5abd95c26f1"
+            },
+            {
+              "covenant_btc_pk_hex": "40afaf47c4ffa56de86410d8e47baa2bb6f04b604f4ea24323737ddc3fe092df",
+              "signature_hex": "0e58bc281bdd94de669e1d0deffaccaf69c386ec5e921a07b7bc42271e072da2d7e1075e4cbc0a045bd40fa8d0f5fd5afc9683f758851b41d9b95360b4c50d72"
+            },
+            {
+              "covenant_btc_pk_hex": "0aee0509b16db71c999238a4827db945526859b13c95487ab46725357c9a9f25",
+              "signature_hex": "5abfb4ea33f280f6676bb7c4dbdd593d54750b06b41293bbf46a58f2aa7408424c7fff40b381c19adaadef2cf431a42e332a8e7ec79b6ca544c0b8239f347ce5"
+            },
+            {
+              "covenant_btc_pk_hex": "fa9d882d45f4060bdb8042183828cd87544f1ea997380e586cab77d5fd698737",
+              "signature_hex": "f2c4cb11e85abf3179db3e6008721b17e6a49beafe831bc49c98e2b455f856cabec22611b7e9fd821e90887ce1b5501b067a11fcf59e5417bab58f58b957ba1a"
+            },
+            {
+              "covenant_btc_pk_hex": "f5199efae3f28bb82476163a7e458c7ad445d9bffb0682d10d3bdb2cb41f8e8e",
+              "signature_hex": "9e6a3d597815e0b563445cd0b31d5cfc9ca597739b1a0f7a40b104f83b270d12289b5d63705246072df811efbcdc945709baf5753220a9400ad6d9ef74492146"
+            }
+          ],
+          "slashing": {
+            "unbonding_slashing_tx_hex": "",
+            "spending_height": 0
+          }
+        },
+        "state": "TIMELOCK_UNBONDING"
+      }
+    },
+    "type": "json"
+  }
+}

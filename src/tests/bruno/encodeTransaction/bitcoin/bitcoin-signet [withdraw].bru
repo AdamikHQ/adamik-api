@@ -1,0 +1,35 @@
+meta {
+  name: bitcoin-signet [withdraw]
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: bitcoin-signet
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "withdraw",
+        "senderAddress": "tb1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqsxh76tx",
+        "senderPubKey": "02bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+        "recipientAddress": "tb1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqsxh76tx",
+        "validatorAddress": "d66124f8f42fd83e4c901a100ae3b5d706ef6cfd217b04bc64152e739a30c41e",
+        "stakeId": "943b38b6e1d6ffe0194f93dbfbe36499d1eaa625867aae17a59aff2825d42109"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded: eq 70736274ff01005e0200000001fd2f56d383b71a98d0f86780aa591f1eca05c44e581d47e1e3838b05df259a3b0000000000f003000001e1ba00000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e2916041000000000001012b80bb0000000000002251206f5554b3505cbccc88c8e86541dbac87e53f962c18b953780ccde2e4d5969d3c4215c150929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac099c5eb18cdfad5d84d849d1aa9e883c313b19b2a89726b534534dd064587eb512720bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499cad02f003b2c001172050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac00000
+}

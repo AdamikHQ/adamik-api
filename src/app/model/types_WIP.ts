@@ -245,7 +245,8 @@ enum StakingStatus {
   PENDING = "pending", // Submitted to the chain, waiting for confirmation
   LOCKED = "locked",
   UNLOCKING = "unlocking",
-  UNLOCKED = "unlocked", // Can't be used as part of the avaialble balance, needs a transaction first
+  UNLOCKED = "unlocked", // Can't be used as part of the available balance, needs a transaction first
+  SLASHED = "slashed",
 }
 
 type StakingPosition = {
@@ -349,12 +350,12 @@ type FinalizedTransaction = {
     validators?: {
       source?: {
         address: string;
-        amount: bigint;
+        amount?: bigint;
         ticker?: string;
       };
       target?: {
         address: string;
-        amount: bigint;
+        amount?: bigint;
         ticker?: string;
       };
     };
@@ -519,12 +520,15 @@ export type {
   ChainParams,
   ChainSupportedFeatures,
   ChainValidators,
+  ClaimRewardsTransactionData,
+  DeployAccountTransactionData,
   FeaturesSet,
   FinalizedTransaction,
   Paginated,
   Provider,
   RegisterStakeTransactionData,
   SignerSpec,
+  StakeTransactionData,
   StakingPosition,
   StakingReward,
   Status,
@@ -534,6 +538,10 @@ export type {
   Transaction,
   TransactionData,
   TransactionSpendableAmounts,
+  TransferTokenTransactionData,
+  TransferTransactionData,
   TypedAddress,
+  UnstakeTransactionData,
   Validator,
+  WithdrawTransactionData,
 };

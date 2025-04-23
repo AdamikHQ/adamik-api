@@ -1,3 +1,5 @@
+import { Psbt } from "bitcoinjs-lib";
+import { finalizeUnbondingBroadcastPayload } from "~/app/families/babylon/logic";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { AdamikApiServerError } from "~/app/tools/handlers/errors";
 import { BitcoinService } from "../service";
@@ -19,6 +21,9 @@ async function encodeTransactionToSign(
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
         transaction.encoded = params.transferPsbt;
+
+        // Useless for the user in that case, so we remove it from the response
+        delete transaction.data.params;
       }
       break;
     case TransactionMode.STAKE:
@@ -41,12 +46,24 @@ async function encodeTransactionToSign(
           console.warn(`Missing psbt in transaction:`, transaction);
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
+
         transaction.encoded = params.unbondingTransaction;
+
+        // Useless for the user in that case, so we remove it from the response
+        delete transaction.data.params;
       }
       break;
     case TransactionMode.WITHDRAW:
       {
-        // TODO
+        if (!params.withdrawalPsbt) {
+          console.warn(`Missing psbt in transaction:`, transaction);
+          throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
+        }
+
+        transaction.encoded = params.withdrawalPsbt;
+
+        // Useless for the user in that case, so we remove it from the response
+        delete transaction.data.params;
       }
       break;
   }
@@ -62,11 +79,30 @@ async function encodeTransactionToBroadcast(
   const { signedTransaction } = _;
 
   // useless check to make the compiler happy, zod already validated the fields
+  if (!signedTransaction.encoded) {
+    throw new AdamikApiServerError("Missing encoded transaction");
+  }
   if (!signedTransaction.signature) {
     throw new AdamikApiServerError("Missing transaction signature");
   }
 
-  return signedTransaction.signature;
+  switch (signedTransaction.data.mode) {
+    default:
+      return signedTransaction.signature;
+    case TransactionMode.UNSTAKE: {
+      const partiallySignedUnbondingTransaction = Psbt.fromHex(
+        signedTransaction.signature
+      ).extractTransaction();
+
+      // Babylon-specific required logic to add covenant unbonding signatures
+      const signedUnbondingTransaction = await finalizeUnbondingBroadcastPayload(
+        signedTransaction.data,
+        partiallySignedUnbondingTransaction
+      );
+
+      return signedUnbondingTransaction.toHex();
+    }
+  }
 }
 
 export { encodeTransactionToBroadcast, encodeTransactionToSign };
