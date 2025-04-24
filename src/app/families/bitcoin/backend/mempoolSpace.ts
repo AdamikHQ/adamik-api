@@ -136,9 +136,9 @@ async function fetchAddressData(chainId: ChainId, address: string): Promise<Acco
   return {
     balances: {
       native: {
-        available: confirmedBalance + unconfirmedBalance,
-        total: confirmedBalance + unconfirmedBalance,
+        available: confirmedBalance,
         unconfirmed: unconfirmedBalance,
+        total: confirmedBalance + unconfirmedBalance,
       },
     },
   };

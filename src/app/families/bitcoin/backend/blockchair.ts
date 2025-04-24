@@ -566,12 +566,9 @@ async function utxosToAccountState(chainId: ChainId, utxos: UtxoWithMetadata[]):
   return {
     balances: {
       native: {
-        // available: includes ALL spendable amounts (both confirmed and unconfirmed)
-        available: confirmedBalance + unconfirmedBalance,
-        // total: same as available for Bitcoin (no locked amounts)
-        total: confirmedBalance + unconfirmedBalance,
-        // unconfirmed: track unconfirmed amount for information
+        available: confirmedBalance,
         unconfirmed: unconfirmedBalance,
+        total: confirmedBalance + unconfirmedBalance,
       },
     },
   };
