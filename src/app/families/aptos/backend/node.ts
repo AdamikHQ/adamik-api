@@ -53,18 +53,6 @@ export async function fetchAccount(chainId: ChainId, address: string) {
   return nodeRequest<AccountResponse>(chainId, `/accounts/${address}`);
 }
 
-export async function fetchAccountResources(chainId: ChainId, address: string) {
-  return nodeRequest(chainId, `/accounts/${address}/resources`);
-}
-
-export async function fetchAccountModules(chainId: ChainId, address: string) {
-  return nodeRequest(chainId, `/accounts/${address}/modules`);
-}
-
-export async function submitTransaction(chainId: ChainId, tx: TransactionPayload) {
-  return nodeRequest(chainId, "/transactions", "POST", tx);
-}
-
 export async function simulateTransaction(chainId: ChainId, tx: TransactionData) {
   const aptosTx: TransactionPayload = {
     sender: tx.senderAddress,
