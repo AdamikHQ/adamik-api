@@ -1,8 +1,7 @@
-import { BITCOIN_SIGNET_FEATURES } from "../families/bitcoin/features";
-import { APTOS_FEATURES } from "../families/aptos/features";
 import { Chain, ChainFamily, ChainId, ProviderType, TransactionMode } from "../model/types_WIP";
 import {
   ALGORAND_FEATURES,
+  APTOS_FEATURES,
   BITCOIN_FEATURES,
   COSMOS_BABYLON_FEATURES,
   COSMOS_FEATURES,
@@ -551,7 +550,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 6,
     },
     nativeId: "bitcoin",
-    supportedFeatures: BITCOIN_FEATURES,
+    supportedFeatures: BITCOIN_FEATURES(ChainId.BITCOIN),
     signerSpec: getSignerSpecForChain(ChainId.BITCOIN, ChainFamily.BITCOIN),
   },
   [ChainId.BITCOIN_TESTNET]: {
@@ -571,7 +570,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     params: {
       confirmations: 6,
     },
-    supportedFeatures: BITCOIN_FEATURES,
+    supportedFeatures: BITCOIN_FEATURES(ChainId.BITCOIN_TESTNET),
     signerSpec: getSignerSpecForChain(ChainId.BITCOIN_TESTNET, ChainFamily.BITCOIN),
   },
   "bitcoin-signet": {
@@ -591,7 +590,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     params: {
       confirmations: 6,
     },
-    supportedFeatures: BITCOIN_SIGNET_FEATURES,
+    supportedFeatures: BITCOIN_FEATURES(ChainId.BITCOIN_SIGNET),
     signerSpec: getSignerSpecForChain(ChainId.BITCOIN_SIGNET, ChainFamily.BITCOIN),
   },
   polygon: {
@@ -957,7 +956,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 6,
     },
     nativeId: "litecoin",
-    supportedFeatures: BITCOIN_FEATURES,
+    supportedFeatures: BITCOIN_FEATURES(ChainId.LITECOIN),
     signerSpec: getSignerSpecForChain(ChainId.LITECOIN, ChainFamily.BITCOIN),
   },
   [ChainId.DOGECOIN]: {
@@ -976,7 +975,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       confirmations: 60, // confirmations used by Coinbase or Binance
     },
     nativeId: "dogecoin",
-    supportedFeatures: BITCOIN_FEATURES,
+    supportedFeatures: BITCOIN_FEATURES(ChainId.DOGECOIN),
     signerSpec: getSignerSpecForChain(ChainId.DOGECOIN, ChainFamily.BITCOIN),
   },
   ton: {

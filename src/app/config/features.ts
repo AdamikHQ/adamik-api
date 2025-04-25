@@ -1,4 +1,5 @@
 import { ALGORAND_FEATURES } from "../families/algorand/features";
+import { APTOS_FEATURES } from "../families/aptos/features";
 import { BITCOIN_FEATURES } from "../families/bitcoin/features";
 import { COSMOS_BABYLON_FEATURES, COSMOS_FEATURES } from "../families/cosmos/features";
 import { EVM_FEATURES, EVM_ROOTSTOCK_FEATURES } from "../families/evm/features";
@@ -43,6 +44,7 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
 
 export {
   ALGORAND_FEATURES,
+  APTOS_FEATURES,
   BITCOIN_FEATURES,
   COSMOS_BABYLON_FEATURES,
   COSMOS_FEATURES,

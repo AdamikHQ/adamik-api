@@ -160,7 +160,7 @@ async function estimateGas({
       value: amount,
     });
   } catch (e) {
-    console.warn(`/!\\ estimateGas call failed on node of chain ${chainId}`);
+    console.warn(`/!\\ estimateGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
     throw new ThirdPartyProviderError(`Error from the node while estimating gas for ${chainId} account`);
   }
 }
@@ -187,7 +187,7 @@ async function estimateERC20Gas({
       args: [recipientAddress, amount],
     });
   } catch (e) {
-    console.warn(`/!\\ estimateContractGas call failed on node of chain ${chainId}`);
+    console.warn(`/!\\ estimateContractGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
     throw new ThirdPartyProviderError(`Error from the node while estimating gas for ${chainId} account`);
   }
 }
@@ -196,7 +196,7 @@ async function estimateFeesPerGas(chainId: ChainId): Promise<FeeValuesEIP1559> {
   try {
     return await getClient(chainId).estimateFeesPerGas();
   } catch (e) {
-    console.warn(`/!\\ estimateFeesPerGas call failed on node of chain ${chainId}`);
+    console.warn(`/!\\ estimateFeesPerGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
     throw new ThirdPartyProviderError(`Error from the node while estimating gas fees for ${chainId} account`);
   }
 }
@@ -219,7 +219,7 @@ async function estimateFeesForL2({
       value: amount,
     });
   } catch (e) {
-    console.warn(`/!\\ estimateTotalFee call failed on node of chain ${chainId}`);
+    console.warn(`/!\\ estimateTotalFee call failed on node of chain ${chainId}:`, JSON.stringify(e));
     throw new ThirdPartyProviderError(`Error from the node while estimating gas fees for ${chainId} account`);
   }
 }
@@ -246,7 +246,7 @@ async function estimateERC20FeesForL2({
       args: [recipientAddress, amount],
     });
   } catch (e) {
-    console.warn(`/!\\ estimateContractTotalFee call failed on node of chain ${chainId}`);
+    console.warn(`/!\\ estimateContractTotalFee call failed on node of chain ${chainId}:`, JSON.stringify(e));
     throw new ThirdPartyProviderError(`Error from the node while estimating gas fees for ${chainId} account`);
   }
 }
@@ -325,7 +325,7 @@ async function fetchBalance(chainId: ChainId, address: EvmAddress): Promise<bigi
   try {
     return await getClient(chainId).getBalance({ address });
   } catch (e) {
-    console.warn(`/!\\ getBalance call failed on node of chain ${chainId}`);
+    console.warn(`/!\\ getBalance call failed on node of chain ${chainId}:`, JSON.stringify(e));
     throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
   }
 }
@@ -334,7 +334,7 @@ async function fetchNonce(chainId: ChainId, address: EvmAddress): Promise<number
   try {
     return await getClient(chainId).getTransactionCount({ address });
   } catch (e) {
-    console.warn(`/!\\ getTransactionCount call failed on node of chain ${chainId}`);
+    console.warn(`/!\\ getTransactionCount call failed on node of chain ${chainId}:`, JSON.stringify(e));
     throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
   }
 }
@@ -362,7 +362,7 @@ async function broadcast(chainId: ChainId, signedTransaction: string) {
   try {
     return await getClient(chainId).sendRawTransaction({ serializedTransaction: signedTransaction });
   } catch (e) {
-    console.warn(`/!\\ sendRawTransaction call failed on node of chain ${chainId}`);
+    console.warn(`/!\\ sendRawTransaction call failed on node of chain ${chainId}:`, JSON.stringify(e));
     throw new ThirdPartyProviderError(`Error while sending ${chainId} raw transaction to the node`);
   }
 }

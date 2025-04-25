@@ -615,7 +615,10 @@ async function blockchairToAdamikTransaction(
   }
 
   // Babylon Staking - poll the babylon backend to check whether it's a staking tx
-  const babylonDelegationFound = await fetchBabylonDelegation(blockchairTransaction.transaction.hash);
+  const babylonDelegationFound = await fetchBabylonDelegation(
+    chainId,
+    blockchairTransaction.transaction.hash
+  );
   if (babylonDelegationFound) {
     // FIXME We can only identify 'staking' transactions,
     // found no way to identify 'unbonding' and 'withdrawal' transactions...

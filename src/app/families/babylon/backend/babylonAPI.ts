@@ -3,8 +3,11 @@ import { CHAINS } from "~/app/config/chains";
 import { AccountState, ChainId, Provider, ProviderType, StakingStatus } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
-import { computeCompletionDateForDelegation, getBabylonStakingParamsByVersion } from "../logic";
-import { CURRENT_BABYLON_COSMOS_CHAIN } from "../types";
+import {
+  computeCompletionDateForDelegation,
+  getBabylonChainIds,
+  getBabylonStakingParamsByVersion,
+} from "../logic";
 import {
   BabylonDelegationState,
   BabylonDelegationsV2,
@@ -19,18 +22,12 @@ import {
 
 // Doc : https://docs.babylonlabs.io/api/staking-api/babylon-staking-api/
 
-// TODO Use getRootUrl instead to support both bitcoin chains
-const ROOT_URL = CHAINS[CURRENT_BABYLON_COSMOS_CHAIN].providers.find(
-  (p: Provider) => p.type === ProviderType.babylon
-)?.url;
-
 const getRootUrl = (chainId: ChainId) =>
-  CHAINS[chainId === ChainId.BITCOIN_SIGNET ? ChainId.BABYLON_TESTNET : ChainId.BABYLON].providers.find(
-    (p: Provider) => p.type === ProviderType.babylon
-  )?.url;
+  CHAINS[getBabylonChainIds(chainId).babylon].providers.find((p: Provider) => p.type === ProviderType.babylon)
+    ?.url;
 
-async function fetchAllBabylonStakingParams(): Promise<VersionedStakingParams[]> {
-  const url = `${ROOT_URL}/network-info`;
+async function fetchAllBabylonStakingParams(chainId: ChainId): Promise<VersionedStakingParams[]> {
+  const url = `${getRootUrl(chainId)}/network-info`;
 
   const response = await fetch(url);
 
@@ -78,9 +75,10 @@ async function fetchAllBabylonStakingParams(): Promise<VersionedStakingParams[]>
 }
 
 async function fetchBabylonFinalityProviders(
+  chainId: ChainId,
   paginationToken?: string
 ): Promise<{ validators: BabylonFinalityProviderV2[]; nextPage: string | null }> {
-  const url = new URL(`${ROOT_URL}/finality-providers`);
+  const url = new URL(`${getRootUrl(chainId)}/finality-providers`);
 
   const paginationData = paginationFromB64(paginationToken);
 
@@ -128,8 +126,11 @@ async function fetchBabylonFinalityProviders(
   };
 }
 
-async function fetchBabylonDelegation(bitcoinTransactionId: string): Promise<BabylonDelegationV2 | null> {
-  const url = new URL(`${ROOT_URL}/delegation`);
+async function fetchBabylonDelegation(
+  chainId: ChainId,
+  bitcoinTransactionId: string
+): Promise<BabylonDelegationV2 | null> {
+  const url = new URL(`${getRootUrl(chainId)}/delegation`);
   url.searchParams.set("staking_tx_hash_hex", bitcoinTransactionId);
 
   const response = await fetch(url.toString());
@@ -164,13 +165,14 @@ async function fetchBabylonDelegation(bitcoinTransactionId: string): Promise<Bab
 }
 
 async function fetchBabylonDelegations(
+  chainId: ChainId,
   bitcoinPubKeyHex: string,
   paginationToken?: string
 ): Promise<{
   delegations: BabylonDelegationsV2;
   nextPage: string | null;
 }> {
-  const url = new URL(`${ROOT_URL}/delegations`);
+  const url = new URL(`${getRootUrl(chainId)}/delegations`);
 
   // Add required staker_pk_hex parameter
   url.searchParams.set("staker_pk_hex", bitcoinPubKeyHex);
@@ -225,7 +227,7 @@ async function fetchBabylonDelegations(
   };
 }
 
-async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<AccountState> {
+async function fetchBabylonStakingData(chainId: ChainId, bitcoinPubKeyHex: string): Promise<AccountState> {
   const stakingState: AccountState["balances"]["staking"] = {
     total: 0n,
     locked: 0n,
@@ -236,11 +238,11 @@ async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<Accoun
 
   // substring because staker pubkey is expected without the coordinate bytes
   const bitcoinPubKeyNoCoordHex = bitcoinPubKeyHex.substring(2);
-  const { delegations } = await fetchBabylonDelegations(bitcoinPubKeyNoCoordHex);
+  const { delegations } = await fetchBabylonDelegations(chainId, bitcoinPubKeyNoCoordHex);
 
   // Process each delegation to categorize them depending on their state
   for (const delegation of delegations.data) {
-    const completionDate = await computeCompletionDateForDelegation(delegation);
+    const completionDate = await computeCompletionDateForDelegation(chainId, delegation);
 
     let amount: bigint;
     let status: StakingStatus;
@@ -287,7 +289,7 @@ async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<Accoun
         {
           status = StakingStatus.SLASHED;
 
-          const babylonParams = await getBabylonStakingParamsByVersion(delegation.params_version);
+          const babylonParams = await getBabylonStakingParamsByVersion(chainId, delegation.params_version);
 
           amount = BigInt(
             delegation.delegation_staking.staking_amount * (1 - (babylonParams?.slashing?.slashingRate ?? 0))
