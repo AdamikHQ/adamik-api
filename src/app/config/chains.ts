@@ -1,6 +1,7 @@
 import { Chain, ChainFamily, ChainId, ProviderType, TransactionMode } from "../model/types_WIP";
 import {
   ALGORAND_FEATURES,
+  APTOS_FEATURES,
   BITCOIN_FEATURES,
   COSMOS_BABYLON_FEATURES,
   COSMOS_FEATURES,
@@ -2291,12 +2292,32 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN),
     signerSpec: getSignerSpecForChain(ChainId.WORLD_CHAIN, ChainFamily.EVM),
   },
+  aptos: {
+    family: ChainFamily.APTOS,
+    id: ChainId.APTOS,
+    nativeId: "aptos",
+    name: "Aptos",
+    ticker: "APT",
+    decimals: 8,
+    providers: [
+      {
+        type: ProviderType.node,
+        url: "https://api.mainnet.aptoslabs.com/v1",
+      },
+      {
+        type: ProviderType.aptosindexer,
+        url: "https://api.mainnet.aptoslabs.com/v1/graphql",
+      },
+    ],
+    supportedFeatures: APTOS_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.APTOS, ChainFamily.APTOS),
+  },
 } as const;
 
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {
   const transactionFeatures = CHAINS[chainId].supportedFeatures.write.transaction.type;
 
-  const supportedFeatures = Object.entries(transactionFeatures).filter((entry) => entry[1] === true);
+  const supportedFeatures = Object.entries(transactionFeatures).filter((entry) => entry[1]);
   const supportedModes = Object.keys(supportedFeatures) as TransactionMode[];
 
   return supportedModes;
