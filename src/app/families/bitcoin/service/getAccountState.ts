@@ -55,7 +55,7 @@ async function getBabylonStakingState(
   chainId: ChainId,
   pubKeyHex: string
 ): Promise<AccountState["balances"]["staking"]> {
-  const stakingState = await fetchBabylonStakingData(pubKeyHex);
+  const stakingState = await fetchBabylonStakingData(chainId, pubKeyHex);
   return stakingState.balances.staking;
 }
 

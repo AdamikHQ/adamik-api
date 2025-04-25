@@ -96,6 +96,7 @@ async function encodeTransactionToBroadcast(
 
       // Babylon-specific required logic to add covenant unbonding signatures
       const signedUnbondingTransaction = await finalizeUnbondingBroadcastPayload(
+        this.chainId,
         signedTransaction.data,
         partiallySignedUnbondingTransaction
       );

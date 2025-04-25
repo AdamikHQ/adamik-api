@@ -361,7 +361,10 @@ async function buildMessages(
       break;
     case TransactionMode.REGISTER_STAKE:
       {
-        const protoRegisterStakeMsg: ProtoMsg = await buildBabylonRegistrationMessage(transactionData);
+        const protoRegisterStakeMsg: ProtoMsg = await buildBabylonRegistrationMessage(
+          chainId,
+          transactionData
+        );
 
         protoMsgs.push(protoRegisterStakeMsg);
       }
