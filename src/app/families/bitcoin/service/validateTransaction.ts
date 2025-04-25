@@ -20,6 +20,8 @@ async function prevalidateTransaction(
     });
   }
 
+  // TODO If senderPubKey is provided, validate that it matches with senderAddress
+
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
       if (!isValidAddress(this.chainId, transaction.data.recipientAddress)) {
@@ -42,6 +44,8 @@ async function prevalidateTransaction(
           message: `Xpub are not supported for ${this.chainId} transaction mode '${transaction.data.mode}'`,
         });
       }
+
+      // TODO Validate that the address is either Taproot or Native Segwit
 
       // FIXME Try to support useMaxAmount for staking transactions too
       if (transaction.data.useMaxAmount) {

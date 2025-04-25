@@ -1,15 +1,15 @@
 import { ChainSupportedFeatures } from "~/app/model/types_WIP";
 
+// FIXME Staking supported only by bitcoin but not other chains
 const BITCOIN_FEATURES: ChainSupportedFeatures = {
-  // TODO Enable staking on bitcoin mainnet when live
   read: {
     token: false,
-    validators: false,
+    validators: true,
     account: {
-      balances: { native: true, tokens: false, staking: false },
+      balances: { native: true, tokens: false, staking: true },
       transactions: { native: false, tokens: false, staking: false },
     },
-    transaction: { native: true, tokens: false, staking: false },
+    transaction: { native: true, tokens: false, staking: true },
   },
   write: {
     transaction: {
@@ -17,10 +17,10 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
         deployAccount: false,
         transfer: true,
         transferToken: false,
-        stake: false,
-        unstake: false,
+        stake: true,
+        unstake: true,
         claimRewards: false,
-        withdraw: false,
+        withdraw: true,
         registerStake: false,
       },
       field: {
@@ -33,7 +33,6 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
   },
 };
 
-// FIXME Staking supported only by bitcoin but not other chains
 const BITCOIN_SIGNET_FEATURES: ChainSupportedFeatures = {
   read: {
     token: false,

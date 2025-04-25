@@ -531,7 +531,7 @@ async function parseProtobufTransaction(
 
       // Slightly different meaning for the transaction's state here:
       // it's not about this babylon tx itself, but about the babylon delegation it represents
-      parsedTransaction.state = await getBabylonDelegationState(message);
+      parsedTransaction.state = await getBabylonDelegationState(chainId, message);
 
       break;
     }
