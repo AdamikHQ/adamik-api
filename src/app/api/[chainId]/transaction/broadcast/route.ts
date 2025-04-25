@@ -39,7 +39,7 @@ export const POST = apiHandler(
         return await service.encodeTransactionToBroadcast({ signedTransaction: transaction });
       } catch (error) {
         console.warn(`/!\\ Encode to broadcast failed for transaction:`, transaction);
-        console.warn("//! Error is:", error);
+        console.warn("/!\\ Error is:", error);
         throw new UserInputError(
           `Failed to encode transaction for broadcast, verify that signature is valid`
         );
