@@ -1,3 +1,4 @@
+import { AptosTransactionParams } from "~/app/families/aptos/types";
 import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
@@ -6,6 +7,7 @@ import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
+  APTOS = "aptos",
   ALGORAND = "algorand",
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",
@@ -99,6 +101,7 @@ enum ChainId {
 }
 
 enum ChainFamily {
+  APTOS = "aptos",
   ALGORAND = "algorand",
   COSMOS = "cosmos",
   EVM = "evm",
@@ -157,6 +160,7 @@ export enum ProviderType {
   algoindexer = "algoindexer",
   mempoolspace = "mempoolspace",
   oklink = "oklink",
+  aptosindexer = "aptosindexer",
   babylon = "babylon",
 }
 
@@ -212,6 +216,7 @@ enum TokenType {
   ERC20 = "ERC20",
   IBC = "IBC",
   JETTON = "JETTON",
+  APTOS_COIN = "APTOS_COIN",
 }
 
 type Token = {
@@ -368,7 +373,8 @@ type TransactionParams =
   | BitcoinTransactionParams
   | TronTransactionParams
   | StarknetTransactionParams
-  | TonTransactionParams;
+  | TonTransactionParams
+  | AptosTransactionParams;
 
 enum DeployContractType {
   ARGENTX = "argentx",

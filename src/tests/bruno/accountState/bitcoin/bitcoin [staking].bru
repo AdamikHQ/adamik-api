@@ -1,0 +1,25 @@
+meta {
+  name: bitcoin [staking]
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: bitcoin
+  accountId: 02bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c
+}
+
+assert {
+  ~res.status: eq 200
+  ~res.body.chainId: eq "bitcoin"
+  ~res.body.accountId: eq "xpub6BtWBf3Pu6hYwJBKvEwG7JtrTxxDrSGy39HaTgZz6GTSaFWFdoCtuEXSQtoKGaYdz1emg8xTXKYwjhu3xXRPzFnYS1z4yjKj7hLDQyNeDZr"
+  ~res.body.balances.native.available: eq "11007"
+  ~res.body.balances.native.total: eq "11007"
+  ~res.body.balances.native.unconfirmed: eq "0"
+}

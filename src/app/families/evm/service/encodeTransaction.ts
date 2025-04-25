@@ -1,4 +1,5 @@
 import {
+  BaseError as ViemError,
   encodeFunctionData,
   erc20Abi,
   parseSignature,
@@ -7,7 +8,6 @@ import {
   Signature,
   toHex,
   TransactionSerializable,
-  BaseError as ViemError,
 } from "viem";
 import { serializeTransaction as serializeL2Transaction } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
@@ -88,7 +88,7 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
     gas: transaction.data.gas,
     nonce: Number(transaction.data.nonce),
     to: recipient,
-    value: amount,
+    value: transaction.data.mode === TransactionMode.TRANSFER ? amount : 0n,
     data,
   });
 }

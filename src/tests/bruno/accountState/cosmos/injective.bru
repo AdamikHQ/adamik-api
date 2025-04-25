@@ -15,13 +15,6 @@ params:path {
   accountId: inj1vmzrwxhgllkjaswzawaue7m7f9qcrc0rfth2v2
 }
 
-body:json {
-  {
-    "chainId": "cosmoshub",
-    "accountId": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl"
-  }
-}
-
 assert {
   res.body.balances: isDefined tokens
   res.body.balances.tokens: isArray

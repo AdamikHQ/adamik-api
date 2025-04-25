@@ -15,13 +15,6 @@ params:path {
   accountId: cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl
 }
 
-body:json {
-  {
-    "chainId": "cosmoshub",
-    "accountId": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl"
-  }
-}
-
 assert {
   res.status: eq 200
   res.body.chainId: isDefined
