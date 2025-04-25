@@ -19,13 +19,6 @@ params:path {
   accountId: 0x028e46f5df593acad2a56e3232ec03be03cd3f55af78535e2312b848532f7f8
 }
 
-body:json {
-  {
-    "chainId": "tron",
-    "accountId": "TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre"
-  }
-}
-
 assert {
   res.status: eq 200
   res.body.transactions[0].parsed.id: eq 0x03299e12c17b78499bb567989fbedac04f1b28abf0777e96584727f204a5c2ea

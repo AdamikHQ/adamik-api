@@ -15,13 +15,6 @@ params:path {
   accountId: UQCj2rKgLdwEkDo6N6zjmuDrrKy40qERCh1wPICJbzAixpOe
 }
 
-body:json {
-  {
-    "chainId": "ton",
-    "accountId": "UQCj2rKgLdwEkDo6N6zjmuDrrKy40qERCh1wPICJbzAixpOe"
-  }
-}
-
 assert {
   res.body.balances: isDefined tokens
   res.body.balances.tokens: isArray
