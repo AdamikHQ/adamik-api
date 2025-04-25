@@ -81,7 +81,25 @@ export function getRecipient(tx: AptosTransaction): string {
   }
 }
 
+export function getTicker(tx: AptosTransaction): string {
+  const functionName = tx.payload.function.split("::").slice(1).join("::");
+  switch (functionName) {
+    case "aptos_account::transfer":
+    case "aptos_account::transfer_coins":
+      return "APT";
+    case "fungible_asset::transfer":
+    case "primary_fungible_store::transfer":
+    case "aptos_account::batch_transfer_fungible_assets":
+    case "aptos_account::transfer_fungible_assets":
+      if (tx.payload.type_arguments === undefined) return "APT";
+      return String(tx.payload.type_arguments[0].split("::").pop());
+    default:
+      return "";
+  }
+}
+
 export function aptosToAdamikTransaction(tx: AptosTransaction): FinalizedTransaction {
+  const ticker = getTicker(tx);
   return {
     parsed: {
       id: tx.hash,
@@ -99,14 +117,14 @@ export function aptosToAdamikTransaction(tx: AptosTransaction): FinalizedTransac
         {
           address: tx.sender,
           amount: getAmount(tx),
-          ticker: "APT",
+          ticker,
         },
       ],
       recipients: [
         {
           address: getRecipient(tx),
           amount: getAmount(tx),
-          ticker: "APT",
+          ticker,
         },
       ],
     },
