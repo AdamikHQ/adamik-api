@@ -38,3 +38,19 @@ export function getTransactionMode(tx: AptosTransaction): TransactionMode | "unk
       return "unknown";
   }
 }
+
+export function getAmount(tx: AptosTransaction): bigint {
+  const functionName = tx.payload.function.split("::").slice(1).join("::");
+  switch (functionName) {
+    case "aptos_account::transfer":
+    case "aptos_account::transfer_coins":
+      return BigInt(tx.payload.arguments[1]);
+    case "fungible_asset::transfer":
+    case "primary_fungible_store::transfer":
+    case "aptos_account::batch_transfer_fungible_assets":
+    case "aptos_account::transfer_fungible_assets":
+      return BigInt(tx.payload.arguments[2]);
+    default:
+      return 0n;
+  }
+}

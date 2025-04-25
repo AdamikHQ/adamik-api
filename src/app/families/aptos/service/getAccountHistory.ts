@@ -1,7 +1,7 @@
 import { AccountHistory, FinalizedTransaction, Paginated, TransactionState } from "~/app/model/types_WIP";
 import { getAccountTransactions } from "~/app/families/aptos/backend/node";
 import { AptosService } from "~/app/families/aptos/service";
-import { getTransactionMode } from "~/app/families/aptos/logic";
+import { getAmount, getTransactionMode } from "~/app/families/aptos/logic";
 
 export async function getAccountHistory(
   this: AptosService,
@@ -16,12 +16,12 @@ export async function getAccountHistory(
         mode: getTransactionMode(tx),
         state: TransactionState.CONFIRMED,
         fees: {
-          amount: 0n,
+          amount: BigInt(tx.gas_used) * BigInt(tx.gas_unit_price),
         },
         senders: [
           {
             address: tx.sender,
-            amount: 0n,
+            amount: getAmount(tx),
           },
         ],
         recipients: [],
