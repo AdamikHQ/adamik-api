@@ -1,3 +1,4 @@
+import { CHAINS } from "../config/chains";
 import {
   AccountState,
   ChainId,
@@ -68,6 +69,8 @@ async function prevalidateTransactionCommon(
   const { transactionData, addressValidationFn, status } = _;
   const { mode } = transactionData;
 
+  validateTransactionMode(chainId, mode);
+
   switch (mode) {
     case TransactionMode.DEPLOY_ACCOUNT:
       {
@@ -76,9 +79,10 @@ async function prevalidateTransactionCommon(
       }
       break;
     case TransactionMode.TRANSFER:
-    // TODO Validate tokenId ?
     case TransactionMode.TRANSFER_TOKEN:
       {
+        // TODO Validate tokenId ?
+
         const validSender = await addressValidationFn(transactionData.senderAddress);
         if (!validSender) {
           status.errors.push({ message: "Sender address is invalid" });
@@ -187,6 +191,13 @@ function validateAmountOrUseMaxAmount(
     status.errors.push({ message: "amount and useMaxAmount cannot be used together" });
   } else if (!transactionData.useMaxAmount && !("amount" in transactionData)) {
     status.errors.push({ message: "Missing amount or useMaxAmount" });
+  }
+}
+
+function validateTransactionMode(chainId: ChainId, mode: TransactionMode) {
+  const supported = CHAINS[chainId].supportedFeatures.write.transaction.type[mode];
+  if (!supported) {
+    throw new UnsupportedFeatureError(`Transaction mode ${mode} is not supported for chainId ${chainId}`);
   }
 }
 
