@@ -4,6 +4,7 @@ import { Chain, ChainFamily, ChainId, ProviderType, TransactionMode } from "../m
 import {
   ALGORAND_FEATURES,
   BITCOIN_FEATURES,
+  COSMOS_BABYLON_FEATURES,
   COSMOS_FEATURES,
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
@@ -45,7 +46,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-cosmos.imperator.co",
+        //url: "https://lcd-cosmos.imperator.co", // FIXME Frequent HTTP 502 errors
+        url: "https://cosmos-api.polkachu.com",
       },
       {
         type: ProviderType.mintscan,
@@ -539,6 +541,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.blockchair,
         url: "https://api.blockchair.com/bitcoin",
+      },
+      {
+        type: ProviderType.mempoolspace,
+        url: "https://mempool.space/api",
       },
     ],
     params: {
@@ -1046,7 +1052,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.node,
         //url: "https://apis.mintscan.io/injective/lcd", // Error when computing tx fees
-        url: "https://lcd-injective.imperator.co", // FIXME Frequent HTTP 502 errors!
+        //url: "https://lcd-injective.imperator.co", // FIXME Frequent HTTP 502 errors
+        url: "https://injective-api.polkachu.com",
       },
       {
         type: ProviderType.mintscan,
@@ -1313,7 +1320,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-evmos.imperator.co",
+        //url: "https://lcd-evmos.imperator.co", // Occasional HTTP 504 Gateway Timeout errors...
+        url: "https://evmos-api.polkachu.com",
       },
       {
         type: ProviderType.mintscan,
@@ -1343,7 +1351,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-iris.imperator.co",
+        url: "https://apis.mintscan.io/iris/lcd",
+        //url: "https://lcd-iris.imperator.co", // FIXME Frequent HTTP 502 errors
       },
       {
         type: ProviderType.mintscan,
@@ -2111,8 +2120,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: STARKNET_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.STARKNET, ChainFamily.STARKNET),
   },
-  // TODO Test this (later)
-  /*
   babylon: {
     family: ChainFamily.COSMOS,
     id: ChainId.BABYLON,
@@ -2120,20 +2127,34 @@ const CHAINS: { [key in ChainId]: Chain } = {
     name: "Babylon",
     ticker: "BABY",
     decimals: 6,
-    backends: {
-      nodeURL: "TODO",
-    },
+    providers: [
+      {
+        type: ProviderType.node,
+        // TODO validate that mainnet URLs are correct
+        url: "https://babylon-api.nodes.guru",
+        //url: "https://babylon-api.polkachu.com",
+        //url: "https://lcd-babylon.imperator.co",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+      {
+        type: ProviderType.babylon,
+        url: "https://staking-api.babylonlabs.io/v2", // Targeting bbn-1 mainnet
+      },
+    ],
     params: {
       prefix: "bbn",
       validatorPrefix: "bbnvaloper",
       denom: "ubbn",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
-      minGasPrice: 0.007,
+      minGasPrice: 0.005,
     },
-    supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON),
+    supportedFeatures: COSMOS_BABYLON_FEATURES(ChainId.BABYLON),
+    signerSpec: getSignerSpecForChain(ChainId.BABYLON, ChainFamily.COSMOS),
   },
-  */
   "babylon-testnet": {
     family: ChainFamily.COSMOS,
     id: ChainId.BABYLON_TESTNET,
@@ -2144,7 +2165,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://babylon-testnet-api.polkachu.com",
+        //url: "https://babylon-testnet-api.polkachu.com",
+        //url: "https://lcd-babylon-testnet.imperator.co",
+        url: "https://babylon-testnet-api.nodes.guru",
+      },
+      {
+        type: ProviderType.mintscan,
+        url: "https://apis.mintscan.io/v1",
+      },
+      {
+        type: ProviderType.babylon,
+        url: "https://staking-api.testnet.babylonlabs.io/v2", // Targeting bbn-test-5 testnet
+        //url: "https://staking-api.phase-2-devnet.babylonlabs.io/v2", // Targeting devnet-9 testnet
       },
     ],
     params: {
@@ -2153,10 +2185,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
       denom: "ubbn",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
-      minGasPrice: 0.007,
+      minGasPrice: 0.005,
     },
-    isTestnetFor: "BABYLON", //TODO: update with ChainId.BABYLON when it's added
-    supportedFeatures: COSMOS_FEATURES(ChainId.BABYLON_TESTNET),
+    isTestnetFor: ChainId.BABYLON,
+    supportedFeatures: COSMOS_BABYLON_FEATURES(ChainId.BABYLON_TESTNET),
     signerSpec: getSignerSpecForChain(ChainId.BABYLON_TESTNET, ChainFamily.COSMOS),
   },
   "monad-testnet": {

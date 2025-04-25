@@ -13,7 +13,7 @@ async function getTransaction(
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }
 
-  const parsedTransaction = mintscanToAdamikTransaction(this.chainId, cosmosTransaction);
+  const parsedTransaction = await mintscanToAdamikTransaction(this.chainId, cosmosTransaction);
 
   return {
     parsed: parsedTransaction,

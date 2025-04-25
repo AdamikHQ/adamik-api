@@ -1,0 +1,17 @@
+{
+  "request": {
+    "url": "https://babylon-testnet-api.nodes.guru/cosmos/staking/v1beta1/delegators/bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49/unbonding_delegations",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "unbonding_responses": [],
+      "pagination": {
+        "next_key": null,
+        "total": "0"
+      }
+    },
+    "type": "json"
+  }
+}

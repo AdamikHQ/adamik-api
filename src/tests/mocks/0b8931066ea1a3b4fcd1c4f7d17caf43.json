@@ -4,7 +4,10 @@
     "method": "GET"
   },
   "response": {
-    "next_url": null,
-    "data": []
+    "status": 200,
+    "body": {
+      "next_url": null,
+      "data": []
+    }
   }
 }

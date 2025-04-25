@@ -2,7 +2,7 @@
   "request": {
     "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7",
     "method": "POST",
-    "params": {
+    "body": {
       "id": 6,
       "jsonrpc": "2.0",
       "method": "starknet_estimateFee",
@@ -48,17 +48,20 @@
     }
   },
   "response": {
-    "id": 6,
-    "jsonrpc": "2.0",
-    "result": [
-      {
-        "data_gas_consumed": "0x140",
-        "data_gas_price": "0xb214d9555d4",
-        "gas_consumed": "0x17",
-        "gas_price": "0xe991eaf5b28",
-        "overall_fee": "0xf3962bc6c7998",
-        "unit": "FRI"
-      }
-    ]
+    "status": 200,
+    "body": {
+      "id": 6,
+      "jsonrpc": "2.0",
+      "result": [
+        {
+          "data_gas_consumed": "0x140",
+          "data_gas_price": "0xb214d9555d4",
+          "gas_consumed": "0x17",
+          "gas_price": "0xe991eaf5b28",
+          "overall_fee": "0xf3962bc6c7998",
+          "unit": "FRI"
+        }
+      ]
+    }
   }
 }

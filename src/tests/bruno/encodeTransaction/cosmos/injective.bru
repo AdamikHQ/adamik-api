@@ -1,7 +1,7 @@
 meta {
   name: injective
   type: http
-  seq: 4
+  seq: 5
 }
 
 post {
@@ -22,8 +22,7 @@ body:json {
         "senderAddress": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
         "recipientAddress": "inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq",
         "amount": "10000",
-        "memo": "adamik-test-memo",
-        "format": "json"
+        "memo": "adamik-test-memo"
       }
     }
   }
@@ -31,5 +30,6 @@ body:json {
 
 assert {
   res.status: eq 200
-  ~res.body.transaction.encoded: eq "{"account_number":"5073","chain_id":"injective-1","fee":{"amount":[{"amount":"64000000000000","denom":"inj"}],"gas":"400000"},"memo":"adamik-test-memo","msgs":[{"type":"cosmos-sdk/MsgSend","value":{"amount":[{"amount":"10000","denom":"inj"}],"from_address":"inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq","to_address":"inj1akxycslq8cjt0uffw4rjmfm3echchptu52a2dq"}}],"sequence":"86202068","timeout_height":""}"
+  res.body.transaction.encoded: eq 0a9b010a86010a1c2f636f736d6f732e62616e6b2e763162657461312e4d736753656e6412660a2a696e6a31616b787963736c7138636a74307566667734726a6d666d336563686368707475353261326471122a696e6a31616b787963736c7138636a74307566667734726a6d666d3365636863687074753532613264711a0c0a03696e6a1205313030303012106164616d696b2d746573742d6d656d6f1280010a610a540a2d2f696e6a6563746976652e63727970746f2e763162657461312e657468736563703235366b312e5075624b657912230a2102e0a086e9affcde0460b0df9bad0a85567ccf7a7d16d3ff8e326d6ea8a14be20112040a02080118e3ad8d29121b0a150a03696e6a120e393938363133303030303030303010c3da081a0b696e6a6563746976652d3120d127
+  res.body.transaction.data.senderPubKey: eq AuCghumv/N4EYLDfm60KhVZ8z3p9FtP/jjJtbqihS+IB
 }

@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| node | https://lcd-cosmos.imperator.co |<br />
+| node | https://cosmos-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
@@ -108,7 +108,8 @@
 
 ## bitcoin
 
-| blockchair | https://api.blockchair.com/bitcoin |
+| blockchair | https://api.blockchair.com/bitcoin |<br />
+| mempoolspace | https://mempool.space/api |
 
 ## bitcoin-testnet
 
@@ -228,7 +229,7 @@
 
 ## injective
 
-| node | https://lcd-injective.imperator.co |<br />
+| node | https://injective-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
@@ -274,12 +275,12 @@
 
 ## evmos
 
-| node | https://lcd-evmos.imperator.co |<br />
+| node | https://evmos-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## irisnet
 
-| node | https://lcd-iris.imperator.co |<br />
+| node | https://apis.mintscan.io/iris/lcd |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## juno
@@ -412,9 +413,17 @@
 | node | https://starknet-mainnet.public.blastapi.io/rpc/v0_7 |<br />
 | starkscan | https://api.starkscan.co |
 
+## babylon
+
+| node | https://babylon-api.nodes.guru |<br />
+| mintscan | https://apis.mintscan.io/v1 |<br />
+| babylon | https://staking-api.babylonlabs.io/v2 |
+
 ## babylon-testnet
 
-| node | https://babylon-testnet-api.polkachu.com |
+| node | https://babylon-testnet-api.nodes.guru |<br />
+| mintscan | https://apis.mintscan.io/v1 |<br />
+| babylon | https://staking-api.testnet.babylonlabs.io/v2 |
 
 ## monad-testnet
 

@@ -1,5 +1,6 @@
 import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
+import { getBabylonDelegationState } from "~/app/families/babylon/logic";
 import {
   ChainId,
   FinalizedTransaction,
@@ -10,41 +11,30 @@ import {
 } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { MINTSCAN_CHAIN_IDS } from "../features";
 import { CosmosChainParams } from "../types";
 import { MintscanAccountTransactionsResponse, MintscanTransaction } from "./types";
 
 const MINTSCAN_PAGE_SIZE = 20;
 
+// Define supported message types for filtering transactions
+enum SUPPORTED_MESSAGE_TYPES {
+  MSG_SEND = "cosmos-sdk/MsgSend",
+  MSG_DELEGATE = "cosmos-sdk/MsgDelegate",
+  MSG_BEGIN_REDELEGATE = "cosmos-sdk/MsgBeginRedelegate",
+  MSG_UNDELEGATE = "cosmos-sdk/MsgUndelegate",
+  MSG_WITHDRAW_DELEGATOR_REWARD = "cosmos-sdk/MsgWithdrawDelegatorReward",
+  MSG_SEND_PROTO = "/cosmos.bank.v1beta1.MsgSend",
+  MSG_DELEGATE_PROTO = "/cosmos.staking.v1beta1.MsgDelegate",
+  MSG_BEGIN_REDELEGATE_PROTO = "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+  MSG_UNDELEGATE_PROTO = "/cosmos.staking.v1beta1.MsgUndelegate",
+  MSG_WITHDRAW_DELEGATOR_REWARD_PROTO = "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+  MSG_CREATE_BTC_DELEGATION = "/babylon.btcstaking.v1.MsgCreateBTCDelegation",
+  // TODO Support custom MsgWithdrawReward: "/babylon.incentive.MsgWithdrawReward" for babylon
+}
+
 const getRootUrl = (chainId: ChainId) =>
   CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.mintscan)?.url;
-
-const MINTSCAN_CHAIN_IDS: Map<ChainId, string> = new Map([
-  [ChainId.COSMOSHUB, "cosmos"],
-  [ChainId.OSMOSIS, "osmosis"],
-  [ChainId.CELESTIA, "celestia"],
-  [ChainId.DYDX, "dydx"],
-  [ChainId.AXELAR, "axelar"],
-  [ChainId.INJECTIVE, "injective"],
-  [ChainId.AKASH, "akash"],
-  [ChainId.NEUTRON, "neutron"],
-  [ChainId.EVMOS, "evmos"],
-  [ChainId.JUNO, "juno"],
-  [ChainId.SEI, "sei"],
-  [ChainId.STRIDE, "stride"],
-  [ChainId.KAVA, "kava"],
-  //NOT SUPPORTED BY MINTSCAN YET
-  // [ChainId.IRISNET, "iris"],
-  // [ChainId.TERRA, "terra2"],
-  // [ChainId.LUM_NETWORK, "lum"],
-  // [ChainId.OMNIFLIX, "omniflix"],
-  // [ChainId.STARGAZE, "stargaze"],
-  // [ChainId.BAND, "band"],
-  // [ChainId.DYMENSION, "dymension"],
-  // [ChainId.KYVE, "kyve"],
-  // [ChainId.CHIHUAHUA, "chihuahua"],
-  // [ChainId.SEDA, "seda"],
-  // [ChainId.SHENTU, "shentu"],
-]);
 
 async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   const newOptions: RequestInit = {
@@ -105,6 +95,14 @@ async function fetchAccountTransactions(
   // or the endpoint returns aberrant results... hence this default value
   searchParams.set("fromDateTime", "1970-01-01");
 
+  // 20 Results per page
+  searchParams.set("take", "20");
+
+  // Add supported message types to filter transactions
+  Object.values(SUPPORTED_MESSAGE_TYPES).forEach((type) => {
+    searchParams.append("messageTypes", type);
+  });
+
   const url = `${getRootUrl(chainId)}/${mintscanChainId}/accounts/${address}/transactions?` + searchParams;
 
   const response: MintscanAccountTransactionsResponse = await fetchWithHeaders(url.toString()).then(
@@ -129,19 +127,19 @@ async function fetchAccountTransactions(
   };
 }
 
-function mintscanToAdamikTransaction(
+async function mintscanToAdamikTransaction(
   chainId: ChainId,
   mintscanTransaction: MintscanTransaction
-): FinalizedTransaction["parsed"] {
+): Promise<FinalizedTransaction["parsed"]> {
   // https://docs.cosmos.network/v0.46/core/transactions.html#signing-transactions
 
   if ("type" in mintscanTransaction.tx && mintscanTransaction.tx.type === "cosmos-sdk/StdTx") {
-    return parseLegacyAminoTransaction(chainId, mintscanTransaction);
+    return await parseLegacyAminoTransaction(chainId, mintscanTransaction);
   } else if (
     "@type" in mintscanTransaction.tx &&
     mintscanTransaction.tx["@type"] === "/cosmos.tx.v1beta1.Tx"
   ) {
-    return parseProtobufTransaction(chainId, mintscanTransaction);
+    return await parseProtobufTransaction(chainId, mintscanTransaction);
   }
 }
 
@@ -149,10 +147,10 @@ function mintscanToAdamikTransaction(
 // because mintscan types are a PITA and only a few JSON keys differ...
 // FIXME Should refacto though, to put as much as possible in common
 
-function parseLegacyAminoTransaction(
+async function parseLegacyAminoTransaction(
   chainId: ChainId,
   mintscanTransaction: MintscanTransaction
-): FinalizedTransaction["parsed"] {
+): Promise<FinalizedTransaction["parsed"]> {
   if (!("type" in mintscanTransaction.tx && mintscanTransaction.tx.type === "cosmos-sdk/StdTx")) {
     console.warn(
       `/!\\ Invalid mintscan payload for transaction ${mintscanTransaction.txhash} of chainId ${chainId}`
@@ -193,7 +191,7 @@ function parseLegacyAminoTransaction(
 
   // TODO Handling only the 1st message at the moment, but should handle them all into individual transactions
   switch (tx.value.msg[0]["type"]) {
-    case "cosmos-sdk/MsgSend": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_SEND: {
       const message = tx.value.msg[0]["cosmos-sdk/MsgSend"].value;
 
       parsedTransaction.mode = TransactionMode.TRANSFER;
@@ -216,7 +214,7 @@ function parseLegacyAminoTransaction(
 
       break;
     }
-    case "cosmos-sdk/MsgDelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_DELEGATE: {
       const message = tx.value.msg[0]["cosmos-sdk/MsgDelegate"].value;
 
       parsedTransaction.mode = TransactionMode.STAKE;
@@ -237,7 +235,7 @@ function parseLegacyAminoTransaction(
 
       break;
     }
-    case "cosmos-sdk/MsgBeginRedelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_BEGIN_REDELEGATE: {
       const message = tx.value.msg[0]["cosmos-sdk/MsgBeginRedelegate"].value;
 
       parsedTransaction.mode = TransactionMode.STAKE;
@@ -262,7 +260,7 @@ function parseLegacyAminoTransaction(
 
       break;
     }
-    case "cosmos-sdk/MsgUndelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_UNDELEGATE: {
       const message = tx.value.msg[0]["cosmos-sdk/MsgUndelegate"].value;
 
       parsedTransaction.mode = TransactionMode.UNSTAKE;
@@ -283,7 +281,7 @@ function parseLegacyAminoTransaction(
 
       break;
     }
-    case "cosmos-sdk/MsgWithdrawDelegatorReward": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_WITHDRAW_DELEGATOR_REWARD: {
       const message = tx.value.msg[0]["cosmos-sdk/MsgWithdrawDelegatorReward"].value;
 
       const chain = CHAINS[chainId];
@@ -331,10 +329,10 @@ function parseLegacyAminoTransaction(
   return parsedTransaction;
 }
 
-function parseProtobufTransaction(
+async function parseProtobufTransaction(
   chainId: ChainId,
   mintscanTransaction: MintscanTransaction
-): FinalizedTransaction["parsed"] {
+): Promise<FinalizedTransaction["parsed"]> {
   if (!("@type" in mintscanTransaction.tx && mintscanTransaction.tx["@type"] === "/cosmos.tx.v1beta1.Tx")) {
     console.warn(
       `/!\\ Invalid mintscan payload for transaction ${mintscanTransaction.txhash} of chainId ${chainId}`
@@ -380,7 +378,7 @@ function parseProtobufTransaction(
 
   // TODO Handling only the 1st message at the moment, but should handle them all into individual transactions
   switch (tx.body.messages[0]["@type"]) {
-    case "/cosmos.bank.v1beta1.MsgSend": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_SEND_PROTO: {
       const message = tx.body.messages[0]["/cosmos-bank-v1beta1-MsgSend"];
 
       parsedTransaction.mode = TransactionMode.TRANSFER;
@@ -403,7 +401,7 @@ function parseProtobufTransaction(
 
       break;
     }
-    case "/cosmos.staking.v1beta1.MsgDelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_DELEGATE_PROTO: {
       const message = tx.body.messages[0]["/cosmos-staking-v1beta1-MsgDelegate"];
 
       parsedTransaction.mode = TransactionMode.STAKE;
@@ -424,7 +422,7 @@ function parseProtobufTransaction(
 
       break;
     }
-    case "/cosmos.staking.v1beta1.MsgBeginRedelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_BEGIN_REDELEGATE_PROTO: {
       const message = tx.body.messages[0]["/cosmos-staking-v1beta1-MsgBeginRedelegate"];
 
       parsedTransaction.mode = TransactionMode.STAKE;
@@ -449,7 +447,7 @@ function parseProtobufTransaction(
 
       break;
     }
-    case "/cosmos.staking.v1beta1.MsgUndelegate": {
+    case SUPPORTED_MESSAGE_TYPES.MSG_UNDELEGATE_PROTO: {
       const message = tx.body.messages[0]["/cosmos-staking-v1beta1-MsgUndelegate"];
 
       parsedTransaction.mode = TransactionMode.UNSTAKE;
@@ -470,7 +468,8 @@ function parseProtobufTransaction(
 
       break;
     }
-    case "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward": {
+    // TODO Support custom MsgWithdrawReward: "/babylon.incentive.MsgWithdrawReward" for babylon
+    case SUPPORTED_MESSAGE_TYPES.MSG_WITHDRAW_DELEGATOR_REWARD_PROTO: {
       const message = tx.body.messages[0]["/cosmos-distribution-v1beta1-MsgWithdrawDelegatorReward"];
 
       const chain = CHAINS[chainId];
@@ -505,6 +504,34 @@ function parseProtobufTransaction(
           amount: BigInt(amount || 0n),
         },
       };
+
+      break;
+    }
+    // NOTE No equivalent in parseLegacyAminoTransaction
+    // as this is a modern type that doesn't have a legacy version
+    case SUPPORTED_MESSAGE_TYPES.MSG_CREATE_BTC_DELEGATION: {
+      const message = tx.body.messages[0]["/babylon-btcstaking-v1-MsgCreateBTCDelegation"];
+
+      parsedTransaction.mode = TransactionMode.REGISTER_STAKE;
+
+      parsedTransaction.senders = [
+        {
+          address: message.staker_addr,
+          amount: 0n,
+        },
+      ];
+
+      parsedTransaction.validators = {
+        target: {
+          // TODO Support multiple validators?
+          address: message.fp_btc_pk_list[0],
+          amount: BigInt(message.staking_value),
+        },
+      };
+
+      // Slightly different meaning for the transaction's state here:
+      // it's not about this babylon tx itself, but about the babylon delegation it represents
+      parsedTransaction.state = await getBabylonDelegationState(message);
 
       break;
     }

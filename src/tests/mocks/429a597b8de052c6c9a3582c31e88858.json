@@ -1,0 +1,22 @@
+{
+  "request": {
+    "url": "https://babylon-testnet-api.nodes.guru/cosmos/bank/v1beta1/balances/bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "balances": [
+        {
+          "denom": "ubbn",
+          "amount": "9992127"
+        }
+      ],
+      "pagination": {
+        "next_key": null,
+        "total": "1"
+      }
+    },
+    "type": "json"
+  }
+}

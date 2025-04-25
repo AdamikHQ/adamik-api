@@ -1,0 +1,22 @@
+{
+  "request": {
+    "url": "https://babylon-testnet-api.nodes.guru/cosmos/auth/v1beta1/accounts/bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "account": {
+        "@type": "/cosmos.auth.v1beta1.BaseAccount",
+        "address": "bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49",
+        "pub_key": {
+          "@type": "/cosmos.crypto.secp256k1.PubKey",
+          "key": "A4M9WuvnLKaOOBbEpGbTlSgJKfB8z1513E4tccLJLaRY"
+        },
+        "account_number": "74346",
+        "sequence": "9"
+      }
+    },
+    "type": "json"
+  }
+}

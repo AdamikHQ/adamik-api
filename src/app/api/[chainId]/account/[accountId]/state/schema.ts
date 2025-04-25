@@ -42,6 +42,10 @@ const queryParamsSchema = z.object({
         "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
       example: "native,tokens,staking",
     }),
+  pubkey: z.string().optional().openapi({
+    description:
+      "Optional public key (in hex format) associated with the accountId. Required for Bitcoin's Babylon Staking data.",
+  }),
 });
 
 const responseSchema = z.object({
@@ -93,6 +97,9 @@ const responseSchema = z.object({
         }),
         positions: z
           .object({
+            stakeId: z.string().optional().openapi({
+              description: "Unique identifier for the staking position.",
+            }),
             validatorAddresses: z.string().array().openapi({
               description: "List of validator addresses involved in staking position.",
             }),
@@ -100,9 +107,9 @@ const responseSchema = z.object({
               description: "Amount of native currency used in this specific staking position.",
             }),
             status: z.nativeEnum(StakingStatus),
-            completionDate: z.number().optional().openapi({
+            completionDate: z.number().pipe(z.coerce.string()).optional().openapi({
               description:
-                "Unix timestamp (in milliseconds) when the unbonding period will complete. Only present for positions with 'unlocking' status.",
+                "Unix timestamp (in milliseconds) when the current position status will expire, when relevant.",
             }),
           })
           .array()

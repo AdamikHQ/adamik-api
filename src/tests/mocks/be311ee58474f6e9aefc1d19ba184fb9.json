@@ -1,0 +1,23 @@
+{
+  "request": {
+    "url": "https://mempool.space/api/address/bc1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqs3lg43f/utxo",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": [
+      {
+        "txid": "5a2d155884d3021f5c9a9437d6b9411003a8c7fdc6d94d47c9e9723d82a9353a",
+        "vout": 2,
+        "status": {
+          "confirmed": true,
+          "block_height": 880675,
+          "block_hash": "00000000000000000001276f4427a2d7541617af73995facc02fa6632b95e09a",
+          "block_time": 1737749112
+        },
+        "value": 8496
+      }
+    ],
+    "type": "json"
+  }
+}

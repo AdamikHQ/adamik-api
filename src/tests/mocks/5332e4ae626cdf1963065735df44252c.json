@@ -4,9 +4,12 @@
     "method": "GET"
   },
   "response": {
-    "contract_address": "0x02f14c5d510b5ac0a05f2afc41f5972c908c0cfc6c0720f83a21db2575de7e3a",
-    "name": "zklendrwd.\\u00e2\\u0080\\u008bcom -zkLend Reward",
-    "symbol": "zklendrwd.\\u00e2\\u0080\\u008bcom",
-    "decimals": "8"
+    "status": 200,
+    "body": {
+      "contract_address": "0x02f14c5d510b5ac0a05f2afc41f5972c908c0cfc6c0720f83a21db2575de7e3a",
+      "name": "zklendrwd.\\u00e2\\u0080\\u008bcom -zkLend Reward",
+      "symbol": "zklendrwd.\\u00e2\\u0080\\u008bcom",
+      "decimals": "8"
+    }
   }
 }

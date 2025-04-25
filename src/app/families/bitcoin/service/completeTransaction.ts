@@ -1,18 +1,12 @@
-import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
-import { ChainId, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
-import { fetchNetworkInfo } from "../backend/babylon";
-import { fetchRawTransaction as fetchRawTransactionBlockchair } from "../backend/blockchair";
-import { fetchTransactionRaw as fetchTransactionRawMempoolSpace } from "../backend/mempoolSpace";
-import { getNetworkForChainId } from "../logic";
+import { fetchBabylonDelegation } from "~/app/families/babylon/backend/babylonAPI";
 import {
-  buildSlashingPsbt,
-  buildStakingPsbt,
-  buildStakingScripts,
-  buildTransferPsbt,
-  buildUnbondingPsbt,
-  buildUnbondingSlashingPsbt,
-} from "../psbt";
+  buildBabylonStakingPayloads,
+  buildWithdrawalPsbt,
+  retrieveUnbondingPsbtFromDelegation,
+} from "~/app/families/babylon/logic";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { AdamikApiServerError, UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
+import { buildTransferPsbt } from "../logic";
 import { BitcoinService } from "../service";
 
 // NOTE bitcoin family does it differently than others:
@@ -36,8 +30,6 @@ async function completeTransaction(
           status
         );
 
-        transaction.data.fees = BigInt(fees);
-
         // TODO Test this
         if (transaction.data.useMaxAmount) {
           const recipientOutput = transferPsbt.txOutputs.find(
@@ -52,90 +44,73 @@ async function completeTransaction(
         transaction.data.params = {
           transferPsbt: transferPsbt.toHex(),
         };
+
+        transaction.data.fees = BigInt(fees);
       }
       break;
 
     case TransactionMode.STAKE:
       {
-        const babylonNetworkInfo = await fetchNetworkInfo();
-        const bitcoinNetworkInfo = getNetworkForChainId(this.chainId);
-        const stakingScripts = buildStakingScripts(transaction.data, babylonNetworkInfo);
-
-        // When staking, the staking transaction is the one that we are building (unsigned)
-        const {
-          transaction: stakingTransaction,
-          psbt: stakingPsbt,
-          fee: fees,
-        } = await buildStakingPsbt(this.chainId, transaction.data, stakingScripts, bitcoinNetworkInfo);
-
-        // TODO Test these
-
-        const { transaction: unbondingTransaction, psbt: unbondingPsbt } = buildUnbondingPsbt(
-          stakingScripts,
-          stakingTransaction,
-          babylonNetworkInfo,
-          bitcoinNetworkInfo
-        );
-
-        const { psbt: slashingPsbt } = buildSlashingPsbt(
-          stakingScripts,
-          stakingTransaction,
-          babylonNetworkInfo,
-          bitcoinNetworkInfo
-        );
-        const { psbt: unbondingSlashingPsbt } = buildUnbondingSlashingPsbt(
-          stakingScripts,
-          unbondingTransaction,
-          babylonNetworkInfo,
-          bitcoinNetworkInfo
-        );
-
-        transaction.data.fees = BigInt(fees);
+        const { stakingPsbt, slashingPsbt, unbondingSlashingPsbt, unbondingTransaction, fees } =
+          await buildBabylonStakingPayloads(this.chainId, transaction.data);
 
         transaction.data.params = {
           stakingPsbt: stakingPsbt.toHex(),
           slashingPsbt: slashingPsbt.toHex(),
-          unbondingPsbt: unbondingPsbt.toHex(),
           unbondingSlashingPsbt: unbondingSlashingPsbt.toHex(),
+          unbondingTransaction: unbondingTransaction.toHex(),
         };
+
+        transaction.data.fees = BigInt(fees);
       }
       break;
-    case TransactionMode.UNSTAKE: {
-      // TODO in prevalidateTransaction
-      if (!transaction.data.stakeId?.length) {
-        throw new UserInputError(`Missing 'stakeId' field in transaction`);
+    case TransactionMode.UNSTAKE:
+      {
+        if (!transaction.data.stakeId?.length) {
+          throw new AdamikApiServerError(`Missing 'stakeId' field in transaction`);
+        }
+
+        const babylonDelegation = await fetchBabylonDelegation(transaction.data.stakeId);
+        if (!babylonDelegation) {
+          console.warn(`/!\\ Staking position not found for stake ID ${transaction.data.stakeId}`);
+          throw new UserInputError(`Staking position not found for stake ID ${transaction.data.stakeId}`);
+        }
+
+        const { unbondingPsbt, unbondingFees } = await retrieveUnbondingPsbtFromDelegation(
+          this.chainId,
+          transaction.data,
+          babylonDelegation
+        );
+
+        transaction.data.params = {
+          unbondingTransaction: unbondingPsbt.toHex(),
+        };
+
+        transaction.data.fees = unbondingFees;
       }
+      break;
 
-      const babylonNetworkInfo = await fetchNetworkInfo();
-      const bitcoinNetworkInfo = getNetworkForChainId(this.chainId);
-      const stakingScripts = buildStakingScripts(transaction.data, babylonNetworkInfo);
+    case TransactionMode.WITHDRAW:
+      {
+        const babylonDelegation = await fetchBabylonDelegation(transaction.data.stakeId);
+        if (!babylonDelegation) {
+          console.warn(`/!\\ Staking position not found for stake ID ${transaction.data.stakeId}`);
+          throw new UserInputError(`Staking position not found for stake ID ${transaction.data.stakeId}`);
+        }
 
-      // When unstaking, the staking transaction was previously broadcasted and
-      // should now be confirmed, so we retrieve it from the network
-      // TODO Handle case where staking tx is not found
-      const stakingTransaction =
-        this.chainId === ChainId.BITCOIN_SIGNET
-          ? await fetchTransactionRawMempoolSpace(this.chainId, transaction.data.stakeId)
-          : BitcoinTransaction.fromHex(
-              (await fetchRawTransactionBlockchair(this.chainId, transaction.data.stakeId)).raw_transaction
-            );
+        const { psbt: withdrawalPsbt, fee: fees } = await buildWithdrawalPsbt(
+          this.chainId,
+          transaction.data,
+          babylonDelegation
+        );
 
-      // FIXME Not good! Must be the same unbonding tx that was build during stake flow
-      // --> must be provided by the API ?
-      // --> can be retrieved through delegations ?...
-      const { psbt: unbondingPsbt, fee: fees } = buildUnbondingPsbt(
-        stakingScripts,
-        stakingTransaction,
-        babylonNetworkInfo,
-        bitcoinNetworkInfo
-      );
+        transaction.data.params = {
+          withdrawalPsbt: withdrawalPsbt.toHex(),
+        };
 
-      transaction.data.fees = BigInt(fees);
-
-      transaction.data.params = {
-        unbondingPsbt: unbondingPsbt.toHex(),
-      };
-    }
+        transaction.data.fees = BigInt(fees);
+      }
+      break;
 
     default:
       throw new UnsupportedFeatureError(

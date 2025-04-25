@@ -1,10 +1,10 @@
+import { AptosTransactionParams } from "~/app/families/aptos/types";
 import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
 import { StarknetTransactionParams } from "../families/starknet/types";
 import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
-import { AptosTransactionParams } from "~/app/families/aptos/types";
 
 enum ChainId {
   APTOS = "aptos",
@@ -88,19 +88,12 @@ enum ChainId {
   STARGAZE = "stargaze",
   KYVE = "kyve",
   LIKECOIN = "likecoin",
-  OSMOSIS_TESTNET = "osmosis-testnet", //using lavanet
-  CELESTIA_TESTNET = "celestia-testnet", //using lavanet
-  COSMOSHUB_TESTNET = "cosmoshub-testnet", //using nodestake
-  INJECTIVE = "injective", //using mintscan node
-  //BABYLON = "babylon",
+  OSMOSIS_TESTNET = "osmosis-testnet",
+  CELESTIA_TESTNET = "celestia-testnet",
+  COSMOSHUB_TESTNET = "cosmoshub-testnet",
+  INJECTIVE = "injective",
+  BABYLON = "babylon",
   BABYLON_TESTNET = "babylon-testnet",
-
-  //Their own family
-  // EGLD = "egld",
-  // SOL = "sol",
-  // NEAR = "near",
-  // ALEPH = "aleph",
-
   BERACHAIN = "berachain",
   BERACHAIN_ARTIO = "berachain-artio",
   CRONOS = "cronos",
@@ -168,6 +161,7 @@ export enum ProviderType {
   mempoolspace = "mempoolspace",
   oklink = "oklink",
   aptosindexer = "aptosindexer",
+  babylon = "babylon",
 }
 
 type Provider = {
@@ -253,9 +247,11 @@ type ChainValidators = {
 
 enum StakingStatus {
   FREE = "free", // Can be used as part of the available balance
+  PENDING = "pending", // Submitted to the chain, waiting for confirmation
   LOCKED = "locked",
   UNLOCKING = "unlocking",
-  UNLOCKED = "unlocked", // Can't be used as part of the avaialble balance, needs a transaction first
+  UNLOCKED = "unlocked", // Can't be used as part of the available balance, needs a transaction first
+  SLASHED = "slashed",
 }
 
 type StakingPosition = {
@@ -291,7 +287,7 @@ type AccountState = {
       unlocking: bigint;
       unlocked: bigint;
       positions: StakingPosition[];
-      rewards: {
+      rewards?: {
         native: StakingReward[];
         tokens: TokenStakingReward[];
       };
@@ -359,12 +355,12 @@ type FinalizedTransaction = {
     validators?: {
       source?: {
         address: string;
-        amount: bigint;
+        amount?: bigint;
         ticker?: string;
       };
       target?: {
         address: string;
-        amount: bigint;
+        amount?: bigint;
         ticker?: string;
       };
     };
@@ -452,7 +448,7 @@ type WithdrawTransactionData = CommonTransactionData & {
 type RegisterStakeTransactionData = CommonTransactionData & {
   mode: TransactionMode.REGISTER_STAKE;
   amount: bigint; // Not optional for register transactions
-  senderPubKey: string; // Not optional for register transactions
+  senderForeignPubKey: string;
   proofOfPossession: string;
   validatorPubKey: string;
   unsignedUnbondingTransaction: string;
@@ -530,12 +526,15 @@ export type {
   ChainParams,
   ChainSupportedFeatures,
   ChainValidators,
+  ClaimRewardsTransactionData,
+  DeployAccountTransactionData,
   FeaturesSet,
   FinalizedTransaction,
   Paginated,
   Provider,
   RegisterStakeTransactionData,
   SignerSpec,
+  StakeTransactionData,
   StakingPosition,
   StakingReward,
   Status,
@@ -544,8 +543,11 @@ export type {
   TokenStakingReward,
   Transaction,
   TransactionData,
-  TransferTokenTransactionData,
   TransactionSpendableAmounts,
+  TransferTokenTransactionData,
+  TransferTransactionData,
   TypedAddress,
+  UnstakeTransactionData,
   Validator,
+  WithdrawTransactionData,
 };

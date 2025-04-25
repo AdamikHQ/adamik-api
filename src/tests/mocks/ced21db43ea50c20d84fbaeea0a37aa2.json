@@ -3,17 +3,20 @@
     "url": "https://mempool.space/signet/api/address/tb1q737mgc5em323ddazqqy2pp3lh0kh3qtlnjq5fd/utxo",
     "method": "GET"
   },
-  "response": [
-    {
-      "txid": "2f3ae40b3f73829373c4d86edfe3022603b8dc5206410f9e4d6c3c2a3ce31050",
-      "vout": 0,
-      "status": {
-        "confirmed": true,
-        "block_height": 236051,
-        "block_hash": "000001031c369d0179b8eb7f0e1bf16b66cf22d4844e36b6e8d7e4278ed3b98f",
-        "block_time": 1739981508
-      },
-      "value": 100000
-    }
-  ]
+  "response": {
+    "status": 200,
+    "body": [
+      {
+        "txid": "2f3ae40b3f73829373c4d86edfe3022603b8dc5206410f9e4d6c3c2a3ce31050",
+        "vout": 0,
+        "status": {
+          "confirmed": true,
+          "block_height": 236051,
+          "block_hash": "000001031c369d0179b8eb7f0e1bf16b66cf22d4844e36b6e8d7e4278ed3b98f",
+          "block_time": 1739981508
+        },
+        "value": 100000
+      }
+    ]
+  }
 }

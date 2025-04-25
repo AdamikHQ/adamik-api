@@ -107,3 +107,21 @@ export class AdamikApiServerError extends AdamikHttpError {
     super(message);
   }
 }
+
+export class BabylonTransactionAlreadyUsedError extends UserInputError {
+  name = "BabylonTransactionAlreadyUsedError";
+  statusText = "Transaction already used";
+
+  constructor() {
+    super("The Bitcoin staking transaction is already used");
+  }
+}
+
+export class BabylonInvalidProofOfPossessionError extends UserInputError {
+  name = "BabylonInvalidProofOfPossessionError";
+  statusText = "Invalid proof of possession";
+
+  constructor() {
+    super("Invalid proof of possession");
+  }
+}

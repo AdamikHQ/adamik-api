@@ -1,3 +1,5 @@
+import { BabylonCreateBTCDelegationMessage } from "~/app/families/babylon/types";
+
 /*
 {
     "txhash": "9C96915060C952D4D3ACF7A0621287AA9FF26D044DC5B7E150152A30D7F41DDB",
@@ -348,30 +350,6 @@ type Body = {
   non_critical_extension_options: any[];
 };
 
-// TODO Decide the list of supported messages
-type Message =
-  | {
-      "@type": "/cosmos.bank.v1beta1.MsgSend";
-      "/cosmos-bank-v1beta1-MsgSend": CosmosMsgSend;
-    }
-  | {
-      "@type": "/cosmos.staking.v1beta1.MsgDelegate";
-      "/cosmos-staking-v1beta1-MsgDelegate": CosmosMsgDelegate;
-    }
-  | {
-      "@type": "/cosmos.staking.v1beta1.MsgBeginRedelegate";
-      "/cosmos-staking-v1beta1-MsgBeginRedelegate": CosmosMsgBeginRedelegate;
-    }
-  | {
-      "@type": "/cosmos.staking.v1beta1.MsgUndelegate";
-      "/cosmos-staking-v1beta1-MsgUndelegate": CosmosMsgUndelegate;
-    }
-  | {
-      "@type": "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward";
-      "/cosmos-distribution-v1beta1-MsgWithdrawDelegatorReward": CosmosMsgWithdrawDelegatorReward;
-      //"/ibc-applications-transfer-v1-MsgTransfer": IbcApplicationsTransferV1MsgTransfer;
-    };
-
 type CosmosMsgSend = {
   from_address: string;
   to_address: string;
@@ -401,6 +379,30 @@ type CosmosMsgWithdrawDelegatorReward = {
   delegator_address: string;
   validator_address: string;
 };
+
+type Message =
+  | {
+      "@type": "/cosmos.bank.v1beta1.MsgSend";
+      "/cosmos-bank-v1beta1-MsgSend": CosmosMsgSend;
+    }
+  | {
+      "@type": "/cosmos.staking.v1beta1.MsgDelegate";
+      "/cosmos-staking-v1beta1-MsgDelegate": CosmosMsgDelegate;
+    }
+  | {
+      "@type": "/cosmos.staking.v1beta1.MsgBeginRedelegate";
+      "/cosmos-staking-v1beta1-MsgBeginRedelegate": CosmosMsgBeginRedelegate;
+    }
+  | {
+      "@type": "/cosmos.staking.v1beta1.MsgUndelegate";
+      "/cosmos-staking-v1beta1-MsgUndelegate": CosmosMsgUndelegate;
+    }
+  | {
+      "@type": "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward";
+      "/cosmos-distribution-v1beta1-MsgWithdrawDelegatorReward": CosmosMsgWithdrawDelegatorReward;
+      //"/ibc-applications-transfer-v1-MsgTransfer": IbcApplicationsTransferV1MsgTransfer;
+    }
+  | BabylonCreateBTCDelegationMessage;
 
 export type {
   CosmosAccount,

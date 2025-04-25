@@ -78,7 +78,7 @@ const SIGNER_SPEC_CHAIN_OVERRIDES: { [key: string]: Partial<SignerSpec> } = {
   // Special case for Injective which uses eth_secp256k1
   injective: {
     coinType: "60",
-    hashFunction: HashFunction.SHA256,
+    hashFunction: HashFunction.KECCAK256,
     signatureFormat: SignatureFormat.RS,
   },
 

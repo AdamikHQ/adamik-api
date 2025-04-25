@@ -4,9 +4,12 @@
     "method": "GET"
   },
   "response": {
-    "contract_address": "0x046ab56ec0c6a6d42384251c97e9331aa75eb693e05ed8823e2df4de5713e9a4",
-    "name": "Nostra NSTR Interest Collat.",
-    "symbol": "iNSTR-c",
-    "decimals": "18"
+    "status": 200,
+    "body": {
+      "contract_address": "0x046ab56ec0c6a6d42384251c97e9331aa75eb693e05ed8823e2df4de5713e9a4",
+      "name": "Nostra NSTR Interest Collat.",
+      "symbol": "iNSTR-c",
+      "decimals": "18"
+    }
   }
 }

@@ -1,12 +1,12 @@
+import { fetchBabylonFinalityProviders } from "~/app/families/babylon/backend/babylonAPI";
 import { ChainValidators, Paginated, Validator } from "~/app/model/types_WIP";
-import { fetchFinalityProviders } from "../backend/babylon";
 import { BitcoinService } from "../service";
 
 async function getValidators(
   this: BitcoinService,
   paginationToken?: string
 ): Promise<Paginated<ChainValidators>> {
-  const { validators: babylonValidators, nextPage } = await fetchFinalityProviders(paginationToken);
+  const { validators: babylonValidators, nextPage } = await fetchBabylonFinalityProviders(paginationToken);
 
   const validators = babylonValidators.map((validatorData) => {
     const validator: Validator = {

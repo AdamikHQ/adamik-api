@@ -1,3 +1,5 @@
+import { AdamikApiServerError } from "./handlers/errors";
+
 /**
  * Converts an amount from the smallest unit to the main unit
  * @param amount - The amount in the smallest unit
@@ -5,7 +7,7 @@
  * @returns The amount in the main unit or null if invalid amount
  * Example: 1000000000000000000 -> 1
  */
-export const amountToMainUnit = (amount: string, decimals: number): string | null => {
+const amountToMainUnit = (amount: string, decimals: number): string | null => {
   if (decimals === null || decimals === undefined || amount === null || amount === undefined) {
     return null;
   }
@@ -20,7 +22,7 @@ export const amountToMainUnit = (amount: string, decimals: number): string | nul
  * @returns The amount in the smallest unit or null if invalid amount
  * Example: 1 -> 1000000000000000000
  */
-export const amountToSmallestUnit = (amount: string, decimals: number): string | null => {
+const amountToSmallestUnit = (amount: string, decimals: number): string | null => {
   if (decimals === null || decimals === undefined || amount === null || amount === undefined) {
     return null;
   }
@@ -30,3 +32,20 @@ export const amountToSmallestUnit = (amount: string, decimals: number): string |
   }
   return Math.trunc(computedAmount).toString();
 };
+
+function validateSafeNumber(bigint: bigint | undefined) {
+  if (bigint === undefined) {
+    console.warn("/!\\ Amount is required");
+    throw new AdamikApiServerError("Amount is required");
+  }
+
+  const isValidNumber =
+    bigint >= BigInt(Number.MIN_SAFE_INTEGER) && bigint <= BigInt(Number.MAX_SAFE_INTEGER);
+
+  if (!isValidNumber) {
+    console.warn("/!\\ Bigint amount too large to be cast to Number:", bigint);
+    throw new AdamikApiServerError("Amount is too large to be cast as number");
+  }
+}
+
+export { amountToMainUnit, amountToSmallestUnit, validateSafeNumber };

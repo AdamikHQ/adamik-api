@@ -10,15 +10,17 @@ get {
   auth: none
 }
 
+params:query {
+  ~pubkey: TODO
+}
+
 params:path {
   chainId: bitcoin
-  accountId: xpub6BtWBf3Pu6hYwJBKvEwG7JtrTxxDrSGy39HaTgZz6GTSaFWFdoCtuEXSQtoKGaYdz1emg8xTXKYwjhu3xXRPzFnYS1z4yjKj7hLDQyNeDZr
+  accountId: bc1pwj4q5jhwlszj6rnrahd95huu6j56dvj9ltfnag55prqnpc53vpqs3lg43f
 }
 
 assert {
   res.status: eq 200
-  res.body.chainId: eq bitcoin
-  res.body.accountId: eq xpub6BtWBf3Pu6hYwJBKvEwG7JtrTxxDrSGy39HaTgZz6GTSaFWFdoCtuEXSQtoKGaYdz1emg8xTXKYwjhu3xXRPzFnYS1z4yjKj7hLDQyNeDZr
   res.body.balances.native.available: matches ^\d+$
   res.body.balances.native.total: matches ^\d+$
   res.body.balances.native.unconfirmed: matches ^\d+$

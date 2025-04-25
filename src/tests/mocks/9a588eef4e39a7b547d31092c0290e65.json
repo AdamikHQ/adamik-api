@@ -2,7 +2,7 @@
   "request": {
     "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7",
     "method": "POST",
-    "params": {
+    "body": {
       "id": 1,
       "jsonrpc": "2.0",
       "method": "starknet_addInvokeTransaction",
@@ -45,11 +45,14 @@
     }
   },
   "response": {
-    "error": {
-      "code": 59,
-      "message": "A transaction with the same hash already exists in the mempool"
-    },
-    "id": 1,
-    "jsonrpc": "2.0"
+    "status": 200,
+    "body": {
+      "error": {
+        "code": 59,
+        "message": "A transaction with the same hash already exists in the mempool"
+      },
+      "id": 1,
+      "jsonrpc": "2.0"
+    }
   }
 }

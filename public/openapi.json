@@ -4475,6 +4475,58 @@
                             "signerSpec"
                           ]
                         },
+                        "babylon": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "aptos",
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
+                        },
                         "babylon-testnet": {
                           "type": "object",
                           "properties": {
@@ -4927,6 +4979,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -5069,6 +5122,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "aptos"
               ]
@@ -5141,6 +5195,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "aptos"
                       ]
@@ -5260,6 +5315,8 @@
                 "stride",
                 "kava",
                 "starknet",
+                "babylon",
+                "babylon-testnet",
                 "monad-testnet",
                 "cronos",
                 "world-chain",
@@ -5444,8 +5501,7 @@
                                     }
                                   },
                                   "required": [
-                                    "address",
-                                    "amount"
+                                    "address"
                                   ]
                                 },
                                 "target": {
@@ -5464,8 +5520,7 @@
                                     }
                                   },
                                   "required": [
-                                    "address",
-                                    "amount"
+                                    "address"
                                   ]
                                 }
                               }
@@ -5767,6 +5822,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -5796,6 +5852,15 @@
               "type": "string",
               "description": "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
               "example": "native,tokens,staking"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pubkey",
+            "description": "Optional public key (in hex format) associated with the accountId. Required for Bitcoin's Babylon Staking data.",
+            "schema": {
+              "type": "string",
+              "description": "Optional public key (in hex format) associated with the accountId. Required for Bitcoin's Babylon Staking data."
             }
           }
         ],
@@ -5893,6 +5958,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
@@ -6008,6 +6074,10 @@
                               "items": {
                                 "type": "object",
                                 "properties": {
+                                  "stakeId": {
+                                    "type": "string",
+                                    "description": "Unique identifier for the staking position."
+                                  },
                                   "validatorAddresses": {
                                     "type": "array",
                                     "items": {
@@ -6023,14 +6093,16 @@
                                     "type": "string",
                                     "enum": [
                                       "free",
+                                      "pending",
                                       "locked",
                                       "unlocking",
-                                      "unlocked"
+                                      "unlocked",
+                                      "slashed"
                                     ]
                                   },
                                   "completionDate": {
-                                    "type": "number",
-                                    "description": "Unix timestamp (in milliseconds) when the unbonding period will complete. Only present for positions with 'unlocking' status."
+                                    "type": "string",
+                                    "description": "Unix timestamp (in milliseconds) when the current position status will expire, when relevant."
                                   }
                                 },
                                 "required": [
@@ -6237,6 +6309,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "cronos",
@@ -6347,6 +6420,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "cronos",
@@ -6501,6 +6575,8 @@
                 "stride",
                 "kava",
                 "starknet",
+                "babylon",
+                "babylon-testnet",
                 "monad-testnet",
                 "cronos",
                 "world-chain",
@@ -6587,6 +6663,8 @@
                         "stride",
                         "kava",
                         "starknet",
+                        "babylon",
+                        "babylon-testnet",
                         "monad-testnet",
                         "cronos",
                         "world-chain",
@@ -6742,8 +6820,7 @@
                                       }
                                     },
                                     "required": [
-                                      "address",
-                                      "amount"
+                                      "address"
                                     ]
                                   },
                                   "target": {
@@ -6762,8 +6839,7 @@
                                       }
                                     },
                                     "required": [
-                                      "address",
-                                      "amount"
+                                      "address"
                                     ]
                                   }
                                 }
@@ -6907,6 +6983,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -7117,7 +7194,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "amount": {
                                     "type": "string",
@@ -7158,7 +7235,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -7191,17 +7268,22 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId"
+                                  "stakeId",
+                                  "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
                               {
                                 "type": "object",
@@ -7211,6 +7293,10 @@
                                     "const": "registerStake"
                                   },
                                   "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "senderForeignPubKey": {
                                     "type": "string",
                                     "description": "Staker's pubkey on the foreign chain. (hex)"
                                   },
@@ -7250,6 +7336,7 @@
                                 "required": [
                                   "mode",
                                   "senderPubKey",
+                                  "senderForeignPubKey",
                                   "senderAddress",
                                   "proofOfPossession",
                                   "amount",
@@ -7260,7 +7347,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               }
                             ]
                           }
@@ -7371,6 +7458,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
@@ -7593,7 +7681,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                     },
                                     "amount": {
                                       "type": "string",
@@ -7635,7 +7723,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                     },
                                     "compound": {
                                       "type": "boolean",
@@ -7668,17 +7756,22 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    },
+                                    "recipientAddress": {
+                                      "type": "string",
+                                      "description": "Address or ID of the recipient account."
                                     }
                                   },
                                   "required": [
                                     "mode",
                                     "senderPubKey",
                                     "validatorAddress",
-                                    "stakeId"
+                                    "stakeId",
+                                    "recipientAddress"
                                   ],
                                   "title": "Withdraw Unlocked Funds",
-                                  "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                  "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                 },
                                 {
                                   "type": "object",
@@ -7688,6 +7781,10 @@
                                       "const": "registerStake"
                                     },
                                     "senderPubKey": {
+                                      "type": "string",
+                                      "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                    },
+                                    "senderForeignPubKey": {
                                       "type": "string",
                                       "description": "Staker's pubkey on the foreign chain. (hex)"
                                     },
@@ -7731,6 +7828,7 @@
                                   "required": [
                                     "mode",
                                     "senderPubKey",
+                                    "senderForeignPubKey",
                                     "senderAddress",
                                     "proofOfPossession",
                                     "amount",
@@ -7742,7 +7840,7 @@
                                     "signedUnbondingSlashingTransaction"
                                   ],
                                   "title": "Register Stake",
-                                  "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                  "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                 }
                               ]
                             }
@@ -7902,6 +8000,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -8112,7 +8211,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "amount": {
                                     "type": "string",
@@ -8153,7 +8252,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -8186,17 +8285,22 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId"
+                                  "stakeId",
+                                  "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
                               {
                                 "type": "object",
@@ -8206,6 +8310,10 @@
                                     "const": "registerStake"
                                   },
                                   "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "senderForeignPubKey": {
                                     "type": "string",
                                     "description": "Staker's pubkey on the foreign chain. (hex)"
                                   },
@@ -8245,6 +8353,7 @@
                                 "required": [
                                   "mode",
                                   "senderPubKey",
+                                  "senderForeignPubKey",
                                   "senderAddress",
                                   "proofOfPossession",
                                   "amount",
@@ -8255,7 +8364,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               }
                             ]
                           }
@@ -8366,6 +8475,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
@@ -8519,6 +8629,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -8747,7 +8858,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "amount": {
                                     "type": "string",
@@ -8788,7 +8899,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -8821,17 +8932,22 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId"
+                                  "stakeId",
+                                  "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
                               {
                                 "type": "object",
@@ -8841,6 +8957,10 @@
                                     "const": "registerStake"
                                   },
                                   "senderPubKey": {
+                                    "type": "string",
+                                    "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "senderForeignPubKey": {
                                     "type": "string",
                                     "description": "Staker's pubkey on the foreign chain. (hex)"
                                   },
@@ -8880,6 +9000,7 @@
                                 "required": [
                                   "mode",
                                   "senderPubKey",
+                                  "senderForeignPubKey",
                                   "senderAddress",
                                   "proofOfPossession",
                                   "amount",
@@ -8890,7 +9011,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               }
                             ]
                           }
@@ -9009,6 +9130,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
@@ -9127,6 +9249,7 @@
                 "ux-chain",
                 "kava",
                 "starknet",
+                "babylon",
                 "babylon-testnet",
                 "monad-testnet",
                 "berachain",
@@ -9248,6 +9371,7 @@
                         "ux-chain",
                         "kava",
                         "starknet",
+                        "babylon",
                         "babylon-testnet",
                         "monad-testnet",
                         "berachain",
@@ -9369,6 +9493,7 @@
           "celestia-testnet",
           "cosmoshub-testnet",
           "injective",
+          "babylon",
           "babylon-testnet",
           "berachain",
           "berachain-artio",
