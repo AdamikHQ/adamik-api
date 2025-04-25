@@ -16,12 +16,13 @@ params:query {
 
 params:path {
   chainId: aptos
-  transactionId: 0x9e7a75284eb2d0ea2830607171ec461dceba0028eae76b194049452145eb5e6e
+  transactionId: 0x611b2b0b266ef042249e2fa6aa7525469235e49571385a7a239bec25e25dd6a4
 }
 
 assert {
   res.status: eq 200
   res.body.transaction.raw: isDefined
   res.body.transaction.parsed: isDefined
-  res.body.transaction.parsed.timestamp: eq "1744014639269714"
+  res.body.transaction.parsed.timestamp: eq "1745585127054"
+  res.body.transaction.parsed.nonce: matches ^\d+$
 }

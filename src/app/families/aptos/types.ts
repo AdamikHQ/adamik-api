@@ -61,9 +61,11 @@ export type AptosWriteTableItem = {
   data: null; // Usually null
 };
 
+export type AptosFunctionArgument = string | { inner: string };
+
 export type AptosEntryFunctionPayload = {
   function: MoveFunctionId;
-  arguments: string[];
+  arguments: AptosFunctionArgument[];
   type?: string;
   type_arguments?: string[];
 };

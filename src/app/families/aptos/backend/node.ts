@@ -24,6 +24,7 @@ import {
   MoveFunctionId,
   PendingTransactionResponse,
   UserTransactionResponse,
+  InputEntryFunctionData,
 } from "@aptos-labs/ts-sdk";
 import { AccountResponse, CoinBalance, GasPriceEstimate } from "~/app/families/aptos/backend/types";
 
@@ -93,7 +94,7 @@ export async function simulateTransaction(chainId: ChainId, tx: TransactionData)
     sender: senderAddress,
     data: {
       function: aptosTx.payload.function,
-      functionArguments: aptosTx.payload.arguments,
+      functionArguments: aptosTx.payload.arguments.map((arg) => String(arg)),
       typeArguments: aptosTx.payload.type_arguments,
     },
   };

@@ -2,7 +2,12 @@ import { FinalizedTransaction, TransactionMode, TransactionState } from "~/app/m
 import { fetchTransactionByHash } from "~/app/families/aptos/backend/node";
 import { AptosService } from "~/app/families/aptos/service";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { getTransactionMode } from "~/app/families/aptos/logic";
+import {
+  aptosToAdamikTransaction,
+  getAmount,
+  getRecipient,
+  getTransactionMode,
+} from "~/app/families/aptos/logic";
 
 export async function getTransaction(this: AptosService, txId: string): Promise<FinalizedTransaction> {
   const tx = await fetchTransactionByHash(this.chainId, txId);
@@ -10,34 +15,5 @@ export async function getTransaction(this: AptosService, txId: string): Promise<
     throw new TransactionIdNotFoundError(txId, this.chainId);
   }
 
-  const mode = getTransactionMode(tx);
-  return {
-    parsed: {
-      id: tx.hash,
-      mode,
-      state: TransactionState.CONFIRMED,
-      blockHeight: BigInt(tx.version),
-      timestamp: Number(tx.timestamp),
-      fees: {
-        amount: BigInt(tx.gas_used),
-        ticker: "APT",
-      },
-      gas: BigInt(tx.gas_used),
-      senders: [
-        {
-          address: tx.sender,
-          amount: BigInt(tx.payload.arguments[1]),
-          ticker: "APT",
-        },
-      ],
-      recipients: [
-        {
-          address: tx.payload.arguments[0],
-          amount: BigInt(tx.payload.arguments[1]),
-          ticker: "APT",
-        },
-      ],
-    },
-    raw: tx,
-  };
+  return aptosToAdamikTransaction(tx);
 }

@@ -1,8 +1,10 @@
 import {
   ChainId,
+  FinalizedTransaction,
   TransactionData,
   TransactionMode,
   TransactionSpendableAmounts,
+  TransactionState,
 } from "~/app/model/types_WIP";
 import { fetchCoinBalance, fetchNativeBalance } from "~/app/families/aptos/backend/node";
 import { AptosTransaction } from "~/app/families/aptos/types";
@@ -44,13 +46,70 @@ export function getAmount(tx: AptosTransaction): bigint {
   switch (functionName) {
     case "aptos_account::transfer":
     case "aptos_account::transfer_coins":
-      return BigInt(tx.payload.arguments[1]);
+      return typeof tx.payload.arguments[1] === "string"
+        ? BigInt(tx.payload.arguments[1])
+        : BigInt(tx.payload.arguments[1].inner);
     case "fungible_asset::transfer":
     case "primary_fungible_store::transfer":
     case "aptos_account::batch_transfer_fungible_assets":
     case "aptos_account::transfer_fungible_assets":
-      return BigInt(tx.payload.arguments[2]);
+      return typeof tx.payload.arguments[2] === "string"
+        ? BigInt(tx.payload.arguments[2])
+        : BigInt(tx.payload.arguments[2].inner);
     default:
       return 0n;
   }
+}
+
+export function getRecipient(tx: AptosTransaction): string {
+  const functionName = tx.payload.function.split("::").slice(1).join("::");
+  switch (functionName) {
+    case "aptos_account::transfer":
+    case "aptos_account::transfer_coins":
+      return typeof tx.payload.arguments[1] === "string"
+        ? tx.payload.arguments[1]
+        : tx.payload.arguments[1].inner;
+    case "fungible_asset::transfer":
+    case "primary_fungible_store::transfer":
+    case "aptos_account::batch_transfer_fungible_assets":
+    case "aptos_account::transfer_fungible_assets":
+      return typeof tx.payload.arguments[2] === "string"
+        ? tx.payload.arguments[2]
+        : tx.payload.arguments[2].inner;
+    default:
+      return "";
+  }
+}
+
+export function aptosToAdamikTransaction(tx: AptosTransaction): FinalizedTransaction {
+  return {
+    parsed: {
+      id: tx.hash,
+      mode: getTransactionMode(tx),
+      state: TransactionState.CONFIRMED,
+      blockHeight: BigInt(tx.version),
+      nonce: BigInt(tx.sequence_number),
+      timestamp: Number(BigInt(tx.timestamp) / 1000n),
+      fees: {
+        amount: BigInt(tx.gas_used),
+        ticker: "APT",
+      },
+      gas: BigInt(tx.gas_used),
+      senders: [
+        {
+          address: tx.sender,
+          amount: getAmount(tx),
+          ticker: "APT",
+        },
+      ],
+      recipients: [
+        {
+          address: getRecipient(tx),
+          amount: getAmount(tx),
+          ticker: "APT",
+        },
+      ],
+    },
+    raw: tx,
+  };
 }
