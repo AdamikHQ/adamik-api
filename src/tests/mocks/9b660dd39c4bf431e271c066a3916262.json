@@ -4,8 +4,12 @@
     "method": "GET"
   },
   "response": {
-    "deprioritized_gas_estimate": 100,
-    "gas_estimate": 100,
-    "prioritized_gas_estimate": 150
+    "status": 200,
+    "body": {
+      "deprioritized_gas_estimate": 100,
+      "gas_estimate": 100,
+      "prioritized_gas_estimate": 150
+    },
+    "type": "json"
   }
 }

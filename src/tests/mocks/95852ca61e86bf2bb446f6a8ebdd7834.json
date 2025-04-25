@@ -4,30 +4,34 @@
     "method": "GET"
   },
   "response": {
-    "type": "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>",
-    "data": {
-      "coin": {
-        "value": "123456000"
-      },
-      "deposit_events": {
-        "counter": "2",
-        "guid": {
-          "id": {
-            "addr": "0xca459d0248f1b55e211e3d795cf35927963e8951b487f2f1ea79f5cbef84b533",
-            "creation_num": "2"
+    "status": 200,
+    "body": {
+      "type": "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>",
+      "data": {
+        "coin": {
+          "value": "73347400"
+        },
+        "deposit_events": {
+          "counter": "2",
+          "guid": {
+            "id": {
+              "addr": "0xca459d0248f1b55e211e3d795cf35927963e8951b487f2f1ea79f5cbef84b533",
+              "creation_num": "2"
+            }
           }
-        }
-      },
-      "frozen": false,
-      "withdraw_events": {
-        "counter": "0",
-        "guid": {
-          "id": {
-            "addr": "0xca459d0248f1b55e211e3d795cf35927963e8951b487f2f1ea79f5cbef84b533",
-            "creation_num": "3"
+        },
+        "frozen": false,
+        "withdraw_events": {
+          "counter": "1",
+          "guid": {
+            "id": {
+              "addr": "0xca459d0248f1b55e211e3d795cf35927963e8951b487f2f1ea79f5cbef84b533",
+              "creation_num": "3"
+            }
           }
         }
       }
-    }
+    },
+    "type": "json"
   }
 }
