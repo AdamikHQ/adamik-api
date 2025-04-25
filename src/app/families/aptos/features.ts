@@ -5,10 +5,10 @@ const APTOS_FEATURES: ChainSupportedFeatures = {
     token: true,
     validators: true,
     account: {
-      balances: { native: true, tokens: true, staking: true },
-      transactions: { native: true, tokens: true, staking: true },
+      balances: { native: true, tokens: true, staking: false },
+      transactions: { native: true, tokens: true, staking: false },
     },
-    transaction: { native: true, tokens: true, staking: true },
+    transaction: { native: true, tokens: true, staking: false },
   },
   write: {
     transaction: {

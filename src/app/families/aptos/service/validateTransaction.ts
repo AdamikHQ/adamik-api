@@ -3,6 +3,7 @@ import { AptosService } from "~/app/families/aptos/service";
 import { prevalidateTransactionCommon } from "~/app/families/common";
 import { validateAddress } from "~/app/families/aptos/service/validateAddress";
 import { getMaxSpendable } from "~/app/families/aptos/logic";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 
 export async function prevalidateTransaction(
   this: AptosService,
@@ -53,8 +54,11 @@ export async function validateTransaction(
       if (maxSpendable.token === undefined || amount > maxSpendable.token) {
         status.errors.push({ message: "Token balance is too low" });
       }
-
       break;
     }
+    default:
+      throw new UnsupportedFeatureError(
+        `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chain.name}`
+      );
   }
 }

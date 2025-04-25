@@ -23,6 +23,7 @@ import {
   AccountAddress,
   MoveFunctionId,
   PendingTransactionResponse,
+  UserTransactionResponse,
 } from "@aptos-labs/ts-sdk";
 import { AccountResponse, CoinBalance, GasPriceEstimate } from "~/app/families/aptos/backend/types";
 
@@ -159,7 +160,7 @@ export async function fetchTransactionByHash(
   txId: string
 ): Promise<AptosTransaction | null> {
   try {
-    return await nodeRequest(chainId, `/transactions/by_hash/${txId}`);
+    return await nodeRequest<AptosTransaction>(chainId, `/transactions/by_hash/${txId}`);
   } catch {
     return null;
   }
@@ -177,6 +178,7 @@ export async function populateCoinData(
     coins.map(async (coin, index) => {
       if (coinData[index] === null) {
         coinData[index] = await getCoinData(chainId, coin.id);
+        await TokenStore.save(chainId, [coinData[index]]);
       }
       return {
         token: {

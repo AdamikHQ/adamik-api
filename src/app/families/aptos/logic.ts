@@ -4,32 +4,18 @@ import {
   TransactionMode,
   TransactionSpendableAmounts,
 } from "~/app/model/types_WIP";
-import {
-  fetchAccount,
-  fetchCoinBalance,
-  fetchNativeBalance,
-  simulateTransaction,
-} from "~/app/families/aptos/backend/node";
-import { AptosTransactionParams } from "~/app/families/aptos/types";
-
-async function getTransactionFees(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
-  const simulationResult = await simulateTransaction(chainId, transaction);
-  return BigInt(simulationResult.gas_unit_price) * BigInt(simulationResult.gas_used);
-}
+import { fetchCoinBalance, fetchNativeBalance } from "~/app/families/aptos/backend/node";
+import { AptosTransaction } from "~/app/families/aptos/types";
 
 export async function getMaxSpendable(
   chainId: ChainId,
   transaction: TransactionData
 ): Promise<TransactionSpendableAmounts> {
-  const estimatedFees = await getTransactionFees(chainId, transaction);
+  const estimatedFees = transaction.fees as bigint; // Populated by completeTransaction
   let nativeAmount = await fetchNativeBalance(chainId, transaction.senderAddress);
   let tokenAmount =
     transaction.mode === TransactionMode.TRANSFER_TOKEN
-      ? await fetchCoinBalance(
-          chainId,
-          transaction.senderAddress,
-          (transaction.params as AptosTransactionParams).payload.type_arguments![0]
-        )
+      ? await fetchCoinBalance(chainId, transaction.senderAddress, transaction.tokenId)
       : undefined;
   return {
     native: nativeAmount - estimatedFees,
@@ -37,22 +23,18 @@ export async function getMaxSpendable(
   };
 }
 
-async function isAccountCreated(chainId: ChainId, address: string) {
-  try {
-    await fetchAccount(chainId, address);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-export async function buildTransaction(transaction: TransactionData) {
-  switch (transaction.mode) {
-    case TransactionMode.TRANSFER:
-      break;
-    case TransactionMode.TRANSFER_TOKEN:
-      break;
+export function getTransactionMode(tx: AptosTransaction): TransactionMode | "unknown" {
+  const functionName = tx.payload.function.split("::").slice(1).join("::");
+  switch (functionName) {
+    case "fungible_asset::transfer":
+    case "primary_fungible_store::transfer":
+    case "aptos_account::batch_transfer_fungible_assets":
+    case "aptos_account::transfer_fungible_assets":
+    case "aptos_account::transfer_coins":
+      return TransactionMode.TRANSFER_TOKEN;
+    case "aptos_account::transfer":
+      return TransactionMode.TRANSFER;
     default:
-      throw new Error("");
+      return "unknown";
   }
 }

@@ -1,12 +1,6 @@
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, Provider, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
-import {
-  CoinData,
-  CoinInfosResponse,
-  IndexerResponse,
-  TransactionsResponse,
-} from "~/app/families/aptos/types";
-import { TokenStore } from "~/app/tools/tokenStore";
+import { CoinInfosResponse, IndexerResponse } from "~/app/families/aptos/types";
 
 const indexerUrl = String(
   CHAINS.aptos.providers.find((p: Provider) => p.type === ProviderType.aptosindexer)?.url
@@ -57,13 +51,11 @@ export async function getCoinData(chainId: ChainId, coinType: string): Promise<T
   }
   const coin = coinInfosResponse.coin_infos[0];
   // We asssume that if this method was called, the token was not already in the TokenStore
-  const token = {
+  return {
     type: TokenType.APTOS_COIN,
     id: coinType,
     name: coin.name,
     ticker: coin.symbol,
     decimals: coin.decimals,
   };
-  await TokenStore.save(chainId, [token]);
-  return token;
 }

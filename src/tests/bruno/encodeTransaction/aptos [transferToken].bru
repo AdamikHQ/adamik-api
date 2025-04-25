@@ -1,0 +1,48 @@
+meta {
+  name: aptos [transferToken]
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: aptos
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+    "mode": "transfer",
+    "senderAddress": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288",
+    "senderPubKey": "9790cdbe5906e7620d0a10ac5786981df5afeb52dca987ff1ee2bc272d86b8f0",
+    "recipientAddress": "0xca459d0248f1b55e211e3d795cf35927963e8951b487f2f1ea79f5cbef84b533",
+    "amount": "50000",
+    "useMaxAmount": false,
+    "nonce": "0",
+    "gas": "200000",
+    "fees": "1100",
+    "params": {
+      "payload": {
+        "function": "0x1::aptos_account::transfer",
+        "arguments": [
+          "0xca459d0248f1b55e211e3d795cf35927963e8951b487f2f1ea79f5cbef84b533",
+          "50000"
+        ]
+      }
+    }
+  }
+  
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded: matches /^[0-9a-f]+$/
+}

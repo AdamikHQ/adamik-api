@@ -9,7 +9,7 @@
       "data": {
         "authentication_key": "0x84b1675891d370d5de8f169031f9c3116d7add256ecf50a4bc71e3135ddba6e0",
         "coin_register_events": {
-          "counter": "15",
+          "counter": "16",
           "guid": {
             "id": {
               "addr": "0x84b1675891d370d5de8f169031f9c3116d7add256ecf50a4bc71e3135ddba6e0",
@@ -17,7 +17,7 @@
             }
           }
         },
-        "guid_creation_num": "32",
+        "guid_creation_num": "34",
         "key_rotation_events": {
           "counter": "0",
           "guid": {
@@ -32,7 +32,7 @@
             "vec": []
           }
         },
-        "sequence_number": "3690075",
+        "sequence_number": "4269484",
         "signer_capability_offer": {
           "for": {
             "vec": []
@@ -341,10 +341,10 @@
       "type": "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>",
       "data": {
         "coin": {
-          "value": "732083733254861"
+          "value": "754326831503470"
         },
         "deposit_events": {
-          "counter": "149667",
+          "counter": "152619",
           "guid": {
             "id": {
               "addr": "0x84b1675891d370d5de8f169031f9c3116d7add256ecf50a4bc71e3135ddba6e0",
@@ -354,7 +354,7 @@
         },
         "frozen": false,
         "withdraw_events": {
-          "counter": "386288",
+          "counter": "391669",
           "guid": {
             "id": {
               "addr": "0x84b1675891d370d5de8f169031f9c3116d7add256ecf50a4bc71e3135ddba6e0",
@@ -440,6 +440,33 @@
             "id": {
               "addr": "0x84b1675891d370d5de8f169031f9c3116d7add256ecf50a4bc71e3135ddba6e0",
               "creation_num": "19"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "0x1::coin::CoinStore<0xae1a55d6d42ec911229cd901bce25ddde33ddb5cda806ad7c37437f69458a8f9::coin_factory::Emojicoin>",
+      "data": {
+        "coin": {
+          "value": "100000000000"
+        },
+        "deposit_events": {
+          "counter": "1",
+          "guid": {
+            "id": {
+              "addr": "0x84b1675891d370d5de8f169031f9c3116d7add256ecf50a4bc71e3135ddba6e0",
+              "creation_num": "32"
+            }
+          }
+        },
+        "frozen": false,
+        "withdraw_events": {
+          "counter": "0",
+          "guid": {
+            "id": {
+              "addr": "0x84b1675891d370d5de8f169031f9c3116d7add256ecf50a4bc71e3135ddba6e0",
+              "creation_num": "33"
             }
           }
         }

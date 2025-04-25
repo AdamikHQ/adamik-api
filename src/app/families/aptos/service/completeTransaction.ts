@@ -27,7 +27,7 @@ async function completeTransaction(
         await completeNativeTransaction(this.chainId, transaction.data);
         break;
       case TransactionMode.TRANSFER_TOKEN:
-        await completeTokenTransaction(this.chainId, transaction.data as TransferTokenTransactionData);
+        await completeTokenTransaction(this.chainId, transaction.data);
         break;
       default:
         // should never happen, zod already validated the mode per chain
@@ -47,34 +47,15 @@ async function completeNativeTransaction(chainId: ChainId, transaction: Transact
   transaction.gas = BigInt(simulationResult.max_gas_amount);
   transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
   transaction.amount = transaction.amount ?? 0n;
-  transaction.params = {
-    payload: {
-      function: "0x1::aptos_account::transfer",
-      arguments: [transaction.recipientAddress, transaction.amount.toString()],
-    },
-  };
 }
 
 async function completeTokenTransaction(
   chainId: ChainId,
   transaction: TransferTokenTransactionData
 ): Promise<void> {
-  transaction.params = {
-    payload: {
-      function: "0x1::fungible_asset::transfer",
-      arguments: [
-        transaction.senderAddress,
-        transaction.recipientAddress,
-        (transaction.amount ?? 0n).toString(),
-      ],
-      type: "entry_function_payload",
-      type_arguments: [transaction.tokenId],
-    },
-  };
   const simulationResult = await simulateTransaction(chainId, transaction);
   transaction.gas = BigInt(simulationResult.max_gas_amount);
   transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
-  transaction.amount = 0n;
 }
 
 export { completeTransaction };

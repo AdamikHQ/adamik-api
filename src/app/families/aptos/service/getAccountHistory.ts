@@ -1,6 +1,7 @@
 import { AccountHistory, FinalizedTransaction, Paginated, TransactionState } from "~/app/model/types_WIP";
 import { getAccountTransactions } from "~/app/families/aptos/backend/node";
 import { AptosService } from "~/app/families/aptos/service";
+import { getTransactionMode } from "~/app/families/aptos/logic";
 
 export async function getAccountHistory(
   this: AptosService,
@@ -9,28 +10,24 @@ export async function getAccountHistory(
   const transactions = await getAccountTransactions(this.chainId, address);
 
   return {
-    transactions: transactions.map((tx) => {
-      const adamikTransaction: FinalizedTransaction = {
-        parsed: {
-          id: tx.hash,
-          mode: "unknown",
-          state: TransactionState.UNKNOWN,
-          fees: {
+    transactions: transactions.map((tx) => ({
+      parsed: {
+        id: tx.hash,
+        mode: getTransactionMode(tx),
+        state: TransactionState.CONFIRMED,
+        fees: {
+          amount: 0n,
+        },
+        senders: [
+          {
+            address: tx.sender,
             amount: 0n,
           },
-          senders: [],
-          recipients: [],
-        },
-        raw: tx,
-      };
-      // All transactions from indexer are confirmed
-      adamikTransaction.parsed!.state = TransactionState.CONFIRMED;
-      adamikTransaction.parsed!.senders!.push({
-        address: tx.sender,
-        amount: 0n,
-      });
-      return adamikTransaction;
-    }),
+        ],
+        recipients: [],
+      },
+      raw: tx,
+    })),
     pagination: {
       nextPage: null,
     },

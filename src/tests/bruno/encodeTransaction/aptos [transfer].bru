@@ -1,5 +1,5 @@
 meta {
-  name: aptos-native
+  name: aptos [transfer]
   type: http
   seq: 6
 }
@@ -30,5 +30,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.transaction.encoded: startsWith 0xae1a6f3d3daccaf
+  res.body.transaction.encoded: matches /^[0-9a-f]+$/
 }

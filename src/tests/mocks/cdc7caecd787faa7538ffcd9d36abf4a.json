@@ -15,7 +15,7 @@
             "network_addresses": "0x016804023e76616c696461746f722e62626237366432642d303262352d346533652d626663332d3966313061326536393834392e6170746f732e6269736f6e2e72756e05241807203601215a079b0114a32104bd02149cf2258a206c8f8c79790e0684f4adfeae400800",
             "validator_index": "0"
           },
-          "voting_power": "111204903891522"
+          "voting_power": "111626285287337"
         },
         {
           "addr": "0x32ad233a939bfbafb8d9056c0ae2eba58828d8baf5582277578ced38477f0f14",
@@ -25,17 +25,17 @@
             "network_addresses": "0x016704023d76616c696461746f722e62356537653233642d303637322d343962352d393133392d3536356561306431613136652e6170746f732e686572642e72756e0524180720ea0f65faab5667196dfe0142048c0108232432e6073bc84cb706d5ae2be619390800",
             "validator_index": "1"
           },
-          "voting_power": "185335341206137"
+          "voting_power": "186032870152743"
         },
         {
           "addr": "0xd4e43fa15a4cf475b35f7278f02ae5a694e14fbd7ef2494e39e7978781b3eefe",
           "config": {
             "consensus_pubkey": "0xb48115a3403e81412564b5819cb0ee88f1152393f99a794d6352b790e32c0946d606e5535295232ea6884ebe7c03b99a",
-            "fullnode_addresses": "0x014c04022276666e302e61706e65312d302e6d61696e6e65742e6170746f736c6162732e636f6d0526180720a84c79bd0d5ee54b62db188e748fc66b62cbd15d5efe36b1d5c7cfa5ab445d390800",
-            "network_addresses": "0x014c04022276616c302e61706e65312d302e6d61696e6e65742e6170746f736c6162732e636f6d05241807204b226faa0463d6d29e448bfb0423b08bb0d309b46ffd1251c765bc6f2dbdcd560800",
+            "fullnode_addresses": "0x014c04022276666e302e65757765362d302e6d61696e6e65742e6170746f736c6162732e636f6d0526180720a84c79bd0d5ee54b62db188e748fc66b62cbd15d5efe36b1d5c7cfa5ab445d390800",
+            "network_addresses": "0x014c04022276616c302e65757765362d302e6d61696e6e65742e6170746f736c6162732e636f6d05241807204b226faa0463d6d29e448bfb0423b08bb0d309b46ffd1251c765bc6f2dbdcd560800",
             "validator_index": "2"
           },
-          "voting_power": "118777585770909"
+          "voting_power": "119236990528619"
         },
         {
           "addr": "0xda557f6d45952778e0c4c7296dc8f8303d846d5453800efd7b03cfbd5f8def04",
@@ -45,7 +45,7 @@
             "network_addresses": "0x014c04022276616c302e75736365312d302e6d61696e6e65742e6170746f736c6162732e636f6d05241807207f782f994cd4ee26b655e2a594c72d81e950c7d97bc051814453c83eedf4ac510800",
             "validator_index": "3"
           },
-          "voting_power": "118770708017708"
+          "voting_power": "119230060875244"
         },
         {
           "addr": "0xc32f662cd9718f02d8a8e5628f8f642fa27cd9b5f457b406ed734901a4939e34",
@@ -55,7 +55,7 @@
             "network_addresses": "0x014404021a6170746f732d76616c696461746f722e7374616b656c792e696f0524180720796e34b3ffbd8396ad4ade8e397420bad3b5c49dee20a1dbcf8e6256105a1a2a0800",
             "validator_index": "4"
           },
-          "voting_power": "1138364432185130"
+          "voting_power": "1142618935767651"
         },
         {
           "addr": "0x324df1e27c4129a58d73851ae0e9366064dc666a73e747051e203694a4cb257",
@@ -65,7 +65,7 @@
             "network_addresses": "0x01430402196e6f64652e6170746f732e7268696e6f7374616b652e636f6d052418072072ca8564ccdc59ac0d7a836eae525caa666a0093e00d24d92b82c1ed659505660800",
             "validator_index": "5"
           },
-          "voting_power": "1342588801302309"
+          "voting_power": "1347782223145780"
         },
         {
           "addr": "0x3d654d35d558d6381fe6a0484d81c4fed128cd8adc1ca7a1482c297da80ee039",
@@ -75,7 +75,7 @@
             "network_addresses": "0x0143040219766e2e6d61696e6e65742e706f6e74656d2e6e6574776f726b0524180720090c9f0577db3336fdd71fe7a605f0b3e4610a03fb6efb1664715807cc92362a0800",
             "validator_index": "6"
           },
-          "voting_power": "644975985111166"
+          "voting_power": "610206354907076"
         },
         {
           "addr": "0xf16cdebe221b819504c96014b81b0903fd345c3c066415a30ec75148358426dc",
@@ -85,7 +85,7 @@
             "network_addresses": "0x014d0402236e6f64652d6c312d6170746f732d766e2d636d2e6e6f646573776966742e636c6f756405241807200ce46c0337303c80947377e0d6a80fd18c1579a59e55d99d337d293a5a4273540800",
             "validator_index": "7"
           },
-          "voting_power": "152863018896859"
+          "voting_power": "153383107510387"
         },
         {
           "addr": "0xc807d24a6ac70599cc9b72c649eb6b00c34a0e9c704447c44d75fade07213a26",
@@ -95,7 +95,7 @@
             "network_addresses": "0x015404022a762e6170746f732e6d61696e6e65742e72657075626c696363727970746f2d736f757263652e696e666f0524180720deead78f3a93b7e5ea08d2ff1faeec5551a313284b002a79e019568717bae0650800",
             "validator_index": "8"
           },
-          "voting_power": "727997507025792"
+          "voting_power": "688752192201239"
         },
         {
           "addr": "0x4cf01e6c54a8ec918bf1b5666ffa26dcea3dc8044bdf011a58df1aeae9756fa5",
@@ -105,7 +105,7 @@
             "network_addresses": "0x012d0400cf7813bc05e4750720d7a052274eb58be4936cc5164a9f35259cf3610638a2c5ee08863e175b9b7b5a0800",
             "validator_index": "9"
           },
-          "voting_power": "618392393270568"
+          "voting_power": "619896583935319"
         },
         {
           "addr": "0x6c8a3474cb49202515d121fea0f3217d303e41f6bdc43e615f1cd90855118089",
@@ -115,7 +115,7 @@
             "network_addresses": "0x014b04022176616c696461746f722e6170746f732e6d61696e2e6d657461686173682e62697a05241807207146cf496c4b54631d4d75e7491d0356f663affc8f8f5c44206c88992a6058110800",
             "validator_index": "10"
           },
-          "voting_power": "611852082989917"
+          "voting_power": "578868033045548"
         },
         {
           "addr": "0xb3254509d1cd652d6e1ca06fd37f3d20aaa42f7faeaf297577b85cf92d2f7462",
@@ -125,7 +125,7 @@
             "network_addresses": "0x015d0402336170746f732d6d6e65742d762d302e63612d63656e7472616c2d312e737072642e76616c69646174696f6e636c6f75642e696f0524180720e98c60a49f2041191ed453a3b178f5d860064c4958a48070002f41e094671e4a0800",
             "validator_index": "11"
           },
-          "voting_power": "811689553679448"
+          "voting_power": "814699903457097"
         },
         {
           "addr": "0xa6eb54c274da96778a6702740a763f6aa7b02eef3d1efc2623d28289d185118",
@@ -135,7 +135,7 @@
             "network_addresses": "0x012d0400c6f4fdfa0524180720afa4342b513585903e76217289be010a3aa877e4e7613684ec38c0f39721d4080800",
             "validator_index": "12"
           },
-          "voting_power": "811832966344244"
+          "voting_power": "814969442994242"
         },
         {
           "addr": "0x1c6a051d9a5ec4cf4200bab21a794d3afe8259d625f6b78aa4d01ab4652327d5",
@@ -145,7 +145,7 @@
             "network_addresses": "0x01420402186170746f732d6d61696e2e657665727374616b652e6f6e650524180720d300000c1e098811aa300a52916231960277f37e8c064f337c522c2fa391e73f0800",
             "validator_index": "13"
           },
-          "voting_power": "611335393306473"
+          "voting_power": "578379147791561"
         },
         {
           "addr": "0x649127a4d1b26b4cf936f7b795917dbcb571c59c2926ae473fe4d9df3575790e",
@@ -155,7 +155,7 @@
             "network_addresses": "0x014704021d6170746f732d6d61696e6e65742e646f7261666163746f72792e6f7267052418072000880e9f6a43d9af18b9fcb7e03560505bc01c48aaf058ee0fbb56f5c47abe450800",
             "validator_index": "14"
           },
-          "voting_power": "662643683410870"
+          "voting_power": "626921553091891"
         },
         {
           "addr": "0xb87476d8877cfc324a520cef4d0cd6e42e26ec3ce613a8127220e2e444561e16",
@@ -165,7 +165,7 @@
             "network_addresses": "0x015904022f7473772d647562312d6170746f732d6d61696e6e65742d76616c322e6e6f6465732e6173796d6d65747269632e72650524180720fd0d681d4aa63696df5847ed36d72415e580fd097889b9f2be3b65e31868d87d0800",
             "validator_index": "15"
           },
-          "voting_power": "370912188021937"
+          "voting_power": "372229262296157"
         },
         {
           "addr": "0xb225277ba076b6620447f7b10abb30911966eb66d25fb526b7f09c2227425a11",
@@ -175,7 +175,7 @@
             "network_addresses": "0x013904020f6170746f73312e61706570692e696f0524180720c6b140f4b8652f1d22f74a07fda3b07afb23bb861f80201c12f49a9a05d9bc0e0800",
             "validator_index": "16"
           },
-          "voting_power": "142893703300690"
+          "voting_power": "143446421845364"
         },
         {
           "addr": "0xc29a231581f243ddcbf97de8b93c8aabb466dd6912ce5ba12579ff2f13cb8da5",
@@ -185,7 +185,7 @@
             "network_addresses": "0x013904020f6170746f73332e61706570692e696f0524180720f1f82933d38579be0406ce803b3fc7ed69c231059ba9013030a68a2fd9f254380800",
             "validator_index": "17"
           },
-          "voting_power": "142921274060131"
+          "voting_power": "143474096085683"
         },
         {
           "addr": "0xfc307ecd61ac025f5ec1828d2114d11b474b4d8a1b0c228c38614dc96b940048",
@@ -195,7 +195,7 @@
             "network_addresses": "0x013904020f6170746f73322e61706570692e696f052418072050df4bd4e18a074f9c7f1092ca36b23b0fd4b592b7065381b00fa392c7135b050800",
             "validator_index": "18"
           },
-          "voting_power": "142898913182929"
+          "voting_power": "143451650392077"
         },
         {
           "addr": "0x371dfdee9fbecaa358683936c5946aa28393067fa60e1e185c4250da461e15cf",
@@ -205,7 +205,7 @@
             "network_addresses": "0x014604021c76616c696461746f722e6170746f732e647372766c6162732e6e657405241807203a4def33aecebb139d4bf57f697e305f9241885cb30acae23f7ac9e354e4b95d0800",
             "validator_index": "19"
           },
-          "voting_power": "161307659905744"
+          "voting_power": "161931507079954"
         },
         {
           "addr": "0x9da88926fd4d773fd499fc41830a82fe9c9ff3508435e7a16b2d8f529e77cdda",
@@ -215,7 +215,7 @@
             "network_addresses": "0x013c04021276666e2e7374616b656170746f732e636f6d05241807201ab75bf68e5123d816d70ba04ce4b1e7a7dc88fbcfd52afdc457ed3970e2917d0800",
             "validator_index": "20"
           },
-          "voting_power": "527625683034097"
+          "voting_power": "529526269275119"
         },
         {
           "addr": "0x46b51b26710797faed701722bfc809386110c9720328f2b431e193cb5dc161f7",
@@ -225,7 +225,7 @@
             "network_addresses": "0x014e0402246170746f732d6d61696e6e65742e6170746f732e636861696e626173652e6f6e6c696e650524180720eecf8fd6ba5f2fd886bad34913bc2045552b5757d8fe47f5fb4122b0cc1705780800",
             "validator_index": "21"
           },
-          "voting_power": "590308780494479"
+          "voting_power": "592592169879478"
         },
         {
           "addr": "0x81d41a31fb5d3f827d188511e6fca1ddbed6cfa0ffbd46fa6d84a7adfe59f356",
@@ -235,7 +235,7 @@
             "network_addresses": "0x012d04009a3c6440052418072085078010bf8ac6581a58d3da584825245faecdde2d998ce7a0dddda98729a6080800",
             "validator_index": "22"
           },
-          "voting_power": "811663195431465"
+          "voting_power": "814696586467764"
         },
         {
           "addr": "0x4cc22e5d2e84794c3c672b0b34145898ee971a4ff042eabae23627547f6dac80",
@@ -245,7 +245,7 @@
             "network_addresses": "0x015204022876616c696461746f722d6170746f732d6d61696e6e65742e70726f76616c696461746f722e636f6d05241807209546817e02baf372047aa81577b298c0edbd95c528ad9fdf0260bc646a8ca2190800",
             "validator_index": "23"
           },
-          "voting_power": "692563939647838"
+          "voting_power": "695152466319324"
         },
         {
           "addr": "0xef191e643c2ed2d103de4109a506e020f5dde818cbc1ffe5e4ee36328cd22e9b",
@@ -255,7 +255,7 @@
             "network_addresses": "0x014404021a76616c312e6d61696e6e65742e6170746f732e7032702e6f726705241807202e37a37baff5767e45c200c3b724e62f0d4870ec21fe055a65951efc1cd63a740800",
             "validator_index": "24"
           },
-          "voting_power": "766924455778875"
+          "voting_power": "769875468350795"
         },
         {
           "addr": "0x209154f6e735562ff13b963b91588039a162fa95f409c068f917f27b762dfff8",
@@ -265,7 +265,7 @@
             "network_addresses": "0x014c04022276616c302e75736365312d312e6d61696e6e65742e6170746f736c6162732e636f6d05241807206156354358cd26874f04792465861c025e0894d8e198c0bd027834d6597a0a2c0800",
             "validator_index": "25"
           },
-          "voting_power": "697254720446688"
+          "voting_power": "659666495010028"
         },
         {
           "addr": "0x9a41af5c002f91dc29cb2843ab823e3d6cdaa6cc86e6331646a4f1328609a744",
@@ -275,7 +275,7 @@
             "network_addresses": "0x014904021f76616c696461746f722e6d61696e6e65742e6170746f732e6b696c6e2e666905241807209f494f6dca7cd6b9ab007be4b69e4f8c5b23a21c358aa1e78a3aeac35a38de6e0800",
             "validator_index": "26"
           },
-          "voting_power": "646477044127358"
+          "voting_power": "611626385814174"
         },
         {
           "addr": "0x3eaf3ebc49555c705c34ec1ffe77404bdb7383b388476c36538b92b7b1b806c9",
@@ -285,7 +285,7 @@
             "network_addresses": "0x014c04022276616c302e65757765342d312e6d61696e6e65742e6170746f736c6162732e636f6d05241807209fcf681bf5b6f5d6a03e4ce4b0a28bbfea1a4bd390412432c09937b731596d550800",
             "validator_index": "27"
           },
-          "voting_power": "1021724194886370"
+          "voting_power": "1025676178382477"
         },
         {
           "addr": "0xb4a4f1ef8b0702d85547dc444571a473f736e1205a86db36dad13815ad9bbbf6",
@@ -295,7 +295,7 @@
             "network_addresses": "0x01420402186170746f732d73702d762e62776172656c6162732e636f6d05241807206bbdf23daeba081c3b4d019aa0bde9e2835fa6ddeceb4f2597529c89428c1e360800",
             "validator_index": "28"
           },
-          "voting_power": "766884289438159"
+          "voting_power": "769750479143021"
         },
         {
           "addr": "0xa286a9187c86b4a3cef60478e5c61bb45757b795a8e6577ebbf0fa990db574cc",
@@ -305,7 +305,7 @@
             "network_addresses": "0x015f0402356170746f732d666f756e646174696f6e2e70726f642d656b732d61702d6e6f727468656173742d322e7374616b65642e636c6f756405241807206a1c7b94f02a75a8d1934e9548abfdf666b04c7301c2aef516248c4d02af96240800",
             "validator_index": "29"
           },
-          "voting_power": "621959183283603"
+          "voting_power": "588441908399066"
         },
         {
           "addr": "0xf05d2fe6618a3cb4258e94f2da24c1ee71ae4e7942b4f8b5836ad5267e59568f",
@@ -315,7 +315,7 @@
             "network_addresses": "0x014a040220636e65756e766d337632313273346c386c7634672e62646e6f6465732e6e65740524180720debe55fb55f1fafc768dd6967d08948f9974ca44901502c9f2076997e4b733520800",
             "validator_index": "30"
           },
-          "voting_power": "670966898061395"
+          "voting_power": "634795973031724"
         },
         {
           "addr": "0x8be2ba62bfd783e5fbff57a07acf2a9a95f4d234b3729fbfda9c63f3f42fb78f",
@@ -325,7 +325,7 @@
             "network_addresses": "0x016904023f6170746f732d6d61696e6e65742d6669676d656e742d76616c696461746f722d312e7374616b696e672e70726f64756374696f6e2e6669676d656e742e696f0524180720d72de74ccf8828a01521418b9b6a7495d043fcf22ae171cf115a6ff26e0d3b0d0800",
             "validator_index": "31"
           },
-          "voting_power": "649354966244309"
+          "voting_power": "614349134688189"
         },
         {
           "addr": "0x8dd8b23892be142c2ec4b7e1427584c97403e570cde4e6d9a81d2b220c884af5",
@@ -335,7 +335,7 @@
             "network_addresses": "0x012d04003f22fa2e0524180720f1d7b741c64239502de71ace5da3d374ea411b18b3b576b680a090510c913c160800",
             "validator_index": "32"
           },
-          "voting_power": "1009085809815499"
+          "voting_power": "1005119653691456"
         },
         {
           "addr": "0xff3e9c10dd3781a1e0750a75ae9e5b04133cd7e8ca18b9936ffcf3b2a2538a49",
@@ -345,7 +345,7 @@
             "network_addresses": "0x013b0402116170746f732d766e2e6c676e732e78797a05241807207956c2c66fd0d7d2146f85cad157c72e88c9ca28e5d32c3b28813157b1e5aa180800",
             "validator_index": "33"
           },
-          "voting_power": "272524817343827"
+          "voting_power": "273505531783771"
         },
         {
           "addr": "0x6099edbe54f242bad50020dfd67646b1e46282999483e7064e70f02f7ea3c15",
@@ -355,7 +355,7 @@
             "network_addresses": "0x01420402186170746f732d64702d762e62776172656c6162732e636f6d052418072015c2b558164eb213b20b28316220bf72e811ac22c4fd4b465b78104364130d5a0800",
             "validator_index": "34"
           },
-          "voting_power": "1038746738240838"
+          "voting_power": "1050338461963829"
         },
         {
           "addr": "0xda418307cff595ced2af5eb471ec11b1ad6a4907ef57d6e2eeb253bdd5bd9d0d",
@@ -365,7 +365,7 @@
             "network_addresses": "0x012d04004f7fe0070524180720f7ad3c493cd06c31ea3e20092743d033e3ad2db394b0aa2197314778d60428450800",
             "validator_index": "35"
           },
-          "voting_power": "841152294433379"
+          "voting_power": "852474258586581"
         },
         {
           "addr": "0x2ded75e99c6efbe143a9648a3e88ebf9d0cf249b2af44d510bdd0287e8adcc79",
@@ -375,7 +375,7 @@
             "network_addresses": "0x013f0402156170746f732e766573746967652e73797374656d7305241807201cb653e043d29fa8583483c6699783ec42b3ebd5ef23fba97a924e2545e2bc3b0800",
             "validator_index": "36"
           },
-          "voting_power": "947617062855287"
+          "voting_power": "1073510006267661"
         },
         {
           "addr": "0x7ba7dd0aff5acdc056a2f1f7f1fb24bf1e7d3d6909c33d45f8c2333b13bd2f80",
@@ -385,7 +385,7 @@
             "network_addresses": "0x012d0400c02947bc052418072052d2e01fdb974c18eefd86c3ed9e1d73cf8e1a9a0b9f577e107c212b5777933b0800",
             "validator_index": "37"
           },
-          "voting_power": "168742030758940"
+          "voting_power": "169556450494730"
         },
         {
           "addr": "0x9bfd93ebaa1efd65515642942a607eeca53a0188c04c21ced646d2f0b9f551e8",
@@ -395,7 +395,7 @@
             "network_addresses": "0x015904022f7473772d667261322d6170746f732d6d61696e6e65742d76616c332e6e6f6465732e6173796d6d65747269632e726505241807204a94c9dfca6395ed0d4ff7dd6edf30b42054617e4675ee22ebe5fa77215ea05a0800",
             "validator_index": "38"
           },
-          "voting_power": "1571510965572078"
+          "voting_power": "1625611266583929"
         },
         {
           "addr": "0x2537e9d461d311dc6f1dee690f093b4e353f472abc2493c64275a3d5572532cc",
@@ -405,7 +405,7 @@
             "network_addresses": "0x01610402376170746f732d6d61696e6e65742d61706f6c6c6f2d64702d322e7374616b696e672e70726f64756374696f6e2e6669676d656e742e696f0524180720f692c242c6d6befe576cdcc00790dd83a2ac7e61b570ce44151ff3aa20caeb0e0800",
             "validator_index": "39"
           },
-          "voting_power": "185052333887042"
+          "voting_power": "185285890276637"
         },
         {
           "addr": "0x6d00d52f94579e51308ae83841b5133e3a7e93b51fcd8cf338d766e3f0331026",
@@ -415,7 +415,7 @@
             "network_addresses": "0x012d04009471c7cd0524180720522f82ba8363457df95fdbbcc9f3a760014d82da40877902b56b904ab343747c0800",
             "validator_index": "40"
           },
-          "voting_power": "1002514698283034"
+          "voting_power": "1006002534621123"
         },
         {
           "addr": "0x39b844cb561d2a04c800164465e2eb2c2ea520499d718c35492244346da07b5f",
@@ -425,7 +425,7 @@
             "network_addresses": "0x014704021d766e2e6170746f732d6d61696e6e65742e7477696e7374616b652e696f052418072073bb5fde4a22c979577faefecfd290703b82a3681b34bd2e037a700ea02388630800",
             "validator_index": "41"
           },
-          "voting_power": "605677378945772"
+          "voting_power": "607653599939558"
         },
         {
           "addr": "0x7425cde20dc18a8e5e169614c47c0e4435fd1b6c475efdefbdbbb73785d331e3",
@@ -435,7 +435,7 @@
             "network_addresses": "0x014404021a76616c696461746f722e656e766f79732d6170746f732e636f6d052418072093578af40d8d96eaaf80c2065201806beb88b32e276a28c5b5d80a15d0dbc2430800",
             "validator_index": "42"
           },
-          "voting_power": "710688393100869"
+          "voting_power": "713437407899375"
         },
         {
           "addr": "0xfaed6de6eacfb745f602d61a1ad559b0dda7fb2723d7d168c50b94687247a8b0",
@@ -445,7 +445,7 @@
             "network_addresses": "0x0141040217766e2e6170746f732d6d61696e6e65742e6134312e696f052418072052acbe0ebca7fb8af162117f61522f08d9e06ebdbb25f86a8ebed9d1d14bc6390800",
             "validator_index": "43"
           },
-          "voting_power": "705416471274948"
+          "voting_power": "708054061851911"
         },
         {
           "addr": "0x15d241369552ece871a16d865a4e9b96f5e6e6f8c7db5478e89af17845969c02",
@@ -455,7 +455,7 @@
             "network_addresses": "0x013f0402156170746f736d61696e6e65742e6d69726e792e696f0524180720921164018679c764e6889809dbcc9bbcea45717f9dbd2f747614a10c528cd82a0800",
             "validator_index": "44"
           },
-          "voting_power": "816012948646101"
+          "voting_power": "819169461993948"
         },
         {
           "addr": "0x189093e65faaea1d0c1c367b7c78b4d2ea569fc3d1e7d20b226eec0361b1a116",
@@ -465,7 +465,7 @@
             "network_addresses": "0x013f0402156170746f732d762e6861736863656c6c2e6c696e6b052418072025a5b33c0216a72b70ea7ffc01b6ac995f47a440a21a0012723ad5d7ee72d9650800",
             "validator_index": "45"
           },
-          "voting_power": "815615505738672"
+          "voting_power": "818570344165883"
         },
         {
           "addr": "0x550fe3956e44112599b8410404e0977e74cc5bcb59a11b0706da734cd0f9beb2",
@@ -475,7 +475,7 @@
             "network_addresses": "0x013f04021576616c2e666f726573747374616b696e672e636f6d05241807206915ad216c9624593cc42d9f354fdaf0f3d29390dd283c0f728658b692f8a84a0800",
             "validator_index": "46"
           },
-          "voting_power": "814988990311095"
+          "voting_power": "818033028991927"
         },
         {
           "addr": "0xa4a00989d8ecc6d116b2283503f58de94d7fc33fff9e28010868abeb70d7d051",
@@ -485,7 +485,7 @@
             "network_addresses": "0x014f0402256170746f732d6d61696e6e65742d76616c696461746f722d302e6e6f64657265616c2e696f0524180720f768970a0d733f3490ee37dc518e04cc1134b96e57b720a8625796cddc8711750800",
             "validator_index": "47"
           },
-          "voting_power": "815765287222653"
+          "voting_power": "818915322437477"
         },
         {
           "addr": "0x4c7c21084620f9e55f50f292d1803e5fbcf55c6d850b24b5e64efef08d2aa428",
@@ -495,7 +495,7 @@
             "network_addresses": "0x013a0402106170746f732e6c69646c69642e78797a052418072099070b861faa33fd581dc17f590c4bab852f9e621248e948f2edca6e63cd597b0800",
             "validator_index": "48"
           },
-          "voting_power": "1727084586704596"
+          "voting_power": "1733666582268383"
         },
         {
           "addr": "0xddf23883328d39d8cbb4fad97f0e4bd45827ea999b66aa2a1cffa76615b9ef01",
@@ -505,7 +505,7 @@
             "network_addresses": "0x013d0402136170746f732e74616c6f732e6e6574776f726b0524180720d119f4bf42ca8e116f56e6c5a11acdd9781b7f7059ce62e65ed521f1b18e472b0800",
             "validator_index": "49"
           },
-          "voting_power": "257330194950023"
+          "voting_power": "256602548186640"
         },
         {
           "addr": "0x881f164c09b7c8032fde6f8ea0de2ab839becf391556b5650eb75a36a6f52c35",
@@ -515,7 +515,7 @@
             "network_addresses": "0x016804023e76616c696461746f722e61323964303731382d633038662d343866372d383036392d3264646337343063363039362e6170746f732e6269736f6e2e72756e052418072013fb4ce57683c4eba1aa64d17f9663db8ce1264d8cb0b503650eb23cf0b337440800",
             "validator_index": "50"
           },
-          "voting_power": "690378489251669"
+          "voting_power": "693044941424301"
         },
         {
           "addr": "0xeb87b07f24f6111b5ab41ef30700ad9da780454bdf257722a100e897076a67f",
@@ -525,7 +525,7 @@
             "network_addresses": "0x016804023e76616c696461746f722e64323931393135342d623262642d343266322d626537642d6536306166306435393435612e6170746f732e6269736f6e2e72756e0524180720ba07b1de5b6f533de8a7a3cbe73fcaf90bab558b9b885cc1c6475139d2a673050800",
             "validator_index": "51"
           },
-          "voting_power": "252455863082815"
+          "voting_power": "253365558731873"
         },
         {
           "addr": "0x9c721c79ee082aafcdd99b1a71a833accdc48dba1a9a1bc5b5f8cc47ff7d49c0",
@@ -535,7 +535,7 @@
             "network_addresses": "0x016804023e76616c696461746f722e64653635393535322d613966322d346364612d393964632d3161313138656234303732382e6170746f732e6269736f6e2e72756e0524180720806d594baf1fb2ff54f69a96ec13a266af58c6e657d971cce99bc31e32ed1a070800",
             "validator_index": "52"
           },
-          "voting_power": "2246718056341642"
+          "voting_power": "2246630215451947"
         },
         {
           "addr": "0xed84b96729eeaca42cdd0b84c3df69f76c4378a0406595a958cf515cdb024b20",
@@ -545,7 +545,7 @@
             "network_addresses": "0x016804023e76616c696461746f722e33343037376538312d626433382d343233362d396665362d6532336634366265653361662e6170746f732e6269736f6e2e72756e0524180720c0f8c6c9a822bd341a403f8ae85dc303b5fabe8d36dd7e4e9b593dd65dfbe8020800",
             "validator_index": "53"
           },
-          "voting_power": "514580397872690"
+          "voting_power": "516559554713436"
         },
         {
           "addr": "0xc41e4eded759ab4a31e999bbef6d14361fd94bea59db8310703b1668af98a23d",
@@ -555,7 +555,7 @@
             "network_addresses": "0x01400402166170746f732d766e2d656e2e6d6172626c65782e696f05241807204ad53ee25ca28040146bee817e521281a13d0c53b21aefff991c4d9b116278700800",
             "validator_index": "54"
           },
-          "voting_power": "133203676497080"
+          "voting_power": "131194568049372"
         },
         {
           "addr": "0x29f3f84adbd1eba85bbbec33814924fddcdc9f51921d9cade0dd3b3fdf9170cd",
@@ -565,7 +565,7 @@
             "network_addresses": "0x014604021c6170746f732d76616c696461746f722e706f6c6b616368752e636f6d052418072026100844272e2371b6beefa5e6001e9175656e378c7cfd2546aea8a64768a4210800",
             "validator_index": "55"
           },
-          "voting_power": "707952437125617"
+          "voting_power": "710690845034379"
         },
         {
           "addr": "0x52b0fd0daaf4f24ddf389768bf24be0a291aabbbdae4ec7b46bc7ed7df41cbe9",
@@ -575,7 +575,7 @@
             "network_addresses": "0x014404021a76616c696461746f722e6170746f732e6e6f6465732e6775727505241807203deb2d94d3d75438e2e3afdd3aec98cf57505baa329045fe05415b96260d8f440800",
             "validator_index": "56"
           },
-          "voting_power": "707476361937641"
+          "voting_power": "710022109512261"
         },
         {
           "addr": "0x30952a7b88b02028e7c6c7209722cc047acaef85d3d303f375d8ea89fc6ba0c6",
@@ -585,7 +585,7 @@
             "network_addresses": "0x01430402196170746f732e61727469666163742d7374616b696e672e696f0524180720d38b6dd4d0055c4a6190c386990f77df1ee6b64ba1d91a21684fe7a22ef206560800",
             "validator_index": "57"
           },
-          "voting_power": "707576956222822"
+          "voting_power": "709986180139122"
         },
         {
           "addr": "0x2fd1e866773ea3670cbef6dc6e952ba6fa13130a69fabc98ad234bd834c3bcaf",
@@ -595,7 +595,7 @@
             "network_addresses": "0x016704023d76616c696461746f722e39373338393166352d323762362d346532342d383765312d3138613962663065333361662e6170746f732e686572642e72756e0524180720039bf1100e23a85d06a7a325cdcbc6278070b73baf6a5d0dc149582196cd91190800",
             "validator_index": "58"
           },
-          "voting_power": "501659384429640"
+          "voting_power": "501282183068677"
         },
         {
           "addr": "0x6be5d9afa759b48140a69c737e9b066270146c7065455d04c2c76842c3e23d4",
@@ -605,17 +605,17 @@
             "network_addresses": "0x01400402166170746f732e6c6176656e646572666976652e636f6d05241807209ae143a96188dbe3893016b5a13b0fc34ebb5927cea79062ed9730e8dd3b4e4c0800",
             "validator_index": "59"
           },
-          "voting_power": "707195590599776"
+          "voting_power": "709746447674638"
         },
         {
           "addr": "0xa651c7c52d64a2014379902bbc92439d196499bcc36d94ff0395aa45837c66db",
           "config": {
             "consensus_pubkey": "0xa7a5b20fb6b827a13d2aeebc347f880592328f995193266f51d1d6c298e753e41fc83b038aaa89b75194d57eb0a77324",
-            "fullnode_addresses": "0x012d040022942ba70526180720c781cf9e2cb86456c27c222e3ace4c153b2bf1b168a71896784582a06a5457430800",
-            "network_addresses": "0x012d040023b93c290524180720452e5993709033d367b93ee3cfd64d0b1bf12c0deb6790c0d7d81a5926442e470800",
+            "fullnode_addresses": "0x012d04002257861c0526180720c781cf9e2cb86456c27c222e3ace4c153b2bf1b168a71896784582a06a5457430800",
+            "network_addresses": "0x012d040022ac5d9f0524180720452e5993709033d367b93ee3cfd64d0b1bf12c0deb6790c0d7d81a5926442e470800",
             "validator_index": "60"
           },
-          "voting_power": "3212334038758055"
+          "voting_power": "3129309973942733"
         },
         {
           "addr": "0xd89481a2f4ff5598f8a6e83e67f21dba6a0df56a1bc35b9c67a2de6dce166b30",
@@ -625,7 +625,7 @@
             "network_addresses": "0x012d0400222617f00524180720c9ef94995aa04834c6454e10bf9b4001ae4815aec7a81ecf6c70792bad18e84c0800",
             "validator_index": "61"
           },
-          "voting_power": "1009403898161527"
+          "voting_power": "1009653163861273"
         },
         {
           "addr": "0xd7b10a9ddee853b3585dd1efd4902ab3ad4f482b94425a3780cc39e79e6d398",
@@ -635,7 +635,7 @@
             "network_addresses": "0x012d040008d945d90524180720ea346bc8e2c658c7f2502125dfa83ab7328661b8747ee9a4103eb4580c9ffb7c0800",
             "validator_index": "62"
           },
-          "voting_power": "1209912421202132"
+          "voting_power": "1232660014880614"
         },
         {
           "addr": "0xb43fe1ef756cae4fefea16dad049fb0760b7d8593ace12527e302520d934d0d7",
@@ -645,7 +645,7 @@
             "network_addresses": "0x012d040012aaa2dd0524180720360573e1bea87706e7ae8ac151dce609fac21a468f332045caa045502bfe496c0800",
             "validator_index": "63"
           },
-          "voting_power": "1507858158696914"
+          "voting_power": "1513690776090654"
         },
         {
           "addr": "0x2784eb9f3b368be1db73256336014a01c02b1b06ab01df7387bb8945ca73045e",
@@ -655,7 +655,7 @@
             "network_addresses": "0x012d040036c12eb805241807205bd2ec71ab30063260b6781d9be1fad0e776db87ecc80123640c63297ef46a710800",
             "validator_index": "64"
           },
-          "voting_power": "1507858081519721"
+          "voting_power": "1513690720243084"
         },
         {
           "addr": "0xfc90c3e74dfb562827ef85dea5669beeca7717faee0c3ba520c3ab08f9b53135",
@@ -665,7 +665,7 @@
             "network_addresses": "0x014c040222766e2e6d61696e6e65742e6170746f732e666c6970736964652e7365727669636573052418072050f41f1dac12a677e1a23f5853ed6e574094c1480b5d8b1356d0edc5a67f2a4e0800",
             "validator_index": "65"
           },
-          "voting_power": "398948637690024"
+          "voting_power": "399924475469934"
         },
         {
           "addr": "0x6fdb6516f550ceada7d1fb687b52e4d334c0805a856f17c85f1eb852cbe66ffb",
@@ -675,7 +675,7 @@
             "network_addresses": "0x012d0400225e1d410524180720fb37ed6b0ee35d4745c306260bb93dbcbb634d13c9de2c2dad671ce50258fa1c0800",
             "validator_index": "66"
           },
-          "voting_power": "196657063360026"
+          "voting_power": "186110849150136"
         },
         {
           "addr": "0xc92d451e6b5c1bca83d002c3dad857cb8fafb1e49ef5ddadf25c0f40f9d5728c",
@@ -685,7 +685,7 @@
             "network_addresses": "0x0143040219312d626574612e30783131353235313831353331312e636f6d0524180720562ca2c60dd974ac6e8931dda6030f3e263f44acb66ca2f1b8c831f4bc038d070800",
             "validator_index": "67"
           },
-          "voting_power": "1003339037942550"
+          "voting_power": "1000310148686481"
         },
         {
           "addr": "0xefaec1debc26828f8142a71a906ba180cae526b0688f304a28e57fb66f2b9a5c",
@@ -695,7 +695,7 @@
             "network_addresses": "0x0143040219302d626574612e30783131353235313831353331312e636f6d0524180720e075670db088b5173087a19fb3b2879b41ec1ede6a2111f5a8904be6b4e9667a0800",
             "validator_index": "68"
           },
-          "voting_power": "1003339087135404"
+          "voting_power": "1000310148686481"
         },
         {
           "addr": "0xfd92966377f67c75c9165fd7c591b26294edc01d3ea2b71bd4b75375d08445ab",
@@ -705,7 +705,7 @@
             "network_addresses": "0x015a0402306170746f732d7374616b65642d31312e70726f642d656b732d65752d6e6f7274682d312e7374616b65642e636c6f75640524180720373382f9f519130cab73bae85f956d71ebe29bd398d4c1913c84f63aa303c9420800",
             "validator_index": "69"
           },
-          "voting_power": "677824040348117"
+          "voting_power": "680211774260727"
         },
         {
           "addr": "0x346361873c235e1a300fd67a2e8b7bd1ea3744001b2e0d1942317c4c8521f5dd",
@@ -715,7 +715,7 @@
             "network_addresses": "0x01620402386170746f732d6d61696e6e65742d6669676d656e742d64702d332e7374616b696e672e70726f64756374696f6e2e6669676d656e742e696f05241807207a2bd25fdfc5ad9694a5dd6b4a6c78a71365354300adf335ed6fb771dda0c77d0800",
             "validator_index": "70"
           },
-          "voting_power": "721032795902260"
+          "voting_power": "731081259730297"
         },
         {
           "addr": "0x50b27eee627c0648ff4867894e264d67de2049ee9a8b92040cb35020b74afa39",
@@ -725,7 +725,7 @@
             "network_addresses": "0x012d04000fcc2e590524180720a422440ec2f4fc5dbdbaa5da7ebd69b3e09df3c5d1015c94de877988d89b7a550800",
             "validator_index": "71"
           },
-          "voting_power": "118114380475262"
+          "voting_power": "118500940171129"
         },
         {
           "addr": "0x890c86c19974b98594a4e5cd7b0b3a69af1b30afc78853a0c11e882801497320",
@@ -735,7 +735,7 @@
             "network_addresses": "0x012d040012d6ab2305241807203fddff34f424c26c1dde8d3ccddbc66b75879c3bffb38589dbf47639c0bfe6030800",
             "validator_index": "72"
           },
-          "voting_power": "296870462274976"
+          "voting_power": "293627331223582"
         },
         {
           "addr": "0xdb5247f859ce63dbe8940cf8773be722a60dcc594a8be9aca4b76abceb251b8e",
@@ -745,7 +745,7 @@
             "network_addresses": "0x014704021d6170746f732d6d61696e2d706f6f6c2e657665727374616b652e6f6e650524180720d836efefec7c61776616be7fcb604ee6469111d144e7c98359bf5ca3cd9f3a730800",
             "validator_index": "73"
           },
-          "voting_power": "1036945445898214"
+          "voting_power": "1063751961637961"
         },
         {
           "addr": "0xe2789cdac410113f017fa684bf08fbacd0877612d84464ae6e8474b56e5f21da",
@@ -755,7 +755,7 @@
             "network_addresses": "0x014c040222766e2d64656c65676174696f6e2e6170746f732d6d61696e6e65742e6134312e696f05241807201e1e1fdb4c7f203662a36a22cad55ba9cac793a59269b2e807fa5d444dff6f6f0800",
             "validator_index": "74"
           },
-          "voting_power": "1150336642004447"
+          "voting_power": "1172204522945289"
         },
         {
           "addr": "0x95798cb276fc8d784a722794f0ede125681788aa7db6c9e954a667037bc24f85",
@@ -765,7 +765,7 @@
             "network_addresses": "0x012d04002f5b046d05241807207708f59a87127eb546c1746d83528678f77a1bd4d18cb29f4b9149a9d7cd191a0800",
             "validator_index": "75"
           },
-          "voting_power": "346921357782407"
+          "voting_power": "347899802570658"
         },
         {
           "addr": "0xf1f6f780321e7259d0feeef98745da7f766eace664c43325779302b2724c8692",
@@ -775,7 +775,7 @@
             "network_addresses": "0x012d040085bac6ea0524180720f6ba21acc0d9da4f808ba7566e152a457ba4781cc06cd5586d6cf950a9e918290800",
             "validator_index": "76"
           },
-          "voting_power": "1077284145901530"
+          "voting_power": "1080943795016772"
         },
         {
           "addr": "0x877d09996086effe241b1a740d46675754c17f8620ee9be42c5c7e322ce1598c",
@@ -785,7 +785,7 @@
             "network_addresses": "0x014704021d76616c696461746f722e6170746f732e7a687374616b696e672e636f6d0524180720d36ee99d7562efa74ec761c4254a7bca4e8fa0daef358966d00cdde156c1421b0800",
             "validator_index": "77"
           },
-          "voting_power": "286599688461496"
+          "voting_power": "287109389154133"
         },
         {
           "addr": "0xff90c2afcd5c09b7414e4629d17899bcd763f8673c400a6d983fe15b98cb65d2",
@@ -795,7 +795,7 @@
             "network_addresses": "0x012d0400923b769005241807201eb74528db01177d18cc920704dd7e0af5254db96e535c8f7c72b5cb2babd6680800",
             "validator_index": "78"
           },
-          "voting_power": "425762985164282"
+          "voting_power": "427227147271320"
         },
         {
           "addr": "0x3c4d9be0f74cd198b88eeb087632951465045004ec67cefe6f4f170382a20a46",
@@ -805,7 +805,7 @@
             "network_addresses": "0x012d04001288daef052418072010dbd554c77b63d057b9a24d0ae5cafa3c43cc5fed22f645ecbba58afc0f32300800",
             "validator_index": "79"
           },
-          "voting_power": "644382943968685"
+          "voting_power": "646407620684719"
         },
         {
           "addr": "0x3d51eeb71188cc7ccf5f6f288a3a51a9a763222883cf392296b3d5ec3f2017ea",
@@ -815,7 +815,7 @@
             "network_addresses": "0x012d04005420dc070524180720ec4b8151fcc0a993f43fe6ee19268615d0076049f0b3eade6c8b80c2efeff0280800",
             "validator_index": "80"
           },
-          "voting_power": "1002514447603055"
+          "voting_power": "1006002345963099"
         },
         {
           "addr": "0x66fcc9a1275170c140988e8fdc5104fef09568bdd07930f44a290bf55a5550ee",
@@ -825,7 +825,7 @@
             "network_addresses": "0x01400402166170746f732d766e2e6a756963797374616b652e696f05241807203292328d921c03ea8e662cf518497d20f3ab32d81b1101d6658313da4699fe1a0800",
             "validator_index": "81"
           },
-          "voting_power": "432779119827041"
+          "voting_power": "434428826421247"
         },
         {
           "addr": "0x22c25ea17f339761d512b588feb436a4784332f4bedfb3f17e25db7d8de0c94c",
@@ -835,7 +835,7 @@
             "network_addresses": "0x012d04002274eb6b0524180720a3c79be67a0766797dbc53ef67fa4b28218ea323daecfeef070f635ffd1e42230800",
             "validator_index": "82"
           },
-          "voting_power": "424421922057137"
+          "voting_power": "426063571917343"
         },
         {
           "addr": "0xa57ed536dea7ae3250790ab12fbb6ca6ae669bf4eac5a12446b8769e534082f8",
@@ -845,7 +845,7 @@
             "network_addresses": "0x015e040234765f746f796d616b33727a2e6170746f732e6d61696e6e65742e72657075626c696363727970746f2d736f757263652e696e666f0524180720fb178575f0edbda0c5dbdab4ae3dcb4863983d32547abe9e7be5198e17c3050e0800",
             "validator_index": "83"
           },
-          "voting_power": "508244406002347"
+          "voting_power": "508088880411200"
         },
         {
           "addr": "0x2738d91e160d9be37cd9689177546b567e28a3644b702388fd2c2be9c97682de",
@@ -855,7 +855,7 @@
             "network_addresses": "0x012d0400128a96210524180720d8b9ec3d1a0ddc30fab0d981c9bf645bbb4b95ba3caa620c003f033f0326e6030800",
             "validator_index": "84"
           },
-          "voting_power": "1003183039662320"
+          "voting_power": "1001799744778399"
         },
         {
           "addr": "0xce8294a77912a6802adf093ba15a4f09d2d3c85400d161a0022499de4e2aeb92",
@@ -865,7 +865,7 @@
             "network_addresses": "0x01400402166170746f732d766e2e7375706572666173742e6f72670524180720fd48919dd5732dc1c7af597aa2151bfc66c4fd65cc0363bde9437a49fb9b9f2f0800",
             "validator_index": "85"
           },
-          "voting_power": "325721403005507"
+          "voting_power": "327210386590233"
         },
         {
           "addr": "0xc44406bd36286223e7f2924ef48aa017b133dca73f2837b3692784cb046dda48",
@@ -875,7 +875,7 @@
             "network_addresses": "0x014c04022276616c302e65757765342d302e6d61696e6e65742e6170746f736c6162732e636f6d0524180720bf5c7ea2f09e39473e6ec91ea9eec3f0ba9bc0359bcd1a7d66a13ec51b9456730800",
             "validator_index": "86"
           },
-          "voting_power": "106797478670062"
+          "voting_power": "107210526456742"
         },
         {
           "addr": "0xbea2323e776d126d319e7f15bf41f624b8cfd19c0484e3b60e6d8ecf1810dd16",
@@ -885,7 +885,7 @@
             "network_addresses": "0x01420402186170746f732d76616c2e73656e7365696e6f64652e636f6d052418072092bb1b316a6b2675b6752c674fe847a6e7854e66be88410da0a447d561b5b3510800",
             "validator_index": "87"
           },
-          "voting_power": "320132420706062"
+          "voting_power": "321362097379511"
         },
         {
           "addr": "0x63b0a7343c481fe176603e4e30cc5acc521c75d4310ce1b7b657c8168df66c66",
@@ -895,7 +895,7 @@
             "network_addresses": "0x014a04022076616c696461746f72312e6d61696e6e65742e6170746f732e6b696c6e2e66690524180720e9ec97d24d57bbf1c43070038304243bc18a72edf6eb533480f82714e43061030800",
             "validator_index": "88"
           },
-          "voting_power": "179572857981728"
+          "voting_power": "180812934375079"
         },
         {
           "addr": "0x3edbf3e6444054c2a5a391221c9023882d0b2478576c445923a39b3bd0cde0a3",
@@ -905,7 +905,7 @@
             "network_addresses": "0x014604021c6170746f732d76616c696461746f722d332e616c636f76652e70726f0524180720983194f5774ba7b0e31be20a3985c30f192dfdd4c2ab3a2e5b5d20f7e4ac07270800",
             "validator_index": "89"
           },
-          "voting_power": "1056918446212554"
+          "voting_power": "1060996915838193"
         },
         {
           "addr": "0x2a4f9ee6b2c4376e72f866f7da841340dbe0945b9b58190a6447b2f537b5225b",
@@ -915,7 +915,7 @@
             "network_addresses": "0x016804023e76616c696461746f722e66616365386133392d383030312d343364352d613532322d3665393665666665323231332e6170746f732e6269736f6e2e72756e05241807207b6e74fe9f97e01653f400ef6141d69157d8f2c4129a92115e89394a1099c6480800",
             "validator_index": "90"
           },
-          "voting_power": "102969760689917"
+          "voting_power": "103359870773329"
         },
         {
           "addr": "0xbcfe20d6df15fe888dd7c5a15cb32e5396cd358adc02d07c51cc08f3785b79b6",
@@ -925,7 +925,7 @@
             "network_addresses": "0x016804023e76616c696461746f722e61396236626435622d333431642d346432392d393537632d6661623633656136613131622e6170746f732e6269736f6e2e72756e05241807208caae2c0c82ef6073ffa98b4aeb08b4646ad1e8f70fab6ae426d24d9564703130800",
             "validator_index": "91"
           },
-          "voting_power": "141623256004335"
+          "voting_power": "142159887529716"
         },
         {
           "addr": "0xded0220633df25f00d4d25a13be131ec5d1a08e93713b0fdf433dc2074dd7872",
@@ -935,7 +935,7 @@
             "network_addresses": "0x016804023e76616c696461746f722e30326262386531382d366139372d346466382d396462382d3531346630353266663335632e6170746f732e6269736f6e2e72756e052418072072cdf235d38b2102431baac3fd34663d0acbd5c7dba4edef83fe0a7a5bb3993a0800",
             "validator_index": "92"
           },
-          "voting_power": "102265613456782"
+          "voting_power": "102653001238137"
         },
         {
           "addr": "0x33f0c333f6fcb9d1ef54d54093f0482b31bb0bdcd34bfa446e7416ff930453c0",
@@ -945,7 +945,7 @@
             "network_addresses": "0x014a040220766e2d74662e6170746f732d6d61696e6e65742e7477696e7374616b652e696f0524180720f23a9f0e226de5ab8982cd1f43be8e3f03d52823f6e69fc06243ef12e610e3670800",
             "validator_index": "93"
           },
-          "voting_power": "1052773003793089"
+          "voting_power": "1055271508101953"
         },
         {
           "addr": "0x880cb2b03f4158dc927fe6058c5b968636932d49fa1d2896a86bd849456455c7",
@@ -955,7 +955,7 @@
             "network_addresses": "0x014704021d73656375726974697a652d76616c2e73656e7365696e6f64652e636f6d052418072079afce6a1f2cf113e01ffce73170834dcdf47247349f78df2ebbcbd31deaf53d0800",
             "validator_index": "94"
           },
-          "voting_power": "1017365669727413"
+          "voting_power": "1017552640317352"
         },
         {
           "addr": "0x1232f58b963938486a11f88c1c36d61d82738b1828625a95a1e85b4c8d1282",
@@ -965,7 +965,7 @@
             "network_addresses": "0x012d0400b4d27f8d05241807204d113530b74b4b308749bb27943edfaa663e54146316ec32729a5ef7b1a52a4e0800",
             "validator_index": "95"
           },
-          "voting_power": "209909235056624"
+          "voting_power": "210622179988395"
         },
         {
           "addr": "0x4fbd48a3ddf937873e0f50fb3a69172959f83feb46c4868bd3f7c45f1bdc2be0",
@@ -975,7 +975,7 @@
             "network_addresses": "0x0143040219322d626574612e30783131353235313831353331312e636f6d0524180720465d7983be89639760de415a2be176775a136ebdb9c8171029e174a80c18465e0800",
             "validator_index": "96"
           },
-          "voting_power": "1003338983646765"
+          "voting_power": "1000310148686481"
         },
         {
           "addr": "0x41484099cd0ab3821ddd330a0cb742cafd6a1621ec1b993f65a8c6c5108a114d",
@@ -985,7 +985,7 @@
             "network_addresses": "0x014b0402216170746f732d73766c2d76616c696461746f722e6e6f6465696e6672612e636f6d0524180720486ff74803c533b49182c225527509a18f13539b6a68c9cc231dc091150f3b2d0800",
             "validator_index": "97"
           },
-          "voting_power": "520966862958924"
+          "voting_power": "522472128197629"
         },
         {
           "addr": "0x6e60dd385a87a14d80741ad3070e3ff0ae064e3884e75ee918593126762650cd",
@@ -995,7 +995,7 @@
             "network_addresses": "0x012d040023e51dfa0524180720133a9d9678cd33b9ec038c0d6cabab4a3aceff6c348312895cfe071989dc494a0800",
             "validator_index": "98"
           },
-          "voting_power": "192171612950315"
+          "voting_power": "192112789708119"
         },
         {
           "addr": "0xaf0843693e9446fac15e6e019ed3b5c7527e23fa66006cb4625fb844dddcb1a0",
@@ -1005,7 +1005,7 @@
             "network_addresses": "0x012d040033a1ac0605241807208bb4ad834a27255ae8522e3ec54be7585ff257cd075d82c7546abf140b88de670800",
             "validator_index": "99"
           },
-          "voting_power": "234831964778977"
+          "voting_power": "235607004875548"
         },
         {
           "addr": "0x6c89d2927f78bb3b1743b4cf97d69777c2669cfbb11aff5bdaaa1083db3c3123",
@@ -1015,7 +1015,7 @@
             "network_addresses": "0x013d0402136170746f732d766e2e66617262656e2e78797a0524180720eb78e9bade8541266251c443878324b3aea68deb5bc527d7e9b4018e805b5d4e0800",
             "validator_index": "100"
           },
-          "voting_power": "111629129072621"
+          "voting_power": "112060833013743"
         },
         {
           "addr": "0xe888a0adfb4ca871bfe6aada8511f5326e877a8ce66a9980ef089eb2218d740c",
@@ -1025,7 +1025,7 @@
             "network_addresses": "0x012d0400223c68c30524180720d28c1386973f0f914c97dfa8a15666491bac9af476588e7fb24381138f667a0a0800",
             "validator_index": "101"
           },
-          "voting_power": "461378060719554"
+          "voting_power": "473669104351772"
         },
         {
           "addr": "0x1af6830eed3ca4a078110b36b81ec8aa73224c6d0c4c33911089ef6d576645e8",
@@ -1035,7 +1035,7 @@
             "network_addresses": "0x014504021b6170746f732d76616c2e6563686f2d70726f746f636f6c2e78797a0524180720ffe145b3a7e55a085b54994405fc07f0216b6e649791634b74bf3e99e7f2ed2c0800",
             "validator_index": "102"
           },
-          "voting_power": "206968203377119"
+          "voting_power": "207768746046664"
         },
         {
           "addr": "0x8bf2201bf4cec31f736aacc0f44f29c014ecd8562975aecce19271ca179e8db5",
@@ -1045,7 +1045,7 @@
             "network_addresses": "0x014904021f766e2d322e6170746f732d6d61696e6e65742e7477696e7374616b652e696f052418072040e4407e1fec1153112dc058efe144326964a577b47f980d65cf1816d95a833d0800",
             "validator_index": "103"
           },
-          "voting_power": "937471296029749"
+          "voting_power": "941097581289243"
         },
         {
           "addr": "0xee36c1068076b199cf537bf652b1e586216a7dfb7c3447ff40333c971717eee6",
@@ -1055,7 +1055,7 @@
             "network_addresses": "0x014404021a766e5f706f6f6c2e6170746f732e647372766c6162732e6e657405241807208d3f418b665e11ee3cb935982f18b66b793602889456f85dcf2db4b88ac263720800",
             "validator_index": "104"
           },
-          "voting_power": "226217127879167"
+          "voting_power": "226740610151047"
         },
         {
           "addr": "0x30e2f4236a88d2201b9bc27365d8516ab9cb3b53d82cee8c76369a3a01cef6ec",
@@ -1065,7 +1065,7 @@
             "network_addresses": "0x014c04022276616c302e65757765342d332e6d61696e6e65742e6170746f736c6162732e636f6d052418072099d947cb5c4bf269a42eee8c50d8535ee1599b75fec7e76420f17c59d3bc67390800",
             "validator_index": "105"
           },
-          "voting_power": "1627501328376604"
+          "voting_power": "1633760311875108"
         },
         {
           "addr": "0x7acdf689a17fed9692e97d15d444d769ba26ca4f95b014736e446724de8fd0c1",
@@ -1075,7 +1075,7 @@
             "network_addresses": "0x012d04000febdbf205241807208668adff268d6fd77260a9b9c048e0bd2cc19c5dd65f707a7c0db718d86a164c0800",
             "validator_index": "106"
           },
-          "voting_power": "311438633856658"
+          "voting_power": "312632198753002"
         },
         {
           "addr": "0x2d1145fbe500566c204b7f3f3e04b1318a93e44debdd8b5bee8f3fcafccae2c7",
@@ -1085,7 +1085,7 @@
             "network_addresses": "0x014504021b766e2d736b742e6170746f732d6d61696e6e65742e6134312e696f0524180720c70a46fd0f54e601a928544605b6ac6083fd571b9e4bd33d6e8d8508b0c5e00f0800",
             "validator_index": "107"
           },
-          "voting_power": "516711602325568"
+          "voting_power": "518710326049192"
         },
         {
           "addr": "0x91df39d4ae2fac731d02ade7848f332ce701e1a598d773e1be1f6382d3959150",
@@ -1095,7 +1095,7 @@
             "network_addresses": "0x012d040022abc8b10524180720d9e8bba3a490e03dcf1438783d2cb046b347df5c72795eee524b47dd920476270800",
             "validator_index": "108"
           },
-          "voting_power": "610666022993819"
+          "voting_power": "612228367454702"
         },
         {
           "addr": "0xcfb4330556f9e4d3283a944d4c1763113cee40143182e8d874437368bd1b33ba",
@@ -1105,7 +1105,7 @@
             "network_addresses": "0x014c04022276616c302e65757765342d322e6d61696e6e65742e6170746f736c6162732e636f6d0524180720a7c69c6a3b7cd4b2be101814d0aa0e6fd203b1b7b3d962e84909200189f4d63c0800",
             "validator_index": "109"
           },
-          "voting_power": "2130673342597273"
+          "voting_power": "2230673448314411"
         },
         {
           "addr": "0x7ab6a74d31778b26a8344605d50f5541bcee06c4da509c33dd51124a6113d513",
@@ -1115,7 +1115,7 @@
             "network_addresses": "0x012d04004622fd170524180720c212c7ac1dd2b6c6a423595ba86c34f19f81877857883fe889bfaacdf2d22e7b0800",
             "validator_index": "110"
           },
-          "voting_power": "102752388743322"
+          "voting_power": "103054919326172"
         },
         {
           "addr": "0xab4a80ccc772691cb03e3ee8d22b5c13acc92472dd4a19987c1aade2691404a",
@@ -1125,7 +1125,7 @@
             "network_addresses": "0x014c04022276616c302e65757765362d312e6d61696e6e65742e6170746f736c6162732e636f6d05241807207349d06429b7858f533d1e36520b8556299cef9e4f869f336a76120fb9c472360800",
             "validator_index": "111"
           },
-          "voting_power": "2303292404377332"
+          "voting_power": "2312201600575432"
         },
         {
           "addr": "0xf0d49cff005d03312934ce027e30f4a84143d5af53623b30036e7dac1510c218",
@@ -1135,7 +1135,7 @@
             "network_addresses": "0x014a040220626974676f2d76616c312e6d61696e6e65742e6170746f732e7032702e6f7267052418072014d2cd3b78241cdac16644ffdf9157680b8963c18ced41cc7e9a94ea56cbf21d0800",
             "validator_index": "112"
           },
-          "voting_power": "2436825675907220"
+          "voting_power": "2444870017959599"
         },
         {
           "addr": "0x6183c471802b5ec52af163d4da0ae983a56908491a212985ae0bc0f204080498",
@@ -1145,7 +1145,7 @@
             "network_addresses": "0x012d040022a2a3b10524180720931a17ab3dbbcdd3b2fce163ae8b1a0f94a8fe054b52157a9445a78ba02887060800",
             "validator_index": "113"
           },
-          "voting_power": "406122725910182"
+          "voting_power": "406354870904378"
         },
         {
           "addr": "0xadbfddd3d10cad1eed59d2c0793df0bfd1d16255309c38b34b8351daaddecccc",
@@ -1155,7 +1155,7 @@
             "network_addresses": "0x014404021a6170746f732d6d61696e6e65742d766e2e7665727365322e696f05241807202c215c409598707af21f9ab64add05f9fe73d4cbb2e0e26937a40d140aa9db110800",
             "validator_index": "114"
           },
-          "voting_power": "139943375606455"
+          "voting_power": "140466412403731"
         },
         {
           "addr": "0x312c22e7500a4037df87db35718959deeb937c734fb2169b95d720a09b5e74f5",
@@ -1165,7 +1165,7 @@
             "network_addresses": "0x012d040034c662fd052418072010db7a6e197cd9137ebca5e19b3e6365d8766d0e13eb6c70298cbd1fdcbc7e290800",
             "validator_index": "115"
           },
-          "voting_power": "407053292157495"
+          "voting_power": "408481623641528"
         },
         {
           "addr": "0x35b922386bd35db0f33c732a70d7b6a2e91e463812c8d710f925f6da0e0ace07",
@@ -1175,7 +1175,7 @@
             "network_addresses": "0x012d040023c61ede05241807205c37eb57684ced6a80eefc4e434f635acba094a66f7550bbada806b89d8fb35c0800",
             "validator_index": "116"
           },
-          "voting_power": "118662968061328"
+          "voting_power": "119121907542751"
         },
         {
           "addr": "0xc448e3f4175eba677870bf0a5a438fd0b2bf3155f9cd61201ad397bfcd75ee4e",
@@ -1185,7 +1185,7 @@
             "network_addresses": "0x016804023e76616c696461746f722e34353435333666352d393930392d343337362d396436362d3435343462633161373930382e6170746f732e6269736f6e2e72756e05241807203f734689f5e2345dd30d361a2059a8606bbcb0448dbc92afae81a51a063741760800",
             "validator_index": "117"
           },
-          "voting_power": "130528154988409"
+          "voting_power": "130991666003626"
         },
         {
           "addr": "0x8247541c5b75a9c3003292f748f0efe519aac82bad3025d248bedb45b4b55b73",
@@ -1195,7 +1195,7 @@
             "network_addresses": "0x012d04002ea6a2860524180720997aa14507e08da1a1675d58d25dac5ff2bc78c1bc13f0f361a79ccd623d46150800",
             "validator_index": "118"
           },
-          "voting_power": "201631498786212"
+          "voting_power": "202292152962984"
         },
         {
           "addr": "0x212c3a1056ca8656a5d43e1e8c1072e9eba5b4df8836b476a61389156cbbaf8d",
@@ -1205,7 +1205,7 @@
             "network_addresses": "0x014304021976616c696461746f722d6170746f732e6e616e73656e2e6169052418072051fbd0133ad954e269a57dcfbcf8620a13fd971c2e8ddd6181e237a261ba5b550800",
             "validator_index": "119"
           },
-          "voting_power": "114253422016949"
+          "voting_power": "119985685820630"
         },
         {
           "addr": "0x2367d4d22503e28e48c44e38237961f37896f6868c96dc7800203d261a45e5b4",
@@ -1215,7 +1215,7 @@
             "network_addresses": "0x012d0400229aba000524180720644e1dcacfade52f9816381189e31d2368d82374c7f37ed9013349670d565d4e0800",
             "validator_index": "120"
           },
-          "voting_power": "1048620420133465"
+          "voting_power": "1105595595605902"
         },
         {
           "addr": "0x20ae7e67009dbc40e5a0c68e99c4287e2764fe22d135bcd318100de1b7950c28",
@@ -1225,7 +1225,7 @@
             "network_addresses": "0x012d040059ca4c1c0524180720caeebc8f9c9321075b94aabff7fe3800e7d5dcc8aee713798f746648db54530f0800",
             "validator_index": "121"
           },
-          "voting_power": "191353550711340"
+          "voting_power": "192077544846930"
         },
         {
           "addr": "0xf747e3a6282cc0dee1c89239c529b039c64fe48e88b50e5cedd40e9c094800bb",
@@ -1235,7 +1235,7 @@
             "network_addresses": "0x012d040074ca4a5c0524180720ef082c995f31d17f40e191d8e778452af1b9b458a06b9a6ad4c5fe597750b8500800",
             "validator_index": "122"
           },
-          "voting_power": "165966328430042"
+          "voting_power": "166608294642323"
         },
         {
           "addr": "0x4a693f759250c03d4a743ab52b41a3b7bdea8bff58abc568be569af56d82098e",
@@ -1245,7 +1245,7 @@
             "network_addresses": "0x0141040217766e2e6d61696e6e65742e6170746f732e65752e6f72670524180720c30bc1e1aad627d791ef6884016ea29c93fd07562b5f337799f6bc1368323b6a0800",
             "validator_index": "123"
           },
-          "voting_power": "169044903957203"
+          "voting_power": "169698805952908"
         },
         {
           "addr": "0xaca44df45038a367255d03a3f6bc6af018c73892924b52e3f4a1dd8757094b1d",
@@ -1255,7 +1255,7 @@
             "network_addresses": "0x014404021a6170746f732d76616c696461746f72302e74617261732e756e6f052418072002d0eaa9511cddee685739821a76024a8b91b825bac2a4005b4fe21fb4d1ff360800",
             "validator_index": "124"
           },
-          "voting_power": "166921064956912"
+          "voting_power": "167561173370465"
         },
         {
           "addr": "0xf923e8203e8d534c7357e0761179a76d6593e21c53d5f8120044c7d2cc650679",
@@ -1265,7 +1265,7 @@
             "network_addresses": "0x014504021b726170746f722e6263792d762e6d6574616c686f7374732e636f6d0524180720b72fc12607fafb1134cebab4cd6349a84b243ab2547080dd11cc520ff9e5427b0800",
             "validator_index": "125"
           },
-          "voting_power": "100727214247105"
+          "voting_power": "101112140603303"
         },
         {
           "addr": "0xaa8b1ffbb47ed279cb04c2b6e2eece9453b453017f14c93db6b72371a31f4507",
@@ -1275,7 +1275,7 @@
             "network_addresses": "0x0141040217766e2e6170746f732e7175616e746e6f64652e7465636805241807203b0b19f2c1e0bb929239ba92dc2c5e537dab1edf9e07299ced47f33cab147c370800",
             "validator_index": "126"
           },
-          "voting_power": "115773288870487"
+          "voting_power": "116221124817411"
         },
         {
           "addr": "0x6a554d6034b0598aa430dd244404a9bc56b4f098f9452dc224d845ad92acc1fb",
@@ -1285,7 +1285,7 @@
             "network_addresses": "0x013e04021476616c696461746f722e6170746f73762e636f6d0524180720dfb4c28510e35fbdba27ea0c784012ea707d219b84c9938e65518fa506f8c96b0800",
             "validator_index": "127"
           },
-          "voting_power": "116594784407323"
+          "voting_power": "116956084632483"
         },
         {
           "addr": "0xa502201aceefac98ae296837fa6da8f5946ea68d2f3b956ba7f4d4ba330a98d4",
@@ -1295,7 +1295,7 @@
             "network_addresses": "0x012d040022201b9505241807205d819dcca4bd68b355a50f6803cfa8ca8bd331cc50918720165a2cae8859d9210800",
             "validator_index": "128"
           },
-          "voting_power": "100865719392315"
+          "voting_power": "101255889658661"
         },
         {
           "addr": "0x642150088ccc5e5379f44776517910907630411752328d63e1d2ceaed3ec60fc",
@@ -1305,7 +1305,7 @@
             "network_addresses": "0x012d04005bda730c05241807204ef267beac90191dcb61a607333f48ca0b762a27370ca037d198a56fa0d383270800",
             "validator_index": "129"
           },
-          "voting_power": "115813677397931"
+          "voting_power": "116261611859060"
         },
         {
           "addr": "0x5dece2ed08c68f8730527e9b3ebb3536efc3361f4ef37ba0b16a3310db836af",
@@ -1315,7 +1315,7 @@
             "network_addresses": "0x012d0400d05b6be50524180720caaebd25ad702242e94fbbdf391aa81aa041a937815851015eba8ade96c6fc710800",
             "validator_index": "130"
           },
-          "voting_power": "116190977836365"
+          "voting_power": "116605597979215"
         },
         {
           "addr": "0x6afc3696f31270c75e8edc3d675a8a19c6426ef1ba103d3a1c35c4b471c1600b",
@@ -1325,7 +1325,7 @@
             "network_addresses": "0x014704021d6170746f732e76616c696461746f722e6e6f64656d6f7665722e636f6d0524180720897fc2d57edd40da70192ef4cd6b3c0f6b077838b7bd91f58218aa9c5581f3210800",
             "validator_index": "131"
           },
-          "voting_power": "115843695880676"
+          "voting_power": "116186141537071"
         },
         {
           "addr": "0x79e2670b72361dcbf6f48ac2638993ab67dd75feaa080b34760c917b1310880e",
@@ -1335,7 +1335,7 @@
             "network_addresses": "0x014c04022276616c696461746f722e6d61696e6e65742e6170746f732e666f72676f6f2e636f6d052418072028ea9abf5fe2d80c809ba3fed52022d1f846bbf8c388a097b9050a837d0585050800",
             "validator_index": "132"
           },
-          "voting_power": "115846126637632"
+          "voting_power": "116254143802359"
         },
         {
           "addr": "0xff39ddd0944f2fd4db88cd9e0730990b7bce674c3710584719da2263cba36cdc",
@@ -1345,7 +1345,7 @@
             "network_addresses": "0x013f040215766e2e6170746f732e6d6f76656d6f76652e6f72670524180720c1a7cb25ee9856962856fcddfe034626e014c9bbacbf21e872c0d8fd8017f01a0800",
             "validator_index": "133"
           },
-          "voting_power": "216133708634997"
+          "voting_power": "216968277470767"
         },
         {
           "addr": "0xbb410047e29f9cc9bd1e5b66f2b4d2f3a8cad579e45b609e357dcdc536b05ade",
@@ -1355,7 +1355,7 @@
             "network_addresses": "0x014504021b6f76682d6170746f732d3030312e626c6f636b6361742e74656368052418072085397dc97007e4c79957e7f8e7d84a691f6039880784a3514561274068fe97460800",
             "validator_index": "134"
           },
-          "voting_power": "337937546989260"
+          "voting_power": "339318664593532"
         },
         {
           "addr": "0x58540db656173dd336a984c684a65a5e109e7cb5306c12cd934fd9d971258d9b",
@@ -1365,7 +1365,7 @@
             "network_addresses": "0x014704021d766e2e6d61696e6e65742e6170746f732e6e6f6465732e63656e7465720524180720af5bfaa956cf5d468f2ee2d7216ecfaa6feeac7d68d2806e28e4a7152c959d6f0800",
             "validator_index": "135"
           },
-          "voting_power": "115722364999186"
+          "voting_power": "116140113866480"
         },
         {
           "addr": "0x191076a71acffafe737f5c1ce0fe4b7fa48569b437ba795a5482860925f89133",
@@ -1375,7 +1375,7 @@
             "network_addresses": "0x013804020e762e6170746f736c6162732e6363052418072050fb8258d65e8e55f4e683e7c1828e8bf8df41b437a03751cfa71ee09b822d7c0800",
             "validator_index": "136"
           },
-          "voting_power": "117293255633988"
+          "voting_power": "117746971138809"
         },
         {
           "addr": "0xf4a6e0753687faaff17d32f72900094019fe7d2d35e45b94b87d113faec0d9e9",
@@ -1385,7 +1385,7 @@
             "network_addresses": "0x014f0402256170746f732d76616c696461746f722d64656c656761746f722e6e656c72616e6e2e6f7267052418072020bea4388e0257fa474b3d0976282fe743907d76b5c403bdf3a59ebd5a6f61750800",
             "validator_index": "137"
           },
-          "voting_power": "115752656208363"
+          "voting_power": "116200412343714"
         },
         {
           "addr": "0xfb3ee465d61150b98d39d194858d45e29ac08a186f12edb52434f7e50b2dc9be",
@@ -1395,7 +1395,7 @@
             "network_addresses": "0x014104021776616c696461746f722e6170746f736c6162732e6c746405241807208db73be4c908e5bab823e27ac222cd85aea6f4d0d61e5e157bbac43403dfd4550800",
             "validator_index": "138"
           },
-          "voting_power": "116056340258906"
+          "voting_power": "116232766663040"
         },
         {
           "addr": "0x789995564f6e9fecb3c3f46922c6d97d1035a921584335320fbf1889d3843f90",
@@ -1405,7 +1405,7 @@
             "network_addresses": "0x012d0400454396890524180720f2e7f1e0d23ee6f06c687e1cddf05070239a755208a2f2df252c246785afa3180800",
             "validator_index": "139"
           },
-          "voting_power": "115744597932477"
+          "voting_power": "116192299799876"
         },
         {
           "addr": "0x4534b92f2f9c66d58b6acd7f39211f4c1a1c96b0cea3189c2dcb692440723020",
@@ -1415,7 +1415,7 @@
             "network_addresses": "0x014c0402226170746f732d6d61696e6e65742e76616c696461746f722e73656e74696f2e78797a05241807209da43f9cb833c068bb8fdaa9ea10d9da3b807b0f79465f65918b79a515ad710f0800",
             "validator_index": "140"
           },
-          "voting_power": "601013424684910"
+          "voting_power": "603342026825444"
         },
         {
           "addr": "0xc84eb99fa08a8dbae9cf8be48b312a946c7cb5f4d109c59b49aa3d446180034e",
@@ -1425,7 +1425,7 @@
             "network_addresses": "0x014a04022076616c696461746f722e6170746f732e626c6f636b6875626c6162732e636f6d052418072059f6f3089d631d08a3a209cc893a8d73a9aa371f72e63de47cb91ec64a000d760800",
             "validator_index": "141"
           },
-          "voting_power": "175532692622952"
+          "voting_power": "315919489910254"
         },
         {
           "addr": "0x4543d9dab33e9262d31150e9395a54e36a45d745e994cfabea587879de13673b",
@@ -1435,7 +1435,7 @@
             "network_addresses": "0x014904021f76616c696461746f722e6170746f732e6469676974616c666c6172652e636305241807202661d2c95f73af09ad8e28159223639a5d0f69ef8a80880045f24224ee57ac1c0800",
             "validator_index": "142"
           },
-          "voting_power": "115833028038086"
+          "voting_power": "116251710231489"
         },
         {
           "addr": "0x67385b3d4842b3bc864e80e3ecfe4ac47239eeb1f70fde4defe825b6661e5525",
@@ -1445,7 +1445,7 @@
             "network_addresses": "0x012d04009d5a42b905241807204da04f388b8428746842a969cc8a1515eb3eea08705bee0da41c60370709f72e0800",
             "validator_index": "143"
           },
-          "voting_power": "115769884150871"
+          "voting_power": "116157387736389"
         },
         {
           "addr": "0x483cbabd86632a7d58ea6d871836b4b544a05b769b334528d78176fd60c923a6",
@@ -1455,7 +1455,7 @@
             "network_addresses": "0x012d0400411550e80524180720591060b60764b40bc0f507f9cdc1e17e22c78a33fb4580d246b4335a0f495e3f0800",
             "validator_index": "144"
           },
-          "voting_power": "115801919501575"
+          "voting_power": "116220711556149"
         },
         {
           "addr": "0xe5452230b8d5f4a664e33b8ad95354e50da64caaf003f11c0158391e96a4db2c",
@@ -1465,7 +1465,7 @@
             "network_addresses": "0x012d0400923b76240524180720df86b51ad92950ba4757bd0bcfca9f816dc4875ad6996c8c26423eaafda4a3700800",
             "validator_index": "145"
           },
-          "voting_power": "115756066044499"
+          "voting_power": "116204938170433"
         },
         {
           "addr": "0x384e89330e07edf394565fcf48e63da5a378dc22a6f69ed8b2300c15223e06db",
@@ -1475,7 +1475,7 @@
             "network_addresses": "0x014e0402246170746f732e6d61696e6e65742e76616c696461746f722e6a7573746c73746e2e646576052418072058ca3e58bc16bd213ebed2714b0dd225d495b51f1df4518e8b00539e2e3b11230800",
             "validator_index": "146"
           },
-          "voting_power": "117188584521588"
+          "voting_power": "117814972740035"
         },
         {
           "addr": "0x4b187c13fa53cd3ee9a964641bf53eabd89c5e7378ea2266cfab186f066c1815",
@@ -1485,7 +1485,7 @@
             "network_addresses": "0x016404023a6170746f732d2d6d61696e6e65742d2d64702d2d6170746f732d31612e7374616b696e672e70726f64756374696f6e2e6669676d656e742e696f0524180720cb0bf96e27c5e519210acbca9aef1a1cd0b329ad7b966f3db1d867b344fac3620800",
             "validator_index": "147"
           },
-          "voting_power": "100054931748215"
+          "voting_power": "115993341759641"
         },
         {
           "addr": "0x61b64e39286bf11cd642f03417ab725f15a09dcbf8be23b752851c3c33e74d7b",
@@ -1495,14 +1495,14 @@
             "network_addresses": "0x01530402296170746f732d6c617469747564652d6d6e2d76616c696461746f722e6e6f646578706572742e78797a0524180720200d44c9c4d59e68fa18d44cf0a8b32878338f1b39d38f65a86df689c8e5cd1f0800",
             "validator_index": "148"
           },
-          "voting_power": "654501084517440"
+          "voting_power": "687618071305147"
         }
       ],
       "consensus_scheme": 0,
       "pending_active": [],
       "pending_inactive": [],
-      "total_joining_power": "45127000000",
-      "total_voting_power": "86725590477769292"
+      "total_joining_power": "2372489500000",
+      "total_voting_power": "87095917048041640"
     }
   }
 }
