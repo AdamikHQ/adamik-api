@@ -1,4 +1,4 @@
-import { Message, Transaction as SolanaTransaction } from "@solana/web3.js";
+import { Message, PublicKey, Transaction as SolanaTransaction } from "@solana/web3.js";
 import { encodeBase58 } from "ethers";
 import {
   EncodedTransactionFormat,
@@ -9,8 +9,15 @@ import {
 } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { sha256 } from "~/app/tools/hash";
-import { buildTokenTransferTransaction, buildTransferTransaction } from "../logic";
+import {
+  buildDeactivateStake,
+  buildTokenTransferTransaction,
+  buildTransactionStake,
+  buildTransferTransaction,
+  buildWithdrawStake,
+} from "../logic";
 import { SolanaService } from "../service";
+import type { SolanaTransactionParams } from "../types";
 
 async function encodeTransaction(this: SolanaService, _: { transaction: Transaction; status: Status }) {
   const { transaction } = _;
@@ -24,6 +31,33 @@ async function encodeTransaction(this: SolanaService, _: { transaction: Transact
       borshTransaction = (await buildTokenTransferTransaction(transaction))
         .serializeMessage()
         .toString("hex");
+      break;
+    case TransactionMode.STAKE:
+      // how stake works on solana : https://solana.com/fr/staking#how-do-i-add-tokens-to-a-stake-account
+      const txStake = await buildTransactionStake(transaction);
+      borshTransaction = txStake.serializeMessage().toString("hex");
+      const stakeAccountSignature = txStake.signatures.find(
+        (signature) => signature.publicKey.toBase58() !== transaction.data.senderAddress
+      );
+
+      if (!stakeAccountSignature) {
+        throw new UserInputError("Stake account signature not found");
+      }
+
+      transaction.data.params = JSON.stringify({
+        signature: stakeAccountSignature.signature?.toString("hex"),
+        publicKey: stakeAccountSignature.publicKey.toString(),
+      });
+
+      break;
+    case TransactionMode.UNSTAKE:
+      const txUnstake = await buildDeactivateStake(transaction);
+      borshTransaction = txUnstake.serializeMessage().toString("hex");
+      break;
+
+    case TransactionMode.WITHDRAW:
+      const txWithdraw = await buildWithdrawStake(transaction);
+      borshTransaction = txWithdraw.serializeMessage().toString("hex");
       break;
     default:
       throw new UserInputError("Invalid transaction mode");
@@ -70,6 +104,22 @@ async function encodeTransactionToBroadcast(
   const recoverTransaction = SolanaTransaction.populate(Message.from(Buffer.from(borshTransaction, "hex")), [
     encodeBase58(Buffer.from(signedTransaction.signature, "hex")),
   ]);
+
+  recoverTransaction.addSignature(
+    new PublicKey(signedTransaction.data.senderAddress),
+    Buffer.from(signedTransaction.signature, "hex")
+  );
+
+  const params: SolanaTransactionParams | undefined = signedTransaction.data.params;
+
+  if (signedTransaction.data.mode === TransactionMode.STAKE && params) {
+    const solanaParams: { publicKey: string; signature: string } = JSON.parse(params);
+
+    recoverTransaction.addSignature(
+      new PublicKey(solanaParams.publicKey),
+      Buffer.from(solanaParams.signature, "hex")
+    );
+  }
 
   return recoverTransaction.serialize().toString("hex");
 }

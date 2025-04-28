@@ -257,6 +257,36 @@ async function fetchAssetInfo(assetId: string): Promise<Token | null> {
   }
 }
 
+async function getProgramAccounts(programId: PublicKey, senderPk: PublicKey) {
+  // Get all accounts owned by the Stake Program
+  const stakeAccounts = await connection.getProgramAccounts(programId, {
+    filters: [
+      // Filter by stake account structure - look for accounts where
+      // the authority (staker or withdrawer) matches our public key
+      {
+        memcmp: {
+          offset: 12, // Offset for authorized staker in the stake account data
+          bytes: senderPk.toBase58(),
+        },
+      },
+    ],
+  });
+
+  // You can also filter by withdrawer authority with an offset of 44
+  const withdrawerStakeAccounts = await connection.getProgramAccounts(programId, {
+    filters: [
+      {
+        memcmp: {
+          offset: 44, // Offset for authorized withdrawer
+          bytes: senderPk.toBase58(),
+        },
+      },
+    ],
+  });
+
+  return { stakeAccounts, withdrawerStakeAccounts };
+}
+
 export {
   broadcastTransaction,
   fetchAccount,

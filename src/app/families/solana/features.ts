@@ -16,10 +16,10 @@ const SOLANA_FEATURES: ChainSupportedFeatures = {
         deployAccount: false,
         transfer: true,
         transferToken: true,
-        stake: false,
-        unstake: false,
+        stake: true,
+        unstake: true,
         claimRewards: false,
-        withdraw: false,
+        withdraw: true,
         registerStake: false,
       },
       field: {

@@ -1,7 +1,13 @@
 import { Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
 import { fetchAccount, fetchAccountTokenBalance, fetchEstimatedFeeFromNode } from "../backend/node";
-import { buildTokenTransferTransaction, buildTransferTransaction } from "../logic";
+import {
+  buildDeactivateStake,
+  buildTokenTransferTransaction,
+  buildTransactionStake,
+  buildTransferTransaction,
+  buildWithdrawStake,
+} from "../logic";
 import { SolanaService } from "../service";
 
 async function completeTransaction(
@@ -16,37 +22,15 @@ async function completeTransaction(
     transaction.data.amount = BigInt(balance);
   }
 
-  switch (transaction.data.mode) {
-    case TransactionMode.TRANSFER:
-      const transferFee = await calculateTransferFees(transaction);
-      if (!transferFee) {
-        throw new InvalidTransactionError({
-          errors: [{ message: "Failed to calculate transfer fees" }],
-          warnings: [],
-        });
-      }
-
-      transaction.data.fees = BigInt(transferFee);
-      break;
-
-    case TransactionMode.TRANSFER_TOKEN:
-      if (!transaction.data.amount) {
-        throw new UserInputError("Amount is required");
-      }
-      const transferTokenFees = await calculateTransferTokenFees(transaction);
-      if (!transferTokenFees) {
-        throw new InvalidTransactionError({
-          errors: [{ message: "Failed to calculate transfer fees" }],
-          warnings: [],
-        });
-      }
-
-      transaction.data.fees = BigInt(transferTokenFees);
-      break;
-
-    default:
-      break;
+  const fees = await calculateFees(transaction);
+  if (!fees) {
+    throw new InvalidTransactionError({
+      errors: [{ message: "Failed to calculate fees" }],
+      warnings: [],
+    });
   }
+
+  transaction.data.fees = BigInt(fees);
 
   if (transaction.data.useMaxAmount && balance !== undefined) {
     if (transaction.data.mode === TransactionMode.TRANSFER) {
@@ -66,33 +50,44 @@ async function completeTransaction(
   }
 }
 
-async function calculateTransferTokenFees(transaction: Transaction) {
-  const tx = await buildTokenTransferTransaction(transaction);
-
-  const estimatedFee = await fetchEstimatedFeeFromNode(tx);
-
-  if (!estimatedFee) {
-    throw new InvalidTransactionError({
-      errors: [{ message: "Failed to calculate transfer fees" }],
-      warnings: [],
-    });
+async function calculateFees(transaction: Transaction) {
+  if (
+    transaction.data.mode === TransactionMode.TRANSFER ||
+    transaction.data.mode === TransactionMode.TRANSFER_TOKEN
+  ) {
+    if (!transaction.data.amount) {
+      throw new UserInputError("Amount is required");
+    }
   }
 
-  return estimatedFee;
-}
-
-async function calculateTransferFees(transaction: Transaction) {
-  if (!transaction.data.amount) {
-    throw new UserInputError("Amount is required");
+  let tx;
+  switch (transaction.data.mode) {
+    case TransactionMode.TRANSFER:
+      tx = await buildTransferTransaction(transaction);
+      break;
+    case TransactionMode.TRANSFER_TOKEN:
+      tx = await buildTokenTransferTransaction(transaction);
+      break;
+    case TransactionMode.STAKE:
+      tx = await buildTransactionStake(transaction);
+      break;
+    case TransactionMode.UNSTAKE:
+      tx = await buildDeactivateStake(transaction);
+      break;
+    case TransactionMode.WITHDRAW:
+      tx = await buildWithdrawStake(transaction);
+      break;
+    default:
+      throw new InvalidTransactionError({
+        errors: [{ message: "Invalid transaction mode" }],
+        warnings: [],
+      });
   }
 
-  const tx = await buildTransferTransaction(transaction);
-
   const estimatedFee = await fetchEstimatedFeeFromNode(tx);
-
   if (!estimatedFee) {
     throw new InvalidTransactionError({
-      errors: [{ message: "Failed to calculate transfer fees" }],
+      errors: [{ message: `Failed to calculate fees for transaction mode ${transaction.data.mode}` }],
       warnings: [],
     });
   }

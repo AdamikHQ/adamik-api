@@ -11926,7 +11926,7 @@ snapshots:
 
   aws-sign2@0.7.0: {}
 
-  aws4-axios@3.3.13(axios@1.7.5(debug@4.3.7)):
+  aws4-axios@3.3.13(axios@1.7.5):
     dependencies:
       "@aws-sdk/client-sts": 3.716.0
       aws4: 1.13.2

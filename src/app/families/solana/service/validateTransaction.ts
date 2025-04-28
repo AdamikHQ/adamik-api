@@ -32,8 +32,16 @@ async function validateTransaction(
 
   const transactionData = transaction.data;
   const nativeBalance = await fetchAccount(transaction.data.senderAddress);
-  const amount = transactionData.amount as bigint;
-  const fees = transactionData.fees as bigint;
+  const amount = transactionData.amount;
+  const fees = transactionData.fees;
+
+  if (!amount) {
+    throw new UserInputError("Amount or fees are required");
+  }
+
+  if (!fees) {
+    throw new UserInputError("Fees doesn't seems to be calculated");
+  }
 
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
