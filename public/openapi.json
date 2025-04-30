@@ -7843,20 +7843,10 @@
                                   "format": {
                                     "type": "string",
                                     "enum": [
-                                      "HASH_KECCAK256",
-                                      "HASH_SHA256",
-                                      "HASH_SHA512_256",
-                                      "HASH_PEDERSEN",
-                                      "RLP",
-                                      "WALLET_CONNECT",
-                                      "SIGNDOC_DIRECT",
-                                      "SIGNDOC_DIRECT_JSON",
-                                      "SIGNDOC_AMINO",
-                                      "SIGNDOC_AMINO_JSON",
-                                      "BOC",
-                                      "RAW_TRANSACTION",
-                                      "MSGPACK",
-                                      "PSBT"
+                                      "sha256",
+                                      "keccak256",
+                                      "sha512_256",
+                                      "pedersen"
                                     ]
                                   },
                                   "value": {
@@ -7874,10 +7864,6 @@
                                   "format": {
                                     "type": "string",
                                     "enum": [
-                                      "HASH_KECCAK256",
-                                      "HASH_SHA256",
-                                      "HASH_SHA512_256",
-                                      "HASH_PEDERSEN",
                                       "RLP",
                                       "WALLET_CONNECT",
                                       "SIGNDOC_DIRECT",
@@ -7887,7 +7873,8 @@
                                       "BOC",
                                       "RAW_TRANSACTION",
                                       "MSGPACK",
-                                      "PSBT"
+                                      "PSBT",
+                                      "BCS"
                                     ]
                                   },
                                   "value": {
@@ -9065,20 +9052,10 @@
                                 "format": {
                                   "type": "string",
                                   "enum": [
-                                    "HASH_KECCAK256",
-                                    "HASH_SHA256",
-                                    "HASH_SHA512_256",
-                                    "HASH_PEDERSEN",
-                                    "RLP",
-                                    "WALLET_CONNECT",
-                                    "SIGNDOC_DIRECT",
-                                    "SIGNDOC_DIRECT_JSON",
-                                    "SIGNDOC_AMINO",
-                                    "SIGNDOC_AMINO_JSON",
-                                    "BOC",
-                                    "RAW_TRANSACTION",
-                                    "MSGPACK",
-                                    "PSBT"
+                                    "sha256",
+                                    "keccak256",
+                                    "sha512_256",
+                                    "pedersen"
                                   ]
                                 },
                                 "value": {
@@ -9096,10 +9073,6 @@
                                 "format": {
                                   "type": "string",
                                   "enum": [
-                                    "HASH_KECCAK256",
-                                    "HASH_SHA256",
-                                    "HASH_SHA512_256",
-                                    "HASH_PEDERSEN",
                                     "RLP",
                                     "WALLET_CONNECT",
                                     "SIGNDOC_DIRECT",
@@ -9109,7 +9082,8 @@
                                     "BOC",
                                     "RAW_TRANSACTION",
                                     "MSGPACK",
-                                    "PSBT"
+                                    "PSBT",
+                                    "BCS"
                                   ]
                                 },
                                 "value": {
