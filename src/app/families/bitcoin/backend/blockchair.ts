@@ -566,12 +566,9 @@ async function utxosToAccountState(chainId: ChainId, utxos: UtxoWithMetadata[]):
   return {
     balances: {
       native: {
-        // available: includes ALL spendable amounts (both confirmed and unconfirmed)
-        available: confirmedBalance + unconfirmedBalance,
-        // total: same as available for Bitcoin (no locked amounts)
-        total: confirmedBalance + unconfirmedBalance,
-        // unconfirmed: track unconfirmed amount for information
+        available: confirmedBalance,
         unconfirmed: unconfirmedBalance,
+        total: confirmedBalance + unconfirmedBalance,
       },
     },
   };
@@ -618,7 +615,10 @@ async function blockchairToAdamikTransaction(
   }
 
   // Babylon Staking - poll the babylon backend to check whether it's a staking tx
-  const babylonDelegationFound = await fetchBabylonDelegation(blockchairTransaction.transaction.hash);
+  const babylonDelegationFound = await fetchBabylonDelegation(
+    chainId,
+    blockchairTransaction.transaction.hash
+  );
   if (babylonDelegationFound) {
     // FIXME We can only identify 'staking' transactions,
     // found no way to identify 'unbonding' and 'withdrawal' transactions...

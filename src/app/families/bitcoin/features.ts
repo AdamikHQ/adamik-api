@@ -1,15 +1,14 @@
-import { ChainSupportedFeatures } from "~/app/model/types_WIP";
+import { ChainId, ChainSupportedFeatures } from "~/app/model/types_WIP";
 
-const BITCOIN_FEATURES: ChainSupportedFeatures = {
-  // TODO Enable staking on bitcoin mainnet when live
+const BITCOIN_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
   read: {
     token: false,
-    validators: false,
+    validators: isStakingSupported(chainId),
     account: {
-      balances: { native: true, tokens: false, staking: false },
+      balances: { native: true, tokens: false, staking: isStakingSupported(chainId) },
       transactions: { native: false, tokens: false, staking: false },
     },
-    transaction: { native: true, tokens: false, staking: false },
+    transaction: { native: true, tokens: false, staking: isStakingSupported(chainId) },
   },
   write: {
     transaction: {
@@ -17,10 +16,10 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
         deployAccount: false,
         transfer: true,
         transferToken: false,
-        stake: false,
-        unstake: false,
+        stake: isStakingSupported(chainId),
+        unstake: isStakingSupported(chainId),
         claimRewards: false,
-        withdraw: false,
+        withdraw: isStakingSupported(chainId),
         registerStake: false,
       },
       field: {
@@ -31,39 +30,11 @@ const BITCOIN_FEATURES: ChainSupportedFeatures = {
   utils: {
     addresses: true,
   },
-};
+});
 
-// FIXME Staking supported only by bitcoin but not other chains
-const BITCOIN_SIGNET_FEATURES: ChainSupportedFeatures = {
-  read: {
-    token: false,
-    validators: true,
-    account: {
-      balances: { native: false, tokens: false, staking: true },
-      transactions: { native: false, tokens: false, staking: false },
-    },
-    transaction: { native: true, tokens: false, staking: true },
-  },
-  write: {
-    transaction: {
-      type: {
-        deployAccount: false,
-        transfer: true,
-        transferToken: false,
-        stake: true,
-        unstake: true,
-        claimRewards: false,
-        withdraw: true,
-        registerStake: false,
-      },
-      field: {
-        memo: false,
-      },
-    },
-  },
-  utils: {
-    addresses: true,
-  },
-};
+function isStakingSupported(chainId: ChainId): boolean {
+  // Only bitcoin chains that support staking at the moment
+  return [ChainId.BITCOIN, ChainId.BITCOIN_SIGNET].includes(chainId);
+}
 
-export { BITCOIN_FEATURES, BITCOIN_SIGNET_FEATURES };
+export { BITCOIN_FEATURES };

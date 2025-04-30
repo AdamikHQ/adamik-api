@@ -136,9 +136,9 @@ async function fetchAddressData(chainId: ChainId, address: string): Promise<Acco
   return {
     balances: {
       native: {
-        available: confirmedBalance + unconfirmedBalance,
-        total: confirmedBalance + unconfirmedBalance,
+        available: confirmedBalance,
         unconfirmed: unconfirmedBalance,
+        total: confirmedBalance + unconfirmedBalance,
       },
     },
   };
@@ -291,7 +291,7 @@ async function mempoolSpaceToAdamikTransaction(
   }
 
   // Babylon Staking - poll the babylon backend to check whether it's a staking tx
-  const babylonDelegationFound = await fetchBabylonDelegation(mempoolSpaceTransaction.txid);
+  const babylonDelegationFound = await fetchBabylonDelegation(chainId, mempoolSpaceTransaction.txid);
   if (babylonDelegationFound) {
     // FIXME We can only identify 'staking' transactions,
     // found no way to identify 'unbonding' and 'withdrawal' transactions...

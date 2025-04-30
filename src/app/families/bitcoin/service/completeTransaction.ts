@@ -70,7 +70,7 @@ async function completeTransaction(
           throw new AdamikApiServerError(`Missing 'stakeId' field in transaction`);
         }
 
-        const babylonDelegation = await fetchBabylonDelegation(transaction.data.stakeId);
+        const babylonDelegation = await fetchBabylonDelegation(this.chainId, transaction.data.stakeId);
         if (!babylonDelegation) {
           console.warn(`/!\\ Staking position not found for stake ID ${transaction.data.stakeId}`);
           throw new UserInputError(`Staking position not found for stake ID ${transaction.data.stakeId}`);
@@ -92,7 +92,7 @@ async function completeTransaction(
 
     case TransactionMode.WITHDRAW:
       {
-        const babylonDelegation = await fetchBabylonDelegation(transaction.data.stakeId);
+        const babylonDelegation = await fetchBabylonDelegation(this.chainId, transaction.data.stakeId);
         if (!babylonDelegation) {
           console.warn(`/!\\ Staking position not found for stake ID ${transaction.data.stakeId}`);
           throw new UserInputError(`Staking position not found for stake ID ${transaction.data.stakeId}`);

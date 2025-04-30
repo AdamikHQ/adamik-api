@@ -1,0 +1,8 @@
+import { broadcast } from "../backend/node";
+import { AptosService } from "../service";
+
+async function broadcastTransaction(this: AptosService, signedTransaction: string): Promise<string> {
+  return await broadcast(this.chainId, signedTransaction);
+}
+
+export { broadcastTransaction };

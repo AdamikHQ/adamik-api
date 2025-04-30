@@ -40,7 +40,6 @@ import {
   fetchAddressScriptPubKey,
   fetchAddressUtxos,
   fetchLatestBlockHeight as fetchBitcoinLatestBlockHeight,
-  fetchFeePerByte,
   fetchFeePerByte as fetchFeePerByteMempoolSpace,
   fetchTransaction as fetchTransactionFromMS,
 } from "~/app/families/bitcoin/backend/mempoolSpace";
@@ -72,7 +71,7 @@ import {
 import { getTransactionfromProviders } from "../common";
 import { fetchAllBabylonStakingParams, fetchBabylonDelegation } from "./backend/babylonAPI";
 import { BabylonDelegationState, BabylonDelegationV2 } from "./backend/babylonAPI.types";
-import { BabylonMsgCreateBTCDelegation, CURRENT_BABYLON_BITCOIN_CHAIN } from "./types";
+import { BabylonMsgCreateBTCDelegation } from "./types";
 
 // FIXME Doesn't take into account:
 // - supported providers by chain
@@ -88,6 +87,7 @@ const fetchTransactionFunctions = [fetchTransactionFromMS, fetchTransactionFromB
 // TODO Check when 'Staking' class is exposed by btc-staking-lib, and refacto everything to use it instead
 
 function buildStakingScripts(
+  chainId: ChainId,
   transactionData: StakeTransactionData | UnstakeTransactionData | WithdrawTransactionData,
   babylonStakingParams: StakingParams
 ): StakingScripts {
@@ -106,12 +106,18 @@ function buildStakingScripts(
 
   const covenantPks: Buffer[] = babylonStakingParams.covenantNoCoordPks.map((pk) => Buffer.from(pk, "hex"));
 
+  // NOTE Use minimum staking duration for testing, and maximum duration on prod
+  const stakingTimeLock =
+    chainId === ChainId.BITCOIN_SIGNET
+      ? babylonStakingParams.minStakingTimeBlocks
+      : babylonStakingParams.maxStakingTimeBlocks;
+
   const stakingScriptData = new StakingScriptData(
     senderPubKeyNoCoord,
     finalityProviders,
     covenantPks,
     babylonStakingParams.covenantQuorum,
-    babylonStakingParams.minStakingTimeBlocks,
+    stakingTimeLock,
     babylonStakingParams.unbondingTime
   );
 
@@ -128,9 +134,9 @@ async function buildBabylonStakingPayloads(
   unbondingTransaction: BitcoinTransaction;
   fees: number;
 }> {
-  const babylonStakingParams = await getCurrentBabylonStakingParams();
+  const babylonStakingParams = await getCurrentBabylonStakingParams(chainId);
   const bitcoinNetworkInfo = getNetworkForChainId(chainId);
-  const stakingScripts = buildStakingScripts(transactionData, babylonStakingParams);
+  const stakingScripts = buildStakingScripts(chainId, transactionData, babylonStakingParams);
 
   const {
     transaction: stakingTransaction,
@@ -389,7 +395,10 @@ async function retrieveUnbondingPsbtFromDelegation(
   transactionData: UnstakeTransactionData,
   babylonDelegation: BabylonDelegationV2
 ): Promise<{ unbondingPsbt: Psbt; unbondingFees: bigint }> {
-  const babylonStakingParams = await getBabylonStakingParamsByVersion(babylonDelegation.data.params_version);
+  const babylonStakingParams = await getBabylonStakingParamsByVersion(
+    chainId,
+    babylonDelegation.data.params_version
+  );
   if (!babylonStakingParams) {
     console.warn(`/!\\ Staking params version not found for stake ID ${transactionData.stakeId}`);
     throw new AdamikApiServerError(
@@ -407,7 +416,7 @@ async function retrieveUnbondingPsbtFromDelegation(
   const bitcoinNetworkInfo = getNetworkForChainId(chainId);
 
   const unbondingPsbt = unbondingTransactionToPsbt(
-    buildStakingScripts(transactionData, babylonStakingParams),
+    buildStakingScripts(chainId, transactionData, babylonStakingParams),
     unbondingTransaction,
     stakingTransaction,
     bitcoinNetworkInfo
@@ -423,6 +432,7 @@ async function retrieveUnbondingPsbtFromDelegation(
 
 // From https://github.com/babylonlabs-io/btc-staking-ts/blob/bec554d159a0aebfaa6b163cb31eaf7389b09e78/src/staking/manager.ts#L457-L472
 async function finalizeUnbondingBroadcastPayload(
+  chainId: ChainId,
   transactionData: UnstakeTransactionData,
   signedUnbondingTransaction: BitcoinTransaction
 ): Promise<BitcoinTransaction> {
@@ -430,13 +440,16 @@ async function finalizeUnbondingBroadcastPayload(
     throw new AdamikApiServerError(`Missing 'stakeId' field in transaction`);
   }
 
-  const babylonDelegation = await fetchBabylonDelegation(transactionData.stakeId);
+  const babylonDelegation = await fetchBabylonDelegation(chainId, transactionData.stakeId);
   if (!babylonDelegation) {
     console.warn(`/!\\ Staking position not found for stake ID ${transactionData.stakeId}`);
     throw new UserInputError(`Staking position not found for stake ID ${transactionData.stakeId}`);
   }
 
-  const babylonStakingParams = await getBabylonStakingParamsByVersion(babylonDelegation.data.params_version);
+  const babylonStakingParams = await getBabylonStakingParamsByVersion(
+    chainId,
+    babylonDelegation.data.params_version
+  );
   if (!babylonStakingParams) {
     console.warn(`/!\\ Staking params version not found for stake ID ${transactionData.stakeId}`);
     throw new AdamikApiServerError(`Staking params not found for stake ID ${transactionData.stakeId}`);
@@ -475,15 +488,18 @@ async function buildWithdrawalPsbt(
   const delegationState = babylonDelegation.data.state;
 
   // Get the staking params for this delegation
-  const babylonStakingParams = await getBabylonStakingParamsByVersion(babylonDelegation.data.params_version);
+  const babylonStakingParams = await getBabylonStakingParamsByVersion(
+    chainId,
+    babylonDelegation.data.params_version
+  );
   if (!babylonStakingParams) {
     console.warn(`/!\\ Staking params version not found for delegation`);
     throw new AdamikApiServerError(`Staking params version not found for delegation`);
   }
 
-  const stakingScripts = buildStakingScripts(transactionData, babylonStakingParams);
+  const stakingScripts = buildStakingScripts(chainId, transactionData, babylonStakingParams);
 
-  const feeRate = await fetchFeePerByte(chainId);
+  const feeRate = await fetchFeePerByteMempoolSpace(chainId);
 
   try {
     // End of timelock withdrawal
@@ -561,6 +577,7 @@ async function buildWithdrawalPsbt(
 }
 
 async function buildBabylonRegistrationMessage(
+  chainId: ChainId,
   transactionData: RegisterStakeTransactionData
 ): Promise<ProtoMsg> {
   //////////////////// Retrieve data from the input transaction
@@ -610,7 +627,7 @@ async function buildBabylonRegistrationMessage(
     btcSig: ecdsaSig,
   };
 
-  const babylonStakingParams = await getCurrentBabylonStakingParams();
+  const babylonStakingParams = await getCurrentBabylonStakingParams(chainId);
 
   //////////////////// Build the cosmos message
 
@@ -643,63 +660,53 @@ async function buildBabylonRegistrationMessage(
   };
 }
 
-async function getBabylonDelegationState(message: BabylonMsgCreateBTCDelegation): Promise<TransactionState> {
+async function getBabylonDelegationState(
+  chainId: ChainId,
+  message: BabylonMsgCreateBTCDelegation
+): Promise<TransactionState> {
   // 1 - parse the babylon message to retrieve the bitcoin staking tx
   const bitcoinTransactionId = BitcoinTransaction.fromBuffer(
     Buffer.from(message.staking_tx, "base64")
   ).getId();
 
   // 2 - from the bitcoin tx id, fetch the related babylon delegation
-  const babylonDelegation = await fetchBabylonDelegation(bitcoinTransactionId);
+  const babylonDelegation = await fetchBabylonDelegation(chainId, bitcoinTransactionId);
 
   // 3 - set the Adamik transaction state according to the babylon delegation state
   switch (babylonDelegation?.data.state) {
     // No delegation found yet --> pending
     case undefined:
       return TransactionState.PENDING;
-      break;
     // Delegation found but not verified yet --> unconfirmed
     case BabylonDelegationState.PENDING:
       return TransactionState.UNCONFIRMED;
-      break;
     // All other cases (verified, active, etc) mean the delegation is confirmed
     default:
       return TransactionState.CONFIRMED;
-      break;
   }
 }
 
-async function getCurrentBabylonStakingParams(): Promise<StakingParams> {
-  const babylonStakingParams = await fetchAllBabylonStakingParams();
+async function getCurrentBabylonStakingParams(chainId: ChainId): Promise<StakingParams> {
+  const babylonStakingParams = await fetchAllBabylonStakingParams(chainId);
 
-  const bitcoinLatestBlockHeight = await fetchBitcoinLatestBlockHeight(CURRENT_BABYLON_BITCOIN_CHAIN);
+  const bitcoinLatestBlockHeight = await fetchBitcoinLatestBlockHeight(getBabylonChainIds(chainId).bitcoin);
 
   // Specific logic required to determine what version to use
   // (depends on the current bitcoin block height)
   return getBabylonParamByBtcHeight(bitcoinLatestBlockHeight, babylonStakingParams);
 }
 
-async function getBabylonStakingParamsByVersion(version: number): Promise<StakingParams | null> {
-  const babylonStakingParams = await fetchAllBabylonStakingParams();
+async function getBabylonStakingParamsByVersion(
+  chainId: ChainId,
+  version: number
+): Promise<StakingParams | null> {
+  const babylonStakingParams = await fetchAllBabylonStakingParams(chainId);
 
   return babylonStakingParams.find((param) => param.version === version) ?? null;
 }
 
-/*
-function isUnbonding(delegation: BabylonDelegationV2["data"]): boolean {
-  return (
-    [
-      BabylonDelegationState.PENDING,
-      BabylonDelegationState.VERIFIED,
-      BabylonDelegationState.ACTIVE,
-      BabylonDelegationState.TIMELOCK_WITHDRAWABLE,
-      BabylonDelegationState.TIMELOCK_WITHDRAWN,
-    ].includes(delegation.state) === false
-  );
-}
-*/
-
 async function computeCompletionDateForDelegation(
+  chainId: ChainId,
   delegation: BabylonDelegationV2["data"]
 ): Promise<number | undefined> {
   switch (delegation.state) {
@@ -711,6 +718,7 @@ async function computeCompletionDateForDelegation(
     case BabylonDelegationState.TIMELOCK_WITHDRAWABLE:
     case BabylonDelegationState.TIMELOCK_WITHDRAWN:
       return computeCompletionDateForTransaction(
+        chainId,
         delegation.delegation_staking.staking_tx_hex,
         delegation.delegation_staking.staking_timelock
       );
@@ -718,6 +726,7 @@ async function computeCompletionDateForDelegation(
     case BabylonDelegationState.EARLY_UNBONDING_WITHDRAWABLE:
     case BabylonDelegationState.EARLY_UNBONDING_WITHDRAWN:
       return computeCompletionDateForTransaction(
+        chainId,
         delegation.delegation_unbonding.unbonding_tx,
         delegation.delegation_unbonding.unbonding_timelock
       );
@@ -729,11 +738,13 @@ async function computeCompletionDateForDelegation(
       return (
         // Either slashing while staking...
         computeCompletionDateForTransaction(
+          chainId,
           delegation.delegation_staking.slashing.slashing_tx_hex,
           delegation.delegation_unbonding.unbonding_timelock
         ) ??
         // ...or slashing while unbonding
         computeCompletionDateForTransaction(
+          chainId,
           delegation.delegation_unbonding.slashing.unbonding_slashing_tx_hex,
           delegation.delegation_unbonding.unbonding_timelock
         )
@@ -744,6 +755,7 @@ async function computeCompletionDateForDelegation(
 }
 
 async function computeCompletionDateForTransaction(
+  chainId: ChainId,
   bitcoinTransactionHex: string,
   timelockBlocks: number // number of blocks
 ): Promise<number | undefined> {
@@ -754,7 +766,7 @@ async function computeCompletionDateForTransaction(
   const bitcoinTransactionId = BitcoinTransaction.fromHex(bitcoinTransactionHex).getId();
 
   const transaction = await getTransactionfromProviders(
-    CURRENT_BABYLON_BITCOIN_CHAIN,
+    getBabylonChainIds(chainId).bitcoin,
     bitcoinTransactionId,
     fetchTransactionFunctions
   );
@@ -765,6 +777,19 @@ async function computeCompletionDateForTransaction(
   const startingTime = transaction.parsed.timestamp;
   const duration = timelockBlocks * AVERAGE_BITCOIN_BLOCK_TIME_MS;
   return startingTime + duration;
+}
+
+function getBabylonChainIds(chainId: ChainId): { bitcoin: ChainId; babylon: ChainId } {
+  switch (chainId) {
+    case ChainId.BITCOIN:
+    case ChainId.BABYLON:
+      return { bitcoin: ChainId.BITCOIN, babylon: ChainId.BABYLON };
+    case ChainId.BITCOIN_SIGNET:
+    case ChainId.BABYLON_TESTNET:
+      return { bitcoin: ChainId.BITCOIN_SIGNET, babylon: ChainId.BABYLON_TESTNET };
+    default:
+      throw new AdamikApiServerError(`Unsupported chainId for Babylon protocol: ${chainId}`);
+  }
 }
 
 // FIXME Everything below should be imported from btc-staking-lib instead, but it doesn't expose it...
@@ -1113,6 +1138,7 @@ export {
   buildWithdrawalPsbt,
   computeCompletionDateForDelegation,
   finalizeUnbondingBroadcastPayload,
+  getBabylonChainIds,
   getBabylonDelegationState,
   getBabylonStakingParamsByVersion,
   retrieveUnbondingPsbtFromDelegation,

@@ -60,6 +60,14 @@ function getSignerSpecForFamily(family: ChainFamily): SignerSpec {
         coinType: "283",
       };
 
+    case ChainFamily.APTOS:
+      return {
+        curve: Curve.ED25519,
+        hashFunction: HashFunction.SHA256,
+        signatureFormat: SignatureFormat.RS,
+        coinType: "637",
+      };
+
     default:
       throw new Error(`Unsupported chain family: ${family}`);
   }

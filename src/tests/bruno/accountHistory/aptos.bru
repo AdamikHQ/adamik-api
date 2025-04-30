@@ -1,0 +1,21 @@
+meta {
+  name: aptos
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/history
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: aptos
+  accountId: 0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288
+}
+
+assert {
+  res.status: eq 200
+  res.body.transactions: isArray
+}

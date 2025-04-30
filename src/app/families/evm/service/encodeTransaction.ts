@@ -1,4 +1,5 @@
 import {
+  BaseError as ViemError,
   encodeFunctionData,
   erc20Abi,
   parseSignature,
@@ -88,7 +89,7 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
     gas: transaction.data.gas,
     nonce: Number(transaction.data.nonce),
     to: recipient,
-    value: amount,
+    value: transaction.data.mode === TransactionMode.TRANSFER ? amount : 0n,
     data,
   });
 }

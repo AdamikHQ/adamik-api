@@ -1,0 +1,21 @@
+meta {
+  name: aptos
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{api_url}}/api/:chainId/token/:tokenId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: aptos
+  tokenId: 0x397071c01929cc6672a17f130bd62b1bce224309029837ce4f18214cc83ce2a7::USDC::USDC
+}
+
+assert {
+  res.status: eq 200
+  res.body.token.ticker: eq USDC
+}
