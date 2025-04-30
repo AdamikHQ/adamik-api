@@ -493,7 +493,7 @@ const encodedTransactionSchema = z.array(
   z.object({
     hash: z
       .object({
-        format: z.nativeEnum(EncodedTransactionFormat),
+        format: z.nativeEnum(HashFunction),
         value: z.string(),
       })
       .optional(),

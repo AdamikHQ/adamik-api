@@ -492,6 +492,7 @@ enum EncodedTransactionFormat {
   RAW_TRANSACTION = "RAW_TRANSACTION",
   MSGPACK = "MSGPACK",
   PSBT = "PSBT",
+  BCS = "BCS",
 }
 
 type Transaction = {
