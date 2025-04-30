@@ -1,4 +1,4 @@
-import { EncodedTransactionFormat, Status, Transaction } from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, HashFunction, Status, Transaction } from "~/app/model/types_WIP";
 import { sha256 } from "~/app/tools/hash";
 import { buildTransaction } from "../logic";
 import { TronService } from "../service";
@@ -19,7 +19,7 @@ async function encodeTransactionToSign(
         value: builtTransaction.raw_data_hex,
       },
       hash: {
-        format: EncodedTransactionFormat.HASH_SHA256,
+        format: HashFunction.SHA256,
         value: sha256(Buffer.from(builtTransaction.raw_data_hex, "hex")),
       },
     },

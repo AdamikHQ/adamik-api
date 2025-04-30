@@ -460,22 +460,22 @@ type TransactionData =
   | WithdrawTransactionData
   | RegisterStakeTransactionData;
 
+type EncodedTransactionRawFormat = {
+  format: EncodedTransactionFormat;
+  value: string;
+};
+
+type EncodedTransactionHashFormat = {
+  format: HashFunction;
+  value: string;
+};
+
 type EncodedTransaction = {
-  hash?: {
-    format: EncodedTransactionFormat;
-    value: string;
-  };
-  raw?: {
-    format: EncodedTransactionFormat;
-    value: string;
-  };
+  hash?: EncodedTransactionHashFormat;
+  raw?: EncodedTransactionRawFormat;
 };
 
 enum EncodedTransactionFormat {
-  HASH_KECCAK256 = "HASH_KECCAK256",
-  HASH_SHA256 = "HASH_SHA256",
-  HASH_SHA512_256 = "HASH_SHA512_256",
-  HASH_PEDERSEN = "HASH_PEDERSEN",
   RLP = "RLP",
   WALLET_CONNECT = "WALLET_CONNECT",
   SIGNDOC_DIRECT = "SIGNDOC_DIRECT",

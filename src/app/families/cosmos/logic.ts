@@ -4,7 +4,6 @@ import {
   StdFee,
   encodeSecp256k1Pubkey,
   makeSignDoc as makeSignDocAmino,
-  serializeSignDoc,
 } from "@cosmjs/amino";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { Int53 } from "@cosmjs/math";
@@ -447,10 +446,8 @@ async function encodeToSign(
   transactionData: TransactionData
 ): Promise<
   Record<
-    | EncodedTransactionFormat.SIGNDOC_DIRECT
-    | EncodedTransactionFormat.SIGNDOC_DIRECT_JSON
-    | EncodedTransactionFormat.SIGNDOC_AMINO
-    | EncodedTransactionFormat.SIGNDOC_AMINO_JSON,
+    EncodedTransactionFormat.SIGNDOC_DIRECT | EncodedTransactionFormat.SIGNDOC_DIRECT_JSON,
+    // EncodedTransactionFormat.SIGNDOC_AMINO | EncodedTransactionFormat.SIGNDOC_AMINO_JSON,
     string
   >
 > {
@@ -480,18 +477,17 @@ async function encodeToSign(
   const signDoc = await buildSignDocProtobuf(chainId, account, transactionData, chain.nativeId, feeData);
 
   // Amino
-  const signDocAmino = await buildSignDocAmino(chainId, account, transactionData, chain.nativeId, feeData);
+  // const signDocAmino = await buildSignDocAmino(chainId, account, transactionData, chain.nativeId, feeData);
 
-  const serializedSignDocAmino = Buffer.from(serializeSignDoc(signDocAmino));
+  // const serializedSignDocAmino = Buffer.from(serializeSignDoc(signDocAmino));
 
-  // TODO Test the protobuf format with Keplr, then deprecate the JSON format here if possible
   return {
     [EncodedTransactionFormat.SIGNDOC_DIRECT_JSON]: JSON.stringify(SignDocProtobuf.toJSON(signDoc)),
     [EncodedTransactionFormat.SIGNDOC_DIRECT]: Buffer.from(SignDocProtobuf.encode(signDoc).finish()).toString(
       "hex"
     ),
-    [EncodedTransactionFormat.SIGNDOC_AMINO]: serializedSignDocAmino.toString("hex"),
-    [EncodedTransactionFormat.SIGNDOC_AMINO_JSON]: serializedSignDocAmino.toString("utf8"),
+    // [EncodedTransactionFormat.SIGNDOC_AMINO]: serializedSignDocAmino.toString("hex"),
+    // [EncodedTransactionFormat.SIGNDOC_AMINO_JSON]: serializedSignDocAmino.toString("utf8"),
   };
 }
 

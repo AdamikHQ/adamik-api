@@ -13,6 +13,7 @@ import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
   EncodedTransactionFormat,
+  HashFunction,
   Status,
   Transaction,
   TransactionMode,
@@ -33,7 +34,7 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction, status } = _;
 
-  const rawTransaction = await encodeTransactionAsHex(this.chainId, transaction);
+  const rawTransaction = await encodeTransactionAsRLP(this.chainId, transaction);
 
   transaction.encoded = [
     {
@@ -42,20 +43,20 @@ async function encodeTransactionToSign(
         value: rawTransaction,
       },
       hash: {
-        format: EncodedTransactionFormat.HASH_KECCAK256,
+        format: HashFunction.KECCAK256,
         value: keccak256(Buffer.from(rawTransaction.slice(2), "hex")),
       },
     },
     {
       raw: {
         format: EncodedTransactionFormat.WALLET_CONNECT,
-        value: await encodeTransactionAsJSON(this.chainId, transaction),
+        value: await encodeTransactionAsWalletConnect(this.chainId, transaction),
       },
     },
   ];
 }
 
-async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction): Promise<string> {
+async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction): Promise<string> {
   const chain = CHAINS[chainId];
   const chainParams = chain.params as EvmChainParams;
 
@@ -92,7 +93,7 @@ async function encodeTransactionAsHex(chainId: ChainId, transaction: Transaction
   });
 }
 
-async function encodeTransactionAsJSON(chainId: ChainId, transaction: Transaction): Promise<string> {
+async function encodeTransactionAsWalletConnect(chainId: ChainId, transaction: Transaction): Promise<string> {
   const chain = CHAINS[chainId];
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);

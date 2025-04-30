@@ -1,4 +1,4 @@
-import { EncodedTransactionFormat, Status, Transaction } from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, HashFunction, Status, Transaction } from "~/app/model/types_WIP";
 import { sha256 } from "~/app/tools/hash";
 import { fetchAccount } from "../backend/node";
 import { encodeToBroadcast, encodeToSign, resolvePubKey } from "../logic";
@@ -24,7 +24,7 @@ async function encodeTransactionToSign(
         value: rawTransactions[EncodedTransactionFormat.SIGNDOC_DIRECT],
       },
       hash: {
-        format: EncodedTransactionFormat.HASH_SHA256,
+        format: HashFunction.SHA256,
         value: sha256(Buffer.from(rawTransactions[EncodedTransactionFormat.SIGNDOC_DIRECT], "hex")),
       },
     },
