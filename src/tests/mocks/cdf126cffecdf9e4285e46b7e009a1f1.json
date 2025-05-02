@@ -1,6 +1,6 @@
 {
   "request": {
-    "url": "https://babylon-testnet-api.nodes.guru/cosmos/bank/v1beta1/balances/bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49",
+    "url": "https://babylon-testnet-api.polkachu.com/cosmos/bank/v1beta1/balances/bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq",
     "method": "GET"
   },
   "response": {
@@ -9,7 +9,7 @@
       "balances": [
         {
           "denom": "ubbn",
-          "amount": "990535460"
+          "amount": "9992127"
         }
       ],
       "pagination": {
