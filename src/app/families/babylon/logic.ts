@@ -257,7 +257,11 @@ async function buildStakingPsbt(
     };
   } catch (error: any) {
     console.warn(`/!\\ Failed to build babylon staking psbt: ${error}`);
-    if (error?.message && error.message.includes("amount is less than dust limit")) {
+    if (
+      error?.message &&
+      (error.message.includes("amount is less than dust limit") ||
+        error.message.includes("Insufficient funds"))
+    ) {
       throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
     } else if (error?.message && error.message.includes("Not enough funds to cover the fee")) {
       throw new InvalidTransactionError(statusFromMessage(`Balance is too low to cover the fees`));

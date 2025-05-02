@@ -22,6 +22,7 @@ async function prevalidateTransaction(
   }
 
   // TODO If senderPubKey is provided, validate that it matches with senderAddress
+  // TODO Check there are enough UTXOs to cover the amount and/or fees
 
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
@@ -73,14 +74,14 @@ async function prevalidateTransaction(
         status.errors.push({ message: "Public key of the sender address must be provided" });
       }
 
-      // FIXME Try to support useMaxAmount for staking transactions too
+      // FIXME Try to support useMaxAmount for staking transactions too?
       if (transaction.data.useMaxAmount) {
         status.errors.push({
           message: `useMaxAmount is not supported for ${this.chainId} staking transactions`,
         });
       }
 
-      if (!transaction.data.amount) {
+      if (transaction.data.amount === undefined) {
         status.errors.push({
           message: `Amount must be provided for ${this.chainId} stake transactions`,
         });
