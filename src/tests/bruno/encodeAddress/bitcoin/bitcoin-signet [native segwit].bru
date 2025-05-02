@@ -16,12 +16,12 @@ params:path {
 
 body:json {
   {
-    "pubkey": "02c09f288727490361db25881dd2ff09d369fbd7c3e0cac371a7134b7cf16d4cd5"
+    "pubkey": "02bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c"
   }
 }
 
 assert {
   res.status: eq 200
   res.body.addresses[2].type: eq p2wpkh
-  res.body.addresses[2].address: eq tb1q737mgc5em323ddazqqy2pp3lh0kh3qtlnjq5fd
+  res.body.addresses[2].address: eq tb1qnkktcxqpa6ujgs6xaqsrv72f0elm450dsdzt0u
 }

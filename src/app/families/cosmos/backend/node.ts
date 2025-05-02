@@ -317,7 +317,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
     try {
       data = await response.json();
     } catch (e) {
-      console.warn(`/!\\ Error while parsing data returned from ${chainId} node endpoint ${url}:`, JSON.stringify(e));
+      console.warn(`/!\\ Error while parsing data returned from ${chainId} node endpoint ${url}:`, e);
       throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
     }
 
@@ -399,11 +399,8 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
   const data = await (async () => {
     try {
       return await response.json();
-    } catch (e) {
-      console.warn(
-        `/!\\ Error while parsing response from ${chainId} node endpoint ${url}:`,
-        await response.text()
-      );
+    } catch (error) {
+      console.warn(`/!\\ Error while parsing response from ${chainId} node endpoint ${url}:`, error);
       throw new ThirdPartyProviderError(`Error while getting gas estimate for ${chainId} transaction`);
     }
   })();

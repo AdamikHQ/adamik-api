@@ -2129,10 +2129,9 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        // TODO validate that mainnet URLs are correct
-        url: "https://babylon-api.nodes.guru",
-        //url: "https://babylon-api.polkachu.com",
+        //url: "https://babylon-api.nodes.guru",
         //url: "https://lcd-babylon.imperator.co",
+        url: "https://babylon-api.polkachu.com",
       },
       {
         type: ProviderType.mintscan,
@@ -2164,9 +2163,9 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        //url: "https://babylon-testnet-api.polkachu.com",
+        //url: "https://babylon-testnet-api.nodes.guru",
         //url: "https://lcd-babylon-testnet.imperator.co",
-        url: "https://babylon-testnet-api.nodes.guru",
+        url: "https://babylon-testnet-api.polkachu.com",
       },
       {
         type: ProviderType.mintscan,

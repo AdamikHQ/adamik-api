@@ -1,0 +1,14 @@
+{
+  "request": {
+    "url": "https://babylon-testnet-api.polkachu.com/cosmos/distribution/v1beta1/delegators/bbn1v6md7tx33a4rlth8jrmapzkqrxmh4ptvyzwwsq/rewards",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "rewards": [],
+      "total": []
+    },
+    "type": "json"
+  }
+}

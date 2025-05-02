@@ -1,0 +1,74 @@
+{
+  "request": {
+    "url": "https://staking-api.babylonlabs.io/v2/delegation?staking_tx_hash_hex=c29d13d1b375505951e16e319d91874d3e5f058314d37ee2382e5df5ee51e584",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "params_version": 4,
+        "staker_btc_pk_hex": "bd2eb288281a9e7a15ec81b8b593f243b96fbcd2b16a1a509c1b87df95fc499c",
+        "finality_provider_btc_pks_hex": [
+          "a1f39ed29581fb6ad54be8cdf1a8838b3429e87bdfdd2652c47946221c360f10"
+        ],
+        "delegation_staking": {
+          "staking_tx_hash_hex": "c29d13d1b375505951e16e319d91874d3e5f058314d37ee2382e5df5ee51e584",
+          "staking_tx_hex": "0200000003bed9e018a3f76054fdee0110cfdc6f6b64be64e4ac49da9252f7cc6bd56610ed0200000000ffffffff4b9d1ff31149b419f861978c01a4ea5e6e3df42d1d3e187d81702dfdb223af110000000000ffffffff6c57b3d1947a2f04e5e83619e0210a21fb47c1da5d79ba03323e6823611f4dc10000000000ffffffff0220a107000000000022512008cadfe7b9cc9104eee5bd063f98dd3ba7b0dc9641ad40dcf43161dc5a4035d843d700000000000022512074aa0a4aeefc052d0e63edda5a5f9cd4a9a6b245fad33ea29408c130e291604100000000",
+          "staking_timelock": 64000,
+          "staking_amount": 500000,
+          "bbn_inception_height": 208615,
+          "bbn_inception_time": "2025-05-02T13:15:12Z",
+          "slashing": {
+            "slashing_tx_hex": "",
+            "spending_height": 0
+          }
+        },
+        "delegation_unbonding": {
+          "unbonding_timelock": 1008,
+          "unbonding_tx": "020000000184e551eef55d2e38e27ed31483055f3e4d87919d316ee151595075b3d1139dc20000000000ffffffff01a07b070000000000225120abf2dfe44cd35955cc20b127e5aa08df08b31cfc9bd0b84f114ad2455cab5fd400000000",
+          "covenant_unbonding_signatures": [
+            {
+              "covenant_btc_pk_hex": "d3c79b99ac4d265c2f97ac11e3232c07a598b020cf56c6f055472c893c0967ae",
+              "signature_hex": "f3f4be66a7eda8f90a660433dae666608b94a913190f7750906c79b4a2d88c56965a6e43a052e16ec8c37bbe6fbea858a49a57c16b07c69dd85fa407e9470af6"
+            },
+            {
+              "covenant_btc_pk_hex": "cbdd028cfe32c1c1f2d84bfec71e19f92df509bba7b8ad31ca6c1a134fe09204",
+              "signature_hex": "e33d84dec0da225156355690c6136bbee5ca7eab2940340645c55b14aec79066e72213c8c3a74c6f46d80afa881ee285886685c5ca090869a605bd91115136b4"
+            },
+            {
+              "covenant_btc_pk_hex": "4b15848e495a3a62283daaadb3f458a00859fe48e321f0121ebabbdd6698f9fa",
+              "signature_hex": "d213eab50a5e94a2ab21e65ef2d3e7f7cccf9f60329123cf056cab66b08dbc9dffb01c777014aff8952116cf9e301cc1718202763af01fe735cb47f7d6093276"
+            },
+            {
+              "covenant_btc_pk_hex": "e36200aaa8dce9453567bba108bdc51f7f1174b97a65e4dc4402fc5de779d41c",
+              "signature_hex": "dcc9fdef0252b50f5e04fcd79e04e2badada86d20cea91c17e7fc749b4cc130961b3208e37a82168d9bf2f189951857ee126181a2118a0f59cdc84175287eac5"
+            },
+            {
+              "covenant_btc_pk_hex": "23b29f89b45f4af41588dcaf0ca572ada32872a88224f311373917f1b37d08d1",
+              "signature_hex": "86df20edd37abcaa3d12805a3fd2d74a52bf7d82b0383d0f6a0cf6c955afad9176300226d1ca424090bf5f5eea6e6698e8d51716e1bebd0fe17dea80438724ec"
+            },
+            {
+              "covenant_btc_pk_hex": "d45c70d28f169e1f0c7f4a78e2bc73497afe585b70aa897955989068f3350aaa",
+              "signature_hex": "4f8a32dc70e68ce2b05a11d5cac30aa1f1772d730c9f86a95c23d88a8ee034991792ae6d00d4f945b739fc25ac3f4873e147019991a7662e701327d0c86f1dc6"
+            },
+            {
+              "covenant_btc_pk_hex": "f178fcce82f95c524b53b077e6180bd2d779a9057fdff4255a0af95af918cee0",
+              "signature_hex": "091ed8a208082f02a09345e2d73882184d41d6d143166d0bd5c9ce19dfe6cb31047af4e5dacb0dfae6942378d61998ab2efc74d20f67349e22a09c59850c8739"
+            },
+            {
+              "covenant_btc_pk_hex": "8242640732773249312c47ca7bdb50ca79f15f2ecc32b9c83ceebba44fb74df7",
+              "signature_hex": "1e94dcfcd4c17af7ee131b446e262755d66a6eb5b0ae3ef33e5c170477463b762ecf1b8ecdecc37b8e0f1f24a711e36f75777df3f2dc683ce83fa8c99c17eff1"
+            }
+          ],
+          "slashing": {
+            "unbonding_slashing_tx_hex": "",
+            "spending_height": 0
+          }
+        },
+        "state": "VERIFIED"
+      }
+    },
+    "type": "json"
+  }
+}
