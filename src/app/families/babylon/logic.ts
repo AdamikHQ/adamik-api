@@ -144,8 +144,6 @@ async function buildBabylonStakingPayloads(
     fee: fees,
   } = await buildStakingPsbt(chainId, transactionData, stakingScripts, bitcoinNetworkInfo);
 
-  // TODO Maybe we actually don't need the unbonding transaction here,
-  // and we could build it during the babylon registration flow --> to be tested
   const { transaction: unbondingTransaction } = buildUnbondingPsbt(
     stakingScripts,
     stakingTransaction,
@@ -258,7 +256,7 @@ async function buildStakingPsbt(
       fee,
     };
   } catch (error: any) {
-    console.warn(`/!\\ Failed to build babylon staking psbt: ${JSON.stringify(error)}`);
+    console.warn(`/!\\ Failed to build babylon staking psbt: ${error}`);
     if (error?.message && error.message.includes("amount is less than dust limit")) {
       throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
     } else if (error?.message && error.message.includes("Not enough funds to cover the fee")) {
@@ -279,6 +277,11 @@ function buildSlashingPsbt(
     throw new AdamikApiServerError("Slashing parameters are required but not provided");
   }
 
+  // Get the staking output address
+  const { outputAddress } = deriveStakingOutputInfo(scripts, bitcoinNetworkInfo);
+
+  // Reconstruct the stakingOutputIndex
+  const stakingOutputIndex = findMatchingTxOutputIndex(stakingTransaction, outputAddress, bitcoinNetworkInfo);
   try {
     const { psbt } = createSlashTimelockUnbondedTransaction(
       scripts,
@@ -286,7 +289,8 @@ function buildSlashingPsbt(
       babylonStakingParams.slashing.slashingPkScriptHex,
       babylonStakingParams.slashing.slashingRate,
       babylonStakingParams.slashing.minSlashingTxFeeSat,
-      bitcoinNetworkInfo
+      bitcoinNetworkInfo,
+      stakingOutputIndex
     );
 
     return {
@@ -294,8 +298,8 @@ function buildSlashingPsbt(
       fee: babylonStakingParams.slashing.minSlashingTxFeeSat,
     };
   } catch (error: any) {
-    console.warn(`/!\\ Failed to build babylon slashing psbt: ${JSON.stringify(error)}`);
-    if (error?.message && error.message.includes("amount is less than dust limit")) {
+    console.warn(`/!\\ Failed to build babylon slashing psbt: ${error}`);
+    if (error?.message && error.message.includes("less than dust limit")) {
       throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
     } else if (error?.message && error.message.includes("Not enough funds to cover the fee")) {
       throw new InvalidTransactionError(statusFromMessage(`Balance is too low to cover the fees`));
@@ -342,7 +346,7 @@ function buildUnbondingPsbt(
       fee: unbondingFee,
     };
   } catch (error: any) {
-    console.warn(`/!\\ Failed to build babylon unbonding psbt: ${JSON.stringify(error)}`);
+    console.warn(`/!\\ Failed to build babylon unbonding psbt: ${error}`);
     if (error?.message && error.message.includes("amount is less than dust limit")) {
       throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
     } else if (error?.message && error.message.includes("Not enough funds to cover the fee")) {
@@ -377,7 +381,7 @@ function buildUnbondingSlashingPsbt(
       fee: babylonStakingParams.slashing.minSlashingTxFeeSat,
     };
   } catch (error: any) {
-    console.warn(`/!\\ Failed to build babylon unbonding slashing psbt: ${JSON.stringify(error)}`);
+    console.warn(`/!\\ Failed to build babylon unbonding slashing psbt: ${error}`);
     if (error?.message && error.message.includes("amount is less than dust limit")) {
       throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
     } else if (error?.message && error.message.includes("Not enough funds to cover the fee")) {
@@ -565,7 +569,7 @@ async function buildWithdrawalPsbt(
       throw new UserInputError(`Delegation is not in a withdrawable state: ${delegationState}`);
     }
   } catch (error: any) {
-    console.warn(`Failed to build babylon withdrawal psbt: ${JSON.stringify(error)}`);
+    console.warn(`Failed to build babylon withdrawal psbt: ${error}`);
     if (error?.message && error.message.includes("amount is less than dust limit")) {
       throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
     } else if (error?.message && error.message.includes("Not enough funds to cover the fee")) {
@@ -605,7 +609,9 @@ async function buildBabylonRegistrationMessage(
   const bitcoinSignedSlashingTransaction = Psbt.fromHex(
     bitcoinSignedSlashingTransactionHex
   ).extractTransaction();
-  const bitcoinSlashingSignatures = extractSignatureFromTransaction(bitcoinSignedSlashingTransaction);
+  const bitcoinSlashingSignatures = extractFirstSchnorrSignatureFromTransaction(
+    bitcoinSignedSlashingTransaction
+  );
   if (!bitcoinSlashingSignatures) {
     throw new Error("No signature found in the staking output slashing PSBT");
   }
@@ -613,7 +619,7 @@ async function buildBabylonRegistrationMessage(
   const bitcoinSignedUnbondingSlashingTransaction = Psbt.fromHex(
     bitcoinSignedUnbondingSlashingTransactionHex
   ).extractTransaction();
-  const bitcoinUnbondingSlashingSignatures = extractSignatureFromTransaction(
+  const bitcoinUnbondingSlashingSignatures = extractFirstSchnorrSignatureFromTransaction(
     bitcoinSignedUnbondingSlashingTransaction
   );
   if (!bitcoinUnbondingSlashingSignatures) {
@@ -806,10 +812,23 @@ const TAPROOT_INTERNAL_PUBKEY = Buffer.from(
   "hex"
 ).subarray(1, 33); // Do a subarray(1, 33) to get the public coordinate
 
+/**
+ * Extracts the first valid Schnorr signature from a signed transaction.
+ *
+ * Since we only handle transactions with a single input and request a signature
+ * for one public key, there can be at most one signature from the Bitcoin node.
+ * A valid Schnorr signature is exactly 64 bytes in length.
+ *
+ * @param singedTransaction - The signed Bitcoin transaction to extract the signature from
+ * @returns The first valid 64-byte Schnorr signature found in the transaction witness data,
+ *          or undefined if no valid signature exists
+ */
 // From https://github.com/babylonlabs-io/btc-staking-ts/blob/de1d1cff3ef4ad45b5c61f0d7b11fd4479de278a/src/staking/manager.ts#L794
-const extractSignatureFromTransaction = (signedTransaction: BitcoinTransaction): Buffer | undefined => {
+const extractFirstSchnorrSignatureFromTransaction = (
+  singedTransaction: BitcoinTransaction
+): Buffer | undefined => {
   // Loop through each input to extract the witness signature
-  for (const input of signedTransaction.ins) {
+  for (const input of singedTransaction.ins) {
     if (input.witness && input.witness.length > 0) {
       const schnorrSignature = input.witness[0];
 
@@ -833,6 +852,7 @@ const extractSignatureFromTransaction = (signedTransaction: BitcoinTransaction):
  * @returns {Psbt} - The PSBT for the staking transaction.
  * @throws {Error} If unable to create PSBT from transaction
  */
+// From https://github.com/babylonlabs-io/btc-staking-ts/blob/0e68dc0001ef2dfb8715c700148be5a18d524f81/src/staking/psbt.ts#L22
 const stakingTransactionToPsbt = (
   stakingTransaction: BitcoinTransaction,
   bitcoinNetworkInfo: BitcoinNetworkInfo,
@@ -867,6 +887,7 @@ const stakingTransactionToPsbt = (
   return psbt;
 };
 
+// From https://github.com/babylonlabs-io/btc-staking-ts/blob/0e68dc0001ef2dfb8715c700148be5a18d524f81/src/staking/psbt.ts#L56
 const unbondingTransactionToPsbt = (
   scripts: {
     unbondingScript: Buffer;
@@ -954,6 +975,7 @@ const unbondingTransactionToPsbt = (
  * @param {Transaction} unbondingTransaction - The unbonding transaction.
  * @param {Network} network - The network to use for the unbonding output.
  */
+// From https://github.com/babylonlabs-io/btc-staking-ts/blob/0e68dc0001ef2dfb8715c700148be5a18d524f81/src/staking/psbt.ts#L141
 const validateUnbondingOutput = (
   scripts: {
     slashingScript: Buffer;
@@ -981,6 +1003,7 @@ const validateUnbondingOutput = (
  * @returns {StakingOutput} - The staking output address and scriptPubKey.
  * @throws {StakingError} - If the staking output address cannot be derived.
  */
+// From https://github.com/babylonlabs-io/btc-staking-ts/blob/0e68dc0001ef2dfb8715c700148be5a18d524f81/src/utils/staking/index.ts#L61
 const deriveStakingOutputInfo = (
   scripts: {
     timelockScript: Buffer;
@@ -1023,6 +1046,7 @@ const deriveStakingOutputInfo = (
  * @returns {OutputInfo} - The unbonding output address and scriptPubKey.
  * @throws {StakingError} - If the unbonding output address cannot be derived.
  */
+// From https://github.com/babylonlabs-io/btc-staking-ts/blob/0e68dc0001ef2dfb8715c700148be5a18d524f81/src/utils/staking/index.ts#L105
 const deriveUnbondingOutputInfo = (
   scripts: {
     unbondingTimelockScript: Buffer;
@@ -1065,6 +1089,7 @@ const deriveUnbondingOutputInfo = (
  * @returns {OutputInfo} - The slashing output address and scriptPubKey.
  * @throws {StakingError} - If the slashing output address cannot be derived.
  */
+// From https://github.com/babylonlabs-io/btc-staking-ts/blob/0e68dc0001ef2dfb8715c700148be5a18d524f81/src/utils/staking/index.ts#L148
 const deriveSlashingOutput = (
   scripts: {
     unbondingTimelockScript: Buffer;
@@ -1098,13 +1123,18 @@ const deriveSlashingOutput = (
  * @returns {number} - The output index.
  * @throws {Error} - If the matching output is not found.
  */
+// From https://github.com/babylonlabs-io/btc-staking-ts/blob/0e68dc0001ef2dfb8715c700148be5a18d524f81/src/utils/staking/index.ts#L183
 const findMatchingTxOutputIndex = (
   transaction: BitcoinTransaction,
   outputAddress: string,
   bitcoinNetworkInfo: BitcoinNetworkInfo
 ) => {
   const index = transaction.outs.findIndex((output) => {
-    return address.fromOutputScript(output.script, bitcoinNetworkInfo) === outputAddress;
+    try {
+      return address.fromOutputScript(output.script, bitcoinNetworkInfo) === outputAddress;
+    } catch (error) {
+      return false;
+    }
   });
 
   if (index === -1) {
@@ -1116,10 +1146,14 @@ const findMatchingTxOutputIndex = (
 };
 
 /**
- * Clears the signatures from a transaction.
- * @param tx - The transaction to clear the signatures from.
- * @returns The transaction with the signatures cleared.
+ * Strips all signatures from a transaction by clearing both the script and
+ * witness data. This is due to the fact that we only need the raw unsigned
+ * transaction structure. The signatures are sent in a separate protobuf field
+ * when creating the delegation message in the Babylon.
+ * @param tx - The transaction to strip signatures from
+ * @returns A copy of the transaction with all signatures removed
  */
+// From https://github.com/babylonlabs-io/btc-staking-ts/blob/0e68dc0001ef2dfb8715c700148be5a18d524f81/src/staking/manager.ts#L870
 const clearTxSignatures = (tx: BitcoinTransaction): BitcoinTransaction => {
   tx.ins.forEach((input) => {
     input.script = Buffer.alloc(0);
@@ -1141,5 +1175,6 @@ export {
   getBabylonChainIds,
   getBabylonDelegationState,
   getBabylonStakingParamsByVersion,
+  getCurrentBabylonStakingParams,
   retrieveUnbondingPsbtFromDelegation,
 };
