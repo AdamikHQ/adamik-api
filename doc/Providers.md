@@ -415,13 +415,13 @@
 
 ## babylon
 
-| node | https://babylon-api.nodes.guru |<br />
+| node | https://babylon-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |<br />
 | babylon | https://staking-api.babylonlabs.io/v2 |
 
 ## babylon-testnet
 
-| node | https://babylon-testnet-api.nodes.guru |<br />
+| node | https://babylon-testnet-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |<br />
 | babylon | https://staking-api.testnet.babylonlabs.io/v2 |
 
