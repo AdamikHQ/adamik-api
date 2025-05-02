@@ -484,6 +484,14 @@ function moralisToAdamikAccountTransaction(
         amount: BigInt(moralisNativeTransfer.value),
       },
     ];
+
+    // Check for self-transfer (same sender and recipient address)
+    if (
+      parsedTransaction.mode === "unknown" &&
+      moralisNativeTransfer.from_address === moralisNativeTransfer.to_address
+    ) {
+      parsedTransaction.mode = TransactionMode.TRANSFER;
+    }
   } else if (moralisTransaction.erc20_transfers?.length) {
     const moralisErc20Transfer = moralisTransaction.erc20_transfers[0];
     parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
