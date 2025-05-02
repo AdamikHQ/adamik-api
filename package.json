@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@aptos-labs/ts-sdk": "^1.36.0",
-    "@babylonlabs-io/babylon-proto-ts": "0.0.3-canary.5",
-    "@babylonlabs-io/btc-staking-ts": "0.4.0-canary.13",
+    "@babylonlabs-io/babylon-proto-ts": "1.0.1",
+    "@babylonlabs-io/btc-staking-ts": "1.0.6",
     "@bitcoinerlab/secp256k1": "^1.2.0",
     "@cosmjs/amino": "^0.32.4",
     "@cosmjs/crypto": "^0.32.4",
