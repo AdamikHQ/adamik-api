@@ -18,6 +18,7 @@ import {
   Token,
   TokenAmount,
   TokenType,
+  TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
@@ -287,6 +288,12 @@ async function alchemyToAdamikAccountTransaction(
       amount: BigInt(alchemyTransaction.value),
     },
   ];
+
+  // Check for self-transfer (same sender and recipient address)
+  if (transaction.parsed.mode === "unknown" && alchemyTransaction.from === alchemyTransaction.to) {
+    transaction.parsed.mode = TransactionMode.TRANSFER;
+  }
+
   return transaction;
 }
 
