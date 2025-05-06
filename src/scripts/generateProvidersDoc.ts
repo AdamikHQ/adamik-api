@@ -8,7 +8,7 @@ function generateProvidersMarkdown() {
     .map(([chainId, chain]) => {
       const backendsTable = chain.providers
         .map(({ type, url }) => {
-          return `| ${type} | ${url} |`;
+          return `| ${type} | ${typeof url === "string" ? url : url.join(", ")} |`;
         })
         .join("<br />\n");
       return `## ${chainId}\n\n${backendsTable}`;

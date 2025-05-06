@@ -45,8 +45,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        //url: "https://lcd-cosmos.imperator.co", // FIXME Frequent HTTP 502 errors
-        url: "https://cosmos-api.polkachu.com",
+        url: ["https://cosmos-api.polkachu.com", "https://lcd-cosmos.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
@@ -1052,7 +1051,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         //url: "https://apis.mintscan.io/injective/lcd", // Error when computing tx fees
         //url: "https://lcd-injective.imperator.co", // FIXME Frequent HTTP 502 errors
-        url: "https://injective-api.polkachu.com",
+        url: ["https://injective-api.polkachu.com", "https://lcd-injective.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
@@ -1264,7 +1263,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://stargaze-api.polkachu.com/",
+        url: ["https://stargaze-api.polkachu.com/", "https://lcd-stargaze.imperator.co"],
         //url: "https://lcd-stargaze.imperator.co", // Randomly long response times, up to 60s and more...
       },
       {
@@ -1320,7 +1319,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.node,
         //url: "https://lcd-evmos.imperator.co", // Occasional HTTP 504 Gateway Timeout errors...
-        url: "https://evmos-api.polkachu.com",
+        url: ["https://evmos-api.polkachu.com", "https://lcd-evmos.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
@@ -1350,7 +1349,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://apis.mintscan.io/iris/lcd",
+        url: ["https://apis.mintscan.io/iris/lcd", "https://lcd-iris.imperator.co"],
         //url: "https://lcd-iris.imperator.co", // FIXME Frequent HTTP 502 errors
       },
       {
