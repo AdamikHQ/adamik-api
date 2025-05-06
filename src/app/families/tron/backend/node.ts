@@ -3,13 +3,17 @@ import { toHex } from "tronweb/utils";
 import { TRONGRID_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { Provider, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
-import { UserInputError } from "~/app/tools/handlers/errors";
+import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
 import { TokenStore } from "~/app/tools/tokenStore";
 
 const nodeUrl = CHAINS.tron.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
 
+if (!nodeUrl) {
+  throw new ThirdPartyProviderError("No node URL found for Tron");
+}
+
 const tronWeb = new TronWeb({
-  fullHost: nodeUrl,
+  fullHost: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
   headers: { "TRON-PRO-API-KEY": TRONGRID_API_KEY },
 });
 

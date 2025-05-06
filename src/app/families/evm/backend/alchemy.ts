@@ -55,7 +55,8 @@ async function sendRequest(chainId: ChainId, method: string, params: any[]) {
     return null;
   }
 
-  const res = await fetch(explorer.url, {
+  // TODO: Add support for multiple Alchemy URLs
+  const res = await fetch(typeof explorer.url === "string" ? explorer.url : explorer.url[0], {
     method: "POST",
     headers: {
       Accept: "application/json",

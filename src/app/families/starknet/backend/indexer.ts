@@ -90,8 +90,12 @@ const starkScanToAdamikTransaction = async (
     parsedTransaction.blockHeight = BigInt(transaction.block_number);
   }
 
+  if (!nodeUrl) {
+    throw new ThirdPartyProviderError("No node URL found for Starknet");
+  }
+  // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
-    nodeUrl,
+    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
   });
 
   if (transaction.transaction_type === "DEPLOY_ACCOUNT") {
@@ -130,8 +134,12 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 }
 
 async function getTransactionHistorySymbols(transactions: TransactionHistory[]) {
+  if (!nodeUrl) {
+    throw new ThirdPartyProviderError("No node URL found for Starknet");
+  }
+  // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
-    nodeUrl,
+    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
   });
 
   const symbolsAddresses = Object.entries(

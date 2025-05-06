@@ -10,6 +10,7 @@ import {
 } from "starknet";
 import { CHAINS } from "~/app/config/chains";
 import { Provider, ProviderType } from "~/app/model/types_WIP";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { createStarknetAccount, marginFees } from "../logic";
 import { StarknetDeployAccountPayload } from "../types";
 
@@ -42,8 +43,13 @@ class ArgentX {
   };
 
   static getDeployContractPayload = async (pubkey: string): Promise<StarknetDeployAccountPayload> => {
+    // TODO: Add support for multiple node URLs
+
+    if (!nodeUrl) {
+      throw new ThirdPartyProviderError("No node URL found for Starknet");
+    }
     const provider = new StarknetProvider({
-      nodeUrl,
+      nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
     });
 
     const account = await createStarknetAccount(provider, ARGENT_X_CLASS_HASH);
@@ -65,8 +71,12 @@ class ArgentX {
   };
 
   static estimateDeployFees = async (pubkey: string): Promise<bigint> => {
+    if (!nodeUrl) {
+      throw new ThirdPartyProviderError("No node URL found for Starknet");
+    }
+    // TODO: Add support for multiple node URLs
     const provider = new StarknetProvider({
-      nodeUrl,
+      nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
     });
 
     const sanitizedPubkey = encode.sanitizeHex(pubkey);

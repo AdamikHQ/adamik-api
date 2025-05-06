@@ -10,16 +10,21 @@ import {
 } from "starknet";
 import { CHAINS } from "~/app/config/chains";
 import { Provider, ProviderType, TransactionMode } from "~/app/model/types_WIP";
-import { InvalidTransactionError } from "~/app/tools/handlers/errors";
+import { InvalidTransactionError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { createStarknetAccount, isCompactSignature, marginFees } from "../logic";
 import { StarknetTransactionParamsToBroadcast } from "../types";
 
 const nodeUrl = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
 
+if (!nodeUrl) {
+  throw new ThirdPartyProviderError("No node URL found for Starknet");
+}
+
 const fetchTokenInfo = async (tokenId: string) => {
+  // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
-    nodeUrl,
+    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
   });
 
   const token = await provider.getClassAt(tokenId);
@@ -55,7 +60,10 @@ const broadcast = async (signedTransaction: string): Promise<string> => {
       ? ec.starkCurve.Signature.fromCompact(transactionParams.payload.signature)
       : ec.starkCurve.Signature.fromDER(transactionParams.payload.signature);
 
-    const provider = new StarknetProvider({ nodeUrl });
+    // TODO: Add support for multiple node URLs
+    const provider = new StarknetProvider({
+      nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
+    });
 
     if (transactionParams.mode === TransactionMode.DEPLOY_ACCOUNT) {
       const result = await provider.deployAccountContract(
@@ -85,8 +93,9 @@ const broadcast = async (signedTransaction: string): Promise<string> => {
 };
 
 const getNonce = async (address: string) => {
+  // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
-    nodeUrl,
+    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
   });
 
   try {
@@ -121,8 +130,9 @@ const estimateTransferFees = async (
   amount: bigint,
   contractId: string
 ) => {
+  // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
-    nodeUrl,
+    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
   });
   const account = await createStarknetAccount(provider, sender);
 
@@ -140,8 +150,9 @@ const buildTransferPayload = async (
   amount: bigint,
   contractId: string
 ) => {
+  // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
-    nodeUrl,
+    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
   });
   const nonce = await provider.getNonceForAddress(sender);
 
@@ -155,8 +166,9 @@ const buildTransferPayload = async (
 };
 
 const buildStakePayload = async (poolAddress: string, sender: string, amount: BigInt) => {
+  // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
-    nodeUrl,
+    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
   });
 
   const nonce = await provider.getNonceForAddress(sender);

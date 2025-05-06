@@ -49,7 +49,12 @@ const CLIENTS = new Map<ChainId, any>();
 
 function getClientConfig(chainId: ChainId) {
   const nodeURL = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.node)?.url;
-  const transport = http(nodeURL);
+
+  if (!nodeURL) {
+    throw new ThirdPartyProviderError(`No node URL found for chain ${chainId}`);
+  }
+  // TODO: Add support for multiple node URLs
+  const transport = http(typeof nodeURL === "string" ? nodeURL : nodeURL[0]);
 
   switch (chainId) {
     case ChainId.SEPOLIA:
