@@ -165,7 +165,7 @@ export enum ProviderType {
 }
 
 type Provider = {
-  url: string;
+  url: string | string[];
   type: ProviderType;
 };
 
