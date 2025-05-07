@@ -45,7 +45,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://cosmos-api.polkachu.com", "https://lcd-cosmos.imperator.co"],
+        urls: ["https://cosmos-ada-api.polkachu.com", "https://lcd-cosmos.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
@@ -102,7 +102,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://lcd-osmosis.imperator.co"],
+        urls: ["https://osmosis-ada-api.polkachu.com", "https://lcd-osmosis.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
@@ -159,7 +159,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://lcd-celestia.imperator.co"],
+        urls: ["https://celestia-ada-api.polkachu.com", "https://lcd-celestia.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
@@ -1058,7 +1058,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         //urls: ["https://apis.mintscan.io/injective/lcd"], // Error when computing tx fees
         //urls: ["https://lcd-injective.imperator.co"], // FIXME Frequent HTTP 502 errors
-        urls: ["https://injective-api.polkachu.com", "https://lcd-injective.imperator.co"],
+        urls: ["https://injective-ada-api.polkachu.com", "https://lcd-injective.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
