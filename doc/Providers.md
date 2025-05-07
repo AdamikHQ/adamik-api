@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| node | https://cosmos-api.polkachu.com, https://lcd-cosmos.imperator.co |<br />
+| node | https://cosmos-ada-api.polkachu.com, https://lcd-cosmos.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
@@ -17,7 +17,7 @@
 
 ## osmosis
 
-| node | https://lcd-osmosis.imperator.co |<br />
+| node | https://osmosis-ada-api.polkachu.com, https://lcd-osmosis.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## osmosis-testnet
@@ -27,7 +27,7 @@
 
 ## celestia
 
-| node | https://lcd-celestia.imperator.co |<br />
+| node | https://celestia-ada-api.polkachu.com, https://lcd-celestia.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## celestia-testnet
@@ -231,7 +231,7 @@
 
 ## injective
 
-| node | https://injective-api.polkachu.com, https://lcd-injective.imperator.co |<br />
+| node | https://injective-ada-api.polkachu.com, https://lcd-injective.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
@@ -312,7 +312,7 @@
 
 ## passage
 
-| node | https://lcd-passage.imperator.co |<br />
+| node | https://passage-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## quasar
@@ -372,7 +372,7 @@
 
 ## ki
 
-| node | https://ki-api.polkachu.com |<br />
+| node | https://kichain-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## likecoin
