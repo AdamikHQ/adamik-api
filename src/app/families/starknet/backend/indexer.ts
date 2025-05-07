@@ -1,15 +1,15 @@
 import { Contract, Provider as StarknetProvider, shortString } from "starknet";
 import { STARKSCAN_API_KEY } from "~/app/config/apiKeys";
-import { CHAINS } from "~/app/config/chains";
 import {
+  ChainId,
   FinalizedTransaction,
-  Provider,
   ProviderType,
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { getProviderUrls } from "../../common";
 import { SELECTOR_INDEX } from "../constants";
 import {
   StarknetValidator,
@@ -22,8 +22,8 @@ import {
   TransactionResponse,
 } from "./types";
 
-const ROOT_URL = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.starkscan)?.url;
-const nodeUrl = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
+const ROOT_URL = getProviderUrls(ChainId.STARKNET, ProviderType.starkscan)[0];
+const nodeUrl = getProviderUrls(ChainId.STARKNET, ProviderType.node)[0];
 
 async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any) {
   const response = await fetch(url, {

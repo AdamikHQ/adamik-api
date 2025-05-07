@@ -5,12 +5,12 @@ import {
   AccountState,
   ChainId,
   FinalizedTransaction,
-  Provider,
   ProviderType,
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
+import { getProviderUrls } from "../../common";
 import { BitcoinChainParams } from "../types";
 import {
   mempoolSpaceAddressBalanceSchema,
@@ -21,16 +21,13 @@ import {
   MempoolSpaceUTXO,
   mempoolSpaceUtxoSchema,
 } from "./mempoolSpace.types";
-
 // TODO Need to improve error handling
 
 async function fetchTransaction(
   chainId: ChainId,
   transactionId: string
 ): Promise<FinalizedTransaction | null> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.mempoolspace
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.mempoolspace)[0];
   const url = `${explorerURL}/tx/${transactionId}`;
 
   const response = await fetch(url);
@@ -56,9 +53,7 @@ async function fetchTransaction(
 }
 
 async function fetchNativeTransaction(chainId: ChainId, transactionId: string): Promise<BitcoinTransaction> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.mempoolspace
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.mempoolspace)[0];
   const url = `${explorerURL}/tx/${transactionId}/raw`;
 
   const response = await fetch(url);
@@ -80,9 +75,7 @@ async function fetchNativeTransaction(chainId: ChainId, transactionId: string): 
 }
 
 async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<MempoolSpaceUTXO[]> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.mempoolspace
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.mempoolspace)[0];
   const url = `${explorerURL}/address/${address}/utxo`;
 
   const response = await fetch(url);
@@ -105,9 +98,7 @@ async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<Mem
 }
 
 async function fetchAddressData(chainId: ChainId, address: string): Promise<AccountState> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (b: Provider) => b.type === ProviderType.mempoolspace
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.mempoolspace)[0];
   const url = `${explorerURL}/address/${address}`;
 
   const response = await fetch(url);
@@ -145,9 +136,7 @@ async function fetchAddressData(chainId: ChainId, address: string): Promise<Acco
 }
 
 async function fetchAddressScriptPubKey(chainId: ChainId, address: string): Promise<string> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.mempoolspace
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.mempoolspace)[0];
   const url = `${explorerURL}/v1/validate-address/${address}`;
 
   const response = await fetch(url);
@@ -170,9 +159,7 @@ async function fetchAddressScriptPubKey(chainId: ChainId, address: string): Prom
 }
 
 async function fetchFeePerByte(chainId: ChainId): Promise<number> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.mempoolspace
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.mempoolspace)[0];
   const url = `${explorerURL}/v1/fees/recommended`;
 
   const response = await fetch(url);
@@ -203,9 +190,7 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
 }
 
 async function postTransaction(chainId: ChainId, payload: string): Promise<string> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.mempoolspace
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.mempoolspace)[0];
   const url = `${explorerURL}/tx`;
 
   const response = await fetch(url, {
@@ -228,9 +213,7 @@ async function postTransaction(chainId: ChainId, payload: string): Promise<strin
 }
 
 async function fetchLatestBlockHeight(chainId: ChainId): Promise<number> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.mempoolspace
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.mempoolspace)[0];
   const url = `${explorerURL}/blocks/tip/height`;
 
   const response = await fetch(url);

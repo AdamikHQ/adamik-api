@@ -1,9 +1,9 @@
 import { Address, Cell, JettonMaster, TonClient } from "@ton/ton";
 import { TON_CENTER_API_KEY } from "~/app/config/apiKeys";
-import { CHAINS } from "~/app/config/chains";
-import { Provider, ProviderType } from "~/app/model/types_WIP";
+import { ChainId, ProviderType } from "~/app/model/types_WIP";
+import { getProviderUrls } from "../../common";
 
-const nodeUrl = CHAINS.ton.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
+const nodeUrl = getProviderUrls(ChainId.TON, ProviderType.node)[0];
 
 // Configure the HTTP client with your host and token
 const nodeClient = new TonClient({

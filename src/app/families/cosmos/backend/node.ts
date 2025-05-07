@@ -3,7 +3,6 @@ import { CHAINS } from "~/app/config/chains";
 import { COSMOS_TOKENS } from "~/app/config/tokens/cosmos";
 import {
   ChainId,
-  Provider,
   ProviderType,
   StakingPosition,
   StakingReward,
@@ -21,6 +20,7 @@ import {
   UserInputError,
 } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { getProviderUrls } from "../../common";
 import { CosmosChainParams, IBCToken } from "../types";
 import {
   CosmosAccount,
@@ -30,21 +30,6 @@ import {
   CosmosUnbondingDelegation,
   CosmosValidator,
 } from "./types";
-
-const getNodeRootUrls = (chainId: ChainId): string[] => {
-  const provider = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.node);
-  if (!provider) {
-    throw new ThirdPartyProviderError(`No node provider found for ${chainId}`);
-  }
-
-  if (typeof provider.url === "string") {
-    return [provider.url];
-  } else if (Array.isArray(provider.url)) {
-    return provider.url;
-  } else {
-    throw new ThirdPartyProviderError(`Invalid node provider URL for ${chainId}`);
-  }
-};
 
 async function fetchWithHeaders(url: string, customOptions: RequestInit = {}) {
   const options: RequestInit = {
@@ -109,7 +94,7 @@ async function fetchTransaction(chainId: ChainId, transactionId: string): Promis
 */
 
 async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosBalance[]> {
-  const baseURL = getNodeRootUrls(chainId);
+  const baseURL = getProviderUrls(chainId, ProviderType.node);
   const urls = baseURL.map((url) => `${url}/cosmos/bank/v1beta1/balances/${address}`);
 
   for (const url of urls) {
@@ -124,7 +109,7 @@ async function fetchBalances(chainId: ChainId, address: string): Promise<CosmosB
 }
 
 async function fetchDelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
-  const baseURL = getNodeRootUrls(chainId);
+  const baseURL = getProviderUrls(chainId, ProviderType.node);
   const urls = baseURL.map((url) => `${url}/cosmos/staking/v1beta1/delegations/${address}`);
 
   for (const url of urls) {
@@ -185,7 +170,7 @@ async function fetchRedelegations(chainId: ChainId, address: string): Promise<St
 */
 
 async function fetchUnbondingDelegations(chainId: ChainId, address: string): Promise<StakingPosition[]> {
-  const baseURL = getNodeRootUrls(chainId);
+  const baseURL = getProviderUrls(chainId, ProviderType.node);
   const urls = baseURL.map(
     (url) => `${url}/cosmos/staking/v1beta1/delegators/${address}/unbonding_delegations`
   );
@@ -223,7 +208,7 @@ async function fetchRewards(
   chainId: ChainId,
   address: string
 ): Promise<{ native: StakingReward[]; tokens: TokenStakingReward[] }> {
-  const baseURL = getNodeRootUrls(chainId);
+  const baseURL = getProviderUrls(chainId, ProviderType.node);
   const urls = baseURL.map((url) => `${url}/cosmos/distribution/v1beta1/delegators/${address}/rewards`);
 
   for (const url of urls) {
@@ -307,7 +292,7 @@ async function fetchValidators(
   const chainParams = CHAINS[chainId].params as CosmosChainParams;
   const chainIdForValidators = chainParams.isICS ? ChainId.COSMOSHUB : chainId;
 
-  const baseURL = getNodeRootUrls(chainIdForValidators);
+  const baseURL = getProviderUrls(chainIdForValidators, ProviderType.node);
   const urls = baseURL.map((url) => new URL(`${url}/cosmos/staking/v1beta1/validators`));
 
   for (const url of urls) {
@@ -365,7 +350,7 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
     pubKey: "",
   };
 
-  const baseURL = getNodeRootUrls(chainId);
+  const baseURL = getProviderUrls(chainId, ProviderType.node);
   const urls = baseURL.map((url) => `${url}/cosmos/auth/v1beta1/accounts/${address}`);
 
   for (const url of urls) {
@@ -456,7 +441,7 @@ async function fetchNetworkId(chainId: ChainId): Promise<string> {
 */
 
 async function simulateTransaction(chainId: ChainId, payload: string): Promise<bigint> {
-  const baseURL = getNodeRootUrls(chainId);
+  const baseURL = getProviderUrls(chainId, ProviderType.node);
   const urls = baseURL.map((url) => `${url}/cosmos/tx/v1beta1/simulate`);
 
   for (const url of urls) {
@@ -501,7 +486,7 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
 }
 
 async function broadcastTransaction(chainId: ChainId, payload: string): Promise<string> {
-  const baseURL = getNodeRootUrls(chainId);
+  const baseURL = getProviderUrls(chainId, ProviderType.node);
   const urls = baseURL.map((url) => `${url}/cosmos/tx/v1beta1/txs`);
 
   for (const url of urls) {

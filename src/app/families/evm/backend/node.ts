@@ -34,9 +34,10 @@ import {
 } from "viem/chains";
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, Provider, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
+import { ChainId, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { TokenStore } from "~/app/tools/tokenStore";
+import { getProviderUrls } from "../../common";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { berachain } from "../chains/berachain";
 import { chilizTestnet } from "../chains/chiliz-testnet";
@@ -48,13 +49,10 @@ import { EvmAddress, EvmChainParams } from "../types";
 const CLIENTS = new Map<ChainId, any>();
 
 function getClientConfig(chainId: ChainId) {
-  const nodeURL = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.node)?.url;
+  const nodeURL = getProviderUrls(chainId, ProviderType.node)[0];
 
-  if (!nodeURL) {
-    throw new ThirdPartyProviderError(`No node URL found for chain ${chainId}`);
-  }
   // TODO: Add support for multiple node URLs
-  const transport = http(typeof nodeURL === "string" ? nodeURL : nodeURL[0]);
+  const transport = http(nodeURL);
 
   switch (chainId) {
     case ChainId.SEPOLIA:

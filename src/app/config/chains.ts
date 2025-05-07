@@ -25,11 +25,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://mainnet-api.algonode.cloud/v2",
+        urls: ["https://mainnet-api.algonode.cloud/v2"],
       },
       {
         type: ProviderType.algoindexer,
-        url: "https://mainnet-idx.algonode.cloud/v2",
+        urls: ["https://mainnet-idx.algonode.cloud/v2"],
       },
     ],
     supportedFeatures: ALGORAND_FEATURES,
@@ -45,11 +45,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: ["https://cosmos-api.polkachu.com", "https://lcd-cosmos.imperator.co"],
+        urls: ["https://cosmos-api.polkachu.com", "https://lcd-cosmos.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -73,11 +73,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://api-t.cosmos.nodestake.top",
+        urls: ["https://api-t.cosmos.nodestake.top"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     isTestnetFor: ChainId.COSMOSHUB,
@@ -102,11 +102,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-osmosis.imperator.co",
+        urls: ["https://lcd-osmosis.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -130,11 +130,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://g.w.lavanet.xyz/gateway/osmosist/rest/bfdb617358bd786c30374c8799978c27",
+        urls: ["https://g.w.lavanet.xyz/gateway/osmosist/rest/bfdb617358bd786c30374c8799978c27"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     isTestnetFor: ChainId.OSMOSIS,
@@ -159,11 +159,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-celestia.imperator.co",
+        urls: ["https://lcd-celestia.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -187,11 +187,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://g.w.lavanet.xyz/gateway/celestiatm/rest/bfdb617358bd786c30374c8799978c27",
+        urls: ["https://g.w.lavanet.xyz/gateway/celestiatm/rest/bfdb617358bd786c30374c8799978c27"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     isTestnetFor: ChainId.CELESTIA,
@@ -215,16 +215,15 @@ const CHAINS: { [key in ChainId]: Chain } = {
     decimals: 18,
     providers: [
       {
-        // (configs can be checked with [nodeURL]/cosmos/base/node/v1beta1/config )
         type: ProviderType.node,
-        url: "https://lcd-dydx.imperator.co", // Used to only accepts fees in IBC token USDC, but seems fixed now...
-        //url: "https://dydx-rest.publicnode.com", // Works but public node with no guarantee of performance
-        //url: "https://dydx-dao-api.polkachu.com", // Same as Ledger Live, but we've been blacklisted...
-        //url: "https://community.nuxian-node.ch:6797/dydx/crpc", // Demands twice the standard minimum gas fees, for some reason
+        urls: ["https://lcd-dydx.imperator.co"], // Used to only accepts fees in IBC token USDC, but seems fixed now...
+        //urls: ["https://dydx-rest.publicnode.com"], // Works but public node with no guarantee of performance
+        //urls: ["https://dydx-dao-api.polkachu.com"], // Same as Ledger Live, but we've been blacklisted...
+        //urls: ["https://community.nuxian-node.ch:6797/dydx/crpc"], // Demands twice the standard minimum gas fees, for some reason
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -248,11 +247,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-axelar.imperator.co",
+        urls: ["https://lcd-axelar.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -276,15 +275,15 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/eth/edd8151f3c634ee2a808f34c47c7ad70",
+        urls: ["https://site1.moralis-nodes.com/eth/edd8151f3c634ee2a808f34c47c7ad70"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
       {
         type: ProviderType.alchemy,
-        url: "https://eth-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+        urls: ["https://eth-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.ETHEREUM),
@@ -301,11 +300,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/sepolia/fe0cd204d0324cae84cb27769d5ab205",
+        urls: ["https://site1.moralis-nodes.com/sepolia/fe0cd204d0324cae84cb27769d5ab205"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.SEPOLIA),
@@ -322,11 +321,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/holesky/59fb652c988245799984ee5b4ff8c065",
+        urls: ["https://site1.moralis-nodes.com/holesky/59fb652c988245799984ee5b4ff8c065"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.HOLESKY),
@@ -342,11 +341,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/zksync/547c7bd4d8e24c62ae1f059e634b06ae",
+        urls: ["https://site1.moralis-nodes.com/zksync/547c7bd4d8e24c62ae1f059e634b06ae"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.ZKSYNC),
@@ -362,11 +361,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/zksync-sepolia/a55bf0a6af264a73b083323f58a5d50b",
+        urls: ["https://site1.moralis-nodes.com/zksync-sepolia/a55bf0a6af264a73b083323f58a5d50b"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.ZKSYNC,
@@ -383,11 +382,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://testnet.rpc.inevm.com/http",
+        urls: ["https://testnet.rpc.inevm.com/http"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: "injective-evm", // TODO Support the mainnet
@@ -404,11 +403,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/base/9b6b18e784a54e03a0587a4b14c3c8c5",
+        urls: ["https://site1.moralis-nodes.com/base/9b6b18e784a54e03a0587a4b14c3c8c5"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     params: {
@@ -427,11 +426,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/base-sepolia/55c79b8e9fbb41da84c53550ada7b1fb",
+        urls: ["https://site1.moralis-nodes.com/base-sepolia/55c79b8e9fbb41da84c53550ada7b1fb"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.BASE,
@@ -451,11 +450,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/optimism/f6e1593c1f3a4213811a1bae65bf4203",
+        urls: ["https://site1.moralis-nodes.com/optimism/f6e1593c1f3a4213811a1bae65bf4203"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     params: {
@@ -474,11 +473,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/optimism-sepolia/e76f53f4949641a2b9c87571b7e03e87",
+        urls: ["https://site1.moralis-nodes.com/optimism-sepolia/e76f53f4949641a2b9c87571b7e03e87"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.OPTIMISM,
@@ -498,11 +497,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/arbitrum/98b1253e6794472db0999b44363fdb9c",
+        urls: ["https://site1.moralis-nodes.com/arbitrum/98b1253e6794472db0999b44363fdb9c"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.ARBITRUM),
@@ -518,11 +517,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/arbitrum-sepolia/50db3911bb294983a8701b9c0930d80c",
+        urls: ["https://site1.moralis-nodes.com/arbitrum-sepolia/50db3911bb294983a8701b9c0930d80c"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.ARBITRUM,
@@ -538,11 +537,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.blockchair,
-        url: "https://api.blockchair.com/bitcoin",
+        urls: ["https://api.blockchair.com/bitcoin"],
       },
       {
         type: ProviderType.mempoolspace,
-        url: "https://mempool.space/api",
+        urls: ["https://mempool.space/api"],
       },
     ],
     params: {
@@ -562,7 +561,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.blockchair,
-        url: "https://api.blockchair.com/bitcoin/testnet",
+        urls: ["https://api.blockchair.com/bitcoin/testnet"],
       },
     ],
     isTestnetFor: ChainId.BITCOIN,
@@ -582,7 +581,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.mempoolspace,
-        url: "https://mempool.space/signet/api",
+        urls: ["https://mempool.space/signet/api"],
       },
     ],
     isTestnetFor: ChainId.BITCOIN,
@@ -602,11 +601,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/polygon/70eb3a5858dc4f0d8ca0e1a1cf8d375f",
+        urls: ["https://site1.moralis-nodes.com/polygon/70eb3a5858dc4f0d8ca0e1a1cf8d375f"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.POLYGON),
@@ -622,11 +621,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/amoy/7a1ffbef35b1400b80a3d8735f637bb3",
+        urls: ["https://site1.moralis-nodes.com/amoy/7a1ffbef35b1400b80a3d8735f637bb3"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.POLYGON,
@@ -643,11 +642,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/bsc/7c7d3520352d4cf1bba5535ed015851b",
+        urls: ["https://site1.moralis-nodes.com/bsc/7c7d3520352d4cf1bba5535ed015851b"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.BSC),
@@ -663,11 +662,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/bsc-testnet/8d515e6b213f4e02afc42966422eca11",
+        urls: ["https://site1.moralis-nodes.com/bsc-testnet/8d515e6b213f4e02afc42966422eca11"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.BSC,
@@ -684,11 +683,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/linea/38da1be47d6a45d5aee7e557800e9248",
+        urls: ["https://site1.moralis-nodes.com/linea/38da1be47d6a45d5aee7e557800e9248"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.LINEA),
@@ -704,11 +703,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/linea-sepolia/03ccfd8ae2ec4c75832ade4cc74b2de5",
+        urls: ["https://site1.moralis-nodes.com/linea-sepolia/03ccfd8ae2ec4c75832ade4cc74b2de5"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.LINEA,
@@ -725,11 +724,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/avalanche/5addb0088d03429eb061d98a104649ab",
+        urls: ["https://site1.moralis-nodes.com/avalanche/5addb0088d03429eb061d98a104649ab"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.AVALANCHE),
@@ -745,11 +744,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://avalanche-fuji-c-chain-rpc.publicnode.com",
+        urls: ["https://avalanche-fuji-c-chain-rpc.publicnode.com"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.AVALANCHE,
@@ -766,11 +765,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/gnosis/87598d6b313843f6be61fecc9b874cdd",
+        urls: ["https://site1.moralis-nodes.com/gnosis/87598d6b313843f6be61fecc9b874cdd"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.GNOSIS),
@@ -786,11 +785,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/gnosis-testnet/91e2e32f95864e6891fbe76dc97e57cb",
+        urls: ["https://site1.moralis-nodes.com/gnosis-testnet/91e2e32f95864e6891fbe76dc97e57cb"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.GNOSIS,
@@ -807,11 +806,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/moonbeam/82196cbf24574538b48c18bb13ffda21",
+        urls: ["https://site1.moralis-nodes.com/moonbeam/82196cbf24574538b48c18bb13ffda21"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.MOONBEAM),
@@ -827,11 +826,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/moonriver/84a61f509f5e4ae3a9c29ebd7e8fda67",
+        urls: ["https://site1.moralis-nodes.com/moonriver/84a61f509f5e4ae3a9c29ebd7e8fda67"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.MOONRIVER),
@@ -847,11 +846,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/moonbase/a4078cfc56ad43d5a5aa557241ddb7bb",
+        urls: ["https://site1.moralis-nodes.com/moonbase/a4078cfc56ad43d5a5aa557241ddb7bb"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.MOONBEAM,
@@ -868,11 +867,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://rpcapi.fantom.network",
+        urls: ["https://rpcapi.fantom.network"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.FANTOM),
@@ -888,11 +887,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf",
+        urls: ["https://site1.moralis-nodes.com/mantle/b1bf079880e246da919aa45f441e1cdf"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: NATIVE_READ_WRITE_ONLY,
@@ -908,11 +907,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://public-node.rsk.co",
+        urls: ["https://public-node.rsk.co"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_ROOTSTOCK_FEATURES,
@@ -928,11 +927,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://public-node.testnet.rsk.co",
+        urls: ["https://public-node.testnet.rsk.co"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.ROOTSTOCK,
@@ -948,7 +947,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.blockchair,
-        url: "https://api.blockchair.com/litecoin",
+        urls: ["https://api.blockchair.com/litecoin"],
+      },
+      {
+        type: ProviderType.mempoolspace,
+        urls: ["https://mempool.space/api"],
       },
     ],
     params: {
@@ -967,7 +970,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.blockchair,
-        url: "https://api.blockchair.com/dogecoin",
+        urls: ["https://api.blockchair.com/dogecoin"],
+      },
+      {
+        type: ProviderType.mempoolspace,
+        urls: ["https://mempool.space/api"],
       },
     ],
     params: {
@@ -987,11 +994,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://toncenter.com/api/",
+        urls: ["https://toncenter.com/api/"],
       },
       {
         type: ProviderType.tonapi,
-        url: "https://tonapi.io",
+        urls: ["https://tonapi.io"],
       },
     ],
     supportedFeatures: TON_FEATURES,
@@ -1007,11 +1014,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://chiliz-rpc.publicnode.com",
+        urls: ["https://chiliz-rpc.publicnode.com"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.CHILIZ),
@@ -1027,11 +1034,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://chiliz-spicy.publicnode.com",
+        urls: ["https://chiliz-spicy.publicnode.com"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     isTestnetFor: ChainId.CHILIZ,
@@ -1049,13 +1056,13 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        //url: "https://apis.mintscan.io/injective/lcd", // Error when computing tx fees
-        //url: "https://lcd-injective.imperator.co", // FIXME Frequent HTTP 502 errors
-        url: ["https://injective-api.polkachu.com", "https://lcd-injective.imperator.co"],
+        //urls: ["https://apis.mintscan.io/injective/lcd"], // Error when computing tx fees
+        //urls: ["https://lcd-injective.imperator.co"], // FIXME Frequent HTTP 502 errors
+        urls: ["https://injective-api.polkachu.com", "https://lcd-injective.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1080,11 +1087,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-akash.imperator.co",
+        urls: ["https://lcd-akash.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1110,11 +1117,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-band.imperator.co",
+        urls: ["https://lcd-band.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1141,11 +1148,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-dymension.imperator.co",
+        urls: ["https://lcd-dymension.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1171,11 +1178,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-kyve.imperator.co",
+        urls: ["https://lcd-kyve.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1201,11 +1208,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-neutron.imperator.co",
+        urls: ["https://lcd-neutron.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1233,11 +1240,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-terra.imperator.co",
+        urls: ["https://lcd-terra.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1263,12 +1270,12 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: ["https://stargaze-api.polkachu.com/", "https://lcd-stargaze.imperator.co"],
-        //url: "https://lcd-stargaze.imperator.co", // Randomly long response times, up to 60s and more...
+        urls: ["https://stargaze-api.polkachu.com/", "https://lcd-stargaze.imperator.co"],
+        //urls: ["https://lcd-stargaze.imperator.co"], // Randomly long response times, up to 60s and more...
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1294,15 +1301,15 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://api.trongrid.io",
+        urls: ["https://api.trongrid.io"],
       },
       {
         type: ProviderType.tronscan,
-        url: "https://apilist.tronscanapi.com",
+        urls: ["https://apilist.tronscanapi.com"],
       },
       {
         type: ProviderType.oklink,
-        url: "https://www.oklink.com/api/v5/explorer",
+        urls: ["https://www.oklink.com/api/v5/explorer"],
       },
     ],
     supportedFeatures: TRON_FEATURES,
@@ -1319,11 +1326,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.node,
         //url: "https://lcd-evmos.imperator.co", // Occasional HTTP 504 Gateway Timeout errors...
-        url: ["https://evmos-api.polkachu.com", "https://lcd-evmos.imperator.co"],
+        urls: ["https://evmos-api.polkachu.com", "https://lcd-evmos.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1349,12 +1356,12 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: ["https://apis.mintscan.io/iris/lcd", "https://lcd-iris.imperator.co"],
-        //url: "https://lcd-iris.imperator.co", // FIXME Frequent HTTP 502 errors
+        urls: ["https://apis.mintscan.io/iris/lcd", "https://lcd-iris.imperator.co"],
+        //urls: ["https://lcd-iris.imperator.co"], // FIXME Frequent HTTP 502 errors
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1379,11 +1386,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-juno.imperator.co",
+        urls: ["https://lcd-juno.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1408,11 +1415,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-lum.imperator.co",
+        urls: ["https://lcd-lum.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1437,11 +1444,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-omniflix.imperator.co",
+        urls: ["https://lcd-omniflix.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1466,11 +1473,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://sei-api.polkachu.com/",
+        urls: ["https://sei-api.polkachu.com/"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1495,11 +1502,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-medibloc.imperator.co",
+        urls: ["https://lcd-medibloc.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1524,11 +1531,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-passage.imperator.co",
+        urls: ["https://lcd-passage.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1553,11 +1560,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-quasar.imperator.co",
+        urls: ["https://lcd-quasar.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1583,11 +1590,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://seda-api.polkachu.com/",
+        urls: ["https://seda-api.polkachu.com/"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1613,11 +1620,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-sommelier.imperator.co",
+        urls: ["https://lcd-sommelier.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1643,11 +1650,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-shentu.imperator.co",
+        urls: ["https://lcd-shentu.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1673,11 +1680,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://lcd-stride.imperator.co",
+        urls: ["https://lcd-stride.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1702,11 +1709,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://chihuahua-api.polkachu.com",
+        urls: ["https://chihuahua-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1731,11 +1738,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://bitsong-api.polkachu.com",
+        urls: ["https://bitsong-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1760,11 +1767,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://persistence-api.polkachu.com",
+        urls: ["https://persistence-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1789,11 +1796,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://comdex-api.polkachu.com",
+        urls: ["https://comdex-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1818,11 +1825,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://fetch-api.polkachu.com/",
+        urls: ["https://fetch-api.polkachu.com/"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1847,11 +1854,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://humans-api.polkachu.com",
+        urls: ["https://humans-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1876,11 +1883,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://ki-api.polkachu.com",
+        urls: ["https://ki-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1905,11 +1912,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://mainnet-node.like.co",
+        urls: ["https://mainnet-node.like.co"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1934,11 +1941,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://mars-api.polkachu.com",
+        urls: ["https://mars-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1963,11 +1970,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://provenance-api.polkachu.com",
+        urls: ["https://provenance-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -1992,11 +1999,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://quicksilver-api.polkachu.com",
+        urls: ["https://quicksilver-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -2021,11 +2028,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://saga-api.polkachu.com",
+        urls: ["https://saga-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -2050,11 +2057,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://ux-api.polkachu.com",
+        urls: ["https://ux-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -2079,11 +2086,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://kava-api.polkachu.com",
+        urls: ["https://kava-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
     ],
     params: {
@@ -2108,11 +2115,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://starknet-mainnet.public.blastapi.io/rpc/v0_7", //FIXME: Find a better node
+        urls: ["https://starknet-mainnet.public.blastapi.io/rpc/v0_7"], //FIXME: Find a better node
       },
       {
         type: ProviderType.starkscan,
-        url: "https://api.starkscan.co",
+        urls: ["https://api.starkscan.co"],
       },
     ],
     supportedFeatures: STARKNET_FEATURES,
@@ -2130,15 +2137,15 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         //url: "https://babylon-api.nodes.guru",
         //url: "https://lcd-babylon.imperator.co",
-        url: "https://babylon-api.polkachu.com",
+        urls: ["https://babylon-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
       {
         type: ProviderType.babylon,
-        url: "https://staking-api.babylonlabs.io/v2", // Targeting bbn-1 mainnet
+        urls: ["https://staking-api.babylonlabs.io/v2"], // Targeting bbn-1 mainnet
       },
     ],
     params: {
@@ -2164,15 +2171,15 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         //url: "https://babylon-testnet-api.nodes.guru",
         //url: "https://lcd-babylon-testnet.imperator.co",
-        url: "https://babylon-testnet-api.polkachu.com",
+        urls: ["https://babylon-testnet-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
-        url: "https://apis.mintscan.io/v1",
+        urls: ["https://apis.mintscan.io/v1"],
       },
       {
         type: ProviderType.babylon,
-        url: "https://staking-api.testnet.babylonlabs.io/v2", // Targeting bbn-test-5 testnet
+        urls: ["https://staking-api.testnet.babylonlabs.io/v2"], // Targeting bbn-test-5 testnet
         //url: "https://staking-api.phase-2-devnet.babylonlabs.io/v2", // Targeting devnet-9 testnet
       },
     ],
@@ -2198,11 +2205,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://testnet-rpc.monad.xyz/",
+        urls: ["https://testnet-rpc.monad.xyz/"],
       },
       {
         type: ProviderType.alchemy,
-        url: "https://monad-testnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+        urls: ["https://monad-testnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.MONAD_TESTNET),
@@ -2219,11 +2226,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://rpc.berachain.com/",
+        urls: ["https://rpc.berachain.com/"],
       },
       {
         type: ProviderType.alchemy,
-        url: "https://berachain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+        urls: ["https://berachain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN),
@@ -2239,11 +2246,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://bartio.rpc.berachain.com",
+        urls: ["https://bartio.rpc.berachain.com"],
       },
       {
         type: ProviderType.alchemy,
-        url: "https://berachain-bartio.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+        urls: ["https://berachain-bartio.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN_ARTIO),
@@ -2260,11 +2267,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://evm.cronos.org",
+        urls: ["https://evm.cronos.org"],
       },
       {
         type: ProviderType.moralis,
-        url: "https://deep-index.moralis.io/api",
+        urls: ["https://deep-index.moralis.io/api"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.CRONOS),
@@ -2280,11 +2287,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+        urls: ["https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
       },
       {
         type: ProviderType.alchemy,
-        url: "https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g",
+        urls: ["https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN),
@@ -2300,11 +2307,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        url: "https://api.mainnet.aptoslabs.com/v1",
+        urls: ["https://api.mainnet.aptoslabs.com/v1"],
       },
       {
         type: ProviderType.aptosindexer,
-        url: "https://api.mainnet.aptoslabs.com/v1/graphql",
+        urls: ["https://api.mainnet.aptoslabs.com/v1/graphql"],
       },
     ],
     supportedFeatures: APTOS_FEATURES,

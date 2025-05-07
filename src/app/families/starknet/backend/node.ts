@@ -8,14 +8,14 @@ import {
   shortString,
   Provider as StarknetProvider,
 } from "starknet";
-import { CHAINS } from "~/app/config/chains";
-import { Provider, ProviderType, TransactionMode } from "~/app/model/types_WIP";
+import { ChainId, ProviderType, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
+import { getProviderUrls } from "../../common";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { createStarknetAccount, isCompactSignature, marginFees } from "../logic";
 import { StarknetTransactionParamsToBroadcast } from "../types";
 
-const nodeUrl = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
+const nodeUrl = getProviderUrls(ChainId.STARKNET, ProviderType.node);
 
 if (!nodeUrl) {
   throw new ThirdPartyProviderError("No node URL found for Starknet");

@@ -206,11 +206,13 @@
 
 ## litecoin
 
-| blockchair | https://api.blockchair.com/litecoin |
+| blockchair | https://api.blockchair.com/litecoin |<br />
+| mempoolspace | https://mempool.space/api |
 
 ## dogecoin
 
-| blockchair | https://api.blockchair.com/dogecoin |
+| blockchair | https://api.blockchair.com/dogecoin |<br />
+| mempoolspace | https://mempool.space/api |
 
 ## ton
 

@@ -1,9 +1,10 @@
 import { defineChain } from "viem";
 import { CHAINS } from "~/app/config/chains";
-import { Provider, ProviderType } from "~/app/model/types_WIP";
+import { ProviderType } from "~/app/model/types_WIP";
+import { getProviderUrls } from "../../common";
 
 const chain = CHAINS.berachain;
-const nodeUrl = String(chain.providers.find((p: Provider) => p.type === ProviderType.node)?.url);
+const nodeUrl = getProviderUrls(chain.id, ProviderType.node)[0];
 
 export const berachain = defineChain({
   id: Number(chain.nativeId),
