@@ -11,10 +11,7 @@ import {
 } from "../model/types_WIP";
 import { ThirdPartyProviderError, UnsupportedFeatureError } from "../tools/handlers/errors";
 
-export const getProviderUrls = (
-  chainId: ChainId,
-  providerType: ProviderType = ProviderType.node
-): string[] => {
+export const getProviderUrls = (chainId: ChainId, providerType: ProviderType): string[] => {
   const provider = CHAINS[chainId].providers.find((p: Provider) => p.type === providerType);
   if (!provider) {
     throw new ThirdPartyProviderError(`No type ${providerType} found for ${chainId}`);

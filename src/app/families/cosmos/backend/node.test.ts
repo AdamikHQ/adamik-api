@@ -7,7 +7,7 @@ const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
 // Mock the CHAINS constant
-jest.mock("../../../../config/chains", () => ({
+jest.mock("../../../config/chains", () => ({
   CHAINS: {
     [ChainId.COSMOSHUB]: {
       providers: [

@@ -22,7 +22,7 @@ import {
   TransactionResponse,
 } from "./types";
 
-const ROOT_URL = getProviderUrls(ChainId.STARKNET, ProviderType.starkscan)[0];
+const starkscanUrl = getProviderUrls(ChainId.STARKNET, ProviderType.starkscan)[0];
 const nodeUrl = getProviderUrls(ChainId.STARKNET, ProviderType.node)[0];
 
 async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any) {
@@ -42,7 +42,7 @@ async function fetchTokenBalances(
   accountId: string,
   paginationToken?: string
 ): Promise<{ balances: TokenBalance[]; nextPage: string | null }> {
-  let url = `${ROOT_URL}/api/pro/v0/token-owned-by`;
+  let url = `${starkscanUrl}/api/pro/v0/token-owned-by`;
 
   const params = new URLSearchParams({
     owner_address: accountId,
@@ -64,7 +64,7 @@ async function fetchTokenBalances(
 }
 
 async function fetchTokenContract(contractAddress: string): Promise<TokenContract> {
-  const url = `${ROOT_URL}/api/pro/v0/token-contract/${contractAddress}`;
+  const url = `${starkscanUrl}/api/pro/v0/token-contract/${contractAddress}`;
 
   const data: TokenContract = await fetchWithHeaders(url, "GET");
 
@@ -90,12 +90,9 @@ const starkScanToAdamikTransaction = async (
     parsedTransaction.blockHeight = BigInt(transaction.block_number);
   }
 
-  if (!nodeUrl) {
-    throw new ThirdPartyProviderError("No node URL found for Starknet");
-  }
   // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
-    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
+    nodeUrl,
   });
 
   if (transaction.transaction_type === "DEPLOY_ACCOUNT") {
@@ -124,7 +121,7 @@ const starkScanToAdamikTransaction = async (
 };
 
 async function fetchTransaction(transactionId: string): Promise<FinalizedTransaction> {
-  const url = `${ROOT_URL}/api/v0/transaction/${transactionId}`;
+  const url = `${starkscanUrl}/api/v0/transaction/${transactionId}`;
 
   const data: TransactionResponse = await fetchWithHeaders(url, "GET");
 
@@ -134,12 +131,9 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 }
 
 async function getTransactionHistorySymbols(transactions: TransactionHistory[]) {
-  if (!nodeUrl) {
-    throw new ThirdPartyProviderError("No node URL found for Starknet");
-  }
   // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
-    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
+    nodeUrl,
   });
 
   const symbolsAddresses = Object.entries(
@@ -243,8 +237,8 @@ async function fetchTransactionHistory(
       transfer_to_address: accountId,
     });
 
-    const urlFrom = `${ROOT_URL}/api/pro/v0/token-transfers?${paramsFrom.toString()}`;
-    const urlTo = `${ROOT_URL}/api/pro/v0/token-transfers?${paramsTo.toString()}`;
+    const urlFrom = `${starkscanUrl}/api/pro/v0/token-transfers?${paramsFrom.toString()}`;
+    const urlTo = `${starkscanUrl}/api/pro/v0/token-transfers?${paramsTo.toString()}`;
 
     dataFrom = await fetchWithHeaders(urlFrom, "GET");
     dataTo = await fetchWithHeaders(urlTo, "GET");
@@ -283,7 +277,7 @@ const fetchValidators = async (
       throw new InvalidPaginationTokenError("Provided pagination token is invalid");
     }
   } else {
-    const url = `${ROOT_URL}/api/pro/v0/staking-stakers`;
+    const url = `${starkscanUrl}/api/pro/v0/staking-stakers`;
     data = await fetchWithHeaders(url, "GET");
   }
 
