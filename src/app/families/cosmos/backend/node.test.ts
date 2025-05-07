@@ -1,6 +1,6 @@
-import { ChainId, ProviderType } from "../../../../model/types_WIP";
-import { ThirdPartyProviderError } from "../../../../tools/handlers/errors";
-import { fetchBalances } from "../node";
+import { ChainId, ProviderType } from "../../../model/types_WIP";
+import { ThirdPartyProviderError } from "../../../tools/handlers/errors";
+import { fetchBalances } from "./node";
 
 // Mock the fetch function
 const mockFetch = jest.fn();
@@ -13,7 +13,7 @@ jest.mock("../../../../config/chains", () => ({
       providers: [
         {
           type: ProviderType.node,
-          url: [
+          urls: [
             "https://node1.cosmos.network",
             "https://node2.cosmos.network",
             "https://node3.cosmos.network",
