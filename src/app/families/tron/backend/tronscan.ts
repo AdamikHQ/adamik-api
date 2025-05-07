@@ -1,12 +1,10 @@
 import { TRONSCAN_API_KEY } from "~/app/config/apiKeys";
-import { CHAINS } from "~/app/config/chains";
 import {
   AccountState,
   AccountTokens,
   ChainId,
   FinalizedTransaction,
   Paginated,
-  Provider,
   ProviderType,
   Token,
   TokenAmount,
@@ -20,11 +18,12 @@ import {
   TransactionIdNotFoundError,
 } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { getProviderUrls } from "../../common";
 import { TronscanAccountInfo, TronscanAccountTokensInfo, TronscanTransactionInfo } from "./types";
 
 const TRONSCAN_PAGE_SIZE = 20;
 
-const explorerURL = CHAINS.tron.providers.find((b: Provider) => b.type === ProviderType.tronscan)?.url;
+const explorerURL = getProviderUrls(ChainId.TRON, ProviderType.tronscan)[0];
 
 async function fetchTransaction(transactionId: string): Promise<FinalizedTransaction> {
   const url = `${explorerURL}/api/transaction-info?hash=${transactionId}`;

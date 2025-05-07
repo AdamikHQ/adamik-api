@@ -2,12 +2,14 @@ import { TronWeb } from "tronweb";
 import { toHex } from "tronweb/utils";
 import { TRONGRID_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
-import { Provider, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
+import { ChainId, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { TokenStore } from "~/app/tools/tokenStore";
+import { getProviderUrls } from "../../common";
 
-const nodeUrl = CHAINS.tron.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
+const nodeUrl = getProviderUrls(ChainId.TRON, ProviderType.node)[0];
 
+// TODO: Add support for failover
 const tronWeb = new TronWeb({
   fullHost: nodeUrl,
   headers: { "TRON-PRO-API-KEY": TRONGRID_API_KEY },

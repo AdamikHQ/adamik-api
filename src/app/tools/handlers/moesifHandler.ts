@@ -16,7 +16,7 @@ const moesifOptions: MoesifOptions = {
 };
 
 const applyMoesifMiddleware =
-  process.env.TEST_ENV === "true"
+  process.env.TEST_ENV === "true" || process.env.NODE_ENV === "test"
     ? (f: any) => {
         return f;
       }

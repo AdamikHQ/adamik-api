@@ -1,35 +1,26 @@
 import {
-  AptosResource,
-  ValidatorSetResponse,
-  AccountCoinResource,
-  AptosTransaction,
-  TransactionPayload,
-  AptosTransactionParams,
-} from "~/app/families/aptos/types";
-import { CHAINS } from "~/app/config/chains";
-import {
-  ChainId,
-  Provider,
-  ProviderType,
-  TokenAmount,
-  TokenType,
-  TransactionData,
-} from "~/app/model/types_WIP";
-import { TokenStore } from "~/app/tools/tokenStore";
-import { getCoinData } from "~/app/families/aptos/backend/indexer";
-import {
+  AccountAddress,
   Aptos,
   AptosConfig,
-  AccountAddress,
   MoveFunctionId,
   PendingTransactionResponse,
-  UserTransactionResponse,
-  InputEntryFunctionData,
 } from "@aptos-labs/ts-sdk";
+import { getCoinData } from "~/app/families/aptos/backend/indexer";
 import { AccountResponse, CoinBalance, GasPriceEstimate } from "~/app/families/aptos/backend/types";
+import {
+  AccountCoinResource,
+  AptosResource,
+  AptosTransaction,
+  AptosTransactionParams,
+  TransactionPayload,
+  ValidatorSetResponse,
+} from "~/app/families/aptos/types";
+import { ChainId, ProviderType, TokenAmount, TokenType, TransactionData } from "~/app/model/types_WIP";
+import { TokenStore } from "~/app/tools/tokenStore";
+import { getProviderUrls } from "../../common";
 
 export function getClient(chainId: ChainId): Aptos {
-  const nodeUrl = String(CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.node)?.url);
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
   const config = new AptosConfig({ fullnode: nodeUrl });
   return new Aptos(config);
 }
@@ -40,7 +31,7 @@ async function nodeRequest<T>(
   method: "GET" | "POST" = "GET",
   data?: unknown
 ): Promise<T> {
-  const nodeUrl = String(CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.node)?.url);
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
 
   const response = await fetch(`${nodeUrl}${path}`, {
     method,

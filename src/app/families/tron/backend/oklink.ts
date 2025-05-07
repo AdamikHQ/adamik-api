@@ -6,7 +6,6 @@ import {
   ChainId,
   FinalizedTransaction,
   Paginated,
-  Provider,
   ProviderType,
   TokenAmount,
   TokenType,
@@ -20,6 +19,7 @@ import {
   TransactionIdNotFoundError,
 } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { getProviderUrls } from "../../common";
 import { getTRC20TokenInfo } from "./node";
 import {
   OkLinkAccountStateResponse,
@@ -27,7 +27,8 @@ import {
   OkLinkTokensAccountStateResponse,
   OkLinkTransactionInfo,
 } from "./types";
-const explorerURL = CHAINS.tron.providers.find((b: Provider) => b.type === ProviderType.oklink)?.url;
+
+const explorerURL = getProviderUrls(ChainId.TRON, ProviderType.oklink)[0];
 
 async function fetchTransaction(transactionId: string): Promise<FinalizedTransaction> {
   const url = `${explorerURL}/transaction/transaction-fills?chainShortName=TRON&txid=${transactionId}`;

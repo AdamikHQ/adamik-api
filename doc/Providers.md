@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| node | https://cosmos-api.polkachu.com |<br />
+| node | https://cosmos-api.polkachu.com, https://lcd-cosmos.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
@@ -206,11 +206,13 @@
 
 ## litecoin
 
-| blockchair | https://api.blockchair.com/litecoin |
+| blockchair | https://api.blockchair.com/litecoin |<br />
+| mempoolspace | https://mempool.space/api |
 
 ## dogecoin
 
-| blockchair | https://api.blockchair.com/dogecoin |
+| blockchair | https://api.blockchair.com/dogecoin |<br />
+| mempoolspace | https://mempool.space/api |
 
 ## ton
 
@@ -229,7 +231,7 @@
 
 ## injective
 
-| node | https://injective-api.polkachu.com |<br />
+| node | https://injective-api.polkachu.com, https://lcd-injective.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
@@ -264,7 +266,7 @@
 
 ## stargaze
 
-| node | https://stargaze-api.polkachu.com/ |<br />
+| node | https://stargaze-api.polkachu.com/, https://lcd-stargaze.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## tron
@@ -275,12 +277,12 @@
 
 ## evmos
 
-| node | https://evmos-api.polkachu.com |<br />
+| node | https://evmos-api.polkachu.com, https://lcd-evmos.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## irisnet
 
-| node | https://apis.mintscan.io/iris/lcd |<br />
+| node | https://apis.mintscan.io/iris/lcd, https://lcd-iris.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## juno
