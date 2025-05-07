@@ -1531,7 +1531,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://lcd-passage.imperator.co"],
+        urls: ["https://passage-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
@@ -1883,7 +1883,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://ki-api.polkachu.com"],
+        urls: ["https://kichain-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
