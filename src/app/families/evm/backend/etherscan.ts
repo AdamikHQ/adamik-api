@@ -1,6 +1,6 @@
 import { ETHERSCAN_API_KEYS } from "~/app/config/apiKeys";
-import { CHAINS } from "~/app/config/chains";
-import { ChainId, Provider, ProviderType } from "~/app/model/types_WIP";
+import { ChainId, ProviderType } from "~/app/model/types_WIP";
+import { getProviderUrls } from "../../common";
 import { EtherscanERC20Event } from "./types";
 
 // Etherscan-like explorer
@@ -42,7 +42,7 @@ async function getERC20TransferEvents(
   chainId: ChainId,
   address: string
 ): Promise<Array<EtherscanERC20Event>> {
-  const explorerURL = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.etherscan)?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.etherscan)[0];
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return [];

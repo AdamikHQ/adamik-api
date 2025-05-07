@@ -13,7 +13,6 @@ import { EvmAddress } from "~/app/families/evm/types";
 import {
   ChainId,
   FinalizedTransaction,
-  Provider,
   ProviderType,
   Token,
   TokenAmount,
@@ -23,6 +22,7 @@ import {
 } from "~/app/model/types_WIP";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
+import { getProviderUrls } from "../../common";
 
 const SUPPORTED_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.ETHEREUM, "eth-mainnet"],
@@ -49,13 +49,10 @@ const SUPPORTED_CHAIN_IDS: Map<ChainId, string> = new Map([
 ]);
 
 async function sendRequest(chainId: ChainId, method: string, params: any[]) {
-  const explorer = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.alchemy);
-  if (!explorer) {
-    console.warn(`/!\\ Chain ID ${chainId} is not supported by Alchemy API`);
-    return null;
-  }
+  const explorerURL = getProviderUrls(chainId, ProviderType.alchemy)[0];
 
-  const res = await fetch(explorer.url, {
+  // TODO: Add support for multiple Alchemy URLs
+  const res = await fetch(explorerURL, {
     method: "POST",
     headers: {
       Accept: "application/json",

@@ -4,13 +4,13 @@ import { getBabylonDelegationState } from "~/app/families/babylon/logic";
 import {
   ChainId,
   FinalizedTransaction,
-  Provider,
   ProviderType,
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { getProviderUrls } from "../../common";
 import { MINTSCAN_CHAIN_IDS } from "../features";
 import { CosmosChainParams } from "../types";
 import { MintscanAccountTransactionsResponse, MintscanTransaction } from "./types";
@@ -33,8 +33,7 @@ enum SUPPORTED_MESSAGE_TYPES {
   // TODO Support custom MsgWithdrawReward: "/babylon.incentive.MsgWithdrawReward" for babylon
 }
 
-const getRootUrl = (chainId: ChainId) =>
-  CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.mintscan)?.url;
+const getRootUrl = (chainId: ChainId) => getProviderUrls(chainId, ProviderType.mintscan)[0];
 
 async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   const newOptions: RequestInit = {
