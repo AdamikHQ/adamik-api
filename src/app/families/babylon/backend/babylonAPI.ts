@@ -1,8 +1,8 @@
 import { VersionedStakingParams } from "@babylonlabs-io/btc-staking-ts";
-import { CHAINS } from "~/app/config/chains";
-import { AccountState, ChainId, Provider, ProviderType, StakingStatus } from "~/app/model/types_WIP";
+import { AccountState, ChainId, ProviderType, StakingStatus } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { getProviderUrls } from "../../common";
 import {
   computeCompletionDateForDelegation,
   getBabylonChainIds,
@@ -19,12 +19,10 @@ import {
   babylonFinalityProviderV2Schema,
   babylonNetworkInfoV2Schema,
 } from "./babylonAPI.types";
-
 // Doc : https://docs.babylonlabs.io/api/staking-api/babylon-staking-api/
 
 const getRootUrl = (chainId: ChainId) =>
-  CHAINS[getBabylonChainIds(chainId).babylon].providers.find((p: Provider) => p.type === ProviderType.babylon)
-    ?.url;
+  getProviderUrls(getBabylonChainIds(chainId).babylon, ProviderType.babylon)[0];
 
 async function fetchAllBabylonStakingParams(chainId: ChainId): Promise<VersionedStakingParams[]> {
   const url = `${getRootUrl(chainId)}/network-info`;

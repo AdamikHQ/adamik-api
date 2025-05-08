@@ -4,7 +4,6 @@ import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
   FinalizedTransaction,
-  Provider,
   ProviderType,
   Token,
   TokenAmount,
@@ -19,6 +18,7 @@ import {
 } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
+import { getProviderUrls } from "../../common";
 import { EvmAddress } from "../types";
 import {
   EvmIndexer,
@@ -86,7 +86,7 @@ async function fetchERC20TokenAmounts(
     return { tokens, nextPage };
   }
 
-  const explorerURL = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.moralis)?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.moralis)[0];
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return { tokens, nextPage };
@@ -154,7 +154,7 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
     return [];
   }
 
-  const explorerURL = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.moralis)?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.moralis)[0];
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return [];
@@ -215,7 +215,7 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
     throw new UnsupportedTokenIDError(tokenId, chainId);
   }
 
-  const explorerURL = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.moralis)?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.moralis)[0];
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     throw new UnsupportedTokenIDError(tokenId, chainId);
@@ -264,7 +264,7 @@ async function fetchTransaction(
     return null;
   }
 
-  const explorerURL = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.moralis)?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.moralis)[0];
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return null;
@@ -298,7 +298,7 @@ async function fetchAccountTransactions(
     return { evmTransactions: [], nextPage: null };
   }
 
-  const explorerURL = CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.moralis)?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.moralis)[0];
   if (!explorerURL) {
     console.warn(`/!\\ Chain ${chainId} has no defined explorer`);
     return { evmTransactions: [], nextPage: null };

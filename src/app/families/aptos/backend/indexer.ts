@@ -1,10 +1,8 @@
-import { CHAINS } from "~/app/config/chains";
-import { ChainId, Provider, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
 import { CoinInfosResponse, IndexerResponse } from "~/app/families/aptos/types";
+import { ChainId, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
+import { getProviderUrls } from "../../common";
 
-const indexerUrl = String(
-  CHAINS.aptos.providers.find((p: Provider) => p.type === ProviderType.aptosindexer)?.url
-);
+const indexerUrl = getProviderUrls(ChainId.APTOS, ProviderType.aptosindexer)[0];
 
 async function indexerRequest<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
   const response = await fetch(indexerUrl, {

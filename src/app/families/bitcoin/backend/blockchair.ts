@@ -5,12 +5,12 @@ import {
   AccountState,
   ChainId,
   FinalizedTransaction,
-  Provider,
   ProviderType,
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
+import { getProviderUrls } from "../../common";
 import { BitcoinChainParams, UtxoWithMetadata, Xpub } from "../types";
 import {
   BlockchairAddressesResponse,
@@ -22,7 +22,6 @@ import {
   BlockchairTransactionsResponse,
   BlockchairXpubResponse,
 } from "./blockchair.types";
-
 // TODO Need proper mapping between Adamik ChainID <> Blockchair ChainID (to support more than bitcoin)
 
 /**
@@ -36,9 +35,7 @@ import {
  * - Premium API users get increased limit of up to 20,000 addresses (10,000 main + 10,000 change)
  */
 async function fetchXpubUTXOs(chainId: ChainId, xpub: Xpub): Promise<UtxoWithMetadata[]> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -98,9 +95,7 @@ async function fetchXpubUTXOs(chainId: ChainId, xpub: Xpub): Promise<UtxoWithMet
 }
 
 async function fetchAddressUTXOs(chainId: ChainId, address: string): Promise<UtxoWithMetadata[]> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -277,9 +272,7 @@ async function fetchTransaction(
   chainId: ChainId,
   transactionId: string
 ): Promise<FinalizedTransaction | null> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -331,9 +324,7 @@ async function fetchTransactionsMetadataBatched(
   chainId: ChainId,
   transactionIds: string[]
 ): Promise<BlockchairTransactionData[]> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -393,9 +384,7 @@ async function fetchRawTransaction(
   chainId: ChainId,
   transactionId: string
 ): Promise<BlockchairRawTransactionData> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -438,9 +427,7 @@ async function fetchRawTransaction(
 }
 
 async function fetchLatestBlockHeight(chainId: ChainId): Promise<number> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const url = `${explorerURL}/${chainId}/stats`;
 
   const response = await fetch(url);
@@ -459,10 +446,8 @@ async function fetchLatestBlockHeight(chainId: ChainId): Promise<number> {
   return result.data.blocks - 1;
 }
 
-async function fetchFeePerByte(chainId: ChainId): Promise<number> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+async function fetchFeePerByte(chainId: ChainId): Promise<{ slow: number; medium: number; fast: number }> {
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -489,13 +474,15 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
     throw new ThirdPartyProviderError("Error in fee per byte data received from the explorer");
   }
 
-  return result.data.suggested_transaction_fee_per_byte_sat;
+  return {
+    slow: result.data.suggested_transaction_fee_per_byte_sat,
+    medium: result.data.suggested_transaction_fee_per_byte_sat,
+    fast: result.data.suggested_transaction_fee_per_byte_sat,
+  };
 }
 
 async function postTransaction(chainId: ChainId, payload: string): Promise<string> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
     data: payload,

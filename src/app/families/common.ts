@@ -3,11 +3,26 @@ import {
   AccountState,
   ChainId,
   FinalizedTransaction,
+  Provider,
+  ProviderType,
   Status,
   TransactionData,
   TransactionMode,
 } from "../model/types_WIP";
 import { ThirdPartyProviderError, UnsupportedFeatureError } from "../tools/handlers/errors";
+
+export const getProviderUrls = (chainId: ChainId, providerType: ProviderType): string[] => {
+  const provider = CHAINS[chainId].providers.find((p: Provider) => p.type === providerType);
+  if (!provider) {
+    throw new ThirdPartyProviderError(`No type ${providerType} found for ${chainId}`);
+  }
+
+  if (Array.isArray(provider.urls)) {
+    return provider.urls;
+  } else {
+    throw new ThirdPartyProviderError(`Invalid type ${providerType} provider URL for ${chainId}`);
+  }
+};
 
 // Handles multiple providers
 async function getAccountStatefromProviders(
