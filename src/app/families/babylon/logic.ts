@@ -192,7 +192,7 @@ async function buildStakingPsbt(
   // NOTE Not compliant with Bitcoin spec, ideally a new change address should be derived from the Xpub
   const changeAddress = transactionData.senderAddress;
 
-  let feePerByte: number;
+  let feePerByte: { slow: number; medium: number; fast: number };
   let babylonUtxos: UTXO[];
 
   if (mempoolSpaceSupported) {
@@ -240,7 +240,7 @@ async function buildStakingPsbt(
       changeAddress,
       babylonUtxos,
       bitcoinNetworkInfo,
-      feePerByte
+      feePerByte.fast // NOTE Arbitrary choice of fee, maybe another one is better
     );
 
     const stakingPsbt = stakingTransactionToPsbt(
@@ -507,7 +507,8 @@ async function buildWithdrawalPsbt(
 
   const stakingScripts = buildStakingScripts(chainId, transactionData, babylonStakingParams);
 
-  const feeRate = await fetchFeePerByteMempoolSpace(chainId);
+  // NOTE Arbitrary choice of fee, maybe another one is better
+  const { fast: feeRate } = await fetchFeePerByteMempoolSpace(chainId);
 
   try {
     // End of timelock withdrawal

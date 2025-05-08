@@ -158,7 +158,7 @@ async function fetchAddressScriptPubKey(chainId: ChainId, address: string): Prom
   return data.scriptPubKey;
 }
 
-async function fetchFeePerByte(chainId: ChainId): Promise<number> {
+async function fetchFeePerByte(chainId: ChainId): Promise<{ slow: number; medium: number; fast: number }> {
   const explorerURL = getProviderUrls(chainId, ProviderType.mempoolspace)[0];
   const url = `${explorerURL}/v1/fees/recommended`;
 
@@ -185,8 +185,11 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
 
   const data = mempoolSpaceFeesSchema.parse(result);
 
-  // NOTE Abritrary choice of fee, maybe another one is better?
-  return data.economyFee;
+  return {
+    slow: data.hourFee,
+    medium: data.halfHourFee,
+    fast: data.fastestFee,
+  };
 }
 
 async function postTransaction(chainId: ChainId, payload: string): Promise<string> {
