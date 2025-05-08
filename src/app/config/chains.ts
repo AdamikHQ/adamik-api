@@ -1198,37 +1198,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     signerSpec: getSignerSpecForChain(ChainId.KYVE, ChainFamily.COSMOS),
   },
 
-  neutron: {
-    family: ChainFamily.COSMOS,
-    id: ChainId.NEUTRON,
-    nativeId: "neutron-1",
-    name: "Neutron",
-    ticker: "NTRN",
-    decimals: 6,
-    providers: [
-      {
-        type: ProviderType.node,
-        urls: ["https://lcd-neutron.imperator.co"],
-      },
-      {
-        type: ProviderType.mintscan,
-        urls: ["https://apis.mintscan.io/v1"],
-      },
-    ],
-    params: {
-      prefix: "neutron",
-      validatorPrefix: "neutronvaloper",
-      denom: "untrn",
-      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
-      defaultGas: 100000, // TODO: Verify this value for each specific chain
-      minGasPrice: 0.0053,
-      isICS: true,
-    },
-    supportedFeatures: COSMOS_FEATURES(ChainId.NEUTRON),
-    // Chain info: https://github.com/cosmos/chain-registry/blob/master/neutron/chain.json
-    signerSpec: getSignerSpecForChain(ChainId.NEUTRON, ChainFamily.COSMOS),
-  },
-
   //Terra 2 is the rebirthed version of Terra
   terra2: {
     family: ChainFamily.COSMOS,
@@ -1620,7 +1589,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://lcd-sommelier.imperator.co"],
+        urls: ["https://sommelier-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
@@ -1650,7 +1619,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://lcd-shentu.imperator.co"],
+        urls: ["https://shentu-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
@@ -1931,35 +1900,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/likecoin/chain.json
     signerSpec: getSignerSpecForChain(ChainId.LIKECOIN, ChainFamily.COSMOS),
   },
-  "mars-hub": {
-    family: ChainFamily.COSMOS,
-    id: ChainId.MARS_HUB,
-    nativeId: "mars-1",
-    name: "Mars Hub",
-    ticker: "MARS",
-    decimals: 6,
-    providers: [
-      {
-        type: ProviderType.node,
-        urls: ["https://mars-api.polkachu.com"],
-      },
-      {
-        type: ProviderType.mintscan,
-        urls: ["https://apis.mintscan.io/v1"],
-      },
-    ],
-    params: {
-      prefix: "mars",
-      validatorPrefix: "marsvaloper",
-      denom: "umars",
-      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
-      defaultGas: 100000,
-      minGasPrice: 0.025,
-    },
-    supportedFeatures: COSMOS_FEATURES(ChainId.MARS_HUB),
-    // Chain info: https://github.com/cosmos/chain-registry/blob/master/mars/chain.json
-    signerSpec: getSignerSpecForChain(ChainId.MARS_HUB, ChainFamily.COSMOS),
-  },
   provenance: {
     family: ChainFamily.COSMOS,
     id: ChainId.PROVENANCE,
@@ -2047,35 +1987,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/saga/chain.json
     signerSpec: getSignerSpecForChain(ChainId.SAGA, ChainFamily.COSMOS),
   },
-  "ux-chain": {
-    family: ChainFamily.COSMOS,
-    id: ChainId.UX_CHAIN,
-    nativeId: "ux-1",
-    name: "UX Chain",
-    ticker: "UX",
-    decimals: 6,
-    providers: [
-      {
-        type: ProviderType.node,
-        urls: ["https://ux-api.polkachu.com"],
-      },
-      {
-        type: ProviderType.mintscan,
-        urls: ["https://apis.mintscan.io/v1"],
-      },
-    ],
-    params: {
-      prefix: "ux",
-      validatorPrefix: "uxvaloper",
-      denom: "uux",
-      defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
-      defaultGas: 100000,
-      minGasPrice: 0.025,
-    },
-    supportedFeatures: COSMOS_FEATURES(ChainId.UX_CHAIN),
-    // Chain info: https://github.com/cosmos/chain-registry/blob/master/ux/chain.json
-    signerSpec: getSignerSpecForChain(ChainId.UX_CHAIN, ChainFamily.COSMOS),
-  },
+
   kava: {
     family: ChainFamily.COSMOS,
     id: ChainId.KAVA,
