@@ -10,7 +10,6 @@ const MINTSCAN_CHAIN_IDS: Map<ChainId, string> = new Map([
   [ChainId.AXELAR, "axelar"],
   [ChainId.INJECTIVE, "injective"],
   [ChainId.AKASH, "akash"],
-  [ChainId.NEUTRON, "neutron"],
   [ChainId.EVMOS, "evmos"],
   [ChainId.JUNO, "juno"],
   [ChainId.SEI, "sei"],

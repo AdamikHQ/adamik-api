@@ -254,11 +254,6 @@
 | node | https://lcd-kyve.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
-## neutron
-
-| node | https://lcd-neutron.imperator.co |<br />
-| mintscan | https://apis.mintscan.io/v1 |
-
 ## terra2
 
 | node | https://lcd-terra.imperator.co |<br />
@@ -327,12 +322,12 @@
 
 ## sommelier
 
-| node | https://lcd-sommelier.imperator.co |<br />
+| node | https://sommelier-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## shentu
 
-| node | https://lcd-shentu.imperator.co |<br />
+| node | https://shentu-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## stride
@@ -380,11 +375,6 @@
 | node | https://mainnet-node.like.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
-## mars-hub
-
-| node | https://mars-api.polkachu.com |<br />
-| mintscan | https://apis.mintscan.io/v1 |
-
 ## provenance
 
 | node | https://provenance-api.polkachu.com |<br />
@@ -398,11 +388,6 @@
 ## saga
 
 | node | https://saga-api.polkachu.com |<br />
-| mintscan | https://apis.mintscan.io/v1 |
-
-## ux-chain
-
-| node | https://ux-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## kava
