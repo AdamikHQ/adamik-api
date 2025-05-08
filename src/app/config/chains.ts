@@ -1100,7 +1100,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       denom: "uakt",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
-      minGasPrice: 0.0025,
+      minGasPrice: 0.025,
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.AKASH),
     // Chain info: https://github.com/cosmos/chain-registry/blob/master/akash/chain.json
