@@ -446,7 +446,7 @@ async function fetchLatestBlockHeight(chainId: ChainId): Promise<number> {
   return result.data.blocks - 1;
 }
 
-async function fetchFeePerByte(chainId: ChainId): Promise<number> {
+async function fetchFeePerByte(chainId: ChainId): Promise<{ slow: number; medium: number; fast: number }> {
   const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
@@ -474,7 +474,11 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
     throw new ThirdPartyProviderError("Error in fee per byte data received from the explorer");
   }
 
-  return result.data.suggested_transaction_fee_per_byte_sat;
+  return {
+    slow: result.data.suggested_transaction_fee_per_byte_sat,
+    medium: result.data.suggested_transaction_fee_per_byte_sat,
+    fast: result.data.suggested_transaction_fee_per_byte_sat,
+  };
 }
 
 async function postTransaction(chainId: ChainId, payload: string): Promise<string> {
