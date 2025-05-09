@@ -250,7 +250,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://axelar-api.polkachu.com/"],
+        urls: ["https://lcd-axelar.imperator.co", "https://axelar-api.polkachu.com/"],
       },
       {
         type: ProviderType.mintscan,
