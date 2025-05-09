@@ -19,13 +19,6 @@ params:path {
   accountId: TT2T17KZhoDu47i2E4FWxfG79zdkEWkU9N
 }
 
-body:json {
-  {
-    "chainId": "tron",
-    "accountId": "TT2T17KZhoDu47i2E4FWxfG79zdkEWkU9N"
-  }
-}
-
 assert {
   res.status: eq 200
   res.body.balances.tokens: isArray

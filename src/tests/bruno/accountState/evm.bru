@@ -15,13 +15,6 @@ params:path {
   accountId: 0x66c4371aE8FFeD2ec1c2EBbbcCfb7E494181E1E3
 }
 
-body:json {
-  {
-    "chainId": "ethereum",
-    "accountId": "0x66c4371aE8FFeD2ec1c2EBbbcCfb7E494181E1E3"
-  }
-}
-
 assert {
   res.body.balances: isDefined tokens
   res.body.balances.tokens: isArray

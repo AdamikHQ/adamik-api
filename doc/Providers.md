@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| node | https://cosmos-api.polkachu.com |<br />
+| node | https://cosmos-ada-api.polkachu.com, https://lcd-cosmos.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
@@ -17,7 +17,7 @@
 
 ## osmosis
 
-| node | https://lcd-osmosis.imperator.co |<br />
+| node | https://osmosis-ada-api.polkachu.com, https://lcd-osmosis.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## osmosis-testnet
@@ -27,7 +27,7 @@
 
 ## celestia
 
-| node | https://lcd-celestia.imperator.co |<br />
+| node | https://celestia-ada-api.polkachu.com, https://lcd-celestia.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## celestia-testnet
@@ -206,11 +206,13 @@
 
 ## litecoin
 
-| blockchair | https://api.blockchair.com/litecoin |
+| blockchair | https://api.blockchair.com/litecoin |<br />
+| mempoolspace | https://mempool.space/api |
 
 ## dogecoin
 
-| blockchair | https://api.blockchair.com/dogecoin |
+| blockchair | https://api.blockchair.com/dogecoin |<br />
+| mempoolspace | https://mempool.space/api |
 
 ## ton
 
@@ -229,7 +231,7 @@
 
 ## injective
 
-| node | https://injective-api.polkachu.com |<br />
+| node | https://injective-ada-api.polkachu.com, https://lcd-injective.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
@@ -252,11 +254,6 @@
 | node | https://lcd-kyve.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
-## neutron
-
-| node | https://lcd-neutron.imperator.co |<br />
-| mintscan | https://apis.mintscan.io/v1 |
-
 ## terra2
 
 | node | https://lcd-terra.imperator.co |<br />
@@ -264,7 +261,7 @@
 
 ## stargaze
 
-| node | https://stargaze-api.polkachu.com/ |<br />
+| node | https://stargaze-api.polkachu.com/, https://lcd-stargaze.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## tron
@@ -275,12 +272,12 @@
 
 ## evmos
 
-| node | https://evmos-api.polkachu.com |<br />
+| node | https://evmos-api.polkachu.com, https://lcd-evmos.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## irisnet
 
-| node | https://apis.mintscan.io/iris/lcd |<br />
+| node | https://apis.mintscan.io/iris/lcd, https://lcd-iris.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## juno
@@ -310,7 +307,7 @@
 
 ## passage
 
-| node | https://lcd-passage.imperator.co |<br />
+| node | https://passage-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## quasar
@@ -325,12 +322,12 @@
 
 ## sommelier
 
-| node | https://lcd-sommelier.imperator.co |<br />
+| node | https://sommelier-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## shentu
 
-| node | https://lcd-shentu.imperator.co |<br />
+| node | https://shentu-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## stride
@@ -370,17 +367,12 @@
 
 ## ki
 
-| node | https://ki-api.polkachu.com |<br />
+| node | https://kichain-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## likecoin
 
 | node | https://mainnet-node.like.co |<br />
-| mintscan | https://apis.mintscan.io/v1 |
-
-## mars-hub
-
-| node | https://mars-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## provenance
@@ -398,11 +390,6 @@
 | node | https://saga-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
-## ux-chain
-
-| node | https://ux-api.polkachu.com |<br />
-| mintscan | https://apis.mintscan.io/v1 |
-
 ## kava
 
 | node | https://kava-api.polkachu.com |<br />
@@ -415,13 +402,13 @@
 
 ## babylon
 
-| node | https://babylon-api.nodes.guru |<br />
+| node | https://babylon-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |<br />
 | babylon | https://staking-api.babylonlabs.io/v2 |
 
 ## babylon-testnet
 
-| node | https://babylon-testnet-api.nodes.guru |<br />
+| node | https://babylon-testnet-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |<br />
 | babylon | https://staking-api.testnet.babylonlabs.io/v2 |
 
@@ -454,3 +441,8 @@
 
 | node | https://mainnet.helius-rpc.com/?api-key=673b4df3-c775-466c-9394-db949575ba8f |<br />
 | helius | https://api-mainnet.helius-rpc.com |
+
+## aptos
+
+| node | https://api.mainnet.aptoslabs.com/v1 |<br />
+| aptosindexer | https://api.mainnet.aptoslabs.com/v1/graphql |

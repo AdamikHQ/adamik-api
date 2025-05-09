@@ -1,12 +1,28 @@
+import { CHAINS } from "../config/chains";
 import {
   AccountState,
   ChainId,
   FinalizedTransaction,
+  Provider,
+  ProviderType,
   Status,
   TransactionData,
   TransactionMode,
 } from "../model/types_WIP";
 import { ThirdPartyProviderError, UnsupportedFeatureError } from "../tools/handlers/errors";
+
+export const getProviderUrls = (chainId: ChainId, providerType: ProviderType): string[] => {
+  const provider = CHAINS[chainId].providers.find((p: Provider) => p.type === providerType);
+  if (!provider) {
+    throw new ThirdPartyProviderError(`No type ${providerType} found for ${chainId}`);
+  }
+
+  if (Array.isArray(provider.urls)) {
+    return provider.urls;
+  } else {
+    throw new ThirdPartyProviderError(`Invalid type ${providerType} provider URL for ${chainId}`);
+  }
+};
 
 // Handles multiple providers
 async function getAccountStatefromProviders(
@@ -68,6 +84,8 @@ async function prevalidateTransactionCommon(
   const { transactionData, addressValidationFn, status } = _;
   const { mode } = transactionData;
 
+  validateTransactionMode(chainId, mode);
+
   switch (mode) {
     case TransactionMode.DEPLOY_ACCOUNT:
       {
@@ -76,9 +94,10 @@ async function prevalidateTransactionCommon(
       }
       break;
     case TransactionMode.TRANSFER:
-    // TODO Validate tokenId ?
     case TransactionMode.TRANSFER_TOKEN:
       {
+        // TODO Validate tokenId ?
+
         const validSender = await addressValidationFn(transactionData.senderAddress);
         if (!validSender) {
           status.errors.push({ message: "Sender address is invalid" });
@@ -187,6 +206,13 @@ function validateAmountOrUseMaxAmount(
     status.errors.push({ message: "amount and useMaxAmount cannot be used together" });
   } else if (!transactionData.useMaxAmount && !("amount" in transactionData)) {
     status.errors.push({ message: "Missing amount or useMaxAmount" });
+  }
+}
+
+function validateTransactionMode(chainId: ChainId, mode: TransactionMode) {
+  const supported = CHAINS[chainId].supportedFeatures.write.transaction.type[mode];
+  if (!supported) {
+    throw new UnsupportedFeatureError(`Transaction mode ${mode} is not supported for chainId ${chainId}`);
   }
 }
 

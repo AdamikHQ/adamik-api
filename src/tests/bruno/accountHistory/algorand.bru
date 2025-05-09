@@ -15,13 +15,6 @@ params:path {
   accountId: RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM
 }
 
-body:json {
-  {
-    "chainId": "algorand",
-    "accountId": "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM"
-  }
-}
-
 assert {
   res.status: eq 400
   res.body.status.errors[0].message: eq "Unsupported feature for chainId 'algorand'"

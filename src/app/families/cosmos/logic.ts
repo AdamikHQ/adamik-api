@@ -22,6 +22,7 @@ import { MsgBeginRedelegate, MsgDelegate, MsgUndelegate } from "cosmjs-types/cos
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
 import { SignDoc as SignDocProtobuf, TxBody, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { CHAINS } from "~/app/config/chains";
+import { buildBabylonRegistrationMessage } from "~/app/families/babylon/logic";
 import {
   ChainId,
   EncodedTransactionFormat,
@@ -32,7 +33,6 @@ import {
 } from "~/app/model/types_WIP";
 import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
-import { buildBabylonRegistrationMessage } from "../babylon/logic";
 import { fetchBalances, fetchDelegations, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
 import { buildSignDocProtobufForInjective } from "./chains/injective";
@@ -281,90 +281,90 @@ async function buildMessages(
 
     case TransactionMode.UNSTAKE:
       {
-        {
-          const aminoUndelegateMsg: AminoMsgUndelegate = {
-            type: "cosmos-sdk/MsgUndelegate",
-            value: {
-              delegator_address: transactionData.senderAddress,
-              validator_address: transactionData.validatorAddress,
-              amount: {
-                denom: chainParams?.denom,
-                amount: amount.toString(),
-              },
+        const aminoUndelegateMsg: AminoMsgUndelegate = {
+          type: "cosmos-sdk/MsgUndelegate",
+          value: {
+            delegator_address: transactionData.senderAddress,
+            validator_address: transactionData.validatorAddress,
+            amount: {
+              denom: chainParams?.denom,
+              amount: amount.toString(),
             },
-          };
-          aminoMsgs.push(aminoUndelegateMsg);
+          },
+        };
+        aminoMsgs.push(aminoUndelegateMsg);
 
-          const protoUndelegateMsg: ProtoMsg = {
-            typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
-            value: MsgUndelegate.encode({
-              delegatorAddress: transactionData.senderAddress,
-              validatorAddress: transactionData.validatorAddress,
-              amount: {
-                denom: chainParams?.denom,
-                amount: amount.toString(),
-              },
-            }).finish(),
-          };
-          protoMsgs.push(protoUndelegateMsg);
-        }
+        const protoUndelegateMsg: ProtoMsg = {
+          typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
+          value: MsgUndelegate.encode({
+            delegatorAddress: transactionData.senderAddress,
+            validatorAddress: transactionData.validatorAddress,
+            amount: {
+              denom: chainParams?.denom,
+              amount: amount.toString(),
+            },
+          }).finish(),
+        };
+        protoMsgs.push(protoUndelegateMsg);
       }
       break;
 
     case TransactionMode.CLAIM_REWARDS:
       {
-        {
-          const aminoClaimRewardsMsg: AminoMsgWithdrawDelegatorReward = {
-            type: "cosmos-sdk/MsgWithdrawDelegationReward",
+        // TODO Support custom MsgWithdrawReward: "/babylon.incentive.MsgWithdrawReward" for babylon
+        const aminoClaimRewardsMsg: AminoMsgWithdrawDelegatorReward = {
+          type: "cosmos-sdk/MsgWithdrawDelegationReward",
+          value: {
+            delegator_address: transactionData.senderAddress,
+            validator_address: transactionData.validatorAddress,
+          },
+        };
+        aminoMsgs.push(aminoClaimRewardsMsg);
+
+        const protoClaimRewardsMsg: ProtoMsg = {
+          typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+          value: MsgWithdrawDelegatorReward.encode({
+            delegatorAddress: transactionData.senderAddress,
+            validatorAddress: transactionData.validatorAddress,
+          }).finish(),
+        };
+        protoMsgs.push(protoClaimRewardsMsg);
+
+        if (transactionData.compound) {
+          const aminoDelegateMsg: AminoMsgDelegate = {
+            type: "cosmos-sdk/MsgDelegate",
             value: {
               delegator_address: transactionData.senderAddress,
               validator_address: transactionData.validatorAddress,
+              amount: {
+                denom: chainParams?.denom,
+                amount: amount.toString(),
+              },
             },
           };
-          aminoMsgs.push(aminoClaimRewardsMsg);
+          aminoMsgs.push(aminoDelegateMsg);
 
-          const protoClaimRewardsMsg: ProtoMsg = {
-            typeUrl: "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-            value: MsgWithdrawDelegatorReward.encode({
+          const protoDelegateMsg: ProtoMsg = {
+            typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+            value: MsgDelegate.encode({
               delegatorAddress: transactionData.senderAddress,
               validatorAddress: transactionData.validatorAddress,
+              amount: {
+                denom: chainParams?.denom,
+                amount: amount.toString(),
+              },
             }).finish(),
           };
-          protoMsgs.push(protoClaimRewardsMsg);
-
-          if (transactionData.compound) {
-            const aminoDelegateMsg: AminoMsgDelegate = {
-              type: "cosmos-sdk/MsgDelegate",
-              value: {
-                delegator_address: transactionData.senderAddress,
-                validator_address: transactionData.validatorAddress,
-                amount: {
-                  denom: chainParams?.denom,
-                  amount: amount.toString(),
-                },
-              },
-            };
-            aminoMsgs.push(aminoDelegateMsg);
-
-            const protoDelegateMsg: ProtoMsg = {
-              typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
-              value: MsgDelegate.encode({
-                delegatorAddress: transactionData.senderAddress,
-                validatorAddress: transactionData.validatorAddress,
-                amount: {
-                  denom: chainParams?.denom,
-                  amount: amount.toString(),
-                },
-              }).finish(),
-            };
-            protoMsgs.push(protoDelegateMsg);
-          }
+          protoMsgs.push(protoDelegateMsg);
         }
       }
       break;
     case TransactionMode.REGISTER_STAKE:
       {
-        const protoRegisterStakeMsg: ProtoMsg = await buildBabylonRegistrationMessage(transactionData);
+        const protoRegisterStakeMsg: ProtoMsg = await buildBabylonRegistrationMessage(
+          chainId,
+          transactionData
+        );
 
         protoMsgs.push(protoRegisterStakeMsg);
       }

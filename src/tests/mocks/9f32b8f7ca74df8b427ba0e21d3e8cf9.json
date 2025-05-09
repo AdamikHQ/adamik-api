@@ -1,0 +1,14 @@
+{
+  "request": {
+    "url": "https://api.mainnet.aptoslabs.com/v1/accounts/0xae1a6f3d3daccaf77b55044cea133379934bba04a11b9d0bbd643eae5e6e9c70",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "sequence_number": "234285",
+      "authentication_key": "0xae1a6f3d3daccaf77b55044cea133379934bba04a11b9d0bbd643eae5e6e9c70"
+    },
+    "type": "json"
+  }
+}

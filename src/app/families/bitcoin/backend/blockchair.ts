@@ -1,15 +1,16 @@
 import { BLOCKCHAIR_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
+import { fetchBabylonDelegation } from "~/app/families/babylon/backend/babylonAPI";
 import {
   AccountState,
   ChainId,
   FinalizedTransaction,
-  Provider,
   ProviderType,
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
+import { getProviderUrls } from "../../common";
 import { BitcoinChainParams, UtxoWithMetadata, Xpub } from "../types";
 import {
   BlockchairAddressesResponse,
@@ -21,7 +22,6 @@ import {
   BlockchairTransactionsResponse,
   BlockchairXpubResponse,
 } from "./blockchair.types";
-
 // TODO Need proper mapping between Adamik ChainID <> Blockchair ChainID (to support more than bitcoin)
 
 /**
@@ -35,9 +35,7 @@ import {
  * - Premium API users get increased limit of up to 20,000 addresses (10,000 main + 10,000 change)
  */
 async function fetchXpubUTXOs(chainId: ChainId, xpub: Xpub): Promise<UtxoWithMetadata[]> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -97,9 +95,7 @@ async function fetchXpubUTXOs(chainId: ChainId, xpub: Xpub): Promise<UtxoWithMet
 }
 
 async function fetchAddressUTXOs(chainId: ChainId, address: string): Promise<UtxoWithMetadata[]> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -276,9 +272,7 @@ async function fetchTransaction(
   chainId: ChainId,
   transactionId: string
 ): Promise<FinalizedTransaction | null> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -330,9 +324,7 @@ async function fetchTransactionsMetadataBatched(
   chainId: ChainId,
   transactionIds: string[]
 ): Promise<BlockchairTransactionData[]> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -392,9 +384,7 @@ async function fetchRawTransaction(
   chainId: ChainId,
   transactionId: string
 ): Promise<BlockchairRawTransactionData> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -437,9 +427,7 @@ async function fetchRawTransaction(
 }
 
 async function fetchLatestBlockHeight(chainId: ChainId): Promise<number> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const url = `${explorerURL}/${chainId}/stats`;
 
   const response = await fetch(url);
@@ -458,10 +446,8 @@ async function fetchLatestBlockHeight(chainId: ChainId): Promise<number> {
   return result.data.blocks - 1;
 }
 
-async function fetchFeePerByte(chainId: ChainId): Promise<number> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+async function fetchFeePerByte(chainId: ChainId): Promise<{ slow: number; medium: number; fast: number }> {
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
   });
@@ -488,13 +474,15 @@ async function fetchFeePerByte(chainId: ChainId): Promise<number> {
     throw new ThirdPartyProviderError("Error in fee per byte data received from the explorer");
   }
 
-  return result.data.suggested_transaction_fee_per_byte_sat;
+  return {
+    slow: result.data.suggested_transaction_fee_per_byte_sat,
+    medium: result.data.suggested_transaction_fee_per_byte_sat,
+    fast: result.data.suggested_transaction_fee_per_byte_sat,
+  };
 }
 
 async function postTransaction(chainId: ChainId, payload: string): Promise<string> {
-  const explorerURL = CHAINS[chainId].providers.find(
-    (p: Provider) => p.type === ProviderType.blockchair
-  )?.url;
+  const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
   const queryParams = new URLSearchParams({
     key: BLOCKCHAIR_API_KEY,
     data: payload,
@@ -565,12 +553,9 @@ async function utxosToAccountState(chainId: ChainId, utxos: UtxoWithMetadata[]):
   return {
     balances: {
       native: {
-        // available: includes ALL spendable amounts (both confirmed and unconfirmed)
-        available: confirmedBalance + unconfirmedBalance,
-        // total: same as available for Bitcoin (no locked amounts)
-        total: confirmedBalance + unconfirmedBalance,
-        // unconfirmed: track unconfirmed amount for information
+        available: confirmedBalance,
         unconfirmed: unconfirmedBalance,
+        total: confirmedBalance + unconfirmedBalance,
       },
     },
   };
@@ -582,8 +567,6 @@ async function blockchairToAdamikTransaction(
 ): Promise<FinalizedTransaction> {
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     id: blockchairTransaction.transaction.hash,
-    // NOTE Impossible to check for other tx modes (e.g staking) with bitcoin
-    // explorer alone, needs to be refined by the caller of this function
     mode: TransactionMode.TRANSFER,
     state: TransactionState.UNKNOWN,
     fees: {
@@ -616,6 +599,24 @@ async function blockchairToAdamikTransaction(
     // This format is ambiguous about the timezone, so we have to append 'UTC' for Date to handle it correctly...
     parsedTransaction.timestamp = new Date(blockchairTransaction.transaction.time + " UTC").getTime();
     parsedTransaction.blockHeight = BigInt(blockchairTransaction.transaction.block_id);
+  }
+
+  // Babylon Staking - poll the babylon backend to check whether it's a staking tx
+  const babylonDelegationFound = await fetchBabylonDelegation(
+    chainId,
+    blockchairTransaction.transaction.hash
+  );
+  if (babylonDelegationFound) {
+    // FIXME We can only identify 'staking' transactions,
+    // found no way to identify 'unbonding' and 'withdrawal' transactions...
+    parsedTransaction.mode = TransactionMode.STAKE;
+
+    parsedTransaction.validators = {
+      target: {
+        address: babylonDelegationFound.data.finality_provider_btc_pks_hex[0],
+        //amount: BigInt(mempoolSpaceTransaction.vout[0].value),
+      },
+    };
   }
 
   return {

@@ -15,13 +15,6 @@ params:path {
   accountId: TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre
 }
 
-body:json {
-  {
-    "chainId": "tron",
-    "accountId": "TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre"
-  }
-}
-
 assert {
   res.status: eq 400
   res.body.status.errors[0].message: eq "Unsupported feature for chainId 'tron'"

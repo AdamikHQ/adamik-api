@@ -1,9 +1,3 @@
-import { ChainId } from "~/app/model/types_WIP";
-
-// TODO Remove and replace with hardocded values when going mainnet
-const CURRENT_BABYLON_BITCOIN_CHAIN: ChainId = ChainId.BITCOIN_SIGNET;
-const CURRENT_BABYLON_COSMOS_CHAIN: ChainId = ChainId.BABYLON_TESTNET;
-
 type BabylonMsgCreateBTCDelegation = {
   staker_addr: string;
   pop: {
@@ -30,5 +24,4 @@ type BabylonCreateBTCDelegationMessage = {
   "/babylon-btcstaking-v1-MsgCreateBTCDelegation": BabylonMsgCreateBTCDelegation;
 };
 
-export { CURRENT_BABYLON_BITCOIN_CHAIN, CURRENT_BABYLON_COSMOS_CHAIN };
 export type { BabylonCreateBTCDelegationMessage, BabylonMsgCreateBTCDelegation };

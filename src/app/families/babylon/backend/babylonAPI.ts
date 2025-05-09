@@ -1,13 +1,13 @@
 import { VersionedStakingParams } from "@babylonlabs-io/btc-staking-ts";
-import { Transaction as BitcoinTransaction } from "bitcoinjs-lib";
-import { CHAINS } from "~/app/config/chains";
-import { fetchTransaction as fetchTransactionFromBlockchair } from "~/app/families/bitcoin/backend/blockchair";
-import { fetchTransaction as fetchTransactionFromMS } from "~/app/families/bitcoin/backend/mempoolSpace";
-import { AccountState, ChainId, Provider, ProviderType, StakingStatus } from "~/app/model/types_WIP";
+import { AccountState, ChainId, ProviderType, StakingStatus } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
-import { getTransactionfromProviders } from "../../common";
-import { CURRENT_BABYLON_BITCOIN_CHAIN, CURRENT_BABYLON_COSMOS_CHAIN } from "../types";
+import { getProviderUrls } from "../../common";
+import {
+  computeCompletionDateForDelegation,
+  getBabylonChainIds,
+  getBabylonStakingParamsByVersion,
+} from "../logic";
 import {
   BabylonDelegationState,
   BabylonDelegationsV2,
@@ -19,24 +19,13 @@ import {
   babylonFinalityProviderV2Schema,
   babylonNetworkInfoV2Schema,
 } from "./babylonAPI.types";
-
 // Doc : https://docs.babylonlabs.io/api/staking-api/babylon-staking-api/
 
-// TODO Use getRootUrl instead to support both bitcoin chains
-const ROOT_URL = CHAINS[CURRENT_BABYLON_COSMOS_CHAIN].providers.find(
-  (p: Provider) => p.type === ProviderType.babylon
-)?.url;
-
 const getRootUrl = (chainId: ChainId) =>
-  CHAINS[chainId === ChainId.BITCOIN_SIGNET ? ChainId.BABYLON_TESTNET : ChainId.BABYLON].providers.find(
-    (p: Provider) => p.type === ProviderType.babylon
-  )?.url;
+  getProviderUrls(getBabylonChainIds(chainId).babylon, ProviderType.babylon)[0];
 
-// Average Bitcoin block time is around 10 minutes
-const AVERAGE_BITCOIN_BLOCK_TIME_MS = 10 * 60 * 1000;
-
-async function fetchAllBabylonStakingParams(): Promise<VersionedStakingParams[]> {
-  const url = `${ROOT_URL}/network-info`;
+async function fetchAllBabylonStakingParams(chainId: ChainId): Promise<VersionedStakingParams[]> {
+  const url = `${getRootUrl(chainId)}/network-info`;
 
   const response = await fetch(url);
 
@@ -84,9 +73,10 @@ async function fetchAllBabylonStakingParams(): Promise<VersionedStakingParams[]>
 }
 
 async function fetchBabylonFinalityProviders(
+  chainId: ChainId,
   paginationToken?: string
 ): Promise<{ validators: BabylonFinalityProviderV2[]; nextPage: string | null }> {
-  const url = new URL(`${ROOT_URL}/finality-providers`);
+  const url = new URL(`${getRootUrl(chainId)}/finality-providers`);
 
   const paginationData = paginationFromB64(paginationToken);
 
@@ -134,8 +124,11 @@ async function fetchBabylonFinalityProviders(
   };
 }
 
-async function fetchBabylonDelegation(bitcoinTransactionId: string): Promise<BabylonDelegationV2 | null> {
-  const url = new URL(`${ROOT_URL}/delegation`);
+async function fetchBabylonDelegation(
+  chainId: ChainId,
+  bitcoinTransactionId: string
+): Promise<BabylonDelegationV2 | null> {
+  const url = new URL(`${getRootUrl(chainId)}/delegation`);
   url.searchParams.set("staking_tx_hash_hex", bitcoinTransactionId);
 
   const response = await fetch(url.toString());
@@ -170,13 +163,14 @@ async function fetchBabylonDelegation(bitcoinTransactionId: string): Promise<Bab
 }
 
 async function fetchBabylonDelegations(
+  chainId: ChainId,
   bitcoinPubKeyHex: string,
   paginationToken?: string
 ): Promise<{
   delegations: BabylonDelegationsV2;
   nextPage: string | null;
 }> {
-  const url = new URL(`${ROOT_URL}/delegations`);
+  const url = new URL(`${getRootUrl(chainId)}/delegations`);
 
   // Add required staker_pk_hex parameter
   url.searchParams.set("staker_pk_hex", bitcoinPubKeyHex);
@@ -231,7 +225,7 @@ async function fetchBabylonDelegations(
   };
 }
 
-async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<AccountState> {
+async function fetchBabylonStakingData(chainId: ChainId, bitcoinPubKeyHex: string): Promise<AccountState> {
   const stakingState: AccountState["balances"]["staking"] = {
     total: 0n,
     locked: 0n,
@@ -242,81 +236,72 @@ async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<Accoun
 
   // substring because staker pubkey is expected without the coordinate bytes
   const bitcoinPubKeyNoCoordHex = bitcoinPubKeyHex.substring(2);
-  const { delegations } = await fetchBabylonDelegations(bitcoinPubKeyNoCoordHex);
+  const { delegations } = await fetchBabylonDelegations(chainId, bitcoinPubKeyNoCoordHex);
 
-  // Process each delegation to categorize them as locked, unlocking, or unlocked
+  // Process each delegation to categorize them depending on their state
   for (const delegation of delegations.data) {
-    const stakingAmount = BigInt(delegation.delegation_staking.staking_amount);
+    const completionDate = await computeCompletionDateForDelegation(chainId, delegation);
 
-    let stakingStatus: StakingStatus;
-    let completionDate: number | undefined;
-
-    // FIXME Doesn't take into account:
-    // - supported providers by chain
-    // - supported functions by provider
-    const fetchTransactionFunctions = [fetchTransactionFromMS, fetchTransactionFromBlockchair];
-
-    // Categorize the delegation based on its state
+    let amount: bigint;
+    let status: StakingStatus;
     switch (delegation.state) {
+      // These are actively staked
       case BabylonDelegationState.PENDING:
       case BabylonDelegationState.VERIFIED:
       case BabylonDelegationState.ACTIVE:
-        // These are actively staked (locked) amounts
-        stakingState.locked += stakingAmount;
-        stakingStatus =
-          delegation.state === BabylonDelegationState.ACTIVE ? StakingStatus.LOCKED : StakingStatus.PENDING;
+        {
+          status =
+            delegation.state === BabylonDelegationState.ACTIVE ? StakingStatus.LOCKED : StakingStatus.PENDING;
 
-        const bitcoinStakingTransaction = await getTransactionfromProviders(
-          CURRENT_BABYLON_BITCOIN_CHAIN,
-          delegation.delegation_staking.staking_tx_hash_hex,
-          fetchTransactionFunctions
-        );
-
-        if (bitcoinStakingTransaction?.parsed?.timestamp) {
-          const stakingStartingTime = bitcoinStakingTransaction.parsed.timestamp;
-          const stakingDuration =
-            // (staking_timelock is a number of blocks)
-            delegation.delegation_staking.staking_timelock * AVERAGE_BITCOIN_BLOCK_TIME_MS;
-          completionDate = stakingStartingTime + stakingDuration;
+          amount = BigInt(delegation.delegation_staking.staking_amount);
+          stakingState.locked += amount;
         }
         break;
 
+      // These are in the process of being unstaked
       case BabylonDelegationState.TIMELOCK_UNBONDING:
       case BabylonDelegationState.EARLY_UNBONDING:
-        // These are in the process of being unstaked (unlocking)
-        stakingState.unlocking += stakingAmount;
-        stakingStatus = StakingStatus.UNLOCKING;
+        {
+          status = StakingStatus.UNLOCKING;
 
-        const bitcoinUnbondingTransactionId = BitcoinTransaction.fromHex(
-          delegation.delegation_unbonding.unbonding_tx
-        ).getId();
-        const bitcoinUnbondingTransaction = await getTransactionfromProviders(
-          CURRENT_BABYLON_BITCOIN_CHAIN,
-          bitcoinUnbondingTransactionId,
-          fetchTransactionFunctions
-        );
-
-        if (bitcoinUnbondingTransaction?.parsed?.timestamp) {
-          const unbondingStartingTime = bitcoinUnbondingTransaction.parsed.timestamp;
-          const unbondingDuration =
-            // (unbonding_timelock is a number of blocks)
-            delegation.delegation_unbonding.unbonding_timelock * AVERAGE_BITCOIN_BLOCK_TIME_MS;
-          completionDate = unbondingStartingTime + unbondingDuration;
+          amount = BigInt(delegation.delegation_staking.staking_amount);
+          stakingState.unlocking += amount;
         }
         break;
 
+      // These have completed unstaking and are ready to be withdrawn
       case BabylonDelegationState.TIMELOCK_WITHDRAWABLE:
       case BabylonDelegationState.EARLY_UNBONDING_WITHDRAWABLE:
       case BabylonDelegationState.TIMELOCK_SLASHING_WITHDRAWABLE:
       case BabylonDelegationState.EARLY_UNBONDING_SLASHING_WITHDRAWABLE:
-        // These have completed unstaking and are ready to be withdrawn (unlocked)
-        stakingState.unlocked += stakingAmount;
-        stakingStatus = StakingStatus.UNLOCKED;
+        {
+          status = StakingStatus.UNLOCKED;
+
+          amount = BigInt(delegation.delegation_staking.staking_amount);
+          stakingState.unlocked += amount;
+        }
         break;
 
-      // We don't count withdrawn amounts as they're not part of staking anymore
+      // These have been slashed and are not part of staking anymore
+      case BabylonDelegationState.SLASHED:
+        {
+          status = StakingStatus.SLASHED;
+
+          const babylonParams = await getBabylonStakingParamsByVersion(chainId, delegation.params_version);
+
+          amount = BigInt(
+            delegation.delegation_staking.staking_amount * (1 - (babylonParams?.slashing?.slashingRate ?? 0))
+          );
+          stakingState.unlocked += amount;
+        }
+        break;
+
       default:
-        // No action needed for other states
+        console.warn(`/!\\ Unsupported babylon delegation state: ${delegation.state}`);
+      case BabylonDelegationState.TIMELOCK_WITHDRAWN:
+      case BabylonDelegationState.EARLY_UNBONDING_WITHDRAWN:
+      case BabylonDelegationState.TIMELOCK_SLASHING_WITHDRAWN:
+      case BabylonDelegationState.EARLY_UNBONDING_SLASHING_WITHDRAWN:
         continue; // Skip adding this to positions
     }
 
@@ -324,8 +309,8 @@ async function fetchBabylonStakingData(bitcoinPubKeyHex: string): Promise<Accoun
     stakingState.positions.push({
       stakeId: delegation.delegation_staking.staking_tx_hash_hex, // Use transaction hash as stake ID
       validatorAddresses: delegation.finality_provider_btc_pks_hex, // Use finality provider BTC public keys
-      amount: stakingAmount,
-      status: stakingStatus,
+      amount,
+      status,
       completionDate,
     });
   }

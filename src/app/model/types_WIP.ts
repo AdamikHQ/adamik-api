@@ -1,3 +1,4 @@
+import { AptosTransactionParams } from "~/app/families/aptos/types";
 import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
@@ -6,6 +7,7 @@ import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
+  APTOS = "aptos",
   ALGORAND = "algorand",
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",
@@ -54,11 +56,9 @@ enum ChainId {
   COMDEX = "comdex",
   HUMANS_AI = "humans-ai",
   KI = "ki",
-  MARS_HUB = "mars-hub",
   PROVENANCE = "provenance",
   QUICKSILVER = "quicksilver",
   SAGA = "saga",
-  UX_CHAIN = "ux-chain",
   KAVA = "kava",
   SEI = "sei",
   FETCH_AI = "fetch-ai",
@@ -78,7 +78,6 @@ enum ChainId {
   SOMMELIER = "sommelier",
   SHENTU = "shentu",
   STRIDE = "stride",
-  NEUTRON = "neutron",
   TERRA = "terra2",
   AKASH = "akash",
   DYMENSION = "dymension",
@@ -101,6 +100,7 @@ enum ChainId {
 }
 
 enum ChainFamily {
+  APTOS = "aptos",
   ALGORAND = "algorand",
   COSMOS = "cosmos",
   EVM = "evm",
@@ -160,12 +160,13 @@ export enum ProviderType {
   algoindexer = "algoindexer",
   mempoolspace = "mempoolspace",
   oklink = "oklink",
+  aptosindexer = "aptosindexer",
   babylon = "babylon",
   helius = "helius",
 }
 
 type Provider = {
-  url: string;
+  urls: string[];
   type: ProviderType;
 };
 
@@ -217,6 +218,7 @@ enum TokenType {
   IBC = "IBC",
   JETTON = "JETTON",
   SPL = "SPL",
+  APTOS_COIN = "APTOS_COIN",
 }
 
 type Token = {
@@ -250,7 +252,8 @@ enum StakingStatus {
   PENDING = "pending", // Submitted to the chain, waiting for confirmation
   LOCKED = "locked",
   UNLOCKING = "unlocking",
-  UNLOCKED = "unlocked", // Can't be used as part of the avaialble balance, needs a transaction first
+  UNLOCKED = "unlocked", // Can't be used as part of the available balance, needs a transaction first
+  SLASHED = "slashed",
 }
 
 type StakingPosition = {
@@ -354,12 +357,12 @@ type FinalizedTransaction = {
     validators?: {
       source?: {
         address: string;
-        amount: bigint;
+        amount?: bigint;
         ticker?: string;
       };
       target?: {
         address: string;
-        amount: bigint;
+        amount?: bigint;
         ticker?: string;
       };
     };
@@ -372,7 +375,8 @@ type TransactionParams =
   | BitcoinTransactionParams
   | TronTransactionParams
   | StarknetTransactionParams
-  | TonTransactionParams;
+  | TonTransactionParams
+  | AptosTransactionParams;
 
 enum DeployContractType {
   ARGENTX = "argentx",
@@ -524,12 +528,15 @@ export type {
   ChainParams,
   ChainSupportedFeatures,
   ChainValidators,
+  ClaimRewardsTransactionData,
+  DeployAccountTransactionData,
   FeaturesSet,
   FinalizedTransaction,
   Paginated,
   Provider,
   RegisterStakeTransactionData,
   SignerSpec,
+  StakeTransactionData,
   StakingPosition,
   StakingReward,
   Status,
@@ -539,6 +546,10 @@ export type {
   Transaction,
   TransactionData,
   TransactionSpendableAmounts,
+  TransferTokenTransactionData,
+  TransferTransactionData,
   TypedAddress,
+  UnstakeTransactionData,
   Validator,
+  WithdrawTransactionData,
 };

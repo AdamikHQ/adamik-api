@@ -1,0 +1,22 @@
+{
+  "request": {
+    "url": "https://babylon-testnet-api.polkachu.com/cosmos/bank/v1beta1/balances/bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "balances": [
+        {
+          "denom": "ubbn",
+          "amount": "990535460"
+        }
+      ],
+      "pagination": {
+        "next_key": null,
+        "total": "1"
+      }
+    },
+    "type": "json"
+  }
+}

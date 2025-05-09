@@ -1,7 +1,9 @@
 import { ALGORAND_FEATURES } from "../families/algorand/features";
+import { APTOS_FEATURES } from "../families/aptos/features";
 import { BITCOIN_FEATURES } from "../families/bitcoin/features";
 import { COSMOS_BABYLON_FEATURES, COSMOS_FEATURES } from "../families/cosmos/features";
 import { EVM_FEATURES, EVM_ROOTSTOCK_FEATURES } from "../families/evm/features";
+import { SOLANA_FEATURES } from "../families/solana/features";
 import { STARKNET_FEATURES } from "../families/starknet/features";
 import { TON_FEATURES } from "../families/ton/features";
 import { TRON_FEATURES } from "../families/tron/features";
@@ -43,12 +45,14 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
 
 export {
   ALGORAND_FEATURES,
+  APTOS_FEATURES,
   BITCOIN_FEATURES,
   COSMOS_BABYLON_FEATURES,
   COSMOS_FEATURES,
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
   NATIVE_READ_WRITE_ONLY,
+  SOLANA_FEATURES,
   STARKNET_FEATURES,
   TON_FEATURES,
   TRON_FEATURES,

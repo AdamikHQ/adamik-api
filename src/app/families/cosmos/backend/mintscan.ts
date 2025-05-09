@@ -1,16 +1,16 @@
 import { MINTSCAN_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
+import { getBabylonDelegationState } from "~/app/families/babylon/logic";
 import {
   ChainId,
   FinalizedTransaction,
-  Provider,
   ProviderType,
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
-import { getBabylonDelegationState } from "../../babylon/logic";
+import { getProviderUrls } from "../../common";
 import { MINTSCAN_CHAIN_IDS } from "../features";
 import { CosmosChainParams } from "../types";
 import { MintscanAccountTransactionsResponse, MintscanTransaction } from "./types";
@@ -30,10 +30,10 @@ enum SUPPORTED_MESSAGE_TYPES {
   MSG_UNDELEGATE_PROTO = "/cosmos.staking.v1beta1.MsgUndelegate",
   MSG_WITHDRAW_DELEGATOR_REWARD_PROTO = "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
   MSG_CREATE_BTC_DELEGATION = "/babylon.btcstaking.v1.MsgCreateBTCDelegation",
+  // TODO Support custom MsgWithdrawReward: "/babylon.incentive.MsgWithdrawReward" for babylon
 }
 
-const getRootUrl = (chainId: ChainId) =>
-  CHAINS[chainId].providers.find((p: Provider) => p.type === ProviderType.mintscan)?.url;
+const getRootUrl = (chainId: ChainId) => getProviderUrls(chainId, ProviderType.mintscan)[0];
 
 async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   const newOptions: RequestInit = {
@@ -467,6 +467,7 @@ async function parseProtobufTransaction(
 
       break;
     }
+    // TODO Support custom MsgWithdrawReward: "/babylon.incentive.MsgWithdrawReward" for babylon
     case SUPPORTED_MESSAGE_TYPES.MSG_WITHDRAW_DELEGATOR_REWARD_PROTO: {
       const message = tx.body.messages[0]["/cosmos-distribution-v1beta1-MsgWithdrawDelegatorReward"];
 
@@ -529,7 +530,7 @@ async function parseProtobufTransaction(
 
       // Slightly different meaning for the transaction's state here:
       // it's not about this babylon tx itself, but about the babylon delegation it represents
-      parsedTransaction.state = await getBabylonDelegationState(message);
+      parsedTransaction.state = await getBabylonDelegationState(chainId, message);
 
       break;
     }

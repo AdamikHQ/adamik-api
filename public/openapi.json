@@ -55,12 +55,66 @@
                     "chains": {
                       "type": "object",
                       "properties": {
+                        "aptos": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "aptos",
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet",
+                                "solana"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
+                        },
                         "algorand": {
                           "type": "object",
                           "properties": {
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -113,6 +167,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -165,6 +220,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -217,6 +273,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -269,6 +326,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -321,6 +379,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -373,6 +432,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -425,6 +485,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -477,6 +538,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -529,6 +591,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -581,6 +644,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -633,6 +697,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -685,6 +750,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -737,6 +803,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -789,6 +856,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -841,6 +909,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -893,6 +962,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -945,6 +1015,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -997,6 +1068,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1049,6 +1121,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1101,6 +1174,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1153,6 +1227,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1205,6 +1280,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1257,6 +1333,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1309,6 +1386,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1361,6 +1439,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1413,6 +1492,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1465,6 +1545,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1517,6 +1598,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1569,6 +1651,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1621,6 +1704,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1673,6 +1757,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1725,6 +1810,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1777,6 +1863,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1829,6 +1916,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1881,6 +1969,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1933,6 +2022,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -1985,6 +2075,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2037,6 +2128,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2089,6 +2181,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2141,6 +2234,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2193,6 +2287,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2245,6 +2340,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2297,6 +2393,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2349,6 +2446,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2401,6 +2499,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2453,6 +2552,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2505,58 +2605,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton",
-                                "starknet",
-                                "solana"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestnetFor": {
-                              "type": "string"
-                            },
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            },
-                            "signerSpec": {
-                              "$ref": "#/components/schemas/SignerSpec"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures",
-                            "signerSpec"
-                          ]
-                        },
-                        "mars-hub": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2609,6 +2658,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2661,6 +2711,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2713,58 +2764,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton",
-                                "starknet",
-                                "solana"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestnetFor": {
-                              "type": "string"
-                            },
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            },
-                            "signerSpec": {
-                              "$ref": "#/components/schemas/SignerSpec"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures",
-                            "signerSpec"
-                          ]
-                        },
-                        "ux-chain": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2817,6 +2817,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2869,6 +2870,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2921,6 +2923,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -2973,6 +2976,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3025,6 +3029,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3077,6 +3082,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3129,6 +3135,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3181,6 +3188,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3233,6 +3241,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3285,6 +3294,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3337,6 +3347,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3389,6 +3400,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3441,6 +3453,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3493,6 +3506,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3545,6 +3559,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3597,6 +3612,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3649,6 +3665,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3701,6 +3718,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3753,58 +3771,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton",
-                                "starknet",
-                                "solana"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestnetFor": {
-                              "type": "string"
-                            },
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            },
-                            "signerSpec": {
-                              "$ref": "#/components/schemas/SignerSpec"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures",
-                            "signerSpec"
-                          ]
-                        },
-                        "neutron": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3857,6 +3824,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3909,6 +3877,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -3961,6 +3930,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4013,6 +3983,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4065,6 +4036,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4117,6 +4089,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4169,6 +4142,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4221,6 +4195,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4273,6 +4248,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4325,6 +4301,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4377,6 +4354,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4429,6 +4407,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4481,6 +4460,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4533,6 +4513,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4585,6 +4566,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4637,6 +4619,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4689,6 +4672,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4741,6 +4725,7 @@
                             "family": {
                               "type": "string",
                               "enum": [
+                                "aptos",
                                 "algorand",
                                 "cosmos",
                                 "evm",
@@ -4833,6 +4818,7 @@
                         "family": {
                           "type": "string",
                           "enum": [
+                            "aptos",
                             "algorand",
                             "cosmos",
                             "evm",
@@ -4947,7 +4933,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -4972,11 +4957,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -4985,7 +4968,8 @@
                 "berachain",
                 "berachain-artio",
                 "cronos",
-                "world-chain"
+                "world-chain",
+                "aptos"
               ]
             },
             "required": true
@@ -5024,7 +5008,8 @@
                             "ERC20",
                             "IBC",
                             "JETTON",
-                            "SPL"
+                            "SPL",
+                            "APTOS_COIN"
                           ]
                         },
                         "id": {
@@ -5084,13 +5069,13 @@
                 "celestia-testnet",
                 "dydx",
                 "axelar",
+                "bitcoin",
                 "bitcoin-signet",
                 "injective",
                 "akash",
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "evmos",
@@ -5114,15 +5099,14 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
-                "babylon-testnet"
+                "babylon-testnet",
+                "aptos"
               ]
             },
             "required": true
@@ -5156,13 +5140,13 @@
                         "celestia-testnet",
                         "dydx",
                         "axelar",
+                        "bitcoin",
                         "bitcoin-signet",
                         "injective",
                         "akash",
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "evmos",
@@ -5186,15 +5170,14 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
-                        "babylon-testnet"
+                        "babylon-testnet",
+                        "aptos"
                       ]
                     },
                     "validators": {
@@ -5304,7 +5287,6 @@
                 "ton",
                 "injective",
                 "akash",
-                "neutron",
                 "tron",
                 "evmos",
                 "juno",
@@ -5317,7 +5299,8 @@
                 "monad-testnet",
                 "cronos",
                 "world-chain",
-                "solana"
+                "solana",
+                "aptos"
               ]
             },
             "required": true
@@ -5498,8 +5481,7 @@
                                     }
                                   },
                                   "required": [
-                                    "address",
-                                    "amount"
+                                    "address"
                                   ]
                                 },
                                 "target": {
@@ -5518,8 +5500,7 @@
                                     }
                                   },
                                   "required": [
-                                    "address",
-                                    "amount"
+                                    "address"
                                   ]
                                 }
                               }
@@ -5789,7 +5770,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -5814,11 +5794,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -5828,7 +5806,8 @@
                 "berachain-artio",
                 "cronos",
                 "world-chain",
-                "solana"
+                "solana",
+                "aptos"
               ]
             },
             "required": true
@@ -5925,7 +5904,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -5950,11 +5928,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -5964,7 +5940,8 @@
                         "berachain-artio",
                         "cronos",
                         "world-chain",
-                        "solana"
+                        "solana",
+                        "aptos"
                       ]
                     },
                     "accountId": {
@@ -6011,7 +5988,8 @@
                                       "ERC20",
                                       "IBC",
                                       "JETTON",
-                                      "SPL"
+                                      "SPL",
+                                      "APTOS_COIN"
                                     ]
                                   },
                                   "id": {
@@ -6095,7 +6073,8 @@
                                       "pending",
                                       "locked",
                                       "unlocking",
-                                      "unlocked"
+                                      "unlocked",
+                                      "slashed"
                                     ]
                                   },
                                   "completionDate": {
@@ -6151,7 +6130,8 @@
                                               "ERC20",
                                               "IBC",
                                               "JETTON",
-                                              "SPL"
+                                              "SPL",
+                                              "APTOS_COIN"
                                             ]
                                           },
                                           "id": {
@@ -6275,7 +6255,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -6300,11 +6279,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -6312,7 +6289,8 @@
                 "monad-testnet",
                 "cronos",
                 "world-chain",
-                "solana"
+                "solana",
+                "aptos"
               ]
             },
             "required": true
@@ -6386,7 +6364,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -6411,11 +6388,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -6423,7 +6398,8 @@
                         "monad-testnet",
                         "cronos",
                         "world-chain",
-                        "solana"
+                        "solana",
+                        "aptos"
                       ]
                     },
                     "accountId": {
@@ -6449,7 +6425,8 @@
                                       "ERC20",
                                       "IBC",
                                       "JETTON",
-                                      "SPL"
+                                      "SPL",
+                                      "APTOS_COIN"
                                     ]
                                   },
                                   "id": {
@@ -6566,7 +6543,6 @@
                 "fantom",
                 "injective",
                 "akash",
-                "neutron",
                 "evmos",
                 "juno",
                 "sei",
@@ -6578,7 +6554,8 @@
                 "monad-testnet",
                 "cronos",
                 "world-chain",
-                "solana"
+                "solana",
+                "aptos"
               ]
             },
             "required": true
@@ -6654,7 +6631,6 @@
                         "fantom",
                         "injective",
                         "akash",
-                        "neutron",
                         "evmos",
                         "juno",
                         "sei",
@@ -6666,7 +6642,8 @@
                         "monad-testnet",
                         "cronos",
                         "world-chain",
-                        "solana"
+                        "solana",
+                        "aptos"
                       ]
                     },
                     "accountId": {
@@ -6818,8 +6795,7 @@
                                       }
                                     },
                                     "required": [
-                                      "address",
-                                      "amount"
+                                      "address"
                                     ]
                                   },
                                   "target": {
@@ -6838,8 +6814,7 @@
                                       }
                                     },
                                     "required": [
-                                      "address",
-                                      "amount"
+                                      "address"
                                     ]
                                   }
                                 }
@@ -6951,7 +6926,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -6976,11 +6950,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -6990,7 +6962,8 @@
                 "berachain-artio",
                 "cronos",
                 "world-chain",
-                "solana"
+                "solana",
+                "aptos"
               ]
             },
             "required": true
@@ -7194,7 +7167,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "amount": {
                                     "type": "string",
@@ -7235,7 +7208,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -7268,17 +7241,22 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId"
+                                  "stakeId",
+                                  "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
                               {
                                 "type": "object",
@@ -7342,7 +7320,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               }
                             ]
                           }
@@ -7421,7 +7399,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -7446,11 +7423,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -7460,7 +7435,8 @@
                         "berachain-artio",
                         "cronos",
                         "world-chain",
-                        "solana"
+                        "solana",
+                        "aptos"
                       ]
                     },
                     "transaction": {
@@ -7676,7 +7652,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                     },
                                     "amount": {
                                       "type": "string",
@@ -7718,7 +7694,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                     },
                                     "compound": {
                                       "type": "boolean",
@@ -7751,17 +7727,22 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    },
+                                    "recipientAddress": {
+                                      "type": "string",
+                                      "description": "Address or ID of the recipient account."
                                     }
                                   },
                                   "required": [
                                     "mode",
                                     "senderPubKey",
                                     "validatorAddress",
-                                    "stakeId"
+                                    "stakeId",
+                                    "recipientAddress"
                                   ],
                                   "title": "Withdraw Unlocked Funds",
-                                  "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                  "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                 },
                                 {
                                   "type": "object",
@@ -7830,7 +7811,7 @@
                                     "signedUnbondingSlashingTransaction"
                                   ],
                                   "title": "Register Stake",
-                                  "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                  "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                 }
                               ]
                             }
@@ -7958,7 +7939,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -7983,11 +7963,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -7997,7 +7975,8 @@
                 "berachain-artio",
                 "cronos",
                 "world-chain",
-                "solana"
+                "solana",
+                "aptos"
               ]
             },
             "required": true
@@ -8201,7 +8180,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "amount": {
                                     "type": "string",
@@ -8242,7 +8221,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -8275,17 +8254,22 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId"
+                                  "stakeId",
+                                  "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
                               {
                                 "type": "object",
@@ -8349,7 +8333,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               }
                             ]
                           }
@@ -8428,7 +8412,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -8453,11 +8436,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -8467,7 +8448,8 @@
                         "berachain-artio",
                         "cronos",
                         "world-chain",
-                        "solana"
+                        "solana",
+                        "aptos"
                       ]
                     },
                     "status": {
@@ -8582,7 +8564,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -8607,11 +8588,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -8621,7 +8600,8 @@
                 "berachain-artio",
                 "cronos",
                 "world-chain",
-                "solana"
+                "solana",
+                "aptos"
               ]
             },
             "required": true
@@ -8843,7 +8823,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "amount": {
                                     "type": "string",
@@ -8884,7 +8864,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -8917,17 +8897,22 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment (documentation will come soon)."
+                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                  },
+                                  "recipientAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId"
+                                  "stakeId",
+                                  "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
                               {
                                 "type": "object",
@@ -8991,7 +8976,7 @@
                                   "signedUnbondingSlashingTransaction"
                                 ],
                                 "title": "Register Stake",
-                                "description": "Only supported for Babylon staking at the moment (documentation will come soon)."
+                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               }
                             ]
                           }
@@ -9078,7 +9063,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -9103,11 +9087,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -9117,7 +9099,8 @@
                         "berachain-artio",
                         "cronos",
                         "world-chain",
-                        "solana"
+                        "solana",
+                        "aptos"
                       ]
                     },
                     "hash": {
@@ -9197,7 +9180,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -9222,11 +9204,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -9236,7 +9216,8 @@
                 "berachain-artio",
                 "cronos",
                 "world-chain",
-                "solana"
+                "solana",
+                "aptos"
               ]
             },
             "required": true
@@ -9319,7 +9300,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -9344,11 +9324,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -9358,7 +9336,8 @@
                         "berachain-artio",
                         "cronos",
                         "world-chain",
-                        "solana"
+                        "solana",
+                        "aptos"
                       ]
                     },
                     "hash": {
@@ -9388,6 +9367,7 @@
       "ChainId": {
         "type": "string",
         "enum": [
+          "aptos",
           "algorand",
           "ethereum",
           "sepolia",
@@ -9436,11 +9416,9 @@
           "comdex",
           "humans-ai",
           "ki",
-          "mars-hub",
           "provenance",
           "quicksilver",
           "saga",
-          "ux-chain",
           "kava",
           "sei",
           "fetch-ai",
@@ -9460,7 +9438,6 @@
           "sommelier",
           "shentu",
           "stride",
-          "neutron",
           "terra2",
           "akash",
           "dymension",

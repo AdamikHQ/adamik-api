@@ -6,7 +6,10 @@ async function getValidators(
   this: BitcoinService,
   paginationToken?: string
 ): Promise<Paginated<ChainValidators>> {
-  const { validators: babylonValidators, nextPage } = await fetchBabylonFinalityProviders(paginationToken);
+  const { validators: babylonValidators, nextPage } = await fetchBabylonFinalityProviders(
+    this.chainId,
+    paginationToken
+  );
 
   const validators = babylonValidators.map((validatorData) => {
     const validator: Validator = {

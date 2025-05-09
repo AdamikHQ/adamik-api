@@ -163,6 +163,8 @@ const handlers = [
 
     if (responseType === "binary") {
       return new HttpResponse(Buffer.from(responseBody, "base64"), { status: responseStatus });
+    } else if (responseType === "text") {
+      return HttpResponse.text(responseBody, { status: responseStatus });
     } else {
       return HttpResponse.json(responseBody, { status: responseStatus });
     }
