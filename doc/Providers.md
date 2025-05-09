@@ -42,7 +42,7 @@
 
 ## axelar
 
-| node | https://lcd-axelar.imperator.co |<br />
+| node | https://axelar-api.polkachu.com/, https://lcd-axelar.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## ethereum
