@@ -1,5 +1,4 @@
 import { HELIUS_API_KEY } from "~/app/config/apiKeys";
-import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
   FinalizedTransaction,
@@ -9,11 +8,11 @@ import {
 } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { getProviderUrls } from "../../common";
 import { HeliusTransactionResponse } from "./indexer.types";
 import { fetchAssetInfo } from "./node";
-const HELIUS_API_URL = CHAINS[ChainId.SOLANA].providers.find(
-  (provider) => provider.type === ProviderType.helius
-)?.url;
+
+const HELIUS_API_URL = getProviderUrls(ChainId.SOLANA, ProviderType.helius)[0];
 
 async function fetchTransaction(transactionAddress: string): Promise<FinalizedTransaction> {
   const url = `${HELIUS_API_URL}/v0/transactions/?api-key=${HELIUS_API_KEY}`;

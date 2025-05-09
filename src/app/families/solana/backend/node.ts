@@ -6,20 +6,15 @@ import {
   Transaction as SolanaTransaction,
   VersionedTransaction,
 } from "@solana/web3.js";
-import { CHAINS } from "~/app/config/chains";
 import { ChainId, ProviderType, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { nonNullable } from "~/app/tools/guard";
 import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
+import { getProviderUrls } from "../../common";
 import { HeliusAssetResponse, HeliusTokensResponse } from "./indexer.types";
 
-const provider = CHAINS.solana.providers.find((p) => p.type === ProviderType.node);
-if (!provider) {
-  throw new Error("No provider found");
-}
-
-const nodeUrl = provider.url;
+const nodeUrl = getProviderUrls(ChainId.SOLANA, ProviderType.node)[0];
 const connection = new Connection(nodeUrl);
 
 async function fetchAccount(accountAddress: string) {
