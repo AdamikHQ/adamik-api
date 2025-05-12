@@ -539,7 +539,7 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
         `/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`,
         await response.text()
       );
-      throw new ThirdPartyProviderError(`Broadcast on ${chainId} node failed`);
+      continue;
     }
 
     const data = await response.json();
@@ -550,7 +550,7 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
       const errorMessage = `Broadcast on ${chainId} node returned invalid data`;
 
       console.warn(`/!\\ ${errorMessage}: ${JSON.stringify(data)}`);
-      throw new ThirdPartyProviderError(errorMessage);
+      continue;
     }
 
     return data.tx_response.txhash;
