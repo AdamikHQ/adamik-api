@@ -8,7 +8,7 @@ export async function getAccountState(this: AptosService, address: string): Prom
   const accountCoins = await fetchAccountCoins(this.chainId, address);
   const native = accountCoins.find((coin) => coin.type === AptosCoinIdentifier);
 
-  const stakingPositions = await getStakingPositions(this.chainId, address);
+  const stakingPositions = await getStakingPositions(this.chainId, address).catch(() => []);
 
   const staking: AccountState["balances"]["staking"] = {
     total: 0n,

@@ -56,6 +56,19 @@ export async function validateTransaction(
       }
       break;
     }
+    case TransactionMode.STAKE: {
+      if (amount + fees > maxSpendable.native) {
+        console.log({
+          amount,
+          fees,
+          maxSpendable,
+        });
+        status.errors.push({
+          message: "Balance is too low",
+        });
+      }
+      break;
+    }
     default:
       throw new UnsupportedFeatureError(
         `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chain.name}`

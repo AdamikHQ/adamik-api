@@ -1,5 +1,6 @@
 import {
   ChainId,
+  StakeTransactionData,
   Status,
   Transaction,
   TransactionData,
@@ -29,8 +30,10 @@ async function completeTransaction(
       case TransactionMode.TRANSFER_TOKEN:
         await completeTokenTransaction(this.chainId, transaction.data);
         break;
+      case TransactionMode.STAKE:
+        await completeStakingTransaction(this.chainId, transaction.data);
+        break;
       default:
-        // should never happen, zod already validated the mode per chain
         throw new UnsupportedFeatureError(
           `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chainId}`
         );
@@ -44,6 +47,19 @@ async function completeTransaction(
 
 async function completeNativeTransaction(chainId: ChainId, transaction: TransactionData): Promise<void> {
   const simulationResult = await simulateTransaction(chainId, transaction);
+  transaction.gas = BigInt(simulationResult.max_gas_amount);
+  transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
+  transaction.amount = transaction.amount ?? 0n;
+}
+
+async function completeStakingTransaction(
+  chainId: ChainId,
+  transaction: StakeTransactionData
+): Promise<void> {
+  const simulationResult = await simulateTransaction(chainId, {
+    ...transaction,
+    recipientAddress: transaction.targetValidatorAddress,
+  });
   transaction.gas = BigInt(simulationResult.max_gas_amount);
   transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
   transaction.amount = transaction.amount ?? 0n;

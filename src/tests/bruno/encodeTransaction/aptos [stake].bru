@@ -1,0 +1,34 @@
+meta {
+  name: aptos [stake]
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: aptos-testnet
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "stake",
+        "senderAddress": "0x061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807",
+        "targetValidatorAddress": "0xa562415be88d9f08ba98fa3f6af9be0e36580c0f8fff5100a50b519e8f4a15c9",
+        "amount": "1050000000",
+        "useMaxAmount": false
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded: matches /^[0-9a-f]+$/
+}
