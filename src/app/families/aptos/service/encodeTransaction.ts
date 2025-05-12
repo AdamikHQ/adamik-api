@@ -7,11 +7,12 @@ import {
   RawTransaction,
   SignedTransaction,
   TransactionAuthenticatorEd25519,
+  U64,
 } from "@aptos-labs/ts-sdk";
 import { getClient } from "~/app/families/aptos/backend/node";
 import { AptosTransactionParams } from "~/app/families/aptos/types";
 import {
-  EncodedTransactionFormat,
+  StakeTransactionData,
   Status,
   Transaction,
   TransactionMode,
@@ -49,6 +50,16 @@ async function encodeTransactionToSign(
             ],
             type: "entry_function_payload",
             type_arguments: [(transaction.data as TransferTokenTransactionData).tokenId],
+          },
+        };
+      case TransactionMode.STAKE:
+        return {
+          payload: {
+            function: "0x1::delegation_pool::add_stake" as MoveFunctionId,
+            arguments: [
+              (transaction.data as StakeTransactionData).targetValidatorAddress,
+              new U64(transaction.data.amount!),
+            ],
           },
         };
       default:

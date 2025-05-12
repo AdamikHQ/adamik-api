@@ -6,8 +6,14 @@ import {
   TransactionSpendableAmounts,
   TransactionState,
 } from "~/app/model/types_WIP";
-import { fetchCoinBalance, fetchNativeBalance } from "~/app/families/aptos/backend/node";
+import {
+  fetchCoinBalance,
+  fetchNativeBalance,
+  fetchStakingAmounts,
+  getAccountTransactions,
+} from "~/app/families/aptos/backend/node";
 import { AptosTransaction } from "~/app/families/aptos/types";
+import { AptosStakingPosition } from "~/app/families/aptos/backend/types";
 
 export async function getMaxSpendable(
   chainId: ChainId,
@@ -130,4 +136,30 @@ export function aptosToAdamikTransaction(tx: AptosTransaction): FinalizedTransac
     },
     raw: tx,
   };
+}
+
+export async function getStakingPositions(
+  chainId: ChainId,
+  address: string
+): Promise<AptosStakingPosition[]> {
+  const history = await getAccountTransactions(chainId, address);
+  const stakingHistory = history.filter(
+    (tx) => tx.success && tx.payload.function.startsWith("0x1::delegation_pool")
+  );
+  const pools = Array.from(
+    new Set(
+      stakingHistory
+        .filter((tx) => tx.payload.function.endsWith("add_stake"))
+        .map((tx) => String(tx.payload.arguments[0]))
+    )
+  );
+  return Promise.all(
+    pools.map(async (pool) => {
+      const status = await fetchStakingAmounts(chainId, address, pool);
+      return {
+        delegationPool: pool,
+        status,
+      };
+    })
+  );
 }

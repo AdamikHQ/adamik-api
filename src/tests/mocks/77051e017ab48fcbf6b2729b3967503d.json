@@ -1,0 +1,75 @@
+{
+  "request": {
+    "url": "https://api.testnet.aptoslabs.com/v1/accounts/0x061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807/resources",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": [
+      {
+        "type": "0x1::account::Account",
+        "data": {
+          "authentication_key": "0x061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807",
+          "coin_register_events": {
+            "counter": "1",
+            "guid": {
+              "id": {
+                "addr": "0x61bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807",
+                "creation_num": "0"
+              }
+            }
+          },
+          "guid_creation_num": "4",
+          "key_rotation_events": {
+            "counter": "0",
+            "guid": {
+              "id": {
+                "addr": "0x61bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807",
+                "creation_num": "1"
+              }
+            }
+          },
+          "rotation_capability_offer": {
+            "for": {
+              "vec": []
+            }
+          },
+          "sequence_number": "9",
+          "signer_capability_offer": {
+            "for": {
+              "vec": []
+            }
+          }
+        }
+      },
+      {
+        "type": "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>",
+        "data": {
+          "coin": {
+            "value": "199823188"
+          },
+          "deposit_events": {
+            "counter": "9",
+            "guid": {
+              "id": {
+                "addr": "0x61bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807",
+                "creation_num": "2"
+              }
+            }
+          },
+          "frozen": false,
+          "withdraw_events": {
+            "counter": "2",
+            "guid": {
+              "id": {
+                "addr": "0x61bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807",
+                "creation_num": "3"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "type": "json"
+  }
+}

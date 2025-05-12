@@ -8,6 +8,7 @@ import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
   APTOS = "aptos",
+  APTOS_TESTNET = "aptos-testnet",
   ALGORAND = "algorand",
   ETHEREUM = "ethereum",
   SEPOLIA = "sepolia",

@@ -16,3 +16,10 @@ export type GasPriceEstimate = {
   gas_estimate: number;
   prioritized_gas_estimate: number;
 };
+
+export type AptosStakeResponse = [number, number, number];
+
+export type AptosStakingPosition = {
+  delegationPool: string;
+  status: AptosStakeResponse;
+};

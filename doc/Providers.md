@@ -441,3 +441,8 @@
 
 | node | https://api.mainnet.aptoslabs.com/v1 |<br />
 | aptosindexer | https://api.mainnet.aptoslabs.com/v1/graphql |
+
+## aptos-testnet
+
+| node | https://api.testnet.aptoslabs.com/v1 |<br />
+| aptosindexer | https://api.testnet.aptoslabs.com/v1/graphql |

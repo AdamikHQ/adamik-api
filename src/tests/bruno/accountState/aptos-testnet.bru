@@ -1,0 +1,24 @@
+meta {
+  name: aptos-testnet
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: aptos-testnet
+  accountId: 0x061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807
+}
+
+assert {
+  res.body.balances: isDefined tokens
+  res.body.balances.tokens: isArray
+  res.body.balances.native.total: matches ^\d+$
+  res.body.balances.native.available: matches ^\d+$
+  res.status: eq 200
+}

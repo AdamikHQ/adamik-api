@@ -6,7 +6,12 @@ import {
   PendingTransactionResponse,
 } from "@aptos-labs/ts-sdk";
 import { getCoinData } from "~/app/families/aptos/backend/indexer";
-import { AccountResponse, CoinBalance, GasPriceEstimate } from "~/app/families/aptos/backend/types";
+import {
+  AccountResponse,
+  AptosStakeResponse,
+  CoinBalance,
+  GasPriceEstimate,
+} from "~/app/families/aptos/backend/types";
 import {
   AccountCoinResource,
   AptosResource,
@@ -49,8 +54,38 @@ async function nodeRequest<T>(
   return (await response.json()) as T;
 }
 
+async function viewFunction<T>(chainId: ChainId, data: unknown): Promise<T> {
+  const [nodeUrl] = getProviderUrls(chainId, ProviderType.node);
+
+  const response = await fetch(`${nodeUrl}/view`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return (await response.json()) as T;
+}
+
 export async function fetchAccount(chainId: ChainId, address: string) {
   return nodeRequest<AccountResponse>(chainId, `/accounts/${address}`);
+}
+
+export function fetchStakingAmounts(
+  chainId: ChainId,
+  address: string,
+  stakingPool: string
+): Promise<AptosStakeResponse> {
+  return viewFunction<AptosStakeResponse>(chainId, {
+    function: "0x1::delegation_pool::get_stake",
+    type_arguments: [],
+    arguments: [stakingPool, address],
+  });
 }
 
 export async function simulateTransaction(chainId: ChainId, tx: TransactionData) {

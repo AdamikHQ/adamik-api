@@ -1,0 +1,20 @@
+meta {
+  name: aptos
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: aptos
+}
+
+assert {
+  res.status: eq 200
+  res.body.chain.family: eq aptos
+}
