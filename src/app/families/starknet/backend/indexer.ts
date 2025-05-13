@@ -1,15 +1,15 @@
 import { Contract, Provider as StarknetProvider, shortString } from "starknet";
 import { STARKSCAN_API_KEY } from "~/app/config/apiKeys";
-import { CHAINS } from "~/app/config/chains";
 import {
+  ChainId,
   FinalizedTransaction,
-  Provider,
   ProviderType,
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { getProviderUrls } from "../../common";
 import { SELECTOR_INDEX } from "../constants";
 import {
   StarknetValidator,
@@ -22,8 +22,8 @@ import {
   TransactionResponse,
 } from "./types";
 
-const ROOT_URL = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.starkscan)?.url;
-const nodeUrl = CHAINS.starknet.providers.find((p: Provider) => p.type === ProviderType.node)?.url;
+const starkscanUrl = getProviderUrls(ChainId.STARKNET, ProviderType.starkscan)[0];
+const nodeUrl = getProviderUrls(ChainId.STARKNET, ProviderType.node)[0];
 
 async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any) {
   const response = await fetch(url, {
@@ -42,7 +42,7 @@ async function fetchTokenBalances(
   accountId: string,
   paginationToken?: string
 ): Promise<{ balances: TokenBalance[]; nextPage: string | null }> {
-  let url = `${ROOT_URL}/api/pro/v0/token-owned-by`;
+  let url = `${starkscanUrl}/api/pro/v0/token-owned-by`;
 
   const params = new URLSearchParams({
     owner_address: accountId,
@@ -64,7 +64,7 @@ async function fetchTokenBalances(
 }
 
 async function fetchTokenContract(contractAddress: string): Promise<TokenContract> {
-  const url = `${ROOT_URL}/api/pro/v0/token-contract/${contractAddress}`;
+  const url = `${starkscanUrl}/api/pro/v0/token-contract/${contractAddress}`;
 
   const data: TokenContract = await fetchWithHeaders(url, "GET");
 
@@ -90,6 +90,7 @@ const starkScanToAdamikTransaction = async (
     parsedTransaction.blockHeight = BigInt(transaction.block_number);
   }
 
+  // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
     nodeUrl,
   });
@@ -120,7 +121,7 @@ const starkScanToAdamikTransaction = async (
 };
 
 async function fetchTransaction(transactionId: string): Promise<FinalizedTransaction> {
-  const url = `${ROOT_URL}/api/v0/transaction/${transactionId}`;
+  const url = `${starkscanUrl}/api/v0/transaction/${transactionId}`;
 
   const data: TransactionResponse = await fetchWithHeaders(url, "GET");
 
@@ -130,6 +131,7 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 }
 
 async function getTransactionHistorySymbols(transactions: TransactionHistory[]) {
+  // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
     nodeUrl,
   });
@@ -235,8 +237,8 @@ async function fetchTransactionHistory(
       transfer_to_address: accountId,
     });
 
-    const urlFrom = `${ROOT_URL}/api/pro/v0/token-transfers?${paramsFrom.toString()}`;
-    const urlTo = `${ROOT_URL}/api/pro/v0/token-transfers?${paramsTo.toString()}`;
+    const urlFrom = `${starkscanUrl}/api/pro/v0/token-transfers?${paramsFrom.toString()}`;
+    const urlTo = `${starkscanUrl}/api/pro/v0/token-transfers?${paramsTo.toString()}`;
 
     dataFrom = await fetchWithHeaders(urlFrom, "GET");
     dataTo = await fetchWithHeaders(urlTo, "GET");
@@ -275,7 +277,7 @@ const fetchValidators = async (
       throw new InvalidPaginationTokenError("Provided pagination token is invalid");
     }
   } else {
-    const url = `${ROOT_URL}/api/pro/v0/staking-stakers`;
+    const url = `${starkscanUrl}/api/pro/v0/staking-stakers`;
     data = await fetchWithHeaders(url, "GET");
   }
 

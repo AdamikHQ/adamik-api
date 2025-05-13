@@ -56,11 +56,9 @@ enum ChainId {
   COMDEX = "comdex",
   HUMANS_AI = "humans-ai",
   KI = "ki",
-  MARS_HUB = "mars-hub",
   PROVENANCE = "provenance",
   QUICKSILVER = "quicksilver",
   SAGA = "saga",
-  UX_CHAIN = "ux-chain",
   KAVA = "kava",
   SEI = "sei",
   FETCH_AI = "fetch-ai",
@@ -80,7 +78,6 @@ enum ChainId {
   SOMMELIER = "sommelier",
   SHENTU = "shentu",
   STRIDE = "stride",
-  NEUTRON = "neutron",
   TERRA = "terra2",
   AKASH = "akash",
   DYMENSION = "dymension",
@@ -165,7 +162,7 @@ export enum ProviderType {
 }
 
 type Provider = {
-  url: string;
+  urls: string[];
   type: ProviderType;
 };
 

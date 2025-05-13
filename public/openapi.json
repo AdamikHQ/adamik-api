@@ -2603,58 +2603,6 @@
                             "signerSpec"
                           ]
                         },
-                        "mars-hub": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "aptos",
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton",
-                                "starknet"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestnetFor": {
-                              "type": "string"
-                            },
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            },
-                            "signerSpec": {
-                              "$ref": "#/components/schemas/SignerSpec"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures",
-                            "signerSpec"
-                          ]
-                        },
                         "provenance": {
                           "type": "object",
                           "properties": {
@@ -2760,58 +2708,6 @@
                           ]
                         },
                         "saga": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "aptos",
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton",
-                                "starknet"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestnetFor": {
-                              "type": "string"
-                            },
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            },
-                            "signerSpec": {
-                              "$ref": "#/components/schemas/SignerSpec"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures",
-                            "signerSpec"
-                          ]
-                        },
-                        "ux-chain": {
                           "type": "object",
                           "properties": {
                             "family": {
@@ -3800,58 +3696,6 @@
                           ]
                         },
                         "stride": {
-                          "type": "object",
-                          "properties": {
-                            "family": {
-                              "type": "string",
-                              "enum": [
-                                "aptos",
-                                "algorand",
-                                "cosmos",
-                                "evm",
-                                "bitcoin",
-                                "tron",
-                                "ton",
-                                "starknet"
-                              ]
-                            },
-                            "id": {
-                              "$ref": "#/components/schemas/ChainId"
-                            },
-                            "nativeId": {
-                              "type": "string"
-                            },
-                            "name": {
-                              "type": "string"
-                            },
-                            "ticker": {
-                              "type": "string"
-                            },
-                            "decimals": {
-                              "type": "number"
-                            },
-                            "isTestnetFor": {
-                              "type": "string"
-                            },
-                            "supportedFeatures": {
-                              "$ref": "#/components/schemas/ChainSupportedFeatures"
-                            },
-                            "signerSpec": {
-                              "$ref": "#/components/schemas/SignerSpec"
-                            }
-                          },
-                          "required": [
-                            "family",
-                            "id",
-                            "nativeId",
-                            "name",
-                            "ticker",
-                            "decimals",
-                            "supportedFeatures",
-                            "signerSpec"
-                          ]
-                        },
-                        "neutron": {
                           "type": "object",
                           "properties": {
                             "family": {
@@ -4947,7 +4791,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -4972,11 +4815,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -5092,7 +4933,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "evmos",
@@ -5116,11 +4956,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -5166,7 +5004,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "evmos",
@@ -5190,11 +5027,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -5309,7 +5144,6 @@
                 "ton",
                 "injective",
                 "akash",
-                "neutron",
                 "tron",
                 "evmos",
                 "juno",
@@ -5792,7 +5626,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -5817,11 +5650,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -5928,7 +5759,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -5953,11 +5783,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -6279,7 +6107,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -6304,11 +6131,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -6390,7 +6215,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -6415,11 +6239,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -6570,7 +6392,6 @@
                 "fantom",
                 "injective",
                 "akash",
-                "neutron",
                 "evmos",
                 "juno",
                 "sei",
@@ -6658,7 +6479,6 @@
                         "fantom",
                         "injective",
                         "akash",
-                        "neutron",
                         "evmos",
                         "juno",
                         "sei",
@@ -6953,7 +6773,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -6978,11 +6797,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -7420,7 +7237,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -7445,11 +7261,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -8008,7 +7822,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -8033,11 +7846,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -8475,7 +8286,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -8500,11 +8310,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -8629,7 +8437,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -8654,11 +8461,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -9176,7 +8981,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -9201,11 +9005,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -9295,7 +9097,6 @@
                 "band",
                 "dymension",
                 "kyve",
-                "neutron",
                 "terra2",
                 "stargaze",
                 "tron",
@@ -9320,11 +9121,9 @@
                 "humans-ai",
                 "ki",
                 "likecoin",
-                "mars-hub",
                 "provenance",
                 "quicksilver",
                 "saga",
-                "ux-chain",
                 "kava",
                 "starknet",
                 "babylon",
@@ -9417,7 +9216,6 @@
                         "band",
                         "dymension",
                         "kyve",
-                        "neutron",
                         "terra2",
                         "stargaze",
                         "tron",
@@ -9442,11 +9240,9 @@
                         "humans-ai",
                         "ki",
                         "likecoin",
-                        "mars-hub",
                         "provenance",
                         "quicksilver",
                         "saga",
-                        "ux-chain",
                         "kava",
                         "starknet",
                         "babylon",
@@ -9535,11 +9331,9 @@
           "comdex",
           "humans-ai",
           "ki",
-          "mars-hub",
           "provenance",
           "quicksilver",
           "saga",
-          "ux-chain",
           "kava",
           "sei",
           "fetch-ai",
@@ -9559,7 +9353,6 @@
           "sommelier",
           "shentu",
           "stride",
-          "neutron",
           "terra2",
           "akash",
           "dymension",

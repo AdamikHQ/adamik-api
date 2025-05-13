@@ -1,6 +1,6 @@
 {
   "request": {
-    "url": "https://babylon-testnet-api.nodes.guru/cosmos/distribution/v1beta1/delegators/bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49/rewards",
+    "url": "https://babylon-testnet-api.polkachu.com/cosmos/distribution/v1beta1/delegators/bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49/rewards",
     "method": "GET"
   },
   "response": {

@@ -1,6 +1,6 @@
 {
   "request": {
-    "url": "https://babylon-testnet-api.nodes.guru/cosmos/bank/v1beta1/balances/bbn1tkepfylhl7fmkrzsvphky2z0r7upvr9tde5e49",
+    "url": "https://celestia-ada-api.polkachu.com/cosmos/bank/v1beta1/balances/celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
     "method": "GET"
   },
   "response": {
@@ -8,8 +8,8 @@
     "body": {
       "balances": [
         {
-          "denom": "ubbn",
-          "amount": "990535460"
+          "denom": "utia",
+          "amount": "145898"
         }
       ],
       "pagination": {

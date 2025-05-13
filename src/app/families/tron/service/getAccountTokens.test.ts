@@ -6,15 +6,6 @@ import { fetchAccountTokensData as fetchAccountTokensDataFromTronscan } from "..
 import { TronService } from "../service";
 import { getAccountTokens } from "./getAccountTokens";
 
-jest.mock("@t3-oss/env-nextjs", () => ({
-  createEnv: () => ({
-    env: {
-      MOESIF_APPLICATION_ID: "test",
-      TEST_ENV: "test",
-      REDIS_URL: "test",
-    },
-  }),
-}));
 jest.mock("../backend/tronscan");
 jest.mock("../backend/oklink");
 
