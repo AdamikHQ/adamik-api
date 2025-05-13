@@ -15,13 +15,6 @@ params:path {
   accountId: 2k5AXX4guW9XwRQ1AKCpAuUqgWDpQpwFfpVFh3hnm2Ha
 }
 
-body:json {
-  {
-    "chainId": "tron",
-    "accountId": "TL24LCps5FKwp3PoU1MvrYrwhi5LU1tHre"
-  }
-}
-
 assert {
   res.status: eq 200
   res.body.transactions: isArray 

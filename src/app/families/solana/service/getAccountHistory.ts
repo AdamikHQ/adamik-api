@@ -1,5 +1,5 @@
 import { AccountHistory, Paginated } from "~/app/model/types_WIP";
-import { fetchAccountHistory } from "../backend/indexer";
+import { fetchAccountHistory } from "../backend/helius";
 import { SolanaService } from "../service";
 
 async function getAccountHistory(

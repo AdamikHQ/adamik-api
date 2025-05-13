@@ -1,4 +1,9 @@
-import { getAccount, getAssociatedTokenAddressSync } from "@solana/spl-token";
+import {
+  getAccount,
+  getAssociatedTokenAddressSync,
+  TokenAccountNotFoundError,
+  TokenInvalidAccountOwnerError,
+} from "@solana/spl-token";
 import {
   Connection,
   MessageV0,
@@ -12,7 +17,8 @@ import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
-import { HeliusAssetResponse, HeliusTokensResponse } from "./indexer.types";
+import { HeliusAssetResponse, HeliusTokensResponse } from "./helius.types";
+import { getAssetsByOwnerParams } from "./node.types";
 
 const nodeUrl = getProviderUrls(ChainId.SOLANA, ProviderType.node)[0];
 const connection = new Connection(nodeUrl);
@@ -44,8 +50,15 @@ async function getFeeForMessage(transactionMessage: MessageV0): Promise<number |
 }
 
 async function getAccountSPL(accountAddress: string) {
-  const account = await getAccount(connection, new PublicKey(accountAddress));
-  return account;
+  try {
+    const account = await getAccount(connection, new PublicKey(accountAddress));
+    return account;
+  } catch (error: unknown) {
+    if (error instanceof TokenAccountNotFoundError || error instanceof TokenInvalidAccountOwnerError) {
+      return null;
+    }
+    throw error;
+  }
 }
 
 async function getEstimatedFeeFromNode(transaction: SolanaTransaction): Promise<number | null> {
@@ -142,7 +155,7 @@ async function getAssetsByOwner(
           showInscription: true,
           showZeroBalance: true,
         },
-      },
+      } as getAssetsByOwnerParams,
     }),
   });
   const data = await response.json();

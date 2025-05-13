@@ -19,13 +19,6 @@ async function prevalidateTransaction(
     status,
     addressValidationFn: async (address: string) => PublicKey.isOnCurve(address),
   });
-
-  // Amount can't be 0 on cosmos chains
-  if (transaction.data.amount === 0n) {
-    status.errors.push({
-      message: `Amount cannot be 0 on chain ${this.chainId}`,
-    });
-  }
 }
 
 async function validateTransaction(

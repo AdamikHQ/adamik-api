@@ -1,6 +1,6 @@
 import { FinalizedTransaction, Status } from "~/app/model/types_WIP";
 import { TransactionIdNotFoundError } from "~/app/tools/handlers/errors";
-import { fetchTransaction } from "../backend/indexer";
+import { fetchTransaction } from "../backend/helius";
 import { SolanaService } from "../service";
 
 async function getTransaction(

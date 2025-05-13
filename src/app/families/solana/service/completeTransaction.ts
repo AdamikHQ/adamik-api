@@ -2,8 +2,12 @@ import { Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
 import { getEstimatedFeeFromNode } from "../backend/node";
 import { createTransaction, createTransactionToken } from "../logic";
+import { SolanaService } from "../service";
 
-async function completeTransaction({ transaction }: { transaction: Transaction }): Promise<void> {
+async function completeTransaction(
+  this: SolanaService,
+  { transaction }: { transaction: Transaction }
+): Promise<void> {
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
       const transferFee = await calculateTransferFees(transaction);
@@ -34,6 +38,21 @@ async function completeTransaction({ transaction }: { transaction: Transaction }
 
     default:
       break;
+  }
+
+  if (transaction.data.useMaxAmount) {
+    const account = await this.getAccountState(transaction.data.senderAddress);
+
+    if (transaction.data.mode === TransactionMode.TRANSFER) {
+      transaction.data.amount = account.balances?.native?.available ?? 0n;
+    } else if (transaction.data.mode === TransactionMode.TRANSFER_TOKEN) {
+      transaction.data.amount =
+        account.balances?.tokens?.find(
+          (token) =>
+            transaction.data.mode === TransactionMode.TRANSFER_TOKEN &&
+            token.token.id === transaction.data.tokenId
+        )?.amount ?? 0n;
+    }
   }
 }
 

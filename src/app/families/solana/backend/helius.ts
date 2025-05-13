@@ -6,34 +6,38 @@ import {
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
-import { UserInputError } from "~/app/tools/handlers/errors";
+import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { getProviderUrls } from "../../common";
-import { HeliusTransactionResponse } from "./indexer.types";
+import { HeliusTransactionResponse } from "./helius.types";
 import { fetchAssetInfo } from "./node";
 
 const HELIUS_API_URL = getProviderUrls(ChainId.SOLANA, ProviderType.helius)[0];
 
 async function fetchTransaction(transactionAddress: string): Promise<FinalizedTransaction> {
-  const url = `${HELIUS_API_URL}/v0/transactions/?api-key=${HELIUS_API_KEY}`;
-  const response = await fetch(url, {
-    method: "POST",
-    body: JSON.stringify({
-      transactions: [transactionAddress],
-    }),
-  });
+  try {
+    const url = `${HELIUS_API_URL}/v0/transactions/?api-key=${HELIUS_API_KEY}`;
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        transactions: [transactionAddress],
+      }),
+    });
 
-  const data: HeliusTransactionResponse[] = await response.json();
+    const data: HeliusTransactionResponse[] = await response.json();
 
-  const heliusTransaction = data[0];
+    const heliusTransaction = data[0];
 
-  if (!heliusTransaction) {
-    throw new UserInputError("Transaction not found");
+    if (!heliusTransaction) {
+      throw new UserInputError("Transaction not found");
+    }
+
+    const parsedTransaction = await heliusTransferToAdamikTransaction(heliusTransaction);
+
+    return { raw: heliusTransaction, parsed: parsedTransaction };
+  } catch (error: unknown) {
+    throw new ThirdPartyProviderError("Transaction not found");
   }
-
-  const parsedTransaction = await heliusTransferToAdamikTransaction(heliusTransaction);
-
-  return { raw: heliusTransaction, parsed: parsedTransaction };
 }
 
 const heliusTransfer = async (heliusTransaction: HeliusTransactionResponse) => {

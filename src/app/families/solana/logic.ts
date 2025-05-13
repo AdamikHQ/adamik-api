@@ -5,24 +5,15 @@ import {
   getAssociatedTokenAddressSync,
   Account as SolanaAccount,
   TOKEN_PROGRAM_ID,
-  TokenAccountNotFoundError,
-  TokenInvalidAccountOwnerError,
 } from "@solana/spl-token";
 import { PublicKey, Transaction as SolanaTransaction, SystemProgram } from "@solana/web3.js";
 import { Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { getAccountSPL, getLatestBlockhash } from "./backend/node";
 
-async function solanaAccount(accountAdress: string): Promise<SolanaAccount | null> {
-  try {
-    const account = await getAccountSPL(accountAdress);
-    return account;
-  } catch (error: unknown) {
-    if (error instanceof TokenAccountNotFoundError || error instanceof TokenInvalidAccountOwnerError) {
-      return null;
-    }
-    throw error;
-  }
+async function solanaAccount(accountAddress: string): Promise<SolanaAccount | null> {
+  const account = await getAccountSPL(accountAddress);
+  return account;
 }
 
 async function createTransactionToken(transaction: Transaction): Promise<SolanaTransaction> {

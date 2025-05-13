@@ -42,7 +42,7 @@ const STARKSCAN_API_KEY = "96JB5ryWpAL6SjCFi1dz7dU36qfggCs1021sVbYb";
 
 const ALCHEMY_API_KEY = "0k8SiAAwbukxESqUwUHjgdMlabpyUd1g";
 
-const HELIUS_API_KEY = "673b4df3-c775-466c-9394-db949575ba8f";
+const HELIUS_API_KEY = "99c19f14-77fa-4802-862f-0de4bb8f4fce";
 
 export {
   ALCHEMY_API_KEY,
