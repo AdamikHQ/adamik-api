@@ -428,7 +428,7 @@ async function buildSignDocProtobuf(
     [
       {
         pubkey: encodePubkey(encodeSecp256k1Pubkey(Buffer.from(pubKey, "base64"))),
-        sequence: account.sequence,
+        sequence: transactionData.nonce || account.sequence,
       },
     ],
     feeData.amount,
