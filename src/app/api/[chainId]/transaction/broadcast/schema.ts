@@ -2,7 +2,6 @@ import z from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
   encodedTransactionSchema,
-  formatSchema,
   getSupportedChainIdsSchema,
   inputClaimRewardsSchema,
   inputDeployAccountSchema,
@@ -41,7 +40,6 @@ const requestSchema = z.object({
         gas: inputGasSchema.optional(),
         nonce: inputNonceSchema.optional(),
         memo: memoSchema.optional(),
-        format: formatSchema.optional(),
         params: inputParamsSchema.optional(),
       })
       .and(

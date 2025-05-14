@@ -17,12 +17,6 @@ async function prevalidateTransaction(
     status,
     addressValidationFn: isAddressValid,
   });
-
-  if (transaction.data.format) {
-    status.warnings.push({
-      message: `Field 'format' is not supported for chain ID ${this.chainId}, it will be ignored`,
-    });
-  }
 }
 
 async function validateTransaction(

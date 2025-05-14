@@ -30,5 +30,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.transaction.encoded: matches /^[0-9a-f]+$/
+  res.body.transaction.encoded[0].raw.value: matches /^[0-9a-f]+$/
 }
