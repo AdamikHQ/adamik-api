@@ -14,6 +14,7 @@ import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import {
   BabylonInvalidProofOfPossessionError,
   BabylonTransactionAlreadyUsedError,
+  CosmosAccountSequenceMismatchError,
   InvalidPaginationTokenError,
   InvalidTransactionError,
   ThirdPartyProviderError,
@@ -485,7 +486,14 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
     }
 
     if (response.status !== 200) {
-      console.warn(`/!\\ Error received from ${chainId} node endpoint ${url}:`, await response.text());
+      console.warn(`/!\\ Error received from ${chainId} node endpoint ${url}`);
+      const error = await response.json();
+      if (error.code === 2 && error.message.includes("account sequence mismatch, expected")) {
+        console.warn(`/!\\ Error received from ${chainId} node endpoint ${url}:`, error.message);
+        const match = error.message.match(/expected (\d+)/);
+        const expectedNumber = match ? match[1] : null;
+        throw new CosmosAccountSequenceMismatchError(Number(expectedNumber));
+      }
       continue;
     }
 

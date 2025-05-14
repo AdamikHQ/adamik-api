@@ -125,3 +125,12 @@ export class BabylonInvalidProofOfPossessionError extends UserInputError {
     super("Invalid proof of possession");
   }
 }
+
+export class CosmosAccountSequenceMismatchError extends UserInputError {
+  name = "CosmosAccountSequenceMismatchError";
+  statusText = "Account sequence mismatch";
+
+  constructor(accountSequence: number) {
+    super(`${accountSequence}`);
+  }
+}

@@ -1,10 +1,9 @@
-import { CHAINS } from "~/app/config/chains";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { CosmosAccountSequenceMismatchError } from "~/app/tools/handlers/errors";
 import { fetchAccount } from "../backend/node";
 import { COSMOS_MOCK_FEES } from "../constants";
 import { getAvailableBalance, getEstimatedFees, getStakedBalance, resolvePubKey } from "../logic";
 import { CosmosService } from "../service";
-import { CosmosChainParams } from "../types";
 
 async function completeTransaction(
   this: CosmosService,
@@ -14,8 +13,6 @@ async function completeTransaction(
   }
 ): Promise<void> {
   const { transaction } = args;
-
-  const chainParams = CHAINS[this.chainId].params as CosmosChainParams;
 
   const spendableBalance = await (async (): Promise<bigint> => {
     switch (transaction.data.mode) {
@@ -54,7 +51,19 @@ async function completeTransaction(
 
   // NOTE getEstimatedFees calls the node's /simulate endpoint,
   // which also performs some validation on the transaction data
-  const { gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data);
+  let gasWanted: bigint | undefined;
+  let gasWantedFees: bigint | undefined;
+  try {
+    ({ gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data));
+  } catch (error) {
+    if (error instanceof CosmosAccountSequenceMismatchError) {
+      // If the account sequence mismatch error is thrown, we will update with new values
+      account.sequence = BigInt(parseInt(error.message));
+      ({ gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data));
+    } else {
+      throw error;
+    }
+  }
 
   transaction.data.fees = gasWantedFees;
   transaction.data.gas = gasWanted;
