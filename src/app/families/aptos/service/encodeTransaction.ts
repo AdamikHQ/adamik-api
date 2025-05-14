@@ -1,7 +1,3 @@
-import { Status, Transaction, TransactionMode, TransferTokenTransactionData } from "~/app/model/types_WIP";
-import { AptosService } from "../service";
-import { getClient } from "~/app/families/aptos/backend/node";
-import { AptosTransactionParams } from "~/app/families/aptos/types";
 import {
   Deserializer,
   Ed25519PublicKey,
@@ -12,7 +8,17 @@ import {
   SignedTransaction,
   TransactionAuthenticatorEd25519,
 } from "@aptos-labs/ts-sdk";
-import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
+import { getClient } from "~/app/families/aptos/backend/node";
+import { AptosTransactionParams } from "~/app/families/aptos/types";
+import {
+  EncodedTransactionFormat,
+  Status,
+  Transaction,
+  TransactionMode,
+  TransferTokenTransactionData,
+} from "~/app/model/types_WIP";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
+import { AptosService } from "../service";
 
 async function encodeTransactionToSign(
   this: AptosService,
@@ -60,7 +66,14 @@ async function encodeTransactionToSign(
     },
   });
   const signingMessage = generateSigningMessageForTransaction(tx);
-  transaction.encoded = Buffer.from(signingMessage).toString("hex");
+
+  transaction.encoded = [
+    {
+      // https://aptos.dev/en/build/sdks/ts-sdk/building-transactions/bcs-format
+      raw: { value: Buffer.from(signingMessage).toString("hex"), format: EncodedTransactionFormat.BCS },
+    },
+  ];
+
   transaction.data.params = {
     rawTransaction: tx.rawTransaction.toString().slice(2),
   };

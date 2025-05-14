@@ -1,4 +1,5 @@
-import { Status, Transaction } from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, HashFunction, Status, Transaction } from "~/app/model/types_WIP";
+import { sha256 } from "~/app/tools/hash";
 import { buildTransaction } from "../logic";
 import { TronService } from "../service";
 import { TronTransactionParams } from "../types";
@@ -11,7 +12,18 @@ async function encodeTransactionToSign(
 
   const builtTransaction = await buildTransaction(transaction);
 
-  transaction.encoded = builtTransaction.raw_data_hex;
+  transaction.encoded = [
+    {
+      raw: {
+        format: EncodedTransactionFormat.RAW_TRANSACTION,
+        value: builtTransaction.raw_data_hex,
+      },
+      hash: {
+        format: HashFunction.SHA256,
+        value: sha256(Buffer.from(builtTransaction.raw_data_hex, "hex")),
+      },
+    },
+  ];
   transaction.data.params = { ...builtTransaction } as TronTransactionParams;
 }
 

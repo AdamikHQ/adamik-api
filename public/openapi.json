@@ -6832,14 +6832,6 @@
                               "memo": {
                                 "type": "string",
                                 "description": "Optional free text field, that is supported for some chains."
-                              },
-                              "format": {
-                                "type": "string",
-                                "enum": [
-                                  "json",
-                                  "hex"
-                                ],
-                                "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                               }
                             }
                           },
@@ -7308,14 +7300,6 @@
                                   "type": "string",
                                   "description": "Optional free text field, that is supported for some chains."
                                 },
-                                "format": {
-                                  "type": "string",
-                                  "enum": [
-                                    "json",
-                                    "hex"
-                                  ],
-                                  "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
-                                },
                                 "params": {
                                   "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back as-is to the broadcast endpoint."
                                 }
@@ -7663,7 +7647,61 @@
                           ]
                         },
                         "encoded": {
-                          "type": "string"
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "hash": {
+                                "type": "object",
+                                "properties": {
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "sha256",
+                                      "keccak256",
+                                      "sha512_256",
+                                      "pedersen"
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "format",
+                                  "value"
+                                ]
+                              },
+                              "raw": {
+                                "type": "object",
+                                "properties": {
+                                  "format": {
+                                    "type": "string",
+                                    "enum": [
+                                      "RLP",
+                                      "WALLET_CONNECT",
+                                      "SIGNDOC_DIRECT",
+                                      "SIGNDOC_DIRECT_JSON",
+                                      "SIGNDOC_AMINO",
+                                      "SIGNDOC_AMINO_JSON",
+                                      "BOC",
+                                      "RAW_TRANSACTION",
+                                      "MSGPACK",
+                                      "PSBT",
+                                      "BCS"
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "format",
+                                  "value"
+                                ]
+                              }
+                            }
+                          }
                         }
                       },
                       "required": [
@@ -7843,14 +7881,6 @@
                               "memo": {
                                 "type": "string",
                                 "description": "Optional free text field, that is supported for some chains."
-                              },
-                              "format": {
-                                "type": "string",
-                                "enum": [
-                                  "json",
-                                  "hex"
-                                ],
-                                "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
                               }
                             }
                           },
@@ -8479,14 +8509,6 @@
                                 "type": "string",
                                 "description": "Optional free text field, that is supported for some chains."
                               },
-                              "format": {
-                                "type": "string",
-                                "enum": [
-                                  "json",
-                                  "hex"
-                                ],
-                                "description": "Controls the format of the returned encoded transaction. DEPRECATED, will be reworked at some point."
-                              },
                               "params": {
                                 "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back as-is to the broadcast endpoint."
                               }
@@ -8825,7 +8847,61 @@
                         ]
                       },
                       "encoded": {
-                        "type": "string"
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "hash": {
+                              "type": "object",
+                              "properties": {
+                                "format": {
+                                  "type": "string",
+                                  "enum": [
+                                    "sha256",
+                                    "keccak256",
+                                    "sha512_256",
+                                    "pedersen"
+                                  ]
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "format",
+                                "value"
+                              ]
+                            },
+                            "raw": {
+                              "type": "object",
+                              "properties": {
+                                "format": {
+                                  "type": "string",
+                                  "enum": [
+                                    "RLP",
+                                    "WALLET_CONNECT",
+                                    "SIGNDOC_DIRECT",
+                                    "SIGNDOC_DIRECT_JSON",
+                                    "SIGNDOC_AMINO",
+                                    "SIGNDOC_AMINO_JSON",
+                                    "BOC",
+                                    "RAW_TRANSACTION",
+                                    "MSGPACK",
+                                    "PSBT",
+                                    "BCS"
+                                  ]
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "format",
+                                "value"
+                              ]
+                            }
+                          }
+                        }
                       },
                       "signature": {
                         "type": "string"

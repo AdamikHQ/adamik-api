@@ -6,8 +6,16 @@ import {
   makePaymentTxnWithSuggestedParamsFromObject,
 } from "algosdk";
 import { fetchAccount, fetchTransactionParams } from "~/app/families/algorand/backend/node";
-import { TransactionData, TransactionMode, TransactionSpendableAmounts } from "~/app/model/types_WIP";
+import {
+  EncodedTransaction,
+  EncodedTransactionFormat,
+  HashFunction,
+  TransactionData,
+  TransactionMode,
+  TransactionSpendableAmounts,
+} from "~/app/model/types_WIP";
 import { AdamikApiServerError, UnsupportedFeatureError } from "~/app/tools/handlers/errors";
+import { sha512_256 } from "~/app/tools/hash";
 
 const ALGORAND_MIN_ACCOUNT_BALANCE = 100000;
 const ALGORAND_MAX_MEMO_SIZE = 32;
@@ -83,7 +91,12 @@ async function computeFees(transaction: TransactionData): Promise<bigint> {
       amount: transaction.amount || 0n,
     });
     const encoded = encodeToSign(rawTransaction);
-    suggestedFees = Number(params.fee) * (Buffer.from(encoded, "hex").length + SINGLE_SIGNATURE_SIZE);
+    const encodedTx = encoded.find((encoded) => encoded.raw?.format === EncodedTransactionFormat.MSGPACK);
+    if (!encodedTx) {
+      throw new AdamikApiServerError("Missing encoded transaction");
+    }
+    suggestedFees =
+      Number(params.fee) * (Buffer.from(encodedTx.raw!.value, "hex").length + SINGLE_SIGNATURE_SIZE);
   }
 
   return BigInt(Math.max(suggestedFees, Number(params.minFee)));
@@ -126,10 +139,24 @@ async function buildRawTransaction(transaction: TransactionData): Promise<AlgoTr
   }
 }
 
-function encodeToSign(payload: AlgoTransaction): string {
+function encodeToSign(payload: AlgoTransaction): EncodedTransaction[] {
   const msgPackEncoded = encodeMsgpack(payload);
 
-  return Buffer.from(msgPackEncoded).toString("hex");
+  const prefix = Buffer.from("TX");
+  const prefixedTx = Buffer.concat([prefix, msgPackEncoded]);
+
+  return [
+    {
+      raw: {
+        format: EncodedTransactionFormat.MSGPACK,
+        value: Buffer.from(msgPackEncoded).toString("hex"),
+      },
+      hash: {
+        format: HashFunction.SHA512_256,
+        value: sha512_256(prefixedTx),
+      },
+    },
+  ];
 }
 
 function encodeToBroadcast(payload: AlgoTransaction, signature: Buffer): Buffer {
