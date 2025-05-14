@@ -484,6 +484,11 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
       continue;
     }
 
+    if (response.status !== 200) {
+      console.warn(`/!\\ Error received from ${chainId} node endpoint ${url}:`, await response.text());
+      continue;
+    }
+
     const data = await (async () => {
       try {
         return await response.json();

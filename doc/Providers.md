@@ -42,7 +42,7 @@
 
 ## axelar
 
-| node | https://axelar-api.polkachu.com/, https://lcd-axelar.imperator.co |<br />
+| node | https://axelar-api.polkachu.com, https://lcd-axelar.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## ethereum
@@ -261,7 +261,7 @@
 
 ## stargaze
 
-| node | https://stargaze-api.polkachu.com/, https://lcd-stargaze.imperator.co |<br />
+| node | https://stargaze-api.polkachu.com, https://lcd-stargaze.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## tron
