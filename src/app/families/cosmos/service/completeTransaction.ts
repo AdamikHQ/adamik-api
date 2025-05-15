@@ -56,7 +56,7 @@ async function completeTransaction(
   try {
     ({ gasWanted, gasWantedFees } = await getEstimatedFees(this.chainId, account, transaction.data));
   } catch (error) {
-    if (error instanceof CosmosAccountSequenceMismatchError) {
+    if (error instanceof CosmosAccountSequenceMismatchError && !transaction.data.nonce) {
       // If the account sequence mismatch error is thrown, we will update with new values
       account.sequence = BigInt(parseInt(error.message));
       transaction.data.nonce = account.sequence;
