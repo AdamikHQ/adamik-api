@@ -57,7 +57,10 @@ async function encodeTransactionToBroadcast(
     throw new UserInputError("Can't find transaction signature");
   }
 
-  const borshTransaction = signedTransaction?.encoded?.[0]?.raw?.value;
+  const borshTransaction = signedTransaction?.encoded.find(
+    (encoded) => encoded.raw?.format === EncodedTransactionFormat.BORSH
+  )?.raw?.value;
+
   if (!borshTransaction) {
     throw new UserInputError("Can't find encoded transaction");
   }

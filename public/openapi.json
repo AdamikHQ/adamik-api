@@ -7844,7 +7844,8 @@
                                       "RAW_TRANSACTION",
                                       "MSGPACK",
                                       "PSBT",
-                                      "BCS"
+                                      "BCS",
+                                      "BORSH"
                                     ]
                                   },
                                   "value": {
@@ -9047,7 +9048,8 @@
                                     "RAW_TRANSACTION",
                                     "MSGPACK",
                                     "PSBT",
-                                    "BCS"
+                                    "BCS",
+                                    "BORSH"
                                   ]
                                 },
                                 "value": {
