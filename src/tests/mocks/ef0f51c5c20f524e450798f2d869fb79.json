@@ -1,0 +1,94 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=99c19f14-77fa-4802-862f-0de4bb8f4fce",
+    "method": "POST",
+    "body": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "method": "getAsset",
+      "params": {
+        "id": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": {
+        "interface": "FungibleToken",
+        "id": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+        "content": {
+          "$schema": "https://schema.metaplex.com/nft1.0.json",
+          "json_uri": "https://arweave.net/QPC6FYdUn-3V8ytFNuoCS85S2tHAuiDblh6u3CIZLsw",
+          "files": [
+            {
+              "uri": "https://arweave.net/hQiPZOsRZXGXBJd_82PhVdlM_hACsT_q6wqwf5cSY7I",
+              "cdn_uri": "https://cdn.helius-rpc.com/cdn-cgi/image//https://arweave.net/hQiPZOsRZXGXBJd_82PhVdlM_hACsT_q6wqwf5cSY7I",
+              "mime": "image/png"
+            }
+          ],
+          "metadata": {
+            "description": "The Official Bonk Inu token",
+            "name": "Bonk",
+            "symbol": "Bonk",
+            "token_standard": "Fungible"
+          },
+          "links": {
+            "image": "https://arweave.net/hQiPZOsRZXGXBJd_82PhVdlM_hACsT_q6wqwf5cSY7I"
+          }
+        },
+        "authorities": [
+          {
+            "address": "9AhKqLR67hwapvG8SA2JFXaCshXc9nALJjpKaHZrsbkw",
+            "scopes": [
+              "full"
+            ]
+          }
+        ],
+        "compression": {
+          "eligible": false,
+          "compressed": false,
+          "data_hash": "",
+          "creator_hash": "",
+          "asset_hash": "",
+          "tree": "",
+          "seq": 0,
+          "leaf_id": 0
+        },
+        "grouping": [],
+        "royalty": {
+          "royalty_model": "creators",
+          "target": null,
+          "percent": 0,
+          "basis_points": 0,
+          "primary_sale_happened": true,
+          "locked": false
+        },
+        "creators": [],
+        "ownership": {
+          "frozen": false,
+          "delegated": false,
+          "delegate": null,
+          "ownership_model": "token",
+          "owner": ""
+        },
+        "supply": null,
+        "mutable": true,
+        "burnt": false,
+        "token_info": {
+          "symbol": "Bonk",
+          "supply": 8881810641961973000,
+          "decimals": 5,
+          "token_program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "price_info": {
+            "price_per_token": 0.0000214427,
+            "currency": "USDC"
+          }
+        }
+      },
+      "id": 2
+    },
+    "type": "json"
+  }
+}

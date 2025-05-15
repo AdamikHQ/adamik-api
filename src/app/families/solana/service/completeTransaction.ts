@@ -8,6 +8,13 @@ async function completeTransaction(
   this: SolanaService,
   { transaction }: { transaction: Transaction }
 ): Promise<void> {
+  let account;
+  if (transaction.data.useMaxAmount) {
+    account = await this.getAccountState(transaction.data.senderAddress);
+
+    transaction.data.amount = account.balances?.native?.available ?? 0n;
+  }
+
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
       const transferFee = await calculateTransferFees(transaction);
@@ -40,11 +47,9 @@ async function completeTransaction(
       break;
   }
 
-  if (transaction.data.useMaxAmount) {
-    const account = await this.getAccountState(transaction.data.senderAddress);
-
+  if (transaction.data.useMaxAmount && account) {
     if (transaction.data.mode === TransactionMode.TRANSFER) {
-      transaction.data.amount = account.balances?.native?.available ?? 0n;
+      transaction.data.amount = (account.balances?.native?.available ?? 0n) - (transaction.data.fees ?? 0n);
     } else if (transaction.data.mode === TransactionMode.TRANSFER_TOKEN) {
       transaction.data.amount =
         account.balances?.tokens?.find(

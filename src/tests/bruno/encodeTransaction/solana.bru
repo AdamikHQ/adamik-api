@@ -1,0 +1,33 @@
+meta {
+  name: solana
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: solana
+}
+
+body:json {
+  {
+    "transaction": {
+      "data":   {
+        "mode": "transfer",
+        "senderAddress": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+        "recipientAddress": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+        "useMaxAmount": true
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded: eq 010001020b22abf2a5724f66cf158a3af547f9bea1c838b16dd2acb7070cba512ea5b87100000000000000000000000000000000000000000000000000000000000000000606a76f93d772a9d8c827b7fa0a70e2b03080adcd85fb7baeb8107e2ce9ea7301010200000c0200000070e25e0300000000
+}
