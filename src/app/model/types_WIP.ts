@@ -397,7 +397,6 @@ type CommonTransactionData = {
   gas?: bigint;
   nonce?: bigint;
   memo?: string;
-  format?: EncodedTransactionFormat;
   params?: TransactionParams;
 };
 
@@ -469,9 +468,38 @@ type TransactionData =
   | WithdrawTransactionData
   | RegisterStakeTransactionData;
 
+type EncodedTransactionRawFormat = {
+  format: EncodedTransactionFormat;
+  value: string;
+};
+
+type EncodedTransactionHashFormat = {
+  format: HashFunction;
+  value: string;
+};
+
+type EncodedTransaction = {
+  hash?: EncodedTransactionHashFormat;
+  raw?: EncodedTransactionRawFormat;
+};
+
+enum EncodedTransactionFormat {
+  RLP = "RLP",
+  WALLET_CONNECT = "WALLET_CONNECT",
+  SIGNDOC_DIRECT = "SIGNDOC_DIRECT",
+  SIGNDOC_DIRECT_JSON = "SIGNDOC_DIRECT_JSON",
+  SIGNDOC_AMINO = "SIGNDOC_AMINO",
+  SIGNDOC_AMINO_JSON = "SIGNDOC_AMINO_JSON",
+  BOC = "BOC",
+  RAW_TRANSACTION = "RAW_TRANSACTION",
+  MSGPACK = "MSGPACK",
+  PSBT = "PSBT",
+  BCS = "BCS",
+}
+
 type Transaction = {
   data: TransactionData;
-  encoded?: string;
+  encoded?: EncodedTransaction[];
   signature?: string;
 };
 
@@ -480,11 +508,6 @@ type TransactionSpendableAmounts = {
   native: bigint;
   token?: bigint;
 };
-
-enum EncodedTransactionFormat {
-  JSON = "json",
-  HEX = "hex",
-}
 
 type Paginated<T> = T & {
   pagination: {
@@ -530,6 +553,7 @@ export type {
   ChainValidators,
   ClaimRewardsTransactionData,
   DeployAccountTransactionData,
+  EncodedTransaction,
   FeaturesSet,
   FinalizedTransaction,
   Paginated,

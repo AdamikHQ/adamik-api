@@ -252,7 +252,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://lcd-axelar.imperator.co"],
+        urls: ["https://axelar-api.polkachu.com", "https://lcd-axelar.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
@@ -1244,7 +1244,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://stargaze-api.polkachu.com/", "https://lcd-stargaze.imperator.co"],
+        urls: ["https://stargaze-api.polkachu.com", "https://lcd-stargaze.imperator.co"],
         //urls: ["https://lcd-stargaze.imperator.co"], // Randomly long response times, up to 60s and more...
       },
       {

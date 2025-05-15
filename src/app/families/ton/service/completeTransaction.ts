@@ -22,12 +22,14 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
     }
   }
 
+  if (transaction.data.useMaxAmount) {
+    transaction.data.amount = maxSpendable;
+  }
+
   transaction.data.fees = await computeFees(transaction.data, timeout);
 
   if (transaction.data.useMaxAmount) {
-    const amount = maxSpendable - transaction.data.fees;
-
-    transaction.data.amount = amount && amount >= 0n ? amount : 0n;
+    transaction.data.amount = maxSpendable - transaction.data.fees;
   }
 }
 

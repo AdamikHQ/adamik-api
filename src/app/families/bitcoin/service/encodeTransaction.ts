@@ -1,6 +1,6 @@
 import { Psbt } from "bitcoinjs-lib";
 import { finalizeUnbondingBroadcastPayload } from "~/app/families/babylon/logic";
-import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { AdamikApiServerError } from "~/app/tools/handlers/errors";
 import { BitcoinService } from "../service";
 import { BitcoinTransactionParams } from "../types";
@@ -20,7 +20,14 @@ async function encodeTransactionToSign(
           console.warn(`Missing psbt in transaction:`, transaction);
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
-        transaction.encoded = params.transferPsbt;
+        transaction.encoded = [
+          {
+            raw: {
+              format: EncodedTransactionFormat.PSBT,
+              value: params.transferPsbt,
+            },
+          },
+        ];
 
         // Useless for the user in that case, so we remove it from the response
         delete transaction.data.params;
@@ -37,7 +44,14 @@ async function encodeTransactionToSign(
           console.warn(`Missing psbt(s) in transaction.params:`, transaction);
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
-        transaction.encoded = params.stakingPsbt;
+        transaction.encoded = [
+          {
+            raw: {
+              format: EncodedTransactionFormat.PSBT,
+              value: params.stakingPsbt,
+            },
+          },
+        ];
       }
       break;
     case TransactionMode.UNSTAKE:
@@ -46,8 +60,14 @@ async function encodeTransactionToSign(
           console.warn(`Missing psbt in transaction:`, transaction);
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
-
-        transaction.encoded = params.unbondingTransaction;
+        transaction.encoded = [
+          {
+            raw: {
+              format: EncodedTransactionFormat.PSBT,
+              value: params.unbondingTransaction,
+            },
+          },
+        ];
 
         // Useless for the user in that case, so we remove it from the response
         delete transaction.data.params;
@@ -60,7 +80,14 @@ async function encodeTransactionToSign(
           throw new AdamikApiServerError("Failed to retrieve computed psbt from transaction");
         }
 
-        transaction.encoded = params.withdrawalPsbt;
+        transaction.encoded = [
+          {
+            raw: {
+              format: EncodedTransactionFormat.PSBT,
+              value: params.withdrawalPsbt,
+            },
+          },
+        ];
 
         // Useless for the user in that case, so we remove it from the response
         delete transaction.data.params;
