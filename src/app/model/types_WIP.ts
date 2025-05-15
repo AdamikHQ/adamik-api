@@ -495,6 +495,7 @@ enum EncodedTransactionFormat {
   MSGPACK = "MSGPACK",
   PSBT = "PSBT",
   BCS = "BCS",
+  BORSH = "BORSH",
 }
 
 type Transaction = {

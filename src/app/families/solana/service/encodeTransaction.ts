@@ -1,23 +1,46 @@
 import { Message, Transaction as SolanaTransaction } from "@solana/web3.js";
 import { encodeBase58 } from "ethers";
-import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import {
+  EncodedTransactionFormat,
+  HashFunction,
+  Status,
+  Transaction,
+  TransactionMode,
+} from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
+import { sha256 } from "~/app/tools/hash";
 import { createTransaction, createTransactionToken } from "../logic";
 import { SolanaService } from "../service";
 
 async function encodeTransaction(this: SolanaService, _: { transaction: Transaction; status: Status }) {
   const { transaction } = _;
 
+  let borshTransaction = "";
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
-      transaction.encoded = (await createTransaction(transaction)).serializeMessage().toString("hex");
+      borshTransaction = (await createTransaction(transaction)).serializeMessage().toString("hex");
       break;
     case TransactionMode.TRANSFER_TOKEN:
-      transaction.encoded = (await createTransactionToken(transaction)).serializeMessage().toString("hex");
+      borshTransaction = (await createTransactionToken(transaction)).serializeMessage().toString("hex");
       break;
     default:
       throw new UserInputError("Invalid transaction mode");
   }
+
+  transaction.encoded = [
+    {
+      raw: {
+        // https://solana.com/fr/developers/courses/native-onchain-development/serialize-instruction-data-frontend
+        // from Documentation : "To pass instruction data from a client, it must be serialized into a byte buffer. To facilitate this process of serialization, we will be using Borsh."
+        format: EncodedTransactionFormat.BORSH,
+        value: borshTransaction,
+      },
+      hash: {
+        format: HashFunction.SHA256,
+        value: sha256(Buffer.from(borshTransaction, "hex")),
+      },
+    },
+  ];
 }
 
 async function encodeTransactionToBroadcast(
@@ -27,17 +50,21 @@ async function encodeTransactionToBroadcast(
   const { signedTransaction } = _;
 
   if (!signedTransaction.encoded) {
-    throw new Error("Transaction not encoded");
+    throw new UserInputError("Can't find encoded transaction");
   }
 
   if (!signedTransaction.signature) {
-    throw new Error("Transaction not signed");
+    throw new UserInputError("Can't find transaction signature");
   }
 
-  const recoverTransaction = SolanaTransaction.populate(
-    Message.from(Buffer.from(signedTransaction.encoded, "hex")),
-    [encodeBase58(Buffer.from(signedTransaction.signature, "hex"))]
-  );
+  const borshTransaction = signedTransaction?.encoded?.[0]?.raw?.value;
+  if (!borshTransaction) {
+    throw new UserInputError("Can't find encoded transaction");
+  }
+
+  const recoverTransaction = SolanaTransaction.populate(Message.from(Buffer.from(borshTransaction, "hex")), [
+    encodeBase58(Buffer.from(signedTransaction.signature, "hex")),
+  ]);
 
   return recoverTransaction.serialize().toString("hex");
 }
