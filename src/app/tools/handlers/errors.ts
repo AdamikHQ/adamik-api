@@ -126,11 +126,13 @@ export class BabylonInvalidProofOfPossessionError extends UserInputError {
   }
 }
 
-export class CosmosAccountSequenceMismatchError extends UserInputError {
+// NOTE Special case, only used internally to the API, not to be exposed to the user
+export class CosmosAccountSequenceMismatchError extends Error {
   name = "CosmosAccountSequenceMismatchError";
-  statusText = "Account sequence mismatch";
+  expectedAccountSequence: bigint;
 
-  constructor(accountSequence: number) {
-    super(`${accountSequence}`);
+  constructor(expectedAccountSequence: bigint) {
+    super(`Account sequence mismatch, expected ${expectedAccountSequence}`);
+    this.expectedAccountSequence = expectedAccountSequence;
   }
 }

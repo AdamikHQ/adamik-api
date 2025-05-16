@@ -463,19 +463,19 @@ type TransactionData =
   | WithdrawTransactionData
   | RegisterStakeTransactionData;
 
-type EncodedTransactionRawFormat = {
+type EncodedTransactionRaw = {
   format: EncodedTransactionFormat;
   value: string;
 };
 
-type EncodedTransactionHashFormat = {
+type EncodedTransactionHash = {
   format: HashFunction;
   value: string;
 };
 
 type EncodedTransaction = {
-  hash?: EncodedTransactionHashFormat;
-  raw?: EncodedTransactionRawFormat;
+  hash?: EncodedTransactionHash;
+  raw?: EncodedTransactionRaw;
 };
 
 enum EncodedTransactionFormat {
@@ -549,6 +549,7 @@ export type {
   ClaimRewardsTransactionData,
   DeployAccountTransactionData,
   EncodedTransaction,
+  EncodedTransactionRaw,
   FeaturesSet,
   FinalizedTransaction,
   Paginated,

@@ -1,4 +1,4 @@
-import { StdFee, StdSignDoc } from "@cosmjs/amino";
+import { serializeSignDoc, StdFee } from "@cosmjs/amino";
 import {
   CosmosTxV1Beta1Tx,
   createAnyMessage,
@@ -15,16 +15,16 @@ import {
 } from "@injectivelabs/sdk-ts";
 import { ChainId as CosmosChainId } from "@injectivelabs/ts-types";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
-import { ChainId, EncodedTransactionFormat, TransactionData, TransactionMode } from "~/app/model/types_WIP";
+import { Chain, ChainId, TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { CosmosAccount } from "../backend/types";
 import { resolvePubKey } from "../logic";
 
-function buildSignDocProtobufForInjective(
+function buildEncodedProtobufForInjective(
+  chain: Chain,
   account: CosmosAccount,
   transactionData: TransactionData,
-  networkId: string,
   feeData: StdFee
-): Record<EncodedTransactionFormat.SIGNDOC_DIRECT | EncodedTransactionFormat.SIGNDOC_DIRECT_JSON, string> {
+): { hexSignDocProtobuf: string; jsonSignDocProtobuf: string } {
   const { pubKey } = resolvePubKey(ChainId.INJECTIVE, account, transactionData);
 
   const protoMsgs = buildMessagesForInjective(transactionData);
@@ -39,7 +39,7 @@ function buildSignDocProtobufForInjective(
   bodyBytes.memo = transactionData.memo || "";
 
   const signInfo = createSigners({
-    chainId: networkId as CosmosChainId,
+    chainId: chain.nativeId as CosmosChainId,
     mode: SignMode.SIGN_MODE_DIRECT,
     signers: [
       {
@@ -61,35 +61,42 @@ function buildSignDocProtobufForInjective(
     fee: fees,
   });
 
-  const signDoc = createSignDoc({
+  const signDocProtobuf = createSignDoc({
     accountNumber: Number(account.accountNumber),
     authInfoBytes: CosmosTxV1Beta1Tx.AuthInfo.encode(authInfo).finish(),
     bodyBytes: CosmosTxV1Beta1Tx.TxBody.encode(bodyBytes).finish(),
-    chainId: networkId as CosmosChainId,
+    chainId: chain.nativeId as CosmosChainId,
   });
 
   return {
-    [EncodedTransactionFormat.SIGNDOC_DIRECT_JSON]: JSON.stringify(CosmosTxV1Beta1Tx.SignDoc.toJSON(signDoc)),
-    [EncodedTransactionFormat.SIGNDOC_DIRECT]: Buffer.from(
-      CosmosTxV1Beta1Tx.SignDoc.encode(signDoc).finish()
-    ).toString("hex"),
+    hexSignDocProtobuf: Buffer.from(CosmosTxV1Beta1Tx.SignDoc.encode(signDocProtobuf).finish()).toString(
+      "hex"
+    ),
+    jsonSignDocProtobuf: JSON.stringify(CosmosTxV1Beta1Tx.SignDoc.toJSON(signDocProtobuf)),
   };
 }
 
-function buildSignDocAminoForInjective(
+function buildEncodedAminoForInjective(
+  chain: Chain,
   account: CosmosAccount,
-  transactionData: TransactionData,
-  networkId: string
-): StdSignDoc {
+  transactionData: TransactionData
+): { hexSignDocAmino: string; jsonSignDocAmino: string } {
   const msgs = buildMessagesForInjective(transactionData);
 
-  return getAminoStdSignDoc({
-    chainId: networkId as CosmosChainId,
+  const signDocAmino = getAminoStdSignDoc({
+    chainId: chain.nativeId as CosmosChainId,
     msgs,
     sequence: Number(account.sequence),
     accountNumber: Number(account.accountNumber),
     memo: transactionData.memo || "",
   });
+
+  const serializedSignDocAmino = Buffer.from(serializeSignDoc(signDocAmino));
+
+  return {
+    hexSignDocAmino: serializedSignDocAmino.toString("hex"),
+    jsonSignDocAmino: serializedSignDocAmino.toString("utf8"),
+  };
 }
 
 function buildMessagesForInjective(
@@ -167,4 +174,4 @@ function buildMessagesForInjective(
   return msgs;
 }
 
-export { buildSignDocAminoForInjective, buildSignDocProtobufForInjective };
+export { buildEncodedAminoForInjective, buildEncodedProtobufForInjective };

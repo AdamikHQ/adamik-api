@@ -4,6 +4,7 @@ import {
   StdFee,
   encodeSecp256k1Pubkey,
   makeSignDoc as makeSignDocAmino,
+  serializeSignDoc,
 } from "@cosmjs/amino";
 import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { Int53 } from "@cosmjs/math";
@@ -30,7 +31,9 @@ import { SignDoc as SignDocProtobuf, TxBody, TxRaw } from "cosmjs-types/cosmos/t
 import { CHAINS } from "~/app/config/chains";
 import { buildBabylonRegistrationMessage } from "~/app/families/babylon/logic";
 import {
+  Chain,
   ChainId,
+  EncodedTransaction,
   EncodedTransactionFormat,
   StakingPosition,
   Transaction,
@@ -39,9 +42,10 @@ import {
 } from "~/app/model/types_WIP";
 import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
+import { getHashedTransaction } from "~/app/tools/hash";
 import { fetchBalances, fetchDelegations, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
-import { buildSignDocProtobufForInjective } from "./chains/injective";
+import { buildEncodedAminoForInjective, buildEncodedProtobufForInjective } from "./chains/injective";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_SIGNATURE } from "./constants";
 import { CosmosChainParams } from "./types";
 
@@ -104,8 +108,6 @@ function resolvePubKey(
   const chainParams = CHAINS[chainId].params as CosmosChainParams;
 
   // pubKeyType and pubKey are provided by the blockchain only when the address has already done some transaction(s)
-  // FIXME Collision will happen for REGISTER_STAKE transaction mode, with a babylon account that was never used...
-  // Will need both senderPubKey (babylon) and senderForeignPubKey (bitcoin)
   const pubKeyType = account.pubKeyType || chainParams.defaultPubKeyType;
   const pubKey = account.pubKey || transactionData.senderPubKey;
   if (!pubKey) {
@@ -380,9 +382,6 @@ async function buildMessages(
   return { aminoMsgs, protoMsgs };
 }
 
-// Amino unused at the moment
-// TODO Take a 'format' input to allow to build either amino or protobuf (or build both??)
-
 // Build payload to sign for SignMode.SIGN_MODE_LEGACY_AMINO_JSON
 // https://github.com/confio/cosmjs-types/blob/66e52711914fccd2a9d1a03e392d3628fdf499e2/src/cosmos/tx/signing/v1beta1/signing.ts#L47
 async function buildSignDocAmino(
@@ -428,7 +427,7 @@ async function buildSignDocProtobuf(
     [
       {
         pubkey: encodePubkey(encodeSecp256k1Pubkey(Buffer.from(pubKey, "base64"))),
-        sequence: transactionData.nonce ?? account.sequence,
+        sequence: account.sequence,
       },
     ],
     feeData.amount,
@@ -441,19 +440,46 @@ async function buildSignDocProtobuf(
   return makeSignDocProtobuf(bodyBytes, authInfoBytes, networkId, Number(account.accountNumber));
 }
 
-// TODO Currently providing payload for a Protobuf signer
-// Need to support providing payload for an Amino signer (like Ledger) as well?
+async function buildEncodedAmino(
+  chain: Chain,
+  account: CosmosAccount,
+  transactionData: TransactionData,
+  feeData: StdFee
+): Promise<{ hexSignDocAmino: string; jsonSignDocAmino: string }> {
+  const signDocAmino = await buildSignDocAmino(chain.id, account, transactionData, chain.nativeId, feeData);
+  const serializedSignDocAmino = Buffer.from(serializeSignDoc(signDocAmino));
+
+  return {
+    hexSignDocAmino: serializedSignDocAmino.toString("hex"),
+    jsonSignDocAmino: serializedSignDocAmino.toString("utf8"),
+  };
+}
+
+async function buildEncodedProtobuf(
+  chain: Chain,
+  account: CosmosAccount,
+  transactionData: TransactionData,
+  feeData: StdFee
+): Promise<{ hexSignDocProtobuf: string; jsonSignDocProtobuf: string }> {
+  const signDocProtobuf = await buildSignDocProtobuf(
+    chain.id,
+    account,
+    transactionData,
+    chain.nativeId,
+    feeData
+  );
+
+  return {
+    hexSignDocProtobuf: Buffer.from(SignDocProtobuf.encode(signDocProtobuf).finish()).toString("hex"),
+    jsonSignDocProtobuf: JSON.stringify(SignDocProtobuf.toJSON(signDocProtobuf)),
+  };
+}
+
 async function encodeToSign(
   chainId: ChainId,
   account: CosmosAccount,
   transactionData: TransactionData
-): Promise<
-  Record<
-    EncodedTransactionFormat.SIGNDOC_DIRECT | EncodedTransactionFormat.SIGNDOC_DIRECT_JSON,
-    // EncodedTransactionFormat.SIGNDOC_AMINO | EncodedTransactionFormat.SIGNDOC_AMINO_JSON,
-    string
-  >
-> {
+): Promise<EncodedTransaction[]> {
   if (!transactionData.fees) {
     throw new Error("Missing fees data in transaction");
   } else if (!transactionData.gas) {
@@ -473,25 +499,52 @@ async function encodeToSign(
     gas: transactionData.gas.toString(),
   };
 
-  if (chainId === ChainId.INJECTIVE) {
-    return buildSignDocProtobufForInjective(account, transactionData, chain.nativeId, feeData);
-  }
-
-  const signDoc = await buildSignDocProtobuf(chainId, account, transactionData, chain.nativeId, feeData);
-
   // Amino
-  // const signDocAmino = await buildSignDocAmino(chainId, account, transactionData, chain.nativeId, feeData);
+  const { hexSignDocAmino, jsonSignDocAmino } =
+    chainId === ChainId.INJECTIVE
+      ? await buildEncodedAminoForInjective(chain, account, transactionData)
+      : await buildEncodedAmino(chain, account, transactionData, feeData);
 
-  // const serializedSignDocAmino = Buffer.from(serializeSignDoc(signDocAmino));
+  // Protobuf
+  const { hexSignDocProtobuf, jsonSignDocProtobuf } =
+    chainId === ChainId.INJECTIVE
+      ? await buildEncodedProtobufForInjective(chain, account, transactionData, feeData)
+      : await buildEncodedProtobuf(chain, account, transactionData, feeData);
 
-  return {
-    [EncodedTransactionFormat.SIGNDOC_DIRECT_JSON]: JSON.stringify(SignDocProtobuf.toJSON(signDoc)),
-    [EncodedTransactionFormat.SIGNDOC_DIRECT]: Buffer.from(SignDocProtobuf.encode(signDoc).finish()).toString(
-      "hex"
-    ),
-    // [EncodedTransactionFormat.SIGNDOC_AMINO]: serializedSignDocAmino.toString("hex"),
-    // [EncodedTransactionFormat.SIGNDOC_AMINO_JSON]: serializedSignDocAmino.toString("utf8"),
-  };
+  return [
+    {
+      raw: {
+        format: EncodedTransactionFormat.SIGNDOC_DIRECT,
+        value: hexSignDocProtobuf,
+      },
+      hash: {
+        format: chain.signerSpec.hashFunction,
+        value: getHashedTransaction(chain.signerSpec.hashFunction, hexSignDocProtobuf),
+      },
+    },
+    {
+      raw: {
+        format: EncodedTransactionFormat.SIGNDOC_DIRECT_JSON,
+        value: jsonSignDocProtobuf,
+      },
+    },
+    {
+      raw: {
+        format: EncodedTransactionFormat.SIGNDOC_AMINO,
+        value: hexSignDocAmino,
+      },
+      hash: {
+        format: chain.signerSpec.hashFunction,
+        value: getHashedTransaction(chain.signerSpec.hashFunction, hexSignDocAmino),
+      },
+    },
+    {
+      raw: {
+        format: EncodedTransactionFormat.SIGNDOC_AMINO_JSON,
+        value: jsonSignDocAmino,
+      },
+    },
+  ];
 }
 
 async function encodeToBroadcast(
