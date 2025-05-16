@@ -45,7 +45,7 @@ import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/er
 import { getHashedTransaction } from "~/app/tools/hash";
 import { fetchBalances, fetchDelegations, simulateTransaction } from "./backend/node";
 import { CosmosAccount } from "./backend/types";
-import { buildEncodedAminoForInjective, buildEncodedProtobufForInjective } from "./chains/injective";
+import { buildEncodedProtobufForInjective } from "./chains/injective";
 import { COSMOS_GAS_AMPLIFIER, COSMOS_MOCK_SIGNATURE } from "./constants";
 import { CosmosChainParams } from "./types";
 
@@ -500,10 +500,10 @@ async function encodeToSign(
   };
 
   // Amino
-  const { hexSignDocAmino, jsonSignDocAmino } =
-    chainId === ChainId.INJECTIVE
-      ? await buildEncodedAminoForInjective(chain, account, transactionData)
-      : await buildEncodedAmino(chain, account, transactionData, feeData);
+  // const { hexSignDocAmino, jsonSignDocAmino } =
+  //   chainId === ChainId.INJECTIVE
+  //     ? await buildEncodedAminoForInjective(chain, account, transactionData)
+  //     : await buildEncodedAmino(chain, account, transactionData, feeData);
 
   // Protobuf
   const { hexSignDocProtobuf, jsonSignDocProtobuf } =
@@ -528,6 +528,8 @@ async function encodeToSign(
         value: jsonSignDocProtobuf,
       },
     },
+    // Do not enable Amino for now, as it's not supported yet during broadast...
+    /*
     {
       raw: {
         format: EncodedTransactionFormat.SIGNDOC_AMINO,
@@ -544,6 +546,7 @@ async function encodeToSign(
         value: jsonSignDocAmino,
       },
     },
+    */
   ];
 }
 
@@ -573,6 +576,8 @@ async function encodeToBroadcast(
 
   // Decode the encoded SignDocProtobuf
 
+  // FIXME API breaking change required, if we want to support more than 1 EncodedTransactionFormat
+  // The Transaction.signature field must include the EncodedTransactionFormat that was signed...
   const encodedTransaction = signedTransaction.encoded.find(
     (e) => e.raw?.format === EncodedTransactionFormat.SIGNDOC_DIRECT
   );
