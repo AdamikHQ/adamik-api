@@ -4,6 +4,7 @@ import { prevalidateTransactionCommon } from "~/app/families/common";
 import { validateAddress } from "~/app/families/aptos/service/validateAddress";
 import { getMaxSpendable } from "~/app/families/aptos/logic";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
+import { fetchStakingAmounts } from "~/app/families/aptos/backend/node";
 
 export async function prevalidateTransaction(
   this: AptosService,
@@ -58,13 +59,26 @@ export async function validateTransaction(
     }
     case TransactionMode.STAKE: {
       if (amount + fees > maxSpendable.native) {
-        console.log({
-          amount,
-          fees,
-          maxSpendable,
-        });
         status.errors.push({
           message: "Balance is too low",
+        });
+      }
+      break;
+    }
+    case TransactionMode.UNSTAKE: {
+      if (fees > maxSpendable.native) {
+        status.errors.push({
+          message: "Balance is too low",
+        });
+      }
+      const [locked] = await fetchStakingAmounts(
+        this.chainId,
+        transaction.data.senderAddress,
+        transaction.data.validatorAddress
+      );
+      if (amount > BigInt(locked)) {
+        status.errors.push({
+          message: "Unstake amount exceeds locked value",
         });
       }
       break;

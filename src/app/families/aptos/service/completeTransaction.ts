@@ -6,6 +6,7 @@ import {
   TransactionData,
   TransactionMode,
   TransferTokenTransactionData,
+  UnstakeTransactionData,
 } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { AptosService } from "../service";
@@ -33,6 +34,9 @@ async function completeTransaction(
       case TransactionMode.STAKE:
         await completeStakingTransaction(this.chainId, transaction.data);
         break;
+      case TransactionMode.UNSTAKE:
+        await completeUnstakeTransaction(this.chainId, transaction.data);
+        break;
       default:
         throw new UnsupportedFeatureError(
           `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chainId}`
@@ -59,6 +63,19 @@ async function completeStakingTransaction(
   const simulationResult = await simulateTransaction(chainId, {
     ...transaction,
     recipientAddress: transaction.targetValidatorAddress,
+  });
+  transaction.gas = BigInt(simulationResult.max_gas_amount);
+  transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
+  transaction.amount = transaction.amount ?? 0n;
+}
+
+async function completeUnstakeTransaction(
+  chainId: ChainId,
+  transaction: UnstakeTransactionData
+): Promise<void> {
+  const simulationResult = await simulateTransaction(chainId, {
+    ...transaction,
+    recipientAddress: transaction.validatorAddress,
   });
   transaction.gas = BigInt(simulationResult.max_gas_amount);
   transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);

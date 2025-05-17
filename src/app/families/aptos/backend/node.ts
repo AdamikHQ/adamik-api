@@ -6,15 +6,8 @@ import {
   PendingTransactionResponse,
 } from "@aptos-labs/ts-sdk";
 import { getCoinData } from "~/app/families/aptos/backend/indexer";
+import { AccountResponse, AptosStakeResponse, GasPriceEstimate } from "~/app/families/aptos/backend/types";
 import {
-  AccountResponse,
-  AptosStakeResponse,
-  CoinBalance,
-  GasPriceEstimate,
-} from "~/app/families/aptos/backend/types";
-import {
-  AccountCoinResource,
-  AptosResource,
   AptosTransaction,
   AptosTransactionParams,
   TransactionPayload,
@@ -135,35 +128,6 @@ export async function fetchSequenceNumber(chainId: ChainId, accountAddress: stri
 
 export function fetchTransaction(chainId: ChainId, hash: string) {
   return nodeRequest(chainId, `/transactions/by_hash/${hash}`);
-}
-
-export async function fetchNativeBalance(chainId: ChainId, address: string) {
-  const balance = await nodeRequest<CoinBalance>(
-    chainId,
-    `/accounts/${address}/resource/0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`
-  );
-  return BigInt(balance.data.coin.value);
-}
-
-export async function fetchCoinBalance(chainId: ChainId, address: string, coinId: string) {
-  try {
-    const balance = await nodeRequest<CoinBalance>(
-      chainId,
-      `/accounts/${address}/resource/0x1::coin::CoinStore<${coinId}>`
-    );
-    return BigInt(balance.data.coin.value);
-  } catch {
-    return 0n;
-  }
-}
-
-export async function fetchAccountCoins(chainId: ChainId, address: string): Promise<AccountCoinResource> {
-  try {
-    const resources = await nodeRequest<AptosResource[]>(chainId, `/accounts/${address}/resources`);
-    return resources.filter((res) => res.type.startsWith("0x1::coin::CoinStore<")) as AccountCoinResource;
-  } catch (e: unknown) {
-    return [] as AccountCoinResource;
-  }
 }
 
 export async function fetchValidators(chainId: ChainId): Promise<ValidatorSetResponse> {

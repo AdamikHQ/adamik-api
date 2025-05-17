@@ -12,11 +12,13 @@ import {
 import { getClient } from "~/app/families/aptos/backend/node";
 import { AptosTransactionParams } from "~/app/families/aptos/types";
 import {
+  EncodedTransactionFormat,
   StakeTransactionData,
   Status,
   Transaction,
   TransactionMode,
   TransferTokenTransactionData,
+  UnstakeTransactionData,
 } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { AptosService } from "../service";
@@ -62,6 +64,17 @@ async function encodeTransactionToSign(
             ],
           },
         };
+      case TransactionMode.UNSTAKE: {
+        return {
+          payload: {
+            function: "0x1::delegation_pool::unlock" as MoveFunctionId,
+            arguments: [
+              (transaction.data as UnstakeTransactionData).validatorAddress,
+              new U64(transaction.data.amount!),
+            ],
+          },
+        };
+      }
       default:
         throw new UnsupportedFeatureError(
           `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chain.name}`
@@ -77,7 +90,6 @@ async function encodeTransactionToSign(
     },
   });
   const signingMessage = generateSigningMessageForTransaction(tx);
-
   transaction.encoded = [
     {
       // https://aptos.dev/en/build/sdks/ts-sdk/building-transactions/bcs-format
