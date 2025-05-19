@@ -14,6 +14,7 @@ import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import {
   BabylonInvalidProofOfPossessionError,
   BabylonTransactionAlreadyUsedError,
+  CosmosAccountSequenceMismatchError,
   InvalidPaginationTokenError,
   InvalidTransactionError,
   ThirdPartyProviderError,
@@ -27,6 +28,7 @@ import {
   CosmosBalance,
   CosmosDelegation,
   CosmosRewards,
+  CosmosSimulateTransactionResponse,
   CosmosUnbondingDelegation,
   CosmosValidator,
 } from "./types";
@@ -229,10 +231,6 @@ async function fetchRewards(
       continue;
     }
 
-    if (!response) {
-      continue;
-    }
-
     if (!response.ok) {
       console.warn(
         `/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`,
@@ -325,10 +323,6 @@ async function fetchValidators(
       response = await fetchWithHeaders(url.toString());
     } catch (error) {
       console.warn(`/!\\ Error received from ${chainId} node endpoint ${url}:`, error);
-      continue;
-    }
-
-    if (!response) {
       continue;
     }
 
@@ -466,6 +460,8 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
   const baseURL = getProviderUrls(chainId, ProviderType.node);
   const urls = baseURL.map((url) => `${url}/cosmos/tx/v1beta1/simulate`);
 
+  let data: CosmosSimulateTransactionResponse | undefined = undefined;
+
   for (const url of urls) {
     let response: Response | undefined;
     try {
@@ -480,38 +476,44 @@ async function simulateTransaction(chainId: ChainId, payload: string): Promise<b
       continue;
     }
 
-    if (!response) {
+    try {
+      data = await response.json();
+    } catch (error) {
+      console.warn(`/!\\ Error while parsing response from ${chainId} node endpoint ${url}:`, error);
       continue;
     }
 
-    if (response.status !== 200) {
-      console.warn(`/!\\ Error received from ${chainId} node endpoint ${url}:`, await response.text());
+    if (data && "gas_info" in data && data.gas_info.gas_used) {
+      return BigInt(data.gas_info.gas_used);
+    } else if (data && "message" in data) {
+      console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint ${url}:`, JSON.stringify(data));
+      if (data.message.includes("account sequence mismatch, expected")) {
+        // Weird bug: sometimes the account.sequence (that we just fetched from the node...)
+        // doesn't match the value expected by the node during the call to /simulate
+        // In such case we throw an internal error, that must be caught higher up the call stack,
+        // to just update the nonce with the expected value, and retry the simulation
+        // (Example of error message to parse: "account sequence mismatch, expected 1, got 0: incorrect account sequence")
+        const expectedNonce = data.message.match(/expected (\d+)/)?.[1];
+        if (expectedNonce !== undefined) {
+          throw new CosmosAccountSequenceMismatchError(BigInt(expectedNonce));
+        }
+      }
       continue;
     }
+  }
 
-    const data = await (async () => {
-      try {
-        return await response.json();
-      } catch (error) {
-        console.warn(`/!\\ Error while parsing response from ${chainId} node endpoint ${url}:`, error);
-      }
-    })();
+  // Reaching here means the call failed on every available node
 
-    if (!data?.gas_info?.gas_used) {
-      console.warn(`/!\\ Invalid data returned from ${chainId} node endpoint ${url}:`, data);
-      // TODO Babylon-specific error handling
-      if (data?.message.includes("the BTC staking tx is already used")) {
-        throw new BabylonTransactionAlreadyUsedError();
-      } else if (data?.message.includes("the proof of possession is not valid")) {
-        throw new BabylonInvalidProofOfPossessionError();
-      } else if (data?.message.includes("insufficient funds")) {
-        throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
-      } else {
-        throw new ThirdPartyProviderError(`Error while getting gas estimate for ${chainId} transaction`);
-      }
+  if (data && "message" in data) {
+    // Babylon-specific error handling
+    if (data.message.includes("the BTC staking tx is already used")) {
+      throw new BabylonTransactionAlreadyUsedError();
+    } else if (data.message.includes("the proof of possession is not valid")) {
+      throw new BabylonInvalidProofOfPossessionError();
+      // Other generic cosmos error-cases
+    } else if (data.message.includes("insufficient funds")) {
+      throw new InvalidTransactionError(statusFromMessage(`Balance is too low`));
     }
-
-    return BigInt(data.gas_info.gas_used);
   }
 
   throw new ThirdPartyProviderError(`Error while getting gas estimate for ${chainId} transaction`);
@@ -532,10 +534,6 @@ async function broadcastTransaction(chainId: ChainId, payload: string): Promise<
       response = await fetchWithHeaders(url, options);
     } catch (error) {
       console.warn(`/!\\ Error received from ${chainId} node endpoint ${url}:`, error);
-      continue;
-    }
-
-    if (!response) {
       continue;
     }
 

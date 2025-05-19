@@ -404,12 +404,37 @@ type Message =
     }
   | BabylonCreateBTCDelegationMessage;
 
+type CosmosSimulateTransactionResponse =
+  | {
+      gas_info: {
+        gas_wanted: string;
+        gas_used: string;
+      };
+      //result: any,
+    }
+  | {
+      code: number;
+      message: string;
+      details: CosmosErrorDetails[];
+    };
+
+type CosmosErrorDetails = {
+  //"@type": string,
+  //reason: string,
+  //domain: string,
+  metadata: {
+    ABCICode: number;
+    //Codespace: "sdk"
+  };
+};
+
 export type {
   CosmosAccount,
   CosmosBalance,
   CosmosDelegation,
   CosmosRedelegation,
   CosmosRewards,
+  CosmosSimulateTransactionResponse,
   CosmosTransaction,
   CosmosUnbondingDelegation,
   CosmosValidator,
