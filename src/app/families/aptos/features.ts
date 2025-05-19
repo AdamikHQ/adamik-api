@@ -19,7 +19,7 @@ const APTOS_FEATURES: ChainSupportedFeatures = {
         stake: true,
         unstake: true,
         claimRewards: false,
-        withdraw: false,
+        withdraw: true,
         registerStake: false,
       },
       field: {

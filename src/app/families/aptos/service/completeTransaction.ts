@@ -7,6 +7,7 @@ import {
   TransactionMode,
   TransferTokenTransactionData,
   UnstakeTransactionData,
+  WithdrawTransactionData,
 } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { AptosService } from "../service";
@@ -35,6 +36,7 @@ async function completeTransaction(
         await completeStakingTransaction(this.chainId, transaction.data);
         break;
       case TransactionMode.UNSTAKE:
+      case TransactionMode.WITHDRAW:
         await completeUnstakeTransaction(this.chainId, transaction.data);
         break;
       default:
@@ -56,6 +58,15 @@ async function completeNativeTransaction(chainId: ChainId, transaction: Transact
   transaction.amount = transaction.amount ?? 0n;
 }
 
+async function completeTokenTransaction(
+  chainId: ChainId,
+  transaction: TransferTokenTransactionData
+): Promise<void> {
+  const simulationResult = await simulateTransaction(chainId, transaction);
+  transaction.gas = BigInt(simulationResult.max_gas_amount);
+  transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
+}
+
 async function completeStakingTransaction(
   chainId: ChainId,
   transaction: StakeTransactionData
@@ -71,7 +82,7 @@ async function completeStakingTransaction(
 
 async function completeUnstakeTransaction(
   chainId: ChainId,
-  transaction: UnstakeTransactionData
+  transaction: UnstakeTransactionData | WithdrawTransactionData
 ): Promise<void> {
   const simulationResult = await simulateTransaction(chainId, {
     ...transaction,
@@ -80,15 +91,6 @@ async function completeUnstakeTransaction(
   transaction.gas = BigInt(simulationResult.max_gas_amount);
   transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
   transaction.amount = transaction.amount ?? 0n;
-}
-
-async function completeTokenTransaction(
-  chainId: ChainId,
-  transaction: TransferTokenTransactionData
-): Promise<void> {
-  const simulationResult = await simulateTransaction(chainId, transaction);
-  transaction.gas = BigInt(simulationResult.max_gas_amount);
-  transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
 }
 
 export { completeTransaction };

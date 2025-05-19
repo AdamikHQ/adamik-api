@@ -134,6 +134,5 @@ export async function fetchStakingPositions(chainId: ChainId, address: string) {
   const response = await indexerRequest<AccountDelegationsResponse>(chainId, query, {
     address,
   });
-  console.log(response.current_delegator_balances);
   return response.current_delegator_balances;
 }

@@ -31,7 +31,6 @@ export async function validateTransaction(
 ): Promise<void> {
   const { transaction, status } = _;
 
-  // TODO: Check that sender address is created
   const maxSpendable = await getMaxSpendable(this.chainId, transaction.data);
 
   const amount = transaction.data.amount as bigint;
@@ -79,6 +78,24 @@ export async function validateTransaction(
       if (amount > BigInt(locked)) {
         status.errors.push({
           message: "Unstake amount exceeds locked value",
+        });
+      }
+      break;
+    }
+    case TransactionMode.WITHDRAW: {
+      if (fees > maxSpendable.native) {
+        status.errors.push({
+          message: "Balance is too low",
+        });
+      }
+      const [_l, unlocked] = await fetchStakingAmounts(
+        this.chainId,
+        transaction.data.senderAddress,
+        transaction.data.validatorAddress
+      );
+      if (amount > BigInt(unlocked)) {
+        status.errors.push({
+          message: "Withdraw amount exceeds unlocked value",
         });
       }
       break;

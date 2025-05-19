@@ -75,6 +75,17 @@ async function encodeTransactionToSign(
           },
         };
       }
+      case TransactionMode.WITHDRAW: {
+        return {
+          payload: {
+            function: "0x1::delegation_pool::withdraw" as MoveFunctionId,
+            arguments: [
+              (transaction.data as UnstakeTransactionData).validatorAddress,
+              new U64(transaction.data.amount!),
+            ],
+          },
+        };
+      }
       default:
         throw new UnsupportedFeatureError(
           `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chain.name}`
