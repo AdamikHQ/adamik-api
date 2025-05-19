@@ -439,7 +439,7 @@
 
 ## solana
 
-| node | https://mainnet.helius-rpc.com/?api-key=99c19f14-77fa-4802-862f-0de4bb8f4fce |<br />
+| node | https://mainnet.helius-rpc.com |<br />
 | helius | https://api-mainnet.helius-rpc.com |
 
 ## aptos
