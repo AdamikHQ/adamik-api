@@ -7153,7 +7153,6 @@
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId",
                                   "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
@@ -7631,7 +7630,6 @@
                                     "mode",
                                     "senderPubKey",
                                     "validatorAddress",
-                                    "stakeId",
                                     "recipientAddress"
                                   ],
                                   "title": "Withdraw Unlocked Funds",
@@ -8204,7 +8202,6 @@
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId",
                                   "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
@@ -8839,7 +8836,6 @@
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId",
                                   "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
