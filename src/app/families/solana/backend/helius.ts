@@ -40,7 +40,7 @@ async function fetchTransaction(transactionAddress: string): Promise<FinalizedTr
   }
 }
 
-const heliusTransfer = async (heliusTransaction: HeliusTransactionResponse) => {
+const getSendersAndRecipients = async (heliusTransaction: HeliusTransactionResponse) => {
   if (heliusTransaction.tokenTransfers.length > 0) {
     const token = await fetchAssetInfo(heliusTransaction.tokenTransfers[0].mint);
 
@@ -118,7 +118,7 @@ const heliusTransferToAdamikTransaction = async (
     fees: { amount: BigInt(heliusTransaction.fee) },
     timestamp: new Date(heliusTransaction.timestamp).getTime(),
     blockHeight: BigInt(heliusTransaction.slot),
-    ...(await heliusTransfer(heliusTransaction)),
+    ...(await getSendersAndRecipients(heliusTransaction)),
   };
 
   return parsedTransaction;

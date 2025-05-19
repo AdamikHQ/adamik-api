@@ -1,4 +1,4 @@
-type getAssetsByOwnerParams = {
+type GetAssetsByOwnerParams = {
   ownerAddress: string;
   page: number;
   limit: number;
@@ -17,4 +17,4 @@ type getAssetsByOwnerParams = {
   };
 };
 
-export type { getAssetsByOwnerParams };
+export type { GetAssetsByOwnerParams };

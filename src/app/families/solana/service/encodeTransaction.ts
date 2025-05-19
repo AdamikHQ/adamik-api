@@ -9,7 +9,7 @@ import {
 } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { sha256 } from "~/app/tools/hash";
-import { createTransaction, createTransactionToken } from "../logic";
+import { buildTokenTransferTransaction, buildTransferTransaction } from "../logic";
 import { SolanaService } from "../service";
 
 async function encodeTransaction(this: SolanaService, _: { transaction: Transaction; status: Status }) {
@@ -18,10 +18,12 @@ async function encodeTransaction(this: SolanaService, _: { transaction: Transact
   let borshTransaction = "";
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
-      borshTransaction = (await createTransaction(transaction)).serializeMessage().toString("hex");
+      borshTransaction = (await buildTransferTransaction(transaction)).serializeMessage().toString("hex");
       break;
     case TransactionMode.TRANSFER_TOKEN:
-      borshTransaction = (await createTransactionToken(transaction)).serializeMessage().toString("hex");
+      borshTransaction = (await buildTokenTransferTransaction(transaction))
+        .serializeMessage()
+        .toString("hex");
       break;
     default:
       throw new UserInputError("Invalid transaction mode");

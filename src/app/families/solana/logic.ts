@@ -3,20 +3,50 @@ import {
   createAssociatedTokenAccountInstruction,
   createTransferInstruction,
   getAssociatedTokenAddressSync,
-  Account as SolanaAccount,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { PublicKey, Transaction as SolanaTransaction, SystemProgram } from "@solana/web3.js";
 import { Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
-import { getAccountSPL, getLatestBlockhash } from "./backend/node";
+import { fetchAccountSPL, fetchLatestBlockhash } from "./backend/node";
 
-async function solanaAccount(accountAddress: string): Promise<SolanaAccount | null> {
-  const account = await getAccountSPL(accountAddress);
-  return account;
+async function buildTransferTransaction(transaction: Transaction): Promise<SolanaTransaction> {
+  if (transaction.data.mode !== TransactionMode.TRANSFER) {
+    throw new UserInputError("Invalid transaction mode");
+  }
+
+  const senderAddress = transaction.data.senderAddress;
+  const recipientAddress = transaction.data.recipientAddress;
+  const amount = transaction.data.amount;
+
+  if (!senderAddress || !recipientAddress || !amount) {
+    throw new Error("Invalid transaction data");
+  }
+
+  const senderPubkey = new PublicKey(senderAddress);
+  const recipientPubkey = new PublicKey(recipientAddress);
+  const blockhash = await fetchLatestBlockhash();
+
+  const tx = new SolanaTransaction().add(
+    SystemProgram.transfer({
+      fromPubkey: senderPubkey,
+      toPubkey: recipientPubkey,
+      lamports: amount,
+    })
+  );
+  tx.recentBlockhash = blockhash;
+  tx.feePayer = senderPubkey;
+
+  if (transaction.data.memo) {
+    // Create a memo instruction
+    const memoInstruction = createMemoInstruction(transaction.data.memo);
+    tx.add(memoInstruction);
+  }
+
+  return tx;
 }
 
-async function createTransactionToken(transaction: Transaction): Promise<SolanaTransaction> {
+async function buildTokenTransferTransaction(transaction: Transaction): Promise<SolanaTransaction> {
   if (!transaction.data.amount) {
     throw new UserInputError("Amount is required");
   }
@@ -28,9 +58,9 @@ async function createTransactionToken(transaction: Transaction): Promise<SolanaT
   const senderPk = new PublicKey(transaction.data.senderAddress);
   const recipientPk = new PublicKey(transaction.data.recipientAddress);
   const tokenIdPk = new PublicKey(transaction.data.tokenId);
-  const blockhash = await getLatestBlockhash();
+  const blockhash = await fetchLatestBlockhash();
 
-  const recipientSolanaAccount = await solanaAccount(recipientPk.toString());
+  const recipientSolanaAccount = await fetchAccountSPL(recipientPk.toString());
 
   const tx = new SolanaTransaction();
 
@@ -54,40 +84,4 @@ async function createTransactionToken(transaction: Transaction): Promise<SolanaT
   return tx;
 }
 
-async function createTransaction(transaction: Transaction): Promise<SolanaTransaction> {
-  if (transaction.data.mode !== TransactionMode.TRANSFER) {
-    throw new UserInputError("Invalid transaction mode");
-  }
-
-  const senderAddress = transaction.data.senderAddress;
-  const recipientAddress = transaction.data.recipientAddress;
-  const amount = transaction.data.amount;
-
-  if (!senderAddress || !recipientAddress || !amount) {
-    throw new Error("Invalid transaction data");
-  }
-
-  const senderPubkey = new PublicKey(senderAddress);
-  const recipientPubkey = new PublicKey(recipientAddress);
-  const blockhash = await getLatestBlockhash();
-
-  const tx = new SolanaTransaction().add(
-    SystemProgram.transfer({
-      fromPubkey: senderPubkey,
-      toPubkey: recipientPubkey,
-      lamports: amount,
-    })
-  );
-  tx.recentBlockhash = blockhash;
-  tx.feePayer = senderPubkey;
-
-  if (transaction.data.memo) {
-    // Create a memo instruction
-    const memoInstruction = createMemoInstruction(transaction.data.memo);
-    tx.add(memoInstruction);
-  }
-
-  return tx;
-}
-
-export { createTransaction, createTransactionToken };
+export { buildTokenTransferTransaction, buildTransferTransaction };

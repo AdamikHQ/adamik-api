@@ -1,18 +1,19 @@
 import { Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
-import { getEstimatedFeeFromNode } from "../backend/node";
-import { createTransaction, createTransactionToken } from "../logic";
+import { fetchAccount, fetchAccountTokenBalance, fetchEstimatedFeeFromNode } from "../backend/node";
+import { buildTokenTransferTransaction, buildTransferTransaction } from "../logic";
 import { SolanaService } from "../service";
 
 async function completeTransaction(
   this: SolanaService,
   { transaction }: { transaction: Transaction }
 ): Promise<void> {
-  let account;
+  let balance;
   if (transaction.data.useMaxAmount) {
-    account = await this.getAccountState(transaction.data.senderAddress);
+    const account = await fetchAccount(transaction.data.senderAddress);
+    balance = account.balance;
 
-    transaction.data.amount = account.balances?.native?.available ?? 0n;
+    transaction.data.amount = BigInt(balance);
   }
 
   switch (transaction.data.mode) {
@@ -47,24 +48,24 @@ async function completeTransaction(
       break;
   }
 
-  if (transaction.data.useMaxAmount && account) {
+  if (transaction.data.useMaxAmount && balance !== undefined) {
     if (transaction.data.mode === TransactionMode.TRANSFER) {
-      transaction.data.amount = (account.balances?.native?.available ?? 0n) - (transaction.data.fees ?? 0n);
+      transaction.data.amount = balance - (transaction.data.fees ?? 0n);
     } else if (transaction.data.mode === TransactionMode.TRANSFER_TOKEN) {
-      transaction.data.amount =
-        account.balances?.tokens?.find(
-          (token) =>
-            transaction.data.mode === TransactionMode.TRANSFER_TOKEN &&
-            token.token.id === transaction.data.tokenId
-        )?.amount ?? 0n;
+      const tokenBalance = await fetchAccountTokenBalance(
+        transaction.data.senderAddress,
+        transaction.data.tokenId
+      );
+
+      transaction.data.amount = tokenBalance;
     }
   }
 }
 
 async function calculateTransferTokenFees(transaction: Transaction) {
-  const tx = await createTransactionToken(transaction);
+  const tx = await buildTokenTransferTransaction(transaction);
 
-  const estimatedFee = await getEstimatedFeeFromNode(tx);
+  const estimatedFee = await fetchEstimatedFeeFromNode(tx);
 
   if (!estimatedFee) {
     throw new InvalidTransactionError({
@@ -81,9 +82,9 @@ async function calculateTransferFees(transaction: Transaction) {
     throw new UserInputError("Amount is required");
   }
 
-  const tx = await createTransaction(transaction);
+  const tx = await buildTransferTransaction(transaction);
 
-  const estimatedFee = await getEstimatedFeeFromNode(tx);
+  const estimatedFee = await fetchEstimatedFeeFromNode(tx);
 
   if (!estimatedFee) {
     throw new InvalidTransactionError({

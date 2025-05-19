@@ -1,5 +1,4 @@
 import { Chain, ChainFamily, ChainId, ProviderType, TransactionMode } from "../model/types_WIP";
-import { HELIUS_API_KEY } from "./apiKeys";
 import {
   ALGORAND_FEATURES,
   APTOS_FEATURES,
@@ -2224,7 +2223,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: [`https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}`], // TODO: swap with adamik api key
+        urls: [`https://mainnet.helius-rpc.com`],
       },
       {
         type: ProviderType.helius,

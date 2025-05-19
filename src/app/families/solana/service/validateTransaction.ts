@@ -2,7 +2,7 @@ import { PublicKey } from "@solana/web3.js";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { prevalidateTransactionCommon } from "../../common";
-import { fetchAccount, getAccountTokenBalance } from "../backend/node";
+import { fetchAccount, fetchAccountTokenBalance } from "../backend/node";
 import { SolanaService } from "../service";
 
 async function prevalidateTransaction(
@@ -52,7 +52,7 @@ async function validateTransaction(
       break;
 
     case TransactionMode.TRANSFER_TOKEN:
-      const tokenBalance = await getAccountTokenBalance(
+      const tokenBalance = await fetchAccountTokenBalance(
         transaction.data.senderAddress,
         transaction.data.tokenId
       );

@@ -1,6 +1,7 @@
 import {
   getAccount,
   getAssociatedTokenAddressSync,
+  Account as SolanaAccount,
   TokenAccountNotFoundError,
   TokenInvalidAccountOwnerError,
 } from "@solana/spl-token";
@@ -11,6 +12,7 @@ import {
   Transaction as SolanaTransaction,
   VersionedTransaction,
 } from "@solana/web3.js";
+import { HELIUS_API_KEY } from "~/app/config/apiKeys";
 import { ChainId, ProviderType, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { nonNullable } from "~/app/tools/guard";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
@@ -18,9 +20,9 @@ import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
 import { HeliusAssetResponse, HeliusTokensResponse } from "./helius.types";
-import { getAssetsByOwnerParams } from "./node.types";
+import { GetAssetsByOwnerParams } from "./node.types";
 
-const nodeUrl = getProviderUrls(ChainId.SOLANA, ProviderType.node)[0];
+const nodeUrl = getProviderUrls(ChainId.SOLANA, ProviderType.node)[0] + `?api-key=${HELIUS_API_KEY}`;
 const connection = new Connection(nodeUrl);
 
 async function fetchAccount(accountAddress: string) {
@@ -35,11 +37,16 @@ async function fetchAccount(accountAddress: string) {
 }
 
 async function broadcastTransaction(rawData: string): Promise<string> {
-  const txHash = await connection.sendRawTransaction(Buffer.from(rawData, "hex"));
-  return txHash;
+  try {
+    const txHash = await connection.sendRawTransaction(Buffer.from(rawData, "hex"));
+    return txHash;
+  } catch (error) {
+    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while broadcasting transaction for ${ChainId.SOLANA}`);
+  }
 }
 
-async function getLatestBlockhash(): Promise<string> {
+async function fetchLatestBlockhash(): Promise<string> {
   try {
     const latestBlockhash = await connection.getLatestBlockhash();
     return latestBlockhash.blockhash;
@@ -59,7 +66,7 @@ async function simulateTransaction(transaction: VersionedTransaction): Promise<n
   }
 }
 
-async function getFeeForMessage(transactionMessage: MessageV0): Promise<number | null> {
+async function fetchFeeForMessage(transactionMessage: MessageV0): Promise<number | null> {
   try {
     const fees = await connection.getFeeForMessage(transactionMessage);
     return fees.value;
@@ -69,7 +76,7 @@ async function getFeeForMessage(transactionMessage: MessageV0): Promise<number |
   }
 }
 
-async function getAccountSPL(accountAddress: string) {
+async function fetchAccountSPL(accountAddress: string): Promise<SolanaAccount | null> {
   try {
     const account = await getAccount(connection, new PublicKey(accountAddress));
     return account;
@@ -77,11 +84,12 @@ async function getAccountSPL(accountAddress: string) {
     if (error instanceof TokenAccountNotFoundError || error instanceof TokenInvalidAccountOwnerError) {
       return null;
     }
-    throw new ThirdPartyProviderError(`Error while getting fee for message for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while getting account SPL for ${ChainId.SOLANA}`);
   }
 }
 
-async function getEstimatedFeeFromNode(transaction: SolanaTransaction): Promise<number | null> {
+async function fetchEstimatedFeeFromNode(transaction: SolanaTransaction): Promise<number | null> {
   try {
     const estimatedFee = await transaction.getEstimatedFee(connection);
     return estimatedFee;
@@ -91,7 +99,7 @@ async function getEstimatedFeeFromNode(transaction: SolanaTransaction): Promise<
   }
 }
 
-async function getAccountTokenBalance(accountAddress: string, tokenId: string): Promise<bigint | null> {
+async function fetchAccountTokenBalance(accountAddress: string, tokenId: string): Promise<bigint> {
   try {
     const accountPk = new PublicKey(accountAddress);
     const tokenIdPk = new PublicKey(tokenId);
@@ -121,7 +129,7 @@ async function fetchAccountTokensBalance(
 
     const limit = paginationData?.limit || 1000;
     const page = paginationData?.page || 1;
-    const tokens = await getAssetsByOwner(accountAddress, page, limit);
+    const tokens = await fetchAssetsByOwner(accountAddress, page, limit);
 
     if (tokens.result.items.length === 0) {
       return { tokenAmounts: [], nextPaginationToken: null };
@@ -159,11 +167,30 @@ async function fetchAccountTokensBalance(
 
 // I'm not 100% sure if this method can be used in any RPC provider. Need to check.
 // If it's a custom method from Helius API.
-async function getAssetsByOwner(
+async function fetchAssetsByOwner(
   accountAddress: string,
   page: number,
   limit: number
 ): Promise<HeliusTokensResponse> {
+  const params: GetAssetsByOwnerParams = {
+    ownerAddress: accountAddress,
+    page: page,
+    limit: limit,
+    sortBy: {
+      sortBy: "created",
+      sortDirection: "asc",
+    },
+    options: {
+      showUnverifiedCollections: false,
+      showCollectionMetadata: true,
+      showGrandTotal: true,
+      showFungible: true,
+      showNativeBalance: false,
+      showInscription: true,
+      showZeroBalance: true,
+    },
+  };
+
   try {
     const response = await fetch(nodeUrl, {
       method: "POST",
@@ -174,24 +201,7 @@ async function getAssetsByOwner(
         id: 2,
         jsonrpc: "2.0",
         method: "getAssetsByOwner",
-        params: {
-          ownerAddress: accountAddress,
-          page: page,
-          limit: limit,
-          sortBy: {
-            sortBy: "created",
-            sortDirection: "asc",
-          },
-          options: {
-            showUnverifiedCollections: false,
-            showCollectionMetadata: true,
-            showGrandTotal: true,
-            showFungible: true,
-            showNativeBalance: false,
-            showInscription: true,
-            showZeroBalance: true,
-          },
-        } as getAssetsByOwnerParams,
+        params,
       }),
     });
     const data = await response.json();
@@ -250,12 +260,12 @@ async function fetchAssetInfo(assetId: string): Promise<Token | null> {
 export {
   broadcastTransaction,
   fetchAccount,
+  fetchAccountSPL,
+  fetchAccountTokenBalance,
   fetchAccountTokensBalance,
   fetchAssetInfo,
-  getAccountSPL,
-  getAccountTokenBalance,
-  getEstimatedFeeFromNode,
-  getFeeForMessage,
-  getLatestBlockhash,
+  fetchEstimatedFeeFromNode,
+  fetchFeeForMessage,
+  fetchLatestBlockhash,
   simulateTransaction,
 };
