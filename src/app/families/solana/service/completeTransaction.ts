@@ -60,6 +60,10 @@ async function completeTransaction(
       transaction.data.amount = tokenBalance;
     }
   }
+
+  if (transaction.data.amount && transaction.data.amount < 0n) {
+    transaction.data.amount = 0n;
+  }
 }
 
 async function calculateTransferTokenFees(transaction: Transaction) {
