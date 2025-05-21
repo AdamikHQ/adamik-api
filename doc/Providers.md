@@ -437,6 +437,11 @@
 | node | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |<br />
 | alchemy | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
 
+## solana
+
+| node | https://mainnet.helius-rpc.com |<br />
+| helius | https://api-mainnet.helius-rpc.com |
+
 ## aptos
 
 | node | https://api.mainnet.aptoslabs.com/v1 |<br />

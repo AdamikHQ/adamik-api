@@ -1,0 +1,40 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/",
+    "method": "POST",
+    "body": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "method": "getAssetsByOwner",
+      "params": {
+        "ownerAddress": "8pFhUqCU7Fkxfg2DLytRDf7a9oK4XGtN92PrYwtVQc6G",
+        "page": 1,
+        "limit": 1000,
+        "sortBy": {
+          "sortBy": "created",
+          "sortDirection": "asc"
+        },
+        "options": {
+          "showUnverifiedCollections": false,
+          "showCollectionMetadata": true,
+          "showGrandTotal": true,
+          "showFungible": true,
+          "showNativeBalance": false,
+          "showInscription": true,
+          "showZeroBalance": true
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 401,
+    "body": {
+      "jsonrpc": "2.0",
+      "error": {
+        "code": -32401,
+        "message": "missing api key"
+      }
+    },
+    "type": "json"
+  }
+}

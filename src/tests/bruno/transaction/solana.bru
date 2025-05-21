@@ -1,0 +1,28 @@
+meta {
+  name: solana
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{api_url}}/api/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: solana
+  transactionId: 31t7Fkv5cEutofypu6AKK36ksY6HksxAWiks7j3nngAGNTqS9DcDu2koKZd4LVFWhex7reqnG1kYTpXwPCjsoRsA
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.raw: isDefined
+  res.body.transaction.parsed: isDefined
+  res.body.transaction.raw.fee: isNumber 51373781930786198
+  res.body.transaction.raw.timestamp: isNumber 1737643939
+}

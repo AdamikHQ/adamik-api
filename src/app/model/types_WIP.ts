@@ -95,6 +95,8 @@ enum ChainId {
   BERACHAIN_ARTIO = "berachain-artio",
   CRONOS = "cronos",
   WORLD_CHAIN = "world-chain",
+
+  SOLANA = "solana",
 }
 
 enum ChainFamily {
@@ -106,6 +108,7 @@ enum ChainFamily {
   TRON = "tron",
   TON = "ton",
   STARKNET = "starknet",
+  SOLANA = "solana",
 }
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
@@ -159,6 +162,7 @@ export enum ProviderType {
   oklink = "oklink",
   aptosindexer = "aptosindexer",
   babylon = "babylon",
+  helius = "helius",
 }
 
 type Provider = {
@@ -213,6 +217,7 @@ enum TokenType {
   ERC20 = "ERC20",
   IBC = "IBC",
   JETTON = "JETTON",
+  SPL = "SPL",
   APTOS_COIN = "APTOS_COIN",
 }
 
@@ -490,6 +495,7 @@ enum EncodedTransactionFormat {
   MSGPACK = "MSGPACK",
   PSBT = "PSBT",
   BCS = "BCS",
+  BORSH = "BORSH",
 }
 
 type Transaction = {
