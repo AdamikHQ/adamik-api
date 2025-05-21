@@ -1,0 +1,94 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=REDACTED",
+    "method": "POST",
+    "body": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "method": "getAsset",
+      "params": {
+        "id": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": {
+        "interface": "FungibleToken",
+        "id": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
+        "content": {
+          "$schema": "https://schema.metaplex.com/nft1.0.json",
+          "json_uri": "https://static.jup.ag/jup/metadata.json",
+          "files": [
+            {
+              "uri": "https://static.jup.ag/jup/icon.png",
+              "cdn_uri": "https://cdn.helius-rpc.com/cdn-cgi/image//https://static.jup.ag/jup/icon.png",
+              "mime": "image/png"
+            }
+          ],
+          "metadata": {
+            "description": "JUP is the official governance token for Jupiter.",
+            "name": "Jupiter",
+            "symbol": "JUP",
+            "token_standard": "Fungible"
+          },
+          "links": {
+            "image": "https://static.jup.ag/jup/icon.png"
+          }
+        },
+        "authorities": [
+          {
+            "address": "61aq585V8cR2sZBeawJFt2NPqmN7zDi1sws4KLs5xHXV",
+            "scopes": [
+              "full"
+            ]
+          }
+        ],
+        "compression": {
+          "eligible": false,
+          "compressed": false,
+          "data_hash": "",
+          "creator_hash": "",
+          "asset_hash": "",
+          "tree": "",
+          "seq": 0,
+          "leaf_id": 0
+        },
+        "grouping": [],
+        "royalty": {
+          "royalty_model": "creators",
+          "target": null,
+          "percent": 0,
+          "basis_points": 0,
+          "primary_sale_happened": false,
+          "locked": false
+        },
+        "creators": [],
+        "ownership": {
+          "frozen": false,
+          "delegated": false,
+          "delegate": null,
+          "ownership_model": "token",
+          "owner": ""
+        },
+        "supply": null,
+        "mutable": true,
+        "burnt": false,
+        "token_info": {
+          "symbol": "JUP",
+          "supply": 6999216199510845,
+          "decimals": 6,
+          "token_program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "price_info": {
+            "price_per_token": 0.495336,
+            "currency": "USDC"
+          }
+        }
+      },
+      "id": 2
+    },
+    "type": "json"
+  }
+}

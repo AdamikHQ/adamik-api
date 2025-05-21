@@ -1,0 +1,525 @@
+{
+  "request": {
+    "url": "https://api-mainnet.helius-rpc.com/v0/addresses/kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU/transactions/?api-key=REDACTED",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": [
+      {
+        "description": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU staked 0.0111 SOL to 8Pc88zcc5W9hwCGpMbB83BWWzRQBUMDVo12AKk53RZaA.",
+        "type": "STAKE_SOL",
+        "source": "STAKE_PROGRAM",
+        "fee": 10000,
+        "feePayer": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+        "signature": "5CLLaiZ54T426JdTDFSePDj3ZY1bNsroRKcTo79Yj42UnxAtjLHYic3mFkTZWuwepufyoUsfkdeHrxTxbdEaCKxW",
+        "slot": 339745092,
+        "timestamp": 1747140325,
+        "tokenTransfers": [],
+        "nativeTransfers": [
+          {
+            "fromUserAccount": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+            "toUserAccount": "8Pc88zcc5W9hwCGpMbB83BWWzRQBUMDVo12AKk53RZaA",
+            "amount": 11100000
+          }
+        ],
+        "accountData": [
+          {
+            "account": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+            "nativeBalanceChange": -11110000,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "8Pc88zcc5W9hwCGpMbB83BWWzRQBUMDVo12AKk53RZaA",
+            "nativeBalanceChange": 11100000,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "DdCNGDpP7qMgoAy6paFzhhak2EeyCZcgjH7ak5u5v28m",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "Stake11111111111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "StakeConfig11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarC1ock11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarRent111111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarStakeHistory1111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          }
+        ],
+        "transactionError": null,
+        "instructions": [
+          {
+            "accounts": [
+              "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+              "8Pc88zcc5W9hwCGpMbB83BWWzRQBUMDVo12AKk53RZaA"
+            ],
+            "data": "11114Y3W3CuxRvCwgt9HQ7H8yFswPXXsHCaRH7o6FrYA4bc3vPQK7NxKnTanazvsE7fLgF",
+            "programId": "11111111111111111111111111111111",
+            "innerInstructions": []
+          },
+          {
+            "accounts": [
+              "8Pc88zcc5W9hwCGpMbB83BWWzRQBUMDVo12AKk53RZaA",
+              "SysvarRent111111111111111111111111111111111"
+            ],
+            "data": "111136G4WL4hELfujx1FhwtYZWGjQAgTFN9gBQYNDxoSrL6ptgzD6yhjbJnfLrnZmZwweXbPkwgmuztZbe3jMVfzttUvxwVEfTp62MY85HJFSmn7nFNBR8CuAVGXB8Y5ckZjjiw4RFmumGpwvadAn3yudBjSX",
+            "programId": "Stake11111111111111111111111111111111111111",
+            "innerInstructions": []
+          },
+          {
+            "accounts": [
+              "8Pc88zcc5W9hwCGpMbB83BWWzRQBUMDVo12AKk53RZaA",
+              "DdCNGDpP7qMgoAy6paFzhhak2EeyCZcgjH7ak5u5v28m",
+              "SysvarC1ock11111111111111111111111111111111",
+              "SysvarStakeHistory1111111111111111111111111",
+              "StakeConfig11111111111111111111111111111111",
+              "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU"
+            ],
+            "data": "3xyZh",
+            "programId": "Stake11111111111111111111111111111111111111",
+            "innerInstructions": []
+          }
+        ],
+        "events": {}
+      },
+      {
+        "description": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU unstaked 0.01 SOL from 8Y7o2Z9HZK14pApcuN57ZS8hNiJf46bwf22UsBG2CrqC.",
+        "type": "UNSTAKE_SOL",
+        "source": "STAKE_PROGRAM",
+        "fee": 5000,
+        "feePayer": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+        "signature": "2dGcmaEF3sKqwdQhzHvd9rSBKz4N4Dz14nMJRMvYVWH3cXeJmLAqWJ4xcHXWKRRY1fVaLA7VJQKP6iSzyut1qype",
+        "slot": 339739094,
+        "timestamp": 1747137960,
+        "tokenTransfers": [],
+        "nativeTransfers": [],
+        "accountData": [
+          {
+            "account": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+            "nativeBalanceChange": -5000,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "8Y7o2Z9HZK14pApcuN57ZS8hNiJf46bwf22UsBG2CrqC",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "Stake11111111111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarC1ock11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          }
+        ],
+        "transactionError": null,
+        "instructions": [
+          {
+            "accounts": [
+              "8Y7o2Z9HZK14pApcuN57ZS8hNiJf46bwf22UsBG2CrqC",
+              "SysvarC1ock11111111111111111111111111111111",
+              "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU"
+            ],
+            "data": "8QwQj",
+            "programId": "Stake11111111111111111111111111111111111111",
+            "innerInstructions": []
+          }
+        ],
+        "events": {}
+      },
+      {
+        "description": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU staked 0.0123 SOL to DCW1okLguTEYB2ypyYzp38bezA76P632f94Af9jXcdbT.",
+        "type": "STAKE_SOL",
+        "source": "STAKE_PROGRAM",
+        "fee": 10000,
+        "feePayer": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+        "signature": "5ppqcK8KDdKQoBiqzJpU5kgLa6BBjvGyFsDTbAAEydDMR8Tw6TZW7U7RvonABJKcGG9iRJFP9QBHRX8Bj6a1ZMi7",
+        "slot": 339712528,
+        "timestamp": 1747127302,
+        "tokenTransfers": [],
+        "nativeTransfers": [
+          {
+            "fromUserAccount": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+            "toUserAccount": "DCW1okLguTEYB2ypyYzp38bezA76P632f94Af9jXcdbT",
+            "amount": 12300000
+          }
+        ],
+        "accountData": [
+          {
+            "account": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+            "nativeBalanceChange": -12310000,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "DCW1okLguTEYB2ypyYzp38bezA76P632f94Af9jXcdbT",
+            "nativeBalanceChange": 12300000,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "he1iusunGwqrNtafDtLdhsUQDFvo13z9sUa36PauBtk",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "Stake11111111111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "StakeConfig11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarC1ock11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarRent111111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarStakeHistory1111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          }
+        ],
+        "transactionError": null,
+        "instructions": [
+          {
+            "accounts": [
+              "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+              "DCW1okLguTEYB2ypyYzp38bezA76P632f94Af9jXcdbT"
+            ],
+            "data": "11119F2oTZXTQgk7iXGEXLAHf5HLymHBcYc2zA7mJMt8aag5eNPFPC9EyoMsfDoSJ5ADHh",
+            "programId": "11111111111111111111111111111111",
+            "innerInstructions": []
+          },
+          {
+            "accounts": [
+              "DCW1okLguTEYB2ypyYzp38bezA76P632f94Af9jXcdbT",
+              "SysvarRent111111111111111111111111111111111"
+            ],
+            "data": "111136G4WL4hELfujx1FhwtYZWGjQAgTFN9gBQYNDxoSrL6ptgzD6yhjbJnfLrnZmZwweXbPkwgmuztZbe3jMVfzttUvxwVEfTp62MY85HJFSmn7nFNBR8CuAVGXB8Y5ckZjjiw4RFmumGpwvadAn3yudBjSX",
+            "programId": "Stake11111111111111111111111111111111111111",
+            "innerInstructions": []
+          },
+          {
+            "accounts": [
+              "DCW1okLguTEYB2ypyYzp38bezA76P632f94Af9jXcdbT",
+              "he1iusunGwqrNtafDtLdhsUQDFvo13z9sUa36PauBtk",
+              "SysvarC1ock11111111111111111111111111111111",
+              "SysvarStakeHistory1111111111111111111111111",
+              "StakeConfig11111111111111111111111111111111",
+              "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU"
+            ],
+            "data": "3xyZh",
+            "programId": "Stake11111111111111111111111111111111111111",
+            "innerInstructions": []
+          }
+        ],
+        "events": {}
+      },
+      {
+        "description": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU staked 0.01 SOL to GRkJDVbFKD8cZsFeTLf7YtxWU9AjhaXhpiZtesZzEwkg.",
+        "type": "STAKE_SOL",
+        "source": "STAKE_PROGRAM",
+        "fee": 10000,
+        "feePayer": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+        "signature": "2QfS8DeEFUwysEKVxQMitLfQRVo8RtihK4xLGT6RQsuGoWD6nubwM2xHvjkuyraZaaGEdYs63bHiyWUaj8ZAoXdj",
+        "slot": 339547686,
+        "timestamp": 1747062145,
+        "tokenTransfers": [],
+        "nativeTransfers": [
+          {
+            "fromUserAccount": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+            "toUserAccount": "GRkJDVbFKD8cZsFeTLf7YtxWU9AjhaXhpiZtesZzEwkg",
+            "amount": 10000000
+          }
+        ],
+        "accountData": [
+          {
+            "account": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+            "nativeBalanceChange": -10010000,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "GRkJDVbFKD8cZsFeTLf7YtxWU9AjhaXhpiZtesZzEwkg",
+            "nativeBalanceChange": 10000000,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "he1iusunGwqrNtafDtLdhsUQDFvo13z9sUa36PauBtk",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "Stake11111111111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "StakeConfig11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarC1ock11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarRent111111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarStakeHistory1111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          }
+        ],
+        "transactionError": null,
+        "instructions": [
+          {
+            "accounts": [
+              "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+              "GRkJDVbFKD8cZsFeTLf7YtxWU9AjhaXhpiZtesZzEwkg"
+            ],
+            "data": "11115ian4JmMBBzGfjQDJGTF2d8iMswGJxpnRahYCKcc3r3YaHHJtYKzs9rs7NQPmFVCfR",
+            "programId": "11111111111111111111111111111111",
+            "innerInstructions": []
+          },
+          {
+            "accounts": [
+              "GRkJDVbFKD8cZsFeTLf7YtxWU9AjhaXhpiZtesZzEwkg",
+              "SysvarRent111111111111111111111111111111111"
+            ],
+            "data": "111136G4WL4hELfujx1FhwtYZWGjQAgTFN9gBQYNDxoSrL6ptgzD6yhjbJnfLrnZmZwweXbPkwgmuztZbe3jMVfzttUvxwVEfTp62MY85HJFSmn7nFNBR8CuAVGXB8Y5ckZjjiw4RFmumGpwvadAn3yudBjSX",
+            "programId": "Stake11111111111111111111111111111111111111",
+            "innerInstructions": []
+          },
+          {
+            "accounts": [
+              "GRkJDVbFKD8cZsFeTLf7YtxWU9AjhaXhpiZtesZzEwkg",
+              "he1iusunGwqrNtafDtLdhsUQDFvo13z9sUa36PauBtk",
+              "SysvarC1ock11111111111111111111111111111111",
+              "SysvarStakeHistory1111111111111111111111111",
+              "StakeConfig11111111111111111111111111111111",
+              "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU"
+            ],
+            "data": "3xyZh",
+            "programId": "Stake11111111111111111111111111111111111111",
+            "innerInstructions": []
+          }
+        ],
+        "events": {}
+      },
+      {
+        "description": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU staked 0.01 SOL to 8Y7o2Z9HZK14pApcuN57ZS8hNiJf46bwf22UsBG2CrqC.",
+        "type": "STAKE_SOL",
+        "source": "STAKE_PROGRAM",
+        "fee": 10000,
+        "feePayer": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+        "signature": "3M3ykHuX5pt8PQazKLb3pgg4Fby9wFhYFqiuxYkAeFzNm9tnFu9LT33SWceNorFgZGaQSjFgWVG96K9Him1tTEx6",
+        "slot": 339539272,
+        "timestamp": 1747058831,
+        "tokenTransfers": [],
+        "nativeTransfers": [
+          {
+            "fromUserAccount": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+            "toUserAccount": "8Y7o2Z9HZK14pApcuN57ZS8hNiJf46bwf22UsBG2CrqC",
+            "amount": 10000000
+          }
+        ],
+        "accountData": [
+          {
+            "account": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+            "nativeBalanceChange": -10010000,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "8Y7o2Z9HZK14pApcuN57ZS8hNiJf46bwf22UsBG2CrqC",
+            "nativeBalanceChange": 10000000,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "he1iusunGwqrNtafDtLdhsUQDFvo13z9sUa36PauBtk",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "Stake11111111111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "StakeConfig11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarC1ock11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarRent111111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "SysvarStakeHistory1111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          }
+        ],
+        "transactionError": null,
+        "instructions": [
+          {
+            "accounts": [
+              "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+              "8Y7o2Z9HZK14pApcuN57ZS8hNiJf46bwf22UsBG2CrqC"
+            ],
+            "data": "11115ian4JmMBBzGfjQDJGTF2d8iMswGJxpnRahYCKcc3r3YaHHJtYKzs9rs7NQPmFVCfR",
+            "programId": "11111111111111111111111111111111",
+            "innerInstructions": []
+          },
+          {
+            "accounts": [
+              "8Y7o2Z9HZK14pApcuN57ZS8hNiJf46bwf22UsBG2CrqC",
+              "SysvarRent111111111111111111111111111111111"
+            ],
+            "data": "111136G4WL4hELfujx1FhwtYZWGjQAgTFN9gBQYNDxoSrL6ptgzD6yhjbJnfLrnZmZwweXbPkwgmuztZbe3jMVfzttUvxwVEfTp62MY85HJFSmn7nFNBR8CuAVGXB8Y5ckZjjiw4RFmumGpwvadAn3yudBjSX",
+            "programId": "Stake11111111111111111111111111111111111111",
+            "innerInstructions": []
+          },
+          {
+            "accounts": [
+              "8Y7o2Z9HZK14pApcuN57ZS8hNiJf46bwf22UsBG2CrqC",
+              "he1iusunGwqrNtafDtLdhsUQDFvo13z9sUa36PauBtk",
+              "SysvarC1ock11111111111111111111111111111111",
+              "SysvarStakeHistory1111111111111111111111111",
+              "StakeConfig11111111111111111111111111111111",
+              "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU"
+            ],
+            "data": "3xyZh",
+            "programId": "Stake11111111111111111111111111111111111111",
+            "innerInstructions": []
+          }
+        ],
+        "events": {}
+      },
+      {
+        "description": "FFG51Jf1T1LvT1Tq3AFkETgbfbaQCqNiqU3gTp25DvC7 transferred 0.1 SOL to kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU.",
+        "type": "TRANSFER",
+        "source": "SYSTEM_PROGRAM",
+        "fee": 80000,
+        "feePayer": "FFG51Jf1T1LvT1Tq3AFkETgbfbaQCqNiqU3gTp25DvC7",
+        "signature": "5dqgmQriiCGAPrzpritF2jWgTDEtUo5Rjny8trnDRN5zBv864yUeZMamGP9AM4N4gmvxkFmvxmUXWeS66VoDo1Hu",
+        "slot": 339538248,
+        "timestamp": 1747058428,
+        "tokenTransfers": [],
+        "nativeTransfers": [
+          {
+            "fromUserAccount": "FFG51Jf1T1LvT1Tq3AFkETgbfbaQCqNiqU3gTp25DvC7",
+            "toUserAccount": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+            "amount": 100000000
+          }
+        ],
+        "accountData": [
+          {
+            "account": "FFG51Jf1T1LvT1Tq3AFkETgbfbaQCqNiqU3gTp25DvC7",
+            "nativeBalanceChange": -100080000,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+            "nativeBalanceChange": 100000000,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "11111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          },
+          {
+            "account": "ComputeBudget111111111111111111111111111111",
+            "nativeBalanceChange": 0,
+            "tokenBalanceChanges": []
+          }
+        ],
+        "transactionError": null,
+        "instructions": [
+          {
+            "accounts": [],
+            "data": "3b1H8Rq1T3d1",
+            "programId": "ComputeBudget111111111111111111111111111111",
+            "innerInstructions": []
+          },
+          {
+            "accounts": [],
+            "data": "LKoyXd",
+            "programId": "ComputeBudget111111111111111111111111111111",
+            "innerInstructions": []
+          },
+          {
+            "accounts": [
+              "FFG51Jf1T1LvT1Tq3AFkETgbfbaQCqNiqU3gTp25DvC7",
+              "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU"
+            ],
+            "data": "3Bxs411Dtc7pkFQj",
+            "programId": "11111111111111111111111111111111",
+            "innerInstructions": []
+          }
+        ],
+        "events": {}
+      }
+    ],
+    "type": "json"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=REDACTED",
+    "method": "POST",
+    "body": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "method": "getAsset",
+      "params": {
+        "id": "BRSDw2v6nY9Wd6nbW7G8vbupy7qrfpdhK7ANWWReq8kc"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": {
+        "interface": "FungibleToken",
+        "id": "BRSDw2v6nY9Wd6nbW7G8vbupy7qrfpdhK7ANWWReq8kc",
+        "content": {
+          "$schema": "https://schema.metaplex.com/nft1.0.json",
+          "json_uri": "https://bafkreiebskavj53oftxhlutwm24x3atmwgrysrsjkc2wq3qtcujbizsqty.ipfs.nftstorage.link/",
+          "files": [
+            {
+              "uri": "https://bafkreihnshx4xxaezzc3hqxsykdeklm7ryvjc3ksy6d2lx3fs4cetaqnv4.ipfs.nftstorage.link/",
+              "cdn_uri": "https://cdn.helius-rpc.com/cdn-cgi/image//https://bafkreihnshx4xxaezzc3hqxsykdeklm7ryvjc3ksy6d2lx3fs4cetaqnv4.ipfs.nftstorage.link/",
+              "mime": "image/png"
+            }
+          ],
+          "metadata": {
+            "description": "A one of a kind meme coin launching December 2023, 75% of which will be airdropped to our favourite project's burners. BIG RIK SUCKS DIK",
+            "name": "Big Rik Sucks Dik",
+            "symbol": "BRSD",
+            "token_standard": "Fungible"
+          },
+          "links": {
+            "image": "https://bafkreihnshx4xxaezzc3hqxsykdeklm7ryvjc3ksy6d2lx3fs4cetaqnv4.ipfs.nftstorage.link/"
+          }
+        },
+        "authorities": [
+          {
+            "address": "FUNDCLTZe13or5K4irSMviXvcq8krYRA1qvXgx6Tc5Xx",
+            "scopes": [
+              "full"
+            ]
+          }
+        ],
+        "compression": {
+          "eligible": false,
+          "compressed": false,
+          "data_hash": "",
+          "creator_hash": "",
+          "asset_hash": "",
+          "tree": "",
+          "seq": 0,
+          "leaf_id": 0
+        },
+        "grouping": [],
+        "royalty": {
+          "royalty_model": "creators",
+          "target": null,
+          "percent": 0,
+          "basis_points": 0,
+          "primary_sale_happened": false,
+          "locked": false
+        },
+        "creators": [],
+        "ownership": {
+          "frozen": false,
+          "delegated": false,
+          "delegate": null,
+          "ownership_model": "token",
+          "owner": ""
+        },
+        "supply": null,
+        "mutable": false,
+        "burnt": false,
+        "token_info": {
+          "supply": 66375768788353,
+          "decimals": 6,
+          "token_program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      },
+      "id": 2
+    },
+    "type": "json"
+  }
+}
