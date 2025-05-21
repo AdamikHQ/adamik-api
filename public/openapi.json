@@ -6870,7 +6870,7 @@
           "Transaction"
         ],
         "summary": "Encode a Transaction",
-        "description": "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.        It also completes the input transaction with computed data, such as fees and max spendable amount, and performs some chain-specific validation checks on the transaction.",
+        "description": "Encodes transaction data into a format suitable for broadcasting. This endpoint is pivotal for creating transactions that comply with the specific requirements of different blockchains.\n\nIt performs several important functions:\n\n1. **Validates** the transaction data against chain-specific rules\n2. **Computes and adds** necessary transaction parameters (fees, gas, nonce)\n3. **Calculates** the maximum spendable amount when requested\n4. **Returns** the raw data and transaction hash in the appropriate format for signing\n\nThe response includes both the transaction hash (which needs to be signed) and the raw transaction data in a chain-specific format.",
         "parameters": [
           {
             "in": "path",
@@ -7826,7 +7826,8 @@
                                 "required": [
                                   "format",
                                   "value"
-                                ]
+                                ],
+                                "description": "The transaction hash that needs to be signed. The format field indicates the hash function used to determine the hash value (e.g., KECCAK256 for EVM chains, SHA256 for Bitcoin, etc.)."
                               },
                               "raw": {
                                 "type": "object",
@@ -7855,7 +7856,8 @@
                                 "required": [
                                   "format",
                                   "value"
-                                ]
+                                ],
+                                "description": "The raw transaction data in a chain-specific format. The format field indicates the encoding format used to represent the transaction data (e.g., RLP for EVM chains, PSBT for Bitcoin, etc.)."
                               }
                             }
                           }
@@ -9030,7 +9032,8 @@
                               "required": [
                                 "format",
                                 "value"
-                              ]
+                              ],
+                              "description": "The transaction hash that needs to be signed. The format field indicates the hash function used to determine the hash value (e.g., KECCAK256 for EVM chains, SHA256 for Bitcoin, etc.)."
                             },
                             "raw": {
                               "type": "object",
@@ -9059,7 +9062,8 @@
                               "required": [
                                 "format",
                                 "value"
-                              ]
+                              ],
+                              "description": "The raw transaction data in a chain-specific format. The format field indicates the encoding format used to represent the transaction data (e.g., RLP for EVM chains, PSBT for Bitcoin, etc.)."
                             }
                           }
                         }

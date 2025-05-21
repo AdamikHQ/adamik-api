@@ -95,8 +95,7 @@ const transactionEncodeOpenAPIPath: ZodOpenApiPathsObject = {
       tags: ["Transaction"],
       summary: "Encode a Transaction",
       description:
-        "Encodes transaction data into a format suitable for broadcasting. This function is pivotal for creating transactions that comply with the specific requirements of different blockchains.\
-        It also completes the input transaction with computed data, such as fees and max spendable amount, and performs some chain-specific validation checks on the transaction.",
+        "Encodes transaction data into a format suitable for broadcasting. This endpoint is pivotal for creating transactions that comply with the specific requirements of different blockchains.\n\nIt performs several important functions:\n\n1. **Validates** the transaction data against chain-specific rules\n2. **Computes and adds** necessary transaction parameters (fees, gas, nonce)\n3. **Calculates** the maximum spendable amount when requested\n4. **Returns** the raw data and transaction hash in the appropriate format for signing\n\nThe response includes both the transaction hash (which needs to be signed) and the raw transaction data in a chain-specific format.",
       requestParams: {
         path: pathParamsSchema,
       },
