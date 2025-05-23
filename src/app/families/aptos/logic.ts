@@ -1,4 +1,5 @@
 import {
+  AccountState,
   ChainId,
   FinalizedTransaction,
   StakingPosition,
@@ -147,7 +148,7 @@ function stakingStatusByPoolType(poolType: string): StakingStatus {
   }
 }
 
-export async function getStakingPositions(chainId: ChainId, address: string): Promise<StakingPosition[]> {
+async function getStakingPositions(chainId: ChainId, address: string): Promise<StakingPosition[]> {
   const positions = await fetchStakingPositions(chainId, address);
   return positions
     .filter((position) => position.shares > 0)
@@ -156,4 +157,34 @@ export async function getStakingPositions(chainId: ChainId, address: string): Pr
       amount: BigInt(Math.floor(position.shares)),
       status: stakingStatusByPoolType(position.pool_type),
     }));
+}
+export async function getStakingState(
+  chainId: ChainId,
+  address: string
+): Promise<AccountState["balances"]["staking"]> {
+  const positions = await getStakingPositions(chainId, address);
+  const stakingState: AccountState["balances"]["staking"] = {
+    total: 0n,
+    locked: 0n,
+    unlocking: 0n,
+    unlocked: 0n,
+    positions,
+    rewards: {
+      native: [],
+      tokens: [],
+    },
+  };
+  for (const position of positions) {
+    stakingState.total += position.amount;
+    if (position.status === StakingStatus.LOCKED) {
+      stakingState.locked += position.amount;
+    }
+    if (position.status === StakingStatus.UNLOCKING) {
+      stakingState.unlocking += position.amount;
+    }
+    if (position.status === StakingStatus.UNLOCKED) {
+      stakingState.unlocked += position.amount;
+    }
+  }
+  return stakingState;
 }

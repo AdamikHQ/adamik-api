@@ -2250,7 +2250,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
     ],
     supportedFeatures: APTOS_FEATURES,
-    signerSpec: getSignerSpecForChain(ChainId.APTOS, ChainFamily.APTOS),
+    signerSpec: getSignerSpecForChain(ChainId.APTOS_TESTNET, ChainFamily.APTOS),
     isTestnetFor: ChainId.APTOS,
   },
 } as const;

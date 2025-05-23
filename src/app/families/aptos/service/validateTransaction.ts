@@ -70,7 +70,7 @@ export async function validateTransaction(
           message: "Balance is too low",
         });
       }
-      const [locked] = await fetchStakingAmounts(
+      const { locked } = await fetchStakingAmounts(
         this.chainId,
         transaction.data.senderAddress,
         transaction.data.validatorAddress
@@ -88,7 +88,7 @@ export async function validateTransaction(
           message: "Balance is too low",
         });
       }
-      const [_l, unlocked] = await fetchStakingAmounts(
+      const { unlocked } = await fetchStakingAmounts(
         this.chainId,
         transaction.data.senderAddress,
         transaction.data.validatorAddress

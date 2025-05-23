@@ -20,34 +20,28 @@ async function completeTransaction(
     status: Status;
   }
 ): Promise<void> {
-  const { transaction, status } = _;
-  try {
-    const nonce = await fetchSequenceNumber(this.chainId, transaction.data.senderAddress);
-    transaction.data.nonce = BigInt(nonce);
+  const { transaction } = _;
+  const nonce = await fetchSequenceNumber(this.chainId, transaction.data.senderAddress);
+  transaction.data.nonce = BigInt(nonce);
 
-    switch (transaction.data.mode) {
-      case TransactionMode.TRANSFER:
-        await completeNativeTransaction(this.chainId, transaction.data);
-        break;
-      case TransactionMode.TRANSFER_TOKEN:
-        await completeTokenTransaction(this.chainId, transaction.data);
-        break;
-      case TransactionMode.STAKE:
-        await completeStakingTransaction(this.chainId, transaction.data);
-        break;
-      case TransactionMode.UNSTAKE:
-      case TransactionMode.WITHDRAW:
-        await completeUnstakeTransaction(this.chainId, transaction.data);
-        break;
-      default:
-        throw new UnsupportedFeatureError(
-          `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chainId}`
-        );
-    }
-  } catch (e: any) {
-    console.log(e);
-    const message = "Failed to complete the transaction";
-    status.errors.push({ message });
+  switch (transaction.data.mode) {
+    case TransactionMode.TRANSFER:
+      await completeNativeTransaction(this.chainId, transaction.data);
+      break;
+    case TransactionMode.TRANSFER_TOKEN:
+      await completeTokenTransaction(this.chainId, transaction.data);
+      break;
+    case TransactionMode.STAKE:
+      await completeStakingTransaction(this.chainId, transaction.data);
+      break;
+    case TransactionMode.UNSTAKE:
+    case TransactionMode.WITHDRAW:
+      await completeUnstakeTransaction(this.chainId, transaction.data);
+      break;
+    default:
+      throw new UnsupportedFeatureError(
+        `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chainId}`
+      );
   }
 }
 

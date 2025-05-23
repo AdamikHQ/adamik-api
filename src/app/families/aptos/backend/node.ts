@@ -6,7 +6,12 @@ import {
   PendingTransactionResponse,
 } from "@aptos-labs/ts-sdk";
 import { getCoinData } from "~/app/families/aptos/backend/indexer";
-import { AccountResponse, AptosStakeResponse, GasPriceEstimate } from "~/app/families/aptos/backend/types";
+import {
+  AccountResponse,
+  AptosStakeResponse,
+  AptosStakingAmounts,
+  GasPriceEstimate,
+} from "~/app/families/aptos/backend/types";
 import {
   AptosTransaction,
   AptosTransactionParams,
@@ -16,6 +21,7 @@ import {
 import { ChainId, ProviderType, TokenAmount, TokenType, TransactionData } from "~/app/model/types_WIP";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 
 export function getClient(chainId: ChainId): Aptos {
   const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
@@ -31,7 +37,8 @@ async function nodeRequest<T>(
 ): Promise<T> {
   const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
 
-  const response = await fetch(`${nodeUrl}${path}`, {
+  const url = [nodeUrl, path].join("");
+  const response = await fetch(url, {
     method,
     headers: {
       "Content-Type":
@@ -41,7 +48,8 @@ async function nodeRequest<T>(
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    console.warn(`/!\\ Failed to fetch from Aptos node '${url}':`);
+    throw new ThirdPartyProviderError(`Error while fetching ${url} status: ${response.status}`);
   }
 
   return (await response.json()) as T;
@@ -69,16 +77,21 @@ export async function fetchAccount(chainId: ChainId, address: string) {
   return nodeRequest<AccountResponse>(chainId, `/accounts/${address}`);
 }
 
-export function fetchStakingAmounts(
+export async function fetchStakingAmounts(
   chainId: ChainId,
   address: string,
   stakingPool: string
-): Promise<AptosStakeResponse> {
-  return viewFunction<AptosStakeResponse>(chainId, {
+): Promise<AptosStakingAmounts> {
+  const [locked, unlocked, pending] = await viewFunction<AptosStakeResponse>(chainId, {
     function: "0x1::delegation_pool::get_stake",
     type_arguments: [],
     arguments: [stakingPool, address],
   });
+  return {
+    locked,
+    unlocked,
+    pending,
+  };
 }
 
 export async function simulateTransaction(chainId: ChainId, tx: TransactionData) {

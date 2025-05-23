@@ -3,6 +3,7 @@ import {
   Ed25519PublicKey,
   Ed25519Signature,
   generateSigningMessageForTransaction,
+  InputEntryFunctionData,
   MoveFunctionId,
   RawTransaction,
   SignedTransaction,
@@ -19,6 +20,7 @@ import {
   TransactionMode,
   TransferTokenTransactionData,
   UnstakeTransactionData,
+  WithdrawTransactionData,
 } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { AptosService } from "../service";
@@ -32,58 +34,48 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = _;
   const client = getClient(this.chainId);
-  const params = ((mode: TransactionMode) => {
+  const data: InputEntryFunctionData = ((mode: TransactionMode) => {
     switch (mode) {
       case TransactionMode.TRANSFER:
         return {
-          payload: {
-            function: "0x1::aptos_account::transfer" as MoveFunctionId,
-            arguments: [transaction.data.recipientAddress, transaction.data.amount!.toString()],
-          },
+          function: "0x1::aptos_account::transfer" as MoveFunctionId,
+          functionArguments: [transaction.data.recipientAddress, transaction.data.amount!.toString()],
         };
       case TransactionMode.TRANSFER_TOKEN:
         return {
-          payload: {
-            function: "0x1::fungible_asset::transfer" as MoveFunctionId,
-            arguments: [
-              transaction.data.senderAddress,
-              transaction.data.recipientAddress,
-              transaction.data.amount!.toString(),
-            ],
-            type: "entry_function_payload",
-            type_arguments: [(transaction.data as TransferTokenTransactionData).tokenId],
-          },
+          function: "0x1::fungible_asset::transfer" as MoveFunctionId,
+          functionArguments: [
+            transaction.data.senderAddress,
+            transaction.data.recipientAddress,
+            transaction.data.amount!.toString(),
+          ],
+          type: "entry_function_payload",
+          typeArguments: [(transaction.data as TransferTokenTransactionData).tokenId],
         };
       case TransactionMode.STAKE:
         return {
-          payload: {
-            function: "0x1::delegation_pool::add_stake" as MoveFunctionId,
-            arguments: [
-              (transaction.data as StakeTransactionData).targetValidatorAddress,
-              new U64(transaction.data.amount!),
-            ],
-          },
+          function: "0x1::delegation_pool::add_stake" as MoveFunctionId,
+          functionArguments: [
+            (transaction.data as StakeTransactionData).targetValidatorAddress,
+            new U64(transaction.data.amount!),
+          ],
         };
       case TransactionMode.UNSTAKE: {
         return {
-          payload: {
-            function: "0x1::delegation_pool::unlock" as MoveFunctionId,
-            arguments: [
-              (transaction.data as UnstakeTransactionData).validatorAddress,
-              new U64(transaction.data.amount!),
-            ],
-          },
+          function: "0x1::delegation_pool::unlock" as MoveFunctionId,
+          functionArguments: [
+            (transaction.data as UnstakeTransactionData).validatorAddress,
+            new U64(transaction.data.amount!),
+          ],
         };
       }
       case TransactionMode.WITHDRAW: {
         return {
-          payload: {
-            function: "0x1::delegation_pool::withdraw" as MoveFunctionId,
-            arguments: [
-              (transaction.data as UnstakeTransactionData).validatorAddress,
-              new U64(transaction.data.amount!),
-            ],
-          },
+          function: "0x1::delegation_pool::withdraw" as MoveFunctionId,
+          functionArguments: [
+            (transaction.data as WithdrawTransactionData).validatorAddress,
+            new U64(transaction.data.amount!),
+          ],
         };
       }
       default:
@@ -94,11 +86,7 @@ async function encodeTransactionToSign(
   })(transaction.data.mode);
   const tx = await client.transaction.build.simple({
     sender: transaction.data.senderAddress,
-    data: {
-      function: params.payload!.function,
-      functionArguments: params.payload!.arguments,
-      typeArguments: params.payload!.type_arguments,
-    },
+    data,
   });
   const signingMessage = generateSigningMessageForTransaction(tx);
   transaction.encoded = [

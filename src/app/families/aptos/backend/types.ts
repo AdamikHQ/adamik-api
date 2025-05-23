@@ -21,6 +21,12 @@ export type GasPriceEstimate = {
 
 export type AptosStakeResponse = [number, number, number];
 
+export type AptosStakingAmounts = {
+  locked: number;
+  unlocked: number;
+  pending: number;
+};
+
 export type FungibleAssetBalance = {
   amount: number;
   asset_type: string;
@@ -33,7 +39,7 @@ export type FungibleAssetBalance = {
   };
 };
 
-export type FungleAssetBalancesResponse = {
+export type FungibleAssetBalancesResponse = {
   current_fungible_asset_balances: FungibleAssetBalance[];
 };
 

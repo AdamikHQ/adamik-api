@@ -4,8 +4,9 @@ import { getProviderUrls } from "../../common";
 import {
   AccountDelegationsResponse,
   FungibleAssetBalance,
-  FungleAssetBalancesResponse,
+  FungibleAssetBalancesResponse,
 } from "~/app/families/aptos/backend/types";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 
 async function indexerRequest<T>(
   chainId: ChainId,
@@ -26,7 +27,8 @@ async function indexerRequest<T>(
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    console.warn(`/!\\ Failed to fetch from Aptos node '${indexerUrl}':`);
+    throw new ThirdPartyProviderError(`Error while fetching ${indexerUrl} status: ${response.status}`);
   }
 
   const result = (await response.json()) as IndexerResponse<T>;
@@ -73,7 +75,7 @@ export async function fetchAccountCoins(
 ): Promise<FungibleAssetBalance[]> {
   const coinFilter = tokenId === undefined ? "" : `asset_type: { _eq: $tokenId }`;
   const query = `
-    query FungleAssetBalances(
+    query FungibleAssetBalances(
       $address: String,
       $tokenId: String,
     ) {
@@ -107,7 +109,7 @@ export async function fetchAccountCoins(
       }
     }
   `;
-  const response = await indexerRequest<FungleAssetBalancesResponse>(chainId, query, {
+  const response = await indexerRequest<FungibleAssetBalancesResponse>(chainId, query, {
     address,
     tokenId,
   });

@@ -437,7 +437,7 @@ type WithdrawTransactionData = CommonTransactionData & {
   mode: TransactionMode.WITHDRAW;
   senderPubKey: string; // Not optional for withdraw transactions
   validatorAddress: string;
-  stakeId: string;
+  stakeId?: string;
 };
 
 // NOTE Very specific to babylon + bitcoin at the moment,
