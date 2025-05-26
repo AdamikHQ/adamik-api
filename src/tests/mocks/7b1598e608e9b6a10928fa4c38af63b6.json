@@ -1,0 +1,121 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=99c19f14-77fa-4802-862f-0de4bb8f4fce",
+    "method": "POST",
+    "body": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "method": "getAssetsByOwner",
+      "params": {
+        "ownerAddress": "FFG51Jf1T1LvT1Tq3AFkETgbfbaQCqNiqU3gTp25DvC7",
+        "page": 1,
+        "limit": 1000,
+        "sortBy": {
+          "sortBy": "created",
+          "sortDirection": "asc"
+        },
+        "options": {
+          "showUnverifiedCollections": false,
+          "showCollectionMetadata": true,
+          "showGrandTotal": true,
+          "showFungible": true,
+          "showNativeBalance": false,
+          "showInscription": true,
+          "showZeroBalance": true
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": {
+        "total": 1,
+        "limit": 1000,
+        "page": 1,
+        "items": [
+          {
+            "interface": "FungibleToken",
+            "id": "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump",
+            "content": {
+              "$schema": "https://schema.metaplex.com/nft1.0.json",
+              "json_uri": "https://ipfs.io/ipfs/QmcGmF4tQxsQKdF3s1mSqYyg1vNqAXou32tbWztnsnEzth",
+              "files": [
+                {
+                  "uri": "https://ipfs.io/ipfs/QmapAq9WtNrtyaDtjZPAHHNYmpSZAQU6HywwvfSWq4dQVV",
+                  "cdn_uri": "https://cdn.helius-rpc.com/cdn-cgi/image//https://ipfs.io/ipfs/QmapAq9WtNrtyaDtjZPAHHNYmpSZAQU6HywwvfSWq4dQVV",
+                  "mime": "image/png"
+                }
+              ],
+              "metadata": {
+                "description": "First meme created by @truth_terminal. Goatseus Maximus will fulfill the prophecies of the ancient memeers.",
+                "name": "Goatseus Maximus",
+                "symbol": "GOAT",
+                "token_standard": "Fungible"
+              },
+              "links": {
+                "image": "https://ipfs.io/ipfs/QmapAq9WtNrtyaDtjZPAHHNYmpSZAQU6HywwvfSWq4dQVV"
+              }
+            },
+            "authorities": [
+              {
+                "address": "TSLvdd1pWpHVjahSpsvCXUbgwsL3JAcvokwaKt1eokM",
+                "scopes": [
+                  "full"
+                ]
+              }
+            ],
+            "compression": {
+              "eligible": false,
+              "compressed": false,
+              "data_hash": "",
+              "creator_hash": "",
+              "asset_hash": "",
+              "tree": "",
+              "seq": 0,
+              "leaf_id": 0
+            },
+            "grouping": [],
+            "royalty": {
+              "royalty_model": "creators",
+              "target": null,
+              "percent": 0,
+              "basis_points": 0,
+              "primary_sale_happened": false,
+              "locked": false
+            },
+            "creators": [],
+            "ownership": {
+              "frozen": false,
+              "delegated": false,
+              "delegate": null,
+              "ownership_model": "token",
+              "owner": "FFG51Jf1T1LvT1Tq3AFkETgbfbaQCqNiqU3gTp25DvC7"
+            },
+            "supply": null,
+            "mutable": false,
+            "burnt": false,
+            "token_info": {
+              "symbol": "GOAT",
+              "balance": 0,
+              "supply": 999993286075033,
+              "decimals": 6,
+              "token_program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+              "associated_token_address": "C4aKxg3itYb4BFsvqWSR9BK1hQqL2gnTVv5wy68dDmrP",
+              "price_info": {
+                "price_per_token": 0.153114,
+                "total_price": 0,
+                "currency": "USDC"
+              }
+            },
+            "inscription": null,
+            "spl20": null
+          }
+        ]
+      },
+      "id": 2
+    },
+    "type": "json"
+  }
+}

@@ -1,0 +1,26 @@
+meta {
+  name: solana
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{api_url}}/api/:chainId/address/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: solana
+}
+
+body:json {
+  {
+    "pubkey": "0b22abf2a5724f66cf158a3af547f9bea1c838b16dd2acb7070cba512ea5b871"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.addresses[0].address: eq kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU
+}

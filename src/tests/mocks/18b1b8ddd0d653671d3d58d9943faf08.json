@@ -1,0 +1,30 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=99c19f14-77fa-4802-862f-0de4bb8f4fce",
+    "method": "POST",
+    "body": {
+      "method": "getLatestBlockhash",
+      "jsonrpc": "2.0",
+      "params": [],
+      "id": "618301fb-5404-4ee4-845c-4831e63bba83"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": {
+        "context": {
+          "apiVersion": "2.1.16",
+          "slot": 340199328
+        },
+        "value": {
+          "blockhash": "9iEjviqyQ71VPUj3dLBr1XR44SGUShyczHwscgWQCG7Z",
+          "lastValidBlockHeight": 318419110
+        }
+      },
+      "id": "618301fb-5404-4ee4-845c-4831e63bba83"
+    },
+    "type": "json"
+  }
+}

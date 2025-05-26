@@ -8,6 +8,7 @@ import {
   EVM_FEATURES,
   EVM_ROOTSTOCK_FEATURES,
   NATIVE_READ_WRITE_ONLY,
+  SOLANA_FEATURES,
   STARKNET_FEATURES,
   TON_FEATURES,
   TRON_FEATURES,
@@ -2211,6 +2212,26 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ],
     supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN),
     signerSpec: getSignerSpecForChain(ChainId.WORLD_CHAIN, ChainFamily.EVM),
+  },
+  solana: {
+    id: ChainId.SOLANA,
+    name: "Solana",
+    family: ChainFamily.SOLANA,
+    nativeId: "solana",
+    ticker: "SOL",
+    decimals: 9,
+    providers: [
+      {
+        type: ProviderType.node,
+        urls: [`https://mainnet.helius-rpc.com`],
+      },
+      {
+        type: ProviderType.helius,
+        urls: ["https://api-mainnet.helius-rpc.com"],
+      },
+    ],
+    supportedFeatures: SOLANA_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.SOLANA, ChainFamily.SOLANA),
   },
   aptos: {
     family: ChainFamily.APTOS,

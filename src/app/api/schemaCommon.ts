@@ -496,13 +496,21 @@ const encodedTransactionSchema = z.array(
         format: z.nativeEnum(HashFunction),
         value: z.string(),
       })
-      .optional(),
+      .optional()
+      .openapi({
+        description:
+          "The transaction hash that needs to be signed. The format field indicates the hash function used to determine the hash value (e.g., KECCAK256 for EVM chains, SHA256 for Bitcoin, etc.).",
+      }),
     raw: z
       .object({
         format: z.nativeEnum(EncodedTransactionFormat),
         value: z.string(),
       })
-      .optional(),
+      .optional()
+      .openapi({
+        description:
+          "The raw transaction data in a chain-specific format. The format field indicates the encoding format used to represent the transaction data (e.g., RLP for EVM chains, PSBT for Bitcoin, etc.).",
+      }),
   })
 );
 
