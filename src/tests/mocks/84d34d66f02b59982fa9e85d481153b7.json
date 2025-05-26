@@ -1,0 +1,34 @@
+{
+  "request": {
+    "url": "https://api.testnet.aptoslabs.com/v1/graphql",
+    "method": "POST",
+    "body": {
+      "query": "\n    query AccountDelegations($address: String, $limit: Int, $offset: Int) {\n      current_delegator_balances(\n        where: {\n          delegator_address: { _eq: $address }\n        }\n        limit: $limit,\n        offset: $offset\n      ) {\n        pool_address,\n        pool_type,\n        shares,\n        table_handle,\n      }\n    }\n  ",
+      "variables": {
+        "address": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "current_delegator_balances": [
+          {
+            "pool_address": "0x7a2ddb6af66beb0d9987c6c9010cb9053454f067e16775a8ecf19961195c3d28",
+            "pool_type": "active_shares",
+            "shares": 0,
+            "table_handle": "0xbefe897bc86fc22758783ee5ce64cf31ac55a460c887c0a9cd733727167c3b82"
+          },
+          {
+            "pool_address": "0x7a2ddb6af66beb0d9987c6c9010cb9053454f067e16775a8ecf19961195c3d28",
+            "pool_type": "inactive_shares",
+            "shares": 1048468429.8178875,
+            "table_handle": "0xe54db04bbd7a861d66d1568318e26c0d2822cf0f6523b0ab2ab5dafa9607e429"
+          }
+        ]
+      }
+    },
+    "type": "json"
+  }
+}

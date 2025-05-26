@@ -6,10 +6,13 @@ import {
   PendingTransactionResponse,
 } from "@aptos-labs/ts-sdk";
 import { getCoinData } from "~/app/families/aptos/backend/indexer";
-import { AccountResponse, CoinBalance, GasPriceEstimate } from "~/app/families/aptos/backend/types";
 import {
-  AccountCoinResource,
-  AptosResource,
+  AccountResponse,
+  AptosStakeResponse,
+  AptosStakingAmounts,
+  GasPriceEstimate,
+} from "~/app/families/aptos/backend/types";
+import {
   AptosTransaction,
   AptosTransactionParams,
   TransactionPayload,
@@ -18,6 +21,7 @@ import {
 import { ChainId, ProviderType, TokenAmount, TokenType, TransactionData } from "~/app/model/types_WIP";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 
 export function getClient(chainId: ChainId): Aptos {
   const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
@@ -33,7 +37,8 @@ async function nodeRequest<T>(
 ): Promise<T> {
   const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
 
-  const response = await fetch(`${nodeUrl}${path}`, {
+  const url = [nodeUrl, path].join("");
+  const response = await fetch(url, {
     method,
     headers: {
       "Content-Type":
@@ -43,7 +48,29 @@ async function nodeRequest<T>(
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    const responseData = await response.text();
+    console.warn(`/!\\ Failed to fetch from Aptos node '${url}':`, responseData);
+    throw new ThirdPartyProviderError(`Error while fetching data from the Aptos node`);
+  }
+
+  return (await response.json()) as T;
+}
+
+async function viewFunction<T>(chainId: ChainId, data: unknown): Promise<T> {
+  const [nodeUrl] = getProviderUrls(chainId, ProviderType.node);
+
+  const response = await fetch(`${nodeUrl}/view`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const responseData = await response.text();
+    console.warn(`/!\\ Failed to call Aptos view function node '${nodeUrl}':`, { data, responseData });
+    throw new ThirdPartyProviderError(`Error while calling Aptos view function`);
   }
 
   return (await response.json()) as T;
@@ -53,16 +80,21 @@ export async function fetchAccount(chainId: ChainId, address: string) {
   return nodeRequest<AccountResponse>(chainId, `/accounts/${address}`);
 }
 
-export async function fetchAccountResources(chainId: ChainId, address: string) {
-  return nodeRequest(chainId, `/accounts/${address}/resources`);
-}
-
-export async function fetchAccountModules(chainId: ChainId, address: string) {
-  return nodeRequest(chainId, `/accounts/${address}/modules`);
-}
-
-export async function submitTransaction(chainId: ChainId, tx: TransactionPayload) {
-  return nodeRequest(chainId, "/transactions", "POST", tx);
+export async function fetchStakingAmounts(
+  chainId: ChainId,
+  address: string,
+  stakingPool: string
+): Promise<AptosStakingAmounts> {
+  const [locked, unlocked, pending] = await viewFunction<AptosStakeResponse>(chainId, {
+    function: "0x1::delegation_pool::get_stake",
+    type_arguments: [],
+    arguments: [stakingPool, address],
+  });
+  return {
+    locked,
+    unlocked,
+    pending,
+  };
 }
 
 export async function simulateTransaction(chainId: ChainId, tx: TransactionData) {
@@ -112,35 +144,6 @@ export async function fetchSequenceNumber(chainId: ChainId, accountAddress: stri
 
 export function fetchTransaction(chainId: ChainId, hash: string) {
   return nodeRequest(chainId, `/transactions/by_hash/${hash}`);
-}
-
-export async function fetchNativeBalance(chainId: ChainId, address: string) {
-  const balance = await nodeRequest<CoinBalance>(
-    chainId,
-    `/accounts/${address}/resource/0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>`
-  );
-  return BigInt(balance.data.coin.value);
-}
-
-export async function fetchCoinBalance(chainId: ChainId, address: string, coinId: string) {
-  try {
-    const balance = await nodeRequest<CoinBalance>(
-      chainId,
-      `/accounts/${address}/resource/0x1::coin::CoinStore<${coinId}>`
-    );
-    return BigInt(balance.data.coin.value);
-  } catch {
-    return 0n;
-  }
-}
-
-export async function fetchAccountCoins(chainId: ChainId, address: string): Promise<AccountCoinResource> {
-  try {
-    const resources = await nodeRequest<AptosResource[]>(chainId, `/accounts/${address}/resources`);
-    return resources.filter((res) => res.type.startsWith("0x1::coin::CoinStore<")) as AccountCoinResource;
-  } catch (e: unknown) {
-    return [] as AccountCoinResource;
-  }
 }
 
 export async function fetchValidators(chainId: ChainId): Promise<ValidatorSetResponse> {

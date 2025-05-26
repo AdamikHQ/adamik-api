@@ -1,24 +1,29 @@
 import {
+  AccountState,
   ChainId,
   FinalizedTransaction,
+  StakingPosition,
+  StakingStatus,
   TransactionData,
   TransactionMode,
   TransactionSpendableAmounts,
   TransactionState,
 } from "~/app/model/types_WIP";
-import { fetchCoinBalance, fetchNativeBalance } from "~/app/families/aptos/backend/node";
-import { AptosTransaction } from "~/app/families/aptos/types";
+import { AptosCoinIdentifier, AptosTransaction } from "~/app/families/aptos/types";
+import { fetchAccountCoins, fetchStakingPositions } from "~/app/families/aptos/backend/indexer";
 
 export async function getMaxSpendable(
   chainId: ChainId,
   transaction: TransactionData
 ): Promise<TransactionSpendableAmounts> {
   const estimatedFees = transaction.fees as bigint; // Populated by completeTransaction
-  let nativeAmount = await fetchNativeBalance(chainId, transaction.senderAddress);
-  let tokenAmount =
-    transaction.mode === TransactionMode.TRANSFER_TOKEN
-      ? await fetchCoinBalance(chainId, transaction.senderAddress, transaction.tokenId)
-      : undefined;
+  const nativeBalance = await fetchAccountCoins(chainId, transaction.senderAddress, AptosCoinIdentifier);
+  const nativeAmount = BigInt(nativeBalance[0]?.amount) ?? 0n;
+  let tokenAmount = 0n;
+  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
+    const tokenBalance = await fetchAccountCoins(chainId, transaction.senderAddress, transaction.tokenId);
+    tokenAmount = BigInt(tokenBalance[0]?.amount) ?? 0n;
+  }
   return {
     native: nativeAmount - estimatedFees,
     token: tokenAmount,
@@ -130,4 +135,56 @@ export function aptosToAdamikTransaction(tx: AptosTransaction): FinalizedTransac
     },
     raw: tx,
   };
+}
+
+function stakingStatusByPoolType(poolType: string): StakingStatus {
+  switch (poolType) {
+    case "active_shares":
+      return StakingStatus.LOCKED;
+    case "inactive_shares":
+      return StakingStatus.UNLOCKING;
+    default:
+      return StakingStatus.UNLOCKED;
+  }
+}
+
+async function getStakingPositions(chainId: ChainId, address: string): Promise<StakingPosition[]> {
+  const positions = await fetchStakingPositions(chainId, address);
+  return positions
+    .filter((position) => position.shares > 0)
+    .map((position) => ({
+      validatorAddresses: [position.pool_address],
+      amount: BigInt(Math.floor(position.shares)),
+      status: stakingStatusByPoolType(position.pool_type),
+    }));
+}
+export async function getStakingState(
+  chainId: ChainId,
+  address: string
+): Promise<AccountState["balances"]["staking"]> {
+  const positions = await getStakingPositions(chainId, address);
+  const stakingState: AccountState["balances"]["staking"] = {
+    total: 0n,
+    locked: 0n,
+    unlocking: 0n,
+    unlocked: 0n,
+    positions,
+    rewards: {
+      native: [],
+      tokens: [],
+    },
+  };
+  for (const position of positions) {
+    stakingState.total += position.amount;
+    if (position.status === StakingStatus.LOCKED) {
+      stakingState.locked += position.amount;
+    }
+    if (position.status === StakingStatus.UNLOCKING) {
+      stakingState.unlocking += position.amount;
+    }
+    if (position.status === StakingStatus.UNLOCKED) {
+      stakingState.unlocked += position.amount;
+    }
+  }
+  return stakingState;
 }
