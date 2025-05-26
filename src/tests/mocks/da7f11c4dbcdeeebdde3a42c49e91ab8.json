@@ -1,0 +1,72 @@
+{
+  "request": {
+    "url": "https://api.mainnet.aptoslabs.com/v1/graphql",
+    "method": "POST",
+    "body": {
+      "query": "\n    query FungleAssetBalances(\n      $address: String,\n      $tokenId: String,\n    ) {\n      current_fungible_asset_balances(where: {\n        owner_address: { _eq: $address }\n        \n      }) {\n        amount\n        asset_type\n        is_frozen\n        is_primary\n        last_transaction_timestamp\n        last_transaction_version\n        owner_address\n        storage_id\n        token_standard\n        metadata {\n          token_standard\n          symbol\n          supply_aggregator_table_key_v1\n          supply_aggregator_table_handle_v1\n          project_uri\n          name\n          last_transaction_version\n          last_transaction_timestamp\n          icon_uri\n          decimals\n          creator_address\n          asset_type\n        }\n      }\n    }\n  ",
+      "variables": {
+        "address": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "current_fungible_asset_balances": [
+          {
+            "amount": 27346200,
+            "asset_type": "0x1::aptos_coin::AptosCoin",
+            "is_frozen": false,
+            "is_primary": true,
+            "last_transaction_timestamp": "2025-05-17T06:43:04",
+            "last_transaction_version": 2729484606,
+            "owner_address": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288",
+            "storage_id": "0xe521bacfe0e61c3eca8d62d7e0f8cfd5eaec693c95b6757453f99ac90cf3ac77",
+            "token_standard": "v1",
+            "metadata": {
+              "token_standard": "v1",
+              "symbol": "APT",
+              "supply_aggregator_table_key_v1": "0x619dc29a0aac8fa146714058e8dd6d2d0f3bdf5f6331907bf91f3acd81e6935",
+              "supply_aggregator_table_handle_v1": "0x1b854694ae746cdbd8d44186ca4929b2b337df21d1c74633be19b2710552fdca",
+              "project_uri": null,
+              "name": "Aptos Coin",
+              "last_transaction_version": 0,
+              "last_transaction_timestamp": "1970-01-01T00:00:00",
+              "icon_uri": null,
+              "decimals": 8,
+              "creator_address": "0x0000000000000000000000000000000000000000000000000000000000000001",
+              "asset_type": "0x1::aptos_coin::AptosCoin"
+            }
+          },
+          {
+            "amount": 2768064,
+            "asset_type": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC",
+            "is_frozen": false,
+            "is_primary": true,
+            "last_transaction_timestamp": "2025-04-25T08:48:16",
+            "last_transaction_version": 2644888377,
+            "owner_address": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288",
+            "storage_id": "0x694e3e95fe5e92bf2c82a061431582c1658f41fda84e4abe73d73ca6e8791a18",
+            "token_standard": "v1",
+            "metadata": {
+              "token_standard": "v1",
+              "symbol": "USDC",
+              "supply_aggregator_table_key_v1": null,
+              "supply_aggregator_table_handle_v1": null,
+              "project_uri": null,
+              "name": "USD Coin",
+              "last_transaction_version": 2729560625,
+              "last_transaction_timestamp": "2025-05-17T07:13:05",
+              "icon_uri": null,
+              "decimals": 6,
+              "creator_address": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa",
+              "asset_type": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC"
+            }
+          }
+        ]
+      }
+    },
+    "type": "json"
+  }
+}

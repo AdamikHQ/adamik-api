@@ -1,7 +1,7 @@
 meta {
-  name: aptos [transfer]
+  name: aptos [stake]
   type: http
-  seq: 6
+  seq: 8
 }
 
 post {
@@ -11,17 +11,17 @@ post {
 }
 
 params:path {
-  chainId: aptos
+  chainId: aptos-testnet
 }
 
 body:json {
   {
     "transaction": {
       "data": {
-        "mode": "transfer",
-        "senderAddress": "0xca459d0248f1b55e211e3d795cf35927963e8951b487f2f1ea79f5cbef84b533",
-        "recipientAddress": "0x061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807",
-        "amount": "123456",
+        "mode": "stake",
+        "senderAddress": "0x061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807",
+        "targetValidatorAddress": "0xa562415be88d9f08ba98fa3f6af9be0e36580c0f8fff5100a50b519e8f4a15c9",
+        "amount": "1050000000",
         "useMaxAmount": false
       }
     }

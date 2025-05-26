@@ -1,0 +1,47 @@
+{
+  "request": {
+    "url": "https://api.mainnet.aptoslabs.com/v1/graphql",
+    "method": "POST",
+    "body": {
+      "query": "\n    query FungibleAssetBalances(\n      $address: String,\n      $tokenId: String,\n    ) {\n      current_fungible_asset_balances(where: {\n        owner_address: { _eq: $address }\n        \n      }) {\n        amount\n        asset_type\n        is_frozen\n        is_primary\n        last_transaction_timestamp\n        last_transaction_version\n        owner_address\n        storage_id\n        token_standard\n        metadata {\n          token_standard\n          symbol\n          supply_aggregator_table_key_v1\n          supply_aggregator_table_handle_v1\n          project_uri\n          name\n          last_transaction_version\n          last_transaction_timestamp\n          icon_uri\n          decimals\n          creator_address\n          asset_type\n        }\n      }\n    }\n  ",
+      "variables": {
+        "address": "0x061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "current_fungible_asset_balances": [
+          {
+            "amount": 50000,
+            "asset_type": "0x1::aptos_coin::AptosCoin",
+            "is_frozen": false,
+            "is_primary": true,
+            "last_transaction_timestamp": "2025-04-23T15:49:33",
+            "last_transaction_version": 2638321556,
+            "owner_address": "0x061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807",
+            "storage_id": "0x49fd8c2850b1f4a39f089ade3e1a5475a3b85d3611154cff9c8c83507b69e1f7",
+            "token_standard": "v1",
+            "metadata": {
+              "token_standard": "v1",
+              "symbol": "APT",
+              "supply_aggregator_table_key_v1": "0x619dc29a0aac8fa146714058e8dd6d2d0f3bdf5f6331907bf91f3acd81e6935",
+              "supply_aggregator_table_handle_v1": "0x1b854694ae746cdbd8d44186ca4929b2b337df21d1c74633be19b2710552fdca",
+              "project_uri": null,
+              "name": "Aptos Coin",
+              "last_transaction_version": 0,
+              "last_transaction_timestamp": "1970-01-01T00:00:00",
+              "icon_uri": null,
+              "decimals": 8,
+              "creator_address": "0x0000000000000000000000000000000000000000000000000000000000000001",
+              "asset_type": "0x1::aptos_coin::AptosCoin"
+            }
+          }
+        ]
+      }
+    },
+    "type": "json"
+  }
+}

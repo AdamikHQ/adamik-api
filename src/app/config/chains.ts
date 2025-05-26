@@ -2253,6 +2253,27 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: APTOS_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.APTOS, ChainFamily.APTOS),
   },
+  "aptos-testnet": {
+    family: ChainFamily.APTOS,
+    id: ChainId.APTOS_TESTNET,
+    nativeId: "aptos-testnet",
+    name: "Aptos Testnet",
+    ticker: "APT",
+    decimals: 8,
+    providers: [
+      {
+        type: ProviderType.node,
+        urls: ["https://api.testnet.aptoslabs.com/v1"],
+      },
+      {
+        type: ProviderType.aptosindexer,
+        urls: ["https://api.testnet.aptoslabs.com/v1/graphql"],
+      },
+    ],
+    supportedFeatures: APTOS_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.APTOS_TESTNET, ChainFamily.APTOS),
+    isTestnetFor: ChainId.APTOS,
+  },
 } as const;
 
 function getSupportedTransactionModes(chainId: ChainId): TransactionMode[] {

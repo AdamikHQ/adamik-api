@@ -108,6 +108,59 @@
                             "signerSpec"
                           ]
                         },
+                        "aptos-testnet": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "aptos",
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet",
+                                "solana"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
+                        },
                         "algorand": {
                           "type": "object",
                           "properties": {
@@ -4970,7 +5023,8 @@
                 "cronos",
                 "world-chain",
                 "solana",
-                "aptos"
+                "aptos",
+                "aptos-testnet"
               ]
             },
             "required": true
@@ -5107,7 +5161,8 @@
                 "starknet",
                 "babylon",
                 "babylon-testnet",
-                "aptos"
+                "aptos",
+                "aptos-testnet"
               ]
             },
             "required": true
@@ -5178,7 +5233,8 @@
                         "starknet",
                         "babylon",
                         "babylon-testnet",
-                        "aptos"
+                        "aptos",
+                        "aptos-testnet"
                       ]
                     },
                     "validators": {
@@ -5301,7 +5357,8 @@
                 "cronos",
                 "world-chain",
                 "solana",
-                "aptos"
+                "aptos",
+                "aptos-testnet"
               ]
             },
             "required": true
@@ -5808,7 +5865,8 @@
                 "cronos",
                 "world-chain",
                 "solana",
-                "aptos"
+                "aptos",
+                "aptos-testnet"
               ]
             },
             "required": true
@@ -5942,7 +6000,8 @@
                         "cronos",
                         "world-chain",
                         "solana",
-                        "aptos"
+                        "aptos",
+                        "aptos-testnet"
                       ]
                     },
                     "accountId": {
@@ -6291,7 +6350,8 @@
                 "cronos",
                 "world-chain",
                 "solana",
-                "aptos"
+                "aptos",
+                "aptos-testnet"
               ]
             },
             "required": true
@@ -6400,7 +6460,8 @@
                         "cronos",
                         "world-chain",
                         "solana",
-                        "aptos"
+                        "aptos",
+                        "aptos-testnet"
                       ]
                     },
                     "accountId": {
@@ -6556,7 +6617,8 @@
                 "cronos",
                 "world-chain",
                 "solana",
-                "aptos"
+                "aptos",
+                "aptos-testnet"
               ]
             },
             "required": true
@@ -6644,7 +6706,8 @@
                         "cronos",
                         "world-chain",
                         "solana",
-                        "aptos"
+                        "aptos",
+                        "aptos-testnet"
                       ]
                     },
                     "accountId": {
@@ -6964,7 +7027,8 @@
                 "cronos",
                 "world-chain",
                 "solana",
-                "aptos"
+                "aptos",
+                "aptos-testnet"
               ]
             },
             "required": true
@@ -7245,7 +7309,6 @@
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId",
                                   "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
@@ -7429,7 +7492,8 @@
                         "cronos",
                         "world-chain",
                         "solana",
-                        "aptos"
+                        "aptos",
+                        "aptos-testnet"
                       ]
                     },
                     "transaction": {
@@ -7723,7 +7787,6 @@
                                     "mode",
                                     "senderPubKey",
                                     "validatorAddress",
-                                    "stakeId",
                                     "recipientAddress"
                                   ],
                                   "title": "Withdraw Unlocked Funds",
@@ -8018,7 +8081,8 @@
                 "cronos",
                 "world-chain",
                 "solana",
-                "aptos"
+                "aptos",
+                "aptos-testnet"
               ]
             },
             "required": true
@@ -8299,7 +8363,6 @@
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId",
                                   "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
@@ -8483,7 +8546,8 @@
                         "cronos",
                         "world-chain",
                         "solana",
-                        "aptos"
+                        "aptos",
+                        "aptos-testnet"
                       ]
                     },
                     "status": {
@@ -8635,7 +8699,8 @@
                 "cronos",
                 "world-chain",
                 "solana",
-                "aptos"
+                "aptos",
+                "aptos-testnet"
               ]
             },
             "required": true
@@ -8934,7 +8999,6 @@
                                   "mode",
                                   "senderPubKey",
                                   "validatorAddress",
-                                  "stakeId",
                                   "recipientAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
@@ -9183,7 +9247,8 @@
                         "cronos",
                         "world-chain",
                         "solana",
-                        "aptos"
+                        "aptos",
+                        "aptos-testnet"
                       ]
                     },
                     "hash": {
@@ -9300,7 +9365,8 @@
                 "cronos",
                 "world-chain",
                 "solana",
-                "aptos"
+                "aptos",
+                "aptos-testnet"
               ]
             },
             "required": true
@@ -9420,7 +9486,8 @@
                         "cronos",
                         "world-chain",
                         "solana",
-                        "aptos"
+                        "aptos",
+                        "aptos-testnet"
                       ]
                     },
                     "hash": {
@@ -9451,6 +9518,7 @@
         "type": "string",
         "enum": [
           "aptos",
+          "aptos-testnet",
           "algorand",
           "ethereum",
           "sepolia",

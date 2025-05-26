@@ -4,6 +4,7 @@ import { prevalidateTransactionCommon } from "~/app/families/common";
 import { validateAddress } from "~/app/families/aptos/service/validateAddress";
 import { getMaxSpendable } from "~/app/families/aptos/logic";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
+import { fetchStakingAmounts } from "~/app/families/aptos/backend/node";
 
 export async function prevalidateTransaction(
   this: AptosService,
@@ -30,7 +31,6 @@ export async function validateTransaction(
 ): Promise<void> {
   const { transaction, status } = _;
 
-  // TODO: Check that sender address is created
   const maxSpendable = await getMaxSpendable(this.chainId, transaction.data);
 
   const amount = transaction.data.amount as bigint;
@@ -53,6 +53,50 @@ export async function validateTransaction(
       }
       if (maxSpendable.token === undefined || amount > maxSpendable.token) {
         status.errors.push({ message: "Token balance is too low" });
+      }
+      break;
+    }
+    case TransactionMode.STAKE: {
+      if (amount + fees > maxSpendable.native) {
+        status.errors.push({
+          message: "Balance is too low",
+        });
+      }
+      break;
+    }
+    case TransactionMode.UNSTAKE: {
+      if (fees > maxSpendable.native) {
+        status.errors.push({
+          message: "Balance is too low",
+        });
+      }
+      const { locked } = await fetchStakingAmounts(
+        this.chainId,
+        transaction.data.senderAddress,
+        transaction.data.validatorAddress
+      );
+      if (amount > BigInt(locked)) {
+        status.errors.push({
+          message: "Unstake amount exceeds locked value",
+        });
+      }
+      break;
+    }
+    case TransactionMode.WITHDRAW: {
+      if (fees > maxSpendable.native) {
+        status.errors.push({
+          message: "Balance is too low",
+        });
+      }
+      const { unlocked } = await fetchStakingAmounts(
+        this.chainId,
+        transaction.data.senderAddress,
+        transaction.data.validatorAddress
+      );
+      if (amount > BigInt(unlocked)) {
+        status.errors.push({
+          message: "Withdraw amount exceeds unlocked value",
+        });
       }
       break;
     }

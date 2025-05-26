@@ -425,7 +425,7 @@ const inputWithdrawSchema = z
     mode: z.literal(TransactionMode.WITHDRAW),
     senderPubKey: senderPubKeySchema,
     validatorAddress: validatorAddressSchema,
-    stakeId: stakeIdSchema,
+    stakeId: stakeIdSchema.optional(),
     recipientAddress: recipientAddressSchema,
   })
   .openapi({
@@ -439,7 +439,7 @@ const outputWithdrawSchema = z
     mode: z.literal(TransactionMode.WITHDRAW),
     senderPubKey: senderPubKeySchema,
     validatorAddress: validatorAddressSchema,
-    stakeId: stakeIdSchema,
+    stakeId: stakeIdSchema.optional(),
     recipientAddress: recipientAddressSchema,
   })
   .openapi({

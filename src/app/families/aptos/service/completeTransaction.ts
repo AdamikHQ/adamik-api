@@ -1,10 +1,13 @@
 import {
   ChainId,
+  StakeTransactionData,
   Status,
   Transaction,
   TransactionData,
   TransactionMode,
   TransferTokenTransactionData,
+  UnstakeTransactionData,
+  WithdrawTransactionData,
 } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { AptosService } from "../service";
@@ -17,28 +20,28 @@ async function completeTransaction(
     status: Status;
   }
 ): Promise<void> {
-  const { transaction, status } = _;
-  try {
-    const nonce = await fetchSequenceNumber(this.chainId, transaction.data.senderAddress);
-    transaction.data.nonce = BigInt(nonce);
+  const { transaction } = _;
+  const nonce = await fetchSequenceNumber(this.chainId, transaction.data.senderAddress);
+  transaction.data.nonce = BigInt(nonce);
 
-    switch (transaction.data.mode) {
-      case TransactionMode.TRANSFER:
-        await completeNativeTransaction(this.chainId, transaction.data);
-        break;
-      case TransactionMode.TRANSFER_TOKEN:
-        await completeTokenTransaction(this.chainId, transaction.data);
-        break;
-      default:
-        // should never happen, zod already validated the mode per chain
-        throw new UnsupportedFeatureError(
-          `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chainId}`
-        );
-    }
-  } catch (e: any) {
-    console.log(e);
-    const message = "Failed to complete the transaction";
-    status.errors.push({ message });
+  switch (transaction.data.mode) {
+    case TransactionMode.TRANSFER:
+      await completeNativeTransaction(this.chainId, transaction.data);
+      break;
+    case TransactionMode.TRANSFER_TOKEN:
+      await completeTokenTransaction(this.chainId, transaction.data);
+      break;
+    case TransactionMode.STAKE:
+      await completeStakingTransaction(this.chainId, transaction.data);
+      break;
+    case TransactionMode.UNSTAKE:
+    case TransactionMode.WITHDRAW:
+      await completeUnstakeTransaction(this.chainId, transaction.data);
+      break;
+    default:
+      throw new UnsupportedFeatureError(
+        `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chainId}`
+      );
   }
 }
 
@@ -56,6 +59,32 @@ async function completeTokenTransaction(
   const simulationResult = await simulateTransaction(chainId, transaction);
   transaction.gas = BigInt(simulationResult.max_gas_amount);
   transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
+}
+
+async function completeStakingTransaction(
+  chainId: ChainId,
+  transaction: StakeTransactionData
+): Promise<void> {
+  const simulationResult = await simulateTransaction(chainId, {
+    ...transaction,
+    recipientAddress: transaction.targetValidatorAddress,
+  });
+  transaction.gas = BigInt(simulationResult.max_gas_amount);
+  transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
+  transaction.amount = transaction.amount ?? 0n;
+}
+
+async function completeUnstakeTransaction(
+  chainId: ChainId,
+  transaction: UnstakeTransactionData | WithdrawTransactionData
+): Promise<void> {
+  const simulationResult = await simulateTransaction(chainId, {
+    ...transaction,
+    recipientAddress: transaction.validatorAddress,
+  });
+  transaction.gas = BigInt(simulationResult.max_gas_amount);
+  transaction.fees = BigInt(simulationResult.gas_used) * BigInt(simulationResult.gas_unit_price);
+  transaction.amount = transaction.amount ?? 0n;
 }
 
 export { completeTransaction };
