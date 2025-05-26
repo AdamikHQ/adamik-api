@@ -2281,6 +2281,59 @@
                             "signerSpec"
                           ]
                         },
+                        "starknet-sepolia": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "aptos",
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet",
+                                "solana"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
+                        },
                         "monad-testnet": {
                           "type": "object",
                           "properties": {
@@ -5015,6 +5068,7 @@
                 "saga",
                 "kava",
                 "starknet",
+                "starknet-sepolia",
                 "babylon",
                 "babylon-testnet",
                 "monad-testnet",
@@ -5159,6 +5213,7 @@
                 "saga",
                 "kava",
                 "starknet",
+                "starknet-sepolia",
                 "babylon",
                 "babylon-testnet",
                 "aptos",
@@ -5231,6 +5286,7 @@
                         "saga",
                         "kava",
                         "starknet",
+                        "starknet-sepolia",
                         "babylon",
                         "babylon-testnet",
                         "aptos",
@@ -5351,6 +5407,7 @@
                 "stride",
                 "kava",
                 "starknet",
+                "starknet-sepolia",
                 "babylon",
                 "babylon-testnet",
                 "monad-testnet",
@@ -5857,6 +5914,7 @@
                 "saga",
                 "kava",
                 "starknet",
+                "starknet-sepolia",
                 "babylon",
                 "babylon-testnet",
                 "monad-testnet",
@@ -5992,6 +6050,7 @@
                         "saga",
                         "kava",
                         "starknet",
+                        "starknet-sepolia",
                         "babylon",
                         "babylon-testnet",
                         "monad-testnet",
@@ -6344,6 +6403,7 @@
                 "saga",
                 "kava",
                 "starknet",
+                "starknet-sepolia",
                 "babylon",
                 "babylon-testnet",
                 "monad-testnet",
@@ -6454,6 +6514,7 @@
                         "saga",
                         "kava",
                         "starknet",
+                        "starknet-sepolia",
                         "babylon",
                         "babylon-testnet",
                         "monad-testnet",
@@ -6611,6 +6672,7 @@
                 "stride",
                 "kava",
                 "starknet",
+                "starknet-sepolia",
                 "babylon",
                 "babylon-testnet",
                 "monad-testnet",
@@ -6700,6 +6762,7 @@
                         "stride",
                         "kava",
                         "starknet",
+                        "starknet-sepolia",
                         "babylon",
                         "babylon-testnet",
                         "monad-testnet",
@@ -7019,6 +7082,7 @@
                 "saga",
                 "kava",
                 "starknet",
+                "starknet-sepolia",
                 "babylon",
                 "babylon-testnet",
                 "monad-testnet",
@@ -7484,6 +7548,7 @@
                         "saga",
                         "kava",
                         "starknet",
+                        "starknet-sepolia",
                         "babylon",
                         "babylon-testnet",
                         "monad-testnet",
@@ -8073,6 +8138,7 @@
                 "saga",
                 "kava",
                 "starknet",
+                "starknet-sepolia",
                 "babylon",
                 "babylon-testnet",
                 "monad-testnet",
@@ -8538,6 +8604,7 @@
                         "saga",
                         "kava",
                         "starknet",
+                        "starknet-sepolia",
                         "babylon",
                         "babylon-testnet",
                         "monad-testnet",
@@ -8691,6 +8758,7 @@
                 "saga",
                 "kava",
                 "starknet",
+                "starknet-sepolia",
                 "babylon",
                 "babylon-testnet",
                 "monad-testnet",
@@ -9239,6 +9307,7 @@
                         "saga",
                         "kava",
                         "starknet",
+                        "starknet-sepolia",
                         "babylon",
                         "babylon-testnet",
                         "monad-testnet",
@@ -9357,6 +9426,7 @@
                 "saga",
                 "kava",
                 "starknet",
+                "starknet-sepolia",
                 "babylon",
                 "babylon-testnet",
                 "monad-testnet",
@@ -9478,6 +9548,7 @@
                         "saga",
                         "kava",
                         "starknet",
+                        "starknet-sepolia",
                         "babylon",
                         "babylon-testnet",
                         "monad-testnet",
@@ -9559,6 +9630,7 @@
           "litecoin",
           "dogecoin",
           "starknet",
+          "starknet-sepolia",
           "monad-testnet",
           "bitsong",
           "chihuahua",

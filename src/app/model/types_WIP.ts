@@ -49,6 +49,7 @@ enum ChainId {
   LITECOIN = "litecoin",
   DOGECOIN = "dogecoin",
   STARKNET = "starknet",
+  STARKNET_SEPOLIA = "starknet-sepolia",
   MONAD_TESTNET = "monad-testnet",
   BITSONG = "bitsong",
   CHIHUAHUA = "chihuahua",

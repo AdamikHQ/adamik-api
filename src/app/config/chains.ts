@@ -2041,6 +2041,26 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: STARKNET_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.STARKNET, ChainFamily.STARKNET),
   },
+  "starknet-sepolia": {
+    family: ChainFamily.STARKNET,
+    id: ChainId.STARKNET_SEPOLIA,
+    nativeId: "starknet-sepolia",
+    name: "Starknet Sepolia",
+    ticker: "STRK",
+    decimals: 18,
+    providers: [
+      {
+        type: ProviderType.node,
+        urls: ["https://starknet-sepolia.public.blastapi.io/rpc/v0_7"],
+      },
+      {
+        type: ProviderType.starkscan,
+        urls: ["https://api-sepolia.starkscan.co"],
+      },
+    ],
+    supportedFeatures: STARKNET_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.STARKNET_SEPOLIA, ChainFamily.STARKNET),
+  },
   babylon: {
     family: ChainFamily.COSMOS,
     id: ChainId.BABYLON,

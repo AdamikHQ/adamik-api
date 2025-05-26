@@ -400,6 +400,11 @@
 | node | https://starknet-mainnet.public.blastapi.io/rpc/v0_7 |<br />
 | starkscan | https://api.starkscan.co |
 
+## starknet-sepolia
+
+| node | https://starknet-sepolia.public.blastapi.io/rpc/v0_7 |<br />
+| starkscan | https://api-sepolia.starkscan.co |
+
 ## babylon
 
 | node | https://babylon-api.polkachu.com |<br />
