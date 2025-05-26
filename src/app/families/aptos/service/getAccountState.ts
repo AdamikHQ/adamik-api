@@ -1,4 +1,4 @@
-import { AccountState, StakingPosition, StakingStatus } from "~/app/model/types_WIP";
+import { AccountState } from "~/app/model/types_WIP";
 import { populateCoinData } from "~/app/families/aptos/backend/node";
 import { AptosCoinIdentifier } from "~/app/families/aptos/types";
 import { AptosService } from "~/app/families/aptos/service";

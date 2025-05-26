@@ -15,6 +15,7 @@ import { AptosTransactionParams } from "~/app/families/aptos/types";
 import { EncodedTransactionFormat, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { AptosService } from "../service";
+import { DEFAULT_TXN_EXP_SEC_FROM_NOW } from "~/app/families/aptos/constants";
 
 async function encodeTransactionToSign(
   this: AptosService,
@@ -69,6 +70,9 @@ async function encodeTransactionToSign(
   const tx = await client.transaction.build.simple({
     sender: transaction.data.senderAddress,
     data,
+    options: {
+      expireTimestamp: Math.floor(Date.now() / 1000) + DEFAULT_TXN_EXP_SEC_FROM_NOW,
+    },
   });
   const signingMessage = generateSigningMessageForTransaction(tx);
   transaction.encoded = [
