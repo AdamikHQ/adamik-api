@@ -12,16 +12,7 @@ import {
 } from "@aptos-labs/ts-sdk";
 import { getClient } from "~/app/families/aptos/backend/node";
 import { AptosTransactionParams } from "~/app/families/aptos/types";
-import {
-  EncodedTransactionFormat,
-  StakeTransactionData,
-  Status,
-  Transaction,
-  TransactionMode,
-  TransferTokenTransactionData,
-  UnstakeTransactionData,
-  WithdrawTransactionData,
-} from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { AptosService } from "../service";
 
@@ -34,8 +25,8 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = _;
   const client = getClient(this.chainId);
-  const data: InputEntryFunctionData = ((mode: TransactionMode) => {
-    switch (mode) {
+  const data: InputEntryFunctionData = (() => {
+    switch (transaction.data.mode) {
       case TransactionMode.TRANSFER:
         return {
           function: "0x1::aptos_account::transfer" as MoveFunctionId,
@@ -50,32 +41,23 @@ async function encodeTransactionToSign(
             transaction.data.amount!.toString(),
           ],
           type: "entry_function_payload",
-          typeArguments: [(transaction.data as TransferTokenTransactionData).tokenId],
+          typeArguments: [transaction.data.tokenId],
         };
       case TransactionMode.STAKE:
         return {
           function: "0x1::delegation_pool::add_stake" as MoveFunctionId,
-          functionArguments: [
-            (transaction.data as StakeTransactionData).targetValidatorAddress,
-            new U64(transaction.data.amount!),
-          ],
+          functionArguments: [transaction.data.targetValidatorAddress, new U64(transaction.data.amount!)],
         };
       case TransactionMode.UNSTAKE: {
         return {
           function: "0x1::delegation_pool::unlock" as MoveFunctionId,
-          functionArguments: [
-            (transaction.data as UnstakeTransactionData).validatorAddress,
-            new U64(transaction.data.amount!),
-          ],
+          functionArguments: [transaction.data.validatorAddress, new U64(transaction.data.amount!)],
         };
       }
       case TransactionMode.WITHDRAW: {
         return {
           function: "0x1::delegation_pool::withdraw" as MoveFunctionId,
-          functionArguments: [
-            (transaction.data as WithdrawTransactionData).validatorAddress,
-            new U64(transaction.data.amount!),
-          ],
+          functionArguments: [transaction.data.validatorAddress, new U64(transaction.data.amount!)],
         };
       }
       default:
@@ -83,7 +65,7 @@ async function encodeTransactionToSign(
           `Unsupported transaction mode ${transaction.data.mode} for chain ${this.chain.name}`
         );
     }
-  })(transaction.data.mode);
+  })();
   const tx = await client.transaction.build.simple({
     sender: transaction.data.senderAddress,
     data,

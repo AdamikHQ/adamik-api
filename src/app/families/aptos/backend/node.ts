@@ -48,8 +48,9 @@ async function nodeRequest<T>(
   });
 
   if (!response.ok) {
-    console.warn(`/!\\ Failed to fetch from Aptos node '${url}':`);
-    throw new ThirdPartyProviderError(`Error while fetching ${url} status: ${response.status}`);
+    const responseData = await response.text();
+    console.warn(`/!\\ Failed to fetch from Aptos node '${url}':`, responseData);
+    throw new ThirdPartyProviderError(`Error while fetching data from the Aptos node`);
   }
 
   return (await response.json()) as T;
@@ -67,7 +68,9 @@ async function viewFunction<T>(chainId: ChainId, data: unknown): Promise<T> {
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    const responseData = await response.text();
+    console.warn(`/!\\ Failed to call Aptos view function node '${nodeUrl}':`, { data, responseData });
+    throw new ThirdPartyProviderError(`Error while calling Aptos view function`);
   }
 
   return (await response.json()) as T;

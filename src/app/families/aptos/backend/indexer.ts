@@ -27,8 +27,9 @@ async function indexerRequest<T>(
   });
 
   if (!response.ok) {
-    console.warn(`/!\\ Failed to fetch from Aptos node '${indexerUrl}':`);
-    throw new ThirdPartyProviderError(`Error while fetching ${indexerUrl} status: ${response.status}`);
+    const responseData = await response.text();
+    console.warn(`/!\\ Failed to fetch from Aptos indexer '${indexerUrl}':`, responseData);
+    throw new ThirdPartyProviderError(`Error while fetching data from the Aptos indexer`);
   }
 
   const result = (await response.json()) as IndexerResponse<T>;
