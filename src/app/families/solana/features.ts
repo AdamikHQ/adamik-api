@@ -3,7 +3,7 @@ import { ChainSupportedFeatures } from "~/app/model/types_WIP";
 const SOLANA_FEATURES: ChainSupportedFeatures = {
   read: {
     token: true,
-    validators: false,
+    validators: true,
     account: {
       balances: { native: true, tokens: true, staking: false },
       transactions: { native: true, tokens: true, staking: false },

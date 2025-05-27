@@ -1,4 +1,4 @@
-import { BaseChainService, TokenService } from "~/app/model/service";
+import { BaseChainService, StakingService, TokenService } from "~/app/model/service";
 import { broadcastTransaction as broadcastTransactionFn } from "./service/broadcastTransaction";
 import { completeTransaction as completeTransactionFn } from "./service/completeTransaction";
 import {
@@ -10,6 +10,7 @@ import { getAccountState as getAccountStateFn } from "./service/getAccountState"
 import { getAccountTokens as getAccountTokensFn } from "./service/getAccountTokens";
 import { getTokenInfo as getTokenInfoFn } from "./service/getTokenInfo";
 import { getTransaction as getTransactionFn } from "./service/getTransaction";
+import { getValidators as getValidatorsFn } from "./service/getValidators";
 import { pubkeyToAddresses as pubkeyToAddressesFn } from "./service/pubkeyToAddresses";
 import { validateAddress as validateAddressFn } from "./service/validateAddress";
 import {
@@ -17,7 +18,8 @@ import {
   validateTransaction as validateTransactionFn,
 } from "./service/validateTransaction";
 
-class SolanaService extends BaseChainService implements TokenService {
+class SolanaService extends BaseChainService implements TokenService, StakingService {
+  getValidators = getValidatorsFn;
   override pubkeyToAddresses = pubkeyToAddressesFn;
   override validateAddress = validateAddressFn;
   override getAccountState = getAccountStateFn;

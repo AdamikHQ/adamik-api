@@ -2229,6 +2229,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.helius,
         urls: ["https://api-mainnet.helius-rpc.com"],
       },
+      {
+        type: ProviderType.validatorApp,
+        urls: ["https://www.validators.app"],
+      },
     ],
     supportedFeatures: SOLANA_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.SOLANA, ChainFamily.SOLANA),
