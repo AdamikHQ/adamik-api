@@ -44,10 +44,10 @@ async function encodeTransaction(this: SolanaService, _: { transaction: Transact
         throw new UserInputError("Stake account signature not found");
       }
 
-      transaction.data.params = JSON.stringify({
-        signature: stakeAccountSignature.signature?.toString("hex"),
+      transaction.data.params = {
+        signature: stakeAccountSignature.signature?.toString("hex") ?? "",
         publicKey: stakeAccountSignature.publicKey.toString(),
-      });
+      };
 
       break;
     case TransactionMode.UNSTAKE:
@@ -113,7 +113,7 @@ async function encodeTransactionToBroadcast(
   const params: SolanaTransactionParams | undefined = signedTransaction.data.params;
 
   if (signedTransaction.data.mode === TransactionMode.STAKE && params) {
-    const solanaParams: { publicKey: string; signature: string } = JSON.parse(params);
+    const solanaParams: { publicKey: string; signature: string } = params;
 
     recoverTransaction.addSignature(
       new PublicKey(solanaParams.publicKey),

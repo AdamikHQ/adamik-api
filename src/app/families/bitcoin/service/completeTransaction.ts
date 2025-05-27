@@ -92,6 +92,11 @@ async function completeTransaction(
 
     case TransactionMode.WITHDRAW:
       {
+        if (!transaction.data.stakeId?.length) {
+          throw new UserInputError(
+            `Stake ID must be provided for ${this.chainId} transaction mode '${transaction.data.mode}'`
+          );
+        }
         const babylonDelegation = await fetchBabylonDelegation(this.chainId, transaction.data.stakeId);
         if (!babylonDelegation) {
           console.warn(`/!\\ Staking position not found for stake ID ${transaction.data.stakeId}`);

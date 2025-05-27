@@ -1,0 +1,1 @@
+export const DEFAULT_TXN_EXP_SEC_FROM_NOW = 60;

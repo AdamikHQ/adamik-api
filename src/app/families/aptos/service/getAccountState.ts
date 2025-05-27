@@ -1,22 +1,29 @@
 import { AccountState } from "~/app/model/types_WIP";
-import { fetchAccountCoins, populateCoinData } from "~/app/families/aptos/backend/node";
+import { populateCoinData } from "~/app/families/aptos/backend/node";
 import { AptosCoinIdentifier } from "~/app/families/aptos/types";
 import { AptosService } from "~/app/families/aptos/service";
+import { getStakingState } from "~/app/families/aptos/logic";
+import { fetchAccountCoins } from "~/app/families/aptos/backend/indexer";
 
 export async function getAccountState(this: AptosService, address: string): Promise<AccountState> {
   const accountCoins = await fetchAccountCoins(this.chainId, address);
-  const native = accountCoins.find((coin) => coin.type === AptosCoinIdentifier);
+  const nativeCoin = accountCoins.find((coin) => coin.asset_type === AptosCoinIdentifier);
 
-  const nativeBalance = BigInt(native?.data.coin.value ?? 0);
+  const staking = await getStakingState(this.chainId, address).catch((e) => {
+    console.error(e);
+    return undefined;
+  });
+
+  const nativeBalance = BigInt(nativeCoin?.amount ?? 0);
   const tokenAmounts = accountCoins
-    .filter((coin) => coin.type !== AptosCoinIdentifier)
+    .filter((coin) => coin.asset_type !== AptosCoinIdentifier)
     .map((coin) => {
-      const coinId = coin.type.match(/^0x1::coin::CoinStore<(.+)>$/);
+      const coinId = coin.asset_type.match(/^0x1::coin::CoinStore<(.+)>$/);
       if (!coinId) return null;
       const id = coinId[1];
       return {
         id,
-        amount: BigInt(coin.data.coin.value),
+        amount: BigInt(coin.amount),
       };
     })
     .filter(Boolean);
@@ -29,6 +36,7 @@ export async function getAccountState(this: AptosService, address: string): Prom
         total: nativeBalance,
       },
       tokens,
+      staking,
     },
   };
 }

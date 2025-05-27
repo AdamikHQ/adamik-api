@@ -10,7 +10,7 @@ export async function getAccountHistory(
   const transactions = await getAccountTransactions(this.chainId, address);
 
   return {
-    transactions: transactions.map((tx) => aptosToAdamikTransaction(tx)),
+    transactions: transactions.reverse().map((tx) => aptosToAdamikTransaction(tx)),
     pagination: {
       nextPage: null,
     },

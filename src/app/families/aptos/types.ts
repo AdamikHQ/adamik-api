@@ -91,37 +91,7 @@ export type AptosResource = {
   data: unknown;
 };
 
-export type CoinStoreResource = {
-  type: `0x1::coin::CoinStore<${string}>`;
-  data: {
-    coin: {
-      value: string;
-    };
-    frozen: boolean;
-    deposit_events: {
-      counter: string;
-      guid: {
-        id: {
-          addr: string;
-          creation_num: string;
-        };
-      };
-    };
-    withdraw_events: {
-      counter: string;
-      guid: {
-        id: {
-          addr: string;
-          creation_num: string;
-        };
-      };
-    };
-  };
-};
-
-export type AccountCoinResource = CoinStoreResource[];
-
-export const AptosCoinIdentifier = "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>";
+export const AptosCoinIdentifier = "0x1::aptos_coin::AptosCoin";
 
 export type ValidatorSetResponse = {
   type: "0x1::stake::ValidatorSet";
