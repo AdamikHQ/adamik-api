@@ -18,7 +18,9 @@
   "paths": {
     "/api": {
       "get": {
-        "tags": [""],
+        "tags": [
+          ""
+        ],
         "summary": "Open API Specification",
         "description": "Provides the Open API specification of the Adamik API",
         "responses": {
@@ -37,7 +39,9 @@
     },
     "/api/chains": {
       "get": {
-        "tags": ["Chain"],
+        "tags": [
+          "Chain"
+        ],
         "summary": "Get Supported Chains",
         "description": "Retrieves a list of all supported blockchain networks with their detailed information.",
         "responses": {
@@ -4878,7 +4882,9 @@
                       "additionalProperties": false
                     }
                   },
-                  "required": ["chains"]
+                  "required": [
+                    "chains"
+                  ]
                 }
               }
             }
@@ -4888,7 +4894,9 @@
     },
     "/api/chains/{chainId}": {
       "get": {
-        "tags": ["Chain"],
+        "tags": [
+          "Chain"
+        ],
         "summary": "Get Chain Details",
         "description": "Retrieves detailed information about a specific blockchain network identified by chain ID.",
         "parameters": [
@@ -4964,7 +4972,9 @@
                       ]
                     }
                   },
-                  "required": ["chain"]
+                  "required": [
+                    "chain"
+                  ]
                 }
               }
             }
@@ -4974,7 +4984,9 @@
     },
     "/api/{chainId}/token/{tokenId}": {
       "get": {
-        "tags": ["Chain"],
+        "tags": [
+          "Chain"
+        ],
         "summary": "Get Token Details",
         "description": "Retrieves detailed information about a specific token for a blockchain network, identified by chain ID and token ID.",
         "parameters": [
@@ -5078,7 +5090,9 @@
             "schema": {
               "type": "string",
               "description": "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
-              "examples": ["0xdAC17F958D2ee523a2206206994597C13D831ec7"]
+              "examples": [
+                "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+              ]
             },
             "required": true
           }
@@ -5096,7 +5110,16 @@
                       "properties": {
                         "type": {
                           "type": "string",
-                          "enum": ["TRC10", "TRC20", "ASA", "ERC20", "IBC", "JETTON", "SPL", "APTOS_COIN"]
+                          "enum": [
+                            "TRC10",
+                            "TRC20",
+                            "ASA",
+                            "ERC20",
+                            "IBC",
+                            "JETTON",
+                            "SPL",
+                            "APTOS_COIN"
+                          ]
                         },
                         "id": {
                           "type": "string"
@@ -5114,10 +5137,18 @@
                           "type": "string"
                         }
                       },
-                      "required": ["type", "id", "name", "ticker", "decimals"]
+                      "required": [
+                        "type",
+                        "id",
+                        "name",
+                        "ticker",
+                        "decimals"
+                      ]
                     }
                   },
-                  "required": ["token"]
+                  "required": [
+                    "token"
+                  ]
                 }
               }
             }
@@ -5127,7 +5158,9 @@
     },
     "/api/{chainId}/validators": {
       "get": {
-        "tags": ["Chain"],
+        "tags": [
+          "Chain"
+        ],
         "summary": "Get Chain Validators",
         "description": "Lists validators for a specified chain ID, including their operational status and commission rates. Useful for delegation operations on proof-of-stake blockchains.",
         "parameters": [
@@ -5280,7 +5313,10 @@
                             "type": "string"
                           }
                         },
-                        "required": ["address", "name"]
+                        "required": [
+                          "address",
+                          "name"
+                        ]
                       }
                     },
                     "pagination": {
@@ -5298,10 +5334,16 @@
                           "description": "Use the token from the previous response to retrieve the next page of results."
                         }
                       },
-                      "required": ["nextPage"]
+                      "required": [
+                        "nextPage"
+                      ]
                     }
                   },
-                  "required": ["chainId", "validators", "pagination"]
+                  "required": [
+                    "chainId",
+                    "validators",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -5311,7 +5353,9 @@
     },
     "/api/{chainId}/transaction/{transactionId}": {
       "get": {
-        "tags": ["Transaction"],
+        "tags": [
+          "Transaction"
+        ],
         "summary": "Get Transaction Details",
         "description": "Retrieves detailed information about a specific transaction for a blockchain network, identified by chain ID and transaction ID.",
         "parameters": [
@@ -5385,7 +5429,9 @@
             "schema": {
               "type": "string",
               "description": "Transaction ID. Usually a hash but can be different depending on the chain.",
-              "examples": ["559c1be45865069c6070529e43c69752d73438cbb1d04e4f301e94cd68bf7422"]
+              "examples": [
+                "559c1be45865069c6070529e43c69752d73438cbb1d04e4f301e94cd68bf7422"
+              ]
             },
             "required": true
           },
@@ -5441,7 +5487,13 @@
                             },
                             "state": {
                               "type": "string",
-                              "enum": ["pending", "unconfirmed", "confirmed", "failed", "unknown"]
+                              "enum": [
+                                "pending",
+                                "unconfirmed",
+                                "confirmed",
+                                "failed",
+                                "unknown"
+                              ]
                             },
                             "tokenId": {
                               "type": "string"
@@ -5465,7 +5517,9 @@
                                   "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                 }
                               },
-                              "required": ["amount"]
+                              "required": [
+                                "amount"
+                              ]
                             },
                             "gas": {
                               "type": "string",
@@ -5496,7 +5550,10 @@
                                     "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 },
-                                "required": ["address", "amount"]
+                                "required": [
+                                  "address",
+                                  "amount"
+                                ]
                               }
                             },
                             "recipients": {
@@ -5516,7 +5573,10 @@
                                     "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 },
-                                "required": ["address", "amount"]
+                                "required": [
+                                  "address",
+                                  "amount"
+                                ]
                               }
                             },
                             "validators": {
@@ -5537,7 +5597,9 @@
                                       "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
-                                  "required": ["address"]
+                                  "required": [
+                                    "address"
+                                  ]
                                 },
                                 "target": {
                                   "type": "object",
@@ -5554,12 +5616,19 @@
                                       "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
-                                  "required": ["address"]
+                                  "required": [
+                                    "address"
+                                  ]
                                 }
                               }
                             }
                           },
-                          "required": ["id", "mode", "state", "fees"]
+                          "required": [
+                            "id",
+                            "mode",
+                            "state",
+                            "fees"
+                          ]
                         }
                       }
                     },
@@ -5575,7 +5644,9 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         },
                         "warnings": {
@@ -5587,14 +5658,22 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         }
                       },
-                      "required": ["errors", "warnings"]
+                      "required": [
+                        "errors",
+                        "warnings"
+                      ]
                     }
                   },
-                  "required": ["transaction", "status"]
+                  "required": [
+                    "transaction",
+                    "status"
+                  ]
                 }
               }
             }
@@ -5604,7 +5683,9 @@
     },
     "/api/{chainId}/address/encode": {
       "post": {
-        "tags": ["Utils"],
+        "tags": [
+          "Utils"
+        ],
         "summary": "Pubkey to Address",
         "description": "Encodes the provided public key to one or multiple addresses, for the given chain ID.       Each address is labeled with a type, which may be \"default\" when there is only one address.",
         "parameters": [
@@ -5628,7 +5709,9 @@
                     "type": "string"
                   }
                 },
-                "required": ["pubkey"]
+                "required": [
+                  "pubkey"
+                ]
               }
             }
           }
@@ -5659,11 +5742,18 @@
                             "type": "string"
                           }
                         },
-                        "required": ["type", "address"]
+                        "required": [
+                          "type",
+                          "address"
+                        ]
                       }
                     }
                   },
-                  "required": ["chainId", "pubkey", "addresses"]
+                  "required": [
+                    "chainId",
+                    "pubkey",
+                    "addresses"
+                  ]
                 }
               }
             }
@@ -5673,7 +5763,9 @@
     },
     "/api/{chainId}/address/validate": {
       "post": {
-        "tags": ["Utils"],
+        "tags": [
+          "Utils"
+        ],
         "summary": "Validate Address",
         "description": "Validates the specified address for the given chain ID, returning true if the address is valid, otherwise false.",
         "parameters": [
@@ -5697,7 +5789,9 @@
                     "type": "string"
                   }
                 },
-                "required": ["address"]
+                "required": [
+                  "address"
+                ]
               }
             }
           }
@@ -5717,7 +5811,10 @@
                       "type": "boolean"
                     }
                   },
-                  "required": ["chainId", "valid"]
+                  "required": [
+                    "chainId",
+                    "valid"
+                  ]
                 }
               }
             }
@@ -5727,7 +5824,9 @@
     },
     "/api/{chainId}/account/{accountId}/state": {
       "get": {
-        "tags": ["Account"],
+        "tags": [
+          "Account"
+        ],
         "summary": "Get Account State (Balances)",
         "description": "Returns the state of a specified account identifier (address or xpub) and chain ID, focusing on balance information. The response includes details on native asset balances, token balances, and staking balances. This endpoint supports optional filters to refine the results, making it essential for wallet applications to display accurate and tailored account information.",
         "parameters": [
@@ -5988,7 +6087,10 @@
                               "description": "Total amount of native currency owned by the account, including both available and locked amounts (staking positions)."
                             }
                           },
-                          "required": ["available", "total"]
+                          "required": [
+                            "available",
+                            "total"
+                          ]
                         },
                         "tokens": {
                           "type": "array",
@@ -6027,14 +6129,23 @@
                                     "type": "string"
                                   }
                                 },
-                                "required": ["type", "id", "name", "ticker", "decimals"]
+                                "required": [
+                                  "type",
+                                  "id",
+                                  "name",
+                                  "ticker",
+                                  "decimals"
+                                ]
                               },
                               "amount": {
                                 "type": "string",
                                 "description": "Current balance of this token owned by the account. The amount is expressed in the token's smallest unit (based on its decimals)."
                               }
                             },
-                            "required": ["token", "amount"]
+                            "required": [
+                              "token",
+                              "amount"
+                            ]
                           }
                         },
                         "staking": {
@@ -6078,14 +6189,25 @@
                                   },
                                   "status": {
                                     "type": "string",
-                                    "enum": ["free", "pending", "locked", "unlocking", "unlocked", "slashed"]
+                                    "enum": [
+                                      "free",
+                                      "pending",
+                                      "locked",
+                                      "unlocking",
+                                      "unlocked",
+                                      "slashed"
+                                    ]
                                   },
                                   "completionDate": {
                                     "type": "string",
                                     "description": "Unix timestamp (in milliseconds) when the current position status will expire, when relevant."
                                   }
                                 },
-                                "required": ["validatorAddresses", "amount", "status"]
+                                "required": [
+                                  "validatorAddresses",
+                                  "amount",
+                                  "status"
+                                ]
                               },
                               "description": "Detailed list of individual staking positions."
                             },
@@ -6105,7 +6227,10 @@
                                         "description": "Amount of unclaimed staking rewards in native currency from this validator."
                                       }
                                     },
-                                    "required": ["validatorAddress", "amount"]
+                                    "required": [
+                                      "validatorAddress",
+                                      "amount"
+                                    ]
                                   },
                                   "description": "List of unclaimed staking rewards in native currency, per validator."
                                 },
@@ -6146,7 +6271,13 @@
                                             "type": "string"
                                           }
                                         },
-                                        "required": ["type", "id", "name", "ticker", "decimals"]
+                                        "required": [
+                                          "type",
+                                          "id",
+                                          "name",
+                                          "ticker",
+                                          "decimals"
+                                        ]
                                       },
                                       "validatorAddress": {
                                         "type": "string"
@@ -6156,20 +6287,36 @@
                                         "description": "Amount of unclaimed staking rewards in this token. The amount is expressed in the token's smallest unit."
                                       }
                                     },
-                                    "required": ["token", "amount"]
+                                    "required": [
+                                      "token",
+                                      "amount"
+                                    ]
                                   }
                                 }
                               },
-                              "required": ["native", "tokens"],
+                              "required": [
+                                "native",
+                                "tokens"
+                              ],
                               "description": "Information about unclaimed staking rewards, both in native currency and tokens."
                             }
                           },
-                          "required": ["total", "locked", "unlocking", "unlocked", "positions"]
+                          "required": [
+                            "total",
+                            "locked",
+                            "unlocking",
+                            "unlocked",
+                            "positions"
+                          ]
                         }
                       }
                     }
                   },
-                  "required": ["chainId", "accountId", "balances"]
+                  "required": [
+                    "chainId",
+                    "accountId",
+                    "balances"
+                  ]
                 }
               }
             }
@@ -6179,7 +6326,9 @@
     },
     "/api/{chainId}/account/{accountId}/state/tokens": {
       "get": {
-        "tags": ["Account"],
+        "tags": [
+          "Account"
+        ],
         "summary": "Get Account Tokens (paginated)",
         "description": "Returns the tokens (amount and details) held by a specified account identifier and chain ID. This endpoint allows for pagination over the returned tokens.",
         "parameters": [
@@ -6421,14 +6570,23 @@
                                     "type": "string"
                                   }
                                 },
-                                "required": ["type", "id", "name", "ticker", "decimals"]
+                                "required": [
+                                  "type",
+                                  "id",
+                                  "name",
+                                  "ticker",
+                                  "decimals"
+                                ]
                               },
                               "amount": {
                                 "type": "string",
                                 "description": "Current balance of this token owned by the account. The amount is expressed in the token's smallest unit (based on its decimals)."
                               }
                             },
-                            "required": ["token", "amount"]
+                            "required": [
+                              "token",
+                              "amount"
+                            ]
                           }
                         }
                       }
@@ -6448,10 +6606,17 @@
                           "description": "Use the token from the previous response to retrieve the next page of results."
                         }
                       },
-                      "required": ["nextPage"]
+                      "required": [
+                        "nextPage"
+                      ]
                     }
                   },
-                  "required": ["chainId", "accountId", "balances", "pagination"]
+                  "required": [
+                    "chainId",
+                    "accountId",
+                    "balances",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -6461,7 +6626,9 @@
     },
     "/api/{chainId}/account/{accountId}/history": {
       "get": {
-        "tags": ["Account"],
+        "tags": [
+          "Account"
+        ],
         "summary": "Get Account History",
         "description": "Returns the history of a specified account identifier (address or xpub) and chain ID, primarily focusing on past transactions.",
         "parameters": [
@@ -6646,7 +6813,13 @@
                               },
                               "state": {
                                 "type": "string",
-                                "enum": ["pending", "unconfirmed", "confirmed", "failed", "unknown"]
+                                "enum": [
+                                  "pending",
+                                  "unconfirmed",
+                                  "confirmed",
+                                  "failed",
+                                  "unknown"
+                                ]
                               },
                               "tokenId": {
                                 "type": "string"
@@ -6670,7 +6843,9 @@
                                     "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                   }
                                 },
-                                "required": ["amount"]
+                                "required": [
+                                  "amount"
+                                ]
                               },
                               "gas": {
                                 "type": "string",
@@ -6701,7 +6876,10 @@
                                       "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
-                                  "required": ["address", "amount"]
+                                  "required": [
+                                    "address",
+                                    "amount"
+                                  ]
                                 }
                               },
                               "recipients": {
@@ -6721,7 +6899,10 @@
                                       "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                     }
                                   },
-                                  "required": ["address", "amount"]
+                                  "required": [
+                                    "address",
+                                    "amount"
+                                  ]
                                 }
                               },
                               "validators": {
@@ -6742,7 +6923,9 @@
                                         "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                       }
                                     },
-                                    "required": ["address"]
+                                    "required": [
+                                      "address"
+                                    ]
                                   },
                                   "target": {
                                     "type": "object",
@@ -6759,12 +6942,19 @@
                                         "description": "Specific currency for that amount. If not provided, the amount is in the native currency of the chain."
                                       }
                                     },
-                                    "required": ["address"]
+                                    "required": [
+                                      "address"
+                                    ]
                                   }
                                 }
                               }
                             },
-                            "required": ["id", "mode", "state", "fees"]
+                            "required": [
+                              "id",
+                              "mode",
+                              "state",
+                              "fees"
+                            ]
                           }
                         }
                       }
@@ -6784,10 +6974,17 @@
                           "description": "Use the token from the previous response to retrieve the next page of results."
                         }
                       },
-                      "required": ["nextPage"]
+                      "required": [
+                        "nextPage"
+                      ]
                     }
                   },
-                  "required": ["chainId", "accountId", "transactions", "pagination"]
+                  "required": [
+                    "chainId",
+                    "accountId",
+                    "transactions",
+                    "pagination"
+                  ]
                 }
               }
             }
@@ -6797,7 +6994,9 @@
     },
     "/api/{chainId}/transaction/encode": {
       "post": {
-        "tags": ["Transaction"],
+        "tags": [
+          "Transaction"
+        ],
         "summary": "Encode a Transaction",
         "description": "Encodes transaction data into a format suitable for broadcasting. This endpoint is pivotal for creating transactions that comply with the specific requirements of different blockchains.\n\nIt performs several important functions:\n\n1. **Validates** the transaction data against chain-specific rules\n2. **Computes and adds** necessary transaction parameters (fees, gas, nonce)\n3. **Calculates** the maximum spendable amount when requested\n4. **Returns** the raw data and transaction hash in the appropriate format for signing\n\nThe response includes both the transaction hash (which needs to be signed) and the raw transaction data in a chain-specific format.",
         "parameters": [
@@ -6936,12 +7135,17 @@
                                   },
                                   "contractType": {
                                     "type": "string",
-                                    "enum": ["argentx"],
+                                    "enum": [
+                                      "argentx"
+                                    ],
                                     "description": "Provider of the account contract. Only ArgentX is supported at the moment.",
                                     "default": "argentx"
                                   }
                                 },
-                                "required": ["mode", "senderPubKey"],
+                                "required": [
+                                  "mode",
+                                  "senderPubKey"
+                                ],
                                 "title": "Deploy Account",
                                 "description": "Deploy a smart contract wallet account"
                               },
@@ -6974,7 +7178,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "recipientAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "recipientAddress"
+                                ],
                                 "title": "Transfer",
                                 "description": "Transfer chain native coins"
                               },
@@ -7011,7 +7219,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "targetValidatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "targetValidatorAddress"
+                                ],
                                 "title": "Stake",
                                 "description": "Put some funds at stake"
                               },
@@ -7048,7 +7260,12 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "tokenId", "senderAddress", "recipientAddress"],
+                                "required": [
+                                  "mode",
+                                  "tokenId",
+                                  "senderAddress",
+                                  "recipientAddress"
+                                ],
                                 "title": "Transfer Token",
                                 "description": "Transfer chain tokens"
                               },
@@ -7085,7 +7302,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
                                 "title": "Unstake",
                                 "description": "Stop staking some funds"
                               },
@@ -7118,7 +7339,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
                                 "title": "Claim Rewards",
                                 "description": "Retrieve rewards from staking"
                               },
@@ -7146,7 +7371,12 @@
                                     "description": "Address or ID of the recipient account."
                                   }
                                 },
-                                "required": ["mode", "senderPubKey", "validatorAddress", "recipientAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderPubKey",
+                                  "validatorAddress",
+                                  "recipientAddress"
+                                ],
                                 "title": "Withdraw Unlocked Funds",
                                 "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
@@ -7219,10 +7449,14 @@
                         ]
                       }
                     },
-                    "required": ["data"]
+                    "required": [
+                      "data"
+                    ]
                   }
                 },
-                "required": ["transaction"]
+                "required": [
+                  "transaction"
+                ]
               }
             }
           }
@@ -7357,7 +7591,9 @@
                                   "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back as-is to the broadcast endpoint."
                                 }
                               },
-                              "required": ["fees"]
+                              "required": [
+                                "fees"
+                              ]
                             },
                             {
                               "oneOf": [
@@ -7374,11 +7610,17 @@
                                     },
                                     "contractType": {
                                       "type": "string",
-                                      "enum": ["argentx"],
+                                      "enum": [
+                                        "argentx"
+                                      ],
                                       "description": "Provider of the account contract. Only ArgentX is supported at the moment."
                                     }
                                   },
-                                  "required": ["mode", "senderPubKey", "contractType"],
+                                  "required": [
+                                    "mode",
+                                    "senderPubKey",
+                                    "contractType"
+                                  ],
                                   "title": "Deploy Account",
                                   "description": "Deploy a smart contract wallet account"
                                 },
@@ -7575,7 +7817,12 @@
                                       "description": "When available for the chain, controls whether staking rewards are cashed or added to the staked funds."
                                     }
                                   },
-                                  "required": ["mode", "senderAddress", "validatorAddress", "compound"],
+                                  "required": [
+                                    "mode",
+                                    "senderAddress",
+                                    "validatorAddress",
+                                    "compound"
+                                  ],
                                   "title": "Claim Rewards",
                                   "description": "Retrieve rewards from staking"
                                 },
@@ -7695,13 +7942,21 @@
                                 "properties": {
                                   "format": {
                                     "type": "string",
-                                    "enum": ["sha256", "keccak256", "sha512_256", "pedersen"]
+                                    "enum": [
+                                      "sha256",
+                                      "keccak256",
+                                      "sha512_256",
+                                      "pedersen"
+                                    ]
                                   },
                                   "value": {
                                     "type": "string"
                                   }
                                 },
-                                "required": ["format", "value"],
+                                "required": [
+                                  "format",
+                                  "value"
+                                ],
                                 "description": "The transaction hash that needs to be signed. The format field indicates the hash function used to determine the hash value (e.g., KECCAK256 for EVM chains, SHA256 for Bitcoin, etc.)."
                               },
                               "raw": {
@@ -7728,14 +7983,20 @@
                                     "type": "string"
                                   }
                                 },
-                                "required": ["format", "value"],
+                                "required": [
+                                  "format",
+                                  "value"
+                                ],
                                 "description": "The raw transaction data in a chain-specific format. The format field indicates the encoding format used to represent the transaction data (e.g., RLP for EVM chains, PSBT for Bitcoin, etc.)."
                               }
                             }
                           }
                         }
                       },
-                      "required": ["data", "encoded"]
+                      "required": [
+                        "data",
+                        "encoded"
+                      ]
                     },
                     "status": {
                       "type": "object",
@@ -7749,7 +8010,9 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         },
                         "warnings": {
@@ -7761,14 +8024,23 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         }
                       },
-                      "required": ["errors", "warnings"]
+                      "required": [
+                        "errors",
+                        "warnings"
+                      ]
                     }
                   },
-                  "required": ["chainId", "transaction", "status"]
+                  "required": [
+                    "chainId",
+                    "transaction",
+                    "status"
+                  ]
                 }
               }
             }
@@ -7778,7 +8050,9 @@
     },
     "/api/{chainId}/transaction/validate": {
       "post": {
-        "tags": ["Transaction"],
+        "tags": [
+          "Transaction"
+        ],
         "summary": "Validate Transaction",
         "description": "Validates a transaction's format and checks it against the blockchain's current state for potential errors or warnings. This pre-validation is critical for ensuring transaction success rates and for debugging transaction issues.",
         "parameters": [
@@ -7917,12 +8191,17 @@
                                   },
                                   "contractType": {
                                     "type": "string",
-                                    "enum": ["argentx"],
+                                    "enum": [
+                                      "argentx"
+                                    ],
                                     "description": "Provider of the account contract. Only ArgentX is supported at the moment.",
                                     "default": "argentx"
                                   }
                                 },
-                                "required": ["mode", "senderPubKey"],
+                                "required": [
+                                  "mode",
+                                  "senderPubKey"
+                                ],
                                 "title": "Deploy Account",
                                 "description": "Deploy a smart contract wallet account"
                               },
@@ -7955,7 +8234,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "recipientAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "recipientAddress"
+                                ],
                                 "title": "Transfer",
                                 "description": "Transfer chain native coins"
                               },
@@ -7992,7 +8275,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "targetValidatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "targetValidatorAddress"
+                                ],
                                 "title": "Stake",
                                 "description": "Put some funds at stake"
                               },
@@ -8029,7 +8316,12 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "tokenId", "senderAddress", "recipientAddress"],
+                                "required": [
+                                  "mode",
+                                  "tokenId",
+                                  "senderAddress",
+                                  "recipientAddress"
+                                ],
                                 "title": "Transfer Token",
                                 "description": "Transfer chain tokens"
                               },
@@ -8066,7 +8358,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
                                 "title": "Unstake",
                                 "description": "Stop staking some funds"
                               },
@@ -8099,7 +8395,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
                                 "title": "Claim Rewards",
                                 "description": "Retrieve rewards from staking"
                               },
@@ -8127,7 +8427,12 @@
                                     "description": "Address or ID of the recipient account."
                                   }
                                 },
-                                "required": ["mode", "senderPubKey", "validatorAddress", "recipientAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderPubKey",
+                                  "validatorAddress",
+                                  "recipientAddress"
+                                ],
                                 "title": "Withdraw Unlocked Funds",
                                 "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
@@ -8200,10 +8505,14 @@
                         ]
                       }
                     },
-                    "required": ["data"]
+                    "required": [
+                      "data"
+                    ]
                   }
                 },
-                "required": ["transaction"]
+                "required": [
+                  "transaction"
+                ]
               }
             }
           }
@@ -8322,7 +8631,9 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         },
                         "warnings": {
@@ -8334,14 +8645,22 @@
                                 "type": "string"
                               }
                             },
-                            "required": ["message"]
+                            "required": [
+                              "message"
+                            ]
                           }
                         }
                       },
-                      "required": ["errors", "warnings"]
+                      "required": [
+                        "errors",
+                        "warnings"
+                      ]
                     }
                   },
-                  "required": ["chainId", "status"]
+                  "required": [
+                    "chainId",
+                    "status"
+                  ]
                 }
               }
             }
@@ -8351,7 +8670,9 @@
     },
     "/api/{chainId}/transaction/broadcast": {
       "post": {
-        "tags": ["Transaction"],
+        "tags": [
+          "Transaction"
+        ],
         "summary": "Broadcast Transaction",
         "description": "Broadcasts a signed transaction to the blockchain, crucial for submitting transactions like transfers, delegations, or reward claims. Returns a transaction receipt (hash) or error details.\n\n\nNote: the exact same 'data' and 'encoded' fields that were retrieved with the /transaction/encode endpoint, must be provided here.",
         "parameters": [
@@ -8489,7 +8810,9 @@
                                 "description": "Some additional chain-specific context computed by the API. If provided by the encode endpoint, it must be provided back as-is to the broadcast endpoint."
                               }
                             },
-                            "required": ["fees"]
+                            "required": [
+                              "fees"
+                            ]
                           },
                           {
                             "oneOf": [
@@ -8506,12 +8829,17 @@
                                   },
                                   "contractType": {
                                     "type": "string",
-                                    "enum": ["argentx"],
+                                    "enum": [
+                                      "argentx"
+                                    ],
                                     "description": "Provider of the account contract. Only ArgentX is supported at the moment.",
                                     "default": "argentx"
                                   }
                                 },
-                                "required": ["mode", "senderPubKey"],
+                                "required": [
+                                  "mode",
+                                  "senderPubKey"
+                                ],
                                 "title": "Deploy Account",
                                 "description": "Deploy a smart contract wallet account"
                               },
@@ -8544,7 +8872,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "recipientAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "recipientAddress"
+                                ],
                                 "title": "Transfer",
                                 "description": "Transfer chain native coins"
                               },
@@ -8581,7 +8913,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "targetValidatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "targetValidatorAddress"
+                                ],
                                 "title": "Stake",
                                 "description": "Put some funds at stake"
                               },
@@ -8618,7 +8954,12 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "tokenId", "senderAddress", "recipientAddress"],
+                                "required": [
+                                  "mode",
+                                  "tokenId",
+                                  "senderAddress",
+                                  "recipientAddress"
+                                ],
                                 "title": "Transfer Token",
                                 "description": "Transfer chain tokens"
                               },
@@ -8655,7 +8996,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
                                 "title": "Unstake",
                                 "description": "Stop staking some funds"
                               },
@@ -8688,7 +9033,11 @@
                                     "default": false
                                   }
                                 },
-                                "required": ["mode", "senderAddress", "validatorAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderAddress",
+                                  "validatorAddress"
+                                ],
                                 "title": "Claim Rewards",
                                 "description": "Retrieve rewards from staking"
                               },
@@ -8716,7 +9065,12 @@
                                     "description": "Address or ID of the recipient account."
                                   }
                                 },
-                                "required": ["mode", "senderPubKey", "validatorAddress", "recipientAddress"],
+                                "required": [
+                                  "mode",
+                                  "senderPubKey",
+                                  "validatorAddress",
+                                  "recipientAddress"
+                                ],
                                 "title": "Withdraw Unlocked Funds",
                                 "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
                               },
@@ -8798,13 +9152,21 @@
                               "properties": {
                                 "format": {
                                   "type": "string",
-                                  "enum": ["sha256", "keccak256", "sha512_256", "pedersen"]
+                                  "enum": [
+                                    "sha256",
+                                    "keccak256",
+                                    "sha512_256",
+                                    "pedersen"
+                                  ]
                                 },
                                 "value": {
                                   "type": "string"
                                 }
                               },
-                              "required": ["format", "value"],
+                              "required": [
+                                "format",
+                                "value"
+                              ],
                               "description": "The transaction hash that needs to be signed. The format field indicates the hash function used to determine the hash value (e.g., KECCAK256 for EVM chains, SHA256 for Bitcoin, etc.)."
                             },
                             "raw": {
@@ -8831,7 +9193,10 @@
                                   "type": "string"
                                 }
                               },
-                              "required": ["format", "value"],
+                              "required": [
+                                "format",
+                                "value"
+                              ],
                               "description": "The raw transaction data in a chain-specific format. The format field indicates the encoding format used to represent the transaction data (e.g., RLP for EVM chains, PSBT for Bitcoin, etc.)."
                             }
                           }
@@ -8841,10 +9206,16 @@
                         "type": "string"
                       }
                     },
-                    "required": ["data", "encoded", "signature"]
+                    "required": [
+                      "data",
+                      "encoded",
+                      "signature"
+                    ]
                   }
                 },
-                "required": ["transaction"]
+                "required": [
+                  "transaction"
+                ]
               }
             }
           }
@@ -8955,7 +9326,9 @@
                       "type": "string"
                     }
                   },
-                  "required": ["chainId"]
+                  "required": [
+                    "chainId"
+                  ]
                 }
               }
             }
@@ -8965,7 +9338,9 @@
     },
     "/api/{chainId}/transaction/broadcast/raw": {
       "post": {
-        "tags": ["Transaction"],
+        "tags": [
+          "Transaction"
+        ],
         "summary": "Broadcast Raw Transaction",
         "description": "Broadcasts a signed transaction to the blockchain in raw format.         Unlike the standard broadcast, which builds the broadcast payload for you, this endpoint requires the final payload, ready for submission.         Returns the transaction receipt (hash) or error details in case of failure.",
         "parameters": [
@@ -9079,7 +9454,9 @@
                     "type": "string"
                   }
                 },
-                "required": ["payload"]
+                "required": [
+                  "payload"
+                ]
               }
             }
           }
@@ -9190,7 +9567,9 @@
                       "type": "string"
                     }
                   },
-                  "required": ["chainId"]
+                  "required": [
+                    "chainId"
+                  ]
                 }
               }
             }
@@ -9331,7 +9710,11 @@
                     "type": "boolean"
                   }
                 },
-                "required": ["native", "tokens", "staking"]
+                "required": [
+                  "native",
+                  "tokens",
+                  "staking"
+                ]
               },
               "account": {
                 "type": "object",
@@ -9349,7 +9732,11 @@
                         "type": "boolean"
                       }
                     },
-                    "required": ["native", "tokens", "staking"]
+                    "required": [
+                      "native",
+                      "tokens",
+                      "staking"
+                    ]
                   },
                   "transactions": {
                     "type": "object",
@@ -9364,13 +9751,25 @@
                         "type": "boolean"
                       }
                     },
-                    "required": ["native", "tokens", "staking"]
+                    "required": [
+                      "native",
+                      "tokens",
+                      "staking"
+                    ]
                   }
                 },
-                "required": ["balances", "transactions"]
+                "required": [
+                  "balances",
+                  "transactions"
+                ]
               }
             },
-            "required": ["token", "validators", "transaction", "account"]
+            "required": [
+              "token",
+              "validators",
+              "transaction",
+              "account"
+            ]
           },
           "write": {
             "type": "object",
@@ -9415,13 +9814,20 @@
                         "type": "boolean"
                       }
                     },
-                    "required": ["memo"]
+                    "required": [
+                      "memo"
+                    ]
                   }
                 },
-                "required": ["type", "field"]
+                "required": [
+                  "type",
+                  "field"
+                ]
               }
             },
-            "required": ["transaction"]
+            "required": [
+              "transaction"
+            ]
           },
           "utils": {
             "type": "object",
@@ -9430,10 +9836,16 @@
                 "type": "boolean"
               }
             },
-            "required": ["addresses"]
+            "required": [
+              "addresses"
+            ]
           }
         },
-        "required": ["read", "write", "utils"],
+        "required": [
+          "read",
+          "write",
+          "utils"
+        ],
         "description": "List of supported features for the chain"
       },
       "SignerSpec": {
@@ -9441,21 +9853,38 @@
         "properties": {
           "curve": {
             "type": "string",
-            "enum": ["secp256k1", "ed25519", "stark"]
+            "enum": [
+              "secp256k1",
+              "ed25519",
+              "stark"
+            ]
           },
           "hashFunction": {
             "type": "string",
-            "enum": ["sha256", "keccak256", "sha512_256", "pedersen"]
+            "enum": [
+              "sha256",
+              "keccak256",
+              "sha512_256",
+              "pedersen"
+            ]
           },
           "signatureFormat": {
             "type": "string",
-            "enum": ["rsv", "rs"]
+            "enum": [
+              "rsv",
+              "rs"
+            ]
           },
           "coinType": {
             "type": "string"
           }
         },
-        "required": ["curve", "hashFunction", "signatureFormat", "coinType"],
+        "required": [
+          "curve",
+          "hashFunction",
+          "signatureFormat",
+          "coinType"
+        ],
         "description": "List of signer specificity for the chain"
       }
     }
