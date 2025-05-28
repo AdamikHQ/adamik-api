@@ -445,7 +445,8 @@
 ## solana
 
 | node | https://mainnet.helius-rpc.com |<br />
-| helius | https://api-mainnet.helius-rpc.com |
+| helius | https://api-mainnet.helius-rpc.com |<br />
+| validatorApp | https://www.validators.app |
 
 ## aptos
 
