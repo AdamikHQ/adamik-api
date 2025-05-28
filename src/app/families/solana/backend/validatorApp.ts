@@ -47,15 +47,4 @@ async function fetchValidators(paginationToken?: string): Promise<Paginated<Chai
   }
 }
 
-async function fetchStakeAccounts(delegatorAccount: string) {
-  const urls = getProviderUrls(ChainId.SOLANA, ProviderType.validatorApp);
-  const url = `${urls[0]}/api/v1/stake_accounts/${delegatorAccount}.json`;
-  const response = await fetch(url, {
-    headers: {
-      Token: SOLANA_VALIDATORS_APP_API_KEY,
-      "Content-Type": "application/json",
-    },
-  });
-}
-
-export { fetchStakeAccounts, fetchValidators };
+export { fetchValidators };

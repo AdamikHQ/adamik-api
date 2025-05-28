@@ -69,7 +69,7 @@ type StakeAccountEntry = {
 };
 
 type StakeAccountsResponse = {
-  stake_accounts: StakeAccountEntry[];
+  stake_accounts: StakeAccountEntry;
 };
 
 export type { DelegatorData, StakeAccountEntry, StakeAccountsResponse, ValidatorData, ValidatorList };

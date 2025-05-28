@@ -13,14 +13,22 @@ import {
   VersionedTransaction,
 } from "@solana/web3.js";
 import { HELIUS_API_KEY } from "~/app/config/apiKeys";
-import { ChainId, ProviderType, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import {
+  ChainId,
+  ProviderType,
+  StakingPosition,
+  StakingStatus,
+  Token,
+  TokenAmount,
+  TokenType,
+} from "~/app/model/types_WIP";
 import { nonNullable } from "~/app/tools/guard";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
 import { HeliusAssetResponse, HeliusTokensResponse } from "./helius.types";
-import { GetAssetsByOwnerParams } from "./node.types";
+import { GetAssetsByOwnerParams, ParsedStakeAccountInfo } from "./node.types";
 
 const nodeUrl = getProviderUrls(ChainId.SOLANA, ProviderType.node)[0] + `?api-key=${HELIUS_API_KEY}`;
 const connection = new Connection(nodeUrl);
@@ -257,34 +265,60 @@ async function fetchAssetInfo(assetId: string): Promise<Token | null> {
   }
 }
 
-async function getProgramAccounts(programId: PublicKey, senderPk: PublicKey) {
+async function fetchStakePositions(programId: PublicKey, senderPk: PublicKey): Promise<StakingPosition[]> {
   // Get all accounts owned by the Stake Program
-  const stakeAccounts = await connection.getProgramAccounts(programId, {
-    filters: [
-      // Filter by stake account structure - look for accounts where
-      // the authority (staker or withdrawer) matches our public key
-      {
-        memcmp: {
-          offset: 12, // Offset for authorized staker in the stake account data
-          bytes: senderPk.toBase58(),
+  try {
+    const stakeAccountAddresses = await connection.getProgramAccounts(programId, {
+      filters: [
+        // Filter by stake account structure - look for accounts where
+        // the authority (staker or withdrawer) matches our public key
+        {
+          memcmp: {
+            offset: 12, // Offset for authorized staker in the stake account data
+            bytes: senderPk.toBase58(),
+          },
         },
+      ],
+      dataSlice: {
+        offset: 0,
+        length: 0,
       },
-    ],
-  });
+    });
 
-  // You can also filter by withdrawer authority with an offset of 44
-  const withdrawerStakeAccounts = await connection.getProgramAccounts(programId, {
-    filters: [
-      {
-        memcmp: {
-          offset: 44, // Offset for authorized withdrawer
-          bytes: senderPk.toBase58(),
-        },
-      },
-    ],
-  });
+    const stakePositions: StakingPosition[] = [];
 
-  return { stakeAccounts, withdrawerStakeAccounts };
+    const currentEpoch = (await connection.getEpochInfo()).epoch;
+
+    for (const { pubkey } of stakeAccountAddresses) {
+      const stakeInfo = await connection.getParsedAccountInfo(new PublicKey(pubkey.toBase58()));
+
+      if (stakeInfo) {
+        // We need to cast it because Lib doesn't allow to template the type
+        const stakeInfoData = stakeInfo.value?.data as ParsedStakeAccountInfo;
+
+        stakePositions.push({
+          validatorAddresses: [stakeInfoData.parsed.info.meta.authorized.staker],
+          amount: BigInt(stakeInfoData.parsed.info.stake.delegation.stake),
+          status:
+            BigInt(currentEpoch) > BigInt(stakeInfoData.parsed.info.stake.delegation.deactivationEpoch)
+              ? StakingStatus.UNLOCKED
+              : BigInt(currentEpoch) <= BigInt(stakeInfoData.parsed.info.stake.delegation.activationEpoch)
+              ? StakingStatus.PENDING
+              : BigInt(currentEpoch) ===
+                  BigInt(stakeInfoData.parsed.info.stake.delegation.deactivationEpoch) &&
+                stakeInfoData.parsed.info.stake.delegation.deactivationEpoch !== "18446744073709551615" // seems to be max value for epoch
+              ? StakingStatus.UNLOCKING
+              : StakingStatus.LOCKED,
+          stakeId: pubkey.toBase58(),
+        });
+      }
+    }
+
+    return stakePositions;
+  } catch (error) {
+    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while fetching stake positions for ${ChainId.SOLANA}`);
+  }
 }
 
 export {
@@ -297,5 +331,6 @@ export {
   fetchEstimatedFeeFromNode,
   fetchFeeForMessage,
   fetchLatestBlockhash,
+  fetchStakePositions,
   simulateTransaction,
 };

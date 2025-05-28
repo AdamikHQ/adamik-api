@@ -1,14 +1,7 @@
 import { Message, PublicKey, Transaction as SolanaTransaction } from "@solana/web3.js";
 import { encodeBase58 } from "ethers";
-import {
-  EncodedTransactionFormat,
-  HashFunction,
-  Status,
-  Transaction,
-  TransactionMode,
-} from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
-import { sha256 } from "~/app/tools/hash";
 import {
   buildDeactivateStake,
   buildTokenTransferTransaction,
@@ -71,10 +64,6 @@ async function encodeTransaction(this: SolanaService, _: { transaction: Transact
         format: EncodedTransactionFormat.BORSH,
         value: borshTransaction,
       },
-      hash: {
-        format: HashFunction.SHA256,
-        value: sha256(Buffer.from(borshTransaction, "hex")),
-      },
     },
   ];
 }
@@ -110,15 +99,14 @@ async function encodeTransactionToBroadcast(
     Buffer.from(signedTransaction.signature, "hex")
   );
 
-  const params: SolanaTransactionParams | undefined = signedTransaction.data.params;
+  const params = signedTransaction.data.params as SolanaTransactionParams;
 
   if (signedTransaction.data.mode === TransactionMode.STAKE && params) {
-    const solanaParams: { publicKey: string; signature: string } = params;
+    if (!params.publicKey || !params.signature) {
+      throw new UserInputError("Invalid transaction params");
+    }
 
-    recoverTransaction.addSignature(
-      new PublicKey(solanaParams.publicKey),
-      Buffer.from(solanaParams.signature, "hex")
-    );
+    recoverTransaction.addSignature(new PublicKey(params.publicKey), Buffer.from(params.signature, "hex"));
   }
 
   return recoverTransaction.serialize().toString("hex");
