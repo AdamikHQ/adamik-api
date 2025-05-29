@@ -4,13 +4,18 @@ import { estimateTransferFees, getNonce } from "../backend/node";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { ArgentX } from "../contracts/argentx";
 import { verifyStarknetPublicKeyFormat } from "../logic";
-async function completeTransaction({
-  transaction,
-  status,
-}: {
-  transaction: Transaction;
-  status: Status;
-}): Promise<void> {
+import { StarknetService } from "../service";
+
+async function completeTransaction(
+  this: StarknetService,
+  {
+    transaction,
+    status,
+  }: {
+    transaction: Transaction;
+    status: Status;
+  }
+): Promise<void> {
   if (transaction.data.senderPubKey) {
     verifyStarknetPublicKeyFormat(transaction.data.senderPubKey);
   }
@@ -19,12 +24,15 @@ async function completeTransaction({
     case TransactionMode.DEPLOY_ACCOUNT:
       switch (transaction.data.contractType) {
         case DeployContractType.ARGENTX:
-          const nonce = await getNonce(ArgentX.generateAddress(transaction.data.senderPubKey));
+          const nonce = await getNonce(this.chainId, ArgentX.generateAddress(transaction.data.senderPubKey));
           transaction.data.nonce = BigInt(nonce);
           if (transaction.data.nonce !== 0n) {
             throw new UserInputError("Nonce is not 0, can't deploy wallet contract");
           }
-          transaction.data.fees = await ArgentX.estimateDeployFees(transaction.data.senderPubKey);
+          transaction.data.fees = await ArgentX.estimateDeployFees(
+            this.chainId,
+            transaction.data.senderPubKey
+          );
           break;
         default:
           break;
@@ -37,6 +45,7 @@ async function completeTransaction({
       }
 
       transaction.data.fees = await estimateTransferFees(
+        this.chainId,
         transaction.data.senderAddress,
         transaction.data.recipientAddress,
         transaction.data.amount,
@@ -50,6 +59,7 @@ async function completeTransaction({
       }
 
       transaction.data.fees = await estimateTransferFees(
+        this.chainId,
         transaction.data.senderAddress,
         transaction.data.recipientAddress,
         transaction.data.amount,
