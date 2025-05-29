@@ -4,7 +4,7 @@ import { fetchTokenInfo } from "../backend/node";
 import { StarknetService } from "../service";
 
 async function getTokenInfo(this: StarknetService, tokenId: string): Promise<Token> {
-  const tokenInfo = await fetchTokenInfo(tokenId);
+  const tokenInfo = await fetchTokenInfo(this.chainId, tokenId);
 
   if (!tokenInfo) {
     throw new UnsupportedTokenIDError(tokenId, this.chainId);

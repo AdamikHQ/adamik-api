@@ -15,13 +15,13 @@ import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { createStarknetAccount, isCompactSignature, marginFees } from "../logic";
 import { StarknetTransactionParamsToBroadcast } from "../types";
 
-const nodeUrl = getProviderUrls(ChainId.STARKNET, ProviderType.node);
+const fetchTokenInfo = async (chainId: ChainId, tokenId: string) => {
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
 
-if (!nodeUrl) {
-  throw new ThirdPartyProviderError("No node URL found for Starknet");
-}
+  if (!nodeUrl) {
+    throw new ThirdPartyProviderError("No node URL found for Starknet");
+  }
 
-const fetchTokenInfo = async (tokenId: string) => {
   // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
     nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
@@ -45,7 +45,13 @@ const fetchTokenInfo = async (tokenId: string) => {
   };
 };
 
-const broadcast = async (signedTransaction: string): Promise<string> => {
+const broadcast = async (chainId: ChainId, signedTransaction: string): Promise<string> => {
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
+
+  if (!nodeUrl) {
+    throw new ThirdPartyProviderError("No node URL found for Starknet");
+  }
+
   try {
     const transactionParams: StarknetTransactionParamsToBroadcast = JSON.parse(signedTransaction);
 
@@ -92,7 +98,13 @@ const broadcast = async (signedTransaction: string): Promise<string> => {
   }
 };
 
-const getNonce = async (address: string) => {
+const getNonce = async (chainId: ChainId, address: string) => {
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
+
+  if (!nodeUrl) {
+    throw new ThirdPartyProviderError("No node URL found for Starknet");
+  }
+
   // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
     nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
@@ -125,11 +137,18 @@ const populateTransferCall = async (
 };
 
 const estimateTransferFees = async (
+  chainId: ChainId,
   sender: string,
   recipient: string,
   amount: bigint,
   contractId: string
 ) => {
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
+
+  if (!nodeUrl) {
+    throw new ThirdPartyProviderError("No node URL found for Starknet");
+  }
+
   // TODO: Add support for multiple node URLs
   const provider = new StarknetProvider({
     nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
@@ -145,12 +164,19 @@ const estimateTransferFees = async (
 };
 
 const buildTransferPayload = async (
+  chainId: ChainId,
   sender: string,
   recipient: string,
   amount: bigint,
   contractId: string
 ) => {
-  // TODO: Add support for multiple node URLs
+  // TODO: Add support for multiple node URLs\
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
+
+  if (!nodeUrl) {
+    throw new ThirdPartyProviderError("No node URL found for Starknet");
+  }
+
   const provider = new StarknetProvider({
     nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
   });
@@ -165,8 +191,14 @@ const buildTransferPayload = async (
   return payload;
 };
 
-const buildStakePayload = async (poolAddress: string, sender: string, amount: BigInt) => {
+const buildStakePayload = async (chainId: ChainId, poolAddress: string, sender: string, amount: BigInt) => {
   // TODO: Add support for multiple node URLs
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
+
+  if (!nodeUrl) {
+    throw new ThirdPartyProviderError("No node URL found for Starknet");
+  }
+
   const provider = new StarknetProvider({
     nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
   });
