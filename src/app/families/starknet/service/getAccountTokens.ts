@@ -8,10 +8,10 @@ async function getAccountTokens(
   accountId: string,
   paginationToken?: string
 ): Promise<Paginated<AccountTokens>> {
-  const { balances, nextPage } = await fetchTokenBalances(accountId, paginationToken);
+  const { balances, nextPage } = await fetchTokenBalances(this.chainId, accountId, paginationToken);
 
   return {
-    tokens: await mapTokenBalancesToTokenAmounts(balances),
+    tokens: await mapTokenBalancesToTokenAmounts(this.chainId, balances),
     pagination: {
       nextPage,
     },

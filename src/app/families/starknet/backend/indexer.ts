@@ -22,9 +22,6 @@ import {
   TransactionResponse,
 } from "./types";
 
-const starkscanUrl = getProviderUrls(ChainId.STARKNET, ProviderType.starkscan)[0];
-const nodeUrl = getProviderUrls(ChainId.STARKNET, ProviderType.node)[0];
-
 async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any) {
   const response = await fetch(url, {
     method,
@@ -39,9 +36,12 @@ async function fetchWithHeaders(url: string, method: "GET" | "POST", body?: any)
 }
 
 async function fetchTokenBalances(
+  chainId: ChainId,
   accountId: string,
   paginationToken?: string
 ): Promise<{ balances: TokenBalance[]; nextPage: string | null }> {
+  const starkscanUrl = getProviderUrls(chainId, ProviderType.starkscan)[0];
+
   let url = `${starkscanUrl}/api/pro/v0/token-owned-by`;
 
   const params = new URLSearchParams({
@@ -63,7 +63,8 @@ async function fetchTokenBalances(
   };
 }
 
-async function fetchTokenContract(contractAddress: string): Promise<TokenContract> {
+async function fetchTokenContract(chainId: ChainId, contractAddress: string): Promise<TokenContract> {
+  const starkscanUrl = getProviderUrls(chainId, ProviderType.starkscan)[0];
   const url = `${starkscanUrl}/api/pro/v0/token-contract/${contractAddress}`;
 
   const data: TokenContract = await fetchWithHeaders(url, "GET");
@@ -72,8 +73,11 @@ async function fetchTokenContract(contractAddress: string): Promise<TokenContrac
 }
 
 const starkScanToAdamikTransaction = async (
+  chainId: ChainId,
   transaction: TransactionResponse
 ): Promise<FinalizedTransaction["parsed"]> => {
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
+
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     id: transaction.transaction_hash,
     timestamp: new Date(transaction.timestamp).getTime() * 1000,
@@ -120,18 +124,20 @@ const starkScanToAdamikTransaction = async (
   return parsedTransaction;
 };
 
-async function fetchTransaction(transactionId: string): Promise<FinalizedTransaction> {
+async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<FinalizedTransaction> {
+  const starkscanUrl = getProviderUrls(chainId, ProviderType.starkscan)[0];
   const url = `${starkscanUrl}/api/v0/transaction/${transactionId}`;
 
   const data: TransactionResponse = await fetchWithHeaders(url, "GET");
 
-  const transaction = await starkScanToAdamikTransaction(data);
+  const transaction = await starkScanToAdamikTransaction(chainId, data);
 
   return { parsed: transaction, raw: data };
 }
 
-async function getTransactionHistorySymbols(transactions: TransactionHistory[]) {
-  // TODO: Add support for multiple node URLs
+async function getTransactionHistorySymbols(chainId: ChainId, transactions: TransactionHistory[]) {
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
+
   const provider = new StarknetProvider({
     nodeUrl,
   });
@@ -210,11 +216,13 @@ function starkScanToAdamikAccountTransaction(
 }
 
 async function fetchTransactionHistory(
+  chainId: ChainId,
   accountId: string,
   paginationToken?: string
 ): Promise<{ transactions: FinalizedTransaction[]; nextPage: string | null }> {
   let dataFrom: TransactionHistoryResponse | undefined;
   let dataTo: TransactionHistoryResponse | undefined;
+  const starkscanUrl = getProviderUrls(chainId, ProviderType.starkscan)[0];
 
   if (paginationToken) {
     const paginationData = paginationFromB64(paginationToken) as {
@@ -254,7 +262,7 @@ async function fetchTransactionHistory(
   }
 
   const combinedData = [...(dataFrom?.data ?? []), ...(dataTo?.data ?? [])];
-  const symbols = await getTransactionHistorySymbols(combinedData);
+  const symbols = await getTransactionHistorySymbols(chainId, combinedData);
 
   const adamikTransactions = starkScanToAdamikAccountTransaction(combinedData, symbols);
 
@@ -265,8 +273,11 @@ async function fetchTransactionHistory(
 }
 
 const fetchValidators = async (
+  chainId: ChainId,
   paginationToken?: string
 ): Promise<{ validators: StarknetValidator[]; nextPage: string | null }> => {
+  const starkscanUrl = getProviderUrls(chainId, ProviderType.starkscan)[0];
+
   let data: StarknetValidatorsResponse | undefined;
 
   const paginationData = paginationFromB64(paginationToken);

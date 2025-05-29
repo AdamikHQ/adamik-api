@@ -1,6 +1,7 @@
 import { Account, ec, Provider, stark } from "starknet";
 import {
   AccountState,
+  ChainId,
   DeployContractType,
   TokenAmount,
   TokenType,
@@ -16,6 +17,7 @@ import { ArgentX } from "./contracts/argentx";
 import { StarknetDeployAccountPayload, StarknetInvokePayload } from "./types";
 
 const buildTransaction = async (
+  chainId: ChainId,
   transaction: Transaction
 ): Promise<StarknetDeployAccountPayload | StarknetInvokePayload | undefined> => {
   const { amount, recipientAddress, senderAddress, mode } = transaction.data;
@@ -26,6 +28,7 @@ const buildTransaction = async (
         throw new Error("Missing transaction data");
       }
       const payload = await buildTransferPayload(
+        chainId,
         senderAddress,
         recipientAddress,
         amount,
@@ -39,7 +42,7 @@ const buildTransaction = async (
         throw new Error("Missing transaction data");
       }
       const { tokenId } = transaction.data;
-      const payload = await buildTransferPayload(senderAddress, recipientAddress, amount, tokenId);
+      const payload = await buildTransferPayload(chainId, senderAddress, recipientAddress, amount, tokenId);
 
       return payload;
     }
@@ -49,7 +52,7 @@ const buildTransaction = async (
 
       switch (contractType) {
         case DeployContractType.ARGENTX: {
-          const payload = await ArgentX.getDeployContractPayload(senderPubKey);
+          const payload = await ArgentX.getDeployContractPayload(chainId, senderPubKey);
           return payload;
         }
         default: {
@@ -78,27 +81,30 @@ const starknetTokenToAmount = (tokenBalances: TokenBalance[]) => {
   };
 };
 
-async function calculateAccountState(accountId: string): Promise<AccountState> {
-  const { balances } = await fetchTokenBalances(accountId);
+async function calculateAccountState(chainId: ChainId, accountId: string): Promise<AccountState> {
+  const { balances } = await fetchTokenBalances(chainId, accountId);
 
   return {
     balances: {
       native: starknetTokenToAmount(balances),
-      tokens: await mapTokenBalancesToTokenAmounts(balances),
+      tokens: await mapTokenBalancesToTokenAmounts(chainId, balances),
     },
   };
 }
 
-async function mapTokenBalancesToTokenAmounts(tokenBalances: TokenBalance[]): Promise<TokenAmount[]> {
+async function mapTokenBalancesToTokenAmounts(
+  chainId: ChainId,
+  tokenBalances: TokenBalance[]
+): Promise<TokenAmount[]> {
   return await Promise.all(
     tokenBalances
       .filter((tokenBalance) => tokenBalance.contract_address !== STARK_TOKEN_CONTRACT_ID)
       .map(async (tokenBalance) => {
-        const tokenContract = await fetchTokenContract(tokenBalance.contract_address);
+        const tokenContract = await fetchTokenContract(chainId, tokenBalance.contract_address);
 
         // NOTE : Fallback to node if indexer doesn't return any name or symbol
         if (tokenContract?.name === null || tokenContract?.symbol === null) {
-          const tokenContractByNode = await fetchTokenInfo(tokenBalance.contract_address);
+          const tokenContractByNode = await fetchTokenInfo(chainId, tokenBalance.contract_address);
           return {
             amount: BigInt(tokenBalance.balance),
             token: {

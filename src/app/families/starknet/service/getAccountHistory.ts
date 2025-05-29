@@ -7,7 +7,7 @@ async function getAccountHistory(
   accountId: string,
   paginationToken?: string
 ): Promise<Paginated<AccountHistory>> {
-  const { transactions, nextPage } = await fetchTransactionHistory(accountId, paginationToken);
+  const { transactions, nextPage } = await fetchTransactionHistory(this.chainId, accountId, paginationToken);
 
   return {
     transactions,
