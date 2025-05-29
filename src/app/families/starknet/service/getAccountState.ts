@@ -7,4 +7,3 @@ async function getAccountState(this: StarknetService, accountId: string): Promis
 }
 
 export { getAccountState };
-
