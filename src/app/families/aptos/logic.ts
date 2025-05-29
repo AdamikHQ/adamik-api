@@ -4,6 +4,8 @@ import {
   FinalizedTransaction,
   StakingPosition,
   StakingStatus,
+  TokenAmount,
+  TokenType,
   TransactionData,
   TransactionMode,
   TransactionSpendableAmounts,
@@ -187,4 +189,20 @@ export async function getStakingState(
     }
   }
   return stakingState;
+}
+
+export async function getAccountCoins(chainId: ChainId, address: string): Promise<TokenAmount[]> {
+  const accountCoins = await fetchAccountCoins(chainId, address);
+  return accountCoins.map((coin) => ({
+    token: {
+      id: coin.asset_type,
+      type: TokenType.APTOS_COIN,
+      name: coin.metadata.name,
+      ticker: coin.metadata.symbol,
+      decimals: coin.metadata.decimals,
+      contractAddress: coin.asset_type.split("::").shift(),
+      logo: coin.metadata.icon_uri,
+    },
+    amount: BigInt(coin.amount),
+  }));
 }
