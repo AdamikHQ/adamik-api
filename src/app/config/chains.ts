@@ -163,7 +163,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://celestia-ada-api.polkachu.com", "https://lcd-celestia.imperator.co"],
+        urls: [
+          "https://celestia-ada-api.polkachu.com",
+          "https://celestia-api.polkachu.com",
+          "https://lcd-celestia.imperator.co",
+        ],
       },
       {
         type: ProviderType.mintscan,
