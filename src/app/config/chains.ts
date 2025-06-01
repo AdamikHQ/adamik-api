@@ -1062,7 +1062,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         //urls: ["https://apis.mintscan.io/injective/lcd"], // Error when computing tx fees
         //urls: ["https://lcd-injective.imperator.co"], // FIXME Frequent HTTP 502 errors
-        urls: ["https://injective-ada-api.polkachu.com", "https://lcd-injective.imperator.co"],
+        urls: [
+          "https://injective-ada-api.polkachu.com",
+          "https://injective-api.polkachu.com",
+          "https://lcd-injective.imperator.co",
+        ],
       },
       {
         type: ProviderType.mintscan,
