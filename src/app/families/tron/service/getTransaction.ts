@@ -1,11 +1,10 @@
 import { FinalizedTransaction } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
-import { fetchTransaction as fetchTransactionFromOklink } from "../backend/oklink";
 import { fetchTransaction as fetchTransactionFromTronscan } from "../backend/tronscan";
 import { TronService } from "../service";
 
 async function getTransaction(this: TronService, transactionId: string): Promise<FinalizedTransaction> {
-  const fetchTransactionFunctions = [fetchTransactionFromTronscan, fetchTransactionFromOklink];
+  const fetchTransactionFunctions = [fetchTransactionFromTronscan];
 
   const errors: Error[] = [];
 

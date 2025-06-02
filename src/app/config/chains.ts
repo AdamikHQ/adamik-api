@@ -1288,10 +1288,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.tronscan,
         urls: ["https://apilist.tronscanapi.com"],
       },
-      {
-        type: ProviderType.oklink,
-        urls: ["https://www.oklink.com/api/v5/explorer"],
-      },
     ],
     supportedFeatures: TRON_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.TRON, ChainFamily.TRON),

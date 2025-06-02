@@ -1,7 +1,6 @@
 import { AccountTokens, Paginated, ProviderType } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64 } from "~/app/tools/pagination";
-import { fetchAccountTokensData as fetchAccountTokensDataFromOklink } from "../backend/oklink";
 import { fetchAccountTokensData as fetchAccountTokensDataFromTronscan } from "../backend/tronscan";
 import { TronService } from "../service";
 
@@ -15,7 +14,6 @@ async function getAccountTokens(
       type: ProviderType.tronscan,
       fetchAccountTokensDataFunction: fetchAccountTokensDataFromTronscan,
     },
-    { type: ProviderType.oklink, fetchAccountTokensDataFunction: fetchAccountTokensDataFromOklink },
   ];
 
   const errors: Error[] = [];

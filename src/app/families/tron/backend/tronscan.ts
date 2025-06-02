@@ -85,7 +85,7 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
   };
 }
 
-async function fetchAccountData(address: string): Promise<AccountState> {
+async function fetchAccountData(chainId: ChainId, address: string): Promise<AccountState> {
   const url = `${explorerURL}/api/accountv2?address=${address}`;
 
   const response = await fetch(url, {
