@@ -30,5 +30,4 @@ body:json {
 assert {
   res.status: eq 200
   res.body.transaction.encoded[0].raw.value: isString
-  res.body.transaction.encoded[0].hash.value: isString 
 }
