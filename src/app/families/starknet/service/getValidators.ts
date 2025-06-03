@@ -6,7 +6,7 @@ async function getValidators(
   this: StarknetService,
   paginationToken?: string
 ): Promise<Paginated<ChainValidators>> {
-  const { validators: starknetValidators, nextPage } = await fetchValidators(paginationToken);
+  const { validators: starknetValidators, nextPage } = await fetchValidators(this.chainId, paginationToken);
 
   const validators = starknetValidators.map((validatorData) => {
     const validator: Validator = {

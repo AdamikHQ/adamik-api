@@ -1,3 +1,4 @@
+import { num } from "starknet";
 import { hexToString, stringToHex } from "viem";
 import { HashFunction, Status, Transaction } from "~/app/model/types_WIP";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
@@ -14,7 +15,7 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = _;
 
-  const payload = await buildTransaction(transaction);
+  const payload = await buildTransaction(this.chainId, transaction);
 
   if (!payload) {
     throw new Error("Failed to build transaction");
@@ -26,7 +27,7 @@ async function encodeTransactionToSign(
     {
       hash: {
         format: HashFunction.PEDERSEN,
-        value: payload.payload.toSign,
+        value: num.toHex64(payload.payload.toSign),
       },
     },
   ];

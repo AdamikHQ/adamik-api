@@ -29,14 +29,14 @@ async function prevalidateTransaction(
 
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER: {
-      const nonce = await getNonce(transaction.data.senderAddress);
+      const nonce = await getNonce(this.chainId, transaction.data.senderAddress);
 
       if (nonce === 0) {
         status.errors.push({ message: "Sender account does not exist" });
       }
 
       const transactionData = transaction.data;
-      const accountData = await calculateAccountState(transaction.data.senderAddress);
+      const accountData = await calculateAccountState(this.chainId, transaction.data.senderAddress);
       const availableBalance = accountData.balances.native?.available;
       const amount = transactionData.amount as bigint;
 
@@ -53,7 +53,7 @@ async function prevalidateTransaction(
       }
 
       const transactionData = transaction.data;
-      const accountData = await calculateAccountState(transaction.data.senderAddress);
+      const accountData = await calculateAccountState(this.chainId, transaction.data.senderAddress);
       const availableTokenBalance = accountData.balances.tokens?.find(
         (token) => token.token.id === transactionData.tokenId
       )?.amount;
@@ -79,7 +79,7 @@ async function prevalidateTransaction(
       }
 
       const address = ArgentX.generateAddress(transaction.data.senderPubKey);
-      const nonce = await getNonce(address);
+      const nonce = await getNonce(this.chainId, address);
 
       if (nonce !== 0) {
         status.errors.push({ message: "Account already exists" });
@@ -100,7 +100,7 @@ async function validateTransaction(
 
   let accountData: AccountState | undefined;
   if ([TransactionMode.TRANSFER, TransactionMode.TRANSFER_TOKEN].includes(transaction.data.mode)) {
-    accountData = await calculateAccountState(transaction.data.senderAddress);
+    accountData = await calculateAccountState(this.chainId, transaction.data.senderAddress);
     const amount = transaction.data.amount as bigint;
     const fees = transaction.data.fees as bigint;
 
@@ -110,7 +110,7 @@ async function validateTransaction(
   } else if (transaction.data.mode === TransactionMode.DEPLOY_ACCOUNT) {
     verifyStarknetPublicKeyFormat(transaction.data.senderPubKey);
     const address = ArgentX.generateAddress(transaction.data.senderPubKey);
-    accountData = await calculateAccountState(address);
+    accountData = await calculateAccountState(this.chainId, address);
   }
 
   if (!accountData) {

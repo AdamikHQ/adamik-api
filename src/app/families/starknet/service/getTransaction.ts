@@ -4,7 +4,7 @@ import { fetchTransaction } from "../backend/indexer";
 import { StarknetService } from "../service";
 
 async function getTransaction(this: StarknetService, transactionId: string): Promise<FinalizedTransaction> {
-  const finalizedTransaction = await fetchTransaction(transactionId);
+  const finalizedTransaction = await fetchTransaction(this.chainId, transactionId);
 
   if (!finalizedTransaction) {
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
