@@ -297,7 +297,7 @@ async function fetchStakePositions(programId: PublicKey, senderPk: PublicKey): P
         const stakeInfoData = stakeInfo.value?.data as ParsedStakeAccountInfo;
 
         stakePositions.push({
-          validatorAddresses: [stakeInfoData.parsed.info.meta.authorized.staker],
+          validatorAddresses: [stakeInfoData.parsed.info.stake.delegation.voter],
           amount: BigInt(stakeInfoData.parsed.info.stake.delegation.stake),
           status:
             BigInt(currentEpoch) > BigInt(stakeInfoData.parsed.info.stake.delegation.deactivationEpoch)

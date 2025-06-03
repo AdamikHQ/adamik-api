@@ -77,7 +77,18 @@ async function buildTokenTransferTransaction(transaction: Transaction): Promise<
       ? recipientPk
       : getAssociatedTokenAddressSync(tokenIdPk, recipientPk);
 
-  if (!recipientSolanaAccount) {
+  if (recipientTokenAccount.toBase58() !== recipientPk.toBase58()) {
+    // We derive the token account address from the recipient address and check if it exists on Solana
+    const tokenSolanaAccount = await fetchAccountSPL(recipientTokenAccount.toString());
+
+    if (!tokenSolanaAccount) {
+      // If token account doesn't exist, we create it
+      tx.add(
+        createAssociatedTokenAccountInstruction(senderPk, recipientTokenAccount, recipientPk, tokenIdPk)
+      );
+    }
+  } else if (!recipientSolanaAccount) {
+    // If recipient is a token account address, but doesn't exist on Solana, we create it
     tx.add(createAssociatedTokenAccountInstruction(senderPk, recipientTokenAccount, recipientPk, tokenIdPk));
   }
 

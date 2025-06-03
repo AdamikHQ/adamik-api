@@ -101,7 +101,7 @@ const heliusTransferToAdamikTransaction = async (
       mode: "unknown",
       state: TransactionState.CONFIRMED,
       fees: { amount: BigInt(heliusTransaction.fee) },
-      timestamp: new Date(heliusTransaction.timestamp).getTime(),
+      timestamp: new Date(heliusTransaction.timestamp * 1000).getTime(),
       blockHeight: BigInt(heliusTransaction.slot),
       senders: [],
       recipients: [],
@@ -116,7 +116,7 @@ const heliusTransferToAdamikTransaction = async (
     tokenId:
       heliusTransaction.tokenTransfers.length > 0 ? heliusTransaction.tokenTransfers[0].mint : undefined,
     fees: { amount: BigInt(heliusTransaction.fee) },
-    timestamp: new Date(heliusTransaction.timestamp).getTime(),
+    timestamp: new Date(heliusTransaction.timestamp * 1000).getTime(),
     blockHeight: BigInt(heliusTransaction.slot),
     ...(await getSendersAndRecipients(heliusTransaction)),
   };
