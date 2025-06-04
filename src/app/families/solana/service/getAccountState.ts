@@ -56,6 +56,10 @@ async function getAccountState(this: SolanaService, accountId: string): Promise<
         unlocking: BigInt(stakeUnlocking),
         unlocked: BigInt(stakeUnlocked),
         positions: stakeAccounts,
+        rewards: {
+          native: [],
+          tokens: [],
+        },
       },
     },
   };
