@@ -161,7 +161,6 @@ export enum ProviderType {
   starkscan = "starkscan",
   algoindexer = "algoindexer",
   mempoolspace = "mempoolspace",
-  oklink = "oklink",
   aptosindexer = "aptosindexer",
   babylon = "babylon",
   helius = "helius",
