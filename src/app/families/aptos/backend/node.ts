@@ -161,34 +161,6 @@ export async function fetchTransactionByHash(
   }
 }
 
-export async function populateCoinData(
-  chainId: ChainId,
-  coins: { id: string; amount: bigint }[]
-): Promise<TokenAmount[]> {
-  const coinData = await TokenStore.load(
-    chainId,
-    coins.map((coin) => coin.id)
-  );
-  return Promise.all(
-    coins.map(async (coin, index) => {
-      if (coinData[index] === null) {
-        coinData[index] = await getCoinData(chainId, coin.id);
-        await TokenStore.save(chainId, [coinData[index]]);
-      }
-      return {
-        token: {
-          type: TokenType.APTOS_COIN,
-          id: coin.id,
-          name: coinData[index]!.name,
-          ticker: coinData[index]!.ticker,
-          decimals: coinData[index]!.decimals,
-        },
-        amount: coin.amount,
-      };
-    })
-  );
-}
-
 export function getAccountTransactions(chainId: ChainId, address: string): Promise<AptosTransaction[]> {
   return nodeRequest<AptosTransaction[]>(chainId, `/accounts/${address}/transactions`);
 }
