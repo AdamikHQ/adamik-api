@@ -163,7 +163,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://celestia-ada-api.polkachu.com", "https://lcd-celestia.imperator.co"],
+        urls: [
+          "https://celestia-ada-api.polkachu.com",
+          "https://celestia-api.polkachu.com",
+          "https://lcd-celestia.imperator.co",
+        ],
       },
       {
         type: ProviderType.mintscan,
@@ -1062,7 +1066,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         //urls: ["https://apis.mintscan.io/injective/lcd"], // Error when computing tx fees
         //urls: ["https://lcd-injective.imperator.co"], // FIXME Frequent HTTP 502 errors
-        urls: ["https://injective-ada-api.polkachu.com", "https://lcd-injective.imperator.co"],
+        urls: [
+          "https://injective-ada-api.polkachu.com",
+          "https://injective-api.polkachu.com",
+          "https://lcd-injective.imperator.co",
+        ],
       },
       {
         type: ProviderType.mintscan,
@@ -1279,10 +1287,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.tronscan,
         urls: ["https://apilist.tronscanapi.com"],
-      },
-      {
-        type: ProviderType.oklink,
-        urls: ["https://www.oklink.com/api/v5/explorer"],
       },
     ],
     supportedFeatures: TRON_FEATURES,
