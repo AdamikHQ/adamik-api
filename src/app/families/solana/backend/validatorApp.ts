@@ -32,7 +32,7 @@ async function fetchValidators(paginationToken?: string): Promise<Paginated<Chai
 
     return {
       validators: validators.map((validator) => ({
-        address: validator.account,
+        address: validator.vote_account,
         name: validator.name ?? validator.account,
         commission: Number(validator.commission),
         stakedAmount: BigInt(validator.active_stake),

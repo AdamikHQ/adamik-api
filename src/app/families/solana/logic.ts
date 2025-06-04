@@ -17,6 +17,8 @@ import { Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { fetchAccountSPL, fetchLatestBlockhash } from "./backend/node";
 
+const SOLANA_MIN_STAKE_AMOUNT = 10_000_000n;
+
 async function buildTransferTransaction(transaction: Transaction): Promise<SolanaTransaction> {
   if (transaction.data.mode !== TransactionMode.TRANSFER) {
     throw new UserInputError("Invalid transaction mode");
@@ -205,4 +207,5 @@ export {
   buildTransactionStake,
   buildTransferTransaction,
   buildWithdrawStake,
+  SOLANA_MIN_STAKE_AMOUNT,
 };

@@ -44,6 +44,11 @@ async function fetchAccount(accountAddress: string) {
   }
 }
 
+async function fetchAccountInfo(accountAddress: string) {
+  const account = await connection.getParsedAccountInfo(new PublicKey(accountAddress));
+  return account;
+}
+
 async function broadcastTransaction(rawData: string): Promise<string> {
   try {
     const txHash = await connection.sendRawTransaction(Buffer.from(rawData, "hex"));
@@ -324,6 +329,7 @@ async function fetchStakePositions(programId: PublicKey, senderPk: PublicKey): P
 export {
   broadcastTransaction,
   fetchAccount,
+  fetchAccountInfo,
   fetchAccountSPL,
   fetchAccountTokenBalance,
   fetchAccountTokensBalance,
