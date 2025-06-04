@@ -27,7 +27,7 @@
 
 ## celestia
 
-| node | https://celestia-ada-api.polkachu.com, https://lcd-celestia.imperator.co |<br />
+| node | https://celestia-ada-api.polkachu.com, https://celestia-api.polkachu.com, https://lcd-celestia.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## celestia-testnet
@@ -231,7 +231,7 @@
 
 ## injective
 
-| node | https://injective-ada-api.polkachu.com, https://lcd-injective.imperator.co |<br />
+| node | https://injective-ada-api.polkachu.com, https://injective-api.polkachu.com, https://lcd-injective.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
@@ -267,8 +267,7 @@
 ## tron
 
 | node | https://api.trongrid.io |<br />
-| tronscan | https://apilist.tronscanapi.com |<br />
-| oklink | https://www.oklink.com/api/v5/explorer |
+| tronscan | https://apilist.tronscanapi.com |
 
 ## evmos
 
