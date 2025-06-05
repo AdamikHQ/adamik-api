@@ -110,8 +110,7 @@ const heliusTransferToAdamikTransaction = async (
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     id: heliusTransaction.signature,
-    mode:
-      heliusTransaction.tokenTransfers.length > 0 ? TransactionMode.TRANSFER_TOKEN : TransactionMode.TRANSFER,
+    mode: await heliusTransactionModeToAdamikMode(heliusTransaction),
     state: heliusTransaction.transactionError ? TransactionState.FAILED : TransactionState.CONFIRMED,
     tokenId:
       heliusTransaction.tokenTransfers.length > 0 ? heliusTransaction.tokenTransfers[0].mint : undefined,
@@ -123,6 +122,28 @@ const heliusTransferToAdamikTransaction = async (
 
   return parsedTransaction;
 };
+
+async function heliusTransactionModeToAdamikMode(
+  heliusTransaction: HeliusTransactionResponse
+): Promise<TransactionMode> {
+  if (heliusTransaction.type === "STAKE_SOL") {
+    return TransactionMode.STAKE;
+  }
+
+  if (heliusTransaction.type === "UNSTAKE_SOL") {
+    return TransactionMode.UNSTAKE;
+  }
+
+  if (heliusTransaction.type === "WITHDRAW") {
+    return TransactionMode.WITHDRAW;
+  }
+
+  if (heliusTransaction.tokenTransfers.length > 0) {
+    return TransactionMode.TRANSFER_TOKEN;
+  }
+
+  return TransactionMode.TRANSFER;
+}
 
 async function fetchAccountHistory(
   accountAddress: string,
