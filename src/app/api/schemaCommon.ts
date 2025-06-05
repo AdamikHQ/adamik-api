@@ -423,7 +423,9 @@ const outputClaimRewardsSchema = z
 const inputWithdrawSchema = z
   .object({
     mode: z.literal(TransactionMode.WITHDRAW),
+    senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema,
+    amount: inputAmountSchema.optional(),
     validatorAddress: validatorAddressSchema,
     stakeId: stakeIdSchema.optional(),
     recipientAddress: recipientAddressSchema,
@@ -437,6 +439,7 @@ const inputWithdrawSchema = z
 const outputWithdrawSchema = z
   .object({
     mode: z.literal(TransactionMode.WITHDRAW),
+    senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema,
     validatorAddress: validatorAddressSchema,
     stakeId: stakeIdSchema.optional(),

@@ -123,6 +123,7 @@ export async function fetchStakingPositions(chainId: ChainId, address: string) {
       current_delegator_balances(
         where: {
           delegator_address: { _eq: $address }
+          shares: { _gt: 0 }
         }
         limit: $limit,
         offset: $offset

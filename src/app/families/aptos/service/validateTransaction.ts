@@ -33,8 +33,8 @@ export async function validateTransaction(
 
   const maxSpendable = await getMaxSpendable(this.chainId, transaction.data);
 
-  const amount = transaction.data.amount as bigint;
-  const fees = transaction.data.fees as bigint;
+  const amount = transaction.data.amount ?? 0n;
+  const fees = transaction.data.fees ?? 0n;
 
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER: {
@@ -57,6 +57,13 @@ export async function validateTransaction(
       break;
     }
     case TransactionMode.STAKE: {
+      // Min staking amount is hard-coded in the DelegationPool contract
+      // https://github.com/aptos-labs/aptos-core/blob/8d334a240ce4920c3651369404f53f2f602beafc/aptos-move/framework/aptos-framework/sources/delegation_pool.move#L244
+      if (amount < 10_00000000n) {
+        status.errors.push({
+          message: "The minimum delegation amount is 10 APT",
+        });
+      }
       if (amount + fees > maxSpendable.native) {
         status.errors.push({
           message: "Balance is too low",
