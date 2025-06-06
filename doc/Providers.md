@@ -445,7 +445,7 @@
 
 | node | https://mainnet.helius-rpc.com |<br />
 | helius | https://api-mainnet.helius-rpc.com |<br />
-| validatorApp | https://www.validators.app |
+| validatorApp | https://www.validators.app/api/v1/validators/mainnet.json |
 
 ## aptos
 
