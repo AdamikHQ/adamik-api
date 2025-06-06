@@ -6,7 +6,10 @@ import { getProviderUrls } from "../../common";
 import { ValidatorList } from "./validatorApp.types";
 
 // https://www.validators.app/api-documentation?locale=en&network=mainnet#validators-list
-async function fetchValidators(paginationToken?: string): Promise<Paginated<ChainValidators>> {
+async function fetchValidators(
+  chainId: ChainId,
+  paginationToken?: string
+): Promise<Paginated<ChainValidators>> {
   let validatorPage = 1;
   if (paginationToken) {
     const { page } = paginationFromB64(paginationToken) as { page: number };
@@ -17,8 +20,8 @@ async function fetchValidators(paginationToken?: string): Promise<Paginated<Chai
   }
 
   try {
-    const urls = getProviderUrls(ChainId.SOLANA, ProviderType.validatorApp);
-    const url = `${urls[0]}/api/v1/validators/mainnet.json?order=stake&active_only=true&limit=100&page=${validatorPage}`;
+    const urls = getProviderUrls(chainId, ProviderType.validatorApp);
+    const url = `${urls[0]}?order=stake&active_only=true&limit=100&page=${validatorPage}`;
     const response = await fetch(url, {
       headers: {
         Token: SOLANA_VALIDATORS_APP_API_KEY,

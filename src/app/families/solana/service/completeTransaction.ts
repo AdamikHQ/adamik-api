@@ -1,4 +1,4 @@
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { ChainId, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { fetchAccountTokenBalance, fetchEstimatedFeeFromNode, fetchNativeBalance } from "../backend/node";
 import {
@@ -16,19 +16,20 @@ async function completeTransaction(
 ): Promise<void> {
   let balance;
   if (transaction.data.useMaxAmount) {
-    const nativeBalanceData = await fetchNativeBalance(transaction.data.senderAddress);
+    const nativeBalanceData = await fetchNativeBalance(this.chainId, transaction.data.senderAddress);
     balance = nativeBalanceData.balance;
 
     transaction.data.amount = BigInt(balance);
   }
 
-  transaction.data.fees = BigInt(await calculateFees(transaction));
+  transaction.data.fees = BigInt(await calculateFees(this.chainId, transaction));
 
   if (transaction.data.useMaxAmount && balance !== undefined) {
     if (transaction.data.mode === TransactionMode.TRANSFER) {
       transaction.data.amount = balance - (transaction.data.fees ?? 0n);
     } else if (transaction.data.mode === TransactionMode.TRANSFER_TOKEN) {
       const tokenBalance = await fetchAccountTokenBalance(
+        this.chainId,
         transaction.data.senderAddress,
         transaction.data.tokenId
       );
@@ -42,23 +43,23 @@ async function completeTransaction(
   }
 }
 
-async function calculateFees(transaction: Transaction) {
+async function calculateFees(chainId: ChainId, transaction: Transaction) {
   let tx;
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
-      tx = await buildTransferTransaction(transaction);
+      tx = await buildTransferTransaction(chainId, transaction);
       break;
     case TransactionMode.TRANSFER_TOKEN:
-      tx = await buildTokenTransferTransaction(transaction);
+      tx = await buildTokenTransferTransaction(chainId, transaction);
       break;
     case TransactionMode.STAKE:
-      tx = await buildStakeTransaction(transaction);
+      tx = await buildStakeTransaction(chainId, transaction);
       break;
     case TransactionMode.UNSTAKE:
-      tx = await buildDeactivateStakeTransaction(transaction);
+      tx = await buildDeactivateStakeTransaction(chainId, transaction);
       break;
     case TransactionMode.WITHDRAW:
-      tx = await buildWithdrawStakeTransaction(transaction);
+      tx = await buildWithdrawStakeTransaction(chainId, transaction);
       break;
     default:
       throw new InvalidTransactionError({
@@ -67,7 +68,7 @@ async function calculateFees(transaction: Transaction) {
       });
   }
 
-  const estimatedFee = await fetchEstimatedFeeFromNode(tx);
+  const estimatedFee = await fetchEstimatedFeeFromNode(chainId, tx);
   if (!estimatedFee) {
     throw new InvalidTransactionError({
       errors: [{ message: `Failed to calculate fees for transaction mode ${transaction.data.mode}` }],

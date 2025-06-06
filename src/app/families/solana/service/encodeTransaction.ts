@@ -18,16 +18,18 @@ async function encodeTransactionToSign(this: SolanaService, _: { transaction: Tr
   let borshTransaction = "";
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
-      borshTransaction = (await buildTransferTransaction(transaction)).serializeMessage().toString("hex");
+      borshTransaction = (await buildTransferTransaction(this.chainId, transaction))
+        .serializeMessage()
+        .toString("hex");
       break;
     case TransactionMode.TRANSFER_TOKEN:
-      borshTransaction = (await buildTokenTransferTransaction(transaction))
+      borshTransaction = (await buildTokenTransferTransaction(this.chainId, transaction))
         .serializeMessage()
         .toString("hex");
       break;
     case TransactionMode.STAKE:
       // how stake works on solana : https://solana.com/fr/staking#how-do-i-add-tokens-to-a-stake-account
-      const txStake = await buildStakeTransaction(transaction);
+      const txStake = await buildStakeTransaction(this.chainId, transaction);
       borshTransaction = txStake.serializeMessage().toString("hex");
       const stakeAccountSignature = txStake.signatures.find(
         (signature) => signature.publicKey.toBase58() !== transaction.data.senderAddress
@@ -44,12 +46,12 @@ async function encodeTransactionToSign(this: SolanaService, _: { transaction: Tr
 
       break;
     case TransactionMode.UNSTAKE:
-      const txUnstake = await buildDeactivateStakeTransaction(transaction);
+      const txUnstake = await buildDeactivateStakeTransaction(this.chainId, transaction);
       borshTransaction = txUnstake.serializeMessage().toString("hex");
       break;
 
     case TransactionMode.WITHDRAW:
-      const txWithdraw = await buildWithdrawStakeTransaction(transaction);
+      const txWithdraw = await buildWithdrawStakeTransaction(this.chainId, transaction);
       borshTransaction = txWithdraw.serializeMessage().toString("hex");
       break;
     default:

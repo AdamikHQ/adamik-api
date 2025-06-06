@@ -2255,7 +2255,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
       {
         type: ProviderType.validatorApp,
-        urls: ["https://www.validators.app"],
+        urls: ["https://www.validators.app/api/v1/validators/mainnet.json"],
       },
     ],
     supportedFeatures: SOLANA_FEATURES,

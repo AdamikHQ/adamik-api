@@ -6,7 +6,7 @@ export async function getValidators(
   this: SolanaService,
   paginationToken?: string
 ): Promise<Paginated<ChainValidators>> {
-  const validatorsData = await fetchValidators(paginationToken);
+  const validatorsData = await fetchValidators(this.chainId, paginationToken);
 
   return {
     validators: validatorsData.validators,

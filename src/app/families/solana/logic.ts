@@ -13,13 +13,16 @@ import {
   StakeProgram,
   SystemProgram,
 } from "@solana/web3.js";
-import { Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { ChainId, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { fetchAccountSPL, fetchLatestBlockhash } from "./backend/node";
 
 const SOLANA_MIN_STAKE_AMOUNT = 10_000_000n;
 
-async function buildTransferTransaction(transaction: Transaction): Promise<SolanaTransaction> {
+async function buildTransferTransaction(
+  chainId: ChainId,
+  transaction: Transaction
+): Promise<SolanaTransaction> {
   if (transaction.data.mode !== TransactionMode.TRANSFER) {
     throw new UserInputError("Invalid transaction mode");
   }
@@ -34,7 +37,7 @@ async function buildTransferTransaction(transaction: Transaction): Promise<Solan
 
   const senderPubkey = new PublicKey(senderAddress);
   const recipientPubkey = new PublicKey(recipientAddress);
-  const blockhash = await fetchLatestBlockhash();
+  const blockhash = await fetchLatestBlockhash(chainId);
 
   const tx = new SolanaTransaction().add(
     SystemProgram.transfer({
@@ -55,7 +58,10 @@ async function buildTransferTransaction(transaction: Transaction): Promise<Solan
   return tx;
 }
 
-async function buildTokenTransferTransaction(transaction: Transaction): Promise<SolanaTransaction> {
+async function buildTokenTransferTransaction(
+  chainId: ChainId,
+  transaction: Transaction
+): Promise<SolanaTransaction> {
   if (!transaction.data.amount) {
     throw new UserInputError("Amount is required");
   }
@@ -67,9 +73,9 @@ async function buildTokenTransferTransaction(transaction: Transaction): Promise<
   const senderPk = new PublicKey(transaction.data.senderAddress);
   const recipientPk = new PublicKey(transaction.data.recipientAddress);
   const tokenIdPk = new PublicKey(transaction.data.tokenId);
-  const blockhash = await fetchLatestBlockhash();
+  const blockhash = await fetchLatestBlockhash(chainId);
 
-  const recipientSolanaAccount = await fetchAccountSPL(recipientPk.toString());
+  const recipientSolanaAccount = await fetchAccountSPL(chainId, recipientPk.toString());
 
   const tx = new SolanaTransaction();
 
@@ -81,7 +87,7 @@ async function buildTokenTransferTransaction(transaction: Transaction): Promise<
 
   if (recipientTokenAccount.toBase58() !== recipientPk.toBase58()) {
     // We derive the token account address from the recipient address and check if it exists on Solana
-    const tokenSolanaAccount = await fetchAccountSPL(recipientTokenAccount.toString());
+    const tokenSolanaAccount = await fetchAccountSPL(chainId, recipientTokenAccount.toString());
 
     if (!tokenSolanaAccount) {
       // If token account doesn't exist, we create it
@@ -104,7 +110,7 @@ async function buildTokenTransferTransaction(transaction: Transaction): Promise<
   return tx;
 }
 
-async function buildStakeTransaction(transaction: Transaction): Promise<SolanaTransaction> {
+async function buildStakeTransaction(chainId: ChainId, transaction: Transaction): Promise<SolanaTransaction> {
   if (transaction.data.mode !== TransactionMode.STAKE) {
     throw new UserInputError("Invalid transaction mode");
   }
@@ -129,7 +135,7 @@ async function buildStakeTransaction(transaction: Transaction): Promise<SolanaTr
     votePubkey: new PublicKey(transaction.data.targetValidatorAddress),
   });
 
-  const blockhash = await fetchLatestBlockhash();
+  const blockhash = await fetchLatestBlockhash(chainId);
 
   tx.add(createStakeAccountTx).add(delegateTx);
 
@@ -141,7 +147,10 @@ async function buildStakeTransaction(transaction: Transaction): Promise<SolanaTr
   return tx;
 }
 
-async function buildDeactivateStakeTransaction(transaction: Transaction): Promise<SolanaTransaction> {
+async function buildDeactivateStakeTransaction(
+  chainId: ChainId,
+  transaction: Transaction
+): Promise<SolanaTransaction> {
   if (transaction.data.mode !== TransactionMode.UNSTAKE) {
     throw new UserInputError("Invalid transaction mode");
   }
@@ -160,7 +169,7 @@ async function buildDeactivateStakeTransaction(transaction: Transaction): Promis
     authorizedPubkey: senderPk,
   });
 
-  const blockhash = await fetchLatestBlockhash();
+  const blockhash = await fetchLatestBlockhash(chainId);
 
   tx.add(deactivateTx);
 
@@ -170,7 +179,10 @@ async function buildDeactivateStakeTransaction(transaction: Transaction): Promis
   return tx;
 }
 
-async function buildWithdrawStakeTransaction(transaction: Transaction): Promise<SolanaTransaction> {
+async function buildWithdrawStakeTransaction(
+  chainId: ChainId,
+  transaction: Transaction
+): Promise<SolanaTransaction> {
   if (transaction.data.mode !== TransactionMode.WITHDRAW) {
     throw new UserInputError("Invalid transaction mode");
   }
@@ -191,7 +203,7 @@ async function buildWithdrawStakeTransaction(transaction: Transaction): Promise<
     lamports: Number(transaction.data.amount),
   });
 
-  const blockhash = await fetchLatestBlockhash();
+  const blockhash = await fetchLatestBlockhash(chainId);
 
   tx.add(withdrawTx);
 

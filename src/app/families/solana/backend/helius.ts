@@ -14,11 +14,15 @@ import { getProviderUrls } from "../../common";
 import { HeliusTransactionResponse } from "./helius.types";
 import { fetchAssetInfo } from "./node";
 
-const HELIUS_API_URL = getProviderUrls(ChainId.SOLANA, ProviderType.helius)[0];
+const getIndexerBaseUrl = (chainId: ChainId) => {
+  return getProviderUrls(chainId, ProviderType.helius)[0];
+};
 
-async function fetchTransaction(transactionAddress: string): Promise<FinalizedTransaction> {
+async function fetchTransaction(chainId: ChainId, transactionAddress: string): Promise<FinalizedTransaction> {
+  const heliusBaseUrl = getIndexerBaseUrl(chainId);
+
   try {
-    const url = `${HELIUS_API_URL}/v0/transactions/?api-key=${HELIUS_API_KEY}`;
+    const url = `${heliusBaseUrl}/v0/transactions/?api-key=${HELIUS_API_KEY}`;
     const response = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -34,7 +38,7 @@ async function fetchTransaction(transactionAddress: string): Promise<FinalizedTr
       throw new UserInputError("Transaction not found");
     }
 
-    const parsedTransaction = await heliusTransactionToAdamikTransaction(heliusTransaction);
+    const parsedTransaction = await heliusTransactionToAdamikTransaction(chainId, heliusTransaction);
 
     return { raw: heliusTransaction, parsed: parsedTransaction };
   } catch (error: unknown) {
@@ -51,9 +55,9 @@ const extractSolAmount = (text: string): bigint | null => {
   return BigInt(amountToSmallestUnit(amount.toString(), CHAINS[ChainId.SOLANA].decimals) ?? 0);
 };
 
-const getTransferInfo = async (heliusTransaction: HeliusTransactionResponse) => {
+const getTransferInfo = async (chainId: ChainId, heliusTransaction: HeliusTransactionResponse) => {
   if (heliusTransaction.tokenTransfers.length > 0) {
-    const token = await fetchAssetInfo(heliusTransaction.tokenTransfers[0].mint);
+    const token = await fetchAssetInfo(chainId, heliusTransaction.tokenTransfers[0].mint);
 
     if (!token) {
       return {
@@ -156,6 +160,7 @@ const getTransferInfo = async (heliusTransaction: HeliusTransactionResponse) => 
 };
 
 const heliusTransactionToAdamikTransaction = async (
+  chainId: ChainId,
   heliusTransaction: HeliusTransactionResponse
 ): Promise<FinalizedTransaction["parsed"]> => {
   if (heliusTransaction.type === "NFT_MINT") {
@@ -180,7 +185,7 @@ const heliusTransactionToAdamikTransaction = async (
     fees: { amount: BigInt(heliusTransaction.fee) },
     timestamp: new Date(heliusTransaction.timestamp * 1000).getTime(),
     blockHeight: BigInt(heliusTransaction.slot),
-    ...(await getTransferInfo(heliusTransaction)),
+    ...(await getTransferInfo(chainId, heliusTransaction)),
   };
 
   return parsedTransaction;
@@ -209,16 +214,19 @@ async function heliusTransactionModeToAdamikMode(
 }
 
 async function fetchAccountHistory(
+  chainId: ChainId,
   accountAddress: string,
   paginationToken?: string
 ): Promise<{ transactions: FinalizedTransaction[]; nextPage: string | null }> {
+  const heliusBaseUrl = getIndexerBaseUrl(chainId);
+
   let url: string;
   if (paginationToken) {
     const pagination = paginationFromB64(paginationToken);
 
-    url = `${HELIUS_API_URL}/v0/addresses/${accountAddress}/transactions/?api-key=${HELIUS_API_KEY}&before=${pagination}`;
+    url = `${heliusBaseUrl}/v0/addresses/${accountAddress}/transactions/?api-key=${HELIUS_API_KEY}&before=${pagination}`;
   } else {
-    url = `${HELIUS_API_URL}/v0/addresses/${accountAddress}/transactions/?api-key=${HELIUS_API_KEY}`;
+    url = `${heliusBaseUrl}/v0/addresses/${accountAddress}/transactions/?api-key=${HELIUS_API_KEY}`;
   }
 
   const response = await fetch(url);
@@ -229,7 +237,7 @@ async function fetchAccountHistory(
       data.map(async (heliusTransaction) => {
         return {
           raw: heliusTransaction,
-          parsed: await heliusTransactionToAdamikTransaction(heliusTransaction),
+          parsed: await heliusTransactionToAdamikTransaction(chainId, heliusTransaction),
         };
       })
     ),

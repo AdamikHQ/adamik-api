@@ -32,7 +32,7 @@ async function validateTransaction(
   const { transaction, status } = args;
 
   const transactionData = transaction.data;
-  const nativeBalance = await fetchNativeBalance(transaction.data.senderAddress);
+  const nativeBalance = await fetchNativeBalance(this.chainId, transaction.data.senderAddress);
   const fees = transactionData.fees;
 
   if (!fees) {
@@ -61,6 +61,7 @@ async function validateTransaction(
       }
 
       const tokenBalance = await fetchAccountTokenBalance(
+        this.chainId,
         transaction.data.senderAddress,
         transaction.data.tokenId
       );
@@ -75,7 +76,7 @@ async function validateTransaction(
       break;
 
     case TransactionMode.STAKE:
-      const votePubkey = await fetchAccountInfo(transaction.data.targetValidatorAddress);
+      const votePubkey = await fetchAccountInfo(this.chainId, transaction.data.targetValidatorAddress);
 
       if (!votePubkey) {
         throw new UserInputError("Validator address is invalid");

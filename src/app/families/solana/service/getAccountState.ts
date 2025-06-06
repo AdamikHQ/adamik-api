@@ -4,7 +4,7 @@ import { fetchAccountTokensBalance, fetchNativeBalance, fetchStakePositions } fr
 import { SolanaService } from "../service";
 
 async function getAccountState(this: SolanaService, accountId: string): Promise<AccountState> {
-  const { balance } = await fetchNativeBalance(accountId);
+  const { balance } = await fetchNativeBalance(this.chainId, accountId);
   const nativeBalanceTotal = BigInt(balance);
 
   let allTokenAmounts: TokenAmount[] = [];
@@ -12,7 +12,8 @@ async function getAccountState(this: SolanaService, accountId: string): Promise<
 
   do {
     const { tokenAmounts, nextPaginationToken: nextToken } = await fetchAccountTokensBalance(
-      accountId,  
+      this.chainId,
+      accountId,
       nextPaginationToken
     );
 
@@ -20,7 +21,7 @@ async function getAccountState(this: SolanaService, accountId: string): Promise<
     nextPaginationToken = nextToken ?? undefined;
   } while (nextPaginationToken !== undefined);
 
-  const stakeAccounts = await fetchStakePositions(new PublicKey(accountId));
+  const stakeAccounts = await fetchStakePositions(this.chainId, new PublicKey(accountId));
 
   const { stakeTotal, stakeLocked, stakeUnlocking, stakeUnlocked } = stakeAccounts.reduce(
     (acc, stakeAccount) => {

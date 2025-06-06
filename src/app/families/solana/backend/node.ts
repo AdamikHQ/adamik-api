@@ -31,10 +31,19 @@ import { getProviderUrls } from "../../common";
 import { HeliusAssetResponse, HeliusTokensResponse } from "./helius.types";
 import { GetAssetsByOwnerParams, ParsedStakeAccountInfo } from "./node.types";
 
-const nodeUrl = getProviderUrls(ChainId.SOLANA, ProviderType.node)[0] + `?api-key=${HELIUS_API_KEY}`;
-const connection = new Connection(nodeUrl);
+const getConnection = (chainId: ChainId) => {
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0] + `?api-key=${HELIUS_API_KEY}`;
+  const connection = new Connection(nodeUrl);
 
-async function fetchNativeBalance(accountAddress: string) {
+  return {
+    connection,
+    nodeUrl,
+  };
+};
+
+async function fetchNativeBalance(chainId: ChainId, accountAddress: string) {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const wallet = new PublicKey(accountAddress);
     const balance = await connection.getBalance(wallet);
@@ -45,12 +54,15 @@ async function fetchNativeBalance(accountAddress: string) {
   }
 }
 
-async function fetchAccountInfo(accountAddress: string) {
+async function fetchAccountInfo(chainId: ChainId, accountAddress: string) {
+  const { connection, nodeUrl } = getConnection(chainId);
   const account = await connection.getParsedAccountInfo(new PublicKey(accountAddress));
   return account;
 }
 
-async function broadcastTransaction(rawData: string): Promise<string> {
+async function broadcastTransaction(chainId: ChainId, rawData: string): Promise<string> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const txHash = await connection.sendRawTransaction(Buffer.from(rawData, "hex"));
     return txHash;
@@ -60,7 +72,9 @@ async function broadcastTransaction(rawData: string): Promise<string> {
   }
 }
 
-async function fetchLatestBlockhash(): Promise<string> {
+async function fetchLatestBlockhash(chainId: ChainId): Promise<string> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const latestBlockhash = await connection.getLatestBlockhash();
     return latestBlockhash.blockhash;
@@ -70,7 +84,11 @@ async function fetchLatestBlockhash(): Promise<string> {
   }
 }
 
-async function simulateTransaction(transaction: VersionedTransaction): Promise<number | undefined> {
+async function simulateTransaction(
+  chainId: ChainId,
+  transaction: VersionedTransaction
+): Promise<number | undefined> {
+  const { connection, nodeUrl } = getConnection(chainId);
   try {
     const simulationResponse = await connection.simulateTransaction(transaction);
     return simulationResponse.value.unitsConsumed;
@@ -80,7 +98,9 @@ async function simulateTransaction(transaction: VersionedTransaction): Promise<n
   }
 }
 
-async function fetchFeeForMessage(transactionMessage: MessageV0): Promise<number | null> {
+async function fetchFeeForMessage(chainId: ChainId, transactionMessage: MessageV0): Promise<number | null> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const fees = await connection.getFeeForMessage(transactionMessage);
     return fees.value;
@@ -90,7 +110,8 @@ async function fetchFeeForMessage(transactionMessage: MessageV0): Promise<number
   }
 }
 
-async function fetchAccountSPL(accountAddress: string): Promise<SolanaAccount | null> {
+async function fetchAccountSPL(chainId: ChainId, accountAddress: string): Promise<SolanaAccount | null> {
+  const { connection, nodeUrl } = getConnection(chainId);
   try {
     const account = await getAccount(connection, new PublicKey(accountAddress));
     return account;
@@ -103,7 +124,12 @@ async function fetchAccountSPL(accountAddress: string): Promise<SolanaAccount | 
   }
 }
 
-async function fetchEstimatedFeeFromNode(transaction: SolanaTransaction): Promise<number | null> {
+async function fetchEstimatedFeeFromNode(
+  chainId: ChainId,
+  transaction: SolanaTransaction
+): Promise<number | null> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const estimatedFee = await transaction.getEstimatedFee(connection);
     return estimatedFee;
@@ -113,7 +139,13 @@ async function fetchEstimatedFeeFromNode(transaction: SolanaTransaction): Promis
   }
 }
 
-async function fetchAccountTokenBalance(accountAddress: string, tokenId: string): Promise<bigint> {
+async function fetchAccountTokenBalance(
+  chainId: ChainId,
+  accountAddress: string,
+  tokenId: string
+): Promise<bigint> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const accountPk = new PublicKey(accountAddress);
     const tokenIdPk = new PublicKey(tokenId);
@@ -128,9 +160,12 @@ async function fetchAccountTokenBalance(accountAddress: string, tokenId: string)
 }
 
 async function fetchAccountTokensBalance(
+  chainId: ChainId,
   accountAddress: string,
   paginationToken?: string
 ): Promise<{ tokenAmounts: TokenAmount[]; nextPaginationToken: string | null }> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     let paginationData: { page: number; limit: number } | undefined;
     if (paginationToken) {
@@ -143,7 +178,7 @@ async function fetchAccountTokensBalance(
 
     const limit = paginationData?.limit || 1000;
     const page = paginationData?.page || 1;
-    const tokens = await fetchAssetsByOwner(accountAddress, page, limit);
+    const tokens = await fetchAssetsByOwner(chainId, accountAddress, page, limit);
 
     if (tokens.result.items.length === 0) {
       return { tokenAmounts: [], nextPaginationToken: null };
@@ -182,10 +217,12 @@ async function fetchAccountTokensBalance(
 // I'm not 100% sure if this method can be used in any RPC provider. Need to check.
 // If it's a custom method from Helius API.
 async function fetchAssetsByOwner(
+  chainId: ChainId,
   accountAddress: string,
   page: number,
   limit: number
 ): Promise<HeliusTokensResponse> {
+  const { nodeUrl } = getConnection(chainId);
   const params: GetAssetsByOwnerParams = {
     ownerAddress: accountAddress,
     page: page,
@@ -227,7 +264,8 @@ async function fetchAssetsByOwner(
   }
 }
 
-async function fetchAssetInfo(assetId: string): Promise<Token | null> {
+async function fetchAssetInfo(chainId: ChainId, assetId: string): Promise<Token | null> {
+  const { nodeUrl } = getConnection(chainId);
   try {
     let [token] = await TokenStore.load(ChainId.SOLANA, [assetId]);
     if (token !== null) {
@@ -271,7 +309,8 @@ async function fetchAssetInfo(assetId: string): Promise<Token | null> {
   }
 }
 
-async function fetchStakePositions(senderPk: PublicKey): Promise<StakingPosition[]> {
+async function fetchStakePositions(chainId: ChainId, senderPk: PublicKey): Promise<StakingPosition[]> {
+  const { connection, nodeUrl } = getConnection(chainId);
   // Get all accounts owned by the Stake Program
   try {
     const stakeAccountAddresses = await connection.getProgramAccounts(StakeProgram.programId, {
