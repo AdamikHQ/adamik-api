@@ -21,9 +21,12 @@ async function getAccountState(this: SolanaService, accountId: string): Promise<
     nextPaginationToken = nextToken ?? undefined;
   } while (nextPaginationToken !== undefined);
 
-  const stakeAccounts = await fetchStakePositions(this.chainId, new PublicKey(accountId));
+  const { stakePositions, rewardsPositions } = await fetchStakePositions(
+    this.chainId,
+    new PublicKey(accountId)
+  );
 
-  const { stakeTotal, stakeLocked, stakeUnlocking, stakeUnlocked } = stakeAccounts.reduce(
+  const { stakeTotal, stakeLocked, stakeUnlocking, stakeUnlocked } = stakePositions.reduce(
     (acc, stakeAccount) => {
       if (stakeAccount.status === StakingStatus.LOCKED) {
         acc.stakeLocked += stakeAccount.amount;
@@ -52,9 +55,9 @@ async function getAccountState(this: SolanaService, accountId: string): Promise<
         locked: BigInt(stakeLocked),
         unlocking: BigInt(stakeUnlocking),
         unlocked: BigInt(stakeUnlocked),
-        positions: stakeAccounts,
+        positions: stakePositions,
         rewards: {
-          native: [],
+          native: rewardsPositions,
           tokens: [],
         },
       },

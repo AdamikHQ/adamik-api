@@ -18,6 +18,7 @@ import {
   ChainId,
   ProviderType,
   StakingPosition,
+  StakingReward,
   StakingStatus,
   Token,
   TokenAmount,
@@ -309,7 +310,10 @@ async function fetchAssetInfo(chainId: ChainId, assetId: string): Promise<Token 
   }
 }
 
-async function fetchStakePositions(chainId: ChainId, senderPk: PublicKey): Promise<StakingPosition[]> {
+async function fetchStakePositions(
+  chainId: ChainId,
+  senderPk: PublicKey
+): Promise<{ stakePositions: StakingPosition[]; rewardsPositions: StakingReward[] }> {
   const { connection, nodeUrl } = getConnection(chainId);
   // Get all accounts owned by the Stake Program
   try {
@@ -331,6 +335,7 @@ async function fetchStakePositions(chainId: ChainId, senderPk: PublicKey): Promi
     });
 
     const stakePositions: StakingPosition[] = [];
+    const rewardsPositions: StakingReward[] = [];
 
     const currentEpoch = (await connection.getEpochInfo()).epoch;
 
@@ -357,10 +362,22 @@ async function fetchStakePositions(chainId: ChainId, senderPk: PublicKey): Promi
               : StakingStatus.LOCKED,
           stakeId: pubkey.toBase58(),
         });
+
+        const currentStakeAmount = stakeInfo.value?.lamports;
+        const initialStakeAmount = stakeDelegationData.stake;
+
+        if (currentStakeAmount && initialStakeAmount) {
+          const rewards = BigInt(currentStakeAmount) - BigInt(initialStakeAmount);
+          rewardsPositions.push({
+            validatorAddress: stakeDelegationData.voter,
+            amount: BigInt(rewards),
+            // stakeId: pubkey.toBase58(), // Note: we should probably add stakeId because it's this position that generated stake.
+          });
+        }
       }
     }
 
-    return stakePositions;
+    return { stakePositions, rewardsPositions };
   } catch (error) {
     console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
     throw new ThirdPartyProviderError(`Error while fetching stake positions for ${ChainId.SOLANA}`);
