@@ -19,7 +19,6 @@ async function fetchValidators(paginationToken?: string): Promise<Paginated<Chai
   try {
     const urls = getProviderUrls(ChainId.SOLANA, ProviderType.validatorApp);
     const url = `${urls[0]}/api/v1/validators/mainnet.json?order=stake&active_only=true&limit=100&page=${validatorPage}`;
-    console.log(url);
     const response = await fetch(url, {
       headers: {
         Token: SOLANA_VALIDATORS_APP_API_KEY,
@@ -43,7 +42,7 @@ async function fetchValidators(paginationToken?: string): Promise<Paginated<Chai
     };
   } catch (error) {
     console.warn("Error fetching validators from validatorApp", error);
-    throw new ThirdPartyProviderError("Error fetching validators from validatorApp");
+    throw new ThirdPartyProviderError("Error fetching validators for Solana");
   }
 }
 

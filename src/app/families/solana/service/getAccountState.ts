@@ -1,10 +1,10 @@
-import { PublicKey, StakeProgram } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import { AccountState, StakingStatus, TokenAmount } from "~/app/model/types_WIP";
-import { fetchAccount, fetchAccountTokensBalance, fetchStakePositions } from "../backend/node";
+import { fetchAccountTokensBalance, fetchNativeBalance, fetchStakePositions } from "../backend/node";
 import { SolanaService } from "../service";
 
 async function getAccountState(this: SolanaService, accountId: string): Promise<AccountState> {
-  const { balance } = await fetchAccount(accountId);
+  const { balance } = await fetchNativeBalance(accountId);
   const nativeBalanceTotal = BigInt(balance);
 
   let allTokenAmounts: TokenAmount[] = [];
@@ -12,7 +12,7 @@ async function getAccountState(this: SolanaService, accountId: string): Promise<
 
   do {
     const { tokenAmounts, nextPaginationToken: nextToken } = await fetchAccountTokensBalance(
-      accountId,
+      accountId,  
       nextPaginationToken
     );
 
@@ -20,28 +20,24 @@ async function getAccountState(this: SolanaService, accountId: string): Promise<
     nextPaginationToken = nextToken ?? undefined;
   } while (nextPaginationToken !== undefined);
 
-  const stakeAccounts = await fetchStakePositions(StakeProgram.programId, new PublicKey(accountId));
+  const stakeAccounts = await fetchStakePositions(new PublicKey(accountId));
 
-  const stakeTotal = stakeAccounts.reduce((acc, stakeAccount) => acc + stakeAccount.amount, 0n);
-  const stakeLocked = stakeAccounts.reduce((acc, stakeAccount) => {
-    if (stakeAccount.status === StakingStatus.LOCKED) {
-      return acc + stakeAccount.amount;
-    }
-    return acc;
-  }, 0n);
-  const stakeUnlocking = stakeAccounts.reduce((acc, stakeAccount) => {
-    if (stakeAccount.status === StakingStatus.UNLOCKING) {
-      return acc + stakeAccount.amount;
-    }
-    return acc;
-  }, 0n);
-
-  const stakeUnlocked = stakeAccounts.reduce((acc, stakeAccount) => {
-    if (stakeAccount.status === StakingStatus.UNLOCKED) {
-      return acc + stakeAccount.amount;
-    }
-    return acc;
-  }, 0n);
+  const { stakeTotal, stakeLocked, stakeUnlocking, stakeUnlocked } = stakeAccounts.reduce(
+    (acc, stakeAccount) => {
+      if (stakeAccount.status === StakingStatus.LOCKED) {
+        acc.stakeLocked += stakeAccount.amount;
+      }
+      if (stakeAccount.status === StakingStatus.UNLOCKING) {
+        acc.stakeUnlocking += stakeAccount.amount;
+      }
+      if (stakeAccount.status === StakingStatus.UNLOCKED) {
+        acc.stakeUnlocked += stakeAccount.amount;
+      }
+      acc.stakeTotal += stakeAccount.amount;
+      return acc;
+    },
+    { stakeTotal: 0n, stakeLocked: 0n, stakeUnlocking: 0n, stakeUnlocked: 0n }
+  );
 
   return {
     balances: {

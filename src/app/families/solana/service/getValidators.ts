@@ -6,12 +6,12 @@ export async function getValidators(
   this: SolanaService,
   paginationToken?: string
 ): Promise<Paginated<ChainValidators>> {
-  const validators = await fetchValidators(paginationToken);
+  const validatorsData = await fetchValidators(paginationToken);
 
   return {
-    validators: validators.validators,
+    validators: validatorsData.validators,
     pagination: {
-      nextPage: validators.pagination.nextPage,
+      nextPage: validatorsData.pagination.nextPage,
     },
   };
 }

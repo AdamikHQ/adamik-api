@@ -3,16 +3,16 @@ import { encodeBase58 } from "ethers";
 import { EncodedTransactionFormat, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import {
-  buildDeactivateStake,
+  buildDeactivateStakeTransaction,
+  buildStakeTransaction,
   buildTokenTransferTransaction,
-  buildTransactionStake,
   buildTransferTransaction,
-  buildWithdrawStake,
+  buildWithdrawStakeTransaction,
 } from "../logic";
 import { SolanaService } from "../service";
 import type { SolanaTransactionParams } from "../types";
 
-async function encodeTransaction(this: SolanaService, _: { transaction: Transaction; status: Status }) {
+async function encodeTransactionToSign(this: SolanaService, _: { transaction: Transaction; status: Status }) {
   const { transaction } = _;
 
   let borshTransaction = "";
@@ -27,7 +27,7 @@ async function encodeTransaction(this: SolanaService, _: { transaction: Transact
       break;
     case TransactionMode.STAKE:
       // how stake works on solana : https://solana.com/fr/staking#how-do-i-add-tokens-to-a-stake-account
-      const txStake = await buildTransactionStake(transaction);
+      const txStake = await buildStakeTransaction(transaction);
       borshTransaction = txStake.serializeMessage().toString("hex");
       const stakeAccountSignature = txStake.signatures.find(
         (signature) => signature.publicKey.toBase58() !== transaction.data.senderAddress
@@ -44,12 +44,12 @@ async function encodeTransaction(this: SolanaService, _: { transaction: Transact
 
       break;
     case TransactionMode.UNSTAKE:
-      const txUnstake = await buildDeactivateStake(transaction);
+      const txUnstake = await buildDeactivateStakeTransaction(transaction);
       borshTransaction = txUnstake.serializeMessage().toString("hex");
       break;
 
     case TransactionMode.WITHDRAW:
-      const txWithdraw = await buildWithdrawStake(transaction);
+      const txWithdraw = await buildWithdrawStakeTransaction(transaction);
       borshTransaction = txWithdraw.serializeMessage().toString("hex");
       break;
     default:
@@ -103,7 +103,7 @@ async function encodeTransactionToBroadcast(
 
   if (signedTransaction.data.mode === TransactionMode.STAKE && params) {
     if (!params.publicKey || !params.signature) {
-      throw new UserInputError("Invalid transaction params");
+      throw new UserInputError("Missing transaction params");
     }
 
     recoverTransaction.addSignature(new PublicKey(params.publicKey), Buffer.from(params.signature, "hex"));
@@ -112,4 +112,4 @@ async function encodeTransactionToBroadcast(
   return recoverTransaction.serialize().toString("hex");
 }
 
-export { encodeTransaction, encodeTransactionToBroadcast };
+export { encodeTransactionToBroadcast, encodeTransactionToSign };

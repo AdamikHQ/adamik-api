@@ -1,4 +1,5 @@
 import { HELIUS_API_KEY } from "~/app/config/apiKeys";
+import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
   FinalizedTransaction,
@@ -6,6 +7,7 @@ import {
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
+import { amountToSmallestUnit } from "~/app/tools/amount";
 import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { getProviderUrls } from "../../common";
@@ -32,15 +34,24 @@ async function fetchTransaction(transactionAddress: string): Promise<FinalizedTr
       throw new UserInputError("Transaction not found");
     }
 
-    const parsedTransaction = await heliusTransferToAdamikTransaction(heliusTransaction);
+    const parsedTransaction = await heliusTransactionToAdamikTransaction(heliusTransaction);
 
     return { raw: heliusTransaction, parsed: parsedTransaction };
   } catch (error: unknown) {
+    console.warn("Error fetching transaction", error);
     throw new ThirdPartyProviderError("Transaction not found");
   }
 }
 
-const getSendersAndRecipients = async (heliusTransaction: HeliusTransactionResponse) => {
+const extractSolAmount = (text: string): bigint | null => {
+  const match = text.match(/(\d+\.?\d*)\s*SOL/);
+  if (!match) return null;
+
+  const amount = parseFloat(match[1]);
+  return BigInt(amountToSmallestUnit(amount.toString(), CHAINS[ChainId.SOLANA].decimals) ?? 0);
+};
+
+const getTransferInfo = async (heliusTransaction: HeliusTransactionResponse) => {
   if (heliusTransaction.tokenTransfers.length > 0) {
     const token = await fetchAssetInfo(heliusTransaction.tokenTransfers[0].mint);
 
@@ -69,6 +80,58 @@ const getSendersAndRecipients = async (heliusTransaction: HeliusTransactionRespo
     };
   }
 
+  switch (heliusTransaction.type) {
+    case "STAKE_SOL":
+      return {
+        senders: [
+          {
+            address: heliusTransaction.nativeTransfers[0].fromUserAccount,
+            amount: 0n,
+          },
+        ],
+        recipients: [],
+        validators: {
+          target: {
+            address: heliusTransaction.instructions[0].accounts[0], // TODO: Check if it's always corresponding to validator.
+            amount: BigInt(heliusTransaction.nativeTransfers[0].amount),
+          },
+        },
+      };
+
+    case "UNSTAKE_SOL":
+      return {
+        senders: [
+          {
+            address: heliusTransaction.accountData[0].account,
+            amount: 0n,
+          },
+        ],
+        recipients: [
+          {
+            address: heliusTransaction.accountData[1].account,
+            amount: extractSolAmount(heliusTransaction.description) ?? 0n, // Note: I can only find the amount on description but not on node. Which is impractical.
+          },
+        ],
+      };
+
+    case "WITHDRAW":
+      return {
+        senders: [
+          {
+            address: heliusTransaction.accountData[0].account,
+            amount: 0n,
+          },
+        ],
+        recipients: [],
+        validators: {
+          target: {
+            address: heliusTransaction.accountData[1].account, // TODO: Check if it's always corresponding to validator.
+            amount: 0n,
+          },
+        },
+      };
+  }
+
   if (heliusTransaction.nativeTransfers.length > 0) {
     return {
       senders: [
@@ -92,7 +155,7 @@ const getSendersAndRecipients = async (heliusTransaction: HeliusTransactionRespo
   };
 };
 
-const heliusTransferToAdamikTransaction = async (
+const heliusTransactionToAdamikTransaction = async (
   heliusTransaction: HeliusTransactionResponse
 ): Promise<FinalizedTransaction["parsed"]> => {
   if (heliusTransaction.type === "NFT_MINT") {
@@ -117,7 +180,7 @@ const heliusTransferToAdamikTransaction = async (
     fees: { amount: BigInt(heliusTransaction.fee) },
     timestamp: new Date(heliusTransaction.timestamp * 1000).getTime(),
     blockHeight: BigInt(heliusTransaction.slot),
-    ...(await getSendersAndRecipients(heliusTransaction)),
+    ...(await getTransferInfo(heliusTransaction)),
   };
 
   return parsedTransaction;
@@ -166,7 +229,7 @@ async function fetchAccountHistory(
       data.map(async (heliusTransaction) => {
         return {
           raw: heliusTransaction,
-          parsed: await heliusTransferToAdamikTransaction(heliusTransaction),
+          parsed: await heliusTransactionToAdamikTransaction(heliusTransaction),
         };
       })
     ),

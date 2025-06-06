@@ -104,7 +104,7 @@ async function buildTokenTransferTransaction(transaction: Transaction): Promise<
   return tx;
 }
 
-async function buildTransactionStake(transaction: Transaction): Promise<SolanaTransaction> {
+async function buildStakeTransaction(transaction: Transaction): Promise<SolanaTransaction> {
   if (transaction.data.mode !== TransactionMode.STAKE) {
     throw new UserInputError("Invalid transaction mode");
   }
@@ -141,7 +141,7 @@ async function buildTransactionStake(transaction: Transaction): Promise<SolanaTr
   return tx;
 }
 
-async function buildDeactivateStake(transaction: Transaction): Promise<SolanaTransaction> {
+async function buildDeactivateStakeTransaction(transaction: Transaction): Promise<SolanaTransaction> {
   if (transaction.data.mode !== TransactionMode.UNSTAKE) {
     throw new UserInputError("Invalid transaction mode");
   }
@@ -170,7 +170,7 @@ async function buildDeactivateStake(transaction: Transaction): Promise<SolanaTra
   return tx;
 }
 
-async function buildWithdrawStake(transaction: Transaction): Promise<SolanaTransaction> {
+async function buildWithdrawStakeTransaction(transaction: Transaction): Promise<SolanaTransaction> {
   if (transaction.data.mode !== TransactionMode.WITHDRAW) {
     throw new UserInputError("Invalid transaction mode");
   }
@@ -202,10 +202,10 @@ async function buildWithdrawStake(transaction: Transaction): Promise<SolanaTrans
 }
 
 export {
-  buildDeactivateStake,
+  buildDeactivateStakeTransaction,
+  buildStakeTransaction,
   buildTokenTransferTransaction,
-  buildTransactionStake,
   buildTransferTransaction,
-  buildWithdrawStake,
+  buildWithdrawStakeTransaction,
   SOLANA_MIN_STAKE_AMOUNT,
 };

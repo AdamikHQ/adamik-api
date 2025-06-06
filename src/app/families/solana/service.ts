@@ -2,8 +2,8 @@ import { BaseChainService, StakingService, TokenService } from "~/app/model/serv
 import { broadcastTransaction as broadcastTransactionFn } from "./service/broadcastTransaction";
 import { completeTransaction as completeTransactionFn } from "./service/completeTransaction";
 import {
-  encodeTransaction as encodeTransactionFn,
   encodeTransactionToBroadcast as encodeTransactionToBroadcastFn,
+  encodeTransactionToSign as encodeTransactionToSignFn,
 } from "./service/encodeTransaction";
 import { getAccountHistory as getAccountHistoryFn } from "./service/getAccountHistory";
 import { getAccountState as getAccountStateFn } from "./service/getAccountState";
@@ -28,7 +28,7 @@ class SolanaService extends BaseChainService implements TokenService, StakingSer
   override prevalidateTransaction = prevalidateTransactionFn;
   override completeTransaction = completeTransactionFn;
   override validateTransaction = validateTransactionFn;
-  override encodeTransactionToSign = encodeTransactionFn;
+  override encodeTransactionToSign = encodeTransactionToSignFn;
   override encodeTransactionToBroadcast = encodeTransactionToBroadcastFn;
   override broadcastTransaction = broadcastTransactionFn;
 

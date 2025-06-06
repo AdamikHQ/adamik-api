@@ -1,12 +1,12 @@
 import { Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
-import { fetchAccount, fetchAccountTokenBalance, fetchEstimatedFeeFromNode } from "../backend/node";
+import { InvalidTransactionError } from "~/app/tools/handlers/errors";
+import { fetchAccountTokenBalance, fetchEstimatedFeeFromNode, fetchNativeBalance } from "../backend/node";
 import {
-  buildDeactivateStake,
+  buildDeactivateStakeTransaction,
+  buildStakeTransaction,
   buildTokenTransferTransaction,
-  buildTransactionStake,
   buildTransferTransaction,
-  buildWithdrawStake,
+  buildWithdrawStakeTransaction,
 } from "../logic";
 import { SolanaService } from "../service";
 
@@ -16,21 +16,13 @@ async function completeTransaction(
 ): Promise<void> {
   let balance;
   if (transaction.data.useMaxAmount) {
-    const account = await fetchAccount(transaction.data.senderAddress);
-    balance = account.balance;
+    const nativeBalanceData = await fetchNativeBalance(transaction.data.senderAddress);
+    balance = nativeBalanceData.balance;
 
     transaction.data.amount = BigInt(balance);
   }
 
-  const fees = await calculateFees(transaction);
-  if (!fees) {
-    throw new InvalidTransactionError({
-      errors: [{ message: "Failed to calculate fees" }],
-      warnings: [],
-    });
-  }
-
-  transaction.data.fees = BigInt(fees);
+  transaction.data.fees = BigInt(await calculateFees(transaction));
 
   if (transaction.data.useMaxAmount && balance !== undefined) {
     if (transaction.data.mode === TransactionMode.TRANSFER) {
@@ -51,15 +43,6 @@ async function completeTransaction(
 }
 
 async function calculateFees(transaction: Transaction) {
-  if (
-    transaction.data.mode === TransactionMode.TRANSFER ||
-    transaction.data.mode === TransactionMode.TRANSFER_TOKEN
-  ) {
-    if (!transaction.data.amount) {
-      throw new UserInputError("Amount is required");
-    }
-  }
-
   let tx;
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
@@ -69,13 +52,13 @@ async function calculateFees(transaction: Transaction) {
       tx = await buildTokenTransferTransaction(transaction);
       break;
     case TransactionMode.STAKE:
-      tx = await buildTransactionStake(transaction);
+      tx = await buildStakeTransaction(transaction);
       break;
     case TransactionMode.UNSTAKE:
-      tx = await buildDeactivateStake(transaction);
+      tx = await buildDeactivateStakeTransaction(transaction);
       break;
     case TransactionMode.WITHDRAW:
-      tx = await buildWithdrawStake(transaction);
+      tx = await buildWithdrawStakeTransaction(transaction);
       break;
     default:
       throw new InvalidTransactionError({

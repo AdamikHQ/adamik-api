@@ -10,6 +10,7 @@ import {
   MessageV0,
   PublicKey,
   Transaction as SolanaTransaction,
+  StakeProgram,
   VersionedTransaction,
 } from "@solana/web3.js";
 import { HELIUS_API_KEY } from "~/app/config/apiKeys";
@@ -33,7 +34,7 @@ import { GetAssetsByOwnerParams, ParsedStakeAccountInfo } from "./node.types";
 const nodeUrl = getProviderUrls(ChainId.SOLANA, ProviderType.node)[0] + `?api-key=${HELIUS_API_KEY}`;
 const connection = new Connection(nodeUrl);
 
-async function fetchAccount(accountAddress: string) {
+async function fetchNativeBalance(accountAddress: string) {
   try {
     const wallet = new PublicKey(accountAddress);
     const balance = await connection.getBalance(wallet);
@@ -270,10 +271,10 @@ async function fetchAssetInfo(assetId: string): Promise<Token | null> {
   }
 }
 
-async function fetchStakePositions(programId: PublicKey, senderPk: PublicKey): Promise<StakingPosition[]> {
+async function fetchStakePositions(senderPk: PublicKey): Promise<StakingPosition[]> {
   // Get all accounts owned by the Stake Program
   try {
-    const stakeAccountAddresses = await connection.getProgramAccounts(programId, {
+    const stakeAccountAddresses = await connection.getProgramAccounts(StakeProgram.programId, {
       filters: [
         // Filter by stake account structure - look for accounts where
         // the authority (staker or withdrawer) matches our public key
@@ -301,17 +302,18 @@ async function fetchStakePositions(programId: PublicKey, senderPk: PublicKey): P
         // We need to cast it because Lib doesn't allow to template the type
         const stakeInfoData = stakeInfo.value?.data as ParsedStakeAccountInfo;
 
+        const stakeDelegationData = stakeInfoData.parsed.info.stake.delegation;
+
         stakePositions.push({
-          validatorAddresses: [stakeInfoData.parsed.info.stake.delegation.voter],
-          amount: BigInt(stakeInfoData.parsed.info.stake.delegation.stake),
+          validatorAddresses: [stakeDelegationData.voter],
+          amount: BigInt(stakeDelegationData.stake),
           status:
-            BigInt(currentEpoch) > BigInt(stakeInfoData.parsed.info.stake.delegation.deactivationEpoch)
+            BigInt(currentEpoch) > BigInt(stakeDelegationData.deactivationEpoch)
               ? StakingStatus.UNLOCKED
-              : BigInt(currentEpoch) <= BigInt(stakeInfoData.parsed.info.stake.delegation.activationEpoch)
+              : BigInt(currentEpoch) <= BigInt(stakeDelegationData.activationEpoch)
               ? StakingStatus.PENDING
-              : BigInt(currentEpoch) ===
-                  BigInt(stakeInfoData.parsed.info.stake.delegation.deactivationEpoch) &&
-                stakeInfoData.parsed.info.stake.delegation.deactivationEpoch !== "18446744073709551615" // seems to be max value for epoch
+              : BigInt(currentEpoch) === BigInt(stakeDelegationData.deactivationEpoch) &&
+                stakeDelegationData.deactivationEpoch !== "18446744073709551615" // seems to be max value for epoch
               ? StakingStatus.UNLOCKING
               : StakingStatus.LOCKED,
           stakeId: pubkey.toBase58(),
@@ -328,7 +330,6 @@ async function fetchStakePositions(programId: PublicKey, senderPk: PublicKey): P
 
 export {
   broadcastTransaction,
-  fetchAccount,
   fetchAccountInfo,
   fetchAccountSPL,
   fetchAccountTokenBalance,
@@ -337,6 +338,7 @@ export {
   fetchEstimatedFeeFromNode,
   fetchFeeForMessage,
   fetchLatestBlockhash,
+  fetchNativeBalance,
   fetchStakePositions,
   simulateTransaction,
 };

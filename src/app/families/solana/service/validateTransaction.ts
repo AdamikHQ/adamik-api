@@ -2,7 +2,7 @@ import { PublicKey, VoteProgram } from "@solana/web3.js";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { prevalidateTransactionCommon } from "../../common";
-import { fetchAccount, fetchAccountInfo, fetchAccountTokenBalance } from "../backend/node";
+import { fetchAccountInfo, fetchAccountTokenBalance, fetchNativeBalance } from "../backend/node";
 import { SOLANA_MIN_STAKE_AMOUNT } from "../logic";
 import { SolanaService } from "../service";
 
@@ -32,12 +32,11 @@ async function validateTransaction(
   const { transaction, status } = args;
 
   const transactionData = transaction.data;
-  const nativeBalance = await fetchAccount(transaction.data.senderAddress);
-  const amount = transactionData.amount;
+  const nativeBalance = await fetchNativeBalance(transaction.data.senderAddress);
   const fees = transactionData.fees;
 
   if (!fees) {
-    throw new UserInputError("Fees doesn't seems to be calculated");
+    throw new UserInputError("Missing fees in transaction data");
   }
 
   switch (transaction.data.mode) {
@@ -76,11 +75,6 @@ async function validateTransaction(
       break;
 
     case TransactionMode.STAKE:
-      console.log("stake");
-      if (transaction.data.targetValidatorAddress === undefined) {
-        throw new UserInputError("Validator address is required");
-      }
-
       const votePubkey = await fetchAccountInfo(transaction.data.targetValidatorAddress);
 
       if (!votePubkey) {
