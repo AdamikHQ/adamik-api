@@ -1,29 +1,58 @@
-import { Message, Transaction as SolanaTransaction } from "@solana/web3.js";
+import { Message, PublicKey, Transaction as SolanaTransaction } from "@solana/web3.js";
 import { encodeBase58 } from "ethers";
-import {
-  EncodedTransactionFormat,
-  HashFunction,
-  Status,
-  Transaction,
-  TransactionMode,
-} from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
-import { sha256 } from "~/app/tools/hash";
-import { buildTokenTransferTransaction, buildTransferTransaction } from "../logic";
+import {
+  buildDeactivateStakeTransaction,
+  buildStakeTransaction,
+  buildTokenTransferTransaction,
+  buildTransferTransaction,
+  buildWithdrawStakeTransaction,
+} from "../logic";
 import { SolanaService } from "../service";
+import type { SolanaTransactionParams } from "../types";
 
-async function encodeTransaction(this: SolanaService, _: { transaction: Transaction; status: Status }) {
+async function encodeTransactionToSign(this: SolanaService, _: { transaction: Transaction; status: Status }) {
   const { transaction } = _;
 
   let borshTransaction = "";
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER:
-      borshTransaction = (await buildTransferTransaction(transaction)).serializeMessage().toString("hex");
-      break;
-    case TransactionMode.TRANSFER_TOKEN:
-      borshTransaction = (await buildTokenTransferTransaction(transaction))
+      borshTransaction = (await buildTransferTransaction(this.chainId, transaction))
         .serializeMessage()
         .toString("hex");
+      break;
+    case TransactionMode.TRANSFER_TOKEN:
+      borshTransaction = (await buildTokenTransferTransaction(this.chainId, transaction))
+        .serializeMessage()
+        .toString("hex");
+      break;
+    case TransactionMode.STAKE:
+      // how stake works on solana : https://solana.com/fr/staking#how-do-i-add-tokens-to-a-stake-account
+      const txStake = await buildStakeTransaction(this.chainId, transaction);
+      borshTransaction = txStake.serializeMessage().toString("hex");
+      const stakeAccountSignature = txStake.signatures.find(
+        (signature) => signature.publicKey.toBase58() !== transaction.data.senderAddress
+      );
+
+      if (!stakeAccountSignature) {
+        throw new UserInputError("Stake account signature not found");
+      }
+
+      transaction.data.params = {
+        signature: stakeAccountSignature.signature?.toString("hex") ?? "",
+        publicKey: stakeAccountSignature.publicKey.toString(),
+      };
+
+      break;
+    case TransactionMode.UNSTAKE:
+      const txUnstake = await buildDeactivateStakeTransaction(this.chainId, transaction);
+      borshTransaction = txUnstake.serializeMessage().toString("hex");
+      break;
+
+    case TransactionMode.WITHDRAW:
+      const txWithdraw = await buildWithdrawStakeTransaction(this.chainId, transaction);
+      borshTransaction = txWithdraw.serializeMessage().toString("hex");
       break;
     default:
       throw new UserInputError("Invalid transaction mode");
@@ -36,10 +65,6 @@ async function encodeTransaction(this: SolanaService, _: { transaction: Transact
         // from Documentation : "To pass instruction data from a client, it must be serialized into a byte buffer. To facilitate this process of serialization, we will be using Borsh."
         format: EncodedTransactionFormat.BORSH,
         value: borshTransaction,
-      },
-      hash: {
-        format: HashFunction.SHA256,
-        value: sha256(Buffer.from(borshTransaction, "hex")),
       },
     },
   ];
@@ -71,7 +96,22 @@ async function encodeTransactionToBroadcast(
     encodeBase58(Buffer.from(signedTransaction.signature, "hex")),
   ]);
 
+  recoverTransaction.addSignature(
+    new PublicKey(signedTransaction.data.senderAddress),
+    Buffer.from(signedTransaction.signature, "hex")
+  );
+
+  const params = signedTransaction.data.params as SolanaTransactionParams;
+
+  if (signedTransaction.data.mode === TransactionMode.STAKE && params) {
+    if (!params.publicKey || !params.signature) {
+      throw new UserInputError("Missing transaction params");
+    }
+
+    recoverTransaction.addSignature(new PublicKey(params.publicKey), Buffer.from(params.signature, "hex"));
+  }
+
   return recoverTransaction.serialize().toString("hex");
 }
 
-export { encodeTransaction, encodeTransactionToBroadcast };
+export { encodeTransactionToBroadcast, encodeTransactionToSign };

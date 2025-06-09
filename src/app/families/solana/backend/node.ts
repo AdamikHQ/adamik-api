@@ -10,22 +10,41 @@ import {
   MessageV0,
   PublicKey,
   Transaction as SolanaTransaction,
+  StakeProgram,
   VersionedTransaction,
 } from "@solana/web3.js";
 import { HELIUS_API_KEY } from "~/app/config/apiKeys";
-import { ChainId, ProviderType, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import {
+  ChainId,
+  ProviderType,
+  StakingPosition,
+  StakingReward,
+  StakingStatus,
+  Token,
+  TokenAmount,
+  TokenType,
+} from "~/app/model/types_WIP";
 import { nonNullable } from "~/app/tools/guard";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
 import { HeliusAssetResponse, HeliusTokensResponse } from "./helius.types";
-import { GetAssetsByOwnerParams } from "./node.types";
+import { GetAssetsByOwnerParams, ParsedStakeAccountInfo } from "./node.types";
 
-const nodeUrl = getProviderUrls(ChainId.SOLANA, ProviderType.node)[0] + `?api-key=${HELIUS_API_KEY}`;
-const connection = new Connection(nodeUrl);
+const getConnection = (chainId: ChainId) => {
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0] + `?api-key=${HELIUS_API_KEY}`;
+  const connection = new Connection(nodeUrl);
 
-async function fetchAccount(accountAddress: string) {
+  return {
+    connection,
+    nodeUrl,
+  };
+};
+
+async function fetchNativeBalance(chainId: ChainId, accountAddress: string) {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const wallet = new PublicKey(accountAddress);
     const balance = await connection.getBalance(wallet);
@@ -36,7 +55,15 @@ async function fetchAccount(accountAddress: string) {
   }
 }
 
-async function broadcastTransaction(rawData: string): Promise<string> {
+async function fetchAccountInfo(chainId: ChainId, accountAddress: string) {
+  const { connection, nodeUrl } = getConnection(chainId);
+  const account = await connection.getParsedAccountInfo(new PublicKey(accountAddress));
+  return account;
+}
+
+async function broadcastTransaction(chainId: ChainId, rawData: string): Promise<string> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const txHash = await connection.sendRawTransaction(Buffer.from(rawData, "hex"));
     return txHash;
@@ -46,7 +73,9 @@ async function broadcastTransaction(rawData: string): Promise<string> {
   }
 }
 
-async function fetchLatestBlockhash(): Promise<string> {
+async function fetchLatestBlockhash(chainId: ChainId): Promise<string> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const latestBlockhash = await connection.getLatestBlockhash();
     return latestBlockhash.blockhash;
@@ -56,7 +85,11 @@ async function fetchLatestBlockhash(): Promise<string> {
   }
 }
 
-async function simulateTransaction(transaction: VersionedTransaction): Promise<number | undefined> {
+async function simulateTransaction(
+  chainId: ChainId,
+  transaction: VersionedTransaction
+): Promise<number | undefined> {
+  const { connection, nodeUrl } = getConnection(chainId);
   try {
     const simulationResponse = await connection.simulateTransaction(transaction);
     return simulationResponse.value.unitsConsumed;
@@ -66,7 +99,9 @@ async function simulateTransaction(transaction: VersionedTransaction): Promise<n
   }
 }
 
-async function fetchFeeForMessage(transactionMessage: MessageV0): Promise<number | null> {
+async function fetchFeeForMessage(chainId: ChainId, transactionMessage: MessageV0): Promise<number | null> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const fees = await connection.getFeeForMessage(transactionMessage);
     return fees.value;
@@ -76,7 +111,8 @@ async function fetchFeeForMessage(transactionMessage: MessageV0): Promise<number
   }
 }
 
-async function fetchAccountSPL(accountAddress: string): Promise<SolanaAccount | null> {
+async function fetchAccountSPL(chainId: ChainId, accountAddress: string): Promise<SolanaAccount | null> {
+  const { connection, nodeUrl } = getConnection(chainId);
   try {
     const account = await getAccount(connection, new PublicKey(accountAddress));
     return account;
@@ -89,7 +125,12 @@ async function fetchAccountSPL(accountAddress: string): Promise<SolanaAccount | 
   }
 }
 
-async function fetchEstimatedFeeFromNode(transaction: SolanaTransaction): Promise<number | null> {
+async function fetchEstimatedFeeFromNode(
+  chainId: ChainId,
+  transaction: SolanaTransaction
+): Promise<number | null> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const estimatedFee = await transaction.getEstimatedFee(connection);
     return estimatedFee;
@@ -99,7 +140,13 @@ async function fetchEstimatedFeeFromNode(transaction: SolanaTransaction): Promis
   }
 }
 
-async function fetchAccountTokenBalance(accountAddress: string, tokenId: string): Promise<bigint> {
+async function fetchAccountTokenBalance(
+  chainId: ChainId,
+  accountAddress: string,
+  tokenId: string
+): Promise<bigint> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     const accountPk = new PublicKey(accountAddress);
     const tokenIdPk = new PublicKey(tokenId);
@@ -114,9 +161,12 @@ async function fetchAccountTokenBalance(accountAddress: string, tokenId: string)
 }
 
 async function fetchAccountTokensBalance(
+  chainId: ChainId,
   accountAddress: string,
   paginationToken?: string
 ): Promise<{ tokenAmounts: TokenAmount[]; nextPaginationToken: string | null }> {
+  const { connection, nodeUrl } = getConnection(chainId);
+
   try {
     let paginationData: { page: number; limit: number } | undefined;
     if (paginationToken) {
@@ -129,7 +179,7 @@ async function fetchAccountTokensBalance(
 
     const limit = paginationData?.limit || 1000;
     const page = paginationData?.page || 1;
-    const tokens = await fetchAssetsByOwner(accountAddress, page, limit);
+    const tokens = await fetchAssetsByOwner(chainId, accountAddress, page, limit);
 
     if (tokens.result.items.length === 0) {
       return { tokenAmounts: [], nextPaginationToken: null };
@@ -168,10 +218,12 @@ async function fetchAccountTokensBalance(
 // I'm not 100% sure if this method can be used in any RPC provider. Need to check.
 // If it's a custom method from Helius API.
 async function fetchAssetsByOwner(
+  chainId: ChainId,
   accountAddress: string,
   page: number,
   limit: number
 ): Promise<HeliusTokensResponse> {
+  const { nodeUrl } = getConnection(chainId);
   const params: GetAssetsByOwnerParams = {
     ownerAddress: accountAddress,
     page: page,
@@ -213,7 +265,8 @@ async function fetchAssetsByOwner(
   }
 }
 
-async function fetchAssetInfo(assetId: string): Promise<Token | null> {
+async function fetchAssetInfo(chainId: ChainId, assetId: string): Promise<Token | null> {
+  const { nodeUrl } = getConnection(chainId);
   try {
     let [token] = await TokenStore.load(ChainId.SOLANA, [assetId]);
     if (token !== null) {
@@ -257,9 +310,85 @@ async function fetchAssetInfo(assetId: string): Promise<Token | null> {
   }
 }
 
+async function fetchStakePositions(
+  chainId: ChainId,
+  accountId: string
+): Promise<{ stakePositions: StakingPosition[]; rewardsPositions: StakingReward[] }> {
+  const { connection, nodeUrl } = getConnection(chainId);
+  const accountPubkey = new PublicKey(accountId);
+
+  // Get all accounts owned by the Stake Program
+  try {
+    const stakeAccountAddresses = await connection.getProgramAccounts(StakeProgram.programId, {
+      filters: [
+        // Filter by stake account structure - look for accounts where
+        // the authority (staker or withdrawer) matches our public key
+        {
+          memcmp: {
+            offset: 12, // Offset for authorized staker in the stake account data
+            bytes: accountPubkey.toBase58(),
+          },
+        },
+      ],
+      dataSlice: {
+        offset: 0,
+        length: 0,
+      },
+    });
+
+    const stakePositions: StakingPosition[] = [];
+    const rewardsPositions: StakingReward[] = [];
+
+    const currentEpoch = (await connection.getEpochInfo()).epoch;
+
+    for (const { pubkey } of stakeAccountAddresses) {
+      const stakeInfo = await connection.getParsedAccountInfo(new PublicKey(pubkey.toBase58()));
+
+      if (stakeInfo) {
+        // We need to cast it because Lib doesn't allow to template the type
+        const stakeInfoData = stakeInfo.value?.data as ParsedStakeAccountInfo;
+
+        const stakeDelegationData = stakeInfoData.parsed.info.stake.delegation;
+
+        stakePositions.push({
+          validatorAddresses: [stakeDelegationData.voter],
+          amount: BigInt(stakeDelegationData.stake),
+          status:
+            BigInt(currentEpoch) > BigInt(stakeDelegationData.deactivationEpoch)
+              ? StakingStatus.UNLOCKED
+              : BigInt(currentEpoch) <= BigInt(stakeDelegationData.activationEpoch)
+              ? StakingStatus.PENDING
+              : BigInt(currentEpoch) === BigInt(stakeDelegationData.deactivationEpoch) &&
+                stakeDelegationData.deactivationEpoch !== "18446744073709551615" // seems to be max value for epoch
+              ? StakingStatus.UNLOCKING
+              : StakingStatus.LOCKED,
+          stakeId: pubkey.toBase58(),
+        });
+
+        const currentStakeAmount = stakeInfo.value?.lamports;
+        const initialStakeAmount = stakeDelegationData.stake;
+
+        if (currentStakeAmount && initialStakeAmount) {
+          const rewards = BigInt(currentStakeAmount) - BigInt(initialStakeAmount);
+          rewardsPositions.push({
+            validatorAddress: stakeDelegationData.voter,
+            amount: BigInt(rewards),
+            // stakeId: pubkey.toBase58(), // Note: we should probably add stakeId because it's this position that generated stake.
+          });
+        }
+      }
+    }
+
+    return { stakePositions, rewardsPositions };
+  } catch (error) {
+    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while fetching stake positions for ${ChainId.SOLANA}`);
+  }
+}
+
 export {
   broadcastTransaction,
-  fetchAccount,
+  fetchAccountInfo,
   fetchAccountSPL,
   fetchAccountTokenBalance,
   fetchAccountTokensBalance,
@@ -267,5 +396,7 @@ export {
   fetchEstimatedFeeFromNode,
   fetchFeeForMessage,
   fetchLatestBlockhash,
+  fetchNativeBalance,
+  fetchStakePositions,
   simulateTransaction,
 };

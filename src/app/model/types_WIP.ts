@@ -2,6 +2,7 @@ import { AptosTransactionParams } from "~/app/families/aptos/types";
 import { CosmosChainParams } from "~/app/families/cosmos/types";
 import { EvmChainParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
+import { SolanaTransactionParams } from "../families/solana/types";
 import { StarknetTransactionParams } from "../families/starknet/types";
 import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
@@ -149,21 +150,23 @@ type ApiRequestFilters = Record<string, true>;
 
 export enum ProviderType {
   node = "node",
-  blockchair = "blockchair",
-  mintscan = "mintscan",
-  blockscout = "blockscout",
-  routescan = "routescan",
-  etherscan = "etherscan",
-  alchemy = "alchemy",
-  moralis = "moralis",
-  tonapi = "tonapi",
-  tronscan = "tronscan",
-  starkscan = "starkscan",
   algoindexer = "algoindexer",
-  mempoolspace = "mempoolspace",
+  alchemy = "alchemy",
   aptosindexer = "aptosindexer",
   babylon = "babylon",
+  blockchair = "blockchair",
+  blockscout = "blockscout",
+  etherscan = "etherscan",
   helius = "helius",
+  mempoolspace = "mempoolspace",
+  mintscan = "mintscan",
+  moralis = "moralis",
+  oklink = "oklink",
+  routescan = "routescan",
+  starkscan = "starkscan",
+  tonapi = "tonapi",
+  tronscan = "tronscan",
+  validatorApp = "validatorApp",
 }
 
 type Provider = {
@@ -377,7 +380,8 @@ type TransactionParams =
   | TronTransactionParams
   | StarknetTransactionParams
   | TonTransactionParams
-  | AptosTransactionParams;
+  | AptosTransactionParams
+  | SolanaTransactionParams;
 
 enum DeployContractType {
   ARGENTX = "argentx",
