@@ -9,7 +9,11 @@ async function getAccountTokens(
   paginationToken?: string
 ): Promise<Paginated<AccountTokens>> {
   try {
-    const { tokenAmounts, nextPaginationToken } = await fetchAccountTokensBalance(accountId, paginationToken);
+    const { tokenAmounts, nextPaginationToken } = await fetchAccountTokensBalance(
+      this.chainId,
+      accountId,
+      paginationToken
+    );
 
     return {
       tokens: tokenAmounts,

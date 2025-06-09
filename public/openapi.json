@@ -5216,6 +5216,7 @@
                 "starknet-sepolia",
                 "babylon",
                 "babylon-testnet",
+                "solana",
                 "aptos",
                 "aptos-testnet"
               ]
@@ -5289,6 +5290,7 @@
                         "starknet-sepolia",
                         "babylon",
                         "babylon-testnet",
+                        "solana",
                         "aptos",
                         "aptos-testnet"
                       ]

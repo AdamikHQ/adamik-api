@@ -3,12 +3,12 @@ import { ChainSupportedFeatures } from "~/app/model/types_WIP";
 const SOLANA_FEATURES: ChainSupportedFeatures = {
   read: {
     token: true,
-    validators: false,
+    validators: true,
     account: {
-      balances: { native: true, tokens: true, staking: false },
-      transactions: { native: true, tokens: true, staking: false },
+      balances: { native: true, tokens: true, staking: true },
+      transactions: { native: true, tokens: true, staking: true },
     },
-    transaction: { native: true, tokens: true, staking: false },
+    transaction: { native: true, tokens: true, staking: true },
   },
   write: {
     transaction: {
@@ -16,10 +16,10 @@ const SOLANA_FEATURES: ChainSupportedFeatures = {
         deployAccount: false,
         transfer: true,
         transferToken: true,
-        stake: false,
-        unstake: false,
+        stake: true,
+        unstake: true,
         claimRewards: false,
-        withdraw: false,
+        withdraw: true,
         registerStake: false,
       },
       field: {

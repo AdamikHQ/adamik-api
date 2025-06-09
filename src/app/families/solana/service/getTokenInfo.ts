@@ -4,7 +4,7 @@ import { fetchAssetInfo } from "../backend/node";
 import { SolanaService } from "../service";
 
 async function getTokenInfo(this: SolanaService, tokenId: string): Promise<Token> {
-  const token = await fetchAssetInfo(tokenId);
+  const token = await fetchAssetInfo(this.chainId, tokenId);
 
   if (!token) {
     throw new UnsupportedTokenIDError(tokenId, this.chainId);

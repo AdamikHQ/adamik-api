@@ -1,0 +1,28 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=REDACTED",
+    "method": "POST",
+    "body": {
+      "method": "getEpochInfo",
+      "jsonrpc": "2.0",
+      "params": [],
+      "id": "b4eb7dd5-62a2-4504-afb1-0a9b6137d7a0"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": {
+        "absoluteSlot": 344362220,
+        "blockHeight": 322575283,
+        "epoch": 797,
+        "slotIndex": 58220,
+        "slotsInEpoch": 432000,
+        "transactionCount": 412985478434
+      },
+      "id": "b4eb7dd5-62a2-4504-afb1-0a9b6137d7a0"
+    },
+    "type": "json"
+  }
+}
