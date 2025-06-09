@@ -1,4 +1,3 @@
-import { PublicKey } from "@solana/web3.js";
 import { AccountState, StakingStatus, TokenAmount } from "~/app/model/types_WIP";
 import { fetchAccountTokensBalance, fetchNativeBalance, fetchStakePositions } from "../backend/node";
 import { SolanaService } from "../service";
@@ -21,10 +20,7 @@ async function getAccountState(this: SolanaService, accountId: string): Promise<
     nextPaginationToken = nextToken ?? undefined;
   } while (nextPaginationToken !== undefined);
 
-  const { stakePositions, rewardsPositions } = await fetchStakePositions(
-    this.chainId,
-    new PublicKey(accountId)
-  );
+  const { stakePositions, rewardsPositions } = await fetchStakePositions(this.chainId, accountId);
 
   const { stakeTotal, stakeLocked, stakeUnlocking, stakeUnlocked } = stakePositions.reduce(
     (acc, stakeAccount) => {

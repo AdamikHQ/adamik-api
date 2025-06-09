@@ -55,7 +55,26 @@ const extractSolAmount = (text: string): bigint | null => {
   return BigInt(amountToSmallestUnit(amount.toString(), CHAINS[ChainId.SOLANA].decimals) ?? 0);
 };
 
-const getTransferInfo = async (chainId: ChainId, heliusTransaction: HeliusTransactionResponse) => {
+const parseHeliusTransaction = async (chainId: ChainId, heliusTransaction: HeliusTransactionResponse) => {
+  // Native transfers
+  if (heliusTransaction.nativeTransfers.length > 0) {
+    return {
+      senders: [
+        {
+          address: heliusTransaction.nativeTransfers[0].fromUserAccount,
+          amount: BigInt(heliusTransaction.nativeTransfers[0].amount),
+        },
+      ],
+      recipients: [
+        {
+          address: heliusTransaction.nativeTransfers[0].toUserAccount,
+          amount: BigInt(heliusTransaction.nativeTransfers[0].amount),
+        },
+      ],
+    };
+  }
+
+  // Token transfers
   if (heliusTransaction.tokenTransfers.length > 0) {
     const token = await fetchAssetInfo(chainId, heliusTransaction.tokenTransfers[0].mint);
 
@@ -84,6 +103,7 @@ const getTransferInfo = async (chainId: ChainId, heliusTransaction: HeliusTransa
     };
   }
 
+  // Staking transactions
   switch (heliusTransaction.type) {
     case "STAKE_SOL":
       return {
@@ -136,23 +156,6 @@ const getTransferInfo = async (chainId: ChainId, heliusTransaction: HeliusTransa
       };
   }
 
-  if (heliusTransaction.nativeTransfers.length > 0) {
-    return {
-      senders: [
-        {
-          address: heliusTransaction.nativeTransfers[0].fromUserAccount,
-          amount: BigInt(heliusTransaction.nativeTransfers[0].amount),
-        },
-      ],
-      recipients: [
-        {
-          address: heliusTransaction.nativeTransfers[0].toUserAccount,
-          amount: BigInt(heliusTransaction.nativeTransfers[0].amount),
-        },
-      ],
-    };
-  }
-
   return {
     senders: [],
     recipients: [],
@@ -185,7 +188,7 @@ const heliusTransactionToAdamikTransaction = async (
     fees: { amount: BigInt(heliusTransaction.fee) },
     timestamp: new Date(heliusTransaction.timestamp * 1000).getTime(),
     blockHeight: BigInt(heliusTransaction.slot),
-    ...(await getTransferInfo(chainId, heliusTransaction)),
+    ...(await parseHeliusTransaction(chainId, heliusTransaction)),
   };
 
   return parsedTransaction;

@@ -312,9 +312,11 @@ async function fetchAssetInfo(chainId: ChainId, assetId: string): Promise<Token 
 
 async function fetchStakePositions(
   chainId: ChainId,
-  senderPk: PublicKey
+  accountId: string
 ): Promise<{ stakePositions: StakingPosition[]; rewardsPositions: StakingReward[] }> {
   const { connection, nodeUrl } = getConnection(chainId);
+  const accountPubkey = new PublicKey(accountId);
+
   // Get all accounts owned by the Stake Program
   try {
     const stakeAccountAddresses = await connection.getProgramAccounts(StakeProgram.programId, {
@@ -324,7 +326,7 @@ async function fetchStakePositions(
         {
           memcmp: {
             offset: 12, // Offset for authorized staker in the stake account data
-            bytes: senderPk.toBase58(),
+            bytes: accountPubkey.toBase58(),
           },
         },
       ],
