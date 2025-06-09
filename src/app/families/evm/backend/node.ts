@@ -35,7 +35,7 @@ import {
 import { publicActionsL2 } from "viem/op-stack";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
-import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
+import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
@@ -162,9 +162,9 @@ async function estimateGas({
       to: recipientAddress,
       value: amount,
     });
-  } catch (e) {
+  } catch (e: any) {
     console.warn(`/!\\ estimateGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
-    throw new ThirdPartyProviderError(`Error from the node while estimating gas for ${chainId} account`);
+    handleGasFeesEstimationError(chainId, e);
   }
 }
 
@@ -189,18 +189,18 @@ async function estimateERC20Gas({
       account: senderAddress,
       args: [recipientAddress, amount],
     });
-  } catch (e) {
+  } catch (e: any) {
     console.warn(`/!\\ estimateContractGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
-    throw new ThirdPartyProviderError(`Error from the node while estimating gas for ${chainId} account`);
+    handleGasFeesEstimationError(chainId, e);
   }
 }
 
 async function estimateFeesPerGas(chainId: ChainId): Promise<FeeValuesEIP1559> {
   try {
     return await getClient(chainId).estimateFeesPerGas();
-  } catch (e) {
+  } catch (e: any) {
     console.warn(`/!\\ estimateFeesPerGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
-    throw new ThirdPartyProviderError(`Error from the node while estimating gas fees for ${chainId} account`);
+    handleGasFeesEstimationError(chainId, e);
   }
 }
 
@@ -221,9 +221,9 @@ async function estimateFeesForL2({
       to: recipientAddress,
       value: amount,
     });
-  } catch (e) {
+  } catch (e: any) {
     console.warn(`/!\\ estimateTotalFee call failed on node of chain ${chainId}:`, JSON.stringify(e));
-    throw new ThirdPartyProviderError(`Error from the node while estimating gas fees for ${chainId} account`);
+    handleGasFeesEstimationError(chainId, e);
   }
 }
 
@@ -248,9 +248,9 @@ async function estimateERC20FeesForL2({
       account: senderAddress,
       args: [recipientAddress, amount],
     });
-  } catch (e) {
+  } catch (e: any) {
     console.warn(`/!\\ estimateContractTotalFee call failed on node of chain ${chainId}:`, JSON.stringify(e));
-    throw new ThirdPartyProviderError(`Error from the node while estimating gas fees for ${chainId} account`);
+    handleGasFeesEstimationError(chainId, e);
   }
 }
 
@@ -367,6 +367,24 @@ async function broadcast(chainId: ChainId, signedTransaction: string) {
   } catch (e) {
     console.warn(`/!\\ sendRawTransaction call failed on node of chain ${chainId}:`, JSON.stringify(e));
     throw new ThirdPartyProviderError(`Error while sending ${chainId} raw transaction to the node`);
+  }
+}
+
+function handleGasFeesEstimationError(chainId: ChainId, error: any): never {
+  if (
+    [
+      // L1 nodes' response when insufficient funds
+      "insufficient funds",
+      // L2 nodes' response when insufficient funds
+      "gas required exceeds allowance",
+    ].some((message) => error?.cause?.details?.includes(message))
+  ) {
+    throw new UserInputError(`Balance is too low`);
+  } else {
+    // Generic error
+    throw new ThirdPartyProviderError(
+      `Error from the node while estimating gas and fees for ${chainId} account`
+    );
   }
 }
 
