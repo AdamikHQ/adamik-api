@@ -5,6 +5,7 @@ import {
   accountIdSchema,
   bigintToStringSchema,
   getSupportedChainIdsSchema,
+  stakeIdSchema,
   tokenSchema,
 } from "~/app/api/schemaCommon";
 import { CHAINS } from "~/app/config/chains";
@@ -97,9 +98,7 @@ const responseSchema = z.object({
         }),
         positions: z
           .object({
-            stakeId: z.string().optional().openapi({
-              description: "Unique identifier for the staking position.",
-            }),
+            stakeId: stakeIdSchema.optional(),
             validatorAddresses: z.string().array().openapi({
               description: "List of validator addresses involved in staking position.",
             }),

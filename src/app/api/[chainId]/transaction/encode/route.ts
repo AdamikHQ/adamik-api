@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { getService } from "~/app/config/services";
-import { Status, Transaction, TransactionData } from "~/app/model/types_WIP";
+import { Status, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { apiHandler } from "~/app/tools/handlers/apiHandler";
-import { InvalidTransactionError } from "~/app/tools/handlers/errors";
+import { ComingSoonError, InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { pathParamsSchema, requestSchema } from "./schema";
 
 // FIXME Temporary hack to postpone refactoring the internal model for now.
@@ -37,6 +37,13 @@ export const POST = apiHandler(
     const { chainId } = pathParams;
 
     const transactionData: TransactionData = body.transaction.data;
+
+    // Temporary test of the new convert mode (swap/bridge)
+    if (transactionData.mode === TransactionMode.CONVERT_ASSET) {
+      throw new ComingSoonError(
+        "The convert asset feature is not available yet, we are currently evaluating the demand for it. Your interest has been recorded! Thank you for using the API."
+      );
+    }
 
     const service = getService(chainId);
 

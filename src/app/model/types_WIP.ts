@@ -323,6 +323,7 @@ enum TransactionMode {
   CLAIM_REWARDS = "claimRewards",
   WITHDRAW = "withdraw",
   REGISTER_STAKE = "registerStake", // Babylon use-case: register a bitcoin stake
+  CONVERT_ASSET = "convertAsset", // Swap + Bridge (Only mocked for now, for evaluating demand)
 }
 
 enum TransactionState {
@@ -463,6 +464,22 @@ type RegisterStakeTransactionData = CommonTransactionData & {
   signedUnbondingSlashingTransaction: string;
 };
 
+type ConvertAssetTransactionData = CommonTransactionData & {
+  mode: TransactionMode.CONVERT_ASSET;
+  from: {
+    tokenId: string;
+    address: string;
+  };
+  to: {
+    chainId?: ChainId;
+    tokenId: string;
+    address: string;
+  };
+  amount: bigint;
+  includeFees: boolean; // Whether fees are included in amount, or paid on top of it
+  slippage?: number; // % (between 0 and 1)
+};
+
 type TransactionData =
   | DeployAccountTransactionData
   | TransferTransactionData
@@ -471,7 +488,8 @@ type TransactionData =
   | UnstakeTransactionData
   | ClaimRewardsTransactionData
   | WithdrawTransactionData
-  | RegisterStakeTransactionData;
+  | RegisterStakeTransactionData
+  | ConvertAssetTransactionData;
 
 type EncodedTransactionRaw = {
   format: EncodedTransactionFormat;

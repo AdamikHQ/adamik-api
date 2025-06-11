@@ -199,7 +199,7 @@ const validatorAddressSchema = z.string().openapi({
 
 const stakeIdSchema = z.string().openapi({
   description:
-    "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik",
+    "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction.",
 });
 
 const stakingCompoundSchema = z.boolean().openapi({
@@ -448,6 +448,50 @@ const outputWithdrawSchema = z
       "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik",
   });
 
+const inputConvertAssetSchema = z
+  .object({
+    mode: z.literal(TransactionMode.CONVERT_ASSET),
+    from: z.object({
+      tokenId: z.string(),
+      address: z.string(),
+    }),
+    to: z.object({
+      chainId: z.nativeEnum(ChainId).optional(),
+      tokenId: z.string(),
+      address: z.string(),
+    }),
+    amount: stringToBigIntSchema,
+    includeFees: z.boolean(),
+    slippage: z.number().min(0).max(1).optional(),
+  })
+  .openapi({
+    title: "Convert from an asset to another",
+    description:
+      "Allows to convert from an asset (native or token) to another one, either on the same or on a different chain. The API determines whether swap and/or bridge operations are required.",
+  });
+
+const outputConvertAssetSchema = z
+  .object({
+    mode: z.literal(TransactionMode.CONVERT_ASSET),
+    from: z.object({
+      tokenId: z.string(),
+      address: z.string(),
+    }),
+    to: z.object({
+      chainId: z.nativeEnum(ChainId).optional(),
+      tokenId: z.string(),
+      address: z.string(),
+    }),
+    amount: bigintToStringSchema,
+    includeFees: z.boolean(),
+    slippage: z.number().min(0).max(1).optional(),
+  })
+  .openapi({
+    title: "Convert from an asset to another",
+    description:
+      "Allows to convert from an asset (native or token) to another one, either on the same or on a different chain. The API determines whether swap and/or bridge operations are required.",
+  });
+
 const inputRegisterStakeSchema = z
   .object({
     mode: z.literal(TransactionMode.REGISTER_STAKE),
@@ -619,6 +663,7 @@ export {
   getSupportedChainIdsSchema,
   inputAmountSchema,
   inputClaimRewardsSchema,
+  inputConvertAssetSchema,
   inputDeployAccountSchema,
   inputFeesSchema,
   inputGasSchema,
@@ -633,6 +678,7 @@ export {
   memoSchema,
   outputAmountSchema,
   outputClaimRewardsSchema,
+  outputConvertAssetSchema,
   outputDeployAccountSchema,
   outputFeesSchema,
   outputGasSchema,
@@ -650,6 +696,7 @@ export {
   senderAddressSchema,
   senderPubKeySchema,
   signatureSchema,
+  stakeIdSchema,
   stakingCompoundSchema,
   statusSchema,
   tokenIdSchema,
