@@ -41,7 +41,7 @@ export const POST = apiHandler(
     // Temporary test of the new convert mode (swap/bridge)
     if (transactionData.mode === TransactionMode.CONVERT_ASSET) {
       throw new ComingSoonError(
-        "The convert asset feature is not available yet, we are currently evaluating the demand for it. Your interest has been recorded! Thank you for using the API."
+        "The convert asset feature is available to Adamik Premium users. To learn more, feel free to contact us at https://adamik.io/contact."
       );
     }
 
