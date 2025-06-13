@@ -59,7 +59,7 @@ export async function validateTransaction(
     case TransactionMode.STAKE: {
       // Min staking amount is hard-coded in the DelegationPool contract
       // https://github.com/aptos-labs/aptos-core/blob/8d334a240ce4920c3651369404f53f2f602beafc/aptos-move/framework/aptos-framework/sources/delegation_pool.move#L244
-      if (amount < 10_00000000n) {
+      if (amount <= 10_00000000n) {
         status.errors.push({
           message: "The minimum delegation amount is 10 APT",
         });
