@@ -7354,9 +7354,17 @@
                                     "type": "string",
                                     "const": "withdraw"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
                                   "senderPubKey": {
                                     "type": "string",
                                     "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
@@ -7373,6 +7381,7 @@
                                 },
                                 "required": [
                                   "mode",
+                                  "senderAddress",
                                   "senderPubKey",
                                   "validatorAddress",
                                   "recipientAddress"
@@ -7833,9 +7842,18 @@
                                       "type": "string",
                                       "const": "withdraw"
                                     },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "Address or ID of the sender account."
+                                    },
                                     "senderPubKey": {
                                       "type": "string",
                                       "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                    },
+                                    "amount": {
+                                      "type": "integer",
+                                      "format": "int64",
+                                      "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                     },
                                     "validatorAddress": {
                                       "type": "string",
@@ -7852,6 +7870,7 @@
                                   },
                                   "required": [
                                     "mode",
+                                    "senderAddress",
                                     "senderPubKey",
                                     "validatorAddress",
                                     "recipientAddress"
@@ -8410,9 +8429,17 @@
                                     "type": "string",
                                     "const": "withdraw"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
                                   "senderPubKey": {
                                     "type": "string",
                                     "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
@@ -8429,6 +8456,7 @@
                                 },
                                 "required": [
                                   "mode",
+                                  "senderAddress",
                                   "senderPubKey",
                                   "validatorAddress",
                                   "recipientAddress"
@@ -9048,9 +9076,17 @@
                                     "type": "string",
                                     "const": "withdraw"
                                   },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  },
                                   "senderPubKey": {
                                     "type": "string",
                                     "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
+                                  },
+                                  "amount": {
+                                    "type": "string",
+                                    "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
                                   },
                                   "validatorAddress": {
                                     "type": "string",
@@ -9067,6 +9103,7 @@
                                 },
                                 "required": [
                                   "mode",
+                                  "senderAddress",
                                   "senderPubKey",
                                   "validatorAddress",
                                   "recipientAddress"
