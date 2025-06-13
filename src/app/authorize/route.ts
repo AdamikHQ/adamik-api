@@ -6,9 +6,10 @@ const redis = createClient({
   url: env.REDIS_URL,
 });
 
-redis.connect();
+const redisConnected = redis.connect();
 
 export const GET = async (request: NextRequest) => {
+  await redisConnected;
   const apiKey = request.nextUrl.searchParams.get("apiKey");
 
   if (!apiKey) {
