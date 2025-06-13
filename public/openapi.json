@@ -7850,6 +7850,11 @@
                                       "type": "string",
                                       "description": "Public key of the sender account, required in some situations. It is advised to provide it by default if you can."
                                     },
+                                    "amount": {
+                                      "type": "integer",
+                                      "format": "int64",
+                                      "description": "Optional amount to use (always in smallest unit). Use either this or useMaxAmount."
+                                    },
                                     "validatorAddress": {
                                       "type": "string",
                                       "description": "Address or ID of a validator"

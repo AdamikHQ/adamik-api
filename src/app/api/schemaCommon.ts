@@ -441,6 +441,7 @@ const outputWithdrawSchema = z
     mode: z.literal(TransactionMode.WITHDRAW),
     senderAddress: senderAddressSchema,
     senderPubKey: senderPubKeySchema,
+    amount: inputAmountSchema.optional(),
     validatorAddress: validatorAddressSchema,
     stakeId: stakeIdSchema.optional(),
     recipientAddress: recipientAddressSchema,
