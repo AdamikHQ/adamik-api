@@ -456,15 +456,16 @@ const inputConvertAssetSchema = z
   .object({
     mode: z.literal(TransactionMode.CONVERT_ASSET),
     from: z.object({
+      amount: stringToBigIntSchema,
       tokenId: z.string(),
       address: z.string(),
     }),
     to: z.object({
+      amount: stringToBigIntSchema.optional(),
       chainId: z.nativeEnum(ChainId).optional(),
       tokenId: z.string(),
       address: z.string(),
     }),
-    amount: stringToBigIntSchema,
     includeFees: z.boolean(),
     slippage: z.number().min(0).max(1).optional(),
   })
@@ -478,15 +479,16 @@ const outputConvertAssetSchema = z
   .object({
     mode: z.literal(TransactionMode.CONVERT_ASSET),
     from: z.object({
+      amount: bigintToStringSchema,
       tokenId: z.string(),
       address: z.string(),
     }),
     to: z.object({
+      amount: bigintToStringSchema,
       chainId: z.nativeEnum(ChainId).optional(),
       tokenId: z.string(),
       address: z.string(),
     }),
-    amount: bigintToStringSchema,
     includeFees: z.boolean(),
     slippage: z.number().min(0).max(1).optional(),
   })
