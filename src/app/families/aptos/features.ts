@@ -21,6 +21,7 @@ const APTOS_FEATURES: ChainSupportedFeatures = {
         claimRewards: false,
         withdraw: true,
         registerStake: false,
+        convertAsset: false,
       },
       field: {
         memo: false,

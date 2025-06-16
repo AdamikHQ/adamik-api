@@ -21,6 +21,7 @@ const TRON_FEATURES: ChainSupportedFeatures = {
         claimRewards: false,
         withdraw: false,
         registerStake: false,
+        convertAsset: true,
       },
       field: {
         memo: false,
