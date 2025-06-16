@@ -467,17 +467,18 @@ type RegisterStakeTransactionData = CommonTransactionData & {
 type ConvertAssetTransactionData = CommonTransactionData & {
   mode: TransactionMode.CONVERT_ASSET;
   from: {
+    amount: bigint;
     tokenId: string;
     address: string;
   };
   to: {
+    amount?: bigint;
     chainId?: ChainId;
     tokenId: string;
     address: string;
   };
-  amount: bigint;
-  includeFees: boolean; // Whether fees are included in amount, or paid on top of it
-  slippage?: number; // % (between 0 and 1)
+  includeFees: boolean; // Whether fees are deduced from amount, or paid on top of it
+  slippage?: number; // Maximum acceptable deviation % from amount out
 };
 
 type TransactionData =
