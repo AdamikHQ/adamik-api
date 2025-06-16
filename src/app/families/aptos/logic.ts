@@ -13,6 +13,8 @@ import {
 } from "~/app/model/types_WIP";
 import { AptosCoinIdentifier, AptosTransaction } from "~/app/families/aptos/types";
 import { fetchAccountCoins, fetchStakingPositions } from "~/app/families/aptos/backend/indexer";
+import { AccountDelegation } from "~/app/families/aptos/backend/types";
+import { fetchStakingAmounts } from "~/app/families/aptos/backend/node";
 
 export async function getMaxSpendable(
   chainId: ChainId,
@@ -139,26 +141,26 @@ export function aptosToAdamikTransaction(tx: AptosTransaction): FinalizedTransac
   };
 }
 
-function stakingStatusByPoolType(poolType: string): StakingStatus {
-  switch (poolType) {
-    case "active_shares":
-      return StakingStatus.LOCKED;
-    case "inactive_shares":
-      return StakingStatus.UNLOCKING;
-    default:
-      return StakingStatus.UNLOCKED;
-  }
+async function stakingStatusForDelegation(
+  chainId: ChainId,
+  address: string,
+  position: AccountDelegation
+): Promise<StakingStatus> {
+  if (position.pool_type === "active_shares") return StakingStatus.LOCKED;
+  const amounts = await fetchStakingAmounts(chainId, address, position.pool_address);
+  return amounts.unlocked > 0 ? StakingStatus.UNLOCKED : StakingStatus.UNLOCKING;
 }
 
 async function getStakingPositions(chainId: ChainId, address: string): Promise<StakingPosition[]> {
   const positions = await fetchStakingPositions(chainId, address);
-  return positions
-    .filter((position) => position.shares > 0)
-    .map((position) => ({
-      validatorAddresses: [position.pool_address],
-      amount: BigInt(Math.floor(position.shares)),
-      status: stakingStatusByPoolType(position.pool_type),
-    }));
+  const statuses = await Promise.all(
+    positions.map((position) => stakingStatusForDelegation(chainId, address, position))
+  );
+  return positions.map((position, i) => ({
+    validatorAddresses: [position.pool_address],
+    amount: BigInt(Math.floor(position.shares)),
+    status: statuses[i],
+  }));
 }
 export async function getStakingState(
   chainId: ChainId,
