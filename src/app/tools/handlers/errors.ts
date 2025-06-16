@@ -136,3 +136,14 @@ export class CosmosAccountSequenceMismatchError extends Error {
     this.expectedAccountSequence = expectedAccountSequence;
   }
 }
+
+// Special error to let the user know that a feature is coming soon
+export class ComingSoonError extends AdamikHttpError {
+  name = "ComingSoonError";
+  statusText = "Coming Soon!";
+  status = 501;
+
+  constructor(message?: string) {
+    super(message);
+  }
+}

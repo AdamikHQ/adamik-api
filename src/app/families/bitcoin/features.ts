@@ -21,6 +21,7 @@ const BITCOIN_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
         claimRewards: false,
         withdraw: isStakingSupported(chainId),
         registerStake: false,
+        convertAsset: false,
       },
       field: {
         memo: false,

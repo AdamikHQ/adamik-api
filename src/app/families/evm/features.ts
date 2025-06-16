@@ -33,6 +33,7 @@ const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
         claimRewards: false,
         withdraw: false,
         registerStake: false,
+        convertAsset: true,
       },
       field: {
         memo: false,
@@ -66,6 +67,7 @@ const EVM_ROOTSTOCK_FEATURES: ChainSupportedFeatures = {
         claimRewards: false,
         withdraw: false,
         registerStake: false,
+        convertAsset: false,
       },
       field: {
         memo: false,

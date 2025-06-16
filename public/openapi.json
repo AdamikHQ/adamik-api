@@ -5476,7 +5476,8 @@
                                     "unstake",
                                     "claimRewards",
                                     "withdraw",
-                                    "registerStake"
+                                    "registerStake",
+                                    "convertAsset"
                                   ]
                                 },
                                 {
@@ -6174,7 +6175,7 @@
                                 "properties": {
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier for the staking position."
+                                    "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                   },
                                   "validatorAddresses": {
                                     "type": "array",
@@ -6802,7 +6803,8 @@
                                       "unstake",
                                       "claimRewards",
                                       "withdraw",
-                                      "registerStake"
+                                      "registerStake",
+                                      "convertAsset"
                                     ]
                                   },
                                   {
@@ -7290,7 +7292,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                   },
                                   "amount": {
                                     "type": "string",
@@ -7331,7 +7333,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -7372,7 +7374,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                   },
                                   "recipientAddress": {
                                     "type": "string",
@@ -7452,6 +7454,161 @@
                                 ],
                                 "title": "Register Stake",
                                 "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "convertAsset"
+                                  },
+                                  "from": {
+                                    "type": "object",
+                                    "properties": {
+                                      "tokenId": {
+                                        "type": "string"
+                                      },
+                                      "address": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "tokenId",
+                                      "address"
+                                    ]
+                                  },
+                                  "to": {
+                                    "type": "object",
+                                    "properties": {
+                                      "chainId": {
+                                        "type": "string",
+                                        "enum": [
+                                          "aptos",
+                                          "aptos-testnet",
+                                          "algorand",
+                                          "ethereum",
+                                          "sepolia",
+                                          "holesky",
+                                          "zksync",
+                                          "zksync-sepolia",
+                                          "injective-evm-testnet",
+                                          "base",
+                                          "base-sepolia",
+                                          "optimism",
+                                          "optimism-sepolia",
+                                          "arbitrum",
+                                          "arbitrum-sepolia",
+                                          "polygon",
+                                          "polygon-amoy",
+                                          "bsc",
+                                          "bsc-testnet",
+                                          "linea",
+                                          "linea-sepolia",
+                                          "avalanche",
+                                          "avalanche-fuji",
+                                          "gnosis",
+                                          "gnosis-chiado",
+                                          "moonbeam",
+                                          "moonriver",
+                                          "moonbase",
+                                          "fantom",
+                                          "mantle",
+                                          "chiliz",
+                                          "chiliz-testnet",
+                                          "ton",
+                                          "tron",
+                                          "rootstock",
+                                          "rootstock-testnet",
+                                          "bitcoin",
+                                          "bitcoin-testnet",
+                                          "bitcoin-signet",
+                                          "litecoin",
+                                          "dogecoin",
+                                          "starknet",
+                                          "starknet-sepolia",
+                                          "monad-testnet",
+                                          "bitsong",
+                                          "chihuahua",
+                                          "seda",
+                                          "persistence",
+                                          "comdex",
+                                          "humans-ai",
+                                          "ki",
+                                          "provenance",
+                                          "quicksilver",
+                                          "saga",
+                                          "kava",
+                                          "sei",
+                                          "fetch-ai",
+                                          "cosmoshub",
+                                          "osmosis",
+                                          "celestia",
+                                          "dydx",
+                                          "axelar",
+                                          "evmos",
+                                          "irisnet",
+                                          "juno",
+                                          "lum-network",
+                                          "omniflix",
+                                          "medibloc",
+                                          "passage",
+                                          "quasar",
+                                          "sommelier",
+                                          "shentu",
+                                          "stride",
+                                          "terra2",
+                                          "akash",
+                                          "dymension",
+                                          "band",
+                                          "stargaze",
+                                          "kyve",
+                                          "likecoin",
+                                          "osmosis-testnet",
+                                          "celestia-testnet",
+                                          "cosmoshub-testnet",
+                                          "injective",
+                                          "babylon",
+                                          "babylon-testnet",
+                                          "berachain",
+                                          "berachain-artio",
+                                          "cronos",
+                                          "world-chain",
+                                          "solana"
+                                        ]
+                                      },
+                                      "tokenId": {
+                                        "type": "string"
+                                      },
+                                      "address": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "tokenId",
+                                      "address"
+                                    ]
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "includeFees": {
+                                    "type": "boolean"
+                                  },
+                                  "slippage": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "from",
+                                  "to",
+                                  "amount",
+                                  "includeFees"
+                                ],
+                                "title": "Convert from an asset to another",
+                                "description": "Allows to convert from an asset (native or token) to another one, either on the same or on a different chain. The API determines whether swap and/or bridge operations are required."
                               }
                             ]
                           }
@@ -7777,7 +7934,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                      "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                     },
                                     "amount": {
                                       "type": "string",
@@ -7819,7 +7976,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                      "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                     },
                                     "compound": {
                                       "type": "boolean",
@@ -7861,7 +8018,7 @@
                                     },
                                     "stakeId": {
                                       "type": "string",
-                                      "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                      "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                     },
                                     "recipientAddress": {
                                       "type": "string",
@@ -8365,7 +8522,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                   },
                                   "amount": {
                                     "type": "string",
@@ -8406,7 +8563,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -8447,7 +8604,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                   },
                                   "recipientAddress": {
                                     "type": "string",
@@ -8527,6 +8684,161 @@
                                 ],
                                 "title": "Register Stake",
                                 "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "convertAsset"
+                                  },
+                                  "from": {
+                                    "type": "object",
+                                    "properties": {
+                                      "tokenId": {
+                                        "type": "string"
+                                      },
+                                      "address": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "tokenId",
+                                      "address"
+                                    ]
+                                  },
+                                  "to": {
+                                    "type": "object",
+                                    "properties": {
+                                      "chainId": {
+                                        "type": "string",
+                                        "enum": [
+                                          "aptos",
+                                          "aptos-testnet",
+                                          "algorand",
+                                          "ethereum",
+                                          "sepolia",
+                                          "holesky",
+                                          "zksync",
+                                          "zksync-sepolia",
+                                          "injective-evm-testnet",
+                                          "base",
+                                          "base-sepolia",
+                                          "optimism",
+                                          "optimism-sepolia",
+                                          "arbitrum",
+                                          "arbitrum-sepolia",
+                                          "polygon",
+                                          "polygon-amoy",
+                                          "bsc",
+                                          "bsc-testnet",
+                                          "linea",
+                                          "linea-sepolia",
+                                          "avalanche",
+                                          "avalanche-fuji",
+                                          "gnosis",
+                                          "gnosis-chiado",
+                                          "moonbeam",
+                                          "moonriver",
+                                          "moonbase",
+                                          "fantom",
+                                          "mantle",
+                                          "chiliz",
+                                          "chiliz-testnet",
+                                          "ton",
+                                          "tron",
+                                          "rootstock",
+                                          "rootstock-testnet",
+                                          "bitcoin",
+                                          "bitcoin-testnet",
+                                          "bitcoin-signet",
+                                          "litecoin",
+                                          "dogecoin",
+                                          "starknet",
+                                          "starknet-sepolia",
+                                          "monad-testnet",
+                                          "bitsong",
+                                          "chihuahua",
+                                          "seda",
+                                          "persistence",
+                                          "comdex",
+                                          "humans-ai",
+                                          "ki",
+                                          "provenance",
+                                          "quicksilver",
+                                          "saga",
+                                          "kava",
+                                          "sei",
+                                          "fetch-ai",
+                                          "cosmoshub",
+                                          "osmosis",
+                                          "celestia",
+                                          "dydx",
+                                          "axelar",
+                                          "evmos",
+                                          "irisnet",
+                                          "juno",
+                                          "lum-network",
+                                          "omniflix",
+                                          "medibloc",
+                                          "passage",
+                                          "quasar",
+                                          "sommelier",
+                                          "shentu",
+                                          "stride",
+                                          "terra2",
+                                          "akash",
+                                          "dymension",
+                                          "band",
+                                          "stargaze",
+                                          "kyve",
+                                          "likecoin",
+                                          "osmosis-testnet",
+                                          "celestia-testnet",
+                                          "cosmoshub-testnet",
+                                          "injective",
+                                          "babylon",
+                                          "babylon-testnet",
+                                          "berachain",
+                                          "berachain-artio",
+                                          "cronos",
+                                          "world-chain",
+                                          "solana"
+                                        ]
+                                      },
+                                      "tokenId": {
+                                        "type": "string"
+                                      },
+                                      "address": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "tokenId",
+                                      "address"
+                                    ]
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "includeFees": {
+                                    "type": "boolean"
+                                  },
+                                  "slippage": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "from",
+                                  "to",
+                                  "amount",
+                                  "includeFees"
+                                ],
+                                "title": "Convert from an asset to another",
+                                "description": "Allows to convert from an asset (native or token) to another one, either on the same or on a different chain. The API determines whether swap and/or bridge operations are required."
                               }
                             ]
                           }
@@ -9012,7 +9324,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                   },
                                   "amount": {
                                     "type": "string",
@@ -9053,7 +9365,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                   },
                                   "compound": {
                                     "type": "boolean",
@@ -9094,7 +9406,7 @@
                                   },
                                   "stakeId": {
                                     "type": "string",
-                                    "description": "Unique identifier of a staking position. Only required for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                    "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
                                   },
                                   "recipientAddress": {
                                     "type": "string",
@@ -9174,6 +9486,161 @@
                                 ],
                                 "title": "Register Stake",
                                 "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "convertAsset"
+                                  },
+                                  "from": {
+                                    "type": "object",
+                                    "properties": {
+                                      "tokenId": {
+                                        "type": "string"
+                                      },
+                                      "address": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "tokenId",
+                                      "address"
+                                    ]
+                                  },
+                                  "to": {
+                                    "type": "object",
+                                    "properties": {
+                                      "chainId": {
+                                        "type": "string",
+                                        "enum": [
+                                          "aptos",
+                                          "aptos-testnet",
+                                          "algorand",
+                                          "ethereum",
+                                          "sepolia",
+                                          "holesky",
+                                          "zksync",
+                                          "zksync-sepolia",
+                                          "injective-evm-testnet",
+                                          "base",
+                                          "base-sepolia",
+                                          "optimism",
+                                          "optimism-sepolia",
+                                          "arbitrum",
+                                          "arbitrum-sepolia",
+                                          "polygon",
+                                          "polygon-amoy",
+                                          "bsc",
+                                          "bsc-testnet",
+                                          "linea",
+                                          "linea-sepolia",
+                                          "avalanche",
+                                          "avalanche-fuji",
+                                          "gnosis",
+                                          "gnosis-chiado",
+                                          "moonbeam",
+                                          "moonriver",
+                                          "moonbase",
+                                          "fantom",
+                                          "mantle",
+                                          "chiliz",
+                                          "chiliz-testnet",
+                                          "ton",
+                                          "tron",
+                                          "rootstock",
+                                          "rootstock-testnet",
+                                          "bitcoin",
+                                          "bitcoin-testnet",
+                                          "bitcoin-signet",
+                                          "litecoin",
+                                          "dogecoin",
+                                          "starknet",
+                                          "starknet-sepolia",
+                                          "monad-testnet",
+                                          "bitsong",
+                                          "chihuahua",
+                                          "seda",
+                                          "persistence",
+                                          "comdex",
+                                          "humans-ai",
+                                          "ki",
+                                          "provenance",
+                                          "quicksilver",
+                                          "saga",
+                                          "kava",
+                                          "sei",
+                                          "fetch-ai",
+                                          "cosmoshub",
+                                          "osmosis",
+                                          "celestia",
+                                          "dydx",
+                                          "axelar",
+                                          "evmos",
+                                          "irisnet",
+                                          "juno",
+                                          "lum-network",
+                                          "omniflix",
+                                          "medibloc",
+                                          "passage",
+                                          "quasar",
+                                          "sommelier",
+                                          "shentu",
+                                          "stride",
+                                          "terra2",
+                                          "akash",
+                                          "dymension",
+                                          "band",
+                                          "stargaze",
+                                          "kyve",
+                                          "likecoin",
+                                          "osmosis-testnet",
+                                          "celestia-testnet",
+                                          "cosmoshub-testnet",
+                                          "injective",
+                                          "babylon",
+                                          "babylon-testnet",
+                                          "berachain",
+                                          "berachain-artio",
+                                          "cronos",
+                                          "world-chain",
+                                          "solana"
+                                        ]
+                                      },
+                                      "tokenId": {
+                                        "type": "string"
+                                      },
+                                      "address": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "tokenId",
+                                      "address"
+                                    ]
+                                  },
+                                  "amount": {
+                                    "type": "string"
+                                  },
+                                  "includeFees": {
+                                    "type": "boolean"
+                                  },
+                                  "slippage": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "from",
+                                  "to",
+                                  "amount",
+                                  "includeFees"
+                                ],
+                                "title": "Convert from an asset to another",
+                                "description": "Allows to convert from an asset (native or token) to another one, either on the same or on a different chain. The API determines whether swap and/or bridge operations are required."
                               }
                             ]
                           }
@@ -9839,6 +10306,9 @@
                         "type": "boolean"
                       },
                       "registerStake": {
+                        "type": "boolean"
+                      },
+                      "convertAsset": {
                         "type": "boolean"
                       }
                     },

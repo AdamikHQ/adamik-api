@@ -32,6 +32,7 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
         claimRewards: false,
         withdraw: false,
         registerStake: false,
+        convertAsset: false,
       },
       field: {
         memo: false,

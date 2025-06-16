@@ -4,6 +4,7 @@ import {
   encodedTransactionSchema,
   getSupportedChainIdsSchema,
   inputClaimRewardsSchema,
+  inputConvertAssetSchema,
   inputDeployAccountSchema,
   inputFeesSchema,
   inputGasSchema,
@@ -52,6 +53,7 @@ const requestSchema = z.object({
           inputClaimRewardsSchema,
           inputWithdrawSchema,
           inputRegisterStakeSchema,
+          inputConvertAssetSchema,
         ])
       ),
     encoded: encodedTransactionSchema,
