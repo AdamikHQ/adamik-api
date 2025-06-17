@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| node | https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/REDACTED, https://cosmos-ada-api.polkachu.com, https://lcd-cosmos.imperator.co |<br />
+| node | https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/REDACTED, https://cosmos-api.polkachu.com, https://lcd-cosmos.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
@@ -17,7 +17,7 @@
 
 ## osmosis
 
-| node | https://osmosis-ada-api.polkachu.com, https://osmosis-api.polkachu.com/, https://lcd-osmosis.imperator.co |<br />
+| node | https://osmosis-api.polkachu.com/, https://lcd-osmosis.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## osmosis-testnet
@@ -27,7 +27,7 @@
 
 ## celestia
 
-| node | https://solemn-little-dew.celestia-mainnet.quiknode.pro/REDACTED, https://celestia-ada-api.polkachu.com, https://celestia-api.polkachu.com, https://lcd-celestia.imperator.co |<br />
+| node | https://solemn-little-dew.celestia-mainnet.quiknode.pro/REDACTED, https://celestia-api.polkachu.com, https://lcd-celestia.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## celestia-testnet
@@ -231,7 +231,7 @@
 
 ## injective
 
-| node | https://maximum-restless-sun.injective-mainnet.quiknode.pro/REDACTED, https://injective-ada-api.polkachu.com, https://injective-api.polkachu.com, https://lcd-injective.imperator.co |<br />
+| node | https://maximum-restless-sun.injective-mainnet.quiknode.pro/REDACTED, https://injective-api.polkachu.com, https://lcd-injective.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
