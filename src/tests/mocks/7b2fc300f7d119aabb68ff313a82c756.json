@@ -1,0 +1,38 @@
+{
+  "request": {
+    "url": "https://maximum-restless-sun.injective-mainnet.quiknode.pro/REDACTED/cosmos/distribution/v1beta1/delegators/inj1vmzrwxhgllkjaswzawaue7m7f9qcrc0rfth2v2/rewards",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "rewards": [
+        {
+          "validator_address": "injvaloper1ntn4j2lsu3k60g8xj9pqshqvdj2q5tygyvczpy",
+          "reward": [
+            {
+              "denom": "inj",
+              "amount": "1093207068873626.250000000000000000"
+            }
+          ]
+        },
+        {
+          "validator_address": "injvaloper1h37jxecva2xgm78ejw3683vrw932j6nuzgdxgj",
+          "reward": [
+            {
+              "denom": "inj",
+              "amount": "19767530639685631.899999999999999999"
+            }
+          ]
+        }
+      ],
+      "total": [
+        {
+          "denom": "inj",
+          "amount": "20860737708559258.149999999999999999"
+        }
+      ]
+    },
+    "type": "json"
+  }
+}

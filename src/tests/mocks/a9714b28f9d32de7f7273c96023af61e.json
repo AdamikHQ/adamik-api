@@ -1,0 +1,18 @@
+{
+  "request": {
+    "url": "https://lcd-celestia.imperator.co/cosmos/tx/v1beta1/simulate",
+    "method": "POST",
+    "body": {
+      "tx_bytes": "CpUBCpIBChwvY29zbW9zLmJhbmsudjFiZXRhMS5Nc2dTZW5kEnIKL2NlbGVzdGlhMXRrZXBmeWxobDdmbWtyenN2cGhreTJ6MHI3dXB2cjl0dGQ1Y3MzEi9jZWxlc3RpYTF0a2VwZnlsaGw3Zm1rcnpzdnBoa3kyejByN3VwdnI5dHRkNWNzMxoOCgR1dGlhEgYxNDMzOTgSXwpQCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohA4M9WuvnLKaOOBbEpGbTlSgJKfB8z1513E4tccLJLaRYEgQKAggBGAkSCwoJCgR1dGlhEgExGkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "response": {
+    "status": 500,
+    "body": {
+      "code": 2,
+      "message": "rpc error: code = Unknown desc = 0utia is smaller than 1utia: insufficient funds: insufficient funds [celestiaorg/cosmos-sdk@v1.28.2-sdk-v0.46.16/x/auth/ante/fee.go:132] With gas wanted: '18446744073709551615' and gas used: '19523' : unknown request",
+      "details": []
+    },
+    "type": "json"
+  }
+}

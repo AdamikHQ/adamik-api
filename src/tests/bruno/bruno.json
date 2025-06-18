@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "Adamik API (dev)",
+  "name": "Adamik API",
   "type": "collection",
   "ignore": [
     "node_modules",
