@@ -1,0 +1,32 @@
+{
+  "request": {
+    "url": "https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/a94b1d750a999c456bdfc865b7f76a59d4772888/cosmos/staking/v1beta1/delegators/cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl/unbonding_delegations",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "unbonding_responses": [
+        {
+          "delegator_address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+          "validator_address": "cosmosvaloper10wljxpl03053h9690apmyeakly3ylhejrucvtm",
+          "entries": [
+            {
+              "creation_height": "26000135",
+              "completion_time": "2025-06-23T15:37:48.417455049Z",
+              "initial_balance": "3473876",
+              "balance": "3473876",
+              "unbonding_id": "1316867",
+              "unbonding_on_hold_ref_count": "0"
+            }
+          ]
+        }
+      ],
+      "pagination": {
+        "next_key": null,
+        "total": "1"
+      }
+    },
+    "type": "json"
+  }
+}

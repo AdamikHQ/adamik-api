@@ -1,0 +1,23 @@
+{
+  "request": {
+    "url": "https://api.mainnet.aptoslabs.com/v1/view",
+    "method": "POST",
+    "body": {
+      "function": "0x1::delegation_pool::get_stake",
+      "type_arguments": [],
+      "arguments": [
+        "0x7ba7dd0aff5acdc056a2f1f7f1fb24bf1e7d3d6909c33d45f8c2333b13bd2f80",
+        "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": [
+      "0",
+      "2464466",
+      "0"
+    ],
+    "type": "json"
+  }
+}
