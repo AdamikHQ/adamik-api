@@ -1100,7 +1100,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://lcd-akash.imperator.co"],
+        urls: ["https://akash-api.polkachu.com", "https://lcd-akash.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
