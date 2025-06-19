@@ -236,7 +236,7 @@
 
 ## akash
 
-| node | https://lcd-akash.imperator.co |<br />
+| node | https://akash-api.polkachu.com, https://lcd-akash.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## band
