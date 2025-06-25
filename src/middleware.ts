@@ -17,9 +17,8 @@ export async function middleware(request: NextRequest) {
   // https://github.com/vercel/next.js/discussions/71727
   // We hope that NextJS team will fix this issue soon
 
-  const authorizeBaseUrl = process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000";
+  const url = request.url;
+  const authorizeBaseUrl = url.slice(0, url.indexOf("/api"));
 
   const authorizeUrl = `${authorizeBaseUrl}/authorize?apiKey=${apiKey}`;
 
