@@ -21,6 +21,7 @@ const SOLANA_FEATURES: ChainSupportedFeatures = {
         claimRewards: false,
         withdraw: true,
         registerStake: false,
+        convertAsset: true,
       },
       field: {
         memo: true,

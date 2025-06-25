@@ -185,6 +185,11 @@ async function prevalidateTransactionCommon(
         // TODO
       }
       break;
+    case TransactionMode.CONVERT_ASSET:
+      {
+        // TODO
+      }
+      break;
     default:
       // Ensure exhaustive check, both at compile time and runtime
       // https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks

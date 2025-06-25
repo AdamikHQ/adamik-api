@@ -3,6 +3,7 @@ import { ZodOpenApiPathsObject } from "zod-openapi";
 import {
   getSupportedChainIdsSchema,
   inputClaimRewardsSchema,
+  inputConvertAssetSchema,
   inputDeployAccountSchema,
   inputRegisterStakeSchema,
   inputStakeSchema,
@@ -43,6 +44,7 @@ const requestSchema = z.object({
           inputClaimRewardsSchema,
           inputWithdrawSchema,
           inputRegisterStakeSchema,
+          inputConvertAssetSchema,
         ])
       ),
   }),

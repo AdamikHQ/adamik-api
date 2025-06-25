@@ -21,6 +21,7 @@ const ALGORAND_FEATURES: ChainSupportedFeatures = {
         claimRewards: false,
         withdraw: false,
         registerStake: false,
+        convertAsset: false,
       },
       field: {
         memo: true,

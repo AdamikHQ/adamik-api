@@ -1,0 +1,22 @@
+{
+  "request": {
+    "url": "https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/a94b1d750a999c456bdfc865b7f76a59d4772888/cosmos/auth/v1beta1/accounts/cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "account": {
+        "@type": "/cosmos.auth.v1beta1.BaseAccount",
+        "address": "cosmos1g84934jpu3v5de5yqukkkhxmcvsw3u2ajxvpdl",
+        "pub_key": {
+          "@type": "/cosmos.crypto.secp256k1.PubKey",
+          "key": "A4hFmyZTUZlIsSSS8aC0ZHIBEMFHqBVdI9Qjpcw8Idia"
+        },
+        "account_number": "31094",
+        "sequence": "179"
+      }
+    },
+    "type": "json"
+  }
+}

@@ -47,7 +47,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.node,
         urls: [
-          "https://cosmos-ada-api.polkachu.com",
+          "https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/a94b1d750a999c456bdfc865b7f76a59d4772888",
+          "https://cosmos-api.polkachu.com",
           "https://lcd-cosmos.imperator.co", // FIXME Frequent HTTP 502 errors
         ],
       },
@@ -106,7 +107,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://osmosis-ada-api.polkachu.com", "https://lcd-osmosis.imperator.co"],
+        urls: ["https://osmosis-api.polkachu.com/", "https://lcd-osmosis.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
@@ -164,7 +165,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.node,
         urls: [
-          "https://celestia-ada-api.polkachu.com",
+          "https://solemn-little-dew.celestia-mainnet.quiknode.pro/c79e74e19f39f2fc8f18f659e51647189ad5a1a3",
           "https://celestia-api.polkachu.com",
           "https://lcd-celestia.imperator.co",
         ],
@@ -1067,7 +1068,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         //urls: ["https://apis.mintscan.io/injective/lcd"], // Error when computing tx fees
         //urls: ["https://lcd-injective.imperator.co"], // FIXME Frequent HTTP 502 errors
         urls: [
-          "https://injective-ada-api.polkachu.com",
+          "https://maximum-restless-sun.injective-mainnet.quiknode.pro/e447291c197fdc7c4f20ffe2d53553d685604a4b",
           "https://injective-api.polkachu.com",
           "https://lcd-injective.imperator.co",
         ],
@@ -1099,7 +1100,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://lcd-akash.imperator.co"],
+        urls: ["https://akash-api.polkachu.com", "https://lcd-akash.imperator.co"],
       },
       {
         type: ProviderType.mintscan,
