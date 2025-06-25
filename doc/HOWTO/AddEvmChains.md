@@ -15,14 +15,19 @@
     name: "YOUR CHAIN NAME", // Full name can be found at https://chainlist.org
     ticker: "YOUR CHAIN TICKER", // Ticker can be found at https://chainlist.org, as "Currency"
     decimals: 18, // Decimals should be 18 for all EVM chains
-    backends: [
+    providers: [
       {
          type: ProviderType.node,
-         url: '', // RPC URL,
+         urls: [
+            "http://rpc-url",
+            "http://fallback-rpc-url", // Optional
+         ],
       },
       {
          type: ProviderType.moralis, // or ProviderType.alchemy
-         url: '', // Indexer url
+         urls: [
+            "http://indexer-url",
+         ]
       }
     ],
     // Refer to EvmChainParams in https://github.com/AdamikHQ/adamik/blob/main/src/app/families/evm/types.ts
