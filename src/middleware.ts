@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
   // We hope that NextJS team will fix this issue soon
 
   const url = request.url;
-  const authorizeBaseUrl = url.slice(0, url.indexOf("/api"));
+  const authorizeBaseUrl = url.slice(0, url.indexOf("/api/"));
 
   const authorizeUrl = `${authorizeBaseUrl}/authorize?apiKey=${apiKey}`;
 
