@@ -54,7 +54,13 @@
 ## sepolia
 
 | node | https://site1.moralis-nodes.com/sepolia/fe0cd204d0324cae84cb27769d5ab205 |<br />
-| moralis | https://deep-index.moralis.io/api |
+| moralis | https://deep-index.moralis.io/api |<br />
+| stakewiseGQL | https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod |
+
+## hoodi
+
+| node | https://ethereum-hoodi-rpc.publicnode.com |<br />
+| stakewiseGQL | https://graphs.stakewise.io/hoodi/subgraphs/name/stakewise/prod |
 
 ## holesky
 

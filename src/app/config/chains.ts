@@ -315,6 +315,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.moralis,
         urls: ["https://deep-index.moralis.io/api"],
       },
+      {
+        type: ProviderType.stakewiseGQL,
+        urls: ["https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod"],
+      },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.SEPOLIA),
     signerSpec: getSignerSpecForChain(ChainId.SEPOLIA, ChainFamily.EVM),
