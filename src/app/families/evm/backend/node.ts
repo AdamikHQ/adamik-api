@@ -1,4 +1,4 @@
-import { createPublicClient, erc20Abi, FeeValuesEIP1559, http } from "viem";
+import { Abi, createPublicClient, erc20Abi, FeeValuesEIP1559, getContract, http } from "viem";
 import {
   arbitrum,
   arbitrumSepolia,
@@ -41,6 +41,7 @@ import { getProviderUrls } from "../../common";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { berachain } from "../chains/berachain";
 import { chilizTestnet } from "../chains/chiliz-testnet";
+import { hoodiTestnet } from "../chains/hoodi-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
 import { monadTestnet } from "../chains/monad-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
@@ -61,6 +62,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: mainnet, transport };
     case ChainId.HOLESKY:
       return { chain: holesky, transport };
+    case ChainId.HOODI:
+      return { chain: hoodiTestnet, transport };
     case ChainId.ZKSYNC:
       return { chain: zksync, transport };
     case ChainId.ZKSYNC_SEPOLIA:
@@ -142,6 +145,32 @@ function getClient(chainId: ChainId) {
       : createPublicClient(getClientConfig(chainId));
     CLIENTS.set(chainId, client);
     return client;
+  }
+}
+
+async function fetchContract(chainId: ChainId, address: EvmAddress, abi: Abi) {
+  return getContract({ address, abi, client: getClient(chainId) });
+}
+
+async function estimateContractGas(
+  chainId: ChainId,
+  address: EvmAddress,
+  abi: Abi,
+  functionName: string,
+  args: unknown[],
+  value?: bigint
+): Promise<bigint> {
+  try {
+    return await getClient(chainId).estimateContractGas({
+      address,
+      abi,
+      functionName,
+      args,
+      value,
+    });
+  } catch (e: any) {
+    console.warn(`/!\\ estimateContractGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
+    handleGasFeesEstimationError(chainId, e);
   }
 }
 
@@ -390,12 +419,14 @@ function handleGasFeesEstimationError(chainId: ChainId, error: any): never {
 
 export {
   broadcast,
+  estimateContractGas,
   estimateERC20FeesForL2,
   estimateERC20Gas,
   estimateFeesForL2,
   estimateFeesPerGas,
   estimateGas,
   fetchBalance,
+  fetchContract,
   fetchERC20Balance,
   fetchERC20Info,
   fetchNonce,

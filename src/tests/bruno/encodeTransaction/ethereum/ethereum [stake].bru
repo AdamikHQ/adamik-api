@@ -1,0 +1,33 @@
+meta {
+  name: ethereum [stake]
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: hoodi
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "stake",
+        "senderAddress": "0xeD35957be660cf9A2C768fDB52eC4D9D19eEB80F",
+        "targetValidatorAddress": "0x2b3eb77e5cbde5deb70c928e1e2814f8a6f143e0",
+        "amount": "10000"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded[0].raw.value: eq 0x02ed01078318d72a842f4eaf2c825208948bc6922eb94e4858efaf9f433c35bc241f69e8a687366bf243a854c280c0
+}

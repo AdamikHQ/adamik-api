@@ -319,6 +319,27 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: EVM_FEATURES(ChainId.SEPOLIA),
     signerSpec: getSignerSpecForChain(ChainId.SEPOLIA, ChainFamily.EVM),
   },
+  hoodi: {
+    family: ChainFamily.EVM,
+    id: ChainId.HOODI,
+    nativeId: "560048",
+    name: "Hoodi",
+    ticker: "ETH",
+    decimals: 18,
+    isTestnetFor: ChainId.ETHEREUM,
+    providers: [
+      {
+        type: ProviderType.node,
+        urls: ["https://ethereum-hoodi-rpc.publicnode.com"],
+      },
+      {
+        type: ProviderType.stakewiseGQL,
+        urls: ["https://graphs.stakewise.io/hoodi/subgraphs/name/stakewise/prod"],
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.HOODI),
+    signerSpec: getSignerSpecForChain(ChainId.HOODI, ChainFamily.EVM),
+  },
   holesky: {
     family: ChainFamily.EVM,
     id: ChainId.HOLESKY,

@@ -13,7 +13,7 @@ const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
     token: true,
     validators: false,
     account: {
-      balances: { native: true, tokens: hasProviderSupport(chainId), staking: false },
+      balances: { native: true, tokens: hasProviderSupport(chainId), staking: true },
       transactions: {
         native: hasProviderSupport(chainId),
         tokens: hasProviderSupport(chainId),
@@ -28,7 +28,7 @@ const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
         deployAccount: false,
         transfer: true,
         transferToken: true,
-        stake: false,
+        stake: true,
         unstake: false,
         claimRewards: false,
         withdraw: false,

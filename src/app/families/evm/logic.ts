@@ -1,4 +1,4 @@
-import { Hex, BaseError as ViemError } from "viem";
+import { Abi, Hex, BaseError as ViemError } from "viem";
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
@@ -6,7 +6,9 @@ import {
   TransactionMode,
   TransactionSpendableAmounts,
 } from "~/app/model/types_WIP";
+import { stakewiseVaultDefaultABI } from "./abi/StakewiseVaultDefaultABI";
 import {
+  estimateContractGas,
   estimateERC20FeesForL2,
   estimateERC20Gas,
   estimateFeesForL2,
@@ -15,6 +17,7 @@ import {
   fetchBalance,
   fetchERC20Balance,
 } from "./backend/node";
+import { getHarvestParams } from "./backend/stakewise";
 import { EtherscanERC20Event } from "./backend/types";
 import { EvmAddress, EvmChainParams } from "./types";
 
@@ -22,21 +25,54 @@ const isHexString = (val: string): val is Hex =>
   val?.startsWith && val.startsWith("0x") && /^[0-9a-fA-F]+$/i.test(val.slice(2));
 
 async function getTransactionGas(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
-  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
-    return await estimateERC20Gas({
-      chainId,
-      contractAddress: transaction.tokenId as EvmAddress,
-      senderAddress: transaction.senderAddress as EvmAddress,
-      recipientAddress: transaction.recipientAddress as EvmAddress,
-      amount: transaction.amount ?? 0n,
-    });
-  } else {
-    return await estimateGas({
-      chainId,
-      senderAddress: transaction.senderAddress as EvmAddress,
-      recipientAddress: transaction.recipientAddress as EvmAddress,
-      amount: transaction.amount ?? 0n,
-    });
+  switch (transaction.mode) {
+    case TransactionMode.TRANSFER_TOKEN:
+      return await estimateERC20Gas({
+        chainId,
+        contractAddress: transaction.tokenId as EvmAddress,
+        senderAddress: transaction.senderAddress as EvmAddress,
+        recipientAddress: transaction.recipientAddress as EvmAddress,
+        amount: transaction.amount ?? 0n,
+      });
+    case TransactionMode.STAKE:
+      const harvestParams = await getHarvestParams(chainId, transaction.targetValidatorAddress);
+      const baseParams = [transaction.senderAddress, transaction.targetValidatorAddress];
+      const updateStateParams = [
+        transaction.senderAddress,
+        transaction.targetValidatorAddress,
+        harvestParams.params,
+      ];
+
+      let gas = 0n;
+
+      if (harvestParams.canHarvest) {
+        gas = await estimateContractGas(
+          chainId,
+          transaction.targetValidatorAddress as EvmAddress,
+          stakewiseVaultDefaultABI,
+          "updateStateAndDeposit",
+          updateStateParams,
+          transaction.amount
+        );
+      } else {
+        gas = await estimateContractGas(
+          chainId,
+          transaction.targetValidatorAddress as EvmAddress,
+          stakewiseVaultDefaultABI as Abi,
+          "deposit",
+          baseParams,
+          transaction.amount
+        );
+      }
+
+      return gas;
+    default:
+      return await estimateGas({
+        chainId,
+        senderAddress: transaction.senderAddress as EvmAddress,
+        recipientAddress: transaction.recipientAddress as EvmAddress,
+        amount: transaction.amount ?? 0n,
+      });
   }
 }
 

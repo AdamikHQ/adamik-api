@@ -1,4 +1,9 @@
-import { BaseChainService, TokenService } from "~/app/model/service";
+import { AlchemyIndexer } from "~/app/families/evm/backend/alchemy";
+import { MoralisIndexer } from "~/app/families/evm/backend/moralis";
+import { EvmIndexer } from "~/app/families/evm/backend/types";
+import { BaseChainService, StakingService, TokenService } from "~/app/model/service";
+import { ProviderType } from "~/app/model/types_WIP";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { broadcastTransaction as broadcastTransactionFn } from "./service/broadcastTransaction";
 import { completeTransaction as completeTransactionFn } from "./service/completeTransaction";
 import {
@@ -16,16 +21,11 @@ import {
   prevalidateTransaction as prevalidateTransactionFn,
   validateTransaction as validateTransactionFn,
 } from "./service/validateTransaction";
-import { ProviderType } from "~/app/model/types_WIP";
-import { MoralisIndexer } from "~/app/families/evm/backend/moralis";
-import { AlchemyIndexer } from "~/app/families/evm/backend/alchemy";
-import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
-import { EvmIndexer } from "~/app/families/evm/backend/types";
 
 // TODO Make sure heavy functions aren't called multiple times / unnecessarily
 // (buildTransaction, network calls, etc...)
 
-class EvmService extends BaseChainService implements TokenService {
+class EvmService extends BaseChainService implements TokenService, StakingService {
   override pubkeyToAddresses = pubkeyToAddressesFn;
   override validateAddress = validateAddressFn;
   override getAccountState = getAccountStateFn;
@@ -50,6 +50,9 @@ class EvmService extends BaseChainService implements TokenService {
 
   getAccountTokens = getAccountTokensFn;
   getTokenInfo = getTokenInfoFn;
+  getValidators = () => {
+    throw new UnsupportedFeatureError(`Unsupported feature for chain ${this.chainId}`);
+  };
 }
 
 export { EvmService };
