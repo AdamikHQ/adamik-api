@@ -40,7 +40,7 @@ const TRONSCAN_API_KEY = "REDACTED";
 
 const STARKSCAN_API_KEY = "REDACTED";
 
-const ALCHEMY_API_KEY = "0k8SiAAwbukxESqUwUHjgdMlabpyUd1g";
+const ALCHEMY_API_KEY = "REDACTED";
 
 const HELIUS_API_KEY = "REDACTED";
 
