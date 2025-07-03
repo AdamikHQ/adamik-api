@@ -20,6 +20,7 @@ import {
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
@@ -68,7 +69,7 @@ async function sendRequest(chainId: ChainId, method: string, params: any[]) {
   const response = await res.json();
   if (response.error) {
     console.warn(`/!\\ Alchemy request failed: ${response.error.message}`);
-    throw new Error("Request failed");
+    throw new ThirdPartyProviderError("Request failed");
   }
   return response.result;
 }

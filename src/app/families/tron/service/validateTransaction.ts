@@ -15,6 +15,16 @@ async function prevalidateTransaction(
     status,
     addressValidationFn: async (address: string) => isValidAddress(address),
   });
+
+  // Self send of TRX is forbidden on Tron
+  if (
+    transaction.data.mode === TransactionMode.TRANSFER &&
+    transaction.data.recipientAddress === transaction.data.senderAddress
+  ) {
+    status.errors.push({
+      message: `Transfer of TRX to the same account is forbidden on chain ${this.chainId}`,
+    });
+  }
 }
 
 async function validateTransaction(

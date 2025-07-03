@@ -8,7 +8,7 @@ import {
   TransactionState,
 } from "~/app/model/types_WIP";
 import { amountToSmallestUnit } from "~/app/tools/amount";
-import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
+import { TransactionIdNotFoundError, UserInputError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { getProviderUrls } from "../../common";
 import { HeliusTransactionResponse } from "./helius.types";
@@ -18,7 +18,7 @@ const getIndexerBaseUrl = (chainId: ChainId) => {
   return getProviderUrls(chainId, ProviderType.helius)[0];
 };
 
-async function fetchTransaction(chainId: ChainId, transactionAddress: string): Promise<FinalizedTransaction> {
+async function fetchTransaction(chainId: ChainId, transactionId: string): Promise<FinalizedTransaction> {
   const heliusBaseUrl = getIndexerBaseUrl(chainId);
 
   try {
@@ -26,7 +26,7 @@ async function fetchTransaction(chainId: ChainId, transactionAddress: string): P
     const response = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        transactions: [transactionAddress],
+        transactions: [transactionId],
       }),
     });
 
@@ -43,7 +43,7 @@ async function fetchTransaction(chainId: ChainId, transactionAddress: string): P
     return { raw: heliusTransaction, parsed: parsedTransaction };
   } catch (error: unknown) {
     console.warn("Error fetching transaction", error);
-    throw new ThirdPartyProviderError("Transaction not found");
+    throw new TransactionIdNotFoundError(transactionId, chainId);
   }
 }
 

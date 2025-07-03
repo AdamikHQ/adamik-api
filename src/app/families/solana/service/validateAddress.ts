@@ -1,8 +1,8 @@
-import { PublicKey } from "@solana/web3.js";
+import { isAddressValid } from "../logic";
 import { SolanaService } from "../service";
 
 async function validateAddress(this: SolanaService, accountAddress: string) {
-  return PublicKey.isOnCurve(accountAddress);
+  return isAddressValid(accountAddress);
 }
 
 export { validateAddress };
