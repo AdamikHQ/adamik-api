@@ -292,7 +292,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://eth-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
+        urls: ["https://eth-mainnet.g.alchemy.com/v2"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.ETHEREUM),
@@ -2150,7 +2150,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://monad-testnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
+        urls: ["https://monad-testnet.g.alchemy.com/v2"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.MONAD_TESTNET),
@@ -2171,15 +2171,15 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://berachain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
+        urls: ["https://berachain-mainnet.g.alchemy.com/v2"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN),
     signerSpec: getSignerSpecForChain(ChainId.BERACHAIN, ChainFamily.EVM),
   },
-  "berachain-artio": {
-    id: ChainId.BERACHAIN_ARTIO,
-    name: "Berachain Artio",
+  "berachain-bepolia": {
+    id: ChainId.BERACHAIN_BEPOLIA,
+    name: "Berachain Bepolia",
     family: ChainFamily.EVM,
     nativeId: "80084",
     ticker: "BERA",
@@ -2187,16 +2187,16 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://bartio.rpc.berachain.com"],
+        urls: ["https://berachain-bepolia.g.alchemy.com/v2/9GInoekMFI-gPag8597vw"],
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://berachain-bartio.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
+        urls: ["https://berachain-bepolia.g.alchemy.com/v2"],
       },
     ],
-    supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN_ARTIO),
+    supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN_BEPOLIA),
     isTestnetFor: ChainId.BERACHAIN,
-    signerSpec: getSignerSpecForChain(ChainId.BERACHAIN_ARTIO, ChainFamily.EVM),
+    signerSpec: getSignerSpecForChain(ChainId.BERACHAIN_BEPOLIA, ChainFamily.EVM),
   },
   cronos: {
     id: ChainId.CRONOS,
@@ -2228,11 +2228,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
+        urls: ["https://worldchain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw"],
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g"],
+        urls: ["https://worldchain-mainnet.g.alchemy.com/v2"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN),
