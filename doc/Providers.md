@@ -49,7 +49,7 @@
 
 | node | https://site1.moralis-nodes.com/eth/edd8151f3c634ee2a808f34c47c7ad70 |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://eth-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
+| alchemy | https://eth-mainnet.g.alchemy.com/v2 |
 
 ## sepolia
 
@@ -419,17 +419,17 @@
 ## monad-testnet
 
 | node | https://testnet-rpc.monad.xyz/ |<br />
-| alchemy | https://monad-testnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
+| alchemy | https://monad-testnet.g.alchemy.com/v2 |
 
 ## berachain
 
 | node | https://rpc.berachain.com/ |<br />
-| alchemy | https://berachain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
+| alchemy | https://berachain-mainnet.g.alchemy.com/v2 |
 
-## berachain-artio
+## berachain-bepolia
 
-| node | https://bartio.rpc.berachain.com |<br />
-| alchemy | https://berachain-bartio.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
+| node | https://berachain-bepolia.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |<br />
+| alchemy | https://berachain-bepolia.g.alchemy.com/v2 |
 
 ## cronos
 
@@ -438,8 +438,8 @@
 
 ## world-chain
 
-| node | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |<br />
-| alchemy | https://worldchain-mainnet.g.alchemy.com/v2/0k8SiAAwbukxESqUwUHjgdMlabpyUd1g |
+| node | https://worldchain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |<br />
+| alchemy | https://worldchain-mainnet.g.alchemy.com/v2 |
 
 ## solana
 

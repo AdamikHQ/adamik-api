@@ -40,7 +40,7 @@ const TRONSCAN_API_KEY = "5005ff70-0005-4533-a91f-01071331a440";
 
 const STARKSCAN_API_KEY = "96JB5ryWpAL6SjCFi1dz7dU36qfggCs1021sVbYb";
 
-const ALCHEMY_API_KEY = "0k8SiAAwbukxESqUwUHjgdMlabpyUd1g";
+const ALCHEMY_API_KEY = "9GInoekMFI-gPag8597vw";
 
 const HELIUS_API_KEY = "99c19f14-77fa-4802-862f-0de4bb8f4fce";
 

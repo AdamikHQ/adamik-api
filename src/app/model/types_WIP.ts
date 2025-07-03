@@ -95,7 +95,7 @@ enum ChainId {
   BABYLON = "babylon",
   BABYLON_TESTNET = "babylon-testnet",
   BERACHAIN = "berachain",
-  BERACHAIN_ARTIO = "berachain-artio",
+  BERACHAIN_BEPOLIA = "berachain-bepolia",
   CRONOS = "cronos",
   WORLD_CHAIN = "world-chain",
 
