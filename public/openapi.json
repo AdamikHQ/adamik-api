@@ -4825,6 +4825,59 @@
                             "signerSpec"
                           ]
                         },
+                        "world-chain-sepolia": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "aptos",
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet",
+                                "solana"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
+                        },
                         "solana": {
                           "type": "object",
                           "properties": {
@@ -5076,6 +5129,7 @@
                 "berachain-bepolia",
                 "cronos",
                 "world-chain",
+                "world-chain-sepolia",
                 "solana",
                 "aptos",
                 "aptos-testnet"
@@ -5925,6 +5979,7 @@
                 "berachain-bepolia",
                 "cronos",
                 "world-chain",
+                "world-chain-sepolia",
                 "solana",
                 "aptos",
                 "aptos-testnet"
@@ -6061,6 +6116,7 @@
                         "berachain-bepolia",
                         "cronos",
                         "world-chain",
+                        "world-chain-sepolia",
                         "solana",
                         "aptos",
                         "aptos-testnet"
@@ -7094,6 +7150,7 @@
                 "berachain-bepolia",
                 "cronos",
                 "world-chain",
+                "world-chain-sepolia",
                 "solana",
                 "aptos",
                 "aptos-testnet"
@@ -7580,6 +7637,7 @@
                                           "berachain-bepolia",
                                           "cronos",
                                           "world-chain",
+                                          "world-chain-sepolia",
                                           "solana"
                                         ]
                                       },
@@ -7727,6 +7785,7 @@
                         "berachain-bepolia",
                         "cronos",
                         "world-chain",
+                        "world-chain-sepolia",
                         "solana",
                         "aptos",
                         "aptos-testnet"
@@ -8327,6 +8386,7 @@
                 "berachain-bepolia",
                 "cronos",
                 "world-chain",
+                "world-chain-sepolia",
                 "solana",
                 "aptos",
                 "aptos-testnet"
@@ -8813,6 +8873,7 @@
                                           "berachain-bepolia",
                                           "cronos",
                                           "world-chain",
+                                          "world-chain-sepolia",
                                           "solana"
                                         ]
                                       },
@@ -8960,6 +9021,7 @@
                         "berachain-bepolia",
                         "cronos",
                         "world-chain",
+                        "world-chain-sepolia",
                         "solana",
                         "aptos",
                         "aptos-testnet"
@@ -9114,6 +9176,7 @@
                 "berachain-bepolia",
                 "cronos",
                 "world-chain",
+                "world-chain-sepolia",
                 "solana",
                 "aptos",
                 "aptos-testnet"
@@ -9618,6 +9681,7 @@
                                           "berachain-bepolia",
                                           "cronos",
                                           "world-chain",
+                                          "world-chain-sepolia",
                                           "solana"
                                         ]
                                       },
@@ -9830,6 +9894,7 @@
                         "berachain-bepolia",
                         "cronos",
                         "world-chain",
+                        "world-chain-sepolia",
                         "solana",
                         "aptos",
                         "aptos-testnet"
@@ -9949,6 +10014,7 @@
                 "berachain-bepolia",
                 "cronos",
                 "world-chain",
+                "world-chain-sepolia",
                 "solana",
                 "aptos",
                 "aptos-testnet"
@@ -10071,6 +10137,7 @@
                         "berachain-bepolia",
                         "cronos",
                         "world-chain",
+                        "world-chain-sepolia",
                         "solana",
                         "aptos",
                         "aptos-testnet"
@@ -10193,6 +10260,7 @@
           "berachain-bepolia",
           "cronos",
           "world-chain",
+          "world-chain-sepolia",
           "solana"
         ],
         "description": "Unique adamik identifier of the chain",

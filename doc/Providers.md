@@ -441,6 +441,11 @@
 | node | https://worldchain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |<br />
 | alchemy | https://worldchain-mainnet.g.alchemy.com/v2 |
 
+## world-chain-sepolia
+
+| node | https://worldchain-sepolia.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |<br />
+| alchemy | https://worldchain-sepolia.g.alchemy.com/v2 |
+
 ## solana
 
 | node | https://mainnet.helius-rpc.com |<br />
