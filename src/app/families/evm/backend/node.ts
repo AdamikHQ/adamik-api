@@ -28,6 +28,7 @@ import {
   rootstockTestnet,
   sepolia,
   worldchain,
+  worldchainSepolia,
   zksync,
   zksyncSepoliaTestnet,
 } from "viem/chains";
@@ -127,6 +128,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: cronos, transport };
     case ChainId.WORLD_CHAIN:
       return { chain: worldchain, transport };
+    case ChainId.WORLD_CHAIN_SEPOLIA:
+      return { chain: worldchainSepolia, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }

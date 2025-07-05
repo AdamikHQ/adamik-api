@@ -98,7 +98,7 @@ enum ChainId {
   BERACHAIN_BEPOLIA = "berachain-bepolia",
   CRONOS = "cronos",
   WORLD_CHAIN = "world-chain",
-
+  WORLD_CHAIN_SEPOLIA = "world-chain-sepolia",
   SOLANA = "solana",
 }
 

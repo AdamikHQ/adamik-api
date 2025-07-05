@@ -2238,6 +2238,26 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN),
     signerSpec: getSignerSpecForChain(ChainId.WORLD_CHAIN, ChainFamily.EVM),
   },
+  "world-chain-sepolia": {
+    id: ChainId.WORLD_CHAIN_SEPOLIA,
+    name: "Worldchain Sepolia",
+    family: ChainFamily.EVM,
+    nativeId: "4801",
+    ticker: "WLD",
+    decimals: 18,
+    providers: [
+      {
+        type: ProviderType.node,
+        urls: ["https://worldchain-sepolia.g.alchemy.com/v2/9GInoekMFI-gPag8597vw"],
+      },
+      {
+        type: ProviderType.alchemy,
+        urls: ["https://worldchain-sepolia.g.alchemy.com/v2"],
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN_SEPOLIA),
+    signerSpec: getSignerSpecForChain(ChainId.WORLD_CHAIN_SEPOLIA, ChainFamily.EVM),
+  },
   solana: {
     id: ChainId.SOLANA,
     name: "Solana",
