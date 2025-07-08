@@ -11,14 +11,13 @@ import {
 } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError, UserInputError } from "~/app/tools/handlers/errors";
 import { getProviderUrls } from "../../common";
-import { BitcoinChainParams } from "../types";
+import { BitcoinChainParams, UtxoWithMetadata, utxoWithMetadataSchema } from "../types";
 import {
   mempoolSpaceAddressBalanceSchema,
   mempoolSpaceAddressValidationSchema,
   mempoolSpaceFeesSchema,
   MempoolSpaceTransaction,
   mempoolSpaceTransactionSchema,
-  MempoolSpaceUTXO,
   mempoolSpaceUtxoSchema,
 } from "./mempoolSpace.types";
 // TODO Need to improve error handling
@@ -74,7 +73,7 @@ async function fetchNativeTransaction(chainId: ChainId, transactionId: string): 
   return BitcoinTransaction.fromBuffer(Buffer.from(result));
 }
 
-async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<MempoolSpaceUTXO[]> {
+async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<UtxoWithMetadata[]> {
   const explorerURL = getProviderUrls(chainId, ProviderType.mempoolspace)[0];
   const url = `${explorerURL}/address/${address}/utxo`;
 
@@ -94,7 +93,26 @@ async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<Mem
 
   const data = mempoolSpaceUtxoSchema.array().parse(result);
 
-  return data;
+  // Get script_hex for the address
+  const scriptPubKey = await fetchAddressScriptPubKey(chainId, address);
+
+  // Transform mempoolSpace format to UtxoWithMetadata format using the schema
+  const transformedUtxos: UtxoWithMetadata[] = data.map((utxo) => {
+    // Create object in the format expected by the Zod schema
+    const utxoForSchema = {
+      block_id: utxo.status.block_height ?? -1, // -1 for mempool transactions
+      transaction_hash: utxo.txid,
+      index: utxo.vout,
+      value: utxo.value,
+      address: address,
+      script_hex: scriptPubKey,
+    };
+
+    // Parse through the schema to ensure proper typing
+    return utxoWithMetadataSchema.parse(utxoForSchema);
+  });
+
+  return transformedUtxos;
 }
 
 async function fetchAddressData(chainId: ChainId, address: string): Promise<AccountState> {

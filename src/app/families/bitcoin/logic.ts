@@ -1,19 +1,30 @@
 import ecc from "@bitcoinerlab/secp256k1";
-import { address as addressSerde, initEccLib, networks, Psbt } from "bitcoinjs-lib";
+import {
+  address as addressSerde,
+  Transaction as BitcoinTransaction,
+  initEccLib,
+  networks,
+  Psbt,
+} from "bitcoinjs-lib";
 import coinSelect from "coinselect";
 import split from "coinselect/split.js";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, Status, TransactionData } from "~/app/model/types_WIP";
 import { statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { AdamikApiServerError, InvalidTransactionError } from "~/app/tools/handlers/errors";
+// import {
+//   fetchAddressUTXOs,
+//   fetchFeePerByte as fetchFeePerByteBlockchair,
+//   fetchLatestBlockHeight,
+//   fetchRawTransaction,
+//   fetchXpubUTXOs,
+// } from "./backend/blockchair";
 import {
-  fetchAddressUTXOs,
-  fetchFeePerByte as fetchFeePerByteBlockchair,
+  fetchAddressUtxos,
+  fetchFeePerByte,
   fetchLatestBlockHeight,
-  fetchRawTransaction,
-  fetchXpubUTXOs,
-} from "./backend/blockchair";
-import { BlockchairRawTransactionData } from "./backend/blockchair.types";
+  fetchNativeTransaction,
+} from "./backend/mempoolSpace";
 import {
   BitcoinChainParams,
   PsbtInputExtended,
@@ -172,11 +183,16 @@ async function buildTransferPsbt(
 
   const psbt = new Psbt({ network: getNetworkForChainId(chainId) });
 
+  // FIXME Properly drop support of Xpubs
+  /*
   const allUtxos = isValidXpub(chainId, transactionData.senderAddress)
     ? await fetchXpubUTXOs(chainId, transactionData.senderAddress)
     : await fetchAddressUTXOs(chainId, transactionData.senderAddress);
+  */
 
-  const feePerByte = await fetchFeePerByteBlockchair(chainId);
+  const allUtxos = await fetchAddressUtxos(chainId, transactionData.senderAddress);
+
+  const feePerByte = await fetchFeePerByte(chainId);
 
   // Select UTXOs using either:
   // - coinSelect: finds optimal UTXOs for exact amount
@@ -220,7 +236,7 @@ async function buildTransferPsbt(
   const psbtInputs = inputs as UtxoWithMetadata[];
   const latestBlockHeight = await fetchLatestBlockHeight(chainId);
 
-  const rawTransactions = new Map<string, BlockchairRawTransactionData>(); // tx hash and raw tx string
+  const rawTransactions = new Map<string, BitcoinTransaction>(); // tx hash and raw transaction object
 
   // Enrich selected inputs with data from the explorer
   // Note: This supports both confirmed and unconfirmed (mempool) inputs
@@ -262,7 +278,7 @@ async function buildTransferPsbt(
       });
     } else {
       if (!rawTransactions.has(input.transaction_hash)) {
-        const rawTransaction = await fetchRawTransaction(chainId, input.transaction_hash);
+        const rawTransaction = await fetchNativeTransaction(chainId, input.transaction_hash);
         rawTransactions.set(input.transaction_hash, rawTransaction);
       }
 
@@ -270,12 +286,13 @@ async function buildTransferPsbt(
       const inputData: PsbtInputExtended = {
         hash: input.transaction_hash,
         index: input.index,
-        nonWitnessUtxo: Buffer.from(rawTransaction.raw_transaction, "hex"),
+        nonWitnessUtxo: Buffer.from(rawTransaction.toHex(), "hex"),
       };
 
       if (isP2SHScript(input.script_hex)) {
-        const decodedTx = rawTransaction.decoded_raw_transaction;
-        const scriptSigHex = decodedTx?.vin?.[input.index]?.scriptSig?.hex;
+        // For P2SH scripts, we need to extract the redeemScript from the transaction input
+        const txInput = rawTransaction.ins[input.index];
+        const scriptSigHex = txInput?.script?.toString("hex");
 
         if (scriptSigHex && isWitnessScript(scriptSigHex)) {
           inputData.witnessUtxo = {

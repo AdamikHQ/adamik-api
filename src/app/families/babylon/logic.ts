@@ -37,7 +37,6 @@ import {
   fetchXpubUTXOs,
 } from "~/app/families/bitcoin/backend/blockchair";
 import {
-  fetchAddressScriptPubKey,
   fetchAddressUtxos,
   fetchLatestBlockHeight as fetchBitcoinLatestBlockHeight,
   fetchFeePerByte as fetchFeePerByteMempoolSpace,
@@ -199,14 +198,13 @@ async function buildStakingPsbt(
     feePerByte = await fetchFeePerByteMempoolSpace(chainId);
 
     const allUtxos = await fetchAddressUtxos(chainId, transactionData.senderAddress);
-    const scriptPubKey = await fetchAddressScriptPubKey(chainId, transactionData.senderAddress);
 
     // TODO Filter-out ordinals
     babylonUtxos = allUtxos.map((utxo) => ({
       txid: utxo.txid,
       value: utxo.value,
       vout: utxo.vout,
-      scriptPubKey,
+      scriptPubKey: utxo.script_hex!,
     }));
   } else if (blockchairSupported) {
     feePerByte = await fetchFeePerByteBlockchair(chainId);
