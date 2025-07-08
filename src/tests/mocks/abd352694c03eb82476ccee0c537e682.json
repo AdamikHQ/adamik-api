@@ -1,0 +1,11 @@
+{
+  "request": {
+    "url": "https://mempool.space/api/address/18ZFhkAfeSfwi3uTLZXYunPzdqCabLYCL9/utxo",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": [],
+    "type": "json"
+  }
+}

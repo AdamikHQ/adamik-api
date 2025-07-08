@@ -1,0 +1,28 @@
+{
+  "request": {
+    "url": "https://worldchain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenMetadata",
+      "params": [
+        "0x943ef08f016226818cd1951d5086d514e3977d73"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "decimals": 18,
+        "logo": null,
+        "name": "Lagrange",
+        "symbol": "LA"
+      }
+    },
+    "type": "json"
+  }
+}

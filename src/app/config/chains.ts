@@ -572,6 +572,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.blockchair,
         urls: ["https://api.blockchair.com/bitcoin/testnet"],
       },
+      {
+        type: ProviderType.mempoolspace,
+        // TODO 'testnet' is for Testnet3 which is deprecated, we should switch to 'testnet4' at some point
+        urls: ["https://mempool.space/testnet/api"],
+      },
     ],
     isTestnetFor: ChainId.BITCOIN,
     params: {

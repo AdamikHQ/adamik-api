@@ -1,0 +1,28 @@
+{
+  "request": {
+    "url": "https://monad-testnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenMetadata",
+      "params": [
+        "0x40732405190560a5cd3f137cf40f0f0027895e83"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "decimals": 18,
+        "logo": null,
+        "name": "MONXYZ",
+        "symbol": "MXZ"
+      }
+    },
+    "type": "json"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "request": {
+    "url": "https://monad-testnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenMetadata",
+      "params": [
+        "0x2fbfeb8e76e3e9a926a95972b3336ca2065894ec"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "decimals": 18,
+        "logo": null,
+        "name": "InfinityNode",
+        "symbol": "IFN"
+      }
+    },
+    "type": "json"
+  }
+}

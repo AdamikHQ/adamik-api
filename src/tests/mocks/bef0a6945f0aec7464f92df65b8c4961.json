@@ -1,0 +1,28 @@
+{
+  "request": {
+    "url": "https://worldchain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenMetadata",
+      "params": [
+        "0x927fc62927b580ea2daa79ccae9ff3679b65b71d"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "decimals": 18,
+        "logo": null,
+        "name": "Sun Flower",
+        "symbol": "SFL"
+      }
+    },
+    "type": "json"
+  }
+}

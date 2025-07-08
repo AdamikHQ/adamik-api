@@ -1,0 +1,28 @@
+{
+  "request": {
+    "url": "https://monad-testnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenMetadata",
+      "params": [
+        "0xa47447dd269d36743b5c6f8bff6301d33b9c135c"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "decimals": 18,
+        "logo": null,
+        "name": "Emberla Coin",
+        "symbol": "EBC"
+      }
+    },
+    "type": "json"
+  }
+}

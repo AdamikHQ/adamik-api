@@ -1,0 +1,17 @@
+{
+  "request": {
+    "url": "https://mempool.space/api/v1/validate-address/18ZFhkAfeSfwi3uTLZXYunPzdqCabLYCL9",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "isvalid": true,
+      "address": "18ZFhkAfeSfwi3uTLZXYunPzdqCabLYCL9",
+      "scriptPubKey": "76a91452e276db2d63019ad320e5598628fa0a66b202eb88ac",
+      "isscript": false,
+      "iswitness": false
+    },
+    "type": "json"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "request": {
+    "url": "https://worldchain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenMetadata",
+      "params": [
+        "0x80f1d58aef676810ec353903448fbdae01d8c5da"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "decimals": 9,
+        "logo": null,
+        "name": "World Daram",
+        "symbol": "Daram"
+      }
+    },
+    "type": "json"
+  }
+}

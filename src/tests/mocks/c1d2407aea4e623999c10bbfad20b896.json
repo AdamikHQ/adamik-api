@@ -1,0 +1,28 @@
+{
+  "request": {
+    "url": "https://worldchain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenMetadata",
+      "params": [
+        "0x675227b8161fa313c01385167b76c95f790a13bd"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "decimals": 18,
+        "logo": null,
+        "name": "Koma Inu",
+        "symbol": "KOMA"
+      }
+    },
+    "type": "json"
+  }
+}

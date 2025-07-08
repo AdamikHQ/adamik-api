@@ -113,7 +113,8 @@
 
 ## bitcoin-testnet
 
-| blockchair | https://api.blockchair.com/bitcoin/testnet |
+| blockchair | https://api.blockchair.com/bitcoin/testnet |<br />
+| mempoolspace | https://mempool.space/testnet/api |
 
 ## bitcoin-signet
 

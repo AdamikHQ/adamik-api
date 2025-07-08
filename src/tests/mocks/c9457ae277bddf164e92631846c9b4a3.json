@@ -1,0 +1,19 @@
+{
+  "request": {
+    "url": "https://mempool.space/api/v1/validate-address/bc1p27wjfe4gxpllh3kke3t6lwxwux4r4zhqp93x0s962l6xkvee4vdqy74ehc",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "isvalid": true,
+      "address": "bc1p27wjfe4gxpllh3kke3t6lwxwux4r4zhqp93x0s962l6xkvee4vdqy74ehc",
+      "scriptPubKey": "5120579d24e6a8307ffbc6d6cc57afb8cee1aa3a8ae0096267c0ba57f46b3339ab1a",
+      "isscript": true,
+      "iswitness": true,
+      "witness_version": 1,
+      "witness_program": "579d24e6a8307ffbc6d6cc57afb8cee1aa3a8ae0096267c0ba57f46b3339ab1a"
+    },
+    "type": "json"
+  }
+}
