@@ -1,0 +1,112 @@
+{
+  "request": {
+    "url": "https://worldchain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenBalances",
+      "params": [
+        "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+        "erc20"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "address": "0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+        "tokenBalances": [
+          {
+            "contractAddress": "0x0c77f57ea6d1b2e4e41c9570fb7aedbc5f118067",
+            "tokenBalance": "0x0000000000000000000000000000000000000000000000055de6a779bbac0000"
+          },
+          {
+            "contractAddress": "0x1e86bcaadf9031e851a4b8c86ac20f6287a713c7",
+            "tokenBalance": "0x0000000000000000000000000000000000000000000000a2a15d09519be00000"
+          },
+          {
+            "contractAddress": "0x2cfc85d8e48f8eab294be644d9e25c3030863003",
+            "tokenBalance": "0x0000000000000000000000000000000000000000000000110b028b02457d636a"
+          },
+          {
+            "contractAddress": "0x3baebe78427d8ac764482270bc018557a50a8463",
+            "tokenBalance": "0x0000000000000000000000000000000000000000000000175d539876d15c0000"
+          },
+          {
+            "contractAddress": "0x471e6b5af73a0f5ae1bc9966a2134eb25c513764",
+            "tokenBalance": "0x0000000000000000000000000000000000000000000000000dbd2fc137a30000"
+          },
+          {
+            "contractAddress": "0x5bd6dc5845bb5b32e4c76468c181998d3fb54a5c",
+            "tokenBalance": "0x000000000000000000000000000000000000000000084595161401484a000000"
+          },
+          {
+            "contractAddress": "0x675227b8161fa313c01385167b76c95f790a13bd",
+            "tokenBalance": "0x00000000000000000000000000000000000000000000000c40614a99c6480000"
+          },
+          {
+            "contractAddress": "0x6f9012048b71dd4b7e1646d7034af9dea4386f33",
+            "tokenBalance": "0x0000000000000000000000000000000000000000000000000de0b6b3a7640000"
+          },
+          {
+            "contractAddress": "0x79a02482a880bce3f13e09da970dc34db4cd24d1",
+            "tokenBalance": "0x000000000000000000000000000000000000000000000000000000000046cd00"
+          },
+          {
+            "contractAddress": "0x7fbc20b8c301ddaca1063c7e45ff434548fd6c89",
+            "tokenBalance": "0x000000000000000000000000000000000000000000000012f939c99edab80000"
+          },
+          {
+            "contractAddress": "0x80f1d58aef676810ec353903448fbdae01d8c5da",
+            "tokenBalance": "0x00000000000000000000000000000000000000000000000123e98e4deff44000"
+          },
+          {
+            "contractAddress": "0x927fc62927b580ea2daa79ccae9ff3679b65b71d",
+            "tokenBalance": "0x00000000000000000000000000000000000000000001d692e560bb3d79780000"
+          },
+          {
+            "contractAddress": "0x943ef08f016226818cd1951d5086d514e3977d73",
+            "tokenBalance": "0x000000000000000000000000000000000000000000027b46536c66c8e3000000"
+          },
+          {
+            "contractAddress": "0xb09f25ad8b31282713c10aaf9f180a67edbc795f",
+            "tokenBalance": "0x000000000000000000000000000000000000000000000014c33156c76e9c0000"
+          },
+          {
+            "contractAddress": "0xb2dcf623975a51f7510bc2cb1545aeb3e7cd2b89",
+            "tokenBalance": "0x000000000000000000000000000000000000000000000034ccf71f86de780000"
+          },
+          {
+            "contractAddress": "0xb3c3d3299be39f491e9795e517a6b1440443abea",
+            "tokenBalance": "0x0000000000000000000000000000000000000000000000a2a15d09519be00000"
+          },
+          {
+            "contractAddress": "0xb684967097d77b41788164fd1d03ec54d7ab0176",
+            "tokenBalance": "0x0000000000000000000000000000000000000000000000008ac7230489e80000"
+          },
+          {
+            "contractAddress": "0xdbea6ec0c97d5e2e0469d4bb1640dbd3b95e88f0",
+            "tokenBalance": "0x00000000000000000000000000000000000000000000010f0cf064dd59200000"
+          },
+          {
+            "contractAddress": "0xe5bb09bbc41e4644ee384f2435f169acbd07d60e",
+            "tokenBalance": "0x00000000000000000000000000000000000000000003911d9a8976871dcd0000"
+          },
+          {
+            "contractAddress": "0xf29a5540321965f7d50bde950d1a17cc391c36be",
+            "tokenBalance": "0x0000000000000000000000000000000000000000000000055de6a779bbac0000"
+          },
+          {
+            "contractAddress": "0xf55f63091367523226bb4558b348579074866691",
+            "tokenBalance": "0x00000000000000000000000000000000000000000000000247d31c9bdfe88000"
+          }
+        ]
+      }
+    },
+    "type": "json"
+  }
+}

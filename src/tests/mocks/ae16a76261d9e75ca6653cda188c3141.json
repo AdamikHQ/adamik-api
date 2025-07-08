@@ -1,0 +1,28 @@
+{
+  "request": {
+    "url": "https://monad-testnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenMetadata",
+      "params": [
+        "0xea66954458e6404cc2553bc650205d3eefed4da5"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "decimals": 18,
+        "logo": null,
+        "name": "ANALUS",
+        "symbol": "ANS"
+      }
+    },
+    "type": "json"
+  }
+}

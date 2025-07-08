@@ -1,0 +1,28 @@
+{
+  "request": {
+    "url": "https://monad-testnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "alchemy_getTokenMetadata",
+      "params": [
+        "0xa7ec9b374c4c695768db75af3e96b0aa58bfed06"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "decimals": 18,
+        "logo": null,
+        "name": "Herpes",
+        "symbol": "HERPES"
+      }
+    },
+    "type": "json"
+  }
+}

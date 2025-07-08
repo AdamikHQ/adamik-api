@@ -1,0 +1,11 @@
+{
+  "request": {
+    "url": "https://mempool.space/api/address/xpub6CwcRtE4ePo1jQ6Shrb9FPsBPcrTEneP6w9pcbPxML6yRvCC5cH49Xkm68Tw3sNYtw3fzi1PbEHDVfXFnePmJp3YHd9hzCYGToaNEVbNQWa/utxo",
+    "method": "GET"
+  },
+  "response": {
+    "status": 400,
+    "body": "Invalid Bitcoin address",
+    "type": "text"
+  }
+}
