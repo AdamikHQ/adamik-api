@@ -93,24 +93,83 @@ async function fetchAddressUtxos(chainId: ChainId, address: string): Promise<Utx
 
   const data = mempoolSpaceUtxoSchema.array().parse(result);
 
-  // Get script_hex for the address
-  const scriptPubKey = await fetchAddressScriptPubKey(chainId, address);
+  // Transform mempoolSpace format to UtxoWithMetadata format
+  // We need to fetch script_hex for each individual UTXO transaction output
+  const transformedUtxos: UtxoWithMetadata[] = [];
 
-  // Transform mempoolSpace format to UtxoWithMetadata format using the schema
-  const transformedUtxos: UtxoWithMetadata[] = data.map((utxo) => {
-    // Create object in the format expected by the Zod schema
-    const utxoForSchema = {
-      block_id: utxo.status.block_height ?? -1, // -1 for mempool transactions
-      transaction_hash: utxo.txid,
-      index: utxo.vout,
-      value: utxo.value,
-      address: address,
-      script_hex: scriptPubKey,
-    };
+  // Group UTXOs by transaction to minimize API calls
+  const utxosByTx = new Map<string, typeof data>();
+  for (const utxo of data) {
+    if (!utxosByTx.has(utxo.txid)) {
+      utxosByTx.set(utxo.txid, []);
+    }
+    utxosByTx.get(utxo.txid)!.push(utxo);
+  }
 
-    // Parse through the schema to ensure proper typing
-    return utxoWithMetadataSchema.parse(utxoForSchema);
-  });
+  // Fetch transaction data for each unique transaction
+  for (const [txid, utxos] of utxosByTx) {
+    let transactionData: any;
+    try {
+      const explorerURL = getProviderUrls(chainId, ProviderType.mempoolspace)[0];
+      const url = `${explorerURL}/tx/${txid}`;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch transaction ${txid}`);
+      }
+
+      const result = await response.json();
+      transactionData = mempoolSpaceTransactionSchema.parse(result);
+    } catch (error) {
+      console.warn(`Failed to fetch transaction data for ${txid}, falling back to address script:`, error);
+      // Fallback to address script for all UTXOs in this transaction
+      const fallbackScript = await fetchAddressScriptPubKey(chainId, address);
+      for (const utxo of utxos) {
+        const utxoForSchema = {
+          block_id: utxo.status.block_height ?? -1,
+          transaction_hash: utxo.txid,
+          index: utxo.vout,
+          value: utxo.value,
+          address: address,
+          script_hex: fallbackScript,
+        };
+        transformedUtxos.push(utxoWithMetadataSchema.parse(utxoForSchema));
+      }
+      continue;
+    }
+
+    // Process each UTXO for this transaction
+    for (const utxo of utxos) {
+      const output = transactionData.vout[utxo.vout];
+      if (!output) {
+        console.warn(`Output ${utxo.vout} not found in transaction ${txid}, falling back to address script`);
+        const fallbackScript = await fetchAddressScriptPubKey(chainId, address);
+        const utxoForSchema = {
+          block_id: utxo.status.block_height ?? -1,
+          transaction_hash: utxo.txid,
+          index: utxo.vout,
+          value: utxo.value,
+          address: address,
+          script_hex: fallbackScript,
+        };
+        transformedUtxos.push(utxoWithMetadataSchema.parse(utxoForSchema));
+        continue;
+      }
+
+      // Create object in the format expected by the Zod schema
+      const utxoForSchema = {
+        block_id: utxo.status.block_height ?? -1, // -1 for mempool transactions
+        transaction_hash: utxo.txid,
+        index: utxo.vout,
+        value: utxo.value,
+        address: address,
+        script_hex: output.scriptpubkey, // Individual script for this specific UTXO output
+      };
+
+      // Parse through the schema to ensure proper typing
+      transformedUtxos.push(utxoWithMetadataSchema.parse(utxoForSchema));
+    }
+  }
 
   return transformedUtxos;
 }
