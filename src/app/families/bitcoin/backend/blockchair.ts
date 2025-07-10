@@ -428,7 +428,11 @@ async function fetchRawTransaction(
 
 async function fetchLatestBlockHeight(chainId: ChainId): Promise<number> {
   const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
-  const url = `${explorerURL}/${chainId}/stats`;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
+
+  const url = `${explorerURL}/${chainId}/stats?${queryParams.toString()}`;
 
   const response = await fetch(url);
 
