@@ -197,7 +197,7 @@ async function buildTransferPsbt(
         value: transactionData.amount ? Number(transactionData.amount) : undefined,
       },
     ],
-    feePerByte.medium
+    feePerByte.fast
   );
 
   // inputs and outputs will be undefined if no solution was found
