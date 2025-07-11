@@ -111,9 +111,10 @@
         }
       ],
       "TotalNetLimit": 43200000000,
-      "TotalNetWeight": 26465758449,
+      "TotalNetWeight": 27203012408,
       "TotalEnergyLimit": 180000000000,
-      "TotalEnergyWeight": 16122789462
-    }
+      "TotalEnergyWeight": 18473745791
+    },
+    "type": "json"
   }
 }

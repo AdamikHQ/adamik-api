@@ -29,7 +29,7 @@
         },
         {
           "key": "getWitnessPayPerBlock",
-          "value": 16000000
+          "value": 8000000
         },
         {
           "key": "getWitnessStandbyAllowance",
@@ -147,7 +147,7 @@
         },
         {
           "key": "getWitness127PayPerBlock",
-          "value": 160000000
+          "value": 128000000
         },
         {
           "key": "getAllowMarketTransaction"
@@ -271,8 +271,21 @@
         {
           "key": "getAllowStrictMath",
           "value": 1
+        },
+        {
+          "key": "getConsensusLogicOptimization",
+          "value": 1
+        },
+        {
+          "key": "getAllowTvmCancun",
+          "value": 1
+        },
+        {
+          "key": "getAllowTvmBlob",
+          "value": 1
         }
       ]
-    }
+    },
+    "type": "json"
   }
 }
