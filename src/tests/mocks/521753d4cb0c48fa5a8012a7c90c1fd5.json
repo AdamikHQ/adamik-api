@@ -1,0 +1,81 @@
+{
+  "request": {
+    "url": "https://api.blockchair.com/bitcoin/dashboards/addresses/18ZFhkAfeSfwi3uTLZXYunPzdqCabLYCL9?key=B___EOrVPeIg5SFyyrn4pwLqYQ4AYAdv",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "set": {
+          "address_count": 1,
+          "balance": 0,
+          "balance_usd": 0,
+          "received": 396210,
+          "spent": 396210,
+          "output_count": 2,
+          "unspent_output_count": 0,
+          "first_seen_receiving": "2024-09-09 19:02:13",
+          "last_seen_receiving": "2025-03-07 14:35:44",
+          "first_seen_spending": "2025-03-07 14:35:44",
+          "last_seen_spending": "2025-04-28 13:02:58",
+          "transaction_count": 3
+        },
+        "addresses": {
+          "18ZFhkAfeSfwi3uTLZXYunPzdqCabLYCL9": {
+            "type": "pubkeyhash",
+            "script_hex": "76a91452e276db2d63019ad320e5598628fa0a66b202eb88ac",
+            "balance": 0,
+            "balance_usd": 0,
+            "received": 396210,
+            "received_usd": 277.98,
+            "spent": 396210,
+            "spent_usd": 362.989,
+            "output_count": 2,
+            "unspent_output_count": 0,
+            "first_seen_receiving": "2024-09-09 19:02:13",
+            "last_seen_receiving": "2025-03-07 14:35:44",
+            "first_seen_spending": "2025-03-07 14:35:44",
+            "last_seen_spending": "2025-04-28 13:02:58"
+          }
+        },
+        "transactions": [
+          "c14d1f6123683e3203ba795ddac147fb210a21e01936e8e5042f7a94d1b3576c",
+          "fe4be72dcbb8f2c54c0f6486c3978f05c41453c318a4dfa43b2ba9d742bf5528",
+          "1d607ea6ba6b4341e52125384c15a977ca46d83170e673528cdbe6a2f9c3f821"
+        ],
+        "utxo": []
+      },
+      "context": {
+        "code": 200,
+        "source": "D",
+        "limit": "100,100",
+        "offset": "0,0",
+        "results": 1,
+        "optimized": false,
+        "state": 905085,
+        "market_price_usd": 117913,
+        "cache": {
+          "live": true,
+          "duration": 120,
+          "since": "2025-07-11 14:17:33",
+          "until": "2025-07-11 14:19:33",
+          "time": null
+        },
+        "api": {
+          "version": "2.0.95-ie",
+          "last_major_update": "2022-11-07 02:00:00",
+          "next_major_update": "2023-11-12 02:00:00",
+          "documentation": "https://blockchair.com/api/docs",
+          "notice": "Try out our new API v.3: https://3xpl.com/data"
+        },
+        "servers": "API4,BTC5",
+        "time": 0.6547369956970215,
+        "render_time": 0.009144067764282227,
+        "full_time": 0.6638810634613037,
+        "request_cost": 1
+      }
+    },
+    "type": "json"
+  }
+}
