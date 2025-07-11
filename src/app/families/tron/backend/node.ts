@@ -22,10 +22,11 @@ const getAccount = (address: string) => {
 // FIXME: Hack to bypass contract needed type
 const broadcast = async (signedTransaction: any) => {
   const result = await tronWeb.trx.sendRawTransaction(signedTransaction);
-  // NOTE: sendRawTransaction doesn't include Error in the response
-  if (Object.keys(result).includes("Error")) {
-    throw new UserInputError((result as any).Error);
+
+  if (result.result !== true) {
+    throw new UserInputError(JSON.stringify(result));
   }
+
   return result.transaction.txID;
 };
 
