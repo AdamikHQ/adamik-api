@@ -1,26 +1,30 @@
 import { ChainId, ChainSupportedFeatures } from "~/app/model/types_WIP";
 import { AlchemyIndexer } from "./backend/alchemy";
 import { MoralisIndexer } from "./backend/moralis";
+import { SUPPORTED_CHAIN_IDS as STAKEWISE_SUPPORTED_CHAIN_IDS } from "./backend/stakewise";
 
 const moralisSupport = (chainId: ChainId): boolean =>
   Boolean(MoralisIndexer.SUPPORTED_CHAIN_IDS.get(chainId));
 const alchemySupport = (chainId: ChainId): boolean =>
   Boolean(AlchemyIndexer.SUPPORTED_CHAIN_IDS.get(chainId));
-const hasProviderSupport = (chainId: ChainId): boolean => moralisSupport(chainId) || alchemySupport(chainId);
+const indexerSupport = (chainId: ChainId): boolean => moralisSupport(chainId) || alchemySupport(chainId);
+
+const stakewiseSupport = (chainId: ChainId): boolean =>
+  Boolean(STAKEWISE_SUPPORTED_CHAIN_IDS.includes(chainId));
 
 const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
   read: {
     token: true,
-    validators: false,
+    validators: stakewiseSupport(chainId),
     account: {
-      balances: { native: true, tokens: hasProviderSupport(chainId), staking: false },
+      balances: { native: true, tokens: indexerSupport(chainId), staking: stakewiseSupport(chainId) },
       transactions: {
-        native: hasProviderSupport(chainId),
-        tokens: hasProviderSupport(chainId),
+        native: indexerSupport(chainId),
+        tokens: indexerSupport(chainId),
         staking: false,
       },
     },
-    transaction: { native: hasProviderSupport(chainId), tokens: hasProviderSupport(chainId), staking: false },
+    transaction: { native: indexerSupport(chainId), tokens: indexerSupport(chainId), staking: false },
   },
   write: {
     transaction: {
@@ -28,7 +32,7 @@ const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
         deployAccount: false,
         transfer: true,
         transferToken: true,
-        stake: false,
+        stake: stakewiseSupport(chainId),
         unstake: false,
         claimRewards: false,
         withdraw: false,

@@ -1,0 +1,25 @@
+meta {
+  name: ethereum
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{api_url}}/api/:chainId/validators?nextPage=eyJza2lwIjo1MH0
+  body: none
+  auth: none
+}
+
+params:query {
+  nextPage: eyJza2lwIjo1MH0
+}
+
+params:path {
+  chainId: ethereum
+}
+
+assert {
+  res.status: eq 200
+  res.body.validators[0].address: eq 0x8b44fb73faebc74067c490af2094469a590cae76
+  res.body.validators[0].name: eq CMF Legacy
+}

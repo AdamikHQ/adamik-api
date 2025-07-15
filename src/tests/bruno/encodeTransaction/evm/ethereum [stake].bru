@@ -1,0 +1,33 @@
+meta {
+  name: ethereum [stake]
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: ethereum
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "stake",
+        "senderAddress": "0xC70CcafE1250b1ca8eBE298c9DcdB0bD3D639044",
+        "targetValidatorAddress": "0xac0f906e433d58fa868f936e8a43230473652885",
+        "amount": "10000"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded[0].raw.value: eq 0x02f86e01018318d72a842f4eaf2c830110c494ac0f906e433d58fa868f936e8a43230473652885822710b844f9609f08000000000000000000000000c70ccafe1250b1ca8ebe298c9dcdb0bd3d639044000000000000000000000000ac0f906e433d58fa868f936e8a43230473652885c0
+}

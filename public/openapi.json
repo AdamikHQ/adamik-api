@@ -373,6 +373,59 @@
                             "signerSpec"
                           ]
                         },
+                        "hoodi": {
+                          "type": "object",
+                          "properties": {
+                            "family": {
+                              "type": "string",
+                              "enum": [
+                                "aptos",
+                                "algorand",
+                                "cosmos",
+                                "evm",
+                                "bitcoin",
+                                "tron",
+                                "ton",
+                                "starknet",
+                                "solana"
+                              ]
+                            },
+                            "id": {
+                              "$ref": "#/components/schemas/ChainId"
+                            },
+                            "nativeId": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "ticker": {
+                              "type": "string"
+                            },
+                            "decimals": {
+                              "type": "number"
+                            },
+                            "isTestnetFor": {
+                              "type": "string"
+                            },
+                            "supportedFeatures": {
+                              "$ref": "#/components/schemas/ChainSupportedFeatures"
+                            },
+                            "signerSpec": {
+                              "$ref": "#/components/schemas/SignerSpec"
+                            }
+                          },
+                          "required": [
+                            "family",
+                            "id",
+                            "nativeId",
+                            "name",
+                            "ticker",
+                            "decimals",
+                            "supportedFeatures",
+                            "signerSpec"
+                          ]
+                        },
                         "zksync": {
                           "type": "object",
                           "properties": {
@@ -5060,6 +5113,7 @@
                 "axelar",
                 "ethereum",
                 "sepolia",
+                "hoodi",
                 "holesky",
                 "zksync",
                 "zksync-sepolia",
@@ -5232,6 +5286,8 @@
                 "celestia-testnet",
                 "dydx",
                 "axelar",
+                "ethereum",
+                "hoodi",
                 "bitcoin",
                 "bitcoin-signet",
                 "injective",
@@ -5306,6 +5362,8 @@
                         "celestia-testnet",
                         "dydx",
                         "axelar",
+                        "ethereum",
+                        "hoodi",
                         "bitcoin",
                         "bitcoin-signet",
                         "injective",
@@ -5902,6 +5960,7 @@
                 "axelar",
                 "ethereum",
                 "sepolia",
+                "hoodi",
                 "holesky",
                 "zksync",
                 "zksync-sepolia",
@@ -6039,6 +6098,7 @@
                         "axelar",
                         "ethereum",
                         "sepolia",
+                        "hoodi",
                         "holesky",
                         "zksync",
                         "zksync-sepolia",
@@ -7075,6 +7135,7 @@
                 "axelar",
                 "ethereum",
                 "sepolia",
+                "hoodi",
                 "holesky",
                 "zksync",
                 "zksync-sepolia",
@@ -7553,6 +7614,7 @@
                                           "ethereum",
                                           "sepolia",
                                           "holesky",
+                                          "hoodi",
                                           "zksync",
                                           "zksync-sepolia",
                                           "injective-evm-testnet",
@@ -7710,6 +7772,7 @@
                         "axelar",
                         "ethereum",
                         "sepolia",
+                        "hoodi",
                         "holesky",
                         "zksync",
                         "zksync-sepolia",
@@ -8311,6 +8374,7 @@
                 "axelar",
                 "ethereum",
                 "sepolia",
+                "hoodi",
                 "holesky",
                 "zksync",
                 "zksync-sepolia",
@@ -8789,6 +8853,7 @@
                                           "ethereum",
                                           "sepolia",
                                           "holesky",
+                                          "hoodi",
                                           "zksync",
                                           "zksync-sepolia",
                                           "injective-evm-testnet",
@@ -8946,6 +9011,7 @@
                         "axelar",
                         "ethereum",
                         "sepolia",
+                        "hoodi",
                         "holesky",
                         "zksync",
                         "zksync-sepolia",
@@ -9101,6 +9167,7 @@
                 "axelar",
                 "ethereum",
                 "sepolia",
+                "hoodi",
                 "holesky",
                 "zksync",
                 "zksync-sepolia",
@@ -9597,6 +9664,7 @@
                                           "ethereum",
                                           "sepolia",
                                           "holesky",
+                                          "hoodi",
                                           "zksync",
                                           "zksync-sepolia",
                                           "injective-evm-testnet",
@@ -9819,6 +9887,7 @@
                         "axelar",
                         "ethereum",
                         "sepolia",
+                        "hoodi",
                         "holesky",
                         "zksync",
                         "zksync-sepolia",
@@ -9939,6 +10008,7 @@
                 "axelar",
                 "ethereum",
                 "sepolia",
+                "hoodi",
                 "holesky",
                 "zksync",
                 "zksync-sepolia",
@@ -10062,6 +10132,7 @@
                         "axelar",
                         "ethereum",
                         "sepolia",
+                        "hoodi",
                         "holesky",
                         "zksync",
                         "zksync-sepolia",
@@ -10176,6 +10247,7 @@
           "ethereum",
           "sepolia",
           "holesky",
+          "hoodi",
           "zksync",
           "zksync-sepolia",
           "injective-evm-testnet",
