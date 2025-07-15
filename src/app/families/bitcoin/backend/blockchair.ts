@@ -428,7 +428,11 @@ async function fetchRawTransaction(
 
 async function fetchLatestBlockHeight(chainId: ChainId): Promise<number> {
   const explorerURL = getProviderUrls(chainId, ProviderType.blockchair)[0];
-  const url = `${explorerURL}/${chainId}/stats`;
+  const queryParams = new URLSearchParams({
+    key: BLOCKCHAIR_API_KEY,
+  });
+
+  const url = `${explorerURL}/stats?${queryParams.toString()}`;
 
   const response = await fetch(url);
 
@@ -474,10 +478,13 @@ async function fetchFeePerByte(chainId: ChainId): Promise<{ slow: number; medium
     throw new ThirdPartyProviderError("Error in fee per byte data received from the explorer");
   }
 
+  const defaultFeePerByte = result.data.suggested_transaction_fee_per_byte_sat;
+
+  // Arbitrary coefficients
   return {
-    slow: result.data.suggested_transaction_fee_per_byte_sat,
-    medium: result.data.suggested_transaction_fee_per_byte_sat,
-    fast: result.data.suggested_transaction_fee_per_byte_sat,
+    slow: defaultFeePerByte,
+    medium: defaultFeePerByte + 1,
+    fast: defaultFeePerByte * 2,
   };
 }
 

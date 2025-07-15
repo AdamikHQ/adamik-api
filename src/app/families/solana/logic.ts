@@ -19,6 +19,14 @@ import { fetchAccountSPL, fetchLatestBlockhash } from "./backend/node";
 
 const SOLANA_MIN_STAKE_AMOUNT = 10_000_000n;
 
+function isAddressValid(address: string) {
+  try {
+    return PublicKey.isOnCurve(address);
+  } catch (error) {
+    return false;
+  }
+}
+
 async function buildTransferTransaction(
   chainId: ChainId,
   transaction: Transaction
@@ -219,5 +227,6 @@ export {
   buildTokenTransferTransaction,
   buildTransferTransaction,
   buildWithdrawStakeTransaction,
+  isAddressValid,
   SOLANA_MIN_STAKE_AMOUNT,
 };

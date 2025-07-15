@@ -1,5 +1,10 @@
 import { Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { createTransaction, createTRC10TokenTransaction, createTRC20TokenTransaction } from "./backend/node";
+import {
+  createTransaction,
+  createTRC10TokenTransaction,
+  createTRC20TokenTransaction,
+  extendTransactionExpiration,
+} from "./backend/node";
 
 const isTRC10Token = (tokenId: string) => !isNaN(parseInt(tokenId, 10));
 
@@ -9,26 +14,30 @@ const buildTransaction = async (transaction: Transaction) => {
     throw new Error("amount required to build raw transaction");
   }
 
+  let builtTransaction;
   if (transaction.data.mode === TransactionMode.TRANSFER_TOKEN) {
     // Check if tokenId is a number that means it's a TRC10 token
     if (isTRC10Token(transaction.data.tokenId)) {
-      return await createTRC10TokenTransaction(
+      builtTransaction = await createTRC10TokenTransaction(
         transaction.data.tokenId,
         amount,
         recipientAddress,
         senderAddress
       );
     } else {
-      return await createTRC20TokenTransaction(
+      builtTransaction = await createTRC20TokenTransaction(
         transaction.data.tokenId,
         amount,
         recipientAddress,
         senderAddress
       );
     }
+  } else {
+    builtTransaction = await createTransaction(senderAddress, recipientAddress, amount);
   }
 
-  return await createTransaction(senderAddress, recipientAddress, amount);
+  // Set the transaction expiration to 10 minutes (default 60s + 540s)
+  return await extendTransactionExpiration(builtTransaction, 540);
 };
 
 // How is it calculated.

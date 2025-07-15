@@ -1,9 +1,9 @@
-import { PublicKey, VoteProgram } from "@solana/web3.js";
+import { VoteProgram } from "@solana/web3.js";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { prevalidateTransactionCommon } from "../../common";
 import { fetchAccountInfo, fetchAccountTokenBalance, fetchNativeBalance } from "../backend/node";
-import { SOLANA_MIN_STAKE_AMOUNT } from "../logic";
+import { isAddressValid, SOLANA_MIN_STAKE_AMOUNT } from "../logic";
 import { SolanaService } from "../service";
 
 async function prevalidateTransaction(
@@ -18,7 +18,7 @@ async function prevalidateTransaction(
   await prevalidateTransactionCommon(this.chainId, {
     transactionData: transaction.data,
     status,
-    addressValidationFn: async (address: string) => PublicKey.isOnCurve(address),
+    addressValidationFn: async (address: string) => isAddressValid(address),
   });
 }
 

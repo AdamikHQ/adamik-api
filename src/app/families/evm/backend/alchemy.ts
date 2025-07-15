@@ -1,3 +1,4 @@
+import { ALCHEMY_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
   AlchemyBalanceRequest,
@@ -20,6 +21,7 @@ import {
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
+import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
@@ -49,7 +51,11 @@ const SUPPORTED_CHAIN_IDS: Map<ChainId, string> = new Map([
 ]);
 
 async function sendRequest(chainId: ChainId, method: string, params: any[]) {
-  const explorerURL = getProviderUrls(chainId, ProviderType.alchemy)[0];
+  const baseURL = getProviderUrls(chainId, ProviderType.alchemy)[0];
+
+  const explorerURL = baseURL.endsWith("/")
+    ? `${baseURL}${ALCHEMY_API_KEY}`
+    : `${baseURL}/${ALCHEMY_API_KEY}`;
 
   // TODO: Add support for multiple Alchemy URLs
   const res = await fetch(explorerURL, {
@@ -68,7 +74,7 @@ async function sendRequest(chainId: ChainId, method: string, params: any[]) {
   const response = await res.json();
   if (response.error) {
     console.warn(`/!\\ Alchemy request failed: ${response.error.message}`);
-    throw new Error("Request failed");
+    throw new ThirdPartyProviderError("Request failed");
   }
   return response.result;
 }

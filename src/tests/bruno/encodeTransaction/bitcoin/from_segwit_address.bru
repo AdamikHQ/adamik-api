@@ -19,8 +19,8 @@ body:json {
     "transaction": {
       "data": {
         "mode": "transfer",
-        "senderAddress": "bc1q4gwr68h0sqqwca8p40kamch69ynttq4ypw8pwu",
-        "recipientAddress": "bc1qekphvuz20qvdhkzywfe29r9vvtwxrszvaxzmqm",
+        "senderAddress": "bc1q87kp4qcr5w5uy4vn7dqa8dcv7r0a6kwpw0r2dv",
+        "recipientAddress": "bc1q87kp4qcr5w5uy4vn7dqa8dcv7r0a6kwpw0r2dv",
         "amount": "1000",
         "useMaxAmount": false
       }
@@ -30,5 +30,5 @@ body:json {
 
 assert {
   res.status: eq 200
-  res.body.transaction.encoded[0].raw.value: eq 70736274ff0100710200000001a7d5fd78eba8a999d45a30cd63dfa853a0490b3b571061e2ba54adb895bcfa720000000000fdffffff02e803000000000000160014cd8376704a7818dbd8447272a28cac62dc61c04cf70bc62900000000160014aa1c3d1eef8000ec74e1abeddde2fa2926b582a4000000000001011fa311c62900000000160014aa1c3d1eef8000ec74e1abeddde2fa2926b582a4000000
+  res.body.transaction.encoded[0].raw.value: eq 70736274ff0100710200000001b8a55e998f1500ef4acfb9e4827fd69a1a2b8956a0a95a514b1130a0a82f62280000000000fdffffff02e8030000000000001600143fac1a8303a3a9c25593f341d3b70cf0dfdd59c11cba0000000000001600143fac1a8303a3a9c25593f341d3b70cf0dfdd59c1000000000001011f50c30000000000001600143fac1a8303a3a9c25593f341d3b70cf0dfdd59c1000000
 }

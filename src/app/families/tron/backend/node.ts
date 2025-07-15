@@ -19,17 +19,14 @@ const getAccount = (address: string) => {
   return tronWeb.trx.getAccount(address);
 };
 
-const createTransaction = (from: string, to: string, amount: bigint) => {
-  return tronWeb.transactionBuilder.sendTrx(to, Number(amount), from);
-};
-
 // FIXME: Hack to bypass contract needed type
 const broadcast = async (signedTransaction: any) => {
   const result = await tronWeb.trx.sendRawTransaction(signedTransaction);
-  // NOTE: sendRawTransaction doesn't include Error in the response
-  if (Object.keys(result).includes("Error")) {
-    throw new UserInputError((result as any).Error);
+
+  if (result.result !== true) {
+    throw new UserInputError(JSON.stringify(result));
   }
+
   return result.transaction.txID;
 };
 
@@ -97,6 +94,10 @@ const getTRC20TokenInfo = async (tokenId: string, ownerAddress?: string): Promis
   return token;
 };
 
+const createTransaction = (from: string, to: string, amount: bigint) => {
+  return tronWeb.transactionBuilder.sendTrx(to, Number(amount), from);
+};
+
 const createTRC10TokenTransaction = (tokenId: string, amount: bigint, to: string, from: string) => {
   return tronWeb.transactionBuilder.sendToken(to, Number(amount), tokenId, from);
 };
@@ -125,6 +126,10 @@ const createTRC20TokenTransaction = async (tokenId: string, amount: bigint, to: 
   );
 
   return transaction;
+};
+
+const extendTransactionExpiration = (transaction: any, expiration: number) => {
+  return tronWeb.transactionBuilder.extendExpiration(transaction, expiration);
 };
 
 const estimateEnergyContract = async (tokenId: string, amount: bigint, to: string, from: string) => {
@@ -172,6 +177,7 @@ export {
   createTRC10TokenTransaction,
   createTRC20TokenTransaction,
   estimateEnergyContract,
+  extendTransactionExpiration,
   fetchTransaction,
   getAccount,
   getAccountResources,

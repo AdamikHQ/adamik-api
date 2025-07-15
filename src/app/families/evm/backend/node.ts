@@ -5,7 +5,6 @@ import {
   avalanche,
   base,
   baseSepolia,
-  berachainTestnetbArtio,
   bsc,
   bscTestnet,
   chiliz,
@@ -29,6 +28,7 @@ import {
   rootstockTestnet,
   sepolia,
   worldchain,
+  worldchainSepolia,
   zksync,
   zksyncSepoliaTestnet,
 } from "viem/chains";
@@ -40,6 +40,7 @@ import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
 import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { berachain } from "../chains/berachain";
+import { berachainbepolia } from "../chains/berachainbepolia";
 import { chilizTestnet } from "../chains/chiliz-testnet";
 import { hoodiTestnet } from "../chains/hoodi-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
@@ -74,8 +75,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: base, transport };
     case ChainId.BASE_SEPOLIA:
       return { chain: baseSepolia, transport };
-    case ChainId.BERACHAIN_ARTIO:
-      return { chain: berachainTestnetbArtio, transport };
+    case ChainId.BERACHAIN_BEPOLIA:
+      return { chain: berachainbepolia, transport };
     case ChainId.OPTIMISM:
       return { chain: optimism, transport };
     case ChainId.OPTIMISM_SEPOLIA:
@@ -130,6 +131,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: cronos, transport };
     case ChainId.WORLD_CHAIN:
       return { chain: worldchain, transport };
+    case ChainId.WORLD_CHAIN_SEPOLIA:
+      return { chain: worldchainSepolia, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }

@@ -1,0 +1,80 @@
+{
+  "request": {
+    "url": "https://api.trongrid.io/wallet/getsignweight",
+    "method": "POST",
+    "body": {
+      "visible": false,
+      "txID": "3a6785dce0411d54f7245a74168a379cb44ffc6ac3284213d8e2d1ec8277581c",
+      "raw_data": {
+        "contract": [
+          {
+            "parameter": {
+              "value": {
+                "data": "a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d970000000000000000000000000000000000000000000000000000000000003039",
+                "owner_address": "411c506ba436e22d4892be0a949f3f065878a38d97",
+                "contract_address": "41a614f803b6fd780986a42c78ec9c7f77e6ded13c"
+              },
+              "type_url": "type.googleapis.com/protocol.TriggerSmartContract"
+            },
+            "type": "TriggerSmartContract"
+          }
+        ],
+        "ref_block_bytes": "0933",
+        "ref_block_hash": "9c0c8fd28576ab00",
+        "expiration": 1752243183000,
+        "fee_limit": 150000000,
+        "timestamp": 1752242585664
+      },
+      "raw_data_hex": "0a02093322089c0c8fd28576ab0040b8c0b3ceff325aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15411c506ba436e22d4892be0a949f3f065878a38d97121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97000000000000000000000000000000000000000000000000000000000000303970c080b0ceff32900180a3c347"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "code": "NOT_ENOUGH_PERMISSION"
+      },
+      "permission": {
+        "keys": [
+          {
+            "address": "415857805c57370c090ca8dc74305a2c82ef999850",
+            "weight": 1
+          }
+        ],
+        "threshold": 1,
+        "permission_name": "owner"
+      },
+      "transaction": {
+        "result": {
+          "result": true
+        },
+        "txid": "cd919d7667cf91d6949cf68531340b7c367e8714c749e4fb771e4948ea3c4ff4",
+        "transaction": {
+          "txID": "cd919d7667cf91d6949cf68531340b7c367e8714c749e4fb771e4948ea3c4ff4",
+          "raw_data": {
+            "contract": [
+              {
+                "parameter": {
+                  "value": {
+                    "data": "a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d970000000000000000000000000000000000000000000000000000000000003039",
+                    "owner_address": "411c506ba436e22d4892be0a949f3f065878a38d97",
+                    "contract_address": "41a614f803b6fd780986a42c78ec9c7f77e6ded13c"
+                  },
+                  "type_url": "type.googleapis.com/protocol.TriggerSmartContract"
+                },
+                "type": "TriggerSmartContract"
+              }
+            ],
+            "ref_block_bytes": "0933",
+            "ref_block_hash": "9c0c8fd28576ab00",
+            "expiration": 1752243183000,
+            "fee_limit": 150000000,
+            "timestamp": 1752242585664
+          },
+          "raw_data_hex": "0a02093322089c0c8fd28576ab004098bbd4ceff325aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a15411c506ba436e22d4892be0a949f3f065878a38d97121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97000000000000000000000000000000000000000000000000000000000000303970c080b0ceff32900180a3c347"
+        }
+      }
+    },
+    "type": "json"
+  }
+}
