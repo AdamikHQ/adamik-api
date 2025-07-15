@@ -49,13 +49,13 @@
 
 | node | https://site1.moralis-nodes.com/eth/edd8151f3c634ee2a808f34c47c7ad70 |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://eth-mainnet.g.alchemy.com/v2 |
+| alchemy | https://eth-mainnet.g.alchemy.com/v2 |<br />
+| stakewiseGQL | https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod |
 
 ## sepolia
 
 | node | https://site1.moralis-nodes.com/sepolia/fe0cd204d0324cae84cb27769d5ab205 |<br />
-| moralis | https://deep-index.moralis.io/api |<br />
-| stakewiseGQL | https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod |
+| moralis | https://deep-index.moralis.io/api |
 
 ## hoodi
 
