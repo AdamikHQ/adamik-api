@@ -1,12 +1,16 @@
-import { Hex, BaseError as ViemError } from "viem";
+import { encodeFunctionData, Hex, BaseError as ViemError } from "viem";
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
+  StakeTransactionData,
   TransactionData,
   TransactionMode,
   TransactionSpendableAmounts,
 } from "~/app/model/types_WIP";
+import { UserInputError } from "~/app/tools/handlers/errors";
+import { stakewiseVaultDefaultABI } from "./abi/StakewiseVaultDefaultABI";
 import {
+  estimateContractGas,
   estimateERC20FeesForL2,
   estimateERC20Gas,
   estimateFeesForL2,
@@ -15,28 +19,66 @@ import {
   fetchBalance,
   fetchERC20Balance,
 } from "./backend/node";
+import { getHarvestParams } from "./backend/stakewise";
 import { EtherscanERC20Event } from "./backend/types";
-import { EvmAddress, EvmChainParams } from "./types";
+import { EvmAddress, EvmChainParams, HexString } from "./types";
 
 const isHexString = (val: string): val is Hex =>
   val?.startsWith && val.startsWith("0x") && /^[0-9a-fA-F]+$/i.test(val.slice(2));
 
+type DeepHexPrefixedValues<T> = {
+  [K in keyof T]: T[K] extends string // Check if it's any string type (literal or general)
+    ? T[K] extends `${infer R}` // This condition is true for all strings, R captures the content
+      ? `0x${R}` // Applies 0x prefix to any string content
+      : never // Should not happen for strings
+    : T[K] extends object // If not a string, check if it's an object
+    ? DeepHexPrefixedValues<T[K]> // Recurse for objects
+    : T[K]; // If not string and not object, keep its original type (e.g., number, boolean, null, undefined)
+};
+
 async function getTransactionGas(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
-  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
-    return await estimateERC20Gas({
-      chainId,
-      contractAddress: transaction.tokenId as EvmAddress,
-      senderAddress: transaction.senderAddress as EvmAddress,
-      recipientAddress: transaction.recipientAddress as EvmAddress,
-      amount: transaction.amount ?? 0n,
-    });
-  } else {
-    return await estimateGas({
-      chainId,
-      senderAddress: transaction.senderAddress as EvmAddress,
-      recipientAddress: transaction.recipientAddress as EvmAddress,
-      amount: transaction.amount ?? 0n,
-    });
+  switch (transaction.mode) {
+    case TransactionMode.TRANSFER:
+      return await estimateGas({
+        chainId,
+        senderAddress: transaction.senderAddress as EvmAddress,
+        recipientAddress: transaction.recipientAddress as EvmAddress,
+        amount: transaction.amount ?? 0n,
+      });
+    case TransactionMode.TRANSFER_TOKEN:
+      return await estimateERC20Gas({
+        chainId,
+        contractAddress: transaction.tokenId as EvmAddress,
+        senderAddress: transaction.senderAddress as EvmAddress,
+        recipientAddress: transaction.recipientAddress as EvmAddress,
+        amount: transaction.amount ?? 0n,
+      });
+
+    case TransactionMode.STAKE:
+      const harvestParams = await getHarvestParams(chainId, transaction.targetValidatorAddress);
+
+      return harvestParams.canHarvest
+        ? await estimateContractGas({
+            chainId,
+            contractAddress: transaction.targetValidatorAddress as EvmAddress,
+            accountAddress: transaction.senderAddress as EvmAddress,
+            abi: stakewiseVaultDefaultABI,
+            functionName: "updateStateAndDeposit",
+            args: [transaction.senderAddress, transaction.targetValidatorAddress, harvestParams.params],
+            value: transaction.amount,
+          })
+        : await estimateContractGas({
+            chainId,
+            contractAddress: transaction.targetValidatorAddress as EvmAddress,
+            accountAddress: transaction.senderAddress as EvmAddress,
+            abi: stakewiseVaultDefaultABI,
+            functionName: "deposit",
+            args: [transaction.senderAddress, transaction.targetValidatorAddress],
+            value: transaction.amount,
+          });
+
+    default:
+      throw new UserInputError(`Unsupported transaction mode ${transaction.mode}`);
   }
 }
 
@@ -128,7 +170,36 @@ function getOneEventPerContractAddress(events: EtherscanERC20Event[]): Map<EvmAd
   return eventPerContractAddress;
 }
 
+async function buildStakewiseData(
+  chainId: ChainId,
+  transactionData: StakeTransactionData
+): Promise<HexString> {
+  const harvestParams = await getHarvestParams(chainId, transactionData.targetValidatorAddress);
+
+  if (harvestParams.canHarvest) {
+    return encodeFunctionData({
+      abi: stakewiseVaultDefaultABI,
+      functionName: "updateStateAndDeposit",
+      args: [
+        transactionData.senderAddress as EvmAddress,
+        transactionData.targetValidatorAddress as EvmAddress,
+        harvestParams.params as DeepHexPrefixedValues<typeof harvestParams.params>,
+      ],
+    });
+  } else {
+    return encodeFunctionData({
+      abi: stakewiseVaultDefaultABI,
+      functionName: "deposit",
+      args: [
+        transactionData.senderAddress as EvmAddress,
+        transactionData.targetValidatorAddress as EvmAddress,
+      ],
+    });
+  }
+}
+
 export {
+  buildStakewiseData,
   getMaxSpendable,
   getOneEventPerContractAddress,
   getTransactionAmount,
@@ -136,3 +207,4 @@ export {
   getTransactionGas,
   isHexString,
 };
+export type { DeepHexPrefixedValues };

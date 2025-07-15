@@ -9,4 +9,4 @@ type EvmChainParams =
 type HexString = `0x${string}`;
 type EvmAddress = HexString;
 
-export type { EvmChainParams, HexString, EvmAddress };
+export type { EvmAddress, EvmChainParams, HexString };

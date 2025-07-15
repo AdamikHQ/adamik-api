@@ -1,5 +1,4 @@
 import {
-  BaseError as ViemError,
   encodeFunctionData,
   erc20Abi,
   parseSignature,
@@ -22,9 +21,9 @@ import {
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { keccak256 } from "~/app/tools/hash";
 import { estimateFeesPerGas } from "../backend/node";
-import { isHexString } from "../logic";
+import { buildStakewiseData, isHexString } from "../logic";
 import { EvmService } from "../service";
-import { EvmAddress, EvmChainParams } from "../types";
+import { EvmAddress, EvmChainParams, HexString } from "../types";
 
 async function encodeTransactionToSign(
   this: EvmService,
@@ -66,19 +65,27 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
-  const data =
-    transaction.data.mode === TransactionMode.TRANSFER_TOKEN
-      ? encodeFunctionData({
-          abi: erc20Abi,
-          functionName: "transfer",
-          args: [transaction.data.recipientAddress as EvmAddress, amount],
-        })
-      : undefined;
+  let data: HexString | undefined;
+  let recipient: EvmAddress;
+  switch (transaction.data.mode) {
+    case TransactionMode.TRANSFER_TOKEN:
+      data = encodeFunctionData({
+        abi: erc20Abi,
+        functionName: "transfer",
+        args: [transaction.data.recipientAddress as EvmAddress, amount],
+      });
+      recipient = transaction.data.tokenId as EvmAddress;
+      break;
 
-  const recipient =
-    transaction.data.mode === TransactionMode.TRANSFER_TOKEN
-      ? (transaction.data.tokenId as EvmAddress)
-      : (transaction.data.recipientAddress as EvmAddress);
+    case TransactionMode.STAKE:
+      data = await buildStakewiseData(chainId, transaction.data);
+      recipient = transaction.data.targetValidatorAddress as EvmAddress;
+      break;
+
+    default:
+      recipient = transaction.data.recipientAddress as EvmAddress;
+      break;
+  }
 
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
@@ -89,7 +96,7 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
     gas: transaction.data.gas,
     nonce: Number(transaction.data.nonce),
     to: recipient,
-    value: transaction.data.mode === TransactionMode.TRANSFER ? amount : 0n,
+    value: transaction.data.mode === TransactionMode.TRANSFER_TOKEN ? 0n : amount,
     data,
   });
 }
@@ -130,6 +137,17 @@ async function encodeTransactionAsWalletConnect(chainId: ChainId, transaction: T
         ...commonData,
         value: toHex(0n),
         to: transaction.data.tokenId,
+        data,
+      });
+    }
+
+    case TransactionMode.STAKE: {
+      const data = await buildStakewiseData(chainId, transaction.data);
+
+      return JSON.stringify({
+        ...commonData,
+        value: toHex(transaction.data.amount!),
+        to: transaction.data.targetValidatorAddress,
         data,
       });
     }
@@ -204,9 +222,7 @@ async function encodeTransactionToBroadcast(
     throw new UserInputError("Missing encoded transaction in RLP format");
   }
 
-  const parsedTansaction: TransactionSerializable = parseTransaction(
-    rawTransaction.raw!.value as `0x${string}`
-  );
+  const parsedTansaction: TransactionSerializable = parseTransaction(rawTransaction.raw!.value as HexString);
 
   const chainParams = CHAINS[this.chainId].params as EvmChainParams;
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;

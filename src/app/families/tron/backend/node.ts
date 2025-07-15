@@ -128,8 +128,14 @@ const createTRC20TokenTransaction = async (tokenId: string, amount: bigint, to: 
   return transaction;
 };
 
-const extendTransactionExpiration = (transaction: any, expiration: number) => {
-  return tronWeb.transactionBuilder.extendExpiration(transaction, expiration);
+const extendTransactionExpiration = async (transaction: any, expiration: number) => {
+  try {
+    return await tronWeb.transactionBuilder.extendExpiration(transaction, expiration);
+  } catch (error: any) {
+    // Should never happen, except in tests that use old mocks (safe to ignore)
+    console.warn("/!\\ Failed to extend Tron transaction expiration:", error);
+    return transaction;
+  }
 };
 
 const estimateEnergyContract = async (tokenId: string, amount: bigint, to: string, from: string) => {

@@ -1,4 +1,4 @@
-import { createPublicClient, erc20Abi, FeeValuesEIP1559, http } from "viem";
+import { Abi, createPublicClient, erc20Abi, FeeValuesEIP1559, http } from "viem";
 import {
   arbitrum,
   arbitrumSepolia,
@@ -42,6 +42,7 @@ import { avalancheFujiTesnet } from "../chains/avalanche-fuji--testnet";
 import { berachain } from "../chains/berachain";
 import { berachainbepolia } from "../chains/berachainbepolia";
 import { chilizTestnet } from "../chains/chiliz-testnet";
+import { hoodiTestnet } from "../chains/hoodi-testnet";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
 import { monadTestnet } from "../chains/monad-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
@@ -62,6 +63,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: mainnet, transport };
     case ChainId.HOLESKY:
       return { chain: holesky, transport };
+    case ChainId.HOODI:
+      return { chain: hoodiTestnet, transport };
     case ChainId.ZKSYNC:
       return { chain: zksync, transport };
     case ChainId.ZKSYNC_SEPOLIA:
@@ -148,6 +151,61 @@ function getClient(chainId: ChainId) {
   }
 }
 
+async function estimateContractGas({
+  chainId,
+  contractAddress,
+  accountAddress,
+  abi,
+  functionName,
+  args,
+  value,
+}: {
+  chainId: ChainId;
+  contractAddress: EvmAddress;
+  accountAddress: EvmAddress;
+  abi: Abi;
+  functionName: string;
+  args: unknown[];
+  value?: bigint;
+}): Promise<bigint> {
+  try {
+    return await getClient(chainId).estimateContractGas({
+      address: contractAddress,
+      account: accountAddress,
+      abi,
+      functionName,
+      args,
+      value,
+    });
+  } catch (e: any) {
+    console.warn(`/!\\ estimateContractGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
+    handleGasFeesEstimationError(chainId, e);
+  }
+}
+
+async function estimateERC20Gas({
+  chainId,
+  contractAddress,
+  senderAddress,
+  recipientAddress,
+  amount,
+}: {
+  chainId: ChainId;
+  contractAddress: EvmAddress;
+  senderAddress: EvmAddress;
+  recipientAddress: EvmAddress;
+  amount: bigint;
+}): Promise<bigint> {
+  return estimateContractGas({
+    chainId,
+    contractAddress,
+    accountAddress: senderAddress,
+    abi: erc20Abi,
+    functionName: "transfer",
+    args: [recipientAddress, amount],
+  });
+}
+
 async function estimateGas({
   chainId,
   senderAddress,
@@ -167,33 +225,6 @@ async function estimateGas({
     });
   } catch (e: any) {
     console.warn(`/!\\ estimateGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
-    handleGasFeesEstimationError(chainId, e);
-  }
-}
-
-async function estimateERC20Gas({
-  chainId,
-  contractAddress,
-  senderAddress,
-  recipientAddress,
-  amount,
-}: {
-  chainId: ChainId;
-  contractAddress: EvmAddress;
-  senderAddress: EvmAddress;
-  recipientAddress: EvmAddress;
-  amount: bigint;
-}): Promise<bigint> {
-  try {
-    return await getClient(chainId).estimateContractGas({
-      address: contractAddress,
-      abi: erc20Abi,
-      functionName: "transfer",
-      account: senderAddress,
-      args: [recipientAddress, amount],
-    });
-  } catch (e: any) {
-    console.warn(`/!\\ estimateContractGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
     handleGasFeesEstimationError(chainId, e);
   }
 }
@@ -393,6 +424,7 @@ function handleGasFeesEstimationError(chainId: ChainId, error: any): never {
 
 export {
   broadcast,
+  estimateContractGas,
   estimateERC20FeesForL2,
   estimateERC20Gas,
   estimateFeesForL2,

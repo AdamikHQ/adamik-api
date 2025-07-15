@@ -21,6 +21,7 @@ async function completeTransaction(
 
     switch (transaction.data.mode) {
       case TransactionMode.TRANSFER:
+      case TransactionMode.STAKE:
         await completeNativeTransaction(this.chainId, transaction.data);
         break;
       case TransactionMode.TRANSFER_TOKEN:

@@ -49,12 +49,18 @@
 
 | node | https://site1.moralis-nodes.com/eth/REDACTED |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://eth-mainnet.g.alchemy.com/v2 |
+| alchemy | https://eth-mainnet.g.alchemy.com/v2 |<br />
+| stakewiseGQL | https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod |
 
 ## sepolia
 
 | node | https://site1.moralis-nodes.com/sepolia/REDACTED |<br />
 | moralis | https://deep-index.moralis.io/api |
+
+## hoodi
+
+| node | https://ethereum-hoodi-rpc.publicnode.com |<br />
+| stakewiseGQL | https://graphs.stakewise.io/hoodi/subgraphs/name/stakewise/prod |
 
 ## holesky
 
