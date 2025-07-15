@@ -1,5 +1,5 @@
 meta {
-  name: ethereum [stake]
+  name: ethereum [transfer]
   type: http
   seq: 1
 }
@@ -11,17 +11,17 @@ post {
 }
 
 params:path {
-  chainId: hoodi
+  chainId: ethereum
 }
 
 body:json {
   {
     "transaction": {
-      "data": {
-        "mode": "stake",
-        "senderAddress": "0xeD35957be660cf9A2C768fDB52eC4D9D19eEB80F",
-        "targetValidatorAddress": "0x2b3eb77e5cbde5deb70c928e1e2814f8a6f143e0",
-        "amount": "10000"
+      "data":   {
+        "mode": "transfer",
+        "senderAddress": "0x12f7464C9Ff094098d3F1d987a7C0Ce958E1cC17",
+        "recipientAddress": "0x8bc6922Eb94e4858efaF9F433c35Bc241F69e8a6",
+        "useMaxAmount": true
       }
     }
   }

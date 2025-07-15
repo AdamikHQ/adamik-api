@@ -1,0 +1,24 @@
+meta {
+  name: hoodi
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/:chainId/validators?nextPage=eyJza2lwIjo1MH0
+  body: none
+  auth: none
+}
+
+params:query {
+  nextPage: eyJza2lwIjo1MH0
+}
+
+params:path {
+  chainId: hoodi
+}
+
+assert {
+  res.status: eq 200
+  res.body.validators[0].address: eq 0xd8555bc5b6bc61e72fc3b107f722cfcf6679c666
+}

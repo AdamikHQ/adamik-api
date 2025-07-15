@@ -1,0 +1,325 @@
+{
+  "request": {
+    "url": "https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod?opName=Vaults",
+    "method": "POST",
+    "body": {
+      "query": "\n        query Vaults($skip: Int, $first: Int, $orderBy: Vault_orderBy) {\n          vaults(\n            skip: $skip,\n            first: $first,\n            orderBy: $orderBy,\n            orderDirection: desc\n          ) {\n            id\n            displayName\n            totalAssets\n            apy\n          }\n        }\n      ",
+      "variables": {
+        "skip": 50,
+        "first": 50,
+        "orderBy": "totalAssets"
+      },
+      "operationName": "Vaults"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "vaults": [
+          {
+            "id": "0x8b44fb73faebc74067c490af2094469a590cae76",
+            "displayName": "CMF Legacy",
+            "totalAssets": "256630987192676755",
+            "apy": "0"
+          },
+          {
+            "id": "0xea5e8e9732c79584c0980f2bd3c29d37c747969f",
+            "displayName": "Swiss Staking (1.69% fee, MEV)",
+            "totalAssets": "113026187723879558",
+            "apy": "0"
+          },
+          {
+            "id": "0x8e52c3e687be63e93261eeccd64d5ba6eb609ece",
+            "displayName": "Streamable Finance Vault",
+            "totalAssets": "100000001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x9c29c571847a68a947acec8bacd303e36bc72ec5",
+            "displayName": "01node StakeWise V3 Vault",
+            "totalAssets": "98538116644502313",
+            "apy": "-0.00000000000004845132743362831858407079646017699"
+          },
+          {
+            "id": "0x559c78fc1dc35d4959db13dea19c07896cb578b5",
+            "displayName": "do not deposit",
+            "totalAssets": "82810608742523259",
+            "apy": "0"
+          },
+          {
+            "id": "0xf124ef4e47eefa1d6b1cb5f835ef1669e9a29a7c",
+            "displayName": "Deprecated: Orangefin Ventures",
+            "totalAssets": "66369694661806285",
+            "apy": "0"
+          },
+          {
+            "id": "0x2cf7cd8004c99cb4b6946e0dd2b19fba89bbe4eb",
+            "displayName": "Axol.io",
+            "totalAssets": "50000001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xa1e229db735f7aa3882bfd22fa6b89734225a3d1",
+            "displayName": "Amamu.io",
+            "totalAssets": "27614903859900950",
+            "apy": "0"
+          },
+          {
+            "id": "0x91804d6d10f2bd4e03338f40dee01cf294085cd1",
+            "displayName": "Brick Towers Institutional",
+            "totalAssets": "21023818794270229",
+            "apy": "0"
+          },
+          {
+            "id": "0xd92d51c90632a7c49dc6fa90338f02eec9ba9db4",
+            "displayName": "My Staked ETH",
+            "totalAssets": "15000001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x26a9e35c54607af98998b9e9bf2e7b57615be24f",
+            "displayName": "Deprecated",
+            "totalAssets": "10305911620658344",
+            "apy": "0"
+          },
+          {
+            "id": "0xef0157733e476dbb753a61ed7d742d6b6f0f9096",
+            "displayName": "Caliber",
+            "totalAssets": "10000001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xc75b3aa5a9baf47df1e4952aabc40e8475ebc9b9",
+            "displayName": "Grina",
+            "totalAssets": "9592670424661644",
+            "apy": "0"
+          },
+          {
+            "id": "0x41adbf980d09e6e50afffe606e5c259dcec0af27",
+            "displayName": "Luganodes - Stakekit",
+            "totalAssets": "2549713833104401",
+            "apy": "0"
+          },
+          {
+            "id": "0x3be03c2c390f405560599d962ddf60eecd9f6a94",
+            "displayName": "private vault",
+            "totalAssets": "2012938934951908",
+            "apy": "0"
+          },
+          {
+            "id": "0xa071d03d96554e185a86ab178ea3d76c9caaaad8",
+            "displayName": null,
+            "totalAssets": "1921846699247991",
+            "apy": "0"
+          },
+          {
+            "id": "0x75668e3b702a821d0eb7b38bbe466d0c90e3358c",
+            "displayName": "KontolDAO",
+            "totalAssets": "1100001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x72404ef582e81691f0a2c27620a86304a06fd897",
+            "displayName": "WillyamPangestu",
+            "totalAssets": "1100001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xbfccae8c2e5090c7cd7a6749d5bdd758f858cf54",
+            "displayName": "eTHVault",
+            "totalAssets": "1000001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xcb1d4c9834c7ee489830ff43802685d14f4c177b",
+            "displayName": "DFB Network",
+            "totalAssets": "110001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xd66a71a68392767f26b7ee47e9a0293191a23072",
+            "displayName": null,
+            "totalAssets": "1000275757",
+            "apy": "0"
+          },
+          {
+            "id": "0xfbe38ee1d9a970bc1513e833d0235135c1baa111",
+            "displayName": "Deprecated Validator",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xfba31f15d628d523d62ea123e6d0292c07cbc607",
+            "displayName": "Pier Two",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xfb22ded2bd69aff0907e195f23e448ab44e3ca97",
+            "displayName": null,
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xf9e0f01f6bfa73936350edc64b608402fa7197b2",
+            "displayName": "COFFRE FORT",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xf888e53b7065f3b303dce3f010d92e7994d3763f",
+            "displayName": null,
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xf41a0282807760872885f2af1d7716a1a524ee04",
+            "displayName": "ETH Printer",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xf28d4db96e0a151825320ca8e5a09ca1badff785",
+            "displayName": "Cassaforte Rik",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xee43a0827eb92bdbf461c4194d041802bbc2b13d",
+            "displayName": "meow",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xedb5133e583dad20b43b6f54bd9b287ad484d4a3",
+            "displayName": "GMK",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xe884fe17b16adac79023499cab1b9cdcbfd24bec",
+            "displayName": "Stakeverse",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xdd7de0cbb422ae28ee3a519f1add9eed32fc2273",
+            "displayName": "Ethereum Foundation Vault",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xdcdfcb6c4e2655ace3cf24173d92a639e961dfa2",
+            "displayName": null,
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xdb0fe9e0cd27d95cce329501fb651f041c454325",
+            "displayName": "Test Vault",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xd9708053985a77e14bcf0e0250676c10c7a814ef",
+            "displayName": "EtherVaults",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xd49cf2527f4748738cb091011346ef21bfa4551c",
+            "displayName": "Altfolio ",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xcb75149e58235f4551819df0c599acf0c1c9b5f8",
+            "displayName": "TBD",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xcb170655ff001f20987f5e38589dd034dab26d16",
+            "displayName": "Altaran",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xc8dd1a761bff84f1057e0c82743a720e98823883",
+            "displayName": "westrnghat",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xc6fef65b12d655122863124717cf324d17204e6a",
+            "displayName": "Toni Staked ETH Vault",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xc5bb7891b129d2470d71da2daffe0768c1b1c0ec",
+            "displayName": "H2O Nodes",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xc5506dbce180db56df4f76e89a29ea3cb0e9c756",
+            "displayName": "AM Solutions Vault",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xc50c61b6dd65728a7d706db1f8af7d2a57dc18ac",
+            "displayName": "0Xchaos",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xc3cf55551058872a8b21f38514c2fb6f82ef09b8",
+            "displayName": "Imperator.co | 1% Fees | MEV ✅",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xbf547b548e050742175b50b15199019a90f7d5e5",
+            "displayName": "MyFavVault",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xbd8e6cc37331dab05efa08456a0ecf70da30a1ac",
+            "displayName": "Restake",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xbcab55f056c2d2ee731d89549fa5317a9f38e26c",
+            "displayName": "OUTLAWS STASH SPOT ",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xbc164f2c650a906ce3be64361dfbefef4c441f3b",
+            "displayName": null,
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xbb3bbee226890f252d97245668db179a9d1269b6",
+            "displayName": "Dmaaaan Vault",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xbad4420da1a75ee3c1da3615a9f059c448164def",
+            "displayName": "OCA Testvault",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          }
+        ]
+      }
+    },
+    "type": "json"
+  }
+}

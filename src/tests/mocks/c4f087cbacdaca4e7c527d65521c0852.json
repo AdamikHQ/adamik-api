@@ -1,0 +1,283 @@
+{
+  "request": {
+    "url": "https://graphs.stakewise.io/hoodi/subgraphs/name/stakewise/prod?opName=Vaults",
+    "method": "POST",
+    "body": {
+      "query": "\n        query Vaults($skip: Int, $first: Int, $orderBy: Vault_orderBy) {\n          vaults(\n            skip: $skip,\n            first: $first,\n            orderBy: $orderBy,\n            orderDirection: desc\n          ) {\n            id\n            displayName\n            totalAssets\n            apy\n          }\n        }\n      ",
+      "variables": {
+        "skip": 50,
+        "first": 50,
+        "orderBy": "totalAssets"
+      },
+      "operationName": "Vaults"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "vaults": [
+          {
+            "id": "0xd8555bc5b6bc61e72fc3b107f722cfcf6679c666",
+            "displayName": null,
+            "totalAssets": "64259304314000000000",
+            "apy": "1.8053864609053313377084040152338"
+          },
+          {
+            "id": "0x2fa6a9ad7ffbd7bd9a06c67143c25174ad6be71d",
+            "displayName": null,
+            "totalAssets": "64259059113000000000",
+            "apy": "1.801584185102156276479985977103496"
+          },
+          {
+            "id": "0xf2c59bf42003c6e45012b1b1836903d7c3841671",
+            "displayName": null,
+            "totalAssets": "64259033666000000000",
+            "apy": "1.806519425298088489375941207792214"
+          },
+          {
+            "id": "0x804af751f05478cf0f8b47bbdad266ea4904576a",
+            "displayName": null,
+            "totalAssets": "64259023142000000000",
+            "apy": "1.803685813231111256430486557494134"
+          },
+          {
+            "id": "0x1ead76f224e73f87d0bdccab7841c3647ec42772",
+            "displayName": null,
+            "totalAssets": "64259014270000000000",
+            "apy": "1.807001741913750530876052053526232"
+          },
+          {
+            "id": "0x2b21b56c549828628f696baeab459afe2e7f177d",
+            "displayName": null,
+            "totalAssets": "64258846884000000000",
+            "apy": "1.805847463200847295427296980000185"
+          },
+          {
+            "id": "0x4d1f588d759128c457da80d98f3a3b55a720025d",
+            "displayName": "Staging Vault",
+            "totalAssets": "64100000001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xb0db31a820c5a49e7f798c72bf08c67e4c26d3da",
+            "displayName": "BD hoodi",
+            "totalAssets": "63974663685318390179",
+            "apy": "-0.47595886877173940642832771284160073"
+          },
+          {
+            "id": "0x318bd43ff4756a595d10a0c67ee92a8174d395cf",
+            "displayName": "ETH Vault BD HOODI",
+            "totalAssets": "63967963233823806357",
+            "apy": "-0.8329467619900800769998974942184027"
+          },
+          {
+            "id": "0x6c287b1efb7d95e87f5ef0527d500dcad4150c86",
+            "displayName": "test-vault",
+            "totalAssets": "63821546241000000000",
+            "apy": "-1.665856040675064726327354695719602"
+          },
+          {
+            "id": "0xc8e393eaffe7b500d05064bb12e88712eb909fe7",
+            "displayName": "Stakely",
+            "totalAssets": "36486595029801739612",
+            "apy": "0.8859616397008989520528419791398453"
+          },
+          {
+            "id": "0xdbda1df83c30ccd89b410cd6848ea15d2b3ce961",
+            "displayName": "onchainaustria Hoodi",
+            "totalAssets": "33057206291000000000",
+            "apy": "1.845072690380262441443985960819523"
+          },
+          {
+            "id": "0xadad9ecaf6e056835f1da1754e33b4cbd66c81c6",
+            "displayName": null,
+            "totalAssets": "32222806311535039292",
+            "apy": "1.887442122111492852269336585769265"
+          },
+          {
+            "id": "0x74752928c5dfff0aafdec54bad73912c8dfb11b5",
+            "displayName": null,
+            "totalAssets": "32221421058606942854",
+            "apy": "1.959108783154204210354924517542383"
+          },
+          {
+            "id": "0x0b183835957b1ff5360a7d30785b01f52e4b937e",
+            "displayName": "AVS Vault",
+            "totalAssets": "32100000000999349130",
+            "apy": "0"
+          },
+          {
+            "id": "0xcbf9515e6848255b21f0e87b9fa69c464ad63429",
+            "displayName": null,
+            "totalAssets": "32097376308006880858",
+            "apy": "1.957935073077330234358607050690191"
+          },
+          {
+            "id": "0x8ae5c1046158526cf236f74d8fb88fabe2e94aca",
+            "displayName": "Evgeny 1",
+            "totalAssets": "32000000001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x5d6abc504cf25b6559f3334cc766aab737887cb2",
+            "displayName": null,
+            "totalAssets": "32000000001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x255d3180136b7b7b9a18475d7ebb1ed94db749d0",
+            "displayName": "Evgeny 3",
+            "totalAssets": "32000000001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x60b8146db70d1524241f5f9eb295c7af5b541e41",
+            "displayName": "dfkadyr",
+            "totalAssets": "5000000001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x086a89ae50e2e0649b60a99a200c18743a18cad4",
+            "displayName": "Integration Example Vault",
+            "totalAssets": "5000000001000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x2fda0663c616ae3fac9051032e41f910505931e8",
+            "displayName": null,
+            "totalAssets": "150054460450163044",
+            "apy": "1.255533372896217028023598820058997"
+          },
+          {
+            "id": "0xf40e2ea7d08be411bddcff945698d3fca8a02c57",
+            "displayName": "bd-hoodi-vaul34t",
+            "totalAssets": "1000000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xd0c00df2871c788f429eff3fa4179510d2fb7522",
+            "displayName": "bd-hoodi-vault2",
+            "totalAssets": "1000000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xcdd9fbed62187e10b3261dde96d6afbc1b45a52a",
+            "displayName": "bd-hoodi-vault4",
+            "totalAssets": "1000000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xb7cafc57cae7f9e1ae1f433c26382614fc9d64e0",
+            "displayName": "dans vault",
+            "totalAssets": "1000000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x9a53b61c4193ac236240ae843dec6a2e6ab69be0",
+            "displayName": "bd-hoodi-vaul34t",
+            "totalAssets": "1000000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x7ebbfd90e4ce6fdc90c5b7780d4139f8da840bfc",
+            "displayName": "bd-hoodi-vault",
+            "totalAssets": "1000000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x5145decbffd08154b39be5ed7925710452ab7848",
+            "displayName": "bd-hoodi-vault",
+            "totalAssets": "1000000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x46b8ac69dc92a79afa219d0213b04166785df87d",
+            "displayName": "bd-hoodi-vault",
+            "totalAssets": "1000000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x446f957a922d8f2f15feddee9fbc36d12f03dd05",
+            "displayName": "bd-hoodi-vault",
+            "totalAssets": "1000000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x42149694dd407c39a490037bb9745f4883ba202b",
+            "displayName": "bd-hoodi-vaul3t",
+            "totalAssets": "1000000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x19c9d97ef05623baa37a012ab0ecd9e35c33e858",
+            "displayName": "dans vault",
+            "totalAssets": "1000000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xd11769bad4e08b4e3a20529100df6aac37de03fe",
+            "displayName": "C1 private Vault",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0xc7b1fe450719813dcbbac1dd85db579c4989a11f",
+            "displayName": "Evgeny 2",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x97a00b1db89b67f82e019a994929dc4c086fdf8f",
+            "displayName": "X",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x853ed10ee648d68f62b83c955c353a86aff8fd98",
+            "displayName": "Oscar's Validation Services",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x767419ba9a602ca0833a28d004394e2da03453d5",
+            "displayName": "Game vault (default)",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x6e742afbe673e8152197a8e6180b994e7268afb2",
+            "displayName": "EthPirates",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x67665112b1d08d542c2bc4ca7106b533382a661f",
+            "displayName": "Private",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x4d2da91235f643132b2d0ca355ba9cd22dceb77d",
+            "displayName": "Private Escrow Vault",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x18a1bb3f7b87639c7da139c1e9bbf95607ae97b1",
+            "displayName": "P2P.org Private Vault #1",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          },
+          {
+            "id": "0x142a824c6a1f584052561354caca4ef18861a01b",
+            "displayName": "Orbe Test",
+            "totalAssets": "1000000000",
+            "apy": "0"
+          }
+        ]
+      }
+    },
+    "type": "json"
+  }
+}
