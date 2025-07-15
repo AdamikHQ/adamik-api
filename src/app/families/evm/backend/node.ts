@@ -1,4 +1,4 @@
-import { Abi, createPublicClient, erc20Abi, FeeValuesEIP1559, getContract, http } from "viem";
+import { Abi, createPublicClient, erc20Abi, FeeValuesEIP1559, http } from "viem";
 import {
   arbitrum,
   arbitrumSepolia,
@@ -151,21 +151,27 @@ function getClient(chainId: ChainId) {
   }
 }
 
-async function fetchContract(chainId: ChainId, address: EvmAddress, abi: Abi) {
-  return getContract({ address, abi, client: getClient(chainId) });
-}
-
-async function estimateContractGas(
-  chainId: ChainId,
-  address: EvmAddress,
-  abi: Abi,
-  functionName: string,
-  args: unknown[],
-  value?: bigint
-): Promise<bigint> {
+async function estimateContractGas({
+  chainId,
+  contractAddress,
+  accountAddress,
+  abi,
+  functionName,
+  args,
+  value,
+}: {
+  chainId: ChainId;
+  contractAddress: EvmAddress;
+  accountAddress: EvmAddress;
+  abi: Abi;
+  functionName: string;
+  args: unknown[];
+  value?: bigint;
+}): Promise<bigint> {
   try {
     return await getClient(chainId).estimateContractGas({
-      address,
+      address: contractAddress,
+      account: accountAddress,
       abi,
       functionName,
       args,
@@ -175,6 +181,29 @@ async function estimateContractGas(
     console.warn(`/!\\ estimateContractGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
     handleGasFeesEstimationError(chainId, e);
   }
+}
+
+async function estimateERC20Gas({
+  chainId,
+  contractAddress,
+  senderAddress,
+  recipientAddress,
+  amount,
+}: {
+  chainId: ChainId;
+  contractAddress: EvmAddress;
+  senderAddress: EvmAddress;
+  recipientAddress: EvmAddress;
+  amount: bigint;
+}): Promise<bigint> {
+  return estimateContractGas({
+    chainId,
+    contractAddress,
+    accountAddress: senderAddress,
+    abi: erc20Abi,
+    functionName: "transfer",
+    args: [recipientAddress, amount],
+  });
 }
 
 async function estimateGas({
@@ -196,33 +225,6 @@ async function estimateGas({
     });
   } catch (e: any) {
     console.warn(`/!\\ estimateGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
-    handleGasFeesEstimationError(chainId, e);
-  }
-}
-
-async function estimateERC20Gas({
-  chainId,
-  contractAddress,
-  senderAddress,
-  recipientAddress,
-  amount,
-}: {
-  chainId: ChainId;
-  contractAddress: EvmAddress;
-  senderAddress: EvmAddress;
-  recipientAddress: EvmAddress;
-  amount: bigint;
-}): Promise<bigint> {
-  try {
-    return await getClient(chainId).estimateContractGas({
-      address: contractAddress,
-      abi: erc20Abi,
-      functionName: "transfer",
-      account: senderAddress,
-      args: [recipientAddress, amount],
-    });
-  } catch (e: any) {
-    console.warn(`/!\\ estimateContractGas call failed on node of chain ${chainId}:`, JSON.stringify(e));
     handleGasFeesEstimationError(chainId, e);
   }
 }
@@ -429,7 +431,6 @@ export {
   estimateFeesPerGas,
   estimateGas,
   fetchBalance,
-  fetchContract,
   fetchERC20Balance,
   fetchERC20Info,
   fetchNonce,

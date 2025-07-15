@@ -15,15 +15,13 @@ import { getAccountState as getAccountStateFn } from "./service/getAccountState"
 import { getAccountTokens as getAccountTokensFn } from "./service/getAccountTokens";
 import { getTokenInfo as getTokenInfoFn } from "./service/getTokenInfo";
 import { getTransaction as getTransactionFn } from "./service/getTransaction";
+import { getValidators as getValidatorsFn } from "./service/getValidators";
 import { pubkeyToAddresses as pubkeyToAddressesFn } from "./service/pubkeyToAddresses";
 import { validateAddress as validateAddressFn } from "./service/validateAddress";
 import {
   prevalidateTransaction as prevalidateTransactionFn,
   validateTransaction as validateTransactionFn,
 } from "./service/validateTransaction";
-
-// TODO Make sure heavy functions aren't called multiple times / unnecessarily
-// (buildTransaction, network calls, etc...)
 
 class EvmService extends BaseChainService implements TokenService, StakingService {
   override pubkeyToAddresses = pubkeyToAddressesFn;
@@ -50,9 +48,7 @@ class EvmService extends BaseChainService implements TokenService, StakingServic
 
   getAccountTokens = getAccountTokensFn;
   getTokenInfo = getTokenInfoFn;
-  getValidators = () => {
-    throw new UnsupportedFeatureError(`Unsupported feature for chain ${this.chainId}`);
-  };
+  getValidators = getValidatorsFn;
 }
 
 export { EvmService };

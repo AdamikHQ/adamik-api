@@ -1,12 +1,5 @@
 import { BaseError as ViemError } from "viem";
-import {
-  ChainId,
-  StakeTransactionData,
-  Status,
-  Transaction,
-  TransactionData,
-  TransactionMode,
-} from "~/app/model/types_WIP";
+import { ChainId, Status, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { fetchNonce } from "../backend/node";
 import { getTransactionAmount, getTransactionFees, getTransactionGas } from "../logic";
@@ -28,13 +21,11 @@ async function completeTransaction(
 
     switch (transaction.data.mode) {
       case TransactionMode.TRANSFER:
+      case TransactionMode.STAKE:
         await completeNativeTransaction(this.chainId, transaction.data);
         break;
       case TransactionMode.TRANSFER_TOKEN:
         await completeTokenTransaction(this.chainId, transaction.data);
-        break;
-      case TransactionMode.STAKE:
-        await completeStakeTransaction(this.chainId, transaction.data);
         break;
       default:
         // should never happen, zod already validated the mode per chain
@@ -63,12 +54,6 @@ async function completeTokenTransaction(chainId: ChainId, transaction: Transacti
   transaction.amount = await getTransactionAmount(chainId, transaction);
   transaction.gas = await getTransactionGas(chainId, transaction);
   transaction.fees = await getTransactionFees(chainId, transaction);
-}
-
-async function completeStakeTransaction(chainId: ChainId, transaction: StakeTransactionData): Promise<void> {
-  transaction.gas = await getTransactionGas(chainId, transaction);
-  transaction.fees = await getTransactionFees(chainId, transaction);
-  transaction.amount = await getTransactionAmount(chainId, transaction);
 }
 
 export { completeTransaction };

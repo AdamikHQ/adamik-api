@@ -294,6 +294,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.alchemy,
         urls: ["https://eth-mainnet.g.alchemy.com/v2"],
       },
+      {
+        type: ProviderType.stakewiseGQL,
+        urls: ["https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod"],
+      },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.ETHEREUM),
     signerSpec: getSignerSpecForChain(ChainId.ETHEREUM, ChainFamily.EVM),
@@ -314,10 +318,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.moralis,
         urls: ["https://deep-index.moralis.io/api"],
-      },
-      {
-        type: ProviderType.stakewiseGQL,
-        urls: ["https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.SEPOLIA),

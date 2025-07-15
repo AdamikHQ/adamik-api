@@ -1,4 +1,4 @@
-type fetchAllocationResponse = {
+type AllocatorsResponse = {
   data: {
     allocators: {
       id: string;
@@ -11,4 +11,4 @@ type fetchAllocationResponse = {
   };
 };
 
-export type { fetchAllocationResponse };
+export type { AllocatorsResponse };

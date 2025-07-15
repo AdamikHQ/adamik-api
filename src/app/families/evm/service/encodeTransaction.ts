@@ -20,12 +20,10 @@ import {
 } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { keccak256 } from "~/app/tools/hash";
-import { stakewiseVaultDefaultABI } from "../abi/StakewiseVaultDefaultABI";
 import { estimateFeesPerGas } from "../backend/node";
-import { getHarvestParams } from "../backend/stakewise";
-import { isHexString } from "../logic";
+import { buildStakewiseData, isHexString } from "../logic";
 import { EvmService } from "../service";
-import { EvmAddress, EvmChainParams } from "../types";
+import { EvmAddress, EvmChainParams, HexString } from "../types";
 
 async function encodeTransactionToSign(
   this: EvmService,
@@ -58,16 +56,6 @@ async function encodeTransactionToSign(
   ];
 }
 
-type DeepHexPrefixedValues<T> = {
-  [K in keyof T]: T[K] extends string // Check if it's any string type (literal or general)
-    ? T[K] extends `${infer R}` // This condition is true for all strings, R captures the content
-      ? `0x${R}` // Applies 0x prefix to any string content
-      : never // Should not happen for strings
-    : T[K] extends object // If not a string, check if it's an object
-    ? DeepHexPrefixedValues<T[K]> // Recurse for objects
-    : T[K]; // If not string and not object, keep its original type (e.g., number, boolean, null, undefined)
-};
-
 async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction): Promise<string> {
   const chain = CHAINS[chainId];
   const chainParams = chain.params as EvmChainParams;
@@ -77,7 +65,7 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
-  let data: `0x${string}` | undefined;
+  let data: HexString | undefined;
   let recipient: EvmAddress;
   switch (transaction.data.mode) {
     case TransactionMode.TRANSFER_TOKEN:
@@ -88,31 +76,12 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
       });
       recipient = transaction.data.tokenId as EvmAddress;
       break;
-    case TransactionMode.STAKE:
-      const harvestParams = await getHarvestParams(chainId, transaction.data.targetValidatorAddress);
 
-      if (harvestParams.canHarvest) {
-        data = encodeFunctionData({
-          abi: stakewiseVaultDefaultABI,
-          functionName: "updateStateAndDeposit",
-          args: [
-            transaction.data.senderAddress as EvmAddress,
-            transaction.data.targetValidatorAddress as EvmAddress,
-            harvestParams.params as DeepHexPrefixedValues<typeof harvestParams.params>,
-          ],
-        });
-      } else {
-        data = encodeFunctionData({
-          abi: stakewiseVaultDefaultABI,
-          functionName: "deposit",
-          args: [
-            transaction.data.senderAddress as EvmAddress,
-            transaction.data.targetValidatorAddress as EvmAddress,
-          ],
-        });
-      }
+    case TransactionMode.STAKE:
+      data = await buildStakewiseData(chainId, transaction.data);
       recipient = transaction.data.targetValidatorAddress as EvmAddress;
       break;
+
     default:
       recipient = transaction.data.recipientAddress as EvmAddress;
       break;
@@ -173,29 +142,7 @@ async function encodeTransactionAsWalletConnect(chainId: ChainId, transaction: T
     }
 
     case TransactionMode.STAKE: {
-      const harvestParams = await getHarvestParams(chainId, transaction.data.targetValidatorAddress);
-
-      let data: `0x${string}` | undefined;
-      if (harvestParams.canHarvest) {
-        data = encodeFunctionData({
-          abi: stakewiseVaultDefaultABI,
-          functionName: "updateStateAndDeposit",
-          args: [
-            transaction.data.senderAddress as EvmAddress,
-            transaction.data.targetValidatorAddress as EvmAddress,
-            harvestParams.params as DeepHexPrefixedValues<typeof harvestParams.params>,
-          ],
-        });
-      } else {
-        data = encodeFunctionData({
-          abi: stakewiseVaultDefaultABI,
-          functionName: "deposit",
-          args: [
-            transaction.data.senderAddress as EvmAddress,
-            transaction.data.targetValidatorAddress as EvmAddress,
-          ],
-        });
-      }
+      const data = await buildStakewiseData(chainId, transaction.data);
 
       return JSON.stringify({
         ...commonData,
@@ -275,9 +222,7 @@ async function encodeTransactionToBroadcast(
     throw new UserInputError("Missing encoded transaction in RLP format");
   }
 
-  const parsedTansaction: TransactionSerializable = parseTransaction(
-    rawTransaction.raw!.value as `0x${string}`
-  );
+  const parsedTansaction: TransactionSerializable = parseTransaction(rawTransaction.raw!.value as HexString);
 
   const chainParams = CHAINS[this.chainId].params as EvmChainParams;
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
