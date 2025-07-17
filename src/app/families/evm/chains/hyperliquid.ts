@@ -15,8 +15,20 @@ export const hyperliquid = defineChain({
   },
   blockExplorers: {
     default: {
-      name: "Hyperliquid Explorer",
+      name: "HyperEVM Scan",
+      url: "https://hyperevmscan.io",
+    },
+    etherscan: {
+      name: "HyperEVM Scan",
+      url: "https://hyperevmscan.io",
+    },
+    parsec: {
+      name: "Parsec",
       url: "https://purrsec.com",
+    },
+    blockscout: {
+      name: "HyperScan",
+      url: "https://www.hyperscan.com",
     },
   },
   contracts: {

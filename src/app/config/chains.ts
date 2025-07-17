@@ -2298,6 +2298,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
           "https://rpc.hyperliquid.xyz/evm",
         ],
       },
+      {
+        type: ProviderType.etherscan,
+        urls: ["https://hyperevmscan.io/api"],
+      },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.HYPERLIQUID),
     signerSpec: getSignerSpecForChain(ChainId.HYPERLIQUID, ChainFamily.EVM),
