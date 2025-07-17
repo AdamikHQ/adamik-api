@@ -100,6 +100,7 @@ enum ChainId {
   CRONOS = "cronos",
   WORLD_CHAIN = "world-chain",
   WORLD_CHAIN_SEPOLIA = "world-chain-sepolia",
+  HYPERLIQUID = "hyperliquid",
   SOLANA = "solana",
 }
 

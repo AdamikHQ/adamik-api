@@ -43,6 +43,7 @@ import { berachain } from "../chains/berachain";
 import { berachainbepolia } from "../chains/berachainbepolia";
 import { chilizTestnet } from "../chains/chiliz-testnet";
 import { hoodiTestnet } from "../chains/hoodi-testnet";
+import { hyperliquid } from "../chains/hyperliquid";
 import { injectiveEvmTestnet } from "../chains/injective-evm-testnet";
 import { monadTestnet } from "../chains/monad-testnet";
 import { EvmAddress, EvmChainParams } from "../types";
@@ -133,6 +134,8 @@ function getClientConfig(chainId: ChainId) {
       return { chain: worldchain, transport };
     case ChainId.WORLD_CHAIN_SEPOLIA:
       return { chain: worldchainSepolia, transport };
+    case ChainId.HYPERLIQUID:
+      return { chain: hyperliquid, transport };
     default:
       throw new Error("Unsupported chainId for Viem client");
   }
