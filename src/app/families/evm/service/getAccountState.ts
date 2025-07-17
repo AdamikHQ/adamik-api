@@ -1,4 +1,4 @@
-import { AccountState, StakingPosition, TokenAmount } from "~/app/model/types_WIP";
+import { AccountState } from "~/app/model/types_WIP";
 import { fetchBalance } from "../backend/node";
 import { fetchStakingPositions } from "../backend/stakewise";
 import { EvmService } from "../service";
@@ -32,11 +32,11 @@ async function getAccountState(this: EvmService, accountId: EvmAddress): Promise
   // Staking
   try {
     const stakingPositions = await fetchStakingPositions(this.chainId, accountId);
+
     result.balances.staking = {
       positions: stakingPositions,
       total: stakingPositions.reduce((acc, position) => acc + position.amount, 0n),
       locked: stakingPositions.reduce((acc, position) => acc + position.amount, 0n),
-      // TODO Fetch unlocked position + rewards
       unlocking: 0n,
       unlocked: 0n,
     };
@@ -44,22 +44,7 @@ async function getAccountState(this: EvmService, accountId: EvmAddress): Promise
     console.warn(`Error while fetching staking balances for chain ${this.chainId}:`, JSON.stringify(error));
   }
 
-  return {
-    balances: {
-      native: {
-        available: nativeBalance,
-        total: nativeBalance,
-      },
-      tokens: [] as TokenAmount[],
-      staking: {
-        total: 0n,
-        locked: 0n,
-        unlocking: 0n,
-        unlocked: 0n,
-        positions: [] as StakingPosition[],
-      },
-    },
-  };
+  return result;
 }
 
 export { getAccountState };

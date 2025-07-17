@@ -1,0 +1,24 @@
+{
+  "request": {
+    "url": "https://ethereum-hoodi-rpc.publicnode.com/",
+    "method": "POST",
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 0,
+      "method": "eth_getBalance",
+      "params": [
+        "0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab",
+        "latest"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 0,
+      "result": "0x43441b3c1452698f"
+    },
+    "type": "json"
+  }
+}
