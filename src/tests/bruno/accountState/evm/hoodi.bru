@@ -12,13 +12,16 @@ get {
 
 params:path {
   chainId: hoodi
-  accountId: 0x66c4371aE8FFeD2ec1c2EBbbcCfb7E494181E1E3
+  accountId: 0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab
 }
 
 assert {
   res.body.balances: isDefined tokens
-  res.body.balances.tokens: isArray
-  res.body.balances.native.total: matches ^\d+$
-  res.body.balances.native.available: matches ^\d+$
+  res.body.balances.native.total: matches ^[1-9]\d+$
+  res.body.balances.native.available: matches ^[1-9]\d+$
   res.status: eq 200
+  res.body.balances.staking.total: matches ^[1-9]\d+$
+  res.body.balances.staking.locked: matches ^[1-9]\d+$
+  res.body.balances.staking.positions[0].validatorAddresses[0]: matches ^.+$
+  res.body.balances.staking.positions[0].amount: eq 11000249592079512
 }

@@ -5,7 +5,6 @@ type AllocatorsResponse = {
       assets: string;
       vault: {
         id: string;
-        displayName: string;
       };
     }[];
   };

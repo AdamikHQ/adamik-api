@@ -62,7 +62,6 @@ async function fetchStakingPositions(chainId: ChainId, vaultAddress: string): Pr
               assets
               vault {
                 id
-                displayName
               }
             }
           }
@@ -74,11 +73,14 @@ async function fetchStakingPositions(chainId: ChainId, vaultAddress: string): Pr
     data: { allocators },
   }: AllocatorsResponse = await response.json();
 
-  return allocators.map((allocator) => ({
-    validatorAddresses: [allocator.vault.id],
-    amount: BigInt(allocator.assets),
-    status: StakingStatus.LOCKED,
-  }));
+  return allocators.map(
+    (allocator): StakingPosition => ({
+      stakeId: allocator.id,
+      validatorAddresses: [allocator.vault.id],
+      amount: BigInt(allocator.assets),
+      status: StakingStatus.LOCKED,
+    })
+  );
 }
 
 // NOTE This provides StakeWise vaults as validators
@@ -119,6 +121,9 @@ async function fetchValidators(
       variables: {
         skip,
         first,
+        // where: {
+        //   isPrivate: false, // Use this setting to filter public/private vaults
+        // },
         orderBy: "totalAssets",
       },
       operationName: "Vaults",
