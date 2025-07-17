@@ -1,0 +1,18 @@
+{
+  "request": {
+    "url": "https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod?opName=Allocators",
+    "method": "POST",
+    "body": {
+      "query": "\n          query MyQuery($address: Bytes = \"0x66c4371aE8FFeD2ec1c2EBbbcCfb7E494181E1E3\") {\n            allocators(where: {address: $address}) {\n              id\n              assets\n              shares\n              vault {\n                id\n              }\n            }\n          }\n      "
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "allocators": []
+      }
+    },
+    "type": "json"
+  }
+}
