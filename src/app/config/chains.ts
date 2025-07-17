@@ -2283,6 +2283,29 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN_SEPOLIA),
     signerSpec: getSignerSpecForChain(ChainId.WORLD_CHAIN_SEPOLIA, ChainFamily.EVM),
   },
+  hyperliquid: {
+    id: ChainId.HYPERLIQUID,
+    name: "Hyperliquid",
+    family: ChainFamily.EVM,
+    nativeId: "999",
+    ticker: "HYPE",
+    decimals: 18,
+    providers: [
+      {
+        type: ProviderType.node,
+        urls: [
+          "https://damp-thrumming-mound.hype-mainnet.quiknode.pro/REDACTED/evm",
+          "https://rpc.hyperliquid.xyz/evm",
+        ],
+      },
+      {
+        type: ProviderType.etherscan,
+        urls: ["https://hyperevmscan.io/api"],
+      },
+    ],
+    supportedFeatures: EVM_FEATURES(ChainId.HYPERLIQUID),
+    signerSpec: getSignerSpecForChain(ChainId.HYPERLIQUID, ChainFamily.EVM),
+  },
   solana: {
     id: ChainId.SOLANA,
     name: "Solana",

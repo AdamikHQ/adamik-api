@@ -452,6 +452,11 @@
 | node | https://worldchain-sepolia.g.alchemy.com/v2/REDACTED |<br />
 | alchemy | https://worldchain-sepolia.g.alchemy.com/v2 |
 
+## hyperliquid
+
+| node | https://damp-thrumming-mound.hype-mainnet.quiknode.pro/REDACTED/evm, https://rpc.hyperliquid.xyz/evm |<br />
+| etherscan | https://hyperevmscan.io/api |
+
 ## solana
 
 | node | https://mainnet.helius-rpc.com |<br />
