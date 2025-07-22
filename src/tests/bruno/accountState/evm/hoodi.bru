@@ -23,5 +23,7 @@ assert {
   res.body.balances.staking.total: matches ^[1-9]\d+$
   res.body.balances.staking.locked: matches ^[1-9]\d+$
   res.body.balances.staking.positions[0].validatorAddresses[0]: matches ^.+$
-  res.body.balances.staking.positions[0].amount: eq 11000249592079512
+  res.body.balances.staking.positions[0].amount: eq 11002823833113284
+  res.body.balances.staking.unlocking: matches ^[1-9]\d+$
+  ~res.body.balances.staking.unlocked: matches ^[1-9]\d+$
 }

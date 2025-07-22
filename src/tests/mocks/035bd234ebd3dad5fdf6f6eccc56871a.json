@@ -1,0 +1,36 @@
+{
+  "request": {
+    "url": "https://graphs.stakewise.io/hoodi/subgraphs/name/stakewise/prod?opName=HarvestParams",
+    "method": "POST",
+    "body": {
+      "query": "query HarvestParams($address: ID!) { harvestParams: vault(id: $address) { proof canHarvest rewardsRoot reward: proofReward unlockedMevReward: proofUnlockedMevReward }}",
+      "variables": {
+        "address": "0xba447498dc4c169f2b4f427b2c4d532320457e89"
+      },
+      "operationName": "HarvestParams"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "harvestParams": {
+          "proof": [
+            "0x015c467072d1f962d656dc9a38e9caf70ead4c2ad9a4b1eeaab01e9c4c2bfbea",
+            "0xf3f80b026a8366504545047e6052027c27401f5ec78404963c70f886240eadaa",
+            "0xc744cc38a9d5810a600011a3847ed501c0d1ffe137415158c053df03e353e553",
+            "0x7b8d06ab7c706fd1dd5aa975f1eb0f4eee79acfa0698eceb495be74f54977a96",
+            "0x94a07850645a80f3048c763be742c56b2415a59f1cbae8d58cfa64ef56b35fb7",
+            "0xb49a56445a1365c8cf95a8d3462aeec3deef2af161c573b7caebed5ceb97d6e5",
+            "0x51ccdd627e63993fe644849a34e58cc04296710234159dd100ceda1e3908b1b1"
+          ],
+          "canHarvest": true,
+          "rewardsRoot": "0xb507c5a814e41ebf1a48874a041bfd7fcae6dd703ffae02234e1b1ba764a78a7",
+          "reward": "9703636373501967649",
+          "unlockedMevReward": "148083641648462469"
+        }
+      }
+    },
+    "type": "json"
+  }
+}
