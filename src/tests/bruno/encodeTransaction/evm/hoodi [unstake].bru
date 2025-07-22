@@ -1,0 +1,33 @@
+meta {
+  name: hoodi [unstake]
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: hoodi
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "unstake",
+        "senderAddress": "0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab",
+        "validatorAddress": "0xba447498dc4c169f2b4f427b2c4d532320457e89",
+        "amount": "1000"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded[0].raw.value: eq 0x02f87083088bb012843b9aca008482c516628301301594ba447498dc4c169f2b4f427b2c4d532320457e8980b8448ceab9aa00000000000000000000000000000000000000000000000000000000000003e20000000000000000000000006450685ae9c904b7d258a897adc1fa0736dbf5abc0
+}

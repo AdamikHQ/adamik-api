@@ -2,7 +2,7 @@ import { BaseError as ViemError } from "viem";
 import { ChainId, Status, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { fetchNonce } from "../backend/node";
-import { getTransactionAmount, getTransactionFees, getTransactionGas } from "../logic";
+import { getTransactionAmount, getTransactionFees, getTransactionGas, setSharesFromAmount } from "../logic";
 import { EvmService } from "../service";
 import { EvmAddress } from "../types";
 
@@ -26,6 +26,10 @@ async function completeTransaction(
         break;
       case TransactionMode.TRANSFER_TOKEN:
         await completeTokenTransaction(this.chainId, transaction.data);
+        break;
+      case TransactionMode.UNSTAKE:
+        await setSharesFromAmount(this.chainId, transaction.data);
+        await completeNativeTransaction(this.chainId, transaction.data);
         break;
       default:
         // should never happen, zod already validated the mode per chain
