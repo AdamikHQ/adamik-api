@@ -6,6 +6,7 @@ import {
   TransactionData,
   TransactionMode,
   TransactionSpendableAmounts,
+  UnstakeTransactionData,
 } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { stakewiseVaultDefaultABI } from "./abi/StakewiseVaultDefaultABI";
@@ -19,9 +20,9 @@ import {
   fetchBalance,
   fetchERC20Balance,
 } from "./backend/node";
-import { getHarvestParams } from "./backend/stakewise";
+import { fetchHarvestParams, fetchStakingData } from "./backend/stakewise";
 import { EtherscanERC20Event } from "./backend/types";
-import { EvmAddress, EvmChainParams, HexString } from "./types";
+import { EvmAddress, EvmChainParams, EvmTransactionParams, HexString } from "./types";
 
 const isHexString = (val: string): val is Hex =>
   val?.startsWith && val.startsWith("0x") && /^[0-9a-fA-F]+$/i.test(val.slice(2));
@@ -36,49 +37,65 @@ type DeepHexPrefixedValues<T> = {
     : T[K]; // If not string and not object, keep its original type (e.g., number, boolean, null, undefined)
 };
 
-async function getTransactionGas(chainId: ChainId, transaction: TransactionData): Promise<bigint> {
-  switch (transaction.mode) {
+async function getTransactionGas(chainId: ChainId, transactionData: TransactionData): Promise<bigint> {
+  switch (transactionData.mode) {
     case TransactionMode.TRANSFER:
       return await estimateGas({
         chainId,
-        senderAddress: transaction.senderAddress as EvmAddress,
-        recipientAddress: transaction.recipientAddress as EvmAddress,
-        amount: transaction.amount ?? 0n,
+        senderAddress: transactionData.senderAddress as EvmAddress,
+        recipientAddress: transactionData.recipientAddress as EvmAddress,
+        amount: transactionData.amount ?? 0n,
       });
     case TransactionMode.TRANSFER_TOKEN:
       return await estimateERC20Gas({
         chainId,
-        contractAddress: transaction.tokenId as EvmAddress,
-        senderAddress: transaction.senderAddress as EvmAddress,
-        recipientAddress: transaction.recipientAddress as EvmAddress,
-        amount: transaction.amount ?? 0n,
+        contractAddress: transactionData.tokenId as EvmAddress,
+        senderAddress: transactionData.senderAddress as EvmAddress,
+        recipientAddress: transactionData.recipientAddress as EvmAddress,
+        amount: transactionData.amount ?? 0n,
       });
 
     case TransactionMode.STAKE:
-      const harvestParams = await getHarvestParams(chainId, transaction.targetValidatorAddress);
+      const harvestParams = await fetchHarvestParams(chainId, transactionData.targetValidatorAddress);
 
       return harvestParams.canHarvest
         ? await estimateContractGas({
             chainId,
-            contractAddress: transaction.targetValidatorAddress as EvmAddress,
-            accountAddress: transaction.senderAddress as EvmAddress,
+            contractAddress: transactionData.targetValidatorAddress as EvmAddress,
+            accountAddress: transactionData.senderAddress as EvmAddress,
             abi: stakewiseVaultDefaultABI,
             functionName: "updateStateAndDeposit",
-            args: [transaction.senderAddress, transaction.targetValidatorAddress, harvestParams.params],
-            value: transaction.amount,
+            args: [
+              transactionData.senderAddress,
+              transactionData.targetValidatorAddress,
+              harvestParams.params,
+            ],
+            value: transactionData.amount,
           })
         : await estimateContractGas({
             chainId,
-            contractAddress: transaction.targetValidatorAddress as EvmAddress,
-            accountAddress: transaction.senderAddress as EvmAddress,
+            contractAddress: transactionData.targetValidatorAddress as EvmAddress,
+            accountAddress: transactionData.senderAddress as EvmAddress,
             abi: stakewiseVaultDefaultABI,
             functionName: "deposit",
-            args: [transaction.senderAddress, transaction.targetValidatorAddress],
-            value: transaction.amount,
+            args: [transactionData.senderAddress, transactionData.targetValidatorAddress],
+            value: transactionData.amount,
           });
 
+    case TransactionMode.UNSTAKE:
+      const transactionParams = transactionData.params as EvmTransactionParams;
+      return await estimateContractGas({
+        chainId,
+        contractAddress: transactionData.validatorAddress as EvmAddress,
+        accountAddress: transactionData.senderAddress as EvmAddress,
+        abi: stakewiseVaultDefaultABI,
+        functionName: "enterExitQueue",
+        args: [transactionParams.shares, transactionData.senderAddress],
+        value: 0n,
+      });
+
     default:
-      throw new UserInputError(`Unsupported transaction mode ${transaction.mode}`);
+      throw new UserInputError(`Unsupported transaction mode ${transactionData.mode}`);
   }
 }
 
@@ -129,6 +146,45 @@ async function getTransactionAmount(chainId: ChainId, transaction: TransactionDa
   }
 }
 
+// Only when unstaking, we need to convert the amount to shares
+// The function sets the computed shares in transaction.data.params
+async function setSharesFromAmount(chainId: ChainId, transactionData: TransactionData): Promise<void> {
+  // Fetch staking data for the vault
+  const stakingData = await fetchStakingData(chainId, transactionData.senderAddress);
+
+  // Get the validator address based on transaction mode
+  const vaultAddress =
+    transactionData.mode === TransactionMode.STAKE
+      ? (transactionData as StakeTransactionData).targetValidatorAddress
+      : (transactionData as UnstakeTransactionData).validatorAddress;
+
+  // Use the first allocator data (there should typically be one per vault)
+  const allocatorData = stakingData.find((allocator) => allocator.vault.id === vaultAddress);
+  if (!allocatorData) {
+    throw new UserInputError(`No staking position found for validator address ${vaultAddress}`);
+  }
+
+  const totalAssets = BigInt(allocatorData.assets);
+  const totalShares = BigInt(allocatorData.shares);
+
+  if (
+    totalAssets === 0n ||
+    totalShares === 0n ||
+    (transactionData.amount && transactionData.amount > totalAssets)
+  ) {
+    throw new UserInputError("Staked balance is too low");
+  }
+
+  // Calculate shares using cross-multiplication
+  const sharesAmount = transactionData.useMaxAmount
+    ? totalShares
+    : (transactionData.amount! * totalShares) / totalAssets;
+
+  transactionData.params = {
+    shares: sharesAmount,
+  };
+}
+
 async function getMaxSpendable(
   chainId: ChainId,
   transaction: TransactionData
@@ -170,11 +226,11 @@ function getOneEventPerContractAddress(events: EtherscanERC20Event[]): Map<EvmAd
   return eventPerContractAddress;
 }
 
-async function buildStakewiseData(
+async function buildStakewiseStakeData(
   chainId: ChainId,
   transactionData: StakeTransactionData
 ): Promise<HexString> {
-  const harvestParams = await getHarvestParams(chainId, transactionData.targetValidatorAddress);
+  const harvestParams = await fetchHarvestParams(chainId, transactionData.targetValidatorAddress);
 
   if (harvestParams.canHarvest) {
     return encodeFunctionData({
@@ -198,13 +254,30 @@ async function buildStakewiseData(
   }
 }
 
+async function buildStakewiseUnstakeData(
+  chainId: ChainId,
+  transactionData: UnstakeTransactionData
+): Promise<HexString> {
+  const transactionParams = transactionData.params as EvmTransactionParams;
+  return encodeFunctionData({
+    abi: stakewiseVaultDefaultABI,
+    functionName: "enterExitQueue",
+    args: [
+      transactionParams.shares,
+      transactionData.senderAddress as EvmAddress, // Receiving address
+    ],
+  });
+}
+
 export {
-  buildStakewiseData,
+  buildStakewiseStakeData,
+  buildStakewiseUnstakeData,
   getMaxSpendable,
   getOneEventPerContractAddress,
   getTransactionAmount,
   getTransactionFees,
   getTransactionGas,
   isHexString,
+  setSharesFromAmount,
 };
 export type { DeepHexPrefixedValues };

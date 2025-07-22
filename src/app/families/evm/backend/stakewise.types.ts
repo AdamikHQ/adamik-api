@@ -1,13 +1,36 @@
 type AllocatorsResponse = {
   data: {
-    allocators: {
-      id: string;
-      assets: string;
-      vault: {
-        id: string;
-      };
-    }[];
+    allocators: AllocatorData[];
   };
 };
 
-export type { AllocatorsResponse };
+type ExitRequest = {
+  id: string;
+  //timestamp: string;
+  //positionTicket: string;
+  //totalShares: string;
+  totalAssets: string;
+  withdrawalTimestamp?: string; // Provided in seconds
+};
+
+type AllocatorData = {
+  id: string;
+  assets: string;
+  shares: string;
+  vault: {
+    id: string;
+  };
+  exitRequests: ExitRequest[];
+};
+
+type HarvestParams = {
+  canHarvest: boolean;
+  params: {
+    proof: string[];
+    rewardsRoot: string;
+    reward: string;
+    unlockedMevReward: string;
+  };
+};
+
+export type { AllocatorData, AllocatorsResponse, ExitRequest, HarvestParams };
