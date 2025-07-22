@@ -1,11 +1,14 @@
 import { Network as StakeWiseNetwork, StakeWiseSDK } from "@stakewise/v3-sdk";
 import { CHAINS } from "~/app/config/chains";
-import { ChainId, ProviderType, StakingPosition, StakingStatus, Validator } from "~/app/model/types_WIP";
+import { ChainId, ProviderType, Validator } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
-import { AllocatorsResponse } from "./stakewise.types";
+import { AllocatorData, AllocatorsResponse, HarvestParams } from "./stakewise.types";
 
 // TODO Proper error management
+
+// FIXME Mixed usage of StakeWise's SDK + GraphQL API,
+// maybe only one or the other is enough?
 
 const SUPPORTED_CHAIN_IDS: ChainId[] = [ChainId.ETHEREUM, ChainId.HOODI];
 
@@ -35,7 +38,7 @@ const initStakeWiseSDK = (chainId: ChainId) => {
   return new StakeWiseSDK(getSDKConfig(chainId));
 };
 
-async function getHarvestParams(chainId: ChainId, vaultAddress: string) {
+async function fetchHarvestParams(chainId: ChainId, vaultAddress: string): Promise<HarvestParams> {
   const sdk = initStakeWiseSDK(chainId);
 
   return sdk.vault.getHarvestParams({
@@ -43,7 +46,17 @@ async function getHarvestParams(chainId: ChainId, vaultAddress: string) {
   });
 }
 
-async function fetchStakingPositions(chainId: ChainId, vaultAddress: string): Promise<StakingPosition[]> {
+async function encodeWithdraw(chainId: ChainId, vaultAddress: string, userAddress: string, amount: bigint) {
+  const sdk = initStakeWiseSDK(chainId);
+
+  return sdk.vault.withdraw.encode({
+    vaultAddress,
+    userAddress,
+    assets: amount,
+  });
+}
+
+async function fetchStakingData(chainId: ChainId, allocatorAddress: string): Promise<AllocatorData[]> {
   const stakewiseURL = CHAINS[chainId].providers.find(
     (provider) => provider.type === ProviderType.stakewiseGQL
   )?.urls[0];
@@ -56,12 +69,18 @@ async function fetchStakingPositions(chainId: ChainId, vaultAddress: string): Pr
     method: "POST",
     body: JSON.stringify({
       query: `
-          query MyQuery($address: Bytes = "${vaultAddress}") {
+          query MyQuery($address: Bytes = "${allocatorAddress}") {
             allocators(where: {address: $address}) {
               id
               assets
+              shares
               vault {
                 id
+              }
+              exitRequests {
+                id
+                totalAssets
+                withdrawalTimestamp
               }
             }
           }
@@ -73,14 +92,7 @@ async function fetchStakingPositions(chainId: ChainId, vaultAddress: string): Pr
     data: { allocators },
   }: AllocatorsResponse = await response.json();
 
-  return allocators.map(
-    (allocator): StakingPosition => ({
-      stakeId: allocator.id,
-      validatorAddresses: [allocator.vault.id],
-      amount: BigInt(allocator.assets),
-      status: StakingStatus.LOCKED,
-    })
-  );
+  return allocators;
 }
 
 // NOTE This provides StakeWise vaults as validators
@@ -149,4 +161,4 @@ async function fetchValidators(
   };
 }
 
-export { fetchStakingPositions, fetchValidators, getHarvestParams, SUPPORTED_CHAIN_IDS };
+export { encodeWithdraw, fetchHarvestParams, fetchStakingData, fetchValidators, SUPPORTED_CHAIN_IDS };

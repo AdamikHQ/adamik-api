@@ -33,7 +33,7 @@ const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
         transfer: true,
         transferToken: true,
         stake: stakewiseSupport(chainId),
-        unstake: false,
+        unstake: stakewiseSupport(chainId),
         claimRewards: false,
         withdraw: false,
         registerStake: false,

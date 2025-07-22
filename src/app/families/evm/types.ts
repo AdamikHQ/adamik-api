@@ -6,7 +6,11 @@ type EvmChainParams =
     }
   | undefined; // undefined is for type safety, since the data will be coming from requests
 
+type EvmTransactionParams = {
+  shares: bigint; // StakeWise unstake use-case, for internal use only, not exposed through the API
+};
+
 type HexString = `0x${string}`;
 type EvmAddress = HexString;
 
-export type { EvmAddress, EvmChainParams, HexString };
+export type { EvmAddress, EvmChainParams, EvmTransactionParams, HexString };

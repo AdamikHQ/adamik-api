@@ -21,7 +21,7 @@ import {
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { keccak256 } from "~/app/tools/hash";
 import { estimateFeesPerGas } from "../backend/node";
-import { buildStakewiseData, isHexString } from "../logic";
+import { buildStakewiseStakeData, buildStakewiseUnstakeData, isHexString } from "../logic";
 import { EvmService } from "../service";
 import { EvmAddress, EvmChainParams, HexString } from "../types";
 
@@ -54,6 +54,8 @@ async function encodeTransactionToSign(
       },
     },
   ];
+
+  delete transaction.data.params; // No need to expose it for EVM chains, at the moment
 }
 
 async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction): Promise<string> {
@@ -78,8 +80,13 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
       break;
 
     case TransactionMode.STAKE:
-      data = await buildStakewiseData(chainId, transaction.data);
+      data = await buildStakewiseStakeData(chainId, transaction.data);
       recipient = transaction.data.targetValidatorAddress as EvmAddress;
+      break;
+
+    case TransactionMode.UNSTAKE:
+      data = await buildStakewiseUnstakeData(chainId, transaction.data);
+      recipient = transaction.data.validatorAddress as EvmAddress;
       break;
 
     default:
@@ -96,7 +103,7 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
     gas: transaction.data.gas,
     nonce: Number(transaction.data.nonce),
     to: recipient,
-    value: transaction.data.mode === TransactionMode.TRANSFER_TOKEN ? 0n : amount,
+    value: transaction.data.mode === TransactionMode.TRANSFER ? amount : 0n,
     data,
   });
 }
@@ -142,12 +149,22 @@ async function encodeTransactionAsWalletConnect(chainId: ChainId, transaction: T
     }
 
     case TransactionMode.STAKE: {
-      const data = await buildStakewiseData(chainId, transaction.data);
+      const data = await buildStakewiseStakeData(chainId, transaction.data);
 
       return JSON.stringify({
         ...commonData,
         value: toHex(transaction.data.amount!),
         to: transaction.data.targetValidatorAddress,
+        data,
+      });
+    }
+
+    case TransactionMode.UNSTAKE: {
+      const data = await buildStakewiseUnstakeData(chainId, transaction.data);
+
+      return JSON.stringify({
+        ...commonData,
+        to: transaction.data.validatorAddress,
         data,
       });
     }

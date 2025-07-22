@@ -1,6 +1,6 @@
 import { AptosTransactionParams } from "~/app/families/aptos/types";
 import { CosmosChainParams } from "~/app/families/cosmos/types";
-import { EvmChainParams } from "~/app/families/evm/types";
+import { EvmChainParams, EvmTransactionParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
 import { SolanaTransactionParams } from "../families/solana/types";
 import { StarknetTransactionParams } from "../families/starknet/types";
@@ -268,7 +268,7 @@ type StakingPosition = {
   validatorAddresses: string[];
   amount: bigint;
   status: StakingStatus;
-  completionDate?: number;
+  completionDate?: number; // Milliseconds
 };
 
 type StakingReward = {
@@ -344,7 +344,7 @@ type FinalizedTransaction = {
     tokenId?: string;
     state: TransactionState;
     blockHeight?: bigint;
-    timestamp?: number;
+    timestamp?: number; // Milliseconds
     fees: {
       amount: bigint;
       ticker?: string;
@@ -381,6 +381,7 @@ type FinalizedTransaction = {
 
 type TransactionParams =
   | BitcoinTransactionParams
+  | EvmTransactionParams
   | TronTransactionParams
   | StarknetTransactionParams
   | TonTransactionParams
