@@ -1,3 +1,5 @@
+import { HarvestParams } from "./backend/stakewise.types";
+
 // Params that exist only for EVM chains
 type EvmChainParams =
   | {
@@ -7,7 +9,9 @@ type EvmChainParams =
   | undefined; // undefined is for type safety, since the data will be coming from requests
 
 type EvmTransactionParams = {
-  shares: bigint; // StakeWise unstake use-case, for internal use only, not exposed through the API
+  stakingShares?: bigint; // StakeWise unstake use-case, for internal use only, not exposed through the API
+  stakingTimestamp?: bigint; // StakeWise withdraw use-case, for internal use only, not exposed through the API
+  stakingHarvestParams?: HarvestParams; // Stakewise, stake use-case
 };
 
 type HexString = `0x${string}`;

@@ -35,7 +35,7 @@ const EVM_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
         stake: stakewiseSupport(chainId),
         unstake: stakewiseSupport(chainId),
         claimRewards: false,
-        withdraw: false,
+        withdraw: stakewiseSupport(chainId),
         registerStake: false,
         convertAsset: true,
       },

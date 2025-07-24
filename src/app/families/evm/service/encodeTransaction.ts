@@ -20,8 +20,14 @@ import {
 } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { keccak256 } from "~/app/tools/hash";
+import { stakewiseVaultDefaultABI } from "../abi/StakewiseVaultDefaultABI";
 import { estimateFeesPerGas } from "../backend/node";
-import { buildStakewiseStakeData, buildStakewiseUnstakeData, isHexString } from "../logic";
+import {
+  buildStakewiseUnstakeData,
+  buildStakewiseWithdrawData,
+  encodeStakewiseStakeData,
+  isHexString,
+} from "../logic";
 import { EvmService } from "../service";
 import { EvmAddress, EvmChainParams, HexString } from "../types";
 
@@ -67,32 +73,55 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
-  let data: HexString | undefined;
-  let recipient: EvmAddress;
-  switch (transaction.data.mode) {
-    case TransactionMode.TRANSFER_TOKEN:
-      data = encodeFunctionData({
-        abi: erc20Abi,
-        functionName: "transfer",
-        args: [transaction.data.recipientAddress as EvmAddress, amount],
-      });
-      recipient = transaction.data.tokenId as EvmAddress;
-      break;
+  const { data, recipient } = await (async (): Promise<{
+    data: HexString | undefined;
+    recipient: EvmAddress;
+  }> => {
+    switch (transaction.data.mode) {
+      case TransactionMode.TRANSFER_TOKEN: {
+        const data = encodeFunctionData({
+          abi: erc20Abi,
+          functionName: "transfer",
+          args: [transaction.data.recipientAddress as EvmAddress, amount],
+        });
+        const recipient = transaction.data.tokenId as EvmAddress;
+        return { data, recipient };
+      }
 
-    case TransactionMode.STAKE:
-      data = await buildStakewiseStakeData(chainId, transaction.data);
-      recipient = transaction.data.targetValidatorAddress as EvmAddress;
-      break;
+      case TransactionMode.STAKE: {
+        const data = await encodeStakewiseStakeData(chainId, transaction.data);
+        const recipient = transaction.data.targetValidatorAddress as EvmAddress;
+        return { data, recipient };
+      }
 
-    case TransactionMode.UNSTAKE:
-      data = await buildStakewiseUnstakeData(chainId, transaction.data);
-      recipient = transaction.data.validatorAddress as EvmAddress;
-      break;
+      case TransactionMode.UNSTAKE: {
+        const args = await buildStakewiseUnstakeData(transaction.data);
+        const data = encodeFunctionData({
+          abi: stakewiseVaultDefaultABI,
+          functionName: "enterExitQueue",
+          args,
+        });
+        const recipient = transaction.data.validatorAddress as EvmAddress;
+        return { data, recipient };
+      }
 
-    default:
-      recipient = transaction.data.recipientAddress as EvmAddress;
-      break;
-  }
+      case TransactionMode.WITHDRAW: {
+        const args = await buildStakewiseWithdrawData(transaction.data);
+        const data = encodeFunctionData({
+          abi: stakewiseVaultDefaultABI,
+          functionName: "claimExitedAssets",
+          args,
+        });
+        const recipient = transaction.data.validatorAddress as EvmAddress;
+        return { data, recipient };
+      }
+
+      default: {
+        const recipient = transaction.data.recipientAddress as EvmAddress;
+        return { data, recipient };
+      }
+    }
+  })();
 
   const serializeTransactionFn = chainParams?.isL2Fees ? serializeL2Transaction : serializeL1Transaction;
 
@@ -114,7 +143,6 @@ async function encodeTransactionAsWalletConnect(chainId: ChainId, transaction: T
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
   // NOTE These parameters are specific to Metamask-like signers
-  // Will need a more precise format than "JSON" if other signers require other parameters
   const commonData = {
     chainId: toHex(Number(chain.nativeId)),
     maxPriorityFeePerGas: toHex(maxPriorityFeePerGas),
@@ -149,7 +177,7 @@ async function encodeTransactionAsWalletConnect(chainId: ChainId, transaction: T
     }
 
     case TransactionMode.STAKE: {
-      const data = await buildStakewiseStakeData(chainId, transaction.data);
+      const data = await encodeStakewiseStakeData(chainId, transaction.data);
 
       return JSON.stringify({
         ...commonData,
@@ -160,10 +188,31 @@ async function encodeTransactionAsWalletConnect(chainId: ChainId, transaction: T
     }
 
     case TransactionMode.UNSTAKE: {
-      const data = await buildStakewiseUnstakeData(chainId, transaction.data);
+      const args = await buildStakewiseUnstakeData(transaction.data);
+      const data = encodeFunctionData({
+        abi: stakewiseVaultDefaultABI,
+        functionName: "enterExitQueue",
+        args,
+      });
 
       return JSON.stringify({
         ...commonData,
+        to: transaction.data.validatorAddress,
+        data,
+      });
+    }
+
+    case TransactionMode.WITHDRAW: {
+      const args = await buildStakewiseWithdrawData(transaction.data);
+      const data = encodeFunctionData({
+        abi: stakewiseVaultDefaultABI,
+        functionName: "claimExitedAssets",
+        args,
+      });
+
+      return JSON.stringify({
+        ...commonData,
+        value: toHex(0n),
         to: transaction.data.validatorAddress,
         data,
       });

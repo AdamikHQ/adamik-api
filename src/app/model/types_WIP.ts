@@ -445,11 +445,8 @@ type ClaimRewardsTransactionData = CommonTransactionData & {
   stakeId?: string;
 };
 
-// NOTE Specific to babylon + bitcoin at the moment,
-// no need to make it more generic until there's another use-case
 type WithdrawTransactionData = CommonTransactionData & {
   mode: TransactionMode.WITHDRAW;
-  senderPubKey: string; // Not optional for withdraw transactions
   validatorAddress: string;
   stakeId?: string;
 };

@@ -6,10 +6,10 @@ type AllocatorsResponse = {
 
 type ExitRequest = {
   id: string;
-  //timestamp: string;
   //positionTicket: string;
   //totalShares: string;
   totalAssets: string;
+  timestamp: string; // Provided in seconds
   withdrawalTimestamp?: string; // Provided in seconds
 };
 

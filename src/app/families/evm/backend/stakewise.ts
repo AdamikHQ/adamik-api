@@ -46,16 +46,6 @@ async function fetchHarvestParams(chainId: ChainId, vaultAddress: string): Promi
   });
 }
 
-async function encodeWithdraw(chainId: ChainId, vaultAddress: string, userAddress: string, amount: bigint) {
-  const sdk = initStakeWiseSDK(chainId);
-
-  return sdk.vault.withdraw.encode({
-    vaultAddress,
-    userAddress,
-    assets: amount,
-  });
-}
-
 async function fetchStakingData(chainId: ChainId, allocatorAddress: string): Promise<AllocatorData[]> {
   const stakewiseURL = CHAINS[chainId].providers.find(
     (provider) => provider.type === ProviderType.stakewiseGQL
@@ -80,6 +70,7 @@ async function fetchStakingData(chainId: ChainId, allocatorAddress: string): Pro
               exitRequests {
                 id
                 totalAssets
+                timestamp
                 withdrawalTimestamp
               }
             }
@@ -161,4 +152,4 @@ async function fetchValidators(
   };
 }
 
-export { encodeWithdraw, fetchHarvestParams, fetchStakingData, fetchValidators, SUPPORTED_CHAIN_IDS };
+export { fetchHarvestParams, fetchStakingData, fetchValidators, SUPPORTED_CHAIN_IDS };
