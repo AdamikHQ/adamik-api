@@ -73,11 +73,17 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
 
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(chainId);
 
-  const { data, recipient } = await (async (): Promise<{
-    data: HexString | undefined;
+  const { data, value, recipient } = await (async (): Promise<{
     recipient: EvmAddress;
+    value?: bigint;
+    data?: HexString;
   }> => {
     switch (transaction.data.mode) {
+      case TransactionMode.TRANSFER: {
+        const recipient = transaction.data.recipientAddress as EvmAddress;
+        return { recipient, value: amount };
+      }
+
       case TransactionMode.TRANSFER_TOKEN: {
         const data = encodeFunctionData({
           abi: erc20Abi,
@@ -85,13 +91,13 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
           args: [transaction.data.recipientAddress as EvmAddress, amount],
         });
         const recipient = transaction.data.tokenId as EvmAddress;
-        return { data, recipient };
+        return { recipient, data };
       }
 
       case TransactionMode.STAKE: {
         const data = await encodeStakewiseStakeData(chainId, transaction.data);
         const recipient = transaction.data.targetValidatorAddress as EvmAddress;
-        return { data, recipient };
+        return { recipient, data, value: amount };
       }
 
       case TransactionMode.UNSTAKE: {
@@ -102,7 +108,7 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
           args,
         });
         const recipient = transaction.data.validatorAddress as EvmAddress;
-        return { data, recipient };
+        return { recipient, data };
       }
 
       case TransactionMode.WITHDRAW: {
@@ -113,12 +119,11 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
           args,
         });
         const recipient = transaction.data.validatorAddress as EvmAddress;
-        return { data, recipient };
+        return { recipient, data };
       }
 
       default: {
-        const recipient = transaction.data.recipientAddress as EvmAddress;
-        return { data, recipient };
+        throw new UserInputError("Invalid transaction mode");
       }
     }
   })();
@@ -132,7 +137,7 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
     gas: transaction.data.gas,
     nonce: Number(transaction.data.nonce),
     to: recipient,
-    value: transaction.data.mode === TransactionMode.TRANSFER ? amount : 0n,
+    value,
     data,
   });
 }
@@ -212,14 +217,15 @@ async function encodeTransactionAsWalletConnect(chainId: ChainId, transaction: T
 
       return JSON.stringify({
         ...commonData,
-        value: toHex(0n),
         to: transaction.data.validatorAddress,
         data,
       });
     }
-  }
 
-  throw new UserInputError("Invalid transaction mode");
+    default: {
+      throw new UserInputError("Invalid transaction mode");
+    }
+  }
 }
 
 async function encodeTransactionToBroadcast(
