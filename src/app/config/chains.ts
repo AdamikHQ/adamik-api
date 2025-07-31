@@ -635,11 +635,19 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/polygon/70eb3a5858dc4f0d8ca0e1a1cf8d375f"],
+        urls: [
+          "https://site1.moralis-nodes.com/polygon/70eb3a5858dc4f0d8ca0e1a1cf8d375f",
+          "https://polygon-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+          "https://intensive-tiniest-dinghy.matic.quiknode.pro/f33e1ab0c88b0cd4010871e5cf3ed235a701ad85/",
+        ],
       },
       {
         type: ProviderType.moralis,
         urls: ["https://deep-index.moralis.io/api"],
+      },
+      {
+        type: ProviderType.alchemy,
+        urls: ["https://polygon-mainnet.g.alchemy.com/v2"],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.POLYGON),
@@ -655,11 +663,18 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/amoy/7a1ffbef35b1400b80a3d8735f637bb3"],
+        urls: [
+          "https://site1.moralis-nodes.com/amoy/7a1ffbef35b1400b80a3d8735f637bb3",
+          "https://polygon-amoy.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+        ],
       },
       {
         type: ProviderType.moralis,
         urls: ["https://deep-index.moralis.io/api"],
+      },
+      {
+        type: ProviderType.alchemy,
+        urls: ["https://polygon-amoy.g.alchemy.com/v2"],
       },
     ],
     isTestnetFor: ChainId.POLYGON,
