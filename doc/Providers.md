@@ -127,13 +127,15 @@
 
 ## polygon
 
-| node | https://site1.moralis-nodes.com/polygon/REDACTED |<br />
-| moralis | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/polygon/REDACTED, https://polygon-mainnet.g.alchemy.com/v2/REDACTED, https://intensive-tiniest-dinghy.matic.quiknode.pro/REDACTED/ |<br />
+| moralis | https://deep-index.moralis.io/api |<br />
+| alchemy | https://polygon-mainnet.g.alchemy.com/v2 |
 
 ## polygon-amoy
 
-| node | https://site1.moralis-nodes.com/amoy/REDACTED |<br />
-| moralis | https://deep-index.moralis.io/api |
+| node | https://site1.moralis-nodes.com/amoy/REDACTED, https://polygon-amoy.g.alchemy.com/v2/REDACTED |<br />
+| moralis | https://deep-index.moralis.io/api |<br />
+| alchemy | https://polygon-amoy.g.alchemy.com/v2 |
 
 ## bsc
 
