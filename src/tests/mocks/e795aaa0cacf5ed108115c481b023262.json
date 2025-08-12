@@ -5,8 +5,8 @@
     "body": {
       "query": "\n    query FungibleAssetBalances(\n      $address: String,\n      $tokenId: String,\n    ) {\n      current_fungible_asset_balances(where: {\n        owner_address: { _eq: $address }\n        asset_type: { _eq: $tokenId }\n      }) {\n        amount\n        asset_type\n        is_frozen\n        is_primary\n        last_transaction_timestamp\n        last_transaction_version\n        owner_address\n        storage_id\n        token_standard\n        metadata {\n          token_standard\n          symbol\n          supply_aggregator_table_key_v1\n          supply_aggregator_table_handle_v1\n          project_uri\n          name\n          last_transaction_version\n          last_transaction_timestamp\n          icon_uri\n          decimals\n          creator_address\n          asset_type\n        }\n      }\n    }\n  ",
       "variables": {
-        "address": "0xae1a6f3d3daccaf77b55044cea133379934bba04a11b9d0bbd643eae5e6e9c70",
-        "tokenId": "0x397071c01929cc6672a17f130bd62b1bce224309029837ce4f18214cc83ce2a7::USDC::USDC"
+        "address": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288",
+        "tokenId": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC"
       }
     }
   },
@@ -16,14 +16,14 @@
       "data": {
         "current_fungible_asset_balances": [
           {
-            "amount": 4000000000,
-            "asset_type": "0x397071c01929cc6672a17f130bd62b1bce224309029837ce4f18214cc83ce2a7::USDC::USDC",
+            "amount": 2768064,
+            "asset_type": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC",
             "is_frozen": false,
             "is_primary": true,
-            "last_transaction_timestamp": "2023-11-25T15:13:08",
-            "last_transaction_version": 341438217,
-            "owner_address": "0xae1a6f3d3daccaf77b55044cea133379934bba04a11b9d0bbd643eae5e6e9c70",
-            "storage_id": "0xf21b1402b61e01b0728d575bedac8c687f27f4b52e72b749ae5a5eefb12e276b",
+            "last_transaction_timestamp": "2025-07-28T10:06:45",
+            "last_transaction_version": 3133155292,
+            "owner_address": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288",
+            "storage_id": "0x694e3e95fe5e92bf2c82a061431582c1658f41fda84e4abe73d73ca6e8791a18",
             "token_standard": "v1",
             "metadata": {
               "token_standard": "v1",
@@ -31,13 +31,13 @@
               "supply_aggregator_table_key_v1": null,
               "supply_aggregator_table_handle_v1": null,
               "project_uri": null,
-              "name": "💸 USDC-APTOS.ORG",
-              "last_transaction_version": 341079930,
-              "last_transaction_timestamp": "2023-11-25T07:06:04",
+              "name": "USD Coin",
+              "last_transaction_version": 3222413049,
+              "last_transaction_timestamp": "2025-08-12T14:37:00",
               "icon_uri": null,
               "decimals": 6,
-              "creator_address": "0x397071c01929cc6672a17f130bd62b1bce224309029837ce4f18214cc83ce2a7",
-              "asset_type": "0x397071c01929cc6672a17f130bd62b1bce224309029837ce4f18214cc83ce2a7::USDC::USDC"
+              "creator_address": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa",
+              "asset_type": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC"
             }
           }
         ]

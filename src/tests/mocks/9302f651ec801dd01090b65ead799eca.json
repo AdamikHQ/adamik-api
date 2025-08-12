@@ -3,9 +3,9 @@
     "url": "https://api.mainnet.aptoslabs.com/v1/graphql",
     "method": "POST",
     "body": {
-      "query": "\n    query FungleAssetBalances(\n      $address: String,\n      $tokenId: String,\n    ) {\n      current_fungible_asset_balances(where: {\n        owner_address: { _eq: $address }\n        asset_type: { _eq: $tokenId }\n      }) {\n        amount\n        asset_type\n        is_frozen\n        is_primary\n        last_transaction_timestamp\n        last_transaction_version\n        owner_address\n        storage_id\n        token_standard\n        metadata {\n          token_standard\n          symbol\n          supply_aggregator_table_key_v1\n          supply_aggregator_table_handle_v1\n          project_uri\n          name\n          last_transaction_version\n          last_transaction_timestamp\n          icon_uri\n          decimals\n          creator_address\n          asset_type\n        }\n      }\n    }\n  ",
+      "query": "\n    query FungibleAssetBalances(\n      $address: String,\n      $tokenId: String,\n    ) {\n      current_fungible_asset_balances(where: {\n        owner_address: { _eq: $address }\n        asset_type: { _eq: $tokenId }\n      }) {\n        amount\n        asset_type\n        is_frozen\n        is_primary\n        last_transaction_timestamp\n        last_transaction_version\n        owner_address\n        storage_id\n        token_standard\n        metadata {\n          token_standard\n          symbol\n          supply_aggregator_table_key_v1\n          supply_aggregator_table_handle_v1\n          project_uri\n          name\n          last_transaction_version\n          last_transaction_timestamp\n          icon_uri\n          decimals\n          creator_address\n          asset_type\n        }\n      }\n    }\n  ",
       "variables": {
-        "address": "0xae1a6f3d3daccaf77b55044cea133379934bba04a11b9d0bbd643eae5e6e9c70",
+        "address": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288",
         "tokenId": "0x1::aptos_coin::AptosCoin"
       }
     }
@@ -16,14 +16,14 @@
       "data": {
         "current_fungible_asset_balances": [
           {
-            "amount": 1007822633338512,
+            "amount": 1877472938,
             "asset_type": "0x1::aptos_coin::AptosCoin",
             "is_frozen": false,
             "is_primary": true,
-            "last_transaction_timestamp": "2025-05-17T07:15:00",
-            "last_transaction_version": 2729564961,
-            "owner_address": "0xae1a6f3d3daccaf77b55044cea133379934bba04a11b9d0bbd643eae5e6e9c70",
-            "storage_id": "0x9eae280924b6263137426a4a1e96b35e09798c4b81f3723bfc3b88509ad9033c",
+            "last_transaction_timestamp": "2025-07-31T01:51:11",
+            "last_transaction_version": 3149926884,
+            "owner_address": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288",
+            "storage_id": "0xe521bacfe0e61c3eca8d62d7e0f8cfd5eaec693c95b6757453f99ac90cf3ac77",
             "token_standard": "v1",
             "metadata": {
               "token_standard": "v1",

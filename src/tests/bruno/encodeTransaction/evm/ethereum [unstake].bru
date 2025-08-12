@@ -1,0 +1,33 @@
+meta {
+  name: ethereum [unstake]
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: ethereum
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "unstake",
+        "senderAddress": "0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab",
+        "validatorAddress": "0x05e393ec11d0197a88d84457908edd4ff235f323",
+        "amount": "1000"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded[0].raw.value: eq 0x02f86c010b8318d72a842f4eaf2c83012fff9405e393ec11d0197a88d84457908edd4ff235f32380b8448ceab9aa00000000000000000000000000000000000000000000000000000000000003ba0000000000000000000000006450685ae9c904b7d258a897adc1fa0736dbf5abc0
+}

@@ -1,0 +1,66 @@
+{
+  "request": {
+    "url": "https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod?opName=Allocators",
+    "method": "POST",
+    "body": {
+      "query": "\n          query MyQuery($address: Bytes = \"0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab\") {\n            allocators(where: {address: $address}) {\n              id\n              assets\n              shares\n              vault {\n                id\n              }\n              exitRequests {\n                id\n                totalAssets\n                timestamp\n                withdrawalTimestamp\n              }\n            }\n          }\n      "
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "allocators": [
+          {
+            "id": "0x05e393ec11d0197a88d84457908edd4ff235f323-0x6450685ae9c904b7d258a897adc1fa0736dbf5ab",
+            "assets": "10002175095073",
+            "shares": "9547423787821",
+            "vault": {
+              "id": "0x05e393ec11d0197a88d84457908edd4ff235f323"
+            },
+            "exitRequests": []
+          },
+          {
+            "id": "0xac0f906e433d58fa868f936e8a43230473652885-0x6450685ae9c904b7d258a897adc1fa0736dbf5ab",
+            "assets": "1001845998565",
+            "shares": "949748016733",
+            "vault": {
+              "id": "0xac0f906e433d58fa868f936e8a43230473652885"
+            },
+            "exitRequests": [
+              {
+                "id": "0xac0f906e433d58fa868f936e8a43230473652885-137871441170467363011263",
+                "totalAssets": "1001276784032",
+                "timestamp": "1753343771",
+                "withdrawalTimestamp": "1755564971"
+              },
+              {
+                "id": "0xac0f906e433d58fa868f936e8a43230473652885-139385924265415219280973",
+                "totalAssets": "418742",
+                "timestamp": "1753448207",
+                "withdrawalTimestamp": "1755569957"
+              }
+            ]
+          },
+          {
+            "id": "0xe6d8d8ac54461b1c5ed15740eee322043f696c08-0x6450685ae9c904b7d258a897adc1fa0736dbf5ab",
+            "assets": "10011382269628",
+            "shares": "9430113013639",
+            "vault": {
+              "id": "0xe6d8d8ac54461b1c5ed15740eee322043f696c08"
+            },
+            "exitRequests": [
+              {
+                "id": "0xe6d8d8ac54461b1c5ed15740eee322043f696c08-59982711051125772622923",
+                "totalAssets": "9999999999999",
+                "timestamp": "1755008351",
+                "withdrawalTimestamp": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "type": "json"
+  }
+}

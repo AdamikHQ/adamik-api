@@ -4,10 +4,10 @@
     "method": "POST",
     "body": {
       "jsonrpc": "2.0",
-      "id": 51,
-      "method": "eth_getBalance",
+      "id": 19,
+      "method": "eth_getTransactionCount",
       "params": [
-        "0xC70CcafE1250b1ca8eBE298c9DcdB0bD3D639044",
+        "0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab",
         "latest"
       ]
     }
@@ -16,8 +16,8 @@
     "status": 200,
     "body": {
       "jsonrpc": "2.0",
-      "id": 51,
-      "result": "0x3703e12709f90"
+      "id": 19,
+      "result": "0xb"
     },
     "type": "json"
   }
