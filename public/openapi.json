@@ -7550,18 +7550,12 @@
                                   "stakeId": {
                                     "type": "string",
                                     "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
-                                  },
-                                  "recipientAddress": {
-                                    "type": "string",
-                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderAddress",
-                                  "senderPubKey",
-                                  "validatorAddress",
-                                  "recipientAddress"
+                                  "validatorAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
                                 "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
@@ -8203,18 +8197,12 @@
                                     "stakeId": {
                                       "type": "string",
                                       "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
-                                    },
-                                    "recipientAddress": {
-                                      "type": "string",
-                                      "description": "Address or ID of the recipient account."
                                     }
                                   },
                                   "required": [
                                     "mode",
                                     "senderAddress",
-                                    "senderPubKey",
-                                    "validatorAddress",
-                                    "recipientAddress"
+                                    "validatorAddress"
                                   ],
                                   "title": "Withdraw Unlocked Funds",
                                   "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
@@ -8792,18 +8780,12 @@
                                   "stakeId": {
                                     "type": "string",
                                     "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
-                                  },
-                                  "recipientAddress": {
-                                    "type": "string",
-                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderAddress",
-                                  "senderPubKey",
-                                  "validatorAddress",
-                                  "recipientAddress"
+                                  "validatorAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
                                 "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
@@ -9606,18 +9588,12 @@
                                   "stakeId": {
                                     "type": "string",
                                     "description": "Unique identifier of a staking position. If provided in the account state data, it must be provided back in the transaction data when encoding a staking transaction."
-                                  },
-                                  "recipientAddress": {
-                                    "type": "string",
-                                    "description": "Address or ID of the recipient account."
                                   }
                                 },
                                 "required": [
                                   "mode",
                                   "senderAddress",
-                                  "senderPubKey",
-                                  "validatorAddress",
-                                  "recipientAddress"
+                                  "validatorAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
                                 "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"

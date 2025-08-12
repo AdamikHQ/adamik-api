@@ -1,0 +1,41 @@
+{
+  "request": {
+    "url": "https://deep-index.moralis.io/api/v2.2/wallets/0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab/tokens?chain=eth&exclude_spam=false&limit=200",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "cursor": null,
+      "page": 0,
+      "page_size": 200,
+      "block_number": 23125601,
+      "result": [
+        {
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "symbol": "ETH",
+          "name": "Ether",
+          "logo": "https://cdn.moralis.io/eth/0x.png",
+          "thumbnail": "https://cdn.moralis.io/eth/0x_thumb.png",
+          "decimals": 18,
+          "balance": "1146148741589607",
+          "possible_spam": false,
+          "verified_contract": true,
+          "total_supply": null,
+          "total_supply_formatted": null,
+          "percentage_relative_to_total_supply": null,
+          "security_score": 99,
+          "balance_formatted": "0.001146148741589607",
+          "usd_price": 4397.7470758203235,
+          "usd_price_24hr_percent_change": 2.873077708943673,
+          "usd_price_24hr_usd_change": 122.87595450390018,
+          "usd_value": 5.040472276780838,
+          "usd_value_24hr_usd_change": 0.140834120626267,
+          "native_token": true,
+          "portfolio_percentage": 100
+        }
+      ]
+    },
+    "type": "json"
+  }
+}

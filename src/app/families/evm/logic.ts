@@ -7,8 +7,9 @@ import {
   TransactionMode,
   TransactionSpendableAmounts,
   UnstakeTransactionData,
+  WithdrawTransactionData,
 } from "~/app/model/types_WIP";
-import { UserInputError } from "~/app/tools/handlers/errors";
+import { AdamikApiServerError, UserInputError } from "~/app/tools/handlers/errors";
 import { stakewiseVaultDefaultABI } from "./abi/StakewiseVaultDefaultABI";
 import {
   estimateContractGas,
@@ -39,14 +40,16 @@ type DeepHexPrefixedValues<T> = {
 
 async function getTransactionGas(chainId: ChainId, transactionData: TransactionData): Promise<bigint> {
   switch (transactionData.mode) {
-    case TransactionMode.TRANSFER:
+    case TransactionMode.TRANSFER: {
       return await estimateGas({
         chainId,
         senderAddress: transactionData.senderAddress as EvmAddress,
         recipientAddress: transactionData.recipientAddress as EvmAddress,
         amount: transactionData.amount ?? 0n,
       });
-    case TransactionMode.TRANSFER_TOKEN:
+    }
+
+    case TransactionMode.TRANSFER_TOKEN: {
       return await estimateERC20Gas({
         chainId,
         contractAddress: transactionData.tokenId as EvmAddress,
@@ -54,11 +57,16 @@ async function getTransactionGas(chainId: ChainId, transactionData: TransactionD
         recipientAddress: transactionData.recipientAddress as EvmAddress,
         amount: transactionData.amount ?? 0n,
       });
+    }
 
-    case TransactionMode.STAKE:
-      const harvestParams = await fetchHarvestParams(chainId, transactionData.targetValidatorAddress);
+    case TransactionMode.STAKE: {
+      const { stakingHarvestParams } = transactionData.params as EvmTransactionParams;
+      if (!stakingHarvestParams) {
+        console.warn("/!\\ Missing stakingHarvestParams in transaction params");
+        throw new AdamikApiServerError("Error while building staking transaction");
+      }
 
-      return harvestParams.canHarvest
+      return stakingHarvestParams?.canHarvest
         ? await estimateContractGas({
             chainId,
             contractAddress: transactionData.targetValidatorAddress as EvmAddress,
@@ -68,7 +76,7 @@ async function getTransactionGas(chainId: ChainId, transactionData: TransactionD
             args: [
               transactionData.senderAddress,
               transactionData.targetValidatorAddress,
-              harvestParams.params,
+              stakingHarvestParams?.params,
             ],
             value: transactionData.amount,
           })
@@ -81,18 +89,33 @@ async function getTransactionGas(chainId: ChainId, transactionData: TransactionD
             args: [transactionData.senderAddress, transactionData.targetValidatorAddress],
             value: transactionData.amount,
           });
+    }
 
-    case TransactionMode.UNSTAKE:
-      const transactionParams = transactionData.params as EvmTransactionParams;
+    case TransactionMode.UNSTAKE: {
+      const args = await buildStakewiseUnstakeData(transactionData);
       return await estimateContractGas({
         chainId,
         contractAddress: transactionData.validatorAddress as EvmAddress,
         accountAddress: transactionData.senderAddress as EvmAddress,
         abi: stakewiseVaultDefaultABI,
         functionName: "enterExitQueue",
-        args: [transactionParams.shares, transactionData.senderAddress],
+        args,
         value: 0n,
       });
+    }
+
+    case TransactionMode.WITHDRAW: {
+      const args = await buildStakewiseWithdrawData(transactionData);
+      return await estimateContractGas({
+        chainId,
+        contractAddress: transactionData.validatorAddress as EvmAddress,
+        accountAddress: transactionData.senderAddress as EvmAddress,
+        abi: stakewiseVaultDefaultABI,
+        functionName: "claimExitedAssets",
+        args,
+        //value: 0n,
+      });
+    }
 
     default:
       throw new UserInputError(`Unsupported transaction mode ${transactionData.mode}`);
@@ -146,6 +169,17 @@ async function getTransactionAmount(chainId: ChainId, transaction: TransactionDa
   }
 }
 
+// Only when staking, we need to fetch "harvest params" from the vault
+// The function sets the retrieved harvest params in transaction.data.params
+async function setHarvestParams(chainId: ChainId, transactionData: StakeTransactionData): Promise<void> {
+  const harvestParams = await fetchHarvestParams(chainId, transactionData.targetValidatorAddress);
+
+  transactionData.params = {
+    ...(transactionData.params as EvmTransactionParams),
+    stakingHarvestParams: harvestParams,
+  };
+}
+
 // Only when unstaking, we need to convert the amount to shares
 // The function sets the computed shares in transaction.data.params
 async function setSharesFromAmount(chainId: ChainId, transactionData: TransactionData): Promise<void> {
@@ -161,7 +195,8 @@ async function setSharesFromAmount(chainId: ChainId, transactionData: Transactio
   // Use the first allocator data (there should typically be one per vault)
   const allocatorData = stakingData.find((allocator) => allocator.vault.id === vaultAddress);
   if (!allocatorData) {
-    throw new UserInputError(`No staking position found for validator address ${vaultAddress}`);
+    console.warn(`/!\\ [StakeWise] No staking position found for validator address ${vaultAddress}`);
+    throw new UserInputError(`No locked staking position found for validator address ${vaultAddress}`);
   }
 
   const totalAssets = BigInt(allocatorData.assets);
@@ -181,7 +216,33 @@ async function setSharesFromAmount(chainId: ChainId, transactionData: Transactio
     : (transactionData.amount! * totalShares) / totalAssets;
 
   transactionData.params = {
-    shares: sharesAmount,
+    ...(transactionData.params as EvmTransactionParams),
+    stakingShares: sharesAmount,
+  };
+}
+
+// Only when withdrawing, we need the timestamp of the staking position to withdraw
+// The function sets the retrieved timestamp in transaction.data.params
+async function setStakingPositionTimestamp(
+  chainId: ChainId,
+  transactionData: WithdrawTransactionData
+): Promise<void> {
+  // Fetch staking data to get the timestamp
+  const stakingData = await fetchStakingData(chainId, transactionData.senderAddress);
+
+  // Find the exit request that matches our stakeId
+  const timestamp = stakingData
+    .flatMap((data) => data.exitRequests)
+    .find((request) => request.id === transactionData.stakeId)?.timestamp;
+
+  if (!timestamp) {
+    console.warn(`/!\\ [StakeWise] Exit request not found for stakeId: ${transactionData.stakeId}`);
+    throw new UserInputError(`No unlocked staking position found for stakeId: ${transactionData.stakeId}`);
+  }
+
+  transactionData.params = {
+    ...(transactionData.params as EvmTransactionParams),
+    stakingTimestamp: BigInt(timestamp),
   };
 }
 
@@ -226,20 +287,24 @@ function getOneEventPerContractAddress(events: EtherscanERC20Event[]): Map<EvmAd
   return eventPerContractAddress;
 }
 
-async function buildStakewiseStakeData(
+async function encodeStakewiseStakeData(
   chainId: ChainId,
   transactionData: StakeTransactionData
 ): Promise<HexString> {
-  const harvestParams = await fetchHarvestParams(chainId, transactionData.targetValidatorAddress);
+  const { stakingHarvestParams } = transactionData.params as EvmTransactionParams;
+  if (!stakingHarvestParams) {
+    console.warn("/!\\ Missing stakingHarvestParams in transaction params");
+    throw new AdamikApiServerError("Error while building staking transaction");
+  }
 
-  if (harvestParams.canHarvest) {
+  if (stakingHarvestParams.canHarvest) {
     return encodeFunctionData({
       abi: stakewiseVaultDefaultABI,
       functionName: "updateStateAndDeposit",
       args: [
         transactionData.senderAddress as EvmAddress,
         transactionData.targetValidatorAddress as EvmAddress,
-        harvestParams.params as DeepHexPrefixedValues<typeof harvestParams.params>,
+        stakingHarvestParams.params as DeepHexPrefixedValues<typeof stakingHarvestParams.params>,
       ],
     });
   } else {
@@ -255,29 +320,55 @@ async function buildStakewiseStakeData(
 }
 
 async function buildStakewiseUnstakeData(
-  chainId: ChainId,
   transactionData: UnstakeTransactionData
-): Promise<HexString> {
-  const transactionParams = transactionData.params as EvmTransactionParams;
-  return encodeFunctionData({
-    abi: stakewiseVaultDefaultABI,
-    functionName: "enterExitQueue",
-    args: [
-      transactionParams.shares,
-      transactionData.senderAddress as EvmAddress, // Receiving address
-    ],
-  });
+): Promise<[bigint, EvmAddress]> {
+  const { stakingShares } = transactionData.params as EvmTransactionParams;
+  if (!stakingShares) {
+    console.warn("/!\\ Missing stakingShares in transaction params");
+    throw new AdamikApiServerError("Error while building staking transaction");
+  }
+
+  return [
+    stakingShares!,
+    transactionData.senderAddress as EvmAddress, // Receiving address
+  ];
+}
+
+async function buildStakewiseWithdrawData(
+  transactionData: WithdrawTransactionData
+): Promise<[bigint, bigint, bigint]> {
+  // Get position ticket from stakeId
+  const { stakingTimestamp } = transactionData.params as EvmTransactionParams;
+  if (!stakingTimestamp) {
+    console.warn("/!\\ Missing stakingTimestamp in transaction params");
+    throw new AdamikApiServerError("Error while building staking transaction");
+  }
+
+  const positionTicket = transactionData.stakeId?.split("-")[1]!;
+  if (!positionTicket || positionTicket.startsWith("0x")) {
+    console.warn("/!\\ Invalid stakeId in transaction:", transactionData);
+    throw new UserInputError("Invalid stakeId");
+  }
+
+  return [
+    BigInt(positionTicket),
+    stakingTimestamp,
+    0n, // Only need a proper value if we want to support V1 positions
+  ];
 }
 
 export {
-  buildStakewiseStakeData,
   buildStakewiseUnstakeData,
+  buildStakewiseWithdrawData,
+  encodeStakewiseStakeData,
   getMaxSpendable,
   getOneEventPerContractAddress,
   getTransactionAmount,
   getTransactionFees,
   getTransactionGas,
   isHexString,
+  setHarvestParams,
   setSharesFromAmount,
+  setStakingPositionTimestamp,
 };
 export type { DeepHexPrefixedValues };

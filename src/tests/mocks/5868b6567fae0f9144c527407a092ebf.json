@@ -1,6 +1,6 @@
 {
   "request": {
-    "url": "https://ethereum-hoodi-rpc.publicnode.com/",
+    "url": "https://site1.moralis-nodes.com/eth/edd8151f3c634ee2a808f34c47c7ad70",
     "method": "POST",
     "body": {
       "jsonrpc": "2.0",
@@ -17,7 +17,7 @@
     "body": {
       "jsonrpc": "2.0",
       "id": 0,
-      "result": "0x4342a3f60b76bfe0"
+      "result": "0x4126a8c9a2a67"
     },
     "type": "json"
   }

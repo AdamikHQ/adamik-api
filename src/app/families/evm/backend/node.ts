@@ -417,6 +417,16 @@ function handleGasFeesEstimationError(chainId: ChainId, error: any): never {
     ].some((message) => error?.cause?.details?.includes(message))
   ) {
     throw new UserInputError(`Balance is too low`);
+  } else if (
+    [
+      // Stakewise's InvalidCheckpointIndex error, meaning the position isn't ready to withdraw yet
+      // https://github.com/stakewise/v3-core/blob/ad3ee575724fbe5aea90b36e0d027c65a32adec2/contracts/libraries/Errors.sol#L47
+      // FIXME Workaround using the error's hash, as this is all we're getting in the error message:
+      // 'Unable to decode signature \"0xe8722f8f\" as it was not found on the provided ABI.'
+      "0xe8722f8f",
+    ].some((message) => error?.cause?.metaMessages?.some((m: string) => m.includes(message)))
+  ) {
+    throw new UserInputError(`Unlocking period is not over yet`);
   } else {
     // Generic error
     throw new ThirdPartyProviderError(

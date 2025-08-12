@@ -4,7 +4,6 @@ import { EvmChainParams, EvmTransactionParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
 import { SolanaTransactionParams } from "../families/solana/types";
 import { StarknetTransactionParams } from "../families/starknet/types";
-import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
@@ -384,7 +383,6 @@ type TransactionParams =
   | EvmTransactionParams
   | TronTransactionParams
   | StarknetTransactionParams
-  | TonTransactionParams
   | AptosTransactionParams
   | SolanaTransactionParams;
 
@@ -445,11 +443,8 @@ type ClaimRewardsTransactionData = CommonTransactionData & {
   stakeId?: string;
 };
 
-// NOTE Specific to babylon + bitcoin at the moment,
-// no need to make it more generic until there's another use-case
 type WithdrawTransactionData = CommonTransactionData & {
   mode: TransactionMode.WITHDRAW;
-  senderPubKey: string; // Not optional for withdraw transactions
   validatorAddress: string;
   stakeId?: string;
 };

@@ -1,10 +1,10 @@
-import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { AptosService } from "~/app/families/aptos/service";
-import { prevalidateTransactionCommon } from "~/app/families/common";
-import { validateAddress } from "~/app/families/aptos/service/validateAddress";
-import { getMaxSpendable } from "~/app/families/aptos/logic";
-import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { fetchStakingAmounts } from "~/app/families/aptos/backend/node";
+import { getMaxSpendable } from "~/app/families/aptos/logic";
+import { AptosService } from "~/app/families/aptos/service";
+import { validateAddress } from "~/app/families/aptos/service/validateAddress";
+import { prevalidateTransactionCommon } from "~/app/families/common";
+import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 
 export async function prevalidateTransaction(
   this: AptosService,
@@ -20,6 +20,10 @@ export async function prevalidateTransaction(
     status,
     addressValidationFn: validateAddress,
   });
+
+  if (!transaction.data.senderPubKey) {
+    status.errors.push({ message: "Public key of the sender address is required" });
+  }
 }
 
 export async function validateTransaction(
