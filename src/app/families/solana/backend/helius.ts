@@ -55,7 +55,11 @@ const extractSolAmount = (text: string): bigint | null => {
   return BigInt(amountToSmallestUnit(amount.toString(), CHAINS[ChainId.SOLANA].decimals) ?? 0);
 };
 
-const parseHeliusTransaction = async (chainId: ChainId, heliusTransaction: HeliusTransactionResponse) => {
+// FIXME Innacurate parsing with some bugs... need to review & compare with received data
+async function parseHeliusTransaction(
+  chainId: ChainId,
+  heliusTransaction: HeliusTransactionResponse
+): Promise<Partial<FinalizedTransaction["parsed"]>> {
   // Native transfers
   if (heliusTransaction.nativeTransfers.length > 0) {
     return {
@@ -109,15 +113,15 @@ const parseHeliusTransaction = async (chainId: ChainId, heliusTransaction: Heliu
       return {
         senders: [
           {
-            address: heliusTransaction.nativeTransfers[0].fromUserAccount,
+            address: heliusTransaction.accountData[0].account,
             amount: 0n,
           },
         ],
         recipients: [],
         validators: {
           target: {
-            address: heliusTransaction.instructions[0].accounts[0], // TODO: Check if it's always corresponding to validator.
-            amount: BigInt(heliusTransaction.nativeTransfers[0].amount),
+            address: heliusTransaction.instructions.find((i) => i.accounts.length > 0)?.accounts[0] ?? "", // TODO: Check if it's always corresponding to validator.
+            amount: BigInt(Math.abs(heliusTransaction.accountData[0].nativeBalanceChange)),
           },
         },
       };
@@ -160,7 +164,7 @@ const parseHeliusTransaction = async (chainId: ChainId, heliusTransaction: Heliu
     senders: [],
     recipients: [],
   };
-};
+}
 
 const heliusTransactionToAdamikTransaction = async (
   chainId: ChainId,

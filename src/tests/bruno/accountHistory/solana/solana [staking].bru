@@ -1,0 +1,22 @@
+meta {
+  name: solana [staking]
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/history
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: solana
+  accountId: B1psLfAt5wH7b4pBsKVfpTBZw6L3yjPBHsBmrBbwifGY
+}
+
+assert {
+  res.status: eq 200
+  res.body.transactions: isArray
+  res.body.transactions[0].parsed.mode: isString
+}
