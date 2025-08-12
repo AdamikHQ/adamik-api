@@ -1,7 +1,7 @@
 meta {
-  name: solana
+  name: solana [tokens]
   type: http
-  seq: 8
+  seq: 1
 }
 
 get {
@@ -17,6 +17,6 @@ params:path {
 
 assert {
   res.status: eq 200
-  res.body.transactions: isArray 
-  res.body.transactions[0].parsed.mode: isString 
+  res.body.transactions: isArray
+  res.body.transactions[0].parsed.mode: isString
 }
