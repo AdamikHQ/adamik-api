@@ -80,6 +80,7 @@
   },
   "pnpm": {
     "patchedDependencies": {
+      "bigint-buffer@1.1.5": "patches/bigint-buffer@1.1.5.patch",
       "coinselect@3.1.13": "patches/coinselect@3.1.13.patch",
       "starknet@6.24.0": "patches/starknet@6.24.0.patch"
     }

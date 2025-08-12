@@ -1,0 +1,27 @@
+# Remove annoying console.warn from bigint-buffer lib
+
+diff --git a/src/index.ts b/src/index.ts
+index 3c78463..a4b8c92 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -12,8 +12,6 @@ if (!process.browser) {
+   try {
+     converter = require('bindings')('bigint_buffer');
+   } catch (e) {
+-    console.warn(
+-        'bigint: Failed to load bindings, pure JS will be used (try npm run rebuild?)');
+   }
+ }
+
+diff --git a/dist/node.js b/dist/node.js
+index 513168c..92a5e57 100644
+--- a/dist/node.js
++++ b/dist/node.js
+@@ -7,7 +7,6 @@ let converter;
+         converter = require('bindings')('bigint_buffer');
+     }
+     catch (e) {
+-        console.warn('bigint: Failed to load bindings, pure JS will be used (try npm run rebuild?)');
+     }
+ }
+ /**
