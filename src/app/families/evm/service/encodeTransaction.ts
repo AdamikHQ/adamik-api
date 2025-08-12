@@ -31,6 +31,9 @@ import {
 import { EvmService } from "../service";
 import { EvmAddress, EvmChainParams, HexString } from "../types";
 
+// FIXME encoded value is always built twice,
+// once by encodeTransactionAsRLP and once by encodeTransactionAsWalletConnect
+// It should only be built once and used by both
 async function encodeTransactionToSign(
   this: EvmService,
   _: {

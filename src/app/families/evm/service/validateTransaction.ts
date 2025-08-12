@@ -18,6 +18,13 @@ async function prevalidateTransaction(
     status,
     addressValidationFn: async (address: string) => isValidAddress(address),
   });
+
+  if (transaction.data.mode === TransactionMode.WITHDRAW) {
+    const positionTicket = transaction.data.stakeId?.split("-")[1];
+    if (!positionTicket || positionTicket.startsWith("0x")) {
+      status.errors.push({ message: `Invalid stakeId: ${transaction.data.stakeId}` });
+    }
+  }
 }
 
 async function validateTransaction(

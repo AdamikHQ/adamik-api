@@ -4,7 +4,6 @@ import { EvmChainParams, EvmTransactionParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
 import { SolanaTransactionParams } from "../families/solana/types";
 import { StarknetTransactionParams } from "../families/starknet/types";
-import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
@@ -384,7 +383,6 @@ type TransactionParams =
   | EvmTransactionParams
   | TronTransactionParams
   | StarknetTransactionParams
-  | TonTransactionParams
   | AptosTransactionParams
   | SolanaTransactionParams;
 
