@@ -50,7 +50,7 @@ async function prevalidateTransaction(
       }
 
       if (!transaction.data.senderPubKey) {
-        status.errors.push({ message: "Public key of the sender address must be provided" });
+        status.errors.push({ message: "Public key of the sender address is required" });
       }
 
       if (transaction.data.amount || transaction.data.useMaxAmount) {
@@ -71,7 +71,7 @@ async function prevalidateTransaction(
       }
 
       if (!transaction.data.senderPubKey) {
-        status.errors.push({ message: "Public key of the sender address must be provided" });
+        status.errors.push({ message: "Public key of the sender address is required" });
       }
 
       // FIXME Try to support useMaxAmount for staking transactions too?

@@ -1,7 +1,7 @@
 meta {
   name: aptos [transferToken]
   type: http
-  seq: 5
+  seq: 2
 }
 
 post {
@@ -19,8 +19,9 @@ body:json {
     "transaction": {
       "data": {
         "mode": "transferToken",
-        "tokenId": "0x397071c01929cc6672a17f130bd62b1bce224309029837ce4f18214cc83ce2a7::USDC::USDC",
-        "senderAddress": "0xae1a6f3d3daccaf77b55044cea133379934bba04a11b9d0bbd643eae5e6e9c70",
+        "tokenId": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC",
+        "senderAddress": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288",
+        "senderPubKey": "9790cdbe5906e7620d0a10ac5786981df5afeb52dca987ff1ee2bc272d86b8f0",
         "recipientAddress": "0x6b13ac8af6993a87f19fd3cd2c6b31b7cc24ac846d127922078cf8ba888c7c23",
         "amount": "1234560"
       }

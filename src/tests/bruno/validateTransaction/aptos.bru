@@ -29,6 +29,6 @@ body:json {
 }
 
 assert {
-  res.status: eq 200
-  res.body.status.errors: isEmpty
+  res.status: eq 400
+  res.body.status.errors[0].message: eq "Public key of the sender address is required"
 }

@@ -424,11 +424,10 @@ const inputWithdrawSchema = z
   .object({
     mode: z.literal(TransactionMode.WITHDRAW),
     senderAddress: senderAddressSchema,
-    senderPubKey: senderPubKeySchema,
+    senderPubKey: senderPubKeySchema.optional(),
     amount: inputAmountSchema.optional(),
     validatorAddress: validatorAddressSchema,
     stakeId: stakeIdSchema.optional(),
-    recipientAddress: recipientAddressSchema,
   })
   .openapi({
     title: "Withdraw Unlocked Funds",
@@ -440,11 +439,10 @@ const outputWithdrawSchema = z
   .object({
     mode: z.literal(TransactionMode.WITHDRAW),
     senderAddress: senderAddressSchema,
-    senderPubKey: senderPubKeySchema,
+    senderPubKey: senderPubKeySchema.optional(),
     amount: inputAmountSchema.optional(),
     validatorAddress: validatorAddressSchema,
     stakeId: stakeIdSchema.optional(),
-    recipientAddress: recipientAddressSchema,
   })
   .openapi({
     title: "Withdraw Unlocked Funds",

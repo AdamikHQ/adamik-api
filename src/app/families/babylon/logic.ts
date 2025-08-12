@@ -520,7 +520,7 @@ async function buildWithdrawalPsbt(
       return createWithdrawTimelockUnbondedTransaction(
         stakingScripts,
         stakingTransaction,
-        transactionData.recipientAddress, // Use recipient as withdrawal address
+        transactionData.senderAddress, // Use sender as withdrawal address
         bitcoinNetworkInfo,
         feeRate
       );
@@ -534,7 +534,7 @@ async function buildWithdrawalPsbt(
       return createWithdrawEarlyUnbondedTransaction(
         stakingScripts,
         unbondingTransaction,
-        transactionData.recipientAddress, // Use recipient as withdrawal address
+        transactionData.senderAddress, // Use sender as withdrawal address
         bitcoinNetworkInfo,
         feeRate
       );
@@ -563,7 +563,7 @@ async function buildWithdrawalPsbt(
       return createWithdrawSlashingTransaction(
         stakingScripts,
         slashingTransaction,
-        transactionData.recipientAddress, // Use recipient as withdrawal address
+        transactionData.senderAddress, // Use sender as withdrawal address
         bitcoinNetworkInfo,
         feeRate,
         slashingOutputIndex

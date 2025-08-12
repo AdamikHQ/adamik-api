@@ -2,7 +2,14 @@ import { BaseError as ViemError } from "viem";
 import { ChainId, Status, Transaction, TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
 import { fetchNonce } from "../backend/node";
-import { getTransactionAmount, getTransactionFees, getTransactionGas, setSharesFromAmount } from "../logic";
+import {
+  getTransactionAmount,
+  getTransactionFees,
+  getTransactionGas,
+  setHarvestParams,
+  setSharesFromAmount,
+  setStakingPositionTimestamp,
+} from "../logic";
 import { EvmService } from "../service";
 import { EvmAddress } from "../types";
 
@@ -21,14 +28,21 @@ async function completeTransaction(
 
     switch (transaction.data.mode) {
       case TransactionMode.TRANSFER:
-      case TransactionMode.STAKE:
         await completeNativeTransaction(this.chainId, transaction.data);
         break;
       case TransactionMode.TRANSFER_TOKEN:
         await completeTokenTransaction(this.chainId, transaction.data);
         break;
+      case TransactionMode.STAKE:
+        await setHarvestParams(this.chainId, transaction.data);
+        await completeNativeTransaction(this.chainId, transaction.data);
+        break;
       case TransactionMode.UNSTAKE:
         await setSharesFromAmount(this.chainId, transaction.data);
+        await completeNativeTransaction(this.chainId, transaction.data);
+        break;
+      case TransactionMode.WITHDRAW:
+        await setStakingPositionTimestamp(this.chainId, transaction.data);
         await completeNativeTransaction(this.chainId, transaction.data);
         break;
       default:

@@ -54,13 +54,17 @@ async function getAccountState(this: EvmService, accountId: EvmAddress): Promise
         });
       }
 
-      // Create unlocking positions from exit requests
+      // Create unlocking & unlocked positions from exit requests
       allocator.exitRequests.forEach((exitRequest) => {
+        const isUnlocked =
+          exitRequest.withdrawalTimestamp &&
+          BigInt(exitRequest.withdrawalTimestamp) * 1000n < new Date().getTime();
+
         const unlockingPosition: StakingPosition = {
           stakeId: exitRequest.id,
           validatorAddresses: [allocator.vault.id],
           amount: BigInt(exitRequest.totalAssets),
-          status: StakingStatus.UNLOCKING,
+          status: isUnlocked ? StakingStatus.UNLOCKED : StakingStatus.UNLOCKING,
         };
 
         if (exitRequest.withdrawalTimestamp) {
@@ -80,7 +84,9 @@ async function getAccountState(this: EvmService, accountId: EvmAddress): Promise
       unlocking: stakingPositions
         .filter((position) => position.status === StakingStatus.UNLOCKING)
         .reduce((acc, position) => acc + position.amount, 0n),
-      unlocked: 0n,
+      unlocked: stakingPositions
+        .filter((position) => position.status === StakingStatus.UNLOCKED)
+        .reduce((acc, position) => acc + position.amount, 0n),
     };
   } catch (error: any) {
     console.warn(`Error while fetching staking balances for chain ${this.chainId}:`, JSON.stringify(error));

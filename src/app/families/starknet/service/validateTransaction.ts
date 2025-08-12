@@ -67,7 +67,7 @@ async function prevalidateTransaction(
 
     case TransactionMode.DEPLOY_ACCOUNT: {
       if (!transaction.data.senderPubKey) {
-        status.errors.push({ message: "Sender public key is required" });
+        status.errors.push({ message: "Public key of the sender address is required" });
       }
 
       if (!transaction.data.contractType) {

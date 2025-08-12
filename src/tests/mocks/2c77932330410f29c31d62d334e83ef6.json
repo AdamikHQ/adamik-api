@@ -1,11 +1,11 @@
 {
   "request": {
-    "url": "https://ethereum-hoodi-rpc.publicnode.com/",
+    "url": "https://site1.moralis-nodes.com/eth/REDACTED",
     "method": "POST",
     "body": {
       "jsonrpc": "2.0",
-      "id": 0,
-      "method": "eth_getBalance",
+      "id": 19,
+      "method": "eth_getTransactionCount",
       "params": [
         "0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab",
         "latest"
@@ -16,8 +16,8 @@
     "status": 200,
     "body": {
       "jsonrpc": "2.0",
-      "id": 0,
-      "result": "0x4342a3f60b76bfe0"
+      "id": 19,
+      "result": "0xb"
     },
     "type": "json"
   }
