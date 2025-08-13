@@ -27,6 +27,11 @@ const stringToBigIntSchema = z
 
 const bigintToStringSchema = z.bigint().pipe(z.coerce.string());
 
+const chainFamilySchema = z.nativeEnum(ChainFamily).openapi({
+  description: "Family to which the chain belongs",
+  ref: "ChainFamily",
+});
+
 const chainIdSchemaParams: z.RawCreateParams = {
   errorMap: (issue, ctx) => {
     if (issue.code === z.ZodIssueCode.invalid_enum_value) {
@@ -40,7 +45,6 @@ const chainIdSchemaParams: z.RawCreateParams = {
 
 const chainIdSchema = z.nativeEnum(ChainId, chainIdSchemaParams).openapi({
   description: "Unique adamik identifier of the chain",
-  example: ChainId.BITCOIN,
   ref: "ChainId",
 });
 
@@ -98,17 +102,22 @@ const signerSpecSchema = z
     ref: "SignerSpec",
   });
 
-const chainSchema = z.object({
-  family: z.nativeEnum(ChainFamily),
-  id: chainIdSchema,
-  nativeId: z.string(),
-  name: z.string(),
-  ticker: z.string(),
-  decimals: z.number(),
-  isTestnetFor: z.string().optional(),
-  supportedFeatures: chainSupportedFeaturesSchema,
-  signerSpec: signerSpecSchema,
-});
+const chainSchema = z
+  .object({
+    family: chainFamilySchema,
+    id: chainIdSchema,
+    nativeId: z.string(),
+    name: z.string(),
+    ticker: z.string(),
+    decimals: z.number(),
+    isTestnetFor: z.string().optional(),
+    supportedFeatures: chainSupportedFeaturesSchema,
+    signerSpec: signerSpecSchema,
+  })
+  .openapi({
+    description: "Chain details and information",
+    ref: "Chain",
+  });
 
 const tokenSchema = z.object({
   type: z.nativeEnum(TokenType),

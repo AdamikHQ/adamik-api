@@ -474,3 +474,7 @@
 
 | node | https://api.testnet.aptoslabs.com/v1 |<br />
 | aptosindexer | https://api.testnet.aptoslabs.com/v1/graphql |
+
+## stellar
+
+| horizon | https://horizon.stellar.org |
