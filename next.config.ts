@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["jq-web"], // Fix for build error: "ENOENT: no such file or directory, open ....next/server/chunks/jq.wasm"
+  serverExternalPackages: [
+    "jq-web", // Fix for build error: "ENOENT: no such file or directory, open ....next/server/chunks/jq.wasm"
+    "@stellar/stellar-sdk", // sodium-native lib isn't compatible with webpack bundling
+  ],
   logging: {
     fetches: {
       fullUrl: true,

@@ -7,6 +7,7 @@ import { CosmosService } from "../families/cosmos/service";
 import { EvmService } from "../families/evm/service";
 import { SolanaService } from "../families/solana/service";
 import { StarknetService } from "../families/starknet/service";
+import { StellarService } from "../families/stellar/service";
 import { TonService } from "../families/ton/service";
 import { TronService } from "../families/tron/service";
 import { CHAINS } from "./chains";
@@ -32,6 +33,8 @@ function getService(chainId: ChainId): BaseChainService {
       return new SolanaService(chainId);
     case ChainFamily.APTOS:
       return new AptosService(chainId);
+    case ChainFamily.STELLAR:
+      return new StellarService(chainId);
     default: // ensure exhaustive check, both at compile time and runtime: https://basarat.gitbook.io/typescript/type-system/discriminated-unions#exhaustive-checks
       const assertNever = (x: never): never => {
         throw new Error(`No service defined for family ${family}`);

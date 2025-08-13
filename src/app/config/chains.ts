@@ -10,6 +10,7 @@ import {
   NATIVE_READ_WRITE_ONLY,
   SOLANA_FEATURES,
   STARKNET_FEATURES,
+  STELLAR_FEATURES,
   TON_FEATURES,
   TRON_FEATURES,
 } from "./features";
@@ -2385,6 +2386,22 @@ const CHAINS: { [key in ChainId]: Chain } = {
     supportedFeatures: APTOS_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.APTOS_TESTNET, ChainFamily.APTOS),
     isTestnetFor: ChainId.APTOS,
+  },
+  stellar: {
+    family: ChainFamily.STELLAR,
+    id: ChainId.STELLAR,
+    nativeId: "stellar",
+    name: "Stellar",
+    ticker: "XLM",
+    decimals: 7,
+    providers: [
+      {
+        type: ProviderType.horizon,
+        urls: ["https://horizon.stellar.org"],
+      },
+    ],
+    supportedFeatures: STELLAR_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.STELLAR, ChainFamily.STELLAR),
   },
 } as const;
 

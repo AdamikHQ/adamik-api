@@ -101,6 +101,7 @@ enum ChainId {
   WORLD_CHAIN_SEPOLIA = "world-chain-sepolia",
   HYPERLIQUID = "hyperliquid",
   SOLANA = "solana",
+  STELLAR = "stellar",
 }
 
 enum ChainFamily {
@@ -113,6 +114,7 @@ enum ChainFamily {
   TON = "ton",
   STARKNET = "starknet",
   SOLANA = "solana",
+  STELLAR = "stellar",
 }
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
@@ -169,6 +171,7 @@ export enum ProviderType {
   tonapi = "tonapi",
   tronscan = "tronscan",
   validatorApp = "validatorApp",
+  horizon = "horizon",
 }
 
 type Provider = {
@@ -225,6 +228,7 @@ enum TokenType {
   JETTON = "JETTON",
   SPL = "SPL",
   APTOS_COIN = "APTOS_COIN",
+  STELLAR_ASSET = "STELLAR_ASSET",
 }
 
 type Token = {
