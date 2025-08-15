@@ -11,6 +11,8 @@ import {
   type Token,
   type TokenAmount,
 } from "~/app/model/types_WIP";
+import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
+import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { convertToStroops } from "../logic";
 
 // TODO proper error management
@@ -57,7 +59,7 @@ async function fetchAccount(address: string): Promise<AccountState> {
   const tokens: TokenAmount[] = assetBalances.map((assetData: Horizon.HorizonApi.BalanceLineAsset) => {
     const token: Token = {
       type: TokenType.STELLAR_ASSET,
-      // FIXME Review this
+      // FIXME Is that the right tokenId syntax?
       id: `${assetData.asset_code}:${assetData.asset_issuer}`,
       name: assetData.asset_code,
       ticker: assetData.asset_code,
@@ -88,23 +90,103 @@ async function fetchAccount(address: string): Promise<AccountState> {
  * @param transactionHash - The hex-encoded transaction hash
  * @returns Promise<Horizon.TransactionResponse> - The transaction details from Horizon
  */
-async function fetchTransaction(
-  transactionHash: string
-): Promise<Horizon.ServerApi.TransactionRecord | null> {
+async function fetchTransaction(transactionHash: string): Promise<FinalizedTransaction | null> {
   try {
-    const transactionRecord = await horizonServer.transactions().transaction(transactionHash).call();
+    const stellarTransaction = await horizonServer.transactions().transaction(transactionHash).call();
+
     // Remove useless metadata
-    delete (transactionRecord as any)._links;
-    return transactionRecord;
+    delete (stellarTransaction as any)._links;
+
+    const parsed = await stellarToAdamikTransaction(stellarTransaction);
+
+    return {
+      parsed,
+      raw: stellarTransaction,
+    };
   } catch (error: any) {
-    // Handle specific Horizon errors
-    if (error.response?.status === 404 || error.response?.status === 400) {
+    // Transaction not found
+    if (error?.response?.status === 404) {
       return null;
     }
 
     // Log other errors and return null instead of throwing
     console.warn(`Failed to fetch Stellar transaction ${transactionHash}: ${error.message}`);
     return null;
+  }
+}
+
+/**
+ * Fetches account transactions from Horizon server with pagination support
+ * @param chainId - The chain ID (should be STELLAR)
+ * @param address - The Stellar account address
+ * @param paginationToken - Optional pagination token for paginated results
+ * @returns Promise<{ stellarTransactions: FinalizedTransaction[]; nextPage: string | null }> - The transactions and next page token
+ */
+async function fetchAccountTransactions(
+  chainId: ChainId,
+  address: string,
+  paginationToken?: string
+): Promise<{ stellarTransactions: FinalizedTransaction[]; nextPage: string | null }> {
+  try {
+    let transactionsQuery = horizonServer.transactions().forAccount(address).limit(20).order("desc");
+
+    if (paginationToken) {
+      const paginationData = paginationFromB64(paginationToken);
+      if (!paginationData || typeof paginationData !== "string") {
+        throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+      }
+      transactionsQuery = transactionsQuery.cursor(paginationData);
+    }
+
+    const response = await transactionsQuery.call();
+
+    const stellarTransactions: FinalizedTransaction[] = [];
+
+    for (const horizonTransaction of response.records) {
+      delete (horizonTransaction as any)._links;
+
+      try {
+        const parsedTransaction = await stellarToAdamikTransaction(horizonTransaction);
+
+        stellarTransactions.push({
+          parsed: parsedTransaction,
+          raw: horizonTransaction,
+        });
+      } catch (error) {
+        console.warn(`/!\\ Failed to convert Stellar transaction ${horizonTransaction.hash}:`, error);
+        // Continue with other transactions instead of failing completely
+        // FIXME We should return a status with a warning for this
+        continue;
+      }
+    }
+
+    // Determine next page token
+    let nextPage: string | null = null;
+    if (response.records.length === 20) {
+      // If we got a full page, there might be more
+      const lastTransaction = response.records[response.records.length - 1];
+      nextPage = paginationToB64(lastTransaction.paging_token);
+    }
+
+    return {
+      stellarTransactions,
+      nextPage,
+    };
+  } catch (error: any) {
+    // Handle specific Stellar errors
+    if (error.response?.status === 404) {
+      console.warn(`/!\\ Stellar account not found: ${address}`);
+      return { stellarTransactions: [], nextPage: null };
+    }
+
+    if (error.response?.status === 400) {
+      console.warn(`/!\\ Bad request for Stellar account: ${address}`);
+      return { stellarTransactions: [], nextPage: null };
+    }
+
+    // Log other errors and return empty result
+    console.warn(`/!\\ Failed to fetch Stellar account transactions for ${address}:`, error.message);
+    return { stellarTransactions: [], nextPage: null };
   }
 }
 
@@ -124,7 +206,6 @@ async function stellarToAdamikTransaction(
   // Convert fee from stroops to native amount
   const feesAmount = BigInt(horizonTransaction.fee_charged);
 
-  // TODO Debug this, check the data structure
   const operations = await horizonTransaction.operations();
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
@@ -257,96 +338,4 @@ function determineTransactionMode(
   }
 }
 
-// TODO Test this with different transactions
-function parseOperations(
-  operations: Horizon.ServerApi.CollectionPage<Horizon.ServerApi.OperationRecord>
-): Partial<FinalizedTransaction["parsed"]> {
-  const chain = CHAINS[ChainId.STELLAR];
-
-  const parsedOperations: Partial<FinalizedTransaction["parsed"]> = {
-    senders: [],
-    recipients: [],
-  };
-
-  for (const operation of operations.records) {
-    switch (operation.type) {
-      case Horizon.HorizonApi.OperationResponseType.payment:
-        {
-          const amount = convertToStroops(operation.amount);
-
-          if (operation.asset_type === "native") {
-            parsedOperations.senders?.push({
-              address: operation.from,
-              amount,
-              ticker: chain.ticker,
-            });
-            parsedOperations.recipients?.push({
-              address: operation.to,
-              amount,
-              ticker: chain.ticker,
-            });
-          } else if (
-            operation.asset_type === "credit_alphanum4" ||
-            operation.asset_type === "credit_alphanum12"
-          ) {
-            // FIXME Is that the right tokenId syntax?
-            parsedOperations.tokenId = `${operation.asset_code}:${operation.asset_issuer}`;
-
-            parsedOperations.senders?.push({
-              address: operation.from,
-              amount,
-              ticker: operation.asset_code,
-            });
-            parsedOperations.recipients?.push({
-              address: operation.to,
-              amount,
-              ticker: operation.asset_code,
-            });
-          }
-        }
-        break;
-
-      case Horizon.HorizonApi.OperationResponseType.pathPayment:
-      case Horizon.HorizonApi.OperationResponseType.pathPaymentStrictSend:
-        {
-          const sourceAmount = convertToStroops(operation.source_amount);
-          const destAmount = convertToStroops(operation.amount);
-
-          if (operation.source_asset_type === "native") {
-            parsedOperations.senders?.push({
-              address: operation.from,
-              amount: sourceAmount,
-              ticker: chain.ticker,
-            });
-            parsedOperations.recipients?.push({
-              address: operation.to,
-              amount: destAmount,
-              ticker: chain.ticker,
-            });
-          } else if (
-            operation.source_asset_type === "credit_alphanum4" ||
-            operation.source_asset_type === "credit_alphanum12"
-          ) {
-            // FIXME Is that the right tokenId syntax?
-            parsedOperations.tokenId = `${operation.asset_code}:${operation.asset_issuer}`;
-
-            parsedOperations.senders?.push({
-              address: operation.from,
-              amount: sourceAmount,
-              ticker: operation.source_asset_code,
-            });
-            parsedOperations.recipients?.push({
-              address: operation.to,
-              amount: destAmount,
-              ticker: operation.asset_code,
-            });
-          }
-        }
-        break;
-    }
-  }
-
-  return parsedOperations;
-}
-
-export { fetchAccount, fetchTransaction, stellarToAdamikTransaction };
+export { fetchAccount, fetchAccountTransactions, fetchTransaction, stellarToAdamikTransaction };
