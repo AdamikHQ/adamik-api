@@ -1,8 +1,18 @@
-import { Horizon, StrKey } from "@stellar/stellar-sdk";
+import {
+  Asset,
+  Horizon,
+  Memo,
+  Networks,
+  Operation,
+  Transaction as StellarTransaction,
+  StrKey,
+  TransactionBuilder,
+} from "@stellar/stellar-sdk";
+import { BigNumber } from "bignumber.js";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, TransactionData, TransactionMode } from "~/app/model/types_WIP";
-import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
-import { fetchBaseFee } from "./backend/horizon";
+import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
+import { fetchAccount, fetchBaseFee } from "./backend/horizon";
 
 /**
  * Validates a Stellar address using the official Stellar SDK.
@@ -109,7 +119,105 @@ async function calculateTransactionFee(transactionData: TransactionData): Promis
   }
 }
 
+/**
+ * Builds a Stellar transaction using the Stellar SDK
+ * @param transactionData - The transaction data
+ * @returns Promise<Transaction> - The built transaction
+ */
+async function buildTransaction(transactionData: TransactionData): Promise<StellarTransaction> {
+  const chain = CHAINS[ChainId.STELLAR];
+
+  const senderAccount = await fetchAccount(transactionData.senderAddress);
+  if (!senderAccount) {
+    throw new UserInputError(`Stellar account ${transactionData.senderAddress} doesn't exist`);
+  }
+
+  const transactionBuilder = new TransactionBuilder(senderAccount, {
+    fee: transactionData.fees!.toString(),
+    networkPassphrase: Networks.PUBLIC,
+  });
+
+  const amount = new BigNumber(transactionData.amount!.toString())
+    .dividedBy(Math.pow(10, chain.decimals))
+    .toFixed();
+
+  const asset = (() => {
+    if (transactionData.mode === TransactionMode.TRANSFER_TOKEN) {
+      const [assetCode, assetIssuer] = transactionData.tokenId.split(":");
+      return new Asset(assetCode, assetIssuer);
+    } else {
+      return Asset.native();
+    }
+  })();
+
+  // Check if recipient account exists
+  const recipientAccount = await fetchAccount(transactionData.recipientAddress);
+
+  switch (transactionData.mode) {
+    case TransactionMode.TRANSFER:
+      {
+        if (!recipientAccount) {
+          // If recipient doesn't exist, create account with starting balance
+          transactionBuilder.addOperation(
+            Operation.createAccount({
+              destination: transactionData.recipientAddress,
+              startingBalance: amount,
+            })
+          );
+        } else {
+          // If recipient exists, send payment
+          transactionBuilder.addOperation(
+            Operation.payment({
+              destination: transactionData.recipientAddress,
+              asset,
+              amount,
+            })
+          );
+        }
+      }
+      break;
+
+    case TransactionMode.TRANSFER_TOKEN:
+      {
+        // For token transfers, recipient account must exist
+        // We can't create an account with a token payment in Stellar
+        if (!recipientAccount) {
+          throw new UserInputError(
+            "Recipient account does not exist. Token transfer on Stellar requires an existing account."
+          );
+        }
+
+        transactionBuilder.addOperation(
+          Operation.payment({
+            destination: transactionData.recipientAddress,
+            asset,
+            amount,
+          })
+        );
+      }
+      break;
+
+    // TODO
+    //case TransactionMode.OPT_IN_TOKEN:
+
+    default:
+      throw new UnsupportedFeatureError(
+        `Transaction mode ${transactionData.mode} is not supported for chainId stellar`
+      );
+  }
+
+  if (transactionData.memo) {
+    transactionBuilder.addMemo(Memo.text(transactionData.memo));
+  }
+
+  // Arbitrary 10 minutes timeout
+  const transaction = transactionBuilder.setTimeout(600).build();
+
+  return transaction;
+}
+
 export {
+  buildTransaction,
   calculateMaxSpendable,
   calculateMaxSpendableToken,
   calculateTransactionFee,

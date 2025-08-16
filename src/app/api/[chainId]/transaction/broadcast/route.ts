@@ -51,8 +51,14 @@ export const POST = apiHandler(
         return await service.broadcastTransaction(broadcastPayload);
       } catch (error) {
         console.warn("/!\\ Transaction broadcast failed for transaction:", transaction);
-        console.warn("/!\\ Error is:", error);
-        throw new InvalidTransactionError(statusFromMessage("Transaction broadcast failed"));
+        console.warn("/!\\ Error is:", JSON.stringify(error));
+
+        const errorMessage =
+          error instanceof UserInputError
+            ? `Transaction broadcast failed: ${error.message})`
+            : "Transaction broadcast failed";
+
+        throw new InvalidTransactionError(statusFromMessage(errorMessage));
       }
     })();
 

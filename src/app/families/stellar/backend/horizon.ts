@@ -1,4 +1,9 @@
-import { Horizon } from "@stellar/stellar-sdk";
+import {
+  AccountRequiresMemoError,
+  Horizon,
+  Networks,
+  Transaction as StellarTransaction,
+} from "@stellar/stellar-sdk";
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
@@ -7,7 +12,11 @@ import {
   TransactionState,
   type FinalizedTransaction,
 } from "~/app/model/types_WIP";
-import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
+import {
+  AdamikApiServerError,
+  InvalidPaginationTokenError,
+  UserInputError,
+} from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { convertToStroops } from "../logic";
 
@@ -23,26 +32,22 @@ async function fetchBaseFee(): Promise<number> {
     const baseFee = await horizonServer.fetchBaseFee();
     return baseFee;
   } catch (error: any) {
-    console.warn(`/!\\ Failed to fetch base fee for stellar transaction: ${error.message}`);
+    console.warn(`/!\\ Failed to fetch base fee for stellar transaction:`, JSON.stringify(error));
     // Fall back to the network's default base fee (100 stroops)
     return 100;
   }
 }
 
-async function fetchAccount(address: string): Promise<Horizon.AccountResponse> {
+async function fetchAccount(address: string): Promise<Horizon.AccountResponse | null> {
   try {
     return await horizonServer.loadAccount(address);
   } catch (error: any) {
     if (error.response?.status === 404) {
-      throw new Error(`Stellar account not found or not funded: ${address}`);
+      return null;
     }
 
-    if (error.response?.status === 400) {
-      throw new Error(`Bad request for Stellar account: ${address}`);
-    }
-
-    // Re-throw other errors with context
-    throw new Error(`Failed to fetch Stellar account ${address}: ${error.message}`);
+    console.warn(`/!\\ Failed to fetch Stellar account ${address}:`, JSON.stringify(error));
+    throw new AdamikApiServerError(`Failed to fetch Stellar account ${address}`);
   }
 }
 
@@ -297,4 +302,34 @@ function determineTransactionMode(
   }
 }
 
-export { fetchAccount, fetchAccountTransactions, fetchBaseFee, fetchTransaction, stellarToAdamikTransaction };
+/**
+ * Broadcasts a signed Stellar transaction to the network
+ * @param signedTransactionXDR - The XDR-encoded signed transaction
+ * @returns Promise<string> - The transaction hash
+ */
+async function broadcastTransaction(signedTransactionXDR: string): Promise<string> {
+  try {
+    // Parse the XDR string back to Transaction object
+    const transaction = new StellarTransaction(signedTransactionXDR, Networks.PUBLIC);
+
+    // Submit the transaction to the Stellar network
+    const result = await horizonServer.submitTransaction(transaction);
+
+    return result.hash;
+  } catch (error: any) {
+    if (error instanceof AccountRequiresMemoError) {
+      throw new UserInputError(`recipient account requires a memo in the transaction`);
+    }
+
+    throw error;
+  }
+}
+
+export {
+  broadcastTransaction,
+  fetchAccount,
+  fetchAccountTransactions,
+  fetchBaseFee,
+  fetchTransaction,
+  stellarToAdamikTransaction,
+};

@@ -1,5 +1,5 @@
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
-import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";
+import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
 import { fetchAccount } from "../backend/horizon";
 import { calculateMaxSpendable, calculateMaxSpendableToken, calculateTransactionFee } from "../logic";
 import { StellarService } from "../service";
@@ -17,6 +17,9 @@ async function completeTransaction(
 
   if (transaction.data.useMaxAmount) {
     const stellarAccount = await fetchAccount(transaction.data.senderAddress);
+    if (!stellarAccount) {
+      throw new UserInputError(`Stellar account ${transaction.data.senderAddress} doesn't exist`);
+    }
 
     switch (transaction.data.mode) {
       case TransactionMode.TRANSFER:

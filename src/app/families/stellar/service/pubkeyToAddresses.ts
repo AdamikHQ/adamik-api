@@ -37,7 +37,7 @@ async function pubkeyToAddresses(this: StellarService, pubkey: string): Promise<
     ];
   } catch (error) {
     console.warn(`/!\\ Failed to encode Stellar address for pubkey ${pubkey}:`, error);
-    throw new UserInputError("Failed to encode Stellar address");
+    throw new UserInputError(`Failed to encode Stellar address for pubkey ${pubkey}`);
   }
 }
 

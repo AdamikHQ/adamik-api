@@ -330,6 +330,7 @@ enum TransactionMode {
   WITHDRAW = "withdraw",
   REGISTER_STAKE = "registerStake", // Babylon use-case: register a bitcoin stake
   CONVERT_ASSET = "convertAsset", // Swap + Bridge (Only mocked for now, for evaluating demand)
+  //OPT_IN_TOKEN = "optInToken", // TODO : algorand + stellar
 }
 
 enum TransactionState {
@@ -523,6 +524,7 @@ enum EncodedTransactionFormat {
   PSBT = "PSBT",
   BCS = "BCS",
   BORSH = "BORSH",
+  XDR = "XDR",
 }
 
 type Transaction = {

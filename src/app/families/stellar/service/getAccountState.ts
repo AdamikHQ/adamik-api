@@ -7,6 +7,16 @@ import { StellarService } from "../service";
 
 async function getAccountState(this: StellarService, accountId: string): Promise<AccountState> {
   const stellarAccount = await fetchAccount(accountId);
+  if (!stellarAccount) {
+    return {
+      balances: {
+        native: {
+          available: 0n,
+          total: 0n,
+        },
+      },
+    };
+  }
 
   // Extract native XLM balance
   const xlmBalance = stellarAccount.balances.find((balance) => balance.asset_type === "native");

@@ -3607,7 +3607,8 @@
                                       "MSGPACK",
                                       "PSBT",
                                       "BCS",
-                                      "BORSH"
+                                      "BORSH",
+                                      "XDR"
                                     ]
                                   },
                                   "value": {
@@ -5159,7 +5160,8 @@
                                     "MSGPACK",
                                     "PSBT",
                                     "BCS",
-                                    "BORSH"
+                                    "BORSH",
+                                    "XDR"
                                   ]
                                 },
                                 "value": {
