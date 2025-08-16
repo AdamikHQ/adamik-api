@@ -3,13 +3,9 @@ import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
   ProviderType,
-  TokenType,
   TransactionMode,
   TransactionState,
-  type AccountState,
   type FinalizedTransaction,
-  type Token,
-  type TokenAmount,
 } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
@@ -17,72 +13,37 @@ import { convertToStroops } from "../logic";
 
 // TODO proper error management
 
-// Stellar server configuration
 const STELLAR_MAINNET_URL =
   CHAINS[ChainId.STELLAR].providers.find((provider) => provider.type === ProviderType.horizon)?.urls[0] || "";
 
-// Initialize Stellar server for mainnet
 const horizonServer = new Horizon.Server(STELLAR_MAINNET_URL);
 
-async function fetchAccount(address: string): Promise<AccountState> {
-  const chain = CHAINS[ChainId.STELLAR];
-  const account: Horizon.AccountResponse = await (async () => {
-    try {
-      return await horizonServer.loadAccount(address);
-    } catch (error: any) {
-      // Handle specific Stellar errors
-      if (error.response?.status === 404) {
-        throw new Error(`Stellar account not found or not funded: ${address}`);
-      }
+async function fetchBaseFee(): Promise<number> {
+  try {
+    const baseFee = await horizonServer.fetchBaseFee();
+    return baseFee;
+  } catch (error: any) {
+    console.warn(`/!\\ Failed to fetch base fee for stellar transaction: ${error.message}`);
+    // Fall back to the network's default base fee (100 stroops)
+    return 100;
+  }
+}
 
-      if (error.response?.status === 400) {
-        throw new Error(`Bad request for Stellar account: ${address}`);
-      }
-
-      // Re-throw other errors with context
-      throw new Error(`Failed to fetch Stellar account ${address}: ${error.message}`);
+async function fetchAccount(address: string): Promise<Horizon.AccountResponse> {
+  try {
+    return await horizonServer.loadAccount(address);
+  } catch (error: any) {
+    if (error.response?.status === 404) {
+      throw new Error(`Stellar account not found or not funded: ${address}`);
     }
-  })();
 
-  // Extract native XLM balance
-  const xlmBalance = account.balances.find((balance) => balance.asset_type === "native");
+    if (error.response?.status === 400) {
+      throw new Error(`Bad request for Stellar account: ${address}`);
+    }
 
-  // Extract tokens balances (non-native assets)
-  const assetBalances = account.balances.filter(
-    (balance) =>
-      // Asset types from https://github.com/stellar/js-stellar-base/blob/1904c4791eab93f94c3e9bea4a1c44323c585a8c/types/index.d.ts#L54
-      balance.asset_type === "credit_alphanum4" || balance.asset_type === "credit_alphanum12"
-  );
-
-  const xlmBalanceInStroops = xlmBalance ? convertToStroops(xlmBalance.balance) : BigInt(0);
-
-  const tokens: TokenAmount[] = assetBalances.map((assetData: Horizon.HorizonApi.BalanceLineAsset) => {
-    const token: Token = {
-      type: TokenType.STELLAR_ASSET,
-      // FIXME Is that the right tokenId syntax?
-      id: `${assetData.asset_code}:${assetData.asset_issuer}`,
-      name: assetData.asset_code,
-      ticker: assetData.asset_code,
-      decimals: chain.decimals,
-      contractAddress: assetData.asset_issuer,
-    };
-
-    return {
-      token,
-      amount: convertToStroops(assetData.balance),
-    };
-  });
-
-  // Map to AccountState structure
-  return {
-    balances: {
-      native: {
-        available: xlmBalanceInStroops,
-        total: xlmBalanceInStroops,
-      },
-      tokens,
-    },
-  };
+    // Re-throw other errors with context
+    throw new Error(`Failed to fetch Stellar account ${address}: ${error.message}`);
+  }
 }
 
 /**
@@ -248,7 +209,6 @@ async function stellarToAdamikTransaction(
             operation.asset_type === "credit_alphanum4" ||
             operation.asset_type === "credit_alphanum12"
           ) {
-            // FIXME Is that the right tokenId syntax?
             parsedTransaction.tokenId = `${operation.asset_code}:${operation.asset_issuer}`;
 
             parsedTransaction.senders?.push({
@@ -286,7 +246,6 @@ async function stellarToAdamikTransaction(
             operation.source_asset_type === "credit_alphanum4" ||
             operation.source_asset_type === "credit_alphanum12"
           ) {
-            // FIXME Is that the right tokenId syntax?
             parsedTransaction.tokenId = `${operation.asset_code}:${operation.asset_issuer}`;
 
             parsedTransaction.senders?.push({
@@ -338,4 +297,4 @@ function determineTransactionMode(
   }
 }
 
-export { fetchAccount, fetchAccountTransactions, fetchTransaction, stellarToAdamikTransaction };
+export { fetchAccount, fetchAccountTransactions, fetchBaseFee, fetchTransaction, stellarToAdamikTransaction };
