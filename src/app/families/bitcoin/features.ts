@@ -16,6 +16,7 @@ const BITCOIN_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
         deployAccount: false,
         transfer: true,
         transferToken: false,
+        enableToken: false,
         stake: isStakingSupported(chainId),
         unstake: isStakingSupported(chainId),
         claimRewards: false,

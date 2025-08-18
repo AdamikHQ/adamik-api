@@ -16,6 +16,7 @@ const APTOS_FEATURES: ChainSupportedFeatures = {
         deployAccount: false,
         transfer: true,
         transferToken: true,
+        enableToken: false,
         stake: true,
         unstake: true,
         claimRewards: false,

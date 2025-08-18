@@ -335,6 +335,28 @@ const outputTransferTokenSchema = z
     description: "Transfer chain tokens",
   });
 
+const inputEnableTokenSchema = z
+  .object({
+    mode: z.literal(TransactionMode.ENABLE_TOKEN),
+    tokenId: tokenIdSchema,
+    senderAddress: senderAddressSchema,
+  })
+  .openapi({
+    title: "Allow Token",
+    description: "Allow an address to hold a token",
+  });
+
+const outputEnableTokenSchema = z
+  .object({
+    mode: z.literal(TransactionMode.ENABLE_TOKEN),
+    tokenId: tokenIdSchema,
+    senderAddress: senderAddressSchema,
+  })
+  .openapi({
+    title: "Transfer Token",
+    description: "Allow an address to hold a token",
+  });
+
 const inputStakeSchema = z
   .object({
     mode: z.literal(TransactionMode.STAKE),
@@ -678,6 +700,7 @@ export {
   inputClaimRewardsSchema,
   inputConvertAssetSchema,
   inputDeployAccountSchema,
+  inputEnableTokenSchema,
   inputFeesSchema,
   inputGasSchema,
   inputNonceSchema,
@@ -693,6 +716,7 @@ export {
   outputClaimRewardsSchema,
   outputConvertAssetSchema,
   outputDeployAccountSchema,
+  outputEnableTokenSchema,
   outputFeesSchema,
   outputGasSchema,
   outputNonceSchema,

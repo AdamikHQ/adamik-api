@@ -119,6 +119,16 @@ async function prevalidateTransactionCommon(
         validateAmountOrUseMaxAmount(transactionData, status);
       }
       break;
+    case TransactionMode.ENABLE_TOKEN:
+      {
+        // TODO Validate tokenId ?
+
+        const validSender = await addressValidationFn(transactionData.senderAddress);
+        if (!validSender) {
+          status.errors.push({ message: "Sender address is invalid" });
+        }
+      }
+      break;
     case TransactionMode.STAKE:
       {
         const validSender = await addressValidationFn(transactionData.senderAddress);

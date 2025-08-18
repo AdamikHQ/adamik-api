@@ -28,6 +28,7 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
         deployAccount: false,
         transfer: true,
         transferToken: false,
+        enableToken: false,
         stake: false,
         unstake: false,
         claimRewards: false,

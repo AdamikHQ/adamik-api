@@ -16,6 +16,7 @@ const STARKNET_FEATURES: ChainSupportedFeatures = {
         deployAccount: true,
         transfer: true,
         transferToken: true,
+        enableToken: false,
         stake: false,
         unstake: false,
         claimRewards: false,

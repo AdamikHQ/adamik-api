@@ -16,6 +16,7 @@ const ALGORAND_FEATURES: ChainSupportedFeatures = {
         deployAccount: false,
         transfer: true,
         transferToken: true,
+        enableToken: false, // TODO
         stake: false,
         unstake: false,
         claimRewards: false,

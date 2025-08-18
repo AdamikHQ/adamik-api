@@ -324,13 +324,13 @@ enum TransactionMode {
   DEPLOY_ACCOUNT = "deployAccount",
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
+  ENABLE_TOKEN = "enableToken",
   STAKE = "stake",
   UNSTAKE = "unstake",
   CLAIM_REWARDS = "claimRewards",
   WITHDRAW = "withdraw",
   REGISTER_STAKE = "registerStake", // Babylon use-case: register a bitcoin stake
   CONVERT_ASSET = "convertAsset", // Swap + Bridge (Only mocked for now, for evaluating demand)
-  //OPT_IN_TOKEN = "optInToken", // TODO : algorand + stellar
 }
 
 enum TransactionState {
@@ -429,6 +429,11 @@ type TransferTokenTransactionData = CommonTransactionData & {
   tokenId: string;
 };
 
+type EnableTokenTransactionData = CommonTransactionData & {
+  mode: TransactionMode.ENABLE_TOKEN;
+  tokenId: string;
+};
+
 type StakeTransactionData = CommonTransactionData & {
   mode: TransactionMode.STAKE;
   sourceValidatorAddress?: string; // cosmos "redelegate" use-case, if provided
@@ -489,6 +494,7 @@ type TransactionData =
   | DeployAccountTransactionData
   | TransferTransactionData
   | TransferTokenTransactionData
+  | EnableTokenTransactionData
   | StakeTransactionData
   | UnstakeTransactionData
   | ClaimRewardsTransactionData
@@ -583,6 +589,7 @@ export type {
   ChainValidators,
   ClaimRewardsTransactionData,
   DeployAccountTransactionData,
+  EnableTokenTransactionData,
   EncodedTransaction,
   EncodedTransactionRaw,
   FeaturesSet,
