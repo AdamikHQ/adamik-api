@@ -124,7 +124,21 @@ async function validateTransaction(
     }
 
     case TransactionMode.ENABLE_TOKEN: {
-      // No further validation required
+      // Check if recipient account has enabled the token (has a trustline)
+      const [assetCode, assetIssuer] = transactionData.tokenId.split(":");
+      const hasTrustline = senderAccount.balances.some(
+        (balance) =>
+          (balance.asset_type === "credit_alphanum4" || balance.asset_type === "credit_alphanum12") &&
+          balance.asset_code === assetCode &&
+          balance.asset_issuer === assetIssuer
+      );
+
+      if (hasTrustline) {
+        status.warnings.push({
+          message: `Address ${transactionData.recipientAddress} has already enabled the token ${assetCode}.`,
+        });
+      }
+
       break;
     }
 

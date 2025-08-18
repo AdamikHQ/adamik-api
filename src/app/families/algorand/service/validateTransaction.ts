@@ -88,6 +88,23 @@ async function validateTransaction(
       break;
     }
 
+    case TransactionMode.ENABLE_TOKEN: {
+      if (fees > maxSpendable.native) {
+        status.errors.push({
+          message: "Balance is too low to cover the fees",
+        });
+      }
+
+      // Check if the user is already opted in to this asset
+      if (await addressHasAsset(transaction.data.senderAddress, transaction.data.tokenId)) {
+        status.warnings.push({
+          message: "Address is already opted in to this asset",
+        });
+      }
+
+      break;
+    }
+
     /*
     case "optIn": {
       if (!transaction.data.fees || !transaction.data.fees.gt(0)) {

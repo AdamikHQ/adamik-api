@@ -43,8 +43,7 @@ function computeAlgoMaxSpendable({
 function computeMinimumAlgoBalance(mode: TransactionMode, nbAccountAssets: number): number {
   const base = 100000; // 0.1 ALGO = 100000 mALGO
   const currentAssets = nbAccountAssets;
-  //const newAsset = mode === "optIn" ? 1 : 0;
-  const newAsset = 0;
+  const newAsset = mode === TransactionMode.ENABLE_TOKEN ? 1 : 0;
   return base * (1 + currentAssets + newAsset);
 }
 
@@ -58,19 +57,19 @@ const addressHasAsset = async (address: string, assetId: string): Promise<boolea
   return recipientAccount.assetAmounts.map((a) => a.assetId).includes(assetId);
 };
 
-async function computeMaxSpendable(transaction: TransactionData): Promise<TransactionSpendableAmounts> {
-  const { balance, assetAmounts } = await fetchAccount(transaction.senderAddress);
+async function computeMaxSpendable(transactionData: TransactionData): Promise<TransactionSpendableAmounts> {
+  const { balance, assetAmounts } = await fetchAccount(transactionData.senderAddress);
 
   const maxSpendable = computeAlgoMaxSpendable({
     accountBalance: BigInt(balance),
     nbAccountAssets: assetAmounts.length,
-    mode: transaction.mode,
+    mode: transactionData.mode,
   });
 
   const algoBalance = maxSpendable > 0 ? maxSpendable : 0n;
 
-  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
-    const token = assetAmounts.find((assetAmount) => assetAmount.assetId === transaction.tokenId);
+  if (transactionData.mode === TransactionMode.TRANSFER_TOKEN) {
+    const token = assetAmounts.find((assetAmount) => assetAmount.assetId === transactionData.tokenId);
     const asaBalance = token?.amount;
     return {
       native: algoBalance,
@@ -81,14 +80,14 @@ async function computeMaxSpendable(transaction: TransactionData): Promise<Transa
   }
 }
 
-async function computeFees(transaction: TransactionData): Promise<bigint> {
+async function computeFees(transactionData: TransactionData): Promise<bigint> {
   const params = await fetchTransactionParams();
 
   let suggestedFees = 0;
   if (params.fee) {
     const rawTransaction = await buildRawTransaction({
-      ...transaction,
-      amount: transaction.amount || 0n,
+      ...transactionData,
+      amount: transactionData.amount || 0n,
     });
     const encoded = encodeToSign(rawTransaction);
     const encodedTx = encoded.find((encoded) => encoded.raw?.format === EncodedTransactionFormat.MSGPACK);
@@ -102,12 +101,8 @@ async function computeFees(transaction: TransactionData): Promise<bigint> {
   return BigInt(Math.max(suggestedFees, Number(params.minFee)));
 }
 
-async function buildRawTransaction(transaction: TransactionData): Promise<AlgoTransaction> {
-  const { senderAddress, recipientAddress, amount, mode, memo } = transaction;
-  if (amount === undefined) {
-    // Should never happen
-    throw new AdamikApiServerError("Missing amount is required to build raw transaction");
-  }
+async function buildRawTransaction(transactionData: TransactionData): Promise<AlgoTransaction> {
+  const { senderAddress, recipientAddress, amount, mode, memo } = transactionData;
 
   const note = memo ? new TextEncoder().encode(memo) : undefined;
 
@@ -118,17 +113,18 @@ async function buildRawTransaction(transaction: TransactionData): Promise<AlgoTr
       return makePaymentTxnWithSuggestedParamsFromObject({
         sender: senderAddress,
         receiver: recipientAddress,
-        amount,
+        amount: amount!,
         note,
         suggestedParams,
       });
     }
-    case TransactionMode.TRANSFER_TOKEN: {
+    case TransactionMode.TRANSFER_TOKEN:
+    case TransactionMode.ENABLE_TOKEN: {
       return makeAssetTransferTxnWithSuggestedParamsFromObject({
-        assetIndex: Number(transaction.tokenId),
+        assetIndex: Number(transactionData.tokenId),
         sender: senderAddress,
         receiver: recipientAddress,
-        amount,
+        amount: amount || 0n,
         note,
         suggestedParams,
       });
