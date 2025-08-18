@@ -38,9 +38,9 @@ async function fetchBaseFee(): Promise<number> {
   }
 }
 
-async function fetchAccount(address: string): Promise<Horizon.AccountResponse | null> {
+async function fetchAccount(address: string): Promise<Horizon.ServerApi.AccountRecord | null> {
   try {
-    return await horizonServer.loadAccount(address);
+    return await horizonServer.accounts().accountId(address).call();
   } catch (error: any) {
     if (error.response?.status === 404) {
       return null;

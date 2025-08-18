@@ -14,6 +14,11 @@ import { ChainId, TransactionData, TransactionMode } from "~/app/model/types_WIP
 import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
 import { fetchAccount, fetchBaseFee } from "./backend/horizon";
 
+// Base reserve is 0.5 XLM per entry, minimum 2 entries required
+const BASE_RESERVE_STROOPS = 5000000; // 0.5 XLM in stroops (7 decimals)
+const BASE_RESERVE_MIN_COUNT = 2;
+const MIN_BALANCE_STROOPS = BASE_RESERVE_MIN_COUNT * BASE_RESERVE_STROOPS; // 1 XLM minimum in stroops
+
 /**
  * Validates a Stellar address using the official Stellar SDK.
  * Stellar addresses are Ed25519 public keys encoded in base32 with a CRC16 checksum.
@@ -36,27 +41,38 @@ function convertToStroops(xlmBalance: string): bigint {
   return BigInt(Math.floor(parseFloat(xlmBalance) * Math.pow(10, chain.decimals)));
 }
 
+function getAccountMinimumBalance(account: Horizon.ServerApi.AccountRecord | null): bigint {
+  const numOfEntries = account?.subentry_count || 0;
+
+  const numOfSponsoringEntries = account?.num_sponsoring || 0;
+  const numOfSponsoredEntries = account?.num_sponsored || 0;
+
+  const nativeAsset = account?.balances?.find((b) => b.asset_type === "native");
+  const amountInOffers = convertToStroops(nativeAsset?.selling_liabilities || "0");
+
+  return (
+    BigInt(
+      BASE_RESERVE_STROOPS *
+        (BASE_RESERVE_MIN_COUNT + numOfEntries + numOfSponsoringEntries - numOfSponsoredEntries)
+    ) + amountInOffers
+  );
+}
+
 /**
  * Calculates the maximum spendable amount for a Stellar account
  * @param account - The account response from Horizon
  * @returns bigint - The maximum spendable amount in stroops
  */
-function calculateMaxSpendable(account: Horizon.AccountResponse): bigint {
-  const chain = CHAINS[ChainId.STELLAR];
-
+function calculateMaxSpendable(account: Horizon.ServerApi.AccountRecord | null): bigint {
   // Find the native XLM balance
-  const xlmBalance = account.balances.find((balance) => balance.asset_type === "native");
+  const xlmBalance = account?.balances.find((balance) => balance.asset_type === "native");
   if (!xlmBalance) {
-    return BigInt(0);
+    return 0n;
   }
 
   const totalBalance = convertToStroops(xlmBalance.balance);
 
-  // Calculate minimum balance requirement
-  // Base reserve is 0.5 XLM per entry
-  // Minimum balance = (2 + number of subentries) * base reserve
-  const baseReserve = BigInt(0.5 * Math.pow(10, chain.decimals)); // 0.5 XLM in stroops
-  const minBalance = (2n + BigInt(account.subentry_count || 0)) * baseReserve;
+  const minBalance = getAccountMinimumBalance(account);
 
   // Maximum spendable is total balance minus minimum required balance
   const maxSpendable = totalBalance - minBalance;
@@ -70,22 +86,21 @@ function calculateMaxSpendable(account: Horizon.AccountResponse): bigint {
  * @param tokenId - The token ID in format "asset_code:asset_issuer"
  * @returns bigint - The maximum spendable token amount in stroops
  */
-function calculateMaxSpendableToken(account: Horizon.AccountResponse, tokenId: string): bigint {
+function calculateMaxSpendableToken(
+  account: Horizon.ServerApi.AccountRecord | null,
+  tokenId: string
+): bigint {
   const [assetCode, assetIssuer] = tokenId.split(":");
 
   // Find the specific token balance
-  const tokenBalance = account.balances.find(
+  const tokenBalance = account?.balances.find(
     (balance) =>
       (balance.asset_type === "credit_alphanum4" || balance.asset_type === "credit_alphanum12") &&
       balance.asset_code === assetCode &&
       balance.asset_issuer === assetIssuer
   );
 
-  if (!tokenBalance) {
-    return BigInt(0);
-  }
-
-  return convertToStroops(tokenBalance.balance);
+  return tokenBalance ? convertToStroops(tokenBalance.balance) : 0n;
 }
 
 /**
@@ -132,7 +147,8 @@ async function buildTransaction(transactionData: TransactionData): Promise<Stell
     throw new UserInputError(`Stellar account ${transactionData.senderAddress} doesn't exist`);
   }
 
-  const transactionBuilder = new TransactionBuilder(senderAccount, {
+  const senderHorizonAccount = new Horizon.AccountResponse(senderAccount);
+  const transactionBuilder = new TransactionBuilder(senderHorizonAccount, {
     fee: transactionData.fees!.toString(),
     networkPassphrase: Networks.PUBLIC,
   });
@@ -183,7 +199,7 @@ async function buildTransaction(transactionData: TransactionData): Promise<Stell
         // We can't create an account with a token payment in Stellar
         if (!recipientAccount) {
           throw new UserInputError(
-            "Recipient account does not exist. Token transfer on Stellar requires an existing account."
+            "Recipient account is inactive. Token transfer on Stellar requires an activated account."
           );
         }
 
@@ -217,10 +233,12 @@ async function buildTransaction(transactionData: TransactionData): Promise<Stell
 }
 
 export {
+  BASE_RESERVE_STROOPS,
   buildTransaction,
   calculateMaxSpendable,
   calculateMaxSpendableToken,
   calculateTransactionFee,
   convertToStroops,
   isValidAddress,
+  MIN_BALANCE_STROOPS,
 };

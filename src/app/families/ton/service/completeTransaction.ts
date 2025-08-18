@@ -16,7 +16,7 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
     const seqNo = await getSeqno(transaction.data.senderAddress);
 
     if (seqNo === null) {
-      transaction.data.nonce = BigInt(0);
+      transaction.data.nonce = 0n;
     } else {
       transaction.data.nonce = seqNo;
     }

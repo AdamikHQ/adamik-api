@@ -82,7 +82,7 @@ async function encodeTransactionToBroadcast(
   // FIXME Should be done in validateTransaction instead
   if (
     signedTransaction.data.mode === TransactionMode.TRANSFER &&
-    signedTransaction.data.nonce === BigInt(0) &&
+    signedTransaction.data.nonce === 0n &&
     !signedTransaction.data.senderPubKey
   ) {
     throw new UserInputError("Missing wallet public key: `senderPubKey` is required");
@@ -93,9 +93,7 @@ async function encodeTransactionToBroadcast(
   return createExternalMessage(
     Address.parse(signedTransaction.data.senderAddress),
     packSignature,
-    signedTransaction.data.nonce === BigInt(0)
-      ? initWalletV4(signedTransaction.data.senderPubKey || "")
-      : undefined
+    signedTransaction.data.nonce === 0n ? initWalletV4(signedTransaction.data.senderPubKey || "") : undefined
   );
 }
 

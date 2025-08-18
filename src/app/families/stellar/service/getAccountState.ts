@@ -20,7 +20,7 @@ async function getAccountState(this: StellarService, accountId: string): Promise
 
   // Extract native XLM balance
   const xlmBalance = stellarAccount.balances.find((balance) => balance.asset_type === "native");
-  const xlmBalanceInStroops = xlmBalance ? convertToStroops(xlmBalance.balance) : BigInt(0);
+  const xlmBalanceInStroops = xlmBalance ? convertToStroops(xlmBalance.balance) : 0n;
 
   // Extract tokens balances (non-native assets)
   const assetsData = stellarAccount.balances.filter(

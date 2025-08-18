@@ -88,7 +88,7 @@ async function buildTransaction(transaction: TransactionData, timeout: number) {
       to: toJettonAddress ?? transaction.recipientAddress,
       body: messageBody || transaction.memo,
       init:
-        transaction.nonce === BigInt(0) && transaction.senderPubKey
+        transaction.nonce === 0n && transaction.senderPubKey
           ? initWalletV4(transaction.senderPubKey)
           : undefined,
     });
