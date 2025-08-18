@@ -266,6 +266,24 @@ async function stellarToAdamikTransaction(
           }
         }
         break;
+
+      case Horizon.HorizonApi.OperationResponseType.changeTrust:
+        {
+          // changeTrust operations are used for enabling tokens
+          // The source account is the one enabling the token
+          if (operation.asset_type === "credit_alphanum4" || operation.asset_type === "credit_alphanum12") {
+            parsedTransaction.tokenId = `${operation.asset_code}:${operation.asset_issuer}`;
+
+            // For changeTrust, we only have a sender (the account enabling the token)
+            // No amount is transferred, so we set amount to 0
+            parsedTransaction.senders?.push({
+              address: operation.source_account,
+              amount: 0n,
+              ticker: operation.asset_code,
+            });
+          }
+        }
+        break;
     }
   }
 
@@ -296,6 +314,15 @@ function determineTransactionMode(
       // Path payments involve assets
       // FIXME Is this reliable?
       return TransactionMode.TRANSFER_TOKEN;
+
+    case Horizon.HorizonApi.OperationResponseType.changeTrust:
+      // changeTrust operations can be either opt-in (positive limit) or opt-out (zero limit)
+      // We only support opt-in operations, so check if the trust limit is greater than 0
+      if (!firstOperation.limit || firstOperation.limit !== "0") {
+        return TransactionMode.ENABLE_TOKEN;
+      }
+      // If limit is 0, it's an opt-out operation which we don't support
+      return "unknown";
 
     default:
       return "unknown";

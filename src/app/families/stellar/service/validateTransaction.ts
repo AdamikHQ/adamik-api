@@ -4,6 +4,7 @@ import { fetchAccount } from "../backend/horizon";
 import {
   calculateMaxSpendable,
   calculateMaxSpendableToken,
+  getStellarAsset,
   isValidAddress,
   MIN_BALANCE_STROOPS,
 } from "../logic";
@@ -23,6 +24,14 @@ async function prevalidateTransaction(
     addressValidationFn: async (address: string) => isValidAddress(address),
     status,
   });
+
+  if (
+    transaction.data.mode === TransactionMode.TRANSFER_TOKEN ||
+    transaction.data.mode === TransactionMode.ENABLE_TOKEN
+  ) {
+    // Performs validation of the token ID
+    getStellarAsset(transaction.data.tokenId);
+  }
 }
 
 async function validateTransaction(
@@ -38,14 +47,6 @@ async function validateTransaction(
   // amount & fees are safe to cast as they're guaranteed to be set by completeTransaction
   const amount = transactionData.amount as bigint;
   const fees = transactionData.fees as bigint;
-
-  // Check if recipient account has been activated
-  const recipientAccount = await fetchAccount(transactionData.recipientAddress);
-  if (!recipientAccount && amount < MIN_BALANCE_STROOPS) {
-    status.errors.push({
-      message: `Recipient address is inactive. Amount must be at least ${MIN_BALANCE_STROOPS} to activate it.`,
-    });
-  }
 
   // Fetch the sender account to validate balance
   const senderAccount = await fetchAccount(transactionData.senderAddress);
@@ -72,6 +73,15 @@ async function validateTransaction(
       if (amount > 0n && fees > (amount * 10n) / 100n) {
         status.warnings.push({ message: "Network fees are above 10% of the amount" });
       }
+
+      // Check if recipient account has been activated
+      const recipientAccount = await fetchAccount(transactionData.recipientAddress);
+      if (!recipientAccount && amount < MIN_BALANCE_STROOPS) {
+        status.errors.push({
+          message: `Recipient address is inactive, amount must be at least ${MIN_BALANCE_STROOPS} to activate it.`,
+        });
+      }
+
       break;
     }
 
@@ -88,8 +98,14 @@ async function validateTransaction(
         status.errors.push({ message: "Token balance is too low" });
       }
 
-      // Check if recipient account has enabled the token (has a trustline)
-      if (recipientAccount) {
+      // Check if recipient account has been activated
+      const recipientAccount = await fetchAccount(transactionData.recipientAddress);
+      if (!recipientAccount) {
+        status.errors.push({
+          message: `Recipient address is inactive, it must be activated before receiving tokens.`,
+        });
+      } else {
+        // Check if recipient account has enabled the token (has a trustline)
         const [assetCode, assetIssuer] = transactionData.tokenId.split(":");
         const hasTrustline = recipientAccount.balances.some(
           (balance) =>
@@ -104,6 +120,11 @@ async function validateTransaction(
           });
         }
       }
+      break;
+    }
+
+    case TransactionMode.ENABLE_TOKEN: {
+      // No further validation required
       break;
     }
 

@@ -2,20 +2,21 @@ import { ChainSupportedFeatures } from "~/app/model/types_WIP";
 
 const STELLAR_FEATURES: ChainSupportedFeatures = {
   read: {
-    token: true, // TODO
+    token: false,
     validators: false,
     account: {
-      balances: { native: true, tokens: true, staking: false }, // TODO
-      transactions: { native: true, tokens: true, staking: false }, // TODO
+      balances: { native: true, tokens: true, staking: false },
+      transactions: { native: true, tokens: true, staking: false },
     },
-    transaction: { native: true, tokens: true, staking: false }, // TODO
+    transaction: { native: true, tokens: true, staking: false },
   },
   write: {
     transaction: {
       type: {
         deployAccount: false,
-        transfer: true, // TODO
-        transferToken: true, // TODO
+        transfer: true,
+        transferToken: true,
+        enableToken: true,
         stake: false,
         unstake: false,
         claimRewards: false,
@@ -24,12 +25,12 @@ const STELLAR_FEATURES: ChainSupportedFeatures = {
         convertAsset: false,
       },
       field: {
-        memo: true, // TODO
+        memo: true,
       },
     },
   },
   utils: {
-    addresses: true, // TODO
+    addresses: true,
   },
 };
 

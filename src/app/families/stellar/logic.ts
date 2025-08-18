@@ -114,24 +114,20 @@ async function calculateTransactionFee(transactionData: TransactionData): Promis
 
   // For Stellar, the fee is calculated as: number_of_operations * base_fee
   // Most basic transactions have 1 operation
-  let operationCount = 1;
-
+  let operationCount: number | undefined = undefined;
   switch (transactionData.mode) {
     case TransactionMode.TRANSFER:
     case TransactionMode.TRANSFER_TOKEN:
-      // Basic transfer transactions have 1 operation (payment)
-      return BigInt(operationCount * baseFee);
-    /*
-    // TODO
-    case TransactionMode.OPT_IN_TOKEN:
-      // Opt-in transactions have 1 operation (changeTrust)
-      return BigInt(operationCount * baseFee);
-    */
+    case TransactionMode.ENABLE_TOKEN:
+      operationCount = 1;
+      break;
     default:
       throw new UnsupportedFeatureError(
         `Transaction mode ${transactionData.mode} is not supported for chainId stellar`
       );
   }
+
+  return BigInt(operationCount * baseFee);
 }
 
 /**
@@ -153,25 +149,18 @@ async function buildTransaction(transactionData: TransactionData): Promise<Stell
     networkPassphrase: Networks.PUBLIC,
   });
 
-  const amount = new BigNumber(transactionData.amount!.toString())
-    .dividedBy(Math.pow(10, chain.decimals))
-    .toFixed();
-
-  const asset = (() => {
-    if (transactionData.mode === TransactionMode.TRANSFER_TOKEN) {
-      const [assetCode, assetIssuer] = transactionData.tokenId.split(":");
-      return new Asset(assetCode, assetIssuer);
-    } else {
-      return Asset.native();
-    }
-  })();
-
-  // Check if recipient account exists
-  const recipientAccount = await fetchAccount(transactionData.recipientAddress);
+  const asset = "tokenId" in transactionData ? getStellarAsset(transactionData.tokenId) : Asset.native();
 
   switch (transactionData.mode) {
     case TransactionMode.TRANSFER:
       {
+        const amount = new BigNumber(transactionData.amount!.toString())
+          .dividedBy(Math.pow(10, chain.decimals))
+          .toFixed();
+
+        // Check if recipient account exists
+        const recipientAccount = await fetchAccount(transactionData.recipientAddress);
+
         if (!recipientAccount) {
           // If recipient doesn't exist, create account with starting balance
           transactionBuilder.addOperation(
@@ -195,13 +184,9 @@ async function buildTransaction(transactionData: TransactionData): Promise<Stell
 
     case TransactionMode.TRANSFER_TOKEN:
       {
-        // For token transfers, recipient account must exist
-        // We can't create an account with a token payment in Stellar
-        if (!recipientAccount) {
-          throw new UserInputError(
-            "Recipient account is inactive. Token transfer on Stellar requires an activated account."
-          );
-        }
+        const amount = new BigNumber(transactionData.amount!.toString())
+          .dividedBy(Math.pow(10, chain.decimals))
+          .toFixed();
 
         transactionBuilder.addOperation(
           Operation.payment({
@@ -213,8 +198,15 @@ async function buildTransaction(transactionData: TransactionData): Promise<Stell
       }
       break;
 
-    // TODO
-    //case TransactionMode.OPT_IN_TOKEN:
+    case TransactionMode.ENABLE_TOKEN:
+      {
+        transactionBuilder.addOperation(
+          Operation.changeTrust({
+            asset,
+          })
+        );
+      }
+      break;
 
     default:
       throw new UnsupportedFeatureError(
@@ -232,6 +224,15 @@ async function buildTransaction(transactionData: TransactionData): Promise<Stell
   return transaction;
 }
 
+function getStellarAsset(tokenId: string): Asset {
+  const [assetCode, assetIssuer] = tokenId.split(":") || [];
+  if (!assetCode || !assetIssuer || !isValidAddress(assetIssuer)) {
+    throw new UserInputError(`Invalid token ID ${tokenId}`);
+  }
+
+  return new Asset(assetCode, assetIssuer);
+}
+
 export {
   BASE_RESERVE_STROOPS,
   buildTransaction,
@@ -239,6 +240,7 @@ export {
   calculateMaxSpendableToken,
   calculateTransactionFee,
   convertToStroops,
+  getStellarAsset,
   isValidAddress,
   MIN_BALANCE_STROOPS,
 };
