@@ -172,6 +172,7 @@ export {
   computeAlgoMaxSpendable,
   computeFees,
   computeMaxSpendable,
+  computeMinimumAlgoBalance,
   encodeToBroadcast,
   encodeToSign,
   isAmountValidForRecipient,

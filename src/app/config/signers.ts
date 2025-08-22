@@ -77,7 +77,6 @@ function getSignerSpecForFamily(family: ChainFamily): SignerSpec {
       };
 
     case ChainFamily.STELLAR:
-      // FIXME Check this is correct
       return {
         curve: Curve.ED25519,
         hashFunction: HashFunction.SHA256,

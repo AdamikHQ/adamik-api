@@ -493,8 +493,7 @@
                 "hyperliquid",
                 "solana",
                 "aptos",
-                "aptos-testnet",
-                "stellar"
+                "aptos-testnet"
               ]
             },
             "required": true
@@ -898,6 +897,7 @@
                                     "deployAccount",
                                     "transfer",
                                     "transferToken",
+                                    "enableToken",
                                     "stake",
                                     "unstake",
                                     "claimRewards",
@@ -2251,6 +2251,7 @@
                                       "deployAccount",
                                       "transfer",
                                       "transferToken",
+                                      "enableToken",
                                       "stake",
                                       "unstake",
                                       "claimRewards",
@@ -2726,6 +2727,30 @@
                                 ],
                                 "title": "Transfer Token",
                                 "description": "Transfer chain tokens"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "enableToken"
+                                  },
+                                  "tokenId": {
+                                    "type": "string",
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "tokenId",
+                                  "senderAddress"
+                                ],
+                                "title": "Allow Token",
+                                "description": "Allow an address to hold a token"
                               },
                               {
                                 "type": "object",
@@ -3337,6 +3362,30 @@
                                   "properties": {
                                     "mode": {
                                       "type": "string",
+                                      "const": "enableToken"
+                                    },
+                                    "tokenId": {
+                                      "type": "string",
+                                      "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
+                                    },
+                                    "senderAddress": {
+                                      "type": "string",
+                                      "description": "Address or ID of the sender account."
+                                    }
+                                  },
+                                  "required": [
+                                    "mode",
+                                    "tokenId",
+                                    "senderAddress"
+                                  ],
+                                  "title": "Transfer Token",
+                                  "description": "Allow an address to hold a token"
+                                },
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "mode": {
+                                      "type": "string",
                                       "const": "stake"
                                     },
                                     "senderAddress": {
@@ -3918,6 +3967,30 @@
                                 ],
                                 "title": "Stake",
                                 "description": "Put some funds at stake"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "enableToken"
+                                  },
+                                  "tokenId": {
+                                    "type": "string",
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "tokenId",
+                                  "senderAddress"
+                                ],
+                                "title": "Allow Token",
+                                "description": "Allow an address to hold a token"
                               },
                               {
                                 "type": "object",
@@ -4771,6 +4844,30 @@
                                 ],
                                 "title": "Transfer Token",
                                 "description": "Transfer chain tokens"
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "mode": {
+                                    "type": "string",
+                                    "const": "enableToken"
+                                  },
+                                  "tokenId": {
+                                    "type": "string",
+                                    "description": "Unique ID of the token to transfer (e.g contract address for EVM chains)"
+                                  },
+                                  "senderAddress": {
+                                    "type": "string",
+                                    "description": "Address or ID of the sender account."
+                                  }
+                                },
+                                "required": [
+                                  "mode",
+                                  "tokenId",
+                                  "senderAddress"
+                                ],
+                                "title": "Allow Token",
+                                "description": "Allow an address to hold a token"
                               },
                               {
                                 "type": "object",
@@ -5836,6 +5933,9 @@
                         "type": "boolean"
                       },
                       "transferToken": {
+                        "type": "boolean"
+                      },
+                      "enableToken": {
                         "type": "boolean"
                       },
                       "stake": {

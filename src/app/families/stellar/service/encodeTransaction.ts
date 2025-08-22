@@ -3,6 +3,7 @@ import { EncodedTransactionFormat, HashFunction, Status, Transaction } from "~/a
 import { UserInputError } from "~/app/tools/handlers/errors";
 import { buildTransaction } from "../logic";
 import { StellarService } from "../service";
+import { StellarTransactionParams } from "../types";
 
 async function encodeTransactionToSign(
   this: StellarService,
@@ -14,24 +15,22 @@ async function encodeTransactionToSign(
   const { transaction } = _;
 
   const stellarTransaction = await buildTransaction(transaction.data);
-
-  const xdrString = stellarTransaction.toXDR();
-
-  // Calculate the transaction hash using Stellar SDK's built-in method
-  const transactionHash = stellarTransaction.hash().toString("hex");
-
   transaction.encoded = [
     {
       raw: {
         format: EncodedTransactionFormat.XDR,
-        value: xdrString,
+        value: stellarTransaction.signatureBase().toString("hex"),
       },
       hash: {
         format: HashFunction.SHA256,
-        value: transactionHash,
+        value: stellarTransaction.hash().toString("hex"),
       },
     },
   ];
+
+  transaction.data.params = {
+    xdr: stellarTransaction.toXDR(),
+  } as StellarTransactionParams;
 }
 
 async function encodeTransactionToBroadcast(
@@ -51,21 +50,19 @@ async function encodeTransactionToBroadcast(
     throw new UserInputError("Missing transaction signature");
   }
 
-  // Find the XDR-encoded transaction
-  const encodedTransaction = signedTransaction.encoded.find(
-    (e) => e.raw?.format === EncodedTransactionFormat.XDR
-  );
-
-  if (!encodedTransaction || !encodedTransaction.raw?.value) {
-    throw new UserInputError("Missing XDR-encoded transaction");
+  if (!signedTransaction.data.params || !("xdr" in signedTransaction.data.params)) {
+    throw new UserInputError("Missing transaction params");
   }
 
-  // Parse the XDR transaction
-  const stellarTransaction = TransactionBuilder.fromXDR(encodedTransaction.raw.value, Networks.PUBLIC);
+  const xdr = (signedTransaction.data.params as StellarTransactionParams).xdr;
 
-  // Add the signature to the transaction
-  // Note: The signature is expected to be in hex format as produced by ED25519 signing
-  stellarTransaction.addSignature(signedTransaction.data.senderAddress, signedTransaction.signature);
+  const stellarTransaction = TransactionBuilder.fromXDR(xdr, Networks.PUBLIC);
+
+  // The signature is expected to be in hex format as produced by ED25519 signing
+  stellarTransaction.addSignature(
+    signedTransaction.data.senderAddress,
+    Buffer.from(signedTransaction.signature, "hex").toString("base64")
+  );
 
   // Return the signed transaction as XDR string ready for broadcasting
   return stellarTransaction.toXDR();

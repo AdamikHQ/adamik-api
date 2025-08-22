@@ -4,6 +4,8 @@ import { fetchAccount } from "../backend/horizon";
 import {
   calculateMaxSpendable,
   calculateMaxSpendableToken,
+  convertToStroops,
+  getAccountMinimumBalance,
   getStellarAsset,
   isValidAddress,
   MIN_BALANCE_STROOPS,
@@ -48,7 +50,7 @@ async function validateTransaction(
   const amount = transactionData.amount as bigint;
   const fees = transactionData.fees as bigint;
 
-  // Fetch the sender account to validate balance
+  // Fetch the sender account to validate balances
   const senderAccount = await fetchAccount(transactionData.senderAddress);
   if (!senderAccount) {
     status.errors.push({ message: "Balance is too low" });
@@ -63,7 +65,7 @@ async function validateTransaction(
   switch (transactionData.mode) {
     case TransactionMode.TRANSFER: {
       // Check if balance covers amount + fees
-      const maxSpendable = calculateMaxSpendable(senderAccount);
+      const maxSpendable = calculateMaxSpendable(senderAccount, transactionData.mode);
 
       if (amount + fees > maxSpendable) {
         status.errors.push({ message: "Balance is too low" });
@@ -87,7 +89,7 @@ async function validateTransaction(
 
     case TransactionMode.TRANSFER_TOKEN: {
       // Check if XLM balance covers fees
-      const maxSpendable = calculateMaxSpendable(senderAccount);
+      const maxSpendable = calculateMaxSpendable(senderAccount, transactionData.mode);
       if (fees > maxSpendable) {
         status.errors.push({ message: "Balance is too low to cover the fees" });
       }
@@ -124,7 +126,25 @@ async function validateTransaction(
     }
 
     case TransactionMode.ENABLE_TOKEN: {
-      // Check if recipient account has enabled the token (has a trustline)
+      // Check if XLM balance covers fees
+      const maxSpendable = calculateMaxSpendable(senderAccount, transactionData.mode);
+      if (fees > maxSpendable) {
+        status.errors.push({ message: "Balance is too low to cover the fees" });
+      }
+
+      // Check if sender has enough minimum balance to hold a new asset
+      const minBalanceRequired = getAccountMinimumBalance(senderAccount, transactionData.mode);
+      const xlmBalance = senderAccount.balances.find((balance) => balance.asset_type === "native");
+      if (xlmBalance) {
+        const currentBalance = convertToStroops(xlmBalance.balance);
+        if (currentBalance < minBalanceRequired) {
+          status.errors.push({
+            message: `Balance is too low to enable more tokens. Required minimum: ${minBalanceRequired}, current: ${currentBalance}.`,
+          });
+        }
+      }
+
+      // Check if recipient account has already enabled the token (has a trustline)
       const [assetCode, assetIssuer] = transactionData.tokenId.split(":");
       const hasTrustline = senderAccount.balances.some(
         (balance) =>
@@ -135,7 +155,7 @@ async function validateTransaction(
 
       if (hasTrustline) {
         status.warnings.push({
-          message: `Address ${transactionData.recipientAddress} has already enabled the token ${assetCode}.`,
+          message: `Address ${transactionData.senderAddress} has already enabled the token ${assetCode}.`,
         });
       }
 

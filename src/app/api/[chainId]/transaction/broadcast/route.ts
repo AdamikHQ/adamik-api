@@ -38,7 +38,7 @@ export const POST = apiHandler(
       try {
         return await service.encodeTransactionToBroadcast({ signedTransaction: transaction });
       } catch (error) {
-        console.warn(`/!\\ Encode to broadcast failed for transaction:`, transaction);
+        console.warn(`/!\\ Encode to broadcast failed for transaction:`, JSON.stringify(transaction));
         console.warn("/!\\ Error is:", error);
         throw new UserInputError(
           `Failed to encode transaction for broadcast, verify that signature is valid`
@@ -50,8 +50,8 @@ export const POST = apiHandler(
       try {
         return await service.broadcastTransaction(broadcastPayload);
       } catch (error) {
-        console.warn("/!\\ Transaction broadcast failed for transaction:", transaction);
-        console.warn("/!\\ Error is:", JSON.stringify(error));
+        console.warn("/!\\ Transaction broadcast failed for transaction:", JSON.stringify(transaction));
+        console.warn("/!\\ Error is:", error);
 
         const errorMessage =
           error instanceof UserInputError

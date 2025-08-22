@@ -18,23 +18,33 @@ import {
   UserInputError,
 } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
-import { convertToStroops } from "../logic";
-
-// TODO proper error management
+import { BASE_FEE_STROOPS, convertToStroops } from "../logic";
 
 const STELLAR_MAINNET_URL =
   CHAINS[ChainId.STELLAR].providers.find((provider) => provider.type === ProviderType.horizon)?.urls[0] || "";
 
 const horizonServer = new Horizon.Server(STELLAR_MAINNET_URL);
 
-async function fetchBaseFee(): Promise<number> {
+// For debug
+// Horizon.AxiosClient.interceptors.response.use(
+//   (response) => {
+//     console.log("XXX - Horizon Axios response:", JSON.stringify(response));
+//     return response;
+//   },
+//   (error) => {
+//     console.log("XXX - Horizon Axios error:", JSON.stringify(error.response));
+//     return error;
+//   }
+// );
+
+async function fetchRecommendedFee(): Promise<number> {
   try {
-    const baseFee = await horizonServer.fetchBaseFee();
-    return baseFee;
+    const feeStats = await horizonServer.feeStats();
+    return Number(feeStats.fee_charged.mode);
   } catch (error: any) {
-    console.warn(`/!\\ Failed to fetch base fee for stellar transaction:`, JSON.stringify(error));
+    console.warn(`/!\\ Failed to fetch fee stats for stellar transaction:`, error);
     // Fall back to the network's default base fee (100 stroops)
-    return 100;
+    return BASE_FEE_STROOPS;
   }
 }
 
@@ -46,7 +56,7 @@ async function fetchAccount(address: string): Promise<Horizon.ServerApi.AccountR
       return null;
     }
 
-    console.warn(`/!\\ Failed to fetch Stellar account ${address}:`, JSON.stringify(error));
+    console.warn(`/!\\ Failed to fetch Stellar account ${address}:`, error);
     throw new AdamikApiServerError(`Failed to fetch Stellar account ${address}`);
   }
 }
@@ -340,12 +350,13 @@ async function broadcastTransaction(signedTransactionXDR: string): Promise<strin
     const transaction = new StellarTransaction(signedTransactionXDR, Networks.PUBLIC);
 
     // Submit the transaction to the Stellar network
+    // FIXME In case of error, for some reason we're only getting generic Axios errors without stellar-specific details
     const result = await horizonServer.submitTransaction(transaction);
 
     return result.hash;
   } catch (error: any) {
     if (error instanceof AccountRequiresMemoError) {
-      throw new UserInputError(`recipient account requires a memo in the transaction`);
+      throw new UserInputError(`Recipient account requires a memo in the transaction`);
     }
 
     throw error;
@@ -356,7 +367,7 @@ export {
   broadcastTransaction,
   fetchAccount,
   fetchAccountTransactions,
-  fetchBaseFee,
+  fetchRecommendedFee,
   fetchTransaction,
   stellarToAdamikTransaction,
 };

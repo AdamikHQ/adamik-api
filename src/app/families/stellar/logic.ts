@@ -12,8 +12,9 @@ import { BigNumber } from "bignumber.js";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
-import { fetchAccount, fetchBaseFee } from "./backend/horizon";
+import { fetchAccount, fetchRecommendedFee } from "./backend/horizon";
 
+const BASE_FEE_STROOPS = 100;
 // Base reserve is 0.5 XLM per entry, minimum 2 entries required
 const BASE_RESERVE_STROOPS = 5000000; // 0.5 XLM in stroops (7 decimals)
 const BASE_RESERVE_MIN_COUNT = 2;
@@ -41,8 +42,12 @@ function convertToStroops(xlmBalance: string): bigint {
   return BigInt(Math.floor(parseFloat(xlmBalance) * Math.pow(10, chain.decimals)));
 }
 
-function getAccountMinimumBalance(account: Horizon.ServerApi.AccountRecord | null): bigint {
-  const numOfEntries = account?.subentry_count || 0;
+function getAccountMinimumBalance(
+  account: Horizon.ServerApi.AccountRecord | null,
+  mode: TransactionMode
+): bigint {
+  const newAsset = mode === TransactionMode.ENABLE_TOKEN ? 1 : 0;
+  const numOfEntries = (account?.subentry_count || 0) + newAsset;
 
   const numOfSponsoringEntries = account?.num_sponsoring || 0;
   const numOfSponsoredEntries = account?.num_sponsored || 0;
@@ -63,7 +68,10 @@ function getAccountMinimumBalance(account: Horizon.ServerApi.AccountRecord | nul
  * @param account - The account response from Horizon
  * @returns bigint - The maximum spendable amount in stroops
  */
-function calculateMaxSpendable(account: Horizon.ServerApi.AccountRecord | null): bigint {
+function calculateMaxSpendable(
+  account: Horizon.ServerApi.AccountRecord | null,
+  mode: TransactionMode
+): bigint {
   // Find the native XLM balance
   const xlmBalance = account?.balances.find((balance) => balance.asset_type === "native");
   if (!xlmBalance) {
@@ -72,7 +80,7 @@ function calculateMaxSpendable(account: Horizon.ServerApi.AccountRecord | null):
 
   const totalBalance = convertToStroops(xlmBalance.balance);
 
-  const minBalance = getAccountMinimumBalance(account);
+  const minBalance = getAccountMinimumBalance(account, mode);
 
   // Maximum spendable is total balance minus minimum required balance
   const maxSpendable = totalBalance - minBalance;
@@ -103,14 +111,8 @@ function calculateMaxSpendableToken(
   return tokenBalance ? convertToStroops(tokenBalance.balance) : 0n;
 }
 
-/**
- * Calculates the transaction fee based on the transaction data and base fee
- * @param transactionData - The transaction data
- * @param baseFee - The base fee in stroops
- * @returns bigint - The total transaction fee in stroops
- */
 async function calculateTransactionFee(transactionData: TransactionData): Promise<bigint> {
-  const baseFee = await fetchBaseFee();
+  const recommendedFee = await fetchRecommendedFee();
 
   // For Stellar, the fee is calculated as: number_of_operations * base_fee
   // Most basic transactions have 1 operation
@@ -127,7 +129,7 @@ async function calculateTransactionFee(transactionData: TransactionData): Promis
       );
   }
 
-  return BigInt(operationCount * baseFee);
+  return BigInt(operationCount * recommendedFee);
 }
 
 /**
@@ -139,6 +141,7 @@ async function buildTransaction(transactionData: TransactionData): Promise<Stell
   const chain = CHAINS[ChainId.STELLAR];
 
   const senderAccount = await fetchAccount(transactionData.senderAddress);
+
   if (!senderAccount) {
     throw new UserInputError(`Stellar account ${transactionData.senderAddress} doesn't exist`);
   }
@@ -218,8 +221,7 @@ async function buildTransaction(transactionData: TransactionData): Promise<Stell
     transactionBuilder.addMemo(Memo.text(transactionData.memo));
   }
 
-  // Arbitrary 10 minutes timeout
-  const transaction = transactionBuilder.setTimeout(600).build();
+  const transaction = transactionBuilder.setTimeout(0).build();
 
   return transaction;
 }
@@ -234,12 +236,14 @@ function getStellarAsset(tokenId: string): Asset {
 }
 
 export {
+  BASE_FEE_STROOPS,
   BASE_RESERVE_STROOPS,
   buildTransaction,
   calculateMaxSpendable,
   calculateMaxSpendableToken,
   calculateTransactionFee,
   convertToStroops,
+  getAccountMinimumBalance,
   getStellarAsset,
   isValidAddress,
   MIN_BALANCE_STROOPS,
