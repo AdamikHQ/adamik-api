@@ -1,0 +1,19 @@
+meta {
+  name: stellar
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{api_url}}/api/:chainId/validators
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: stellar
+}
+
+assert {
+  res.status: eq 400
+}

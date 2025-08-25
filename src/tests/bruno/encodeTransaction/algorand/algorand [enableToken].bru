@@ -1,0 +1,34 @@
+meta {
+  name: algorand [enableToken]
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: algorand
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "enableToken",
+        "tokenId": "604",
+        "senderAddress": "RGX5XA7DWZOZ5SLG4WQSNIFKIG4CNX4VOH23YCEX56523DQEAL3QL56XZM"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded: isArray
+  res.body.transaction.encoded[0].raw.format: eq "MSGPACK"
+  res.body.transaction.encoded[0].hash.format: eq "sha512_256"
+}

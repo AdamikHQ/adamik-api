@@ -1,0 +1,26 @@
+meta {
+  name: aptos
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{api_url}}/api/:chainId/address/validate
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: aptos
+}
+
+body:json {
+  {
+    "address": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.valid: eq true
+}

@@ -1,0 +1,51 @@
+meta {
+  name: aptos
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/broadcast
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: algorand
+}
+
+body:json {
+  {
+    "chainId": "aptos",
+    "transaction": {
+      "data": {
+        "mode": "transfer",
+        "senderAddress": "0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288",
+        "senderPubKey": "9790cdbe5906e7620d0a10ac5786981df5afeb52dca987ff1ee2bc272d86b8f0",
+        "recipientAddress": "0x061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced807",
+        "amount": "123456",
+        "useMaxAmount": false,
+        "nonce": "25",
+        "gas": "200000",
+        "fees": "1800",
+        "params": {
+          "rawTransaction": "b3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d828819000000000000000200000000000000000000000000000000000000000000000000000000000000010d6170746f735f6163636f756e74087472616e73666572000220061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced8070840e2010000000000400d0300000000006400000000000000b52ba4680000000001"
+        }
+      },
+      "encoded": [
+        {
+          "raw": {
+            "value": "b5e97db07fa0bd0e5598aa3643a9bc6f6693bddc1a9fec9e674a461eaa00b193b3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d828819000000000000000200000000000000000000000000000000000000000000000000000000000000010d6170746f735f6163636f756e74087472616e73666572000220061bec04ef6641af7c45c42291920cbba4d50a392bdb420b982609afd6ced8070840e2010000000000400d0300000000006400000000000000b52ba4680000000001",
+            "format": "BCS"
+          }
+        }
+      ],
+      "signature": "DUMMY"
+    }
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.status.errors[0].message: eq "Failed to encode transaction for broadcast, verify that signature is valid"
+}

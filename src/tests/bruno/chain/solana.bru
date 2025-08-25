@@ -1,0 +1,20 @@
+meta {
+  name: solana
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: solana
+}
+
+assert {
+  res.status: eq 200
+  res.body.chain.family: eq solana
+}

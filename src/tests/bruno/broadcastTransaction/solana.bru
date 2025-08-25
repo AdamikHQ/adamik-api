@@ -1,0 +1,45 @@
+meta {
+  name: solana
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/broadcast
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: algorand
+}
+
+body:json {
+  {
+    "chainId": "solana",
+    "transaction": {
+      "data": {
+        "mode": "transfer",
+        "senderAddress": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+        "recipientAddress": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+        "useMaxAmount": true,
+        "amount": "153173785",
+        "fees": "5000"
+      },
+      "encoded": [
+        {
+          "raw": {
+            "format": "BORSH",
+            "value": "010001020b22abf2a5724f66cf158a3af547f9bea1c838b16dd2acb7070cba512ea5b871000000000000000000000000000000000000000000000000000000000000000085ca894de04b69338f2df090300fbc8c42b653297367e65c2b33bdc21d3fa50901010200000c02000000193f210900000000"
+          }
+        }
+      ],
+      "signature": "DUMMY"
+    }
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.status.errors[0].message: eq "Failed to encode transaction for broadcast, verify that signature is valid"
+}

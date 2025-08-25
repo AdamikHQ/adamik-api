@@ -1,0 +1,21 @@
+meta {
+  name: stellar
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/state/tokens
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: stellar
+  accountId: GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN
+}
+
+assert {
+  res.status: eq 400
+  res.body.status.errors[0].message: contains Not implemented yet
+}

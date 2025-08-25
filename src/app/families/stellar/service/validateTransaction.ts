@@ -96,7 +96,7 @@ async function validateTransaction(
 
       // Check if token balance covers the transfer amount
       const maxTokenAmount = calculateMaxSpendableToken(senderAccount, transactionData.tokenId);
-      if (amount > maxTokenAmount) {
+      if (maxTokenAmount === 0n || amount > maxTokenAmount) {
         status.errors.push({ message: "Token balance is too low" });
       }
 
@@ -118,7 +118,7 @@ async function validateTransaction(
 
         if (!hasTrustline) {
           status.errors.push({
-            message: `Recipient address ${transactionData.recipientAddress} has not enabled the token ${assetCode}.`,
+            message: `Address ${transactionData.recipientAddress} has not enabled token ${assetCode}.`,
           });
         }
       }
@@ -155,7 +155,7 @@ async function validateTransaction(
 
       if (hasTrustline) {
         status.warnings.push({
-          message: `Address ${transactionData.senderAddress} has already enabled the token ${assetCode}.`,
+          message: `Address ${transactionData.senderAddress} has already enabled token ${assetCode}.`,
         });
       }
 

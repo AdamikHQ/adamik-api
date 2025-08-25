@@ -7,8 +7,7 @@ async function getAccountTokens(
   accountId: string,
   paginationToken?: string
 ): Promise<Paginated<AccountTokens>> {
-  // TODO
-  throw new UnsupportedFeatureError("Not supported");
+  throw new UnsupportedFeatureError("Not implemented yet");
 }
 
 export { getAccountTokens };

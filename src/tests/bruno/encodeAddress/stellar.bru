@@ -1,0 +1,26 @@
+meta {
+  name: stellar
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{api_url}}/api/:chainId/address/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: stellar
+}
+
+body:json {
+  {
+    "pubkey": "5a9dc9d9003ba912b92065a6a26c4212d67d074062b72c2b506ff6c622134286"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.addresses[0].address: eq GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2
+}

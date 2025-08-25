@@ -1,0 +1,20 @@
+meta {
+  name: starknet
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{api_url}}/api/chains/:chainId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: starknet
+}
+
+assert {
+  res.status: eq 200
+  res.body.chain.family: eq starknet
+}

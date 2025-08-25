@@ -21,7 +21,7 @@ async function completeTransaction(
     switch (transaction.data.mode) {
       case TransactionMode.TRANSFER:
         {
-          const maxSpendable = calculateMaxSpendable(stellarAccount);
+          const maxSpendable = calculateMaxSpendable(stellarAccount, transaction.data.mode);
           transaction.data.amount = maxSpendable - transaction.data.fees;
 
           if (transaction.data.amount < 0n) {

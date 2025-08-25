@@ -107,7 +107,7 @@ const handlers = [
         responseStatus = response.status;
 
         const contentType = response.headers.get("content-type") || "";
-        if (contentType.includes("application/json")) {
+        if (contentType.includes("application/json") || contentType.includes("application/hal+json")) {
           // Handle JSON responses
           responseType = "json";
           responseBody = await response.clone().json();
