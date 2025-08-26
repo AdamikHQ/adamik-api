@@ -123,7 +123,7 @@ async function buildRawTransaction(transactionData: TransactionData): Promise<Al
       return makeAssetTransferTxnWithSuggestedParamsFromObject({
         assetIndex: Number(transactionData.tokenId),
         sender: senderAddress,
-        receiver: recipientAddress,
+        receiver: mode === TransactionMode.ENABLE_TOKEN ? senderAddress : recipientAddress,
         amount: amount || 0n,
         note,
         suggestedParams,

@@ -1,0 +1,75 @@
+{
+  "request": {
+    "url": "https://api.trongrid.io/walletsolidity/getaccount",
+    "method": "POST",
+    "body": {
+      "address": "4172108e4589690c5264b880916e36c9c625976cab"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "address": "4172108e4589690c5264b880916e36c9c625976cab",
+      "balance": 82,
+      "create_time": 1741189827000,
+      "latest_opration_time": 1756129914000,
+      "free_net_usage": 9,
+      "latest_consume_free_time": 1756129854000,
+      "net_window_size": 28800000,
+      "net_window_optimized": true,
+      "account_resource": {
+        "latest_consume_time_for_energy": 1756129914000,
+        "energy_window_size": 28800000,
+        "energy_window_optimized": true
+      },
+      "owner_permission": {
+        "permission_name": "owner",
+        "threshold": 1,
+        "keys": [
+          {
+            "address": "4172108e4589690c5264b880916e36c9c625976cab",
+            "weight": 1
+          }
+        ]
+      },
+      "active_permission": [
+        {
+          "type": "Active",
+          "id": 2,
+          "permission_name": "active",
+          "threshold": 1,
+          "operations": "7fff1fc0033ec30f000000000000000000000000000000000000000000000000",
+          "keys": [
+            {
+              "address": "4172108e4589690c5264b880916e36c9c625976cab",
+              "weight": 1
+            }
+          ]
+        }
+      ],
+      "frozenV2": [
+        {},
+        {
+          "type": "ENERGY"
+        },
+        {
+          "type": "TRON_POWER"
+        }
+      ],
+      "assetV2": [
+        {
+          "key": "1002000",
+          "value": 1200000
+        }
+      ],
+      "free_asset_net_usageV2": [
+        {
+          "key": "1002000",
+          "value": 0
+        }
+      ],
+      "asset_optimized": true
+    },
+    "type": "json"
+  }
+}

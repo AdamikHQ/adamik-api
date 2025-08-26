@@ -1,0 +1,24 @@
+{
+  "request": {
+    "url": "https://tonapi.io/v2/accounts/0:1653df11019d95957bc248366325002ff1a297b996e4cba169381c95fbbfa398",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "address": "0:1653df11019d95957bc248366325002ff1a297b996e4cba169381c95fbbfa398",
+      "balance": 2758613437,
+      "last_activity": 1756129437,
+      "status": "active",
+      "interfaces": [
+        "wallet_v4r2"
+      ],
+      "get_methods": [
+        "get_public_key",
+        "seqno"
+      ],
+      "is_wallet": true
+    },
+    "type": "json"
+  }
+}

@@ -35,7 +35,7 @@ async function validateTransaction(
     !transaction.data.senderPubKey
   ) {
     status.errors.push({
-      message: `Field 'senderPubKey' is required when nonce is 0 in order to initialize the wallet`,
+      message: `Field 'senderPubKey' is required in order to initialize the wallet`,
     });
   }
 }

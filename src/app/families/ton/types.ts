@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-const tonTransactionParamsPayloadSchema = z.object({
+const tonTransactionParamsSchema = z.object({
   timeout: z.number(),
 });
 
-type TonTransactionParamsPayload = z.infer<typeof tonTransactionParamsPayloadSchema>;
+type TonTransactionParams = z.infer<typeof tonTransactionParamsSchema>;
 
-export { tonTransactionParamsPayloadSchema };
-export type { TonTransactionParamsPayload };
+export { tonTransactionParamsSchema };
+export type { TonTransactionParams };

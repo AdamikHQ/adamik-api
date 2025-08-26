@@ -84,7 +84,7 @@ async function validateTransaction(
 
       if (!(await addressHasAsset(transactionData.recipientAddress, transactionData.tokenId))) {
         status.errors.push({
-          message: "Recipient address has not opted in for the selected ASA",
+          message: `Address ${transactionData.recipientAddress} has not enabled token ${transactionData.tokenId}.`,
         });
       }
 
@@ -112,7 +112,7 @@ async function validateTransaction(
       // Check if the user is already opted in to this asset
       if (await addressHasAsset(transactionData.senderAddress, transactionData.tokenId)) {
         status.warnings.push({
-          message: `Address ${transactionData.senderAddress} has already enabled the token ${transactionData.tokenId}.`,
+          message: `Address ${transactionData.senderAddress} has already enabled token ${transactionData.tokenId}.`,
         });
       }
 
