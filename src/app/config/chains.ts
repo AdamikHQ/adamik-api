@@ -2387,6 +2387,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     signerSpec: getSignerSpecForChain(ChainId.APTOS_TESTNET, ChainFamily.APTOS),
     isTestnetFor: ChainId.APTOS,
   },
+  /*
   stellar: {
     family: ChainFamily.STELLAR,
     id: ChainId.STELLAR,
@@ -2402,6 +2403,25 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ],
     supportedFeatures: STELLAR_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.STELLAR, ChainFamily.STELLAR),
+  },
+  */
+  "stellar-testnet": {
+    family: ChainFamily.STELLAR,
+    id: ChainId.STELLAR_TESTNET,
+    nativeId: "stellar-testnet",
+    name: "Stellar Testnet",
+    ticker: "XLM",
+    decimals: 7,
+    providers: [
+      {
+        type: ProviderType.horizon,
+        urls: ["https://horizon-testnet.stellar.org"],
+      },
+    ],
+    supportedFeatures: STELLAR_FEATURES,
+    signerSpec: getSignerSpecForChain(ChainId.STELLAR_TESTNET, ChainFamily.STELLAR),
+    //isTestnetFor: ChainId.STELLAR,
+    isTestnetFor: "stellar",
   },
 } as const;
 

@@ -13,15 +13,15 @@ async function completeTransaction(
 ): Promise<void> {
   const { transaction } = _;
 
-  transaction.data.fees = await calculateTransactionFee(transaction.data);
+  transaction.data.fees = await calculateTransactionFee(this.chainId, transaction.data);
 
   if (transaction.data.useMaxAmount) {
-    const stellarAccount = await fetchAccount(transaction.data.senderAddress);
+    const stellarAccount = await fetchAccount(this.chainId, transaction.data.senderAddress);
 
     switch (transaction.data.mode) {
       case TransactionMode.TRANSFER:
         {
-          const maxSpendable = calculateMaxSpendable(stellarAccount, transaction.data.mode);
+          const maxSpendable = calculateMaxSpendable(this.chainId, stellarAccount, transaction.data.mode);
           transaction.data.amount = maxSpendable - transaction.data.fees;
 
           if (transaction.data.amount < 0n) {
@@ -32,7 +32,11 @@ async function completeTransaction(
 
       case TransactionMode.TRANSFER_TOKEN:
         {
-          const maxTokenAmount = calculateMaxSpendableToken(stellarAccount, transaction.data.tokenId);
+          const maxTokenAmount = calculateMaxSpendableToken(
+            this.chainId,
+            stellarAccount,
+            transaction.data.tokenId
+          );
           transaction.data.amount = maxTokenAmount;
         }
         break;

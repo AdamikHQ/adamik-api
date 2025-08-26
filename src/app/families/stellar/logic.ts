@@ -11,6 +11,7 @@ import {
 import { BigNumber } from "bignumber.js";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, TransactionData, TransactionMode } from "~/app/model/types_WIP";
+import { amountToSmallestUnit } from "~/app/tools/amount";
 import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
 import { fetchAccount, fetchRecommendedFee } from "./backend/horizon";
 
@@ -19,6 +20,19 @@ const BASE_FEE_STROOPS = 100;
 const BASE_RESERVE_STROOPS = 5000000; // 0.5 XLM in stroops (7 decimals)
 const BASE_RESERVE_MIN_COUNT = 2;
 const MIN_BALANCE_STROOPS = BASE_RESERVE_MIN_COUNT * BASE_RESERVE_STROOPS; // 1 XLM minimum in stroops
+
+function getStellarNetwork(chainId: ChainId): Networks {
+  /*
+  if (chainId === ChainId.STELLAR) {
+    return Networks.PUBLIC;
+  } else
+  */
+  if (chainId === ChainId.STELLAR_TESTNET) {
+    return Networks.TESTNET;
+  }
+
+  throw new Error(`Unsupported Stellar chain ID: ${chainId}`);
+}
 
 /**
  * Validates a Stellar address using the official Stellar SDK.
@@ -37,12 +51,8 @@ function isValidAddress(address: string): boolean {
   }
 }
 
-function convertToStroops(xlmBalance: string): bigint {
-  const chain = CHAINS[ChainId.STELLAR];
-  return BigInt(Math.floor(parseFloat(xlmBalance) * Math.pow(10, chain.decimals)));
-}
-
 function getAccountMinimumBalance(
+  chainId: ChainId,
   account: Horizon.ServerApi.AccountRecord | null,
   mode: TransactionMode
 ): bigint {
@@ -53,7 +63,9 @@ function getAccountMinimumBalance(
   const numOfSponsoredEntries = account?.num_sponsored || 0;
 
   const nativeAsset = account?.balances?.find((b) => b.asset_type === "native");
-  const amountInOffers = convertToStroops(nativeAsset?.selling_liabilities || "0");
+  const amountInOffers = BigInt(
+    amountToSmallestUnit(nativeAsset?.selling_liabilities || "0", CHAINS[chainId].decimals) ?? 0
+  );
 
   return (
     BigInt(
@@ -69,6 +81,7 @@ function getAccountMinimumBalance(
  * @returns bigint - The maximum spendable amount in stroops
  */
 function calculateMaxSpendable(
+  chainId: ChainId,
   account: Horizon.ServerApi.AccountRecord | null,
   mode: TransactionMode
 ): bigint {
@@ -78,9 +91,9 @@ function calculateMaxSpendable(
     return 0n;
   }
 
-  const totalBalance = convertToStroops(xlmBalance.balance);
+  const totalBalance = BigInt(amountToSmallestUnit(xlmBalance.balance, CHAINS[chainId].decimals) ?? 0);
 
-  const minBalance = getAccountMinimumBalance(account, mode);
+  const minBalance = getAccountMinimumBalance(chainId, account, mode);
 
   // Maximum spendable is total balance minus minimum required balance
   const maxSpendable = totalBalance - minBalance;
@@ -95,6 +108,7 @@ function calculateMaxSpendable(
  * @returns bigint - The maximum spendable token amount in stroops
  */
 function calculateMaxSpendableToken(
+  chainId: ChainId,
   account: Horizon.ServerApi.AccountRecord | null,
   tokenId: string
 ): bigint {
@@ -108,11 +122,13 @@ function calculateMaxSpendableToken(
       balance.asset_issuer === assetIssuer
   );
 
-  return tokenBalance ? convertToStroops(tokenBalance.balance) : 0n;
+  return tokenBalance
+    ? BigInt(amountToSmallestUnit(tokenBalance.balance, CHAINS[chainId].decimals) ?? 0)
+    : 0n;
 }
 
-async function calculateTransactionFee(transactionData: TransactionData): Promise<bigint> {
-  const recommendedFee = await fetchRecommendedFee();
+async function calculateTransactionFee(chainId: ChainId, transactionData: TransactionData): Promise<bigint> {
+  const recommendedFee = await fetchRecommendedFee(chainId);
 
   // For Stellar, the fee is calculated as: number_of_operations * base_fee
   // Most basic transactions have 1 operation
@@ -137,10 +153,14 @@ async function calculateTransactionFee(transactionData: TransactionData): Promis
  * @param transactionData - The transaction data
  * @returns Promise<Transaction> - The built transaction
  */
-async function buildTransaction(transactionData: TransactionData): Promise<StellarTransaction> {
-  const chain = CHAINS[ChainId.STELLAR];
+async function buildTransaction(
+  chainId: ChainId,
+  transactionData: TransactionData
+): Promise<StellarTransaction> {
+  const chain = CHAINS[chainId];
+  const networkPassphrase = getStellarNetwork(chainId);
 
-  const senderAccount = await fetchAccount(transactionData.senderAddress);
+  const senderAccount = await fetchAccount(chainId, transactionData.senderAddress);
 
   if (!senderAccount) {
     throw new UserInputError(`Stellar account ${transactionData.senderAddress} doesn't exist`);
@@ -149,7 +169,7 @@ async function buildTransaction(transactionData: TransactionData): Promise<Stell
   const senderHorizonAccount = new Horizon.AccountResponse(senderAccount);
   const transactionBuilder = new TransactionBuilder(senderHorizonAccount, {
     fee: transactionData.fees!.toString(),
-    networkPassphrase: Networks.PUBLIC,
+    networkPassphrase: networkPassphrase,
   });
 
   const asset = "tokenId" in transactionData ? getStellarAsset(transactionData.tokenId) : Asset.native();
@@ -162,7 +182,7 @@ async function buildTransaction(transactionData: TransactionData): Promise<Stell
           .toFixed();
 
         // Check if recipient account exists
-        const recipientAccount = await fetchAccount(transactionData.recipientAddress);
+        const recipientAccount = await fetchAccount(chainId, transactionData.recipientAddress);
 
         if (!recipientAccount) {
           // If recipient doesn't exist, create account with starting balance
@@ -242,9 +262,9 @@ export {
   calculateMaxSpendable,
   calculateMaxSpendableToken,
   calculateTransactionFee,
-  convertToStroops,
   getAccountMinimumBalance,
   getStellarAsset,
+  getStellarNetwork,
   isValidAddress,
   MIN_BALANCE_STROOPS,
 };

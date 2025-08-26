@@ -1,10 +1,11 @@
+import { CHAINS } from "~/app/config/chains";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
+import { amountToSmallestUnit } from "~/app/tools/amount";
 import { prevalidateTransactionCommon } from "../../common";
 import { fetchAccount } from "../backend/horizon";
 import {
   calculateMaxSpendable,
   calculateMaxSpendableToken,
-  convertToStroops,
   getAccountMinimumBalance,
   getStellarAsset,
   isValidAddress,
@@ -51,7 +52,7 @@ async function validateTransaction(
   const fees = transactionData.fees as bigint;
 
   // Fetch the sender account to validate balances
-  const senderAccount = await fetchAccount(transactionData.senderAddress);
+  const senderAccount = await fetchAccount(this.chainId, transactionData.senderAddress);
   if (!senderAccount) {
     status.errors.push({ message: "Balance is too low" });
     status.warnings.push({ message: "Sender address is inactive" });
@@ -65,7 +66,7 @@ async function validateTransaction(
   switch (transactionData.mode) {
     case TransactionMode.TRANSFER: {
       // Check if balance covers amount + fees
-      const maxSpendable = calculateMaxSpendable(senderAccount, transactionData.mode);
+      const maxSpendable = calculateMaxSpendable(this.chainId, senderAccount, transactionData.mode);
 
       if (amount + fees > maxSpendable) {
         status.errors.push({ message: "Balance is too low" });
@@ -77,7 +78,7 @@ async function validateTransaction(
       }
 
       // Check if recipient account has been activated
-      const recipientAccount = await fetchAccount(transactionData.recipientAddress);
+      const recipientAccount = await fetchAccount(this.chainId, transactionData.recipientAddress);
       if (!recipientAccount && amount < MIN_BALANCE_STROOPS) {
         status.errors.push({
           message: `Recipient address is inactive, amount must be at least ${MIN_BALANCE_STROOPS} to activate it.`,
@@ -89,19 +90,19 @@ async function validateTransaction(
 
     case TransactionMode.TRANSFER_TOKEN: {
       // Check if XLM balance covers fees
-      const maxSpendable = calculateMaxSpendable(senderAccount, transactionData.mode);
+      const maxSpendable = calculateMaxSpendable(this.chainId, senderAccount, transactionData.mode);
       if (fees > maxSpendable) {
         status.errors.push({ message: "Balance is too low to cover the fees" });
       }
 
       // Check if token balance covers the transfer amount
-      const maxTokenAmount = calculateMaxSpendableToken(senderAccount, transactionData.tokenId);
+      const maxTokenAmount = calculateMaxSpendableToken(this.chainId, senderAccount, transactionData.tokenId);
       if (maxTokenAmount === 0n || amount > maxTokenAmount) {
         status.errors.push({ message: "Token balance is too low" });
       }
 
       // Check if recipient account has been activated
-      const recipientAccount = await fetchAccount(transactionData.recipientAddress);
+      const recipientAccount = await fetchAccount(this.chainId, transactionData.recipientAddress);
       if (!recipientAccount) {
         status.errors.push({
           message: `Recipient address is inactive, it must be activated before receiving tokens.`,
@@ -127,16 +128,19 @@ async function validateTransaction(
 
     case TransactionMode.ENABLE_TOKEN: {
       // Check if XLM balance covers fees
-      const maxSpendable = calculateMaxSpendable(senderAccount, transactionData.mode);
+      const maxSpendable = calculateMaxSpendable(this.chainId, senderAccount, transactionData.mode);
       if (fees > maxSpendable) {
         status.errors.push({ message: "Balance is too low to cover the fees" });
       }
 
       // Check if sender has enough minimum balance to hold a new asset
-      const minBalanceRequired = getAccountMinimumBalance(senderAccount, transactionData.mode);
+      const minBalanceRequired = getAccountMinimumBalance(this.chainId, senderAccount, transactionData.mode);
       const xlmBalance = senderAccount.balances.find((balance) => balance.asset_type === "native");
       if (xlmBalance) {
-        const currentBalance = convertToStroops(xlmBalance.balance);
+        const currentBalance = BigInt(
+          amountToSmallestUnit(xlmBalance.balance, CHAINS[this.chainId].decimals) ?? 0
+        );
+
         if (currentBalance < minBalanceRequired) {
           status.errors.push({
             message: `Balance is too low to enable more tokens. Required minimum: ${minBalanceRequired}, current: ${currentBalance}.`,

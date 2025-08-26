@@ -1,9 +1,4 @@
-import {
-  AccountRequiresMemoError,
-  Horizon,
-  Networks,
-  Transaction as StellarTransaction,
-} from "@stellar/stellar-sdk";
+import { AccountRequiresMemoError, Horizon, Transaction as StellarTransaction } from "@stellar/stellar-sdk";
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
@@ -12,18 +7,21 @@ import {
   TransactionState,
   type FinalizedTransaction,
 } from "~/app/model/types_WIP";
+import { amountToSmallestUnit } from "~/app/tools/amount";
 import {
   AdamikApiServerError,
   InvalidPaginationTokenError,
   UserInputError,
 } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
-import { BASE_FEE_STROOPS, convertToStroops } from "../logic";
+import { BASE_FEE_STROOPS, getStellarNetwork } from "../logic";
 
-const STELLAR_MAINNET_URL =
-  CHAINS[ChainId.STELLAR].providers.find((provider) => provider.type === ProviderType.horizon)?.urls[0] || "";
-
-const horizonServer = new Horizon.Server(STELLAR_MAINNET_URL);
+function getHorizonServer(chainId: ChainId): Horizon.Server {
+  const chain = CHAINS[chainId];
+  const horizonUrl =
+    chain.providers.find((provider) => provider.type === ProviderType.horizon)?.urls[0] || "";
+  return new Horizon.Server(horizonUrl);
+}
 
 // For debug
 // Horizon.AxiosClient.interceptors.response.use(
@@ -37,8 +35,9 @@ const horizonServer = new Horizon.Server(STELLAR_MAINNET_URL);
 //   }
 // );
 
-async function fetchRecommendedFee(): Promise<number> {
+async function fetchRecommendedFee(chainId: ChainId): Promise<number> {
   try {
+    const horizonServer = getHorizonServer(chainId);
     const feeStats = await horizonServer.feeStats();
     return Number(feeStats.fee_charged.mode);
   } catch (error: any) {
@@ -48,8 +47,12 @@ async function fetchRecommendedFee(): Promise<number> {
   }
 }
 
-async function fetchAccount(address: string): Promise<Horizon.ServerApi.AccountRecord | null> {
+async function fetchAccount(
+  chainId: ChainId,
+  address: string
+): Promise<Horizon.ServerApi.AccountRecord | null> {
   try {
+    const horizonServer = getHorizonServer(chainId);
     return await horizonServer.accounts().accountId(address).call();
   } catch (error: any) {
     if (error.response?.status === 404) {
@@ -66,14 +69,18 @@ async function fetchAccount(address: string): Promise<Horizon.ServerApi.AccountR
  * @param transactionHash - The hex-encoded transaction hash
  * @returns Promise<Horizon.TransactionResponse> - The transaction details from Horizon
  */
-async function fetchTransaction(transactionHash: string): Promise<FinalizedTransaction | null> {
+async function fetchTransaction(
+  chainId: ChainId,
+  transactionHash: string
+): Promise<FinalizedTransaction | null> {
   try {
+    const horizonServer = getHorizonServer(chainId);
     const stellarTransaction = await horizonServer.transactions().transaction(transactionHash).call();
 
     // Remove useless metadata
     delete (stellarTransaction as any)._links;
 
-    const parsed = await stellarToAdamikTransaction(stellarTransaction);
+    const parsed = await stellarToAdamikTransaction(chainId, stellarTransaction);
 
     return {
       parsed,
@@ -104,6 +111,7 @@ async function fetchAccountTransactions(
   paginationToken?: string
 ): Promise<{ stellarTransactions: FinalizedTransaction[]; nextPage: string | null }> {
   try {
+    const horizonServer = getHorizonServer(chainId);
     let transactionsQuery = horizonServer.transactions().forAccount(address).limit(20).order("desc");
 
     if (paginationToken) {
@@ -122,7 +130,7 @@ async function fetchAccountTransactions(
       delete (horizonTransaction as any)._links;
 
       try {
-        const parsedTransaction = await stellarToAdamikTransaction(horizonTransaction);
+        const parsedTransaction = await stellarToAdamikTransaction(chainId, horizonTransaction);
 
         stellarTransactions.push({
           parsed: parsedTransaction,
@@ -172,9 +180,10 @@ async function fetchAccountTransactions(
  * @returns FinalizedTransaction["parsed"] - The parsed transaction data
  */
 async function stellarToAdamikTransaction(
+  chainId: ChainId,
   horizonTransaction: Horizon.ServerApi.TransactionRecord
 ): Promise<FinalizedTransaction["parsed"]> {
-  const chain = CHAINS[ChainId.STELLAR];
+  const chain = CHAINS[chainId];
 
   // Parse transaction state based on successful status
   const state = horizonTransaction.successful ? TransactionState.CONFIRMED : TransactionState.FAILED;
@@ -207,7 +216,7 @@ async function stellarToAdamikTransaction(
     switch (operation.type) {
       case Horizon.HorizonApi.OperationResponseType.payment:
         {
-          const amount = convertToStroops(operation.amount);
+          const amount = BigInt(amountToSmallestUnit(operation.amount, CHAINS[chainId].decimals) ?? 0);
 
           if (operation.asset_type === "native") {
             parsedTransaction.senders?.push({
@@ -243,8 +252,10 @@ async function stellarToAdamikTransaction(
       case Horizon.HorizonApi.OperationResponseType.pathPayment:
       case Horizon.HorizonApi.OperationResponseType.pathPaymentStrictSend:
         {
-          const sourceAmount = convertToStroops(operation.source_amount);
-          const destAmount = convertToStroops(operation.amount);
+          const sourceAmount = BigInt(
+            amountToSmallestUnit(operation.source_amount, CHAINS[chainId].decimals) ?? 0
+          );
+          const destAmount = BigInt(amountToSmallestUnit(operation.amount, CHAINS[chainId].decimals) ?? 0);
 
           if (operation.source_asset_type === "native") {
             parsedTransaction.senders?.push({
@@ -344,10 +355,13 @@ function determineTransactionMode(
  * @param signedTransactionXDR - The XDR-encoded signed transaction
  * @returns Promise<string> - The transaction hash
  */
-async function broadcastTransaction(signedTransactionXDR: string): Promise<string> {
+async function broadcastTransaction(signedTransactionXDR: string, chainId: ChainId): Promise<string> {
   try {
+    const networkPassphrase = getStellarNetwork(chainId);
+    const horizonServer = getHorizonServer(chainId);
+
     // Parse the XDR string back to Transaction object
-    const transaction = new StellarTransaction(signedTransactionXDR, Networks.PUBLIC);
+    const transaction = new StellarTransaction(signedTransactionXDR, networkPassphrase);
 
     // Submit the transaction to the Stellar network
     // FIXME In case of error, for some reason we're only getting generic Axios errors without stellar-specific details

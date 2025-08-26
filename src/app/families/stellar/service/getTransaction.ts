@@ -8,7 +8,7 @@ async function getTransaction(
   transactionId: string,
   status: Status
 ): Promise<FinalizedTransaction> {
-  const stellarTransaction = await fetchTransaction(transactionId);
+  const stellarTransaction = await fetchTransaction(this.chainId, transactionId);
   if (!stellarTransaction) {
     throw new TransactionIdNotFoundError(transactionId, this.chainId);
   }

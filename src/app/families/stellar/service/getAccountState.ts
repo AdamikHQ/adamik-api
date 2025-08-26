@@ -1,12 +1,12 @@
 import { type Horizon } from "@stellar/stellar-sdk";
 import { CHAINS } from "~/app/config/chains";
 import { AccountState, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
+import { amountToSmallestUnit } from "~/app/tools/amount";
 import { fetchAccount } from "../backend/horizon";
-import { convertToStroops } from "../logic";
 import { StellarService } from "../service";
 
 async function getAccountState(this: StellarService, accountId: string): Promise<AccountState> {
-  const stellarAccount = await fetchAccount(accountId);
+  const stellarAccount = await fetchAccount(this.chainId, accountId);
   if (!stellarAccount) {
     return {
       balances: {
@@ -20,7 +20,9 @@ async function getAccountState(this: StellarService, accountId: string): Promise
 
   // Extract native XLM balance
   const xlmBalance = stellarAccount.balances.find((balance) => balance.asset_type === "native");
-  const xlmBalanceInStroops = xlmBalance ? convertToStroops(xlmBalance.balance) : 0n;
+  const xlmBalanceInStroops = xlmBalance
+    ? BigInt(amountToSmallestUnit(xlmBalance.balance, CHAINS[this.chainId].decimals) ?? 0)
+    : 0n;
 
   // Extract tokens balances (non-native assets)
   const assetsData = stellarAccount.balances.filter(
@@ -42,7 +44,7 @@ async function getAccountState(this: StellarService, accountId: string): Promise
 
     return {
       token,
-      amount: convertToStroops(assetData.balance),
+      amount: BigInt(amountToSmallestUnit(assetData.balance, chain.decimals) ?? 0),
     };
   });
 

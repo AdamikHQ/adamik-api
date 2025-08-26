@@ -1,7 +1,7 @@
-import { Networks, TransactionBuilder } from "@stellar/stellar-sdk";
+import { TransactionBuilder } from "@stellar/stellar-sdk";
 import { EncodedTransactionFormat, HashFunction, Status, Transaction } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
-import { buildTransaction } from "../logic";
+import { buildTransaction, getStellarNetwork } from "../logic";
 import { StellarService } from "../service";
 import { StellarTransactionParams } from "../types";
 
@@ -14,7 +14,7 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = _;
 
-  const stellarTransaction = await buildTransaction(transaction.data);
+  const stellarTransaction = await buildTransaction(this.chainId, transaction.data);
   transaction.encoded = [
     {
       raw: {
@@ -56,7 +56,8 @@ async function encodeTransactionToBroadcast(
 
   const xdr = (signedTransaction.data.params as StellarTransactionParams).xdr;
 
-  const stellarTransaction = TransactionBuilder.fromXDR(xdr, Networks.PUBLIC);
+  const networkPassphrase = getStellarNetwork(this.chainId);
+  const stellarTransaction = TransactionBuilder.fromXDR(xdr, networkPassphrase);
 
   // The signature is expected to be in hex format as produced by ED25519 signing
   stellarTransaction.addSignature(
