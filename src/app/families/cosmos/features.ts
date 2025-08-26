@@ -57,6 +57,7 @@ const COSMOS_FEATURES = (chainId: ChainId): ChainSupportedFeatures => ({
         deployAccount: false,
         transfer: true,
         transferToken: false,
+        enableToken: false,
         stake: true,
         unstake: true,
         claimRewards: true,

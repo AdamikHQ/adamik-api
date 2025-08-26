@@ -1,0 +1,58 @@
+{
+  "request": {
+    "url": "https://horizon.stellar.org/transactions/53e8107889ba3904731aee92ad99d621c1e9db9748be149116cd2856ddedab59/operations",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "_links": {
+        "self": {
+          "href": "https://horizon.stellar.org/transactions/53e8107889ba3904731aee92ad99d621c1e9db9748be149116cd2856ddedab59/operations?cursor=&limit=10&order=asc"
+        },
+        "next": {
+          "href": "https://horizon.stellar.org/transactions/53e8107889ba3904731aee92ad99d621c1e9db9748be149116cd2856ddedab59/operations?cursor=251665013163462657&limit=10&order=asc"
+        },
+        "prev": {
+          "href": "https://horizon.stellar.org/transactions/53e8107889ba3904731aee92ad99d621c1e9db9748be149116cd2856ddedab59/operations?cursor=251665013163462657&limit=10&order=desc"
+        }
+      },
+      "_embedded": {
+        "records": [
+          {
+            "_links": {
+              "self": {
+                "href": "https://horizon.stellar.org/operations/251665013163462657"
+              },
+              "transaction": {
+                "href": "https://horizon.stellar.org/transactions/53e8107889ba3904731aee92ad99d621c1e9db9748be149116cd2856ddedab59"
+              },
+              "effects": {
+                "href": "https://horizon.stellar.org/operations/251665013163462657/effects"
+              },
+              "succeeds": {
+                "href": "https://horizon.stellar.org/effects?order=desc&cursor=251665013163462657"
+              },
+              "precedes": {
+                "href": "https://horizon.stellar.org/effects?order=asc&cursor=251665013163462657"
+              }
+            },
+            "id": "251665013163462657",
+            "paging_token": "251665013163462657",
+            "transaction_successful": true,
+            "source_account": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+            "type": "payment",
+            "type_i": 1,
+            "created_at": "2025-08-23T09:40:55Z",
+            "transaction_hash": "53e8107889ba3904731aee92ad99d621c1e9db9748be149116cd2856ddedab59",
+            "asset_type": "native",
+            "from": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+            "to": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+            "amount": "0.0054320"
+          }
+        ]
+      }
+    },
+    "type": "json"
+  }
+}

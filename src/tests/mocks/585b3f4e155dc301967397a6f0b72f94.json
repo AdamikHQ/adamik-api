@@ -12,6 +12,7 @@
     "status": 200,
     "body": {
       "Error": "class java.lang.NullPointerException : null"
-    }
+    },
+    "type": "json"
   }
 }

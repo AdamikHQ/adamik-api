@@ -1,13 +1,13 @@
-import { stringToHex } from "viem";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { getSeqno } from "../backend/tonapi";
 import { computeFees, computeMaxSpendable } from "../logic";
+import { TonTransactionParams } from "../types";
 
 async function completeTransaction(_: { transaction: Transaction; status: Status }): Promise<void> {
   const { transaction, status } = _;
 
   const timeout = Math.floor(Date.now() / 1e3) + 60 * 10; // 10 minutes timestamps
-  transaction.data.params = stringToHex(JSON.stringify({ timeout }));
+  transaction.data.params = { timeout } as TonTransactionParams;
 
   const maxSpendable = await computeMaxSpendable(transaction.data);
 
@@ -16,7 +16,7 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
     const seqNo = await getSeqno(transaction.data.senderAddress);
 
     if (seqNo === null) {
-      transaction.data.nonce = BigInt(0);
+      transaction.data.nonce = 0n;
     } else {
       transaction.data.nonce = seqNo;
     }

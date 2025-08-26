@@ -1,0 +1,28 @@
+meta {
+  name: stellar
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{api_url}}/api/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: stellar
+  transactionId: 5d13792f1a8bf97c02cc7465ba35ba9e19d00fda167221c7e0f76a31d9624d1a
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.raw: isDefined
+  res.body.transaction.parsed: isDefined
+  res.body.transaction.parsed.fees.amount: eq "200"
+  res.body.transaction.parsed.timestamp: eq "1755080953000"
+}

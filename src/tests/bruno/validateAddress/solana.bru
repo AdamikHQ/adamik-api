@@ -1,0 +1,26 @@
+meta {
+  name: solana
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{api_url}}/api/:chainId/address/validate
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: solana
+}
+
+body:json {
+  {
+    "address": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.valid: eq true
+}

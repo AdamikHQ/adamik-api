@@ -27,6 +27,11 @@ const stringToBigIntSchema = z
 
 const bigintToStringSchema = z.bigint().pipe(z.coerce.string());
 
+const chainFamilySchema = z.nativeEnum(ChainFamily).openapi({
+  description: "Family to which the chain belongs",
+  ref: "ChainFamily",
+});
+
 const chainIdSchemaParams: z.RawCreateParams = {
   errorMap: (issue, ctx) => {
     if (issue.code === z.ZodIssueCode.invalid_enum_value) {
@@ -40,7 +45,6 @@ const chainIdSchemaParams: z.RawCreateParams = {
 
 const chainIdSchema = z.nativeEnum(ChainId, chainIdSchemaParams).openapi({
   description: "Unique adamik identifier of the chain",
-  example: ChainId.BITCOIN,
   ref: "ChainId",
 });
 
@@ -98,17 +102,22 @@ const signerSpecSchema = z
     ref: "SignerSpec",
   });
 
-const chainSchema = z.object({
-  family: z.nativeEnum(ChainFamily),
-  id: chainIdSchema,
-  nativeId: z.string(),
-  name: z.string(),
-  ticker: z.string(),
-  decimals: z.number(),
-  isTestnetFor: z.string().optional(),
-  supportedFeatures: chainSupportedFeaturesSchema,
-  signerSpec: signerSpecSchema,
-});
+const chainSchema = z
+  .object({
+    family: chainFamilySchema,
+    id: chainIdSchema,
+    nativeId: z.string(),
+    name: z.string(),
+    ticker: z.string(),
+    decimals: z.number(),
+    isTestnetFor: z.string().optional(),
+    supportedFeatures: chainSupportedFeaturesSchema,
+    signerSpec: signerSpecSchema,
+  })
+  .openapi({
+    description: "Chain details and information",
+    ref: "Chain",
+  });
 
 const tokenSchema = z.object({
   type: z.nativeEnum(TokenType),
@@ -324,6 +333,28 @@ const outputTransferTokenSchema = z
   .openapi({
     title: "Transfer Token",
     description: "Transfer chain tokens",
+  });
+
+const inputEnableTokenSchema = z
+  .object({
+    mode: z.literal(TransactionMode.ENABLE_TOKEN),
+    tokenId: tokenIdSchema,
+    senderAddress: senderAddressSchema,
+  })
+  .openapi({
+    title: "Allow Token",
+    description: "Allow an address to hold a token",
+  });
+
+const outputEnableTokenSchema = z
+  .object({
+    mode: z.literal(TransactionMode.ENABLE_TOKEN),
+    tokenId: tokenIdSchema,
+    senderAddress: senderAddressSchema,
+  })
+  .openapi({
+    title: "Transfer Token",
+    description: "Allow an address to hold a token",
   });
 
 const inputStakeSchema = z
@@ -669,6 +700,7 @@ export {
   inputClaimRewardsSchema,
   inputConvertAssetSchema,
   inputDeployAccountSchema,
+  inputEnableTokenSchema,
   inputFeesSchema,
   inputGasSchema,
   inputNonceSchema,
@@ -684,6 +716,7 @@ export {
   outputClaimRewardsSchema,
   outputConvertAssetSchema,
   outputDeployAccountSchema,
+  outputEnableTokenSchema,
   outputFeesSchema,
   outputGasSchema,
   outputNonceSchema,

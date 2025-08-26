@@ -1,0 +1,21 @@
+meta {
+  name: solana
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{api_url}}/api/:chainId/token/:tokenId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: solana
+  tokenId: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+}
+
+assert {
+  res.status: eq 200
+  res.body.token.ticker: eq USDC
+}

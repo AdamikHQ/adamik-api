@@ -1,0 +1,27 @@
+{
+  "request": {
+    "url": "https://api.trongrid.io/wallet/getblock",
+    "method": "POST",
+    "body": {
+      "detail": false
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "blockID": "00000000047b39e196ae2e1e8d09ca6142019e821738bc09f3c720e82968b8ba",
+      "block_header": {
+        "raw_data": {
+          "number": 75184609,
+          "txTrieRoot": "7f14bfe063ff01471bf68280b13060ed5b47caffd9a1bbcbbd7a83e0e0e870f2",
+          "witness_address": "41b3aa61148f308db8c010efeeeab52003a84bfb19",
+          "parentHash": "00000000047b39e05f11919eb9fa34ae9aa0c5c1e1e216ad9c533d5d223ac3c8",
+          "version": 32,
+          "timestamp": 1756213182000
+        },
+        "witness_signature": "0dc80ef3a8874bd7b9b261ca1d5cc0e26e711b5f20615fb9eff6ccad067ff92a15cc4fd071650963ce57edafca865e37623c28f42260e5b29d4e3f41fc9cb8f200"
+      }
+    },
+    "type": "json"
+  }
+}

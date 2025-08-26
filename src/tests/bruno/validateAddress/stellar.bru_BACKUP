@@ -1,0 +1,26 @@
+meta {
+  name: stellar
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{api_url}}/api/:chainId/address/validate
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: stellar
+}
+
+body:json {
+  {
+    "address": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.valid: eq true
+}

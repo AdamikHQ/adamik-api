@@ -1,0 +1,13 @@
+{
+  "request": {
+    "url": "https://tonapi.io/v2/wallet/0:1653df11019d95957bc248366325002ff1a297b996e4cba169381c95fbbfa398/seqno",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "seqno": 78
+    },
+    "type": "json"
+  }
+}

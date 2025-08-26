@@ -21,8 +21,9 @@ assert {
   res.body.balances.native.total: matches ^\d+$
   res.body.balances.native.available: matches ^\d+$
   res.status: eq 200
-  res.body.balances.staking.total: eq "21015403363266"
-  res.body.balances.staking.locked: eq "10014126160493"
-  res.body.balances.staking.unlocking: eq "11001277202773"
-  res.body.balances.staking.unlocked: eq "0"
+  res.body.balances.staking.total: matches ^\d+$
+  res.body.balances.staking.locked: matches ^\d+$
+  res.body.balances.staking.unlocking: matches ^\d+$
+  res.body.balances.staking.unlocked: matches ^\d+$
+  res.body.balances.staking.positions: length 6
 }

@@ -1,0 +1,35 @@
+meta {
+  name: tron [transferToken]
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: tron
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "transferToken",
+        "tokenId": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+        "senderAddress": "TLNKsEwnzNQzkeC9p5y2D3LYxe7NS1hZAz",
+        "recipientAddress": "TCYvG9EYyHjBij8Xma6iDtLzow88888888",
+        "amount": "12345",
+        "useMaxAmount": false
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded[0].raw.value: eq 0a0239cf2208664b16c04b71887f4090d1ddb38e335aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a154172108e4589690c5264b880916e36c9c625976cab121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97000000000000000000000000000000000000000000000000000000000000303970df8edab38e33900180a3c347
+}

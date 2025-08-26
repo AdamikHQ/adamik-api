@@ -1,0 +1,39 @@
+{
+  "request": {
+    "url": "https://toncenter.com/api/v2/jsonRPC",
+    "method": "POST",
+    "body": {
+      "id": "1",
+      "jsonrpc": "2.0",
+      "method": "estimateFee",
+      "params": {
+        "address": "EQAWU98RAZ2VlXvCSDZjJQAv8aKXuZbky6FpOByV-7-jmBim",
+        "body": "te6cckEBAgEARgABHCmpoxdorbIXAAAATgABAQBmYgALKe+IgM7Kyr3hJBsxkoAX+NFL3MtyZdC0nA5K/d/RzBiWtAAAAAAAAAAAAAAAAAAApzFDJA==",
+        "init_data": "",
+        "init_code": "",
+        "ignore_chksig": true
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "result": {
+        "@type": "query.fees",
+        "source_fees": {
+          "@type": "fees",
+          "in_fwd_fee": 603200,
+          "storage_fee": 21325,
+          "gas_fee": 0,
+          "fwd_fee": 0
+        },
+        "destination_fees": [],
+        "@extra": "1756213193.9145064:2:0.6409620797882974"
+      },
+      "id": "1",
+      "jsonrpc": "2.0"
+    },
+    "type": "json"
+  }
+}

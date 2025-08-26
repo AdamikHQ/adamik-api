@@ -70,8 +70,8 @@ const starknetTokenToAmount = (tokenBalances: TokenBalance[]) => {
 
   if (!tokenBalance) {
     return {
-      available: BigInt(0),
-      total: BigInt(0),
+      available: 0n,
+      total: 0n,
     };
   }
 

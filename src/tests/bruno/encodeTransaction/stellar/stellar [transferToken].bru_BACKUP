@@ -1,0 +1,34 @@
+meta {
+  name: stellar [transferToken]
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: stellar
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "transferToken",
+        "tokenId": "USDC:GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN",
+        "senderAddress": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+        "recipientAddress": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+        "useMaxAmount": true
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded[0].raw.value: eq 7ac33997544e3175d266bd022439b22cdb16508c01163f26e5cb2a3e1045a97900000002000000005a9dc9d9003ba912b92065a6a26c4212d67d074062b72c2b506ff6c62213428600000064037cf2a900000004000000010000000000000000000000000000000000000000000000010000000000000001000000005a9dc9d9003ba912b92065a6a26c4212d67d074062b72c2b506ff6c6221342860000000155534443000000003b9911380efe988ba0a8900eb1cfe44f366f7dbe946bed077240f7f624df15c50000000001312d0000000000
+}

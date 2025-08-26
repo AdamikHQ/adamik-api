@@ -1,0 +1,49 @@
+meta {
+  name: stellar
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/broadcast
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: stellar
+}
+
+body:json {
+  {
+    "chainId": "stellar",
+    "transaction": {
+      "data": {
+        "mode": "transfer",
+        "senderAddress": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+        "recipientAddress": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+        "useMaxAmount": true,
+        "fees": "100",
+        "amount": "44320900"
+      },
+      "encoded": [
+        {
+          "raw": {
+            "format": "XDR",
+            "value": "00000002000000005a9dc9d9003ba912b92065a6a26c4212d67d074062b72c2b506ff6c62213428600000064037cf2a9000000010000000100000000000000000000000068a42e7100000000000000010000000000000001000000005a9dc9d9003ba912b92065a6a26c4212d67d074062b72c2b506ff6c622134286000000000000000002a448840000000000000000"
+          },
+          "hash": {
+            "format": "sha256",
+            "value": "f07dcdf84a8673a4e1f540ddd06dd1d78dc0a330b1c015b28dcb7320e831ed14"
+          }
+        }
+      ],
+      "signature": "DUMMY"
+    }
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.status.errors[0].message: eq "Failed to encode transaction for broadcast, verify that signature is valid"
+}

@@ -1,0 +1,28 @@
+{
+  "request": {
+    "url": "https://site1.moralis-nodes.com/eth/REDACTED",
+    "method": "POST",
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 20,
+      "method": "eth_estimateGas",
+      "params": [
+        {
+          "data": "0x8ceab9aa00000000000000000000000000000000000000000000000000000000000003b90000000000000000000000006450685ae9c904b7d258a897adc1fa0736dbf5ab",
+          "from": "0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab",
+          "to": "0x05e393ec11d0197a88d84457908edd4ff235f323",
+          "value": "0x0"
+        }
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 20,
+      "result": "0x12fff"
+    },
+    "type": "json"
+  }
+}

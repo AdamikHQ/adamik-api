@@ -1,0 +1,24 @@
+meta {
+  name: stellar
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{api_url}}/api/:chainId/account/:accountId/history
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: stellar
+  accountId: GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2
+}
+
+assert {
+  res.status: eq 200
+  res.body.chainId: isDefined
+  res.body.accountId: isDefined
+  res.body.transactions: isArray
+  res.body.transactions[0].parsed: isDefined
+}

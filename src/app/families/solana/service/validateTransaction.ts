@@ -66,12 +66,8 @@ async function validateTransaction(
         transaction.data.tokenId
       );
 
-      if (tokenBalance === null) {
-        status.errors.push({ message: "Insufficient token balance" });
-      }
-
-      if (tokenBalance && tokenBalance < transaction.data.amount) {
-        status.errors.push({ message: "Insufficient token balance" });
+      if (tokenBalance === null || tokenBalance < transaction.data.amount) {
+        status.errors.push({ message: "Token balance is too low" });
       }
       break;
 

@@ -44,7 +44,12 @@ async function getTransaction(
       },
     ];
   } else if (algoTransaction.txType === "axfer") {
-    parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
+    // Check if this is an opt-in transaction (0 amount, sender === receiver)
+    parsedTransaction.mode =
+      algoTransaction.assetTransferTransaction.amount === 0 &&
+      algoTransaction.sender === algoTransaction.assetTransferTransaction.receiver
+        ? TransactionMode.ENABLE_TOKEN
+        : TransactionMode.TRANSFER_TOKEN;
     parsedTransaction.tokenId = algoTransaction.assetTransferTransaction.assetId.toString();
     parsedTransaction.senders = [
       {

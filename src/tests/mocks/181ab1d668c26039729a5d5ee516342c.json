@@ -1,0 +1,37 @@
+{
+  "request": {
+    "url": "https://api.blockchair.com/bitcoin/push/transaction?key=REDACTED&data=DUMMY",
+    "method": "POST"
+  },
+  "response": {
+    "status": 400,
+    "body": {
+      "data": null,
+      "context": {
+        "code": 400,
+        "error": "Invalid request",
+        "market_price_usd": 111604,
+        "cache": {
+          "live": true,
+          "duration": 120,
+          "since": "2025-08-25 09:53:26",
+          "until": "2025-08-25 09:55:26",
+          "time": null
+        },
+        "api": {
+          "version": "2.0.95-ie",
+          "last_major_update": "2022-11-07 02:00:00",
+          "next_major_update": "2023-11-12 02:00:00",
+          "documentation": "https://blockchair.com/api/docs",
+          "notice": "Try out our new API v.3: https://3xpl.com/data"
+        },
+        "servers": "API4",
+        "time": 0.00006079673767089844,
+        "render_time": 0.008944272994995117,
+        "full_time": 0.009005069732666016,
+        "request_cost": 1
+      }
+    },
+    "type": "json"
+  }
+}

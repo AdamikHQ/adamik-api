@@ -41,7 +41,7 @@ const queryParamsSchema = z.object({
     .openapi({
       description:
         "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values.",
-      example: "native,tokens,staking",
+      examples: ["native,tokens,staking", "native,tokens", "native,staking", "native", "tokens", "staking"],
     }),
   pubkey: z.string().optional().openapi({
     description:

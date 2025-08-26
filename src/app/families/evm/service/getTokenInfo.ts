@@ -1,14 +1,15 @@
-import { ProviderType, Token } from "~/app/model/types_WIP";
 import { fetchERC20Info } from "~/app/families/evm/backend/node";
+import { ProviderType, Token } from "~/app/model/types_WIP";
+import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
 import { EvmService } from "../service";
 import { EvmAddress } from "../types";
-import { UnsupportedFeatureError, UserInputError } from "~/app/tools/handlers/errors";
 
 async function getTokenInfo(this: EvmService, tokenId: string): Promise<Token> {
-  const isAddressValid = await this.validateAddress(tokenId);
-  if (!isAddressValid) {
-    throw new UserInputError(`Invalid Address ${tokenId}`);
+  const isTokenIDValid = await this.validateAddress(tokenId);
+  if (!isTokenIDValid) {
+    throw new UserInputError(`Invalid token ID ${tokenId}`);
   }
+
   const contractAddress = tokenId as EvmAddress;
   try {
     const indexer = this.getIndexer();
