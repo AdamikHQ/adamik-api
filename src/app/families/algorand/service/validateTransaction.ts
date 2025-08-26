@@ -1,10 +1,12 @@
 import { isValidAddress } from "algosdk";
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { prevalidateTransactionCommon } from "../../common";
+import { fetchAccount } from "../backend/node";
 import {
   ALGORAND_MAX_MEMO_SIZE,
   addressHasAsset,
   computeMaxSpendable,
+  computeMinimumAlgoBalance,
   isAmountValidForRecipient,
 } from "../logic";
 import { AlgorandService } from "../service";
@@ -33,20 +35,21 @@ async function validateTransaction(
   }
 ): Promise<void> {
   const { transaction, status } = _;
+  const transactionData = transaction.data;
 
-  if (transaction.data.memo && transaction.data.memo.length > ALGORAND_MAX_MEMO_SIZE) {
+  if (transactionData.memo && transactionData.memo.length > ALGORAND_MAX_MEMO_SIZE) {
     status.errors.push({ message: "Memo is too long" });
   }
 
   // amount & fees are safe to cast as they're guaranteed to be filled in by completeTransaction
-  const amount = transaction.data.amount as bigint;
-  const fees = transaction.data.fees as bigint;
+  const amount = transactionData.amount as bigint;
+  const fees = transactionData.fees as bigint;
 
   // FIXME Already called by completeTransaction,
   // should ideally be put in some common context, or at least some cache
-  const maxSpendable = await computeMaxSpendable(transaction.data);
+  const maxSpendable = await computeMaxSpendable(transactionData);
 
-  switch (transaction.data.mode) {
+  switch (transactionData.mode) {
     case TransactionMode.TRANSFER: {
       if (amount + fees > maxSpendable.native) {
         status.errors.push({ message: "Balance is too low" });
@@ -54,7 +57,7 @@ async function validateTransaction(
         status.warnings.push({ message: "Network fees are above 10% of the amount" });
       }
 
-      if (!(await isAmountValidForRecipient(transaction.data.recipientAddress, amount))) {
+      if (!(await isAmountValidForRecipient(transactionData.recipientAddress, amount))) {
         status.errors.push({
           message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
         });
@@ -73,40 +76,48 @@ async function validateTransaction(
         status.errors.push({ message: "Token balance is too low" });
       }
 
-      if (!(await isAmountValidForRecipient(transaction.data.recipientAddress, amount))) {
+      if (!(await isAmountValidForRecipient(transactionData.recipientAddress, amount))) {
         status.errors.push({
           message: "Recipient address is inactive. Send at least 0.1 ALGO to activate it",
         });
       }
 
-      if (!(await addressHasAsset(transaction.data.recipientAddress, transaction.data.tokenId))) {
+      if (!(await addressHasAsset(transactionData.recipientAddress, transactionData.tokenId))) {
         status.errors.push({
-          message: "Recipient address has not opted in for the selected ASA",
+          message: `Address ${transactionData.recipientAddress} has not enabled token ${transactionData.tokenId}.`,
         });
       }
 
       break;
     }
 
-    /*
-    case "optIn": {
-      if (!transaction.data.fees || !transaction.data.fees.gt(0)) {
-        errors.fees = new FeeNotLoaded();
+    case TransactionMode.ENABLE_TOKEN: {
+      if (fees > maxSpendable.native) {
+        status.errors.push({
+          message: "Balance is too low to cover the fees",
+        });
       }
 
-      // This error doesn't need to be translate,
-      // it will use to block until the user choose an assetId
-      if (!transaction.data.assetId) {
-        errors.assetId = new Error("Asset Id is not set");
+      // Check if sender has enough minimum balance to hold a new asset
+      const { balance, assetAmounts } = await fetchAccount(transactionData.senderAddress);
+      const minBalanceRequired = computeMinimumAlgoBalance(transactionData.mode, assetAmounts.length);
+      const currentBalance = BigInt(balance);
+
+      if (currentBalance < BigInt(minBalanceRequired)) {
+        status.errors.push({
+          message: `Balance is too low to enable more tokens. Required minimum: ${minBalanceRequired}, current: ${currentBalance}.`,
+        });
       }
 
-      if (algoSpendableBalance.lt(computeFees)) {
-        errors.amount = new NotEnoughBalance();
+      // Check if the user is already opted in to this asset
+      if (await addressHasAsset(transactionData.senderAddress, transactionData.tokenId)) {
+        status.warnings.push({
+          message: `Address ${transactionData.senderAddress} has already enabled token ${transactionData.tokenId}.`,
+        });
       }
 
       break;
     }
-    */
   }
 }
 

@@ -1,0 +1,78 @@
+{
+  "request": {
+    "url": "https://api.trongrid.io/wallet/getsignweight",
+    "method": "POST",
+    "body": {
+      "visible": false,
+      "txID": "518fec7a5d6b1d842bb4084a2dbe46964d4735aa1fd49186579365388d5a0547",
+      "raw_data_hex": "0a0239e1220896ae2e1e8d09ca614090d1ddb38e335a65080112610a2d747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e73666572436f6e747261637412300a15411c506ba436e22d4892be0a949f3f065878a38d9712154172108e4589690c5264b880916e36c9c625976cab187b70b0fcd9b38e33",
+      "raw_data": {
+        "contract": [
+          {
+            "parameter": {
+              "value": {
+                "to_address": "4172108e4589690c5264b880916e36c9c625976cab",
+                "owner_address": "411c506ba436e22d4892be0a949f3f065878a38d97",
+                "amount": 123
+              },
+              "type_url": "type.googleapis.com/protocol.TransferContract"
+            },
+            "type": "TransferContract"
+          }
+        ],
+        "ref_block_bytes": "39e1",
+        "ref_block_hash": "96ae2e1e8d09ca61",
+        "expiration": 1756213782000,
+        "timestamp": 1756213182000
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "code": "NOT_ENOUGH_PERMISSION"
+      },
+      "permission": {
+        "keys": [
+          {
+            "address": "415857805c57370c090ca8dc74305a2c82ef999850",
+            "weight": 1
+          }
+        ],
+        "threshold": 1,
+        "permission_name": "owner"
+      },
+      "transaction": {
+        "result": {
+          "result": true
+        },
+        "txid": "affae999e66a6c9bc699af5733b63e3045b9940a202c3a27dcad021c0bea251a",
+        "transaction": {
+          "txID": "affae999e66a6c9bc699af5733b63e3045b9940a202c3a27dcad021c0bea251a",
+          "raw_data": {
+            "contract": [
+              {
+                "parameter": {
+                  "value": {
+                    "amount": 123,
+                    "owner_address": "411c506ba436e22d4892be0a949f3f065878a38d97",
+                    "to_address": "4172108e4589690c5264b880916e36c9c625976cab"
+                  },
+                  "type_url": "type.googleapis.com/protocol.TransferContract"
+                },
+                "type": "TransferContract"
+              }
+            ],
+            "ref_block_bytes": "39e1",
+            "ref_block_hash": "96ae2e1e8d09ca61",
+            "expiration": 1756213782000,
+            "timestamp": 1756213182000
+          },
+          "raw_data_hex": "0a0239e1220896ae2e1e8d09ca6140f0cbfeb38e335a65080112610a2d747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e5472616e73666572436f6e747261637412300a15411c506ba436e22d4892be0a949f3f065878a38d9712154172108e4589690c5264b880916e36c9c625976cab187b70b0fcd9b38e33"
+        }
+      }
+    },
+    "type": "json"
+  }
+}

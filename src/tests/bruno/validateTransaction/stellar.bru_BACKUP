@@ -1,0 +1,34 @@
+meta {
+  name: stellar
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/validate
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: stellar
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "transfer",
+        "senderAddress": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+        "recipientAddress": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+        "useMaxAmount": true
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.status.errors: isEmpty 88a3666565cd03e8a26676ce02de930ca367656eac6d61696e6e65742d76312e30a26768c420c061c4d8fc1dbdded2d7604be4568e3f6d041987ac37bde4b620b5ab39248adfa26c76ce02de96f4a3726376c42089afdb83e3b65d9ec966e5a126a0aa41b826df9571f5bc0897efbbad8e0402f7a3736e64c42089afdb83e3b65d9ec966e5a126a0aa41b826df9571f5bc0897efbbad8e0402f7a474797065a3706179
+  res.body.status.warnings[0].message: eq "Same sender and recipient address"
+}

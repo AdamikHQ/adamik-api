@@ -159,11 +159,11 @@ async function getTransactionAmount(chainId: ChainId, transaction: TransactionDa
     return transaction.amount as bigint;
   }
 
+  const maxSpendable = await getMaxSpendable(chainId, transaction);
+
   if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
-    const maxSpendable = await getMaxSpendable(chainId, transaction);
     return maxSpendable.token!;
   } else {
-    const maxSpendable = await getMaxSpendable(chainId, transaction);
     const fees = transaction.fees as bigint;
     return maxSpendable.native - fees >= 0n ? maxSpendable.native - fees : 0n;
   }

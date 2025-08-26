@@ -1,0 +1,34 @@
+meta {
+  name: starknet
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/validate
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: starknet
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "transfer",
+        "senderAddress": "0x05e1dfe469A9b7a504cA84102359467453aE530cFB5Ec70FF4239f91e964A08e",
+        "recipientAddress": "0x064C87F27Cf25c3c29DD7CbeFdC7cB0f25Ec89384C00Ae2c8e243Ff87017489E",
+        "amount": "200000000000000000"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.status.errors: isEmpty 
+  res.body.status.warnings: isEmpty 
+}

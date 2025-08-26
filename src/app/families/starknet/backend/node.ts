@@ -1,19 +1,10 @@
-import {
-  Contract,
-  DeployAccountContractTransaction,
-  ec,
-  Invocation,
-  InvocationsDetailsWithNonce,
-  RpcError,
-  shortString,
-  Provider as StarknetProvider,
-} from "starknet";
+import { Contract, ec, RpcError, shortString, Provider as StarknetProvider } from "starknet";
 import { ChainId, ProviderType, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { getProviderUrls } from "../../common";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { createStarknetAccount, isCompactSignature, marginFees } from "../logic";
-import { StarknetTransactionParamsToBroadcast } from "../types";
+import { StarknetTransactionParams } from "../types";
 
 const fetchTokenInfo = async (chainId: ChainId, tokenId: string) => {
   const nodeUrl = getProviderUrls(chainId, ProviderType.node);
@@ -53,37 +44,28 @@ const broadcast = async (chainId: ChainId, signedTransaction: string): Promise<s
   }
 
   try {
-    const transactionParams: StarknetTransactionParamsToBroadcast = JSON.parse(signedTransaction);
+    const { mode, payload, details }: StarknetTransactionParams = JSON.parse(signedTransaction);
 
-    if (!transactionParams.payload.signature) {
+    if (!payload.signature) {
       throw new InvalidTransactionError({
         errors: [{ message: "Signature is required" }],
         warnings: [],
       });
     }
 
-    const signature = isCompactSignature(transactionParams.payload.signature)
-      ? ec.starkCurve.Signature.fromCompact(transactionParams.payload.signature)
-      : ec.starkCurve.Signature.fromDER(transactionParams.payload.signature);
+    const signature = isCompactSignature(payload.signature)
+      ? ec.starkCurve.Signature.fromCompact(payload.signature)
+      : ec.starkCurve.Signature.fromDER(payload.signature);
 
     // TODO: Add support for multiple node URLs
     const provider = new StarknetProvider({
       nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
     });
 
-    if (transactionParams.mode === TransactionMode.DEPLOY_ACCOUNT) {
-      const result = await provider.deployAccountContract(
-        { ...transactionParams.payload, signature } as DeployAccountContractTransaction,
-        transactionParams.details as InvocationsDetailsWithNonce
-      );
+    const providerFunction =
+      mode === TransactionMode.DEPLOY_ACCOUNT ? provider.deployAccountContract : provider.invokeFunction;
 
-      return result.transaction_hash;
-    }
-
-    const result = await provider.invokeFunction(
-      { ...transactionParams.payload, signature } as Invocation,
-      transactionParams.details as InvocationsDetailsWithNonce
-    );
+    const result = await providerFunction({ ...payload, signature }, details);
 
     return result.transaction_hash;
   } catch (error) {

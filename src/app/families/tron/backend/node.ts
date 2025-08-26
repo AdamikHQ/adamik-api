@@ -3,7 +3,6 @@ import { toHex } from "tronweb/utils";
 import { TRONGRID_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import { ChainId, ProviderType, Token, TokenType } from "~/app/model/types_WIP";
-import { UserInputError } from "~/app/tools/handlers/errors";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
 
@@ -21,13 +20,14 @@ const getAccount = (address: string) => {
 
 // FIXME: Hack to bypass contract needed type
 const broadcast = async (signedTransaction: any) => {
-  const result = await tronWeb.trx.sendRawTransaction(signedTransaction);
+  const response = await tronWeb.trx.sendRawTransaction(signedTransaction);
 
-  if (result.result !== true) {
-    throw new UserInputError(JSON.stringify(result));
+  if (response.result !== true) {
+    console.warn("/!\\ Tron transaction broadcast failed:", JSON.stringify(response));
+    throw new Error();
   }
 
-  return result.transaction.txID;
+  return response.transaction.txID;
 };
 
 const getAccountResources = (address: string) => {

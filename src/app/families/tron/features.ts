@@ -16,6 +16,7 @@ const TRON_FEATURES: ChainSupportedFeatures = {
         deployAccount: false,
         transfer: true,
         transferToken: true,
+        enableToken: false,
         stake: false,
         unstake: false,
         claimRewards: false,

@@ -13,7 +13,7 @@
         "allocators": [
           {
             "id": "0x05e393ec11d0197a88d84457908edd4ff235f323-0x6450685ae9c904b7d258a897adc1fa0736dbf5ab",
-            "assets": "10002175095073",
+            "assets": "10010271761721",
             "shares": "9547423787821",
             "vault": {
               "id": "0x05e393ec11d0197a88d84457908edd4ff235f323"
@@ -22,7 +22,7 @@
           },
           {
             "id": "0xac0f906e433d58fa868f936e8a43230473652885-0x6450685ae9c904b7d258a897adc1fa0736dbf5ab",
-            "assets": "1001845998565",
+            "assets": "1002795683603",
             "shares": "949748016733",
             "vault": {
               "id": "0xac0f906e433d58fa868f936e8a43230473652885"
@@ -32,19 +32,19 @@
                 "id": "0xac0f906e433d58fa868f936e8a43230473652885-137871441170467363011263",
                 "totalAssets": "1001276784032",
                 "timestamp": "1753343771",
-                "withdrawalTimestamp": "1755564971"
+                "withdrawalTimestamp": null
               },
               {
                 "id": "0xac0f906e433d58fa868f936e8a43230473652885-139385924265415219280973",
                 "totalAssets": "418742",
                 "timestamp": "1753448207",
-                "withdrawalTimestamp": "1755569957"
+                "withdrawalTimestamp": null
               }
             ]
           },
           {
             "id": "0xe6d8d8ac54461b1c5ed15740eee322043f696c08-0x6450685ae9c904b7d258a897adc1fa0736dbf5ab",
-            "assets": "10011382269628",
+            "assets": "10020957937634",
             "shares": "9430113013639",
             "vault": {
               "id": "0xe6d8d8ac54461b1c5ed15740eee322043f696c08"
@@ -52,7 +52,7 @@
             "exitRequests": [
               {
                 "id": "0xe6d8d8ac54461b1c5ed15740eee322043f696c08-59982711051125772622923",
-                "totalAssets": "9999999999999",
+                "totalAssets": "10000397799991",
                 "timestamp": "1755008351",
                 "withdrawalTimestamp": null
               }

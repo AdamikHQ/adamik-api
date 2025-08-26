@@ -1,0 +1,35 @@
+meta {
+  name: ton [transfer]
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: ton
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "transfer",
+        "senderAddress": "UQAWU98RAZ2VlXvCSDZjJQAv8aKXuZbky6FpOByV-7-jmEVj",
+        "recipientAddress": "UQAWU98RAZ2VlXvCSDZjJQAv8aKXuZbky6FpOByV-7-jmEVj",
+        "amount": "1234560",
+        "useMaxAmount": false
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded[0].raw.value: isString 
+  res.body.transaction.encoded[0].hash.value: isString "6189c454e88853021fb66e62bacfce9f1e92a5d581b6570584f3ff3446129b23"
+}

@@ -16,7 +16,7 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
 
   const builtTransaction = await buildTransaction(transaction);
   const bandwidthPoints = calculateTransactionLength(builtTransaction.raw_data_hex);
-  transaction.data.fees = BigInt(0);
+  transaction.data.fees = 0n;
 
   const targetedAccount = await getAccount(transaction.data.recipientAddress);
   if (!targetedAccount.balance) {

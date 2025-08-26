@@ -29,7 +29,14 @@ body:json {
           "pubKey": "dummy"
         }
       },
-      "encoded": "80d38765775d557b8756bda8cb451f5380b391cdb0ec945bb70df5eba058ba13",
+      "encoded": [
+        {
+          "raw": {
+            "format": "BOC",
+            "value": "80d38765775d557b8756bda8cb451f5380b391cdb0ec945bb70df5eba058ba13"
+          }
+        }
+      ],
       "signature": "DUMMY"
     }
   }
@@ -37,4 +44,5 @@ body:json {
 
 assert {
   res.status: eq 400
+  res.body.status.errors[0].message: eq "Failed to encode transaction for broadcast, verify that signature is valid"
 }

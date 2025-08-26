@@ -65,7 +65,7 @@ const queryParamsSchema = paginationQueryParamsSchema.merge(
       .openapi({
         description:
           "Optional filter to request specific data. Use a single 'include' parameter with comma-separated values. Possible values are 'parsed' and 'raw'.",
-        example: "parsed,raw",
+        examples: ["parsed,raw", "parsed", "raw"],
       }),
   })
 );

@@ -20,6 +20,9 @@ async function completeTransaction(
       transaction.data.mode === TransactionMode.TRANSFER_TOKEN
         ? // For a token transaction, the max spent amount is just the token balance, because fees are deducted from the native balance
           maxSpendable.token
+        : transaction.data.mode === TransactionMode.ENABLE_TOKEN
+        ? // For an opt-in transaction, the amount is always 0
+          0n
         : // For a native transaction, the max spent amount is the native amount minus the fees, because both tap in the same native balance
           maxSpendable.native - transaction.data.fees;
 

@@ -1,0 +1,20 @@
+meta {
+  name: stellar
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{api_url}}/api/:chainId/token/:tokenId
+  body: none
+  auth: none
+}
+
+params:path {
+  chainId: stellar
+  tokenId: USDCAllow:GDIEKKIQWMIZ4LD3RP3ABPN7X5KEAEWYMR634BRHB7EULIMEVREWLF3G
+}
+
+assert {
+  res.status: eq 400
+}

@@ -1,0 +1,65 @@
+{
+  "request": {
+    "url": "https://api.trongrid.io/wallet/triggerconstantcontract",
+    "method": "POST",
+    "body": {
+      "contract_address": "41a614f803b6fd780986a42c78ec9c7f77e6ded13c",
+      "owner_address": "4172108e4589690c5264b880916e36c9c625976cab",
+      "function_selector": "transfer(address,uint256)",
+      "parameter": "0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d970000000000000000000000000000000000000000000000000000000000003039",
+      "call_value": 0
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "result": true
+      },
+      "energy_used": 64285,
+      "constant_result": [
+        "0000000000000000000000000000000000000000000000000000000000000000"
+      ],
+      "logs": [
+        {
+          "address": "a614f803b6fd780986a42c78ec9c7f77e6ded13c",
+          "data": "0000000000000000000000000000000000000000000000000000000000003039",
+          "topics": [
+            "ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            "00000000000000000000000072108e4589690c5264b880916e36c9c625976cab",
+            "0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97"
+          ]
+        }
+      ],
+      "energy_penalty": 49635,
+      "transaction": {
+        "ret": [
+          {}
+        ],
+        "visible": false,
+        "txID": "fce76c5077062f8515485883405e5d0c76785fa31645b3065ca0c1a020bd6ef4",
+        "raw_data": {
+          "contract": [
+            {
+              "parameter": {
+                "value": {
+                  "data": "a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d970000000000000000000000000000000000000000000000000000000000003039",
+                  "owner_address": "4172108e4589690c5264b880916e36c9c625976cab",
+                  "contract_address": "41a614f803b6fd780986a42c78ec9c7f77e6ded13c"
+                },
+                "type_url": "type.googleapis.com/protocol.TriggerSmartContract"
+              },
+              "type": "TriggerSmartContract"
+            }
+          ],
+          "ref_block_bytes": "39cf",
+          "ref_block_hash": "664b16c04b71887f",
+          "expiration": 1756213242000,
+          "timestamp": 1756213184465
+        },
+        "raw_data_hex": "0a0239cf2208664b16c04b71887f4090d1ddb38e335aae01081f12a9010a31747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e54726967676572536d617274436f6e747261637412740a154172108e4589690c5264b880916e36c9c625976cab121541a614f803b6fd780986a42c78ec9c7f77e6ded13c2244a9059cbb0000000000000000000000001c506ba436e22d4892be0a949f3f065878a38d97000000000000000000000000000000000000000000000000000000000000303970d18fdab38e33"
+      }
+    },
+    "type": "json"
+  }
+}

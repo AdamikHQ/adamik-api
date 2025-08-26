@@ -5,6 +5,7 @@ import { COSMOS_BABYLON_FEATURES, COSMOS_FEATURES } from "../families/cosmos/fea
 import { EVM_FEATURES, EVM_ROOTSTOCK_FEATURES } from "../families/evm/features";
 import { SOLANA_FEATURES } from "../families/solana/features";
 import { STARKNET_FEATURES } from "../families/starknet/features";
+import { STELLAR_FEATURES } from "../families/stellar/features";
 import { TON_FEATURES } from "../families/ton/features";
 import { TRON_FEATURES } from "../families/tron/features";
 import { ChainSupportedFeatures } from "../model/types_WIP";
@@ -27,6 +28,7 @@ const NATIVE_READ_WRITE_ONLY: ChainSupportedFeatures = {
         deployAccount: false,
         transfer: true,
         transferToken: false,
+        enableToken: false,
         stake: false,
         unstake: false,
         claimRewards: false,
@@ -55,6 +57,7 @@ export {
   NATIVE_READ_WRITE_ONLY,
   SOLANA_FEATURES,
   STARKNET_FEATURES,
+  STELLAR_FEATURES,
   TON_FEATURES,
   TRON_FEATURES,
 };

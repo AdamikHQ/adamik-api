@@ -1,0 +1,26 @@
+meta {
+  name: aptos
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{api_url}}/api/:chainId/address/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: aptos
+}
+
+body:json {
+  {
+    "pubkey": "9790cdbe5906e7620d0a10ac5786981df5afeb52dca987ff1ee2bc272d86b8f0"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.addresses[0].address: eq 0xb3ad6416320fede7866b22db0eebd4e9a630a143a14674a2244d933e097d8288
+}

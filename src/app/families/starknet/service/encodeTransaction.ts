@@ -1,10 +1,9 @@
 import { num } from "starknet";
-import { hexToString, stringToHex } from "viem";
 import { HashFunction, Status, Transaction } from "~/app/model/types_WIP";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { buildTransaction } from "../logic";
 import { StarknetService } from "../service";
-import { StarknetTransactionParams, starknetTransactionParamsPayloadSchema } from "../types";
+import { StarknetTransactionParams } from "../types";
 
 async function encodeTransactionToSign(
   this: StarknetService,
@@ -15,9 +14,9 @@ async function encodeTransactionToSign(
 ): Promise<void> {
   const { transaction } = _;
 
-  const payload = await buildTransaction(this.chainId, transaction);
+  const starknetTransaction = await buildTransaction(this.chainId, transaction);
 
-  if (!payload) {
+  if (!starknetTransaction) {
     throw new Error("Failed to build transaction");
   }
 
@@ -27,19 +26,16 @@ async function encodeTransactionToSign(
     {
       hash: {
         format: HashFunction.PEDERSEN,
-        value: num.toHex64(payload.payload.toSign),
+        value: num.toHex64(starknetTransaction.payload.toSign),
       },
     },
   ];
-  const params = stringToHex(
-    JSON.stringify({
-      mode: transaction.data.mode,
-      payload: payload.payload,
-      details: payload.details,
-    })
-  );
 
-  transaction.data.params = params;
+  transaction.data.params = {
+    mode: transaction.data.mode,
+    payload: starknetTransaction.payload,
+    details: starknetTransaction.details,
+  } as StarknetTransactionParams;
 }
 
 async function encodeTransactionToBroadcast(
@@ -52,7 +48,6 @@ async function encodeTransactionToBroadcast(
   const { signedTransaction } = _;
 
   const params = signedTransaction.data.params as StarknetTransactionParams;
-
   if (!params) {
     throw new InvalidTransactionError({
       errors: [{ message: "Transaction params are required" }],
@@ -60,14 +55,10 @@ async function encodeTransactionToBroadcast(
     });
   }
 
-  const payload = hexToString(params as `0x${string}`);
-  const decodePayload = JSON.parse(payload);
-  const parsedPayload = starknetTransactionParamsPayloadSchema.parse(decodePayload);
-
   return JSON.stringify({
     mode: signedTransaction.data.mode,
-    payload: { ...parsedPayload.payload, signature: signedTransaction.signature },
-    details: { ...parsedPayload.details },
+    payload: { ...params.payload, signature: signedTransaction.signature },
+    details: params.details,
   });
 }
 

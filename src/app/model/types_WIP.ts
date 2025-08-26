@@ -4,6 +4,8 @@ import { EvmChainParams, EvmTransactionParams } from "~/app/families/evm/types";
 import { BitcoinChainParams, BitcoinTransactionParams } from "../families/bitcoin/types";
 import { SolanaTransactionParams } from "../families/solana/types";
 import { StarknetTransactionParams } from "../families/starknet/types";
+import { StellarTransactionParams } from "../families/stellar/types";
+import { TonTransactionParams } from "../families/ton/types";
 import { TronTransactionParams } from "../families/tron/types";
 
 enum ChainId {
@@ -101,6 +103,8 @@ enum ChainId {
   WORLD_CHAIN_SEPOLIA = "world-chain-sepolia",
   HYPERLIQUID = "hyperliquid",
   SOLANA = "solana",
+  //STELLAR = "stellar",
+  STELLAR_TESTNET = "stellar-testnet",
 }
 
 enum ChainFamily {
@@ -113,6 +117,7 @@ enum ChainFamily {
   TON = "ton",
   STARKNET = "starknet",
   SOLANA = "solana",
+  STELLAR = "stellar",
 }
 
 type ChainParams = CosmosChainParams | EvmChainParams | BitcoinChainParams;
@@ -169,6 +174,7 @@ export enum ProviderType {
   tonapi = "tonapi",
   tronscan = "tronscan",
   validatorApp = "validatorApp",
+  horizon = "horizon",
 }
 
 type Provider = {
@@ -225,6 +231,7 @@ enum TokenType {
   JETTON = "JETTON",
   SPL = "SPL",
   APTOS_COIN = "APTOS_COIN",
+  STELLAR_ASSET = "STELLAR_ASSET",
 }
 
 type Token = {
@@ -320,6 +327,7 @@ enum TransactionMode {
   DEPLOY_ACCOUNT = "deployAccount",
   TRANSFER = "transfer",
   TRANSFER_TOKEN = "transferToken",
+  ENABLE_TOKEN = "enableToken",
   STAKE = "stake",
   UNSTAKE = "unstake",
   CLAIM_REWARDS = "claimRewards",
@@ -382,9 +390,11 @@ type TransactionParams =
   | BitcoinTransactionParams
   | EvmTransactionParams
   | TronTransactionParams
+  | TonTransactionParams
   | StarknetTransactionParams
   | AptosTransactionParams
-  | SolanaTransactionParams;
+  | SolanaTransactionParams
+  | StellarTransactionParams;
 
 enum DeployContractType {
   ARGENTX = "argentx",
@@ -421,6 +431,11 @@ type TransferTransactionData = CommonTransactionData & {
 // FIXME Should this be merged with TransferTransactionData, just adding optional 'tokenId' to it?
 type TransferTokenTransactionData = CommonTransactionData & {
   mode: TransactionMode.TRANSFER_TOKEN;
+  tokenId: string;
+};
+
+type EnableTokenTransactionData = CommonTransactionData & {
+  mode: TransactionMode.ENABLE_TOKEN;
   tokenId: string;
 };
 
@@ -484,6 +499,7 @@ type TransactionData =
   | DeployAccountTransactionData
   | TransferTransactionData
   | TransferTokenTransactionData
+  | EnableTokenTransactionData
   | StakeTransactionData
   | UnstakeTransactionData
   | ClaimRewardsTransactionData
@@ -519,6 +535,7 @@ enum EncodedTransactionFormat {
   PSBT = "PSBT",
   BCS = "BCS",
   BORSH = "BORSH",
+  XDR = "XDR",
 }
 
 type Transaction = {
@@ -577,6 +594,7 @@ export type {
   ChainValidators,
   ClaimRewardsTransactionData,
   DeployAccountTransactionData,
+  EnableTokenTransactionData,
   EncodedTransaction,
   EncodedTransactionRaw,
   FeaturesSet,
