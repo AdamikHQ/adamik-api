@@ -337,7 +337,7 @@
                         "solana": {
                           "$ref": "#/components/schemas/Chain"
                         },
-                        "stellar": {
+                        "stellar-testnet": {
                           "$ref": "#/components/schemas/Chain"
                         }
                       },
@@ -838,7 +838,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
-                "stellar"
+                "stellar-testnet"
               ]
             },
             "required": true
@@ -1357,7 +1357,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
-                "stellar"
+                "stellar-testnet"
               ]
             },
             "required": true
@@ -1504,7 +1504,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
-                        "stellar"
+                        "stellar-testnet"
                       ]
                     },
                     "accountId": {
@@ -1858,7 +1858,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
-                "stellar"
+                "stellar-testnet"
               ]
             },
             "required": true
@@ -1970,7 +1970,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
-                        "stellar"
+                        "stellar-testnet"
                       ]
                     },
                     "accountId": {
@@ -2130,7 +2130,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
-                "stellar"
+                "stellar-testnet"
               ]
             },
             "required": true
@@ -2225,7 +2225,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
-                        "stellar"
+                        "stellar-testnet"
                       ]
                     },
                     "accountId": {
@@ -2553,7 +2553,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
-                "stellar"
+                "stellar-testnet"
               ]
             },
             "required": true
@@ -3059,7 +3059,7 @@
                                           "world-chain-sepolia",
                                           "hyperliquid",
                                           "solana",
-                                          "stellar"
+                                          "stellar-testnet"
                                         ]
                                       },
                                       "tokenId": {
@@ -3212,7 +3212,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
-                        "stellar"
+                        "stellar-testnet"
                       ]
                     },
                     "transaction": {
@@ -3835,7 +3835,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
-                "stellar"
+                "stellar-testnet"
               ]
             },
             "required": true
@@ -4341,7 +4341,7 @@
                                           "world-chain-sepolia",
                                           "hyperliquid",
                                           "solana",
-                                          "stellar"
+                                          "stellar-testnet"
                                         ]
                                       },
                                       "tokenId": {
@@ -4494,7 +4494,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
-                        "stellar"
+                        "stellar-testnet"
                       ]
                     },
                     "status": {
@@ -4652,7 +4652,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
-                "stellar"
+                "stellar-testnet"
               ]
             },
             "required": true
@@ -5176,7 +5176,7 @@
                                           "world-chain-sepolia",
                                           "hyperliquid",
                                           "solana",
-                                          "stellar"
+                                          "stellar-testnet"
                                         ]
                                       },
                                       "tokenId": {
@@ -5395,7 +5395,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
-                        "stellar"
+                        "stellar-testnet"
                       ]
                     },
                     "hash": {
@@ -5518,7 +5518,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
-                "stellar"
+                "stellar-testnet"
               ]
             },
             "required": true
@@ -5644,7 +5644,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
-                        "stellar"
+                        "stellar-testnet"
                       ]
                     },
                     "hash": {
@@ -5827,7 +5827,7 @@
           "world-chain-sepolia",
           "hyperliquid",
           "solana",
-          "stellar"
+          "stellar-testnet"
         ],
         "description": "Unique adamik identifier of the chain"
       },
