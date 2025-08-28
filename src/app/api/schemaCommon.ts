@@ -342,8 +342,8 @@ const inputEnableTokenSchema = z
     senderAddress: senderAddressSchema,
   })
   .openapi({
-    title: "Allow Token",
-    description: "Allow an address to hold a token",
+    title: "Enable Token",
+    description: "Enable an address to hold a token",
   });
 
 const outputEnableTokenSchema = z
@@ -353,8 +353,8 @@ const outputEnableTokenSchema = z
     senderAddress: senderAddressSchema,
   })
   .openapi({
-    title: "Transfer Token",
-    description: "Allow an address to hold a token",
+    title: "Enable Token",
+    description: "Enable an address to hold a token",
   });
 
 const inputStakeSchema = z
