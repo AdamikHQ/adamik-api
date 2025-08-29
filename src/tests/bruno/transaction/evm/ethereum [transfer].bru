@@ -1,0 +1,27 @@
+meta {
+  name: ethereum [transfer]
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{api_url}}/api/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: ethereum
+  transactionId: 0x412888f8070bb8bfc4248a325ecefe2d74fcc9074a7af7c20e4ee49ab3010e06
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.raw: isDefined
+  res.body.transaction.parsed: isDefined
+  res.body.transaction.parsed.timestamp: eq "1756375139000"
+}

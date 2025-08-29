@@ -1,0 +1,89 @@
+{
+  "request": {
+    "url": "https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod?opName=Allocators",
+    "method": "POST",
+    "body": {
+      "query": "\n          query MyQuery($address: Bytes = \"0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab\") {\n            allocators(where: {address: $address}) {\n              id\n              assets\n              shares\n              vault {\n                id\n              }\n              exitRequests {\n                id\n                exitQueueIndex\n                positionTicket\n                totalAssets\n                timestamp\n                withdrawalTimestamp\n                isClaimable\n                isClaimed\n              }\n            }\n          }\n      "
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "allocators": [
+          {
+            "id": "0x05e393ec11d0197a88d84457908edd4ff235f323-0x6450685ae9c904b7d258a897adc1fa0736dbf5ab",
+            "assets": "10002747723610",
+            "shares": "9537876364035",
+            "vault": {
+              "id": "0x05e393ec11d0197a88d84457908edd4ff235f323"
+            },
+            "exitRequests": [
+              {
+                "id": "0x05e393ec11d0197a88d84457908edd4ff235f323-279893845547399738381",
+                "exitQueueIndex": "22",
+                "positionTicket": "279893845547399738381",
+                "totalAssets": "10012760481",
+                "timestamp": "1756392167",
+                "withdrawalTimestamp": "1756478567",
+                "isClaimable": false,
+                "isClaimed": false
+              }
+            ]
+          },
+          {
+            "id": "0xac0f906e433d58fa868f936e8a43230473652885-0x6450685ae9c904b7d258a897adc1fa0736dbf5ab",
+            "assets": "1003095657696",
+            "shares": "949748016733",
+            "vault": {
+              "id": "0xac0f906e433d58fa868f936e8a43230473652885"
+            },
+            "exitRequests": [
+              {
+                "id": "0xac0f906e433d58fa868f936e8a43230473652885-137871441170467363011263",
+                "exitQueueIndex": "1010",
+                "positionTicket": "137871441170467363011263",
+                "totalAssets": "1001276784032",
+                "timestamp": "1753343771",
+                "withdrawalTimestamp": null,
+                "isClaimable": false,
+                "isClaimed": true
+              },
+              {
+                "id": "0xac0f906e433d58fa868f936e8a43230473652885-139385924265415219280973",
+                "exitQueueIndex": "1010",
+                "positionTicket": "139385924265415219280973",
+                "totalAssets": "418742",
+                "timestamp": "1753448207",
+                "withdrawalTimestamp": null,
+                "isClaimable": false,
+                "isClaimed": true
+              }
+            ]
+          },
+          {
+            "id": "0xe6d8d8ac54461b1c5ed15740eee322043f696c08-0x6450685ae9c904b7d258a897adc1fa0736dbf5ab",
+            "assets": "10023285962841",
+            "shares": "9430113013639",
+            "vault": {
+              "id": "0xe6d8d8ac54461b1c5ed15740eee322043f696c08"
+            },
+            "exitRequests": [
+              {
+                "id": "0xe6d8d8ac54461b1c5ed15740eee322043f696c08-59982711051125772622923",
+                "exitQueueIndex": "437",
+                "positionTicket": "59982711051125772622923",
+                "totalAssets": "10000397799991",
+                "timestamp": "1755008351",
+                "withdrawalTimestamp": null,
+                "isClaimable": true,
+                "isClaimed": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "type": "json"
+  }
+}

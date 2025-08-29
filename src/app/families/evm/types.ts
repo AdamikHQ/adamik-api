@@ -1,3 +1,4 @@
+import { ChainId, FinalizedTransaction, Token, TokenAmount } from "~/app/model/types_WIP";
 import { HarvestParams } from "./backend/stakewise.types";
 
 // Params that exist only for EVM chains
@@ -17,4 +18,20 @@ type EvmTransactionParams = {
 type HexString = `0x${string}`;
 type EvmAddress = HexString;
 
-export type { EvmAddress, EvmChainParams, EvmTransactionParams, HexString };
+interface EvmIndexer {
+  fetchAccountTransactions: (
+    c: ChainId,
+    a: EvmAddress,
+    p?: string
+  ) => Promise<{ evmTransactions: Array<FinalizedTransaction>; nextPage: string | null }>;
+  fetchAllERC20TokenAmounts: (c: ChainId, a: EvmAddress) => Promise<TokenAmount[]>;
+  fetchERC20Token: (c: ChainId, a: EvmAddress) => Promise<Token>;
+  fetchERC20TokenAmounts: (
+    c: ChainId,
+    a: EvmAddress,
+    p?: string
+  ) => Promise<{ tokens: TokenAmount[]; nextPage: string | null }>;
+  fetchTransaction: (c: ChainId, t: string) => Promise<FinalizedTransaction | null>;
+}
+
+export type { EvmAddress, EvmChainParams, EvmIndexer, EvmTransactionParams, HexString };

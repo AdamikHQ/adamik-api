@@ -1,12 +1,10 @@
 import { ChainId, ChainSupportedFeatures } from "~/app/model/types_WIP";
-import { AlchemyIndexer } from "./backend/alchemy";
-import { MoralisIndexer } from "./backend/moralis";
-import { SUPPORTED_CHAIN_IDS as STAKEWISE_SUPPORTED_CHAIN_IDS } from "./backend/stakewise";
+import { ALCHEMY_SUPPORTED_CHAIN_IDS } from "./backend/alchemy.types";
+import { MORALIS_SUPPORTED_CHAIN_IDS } from "./backend/moralis.types";
+import { STAKEWISE_SUPPORTED_CHAIN_IDS } from "./backend/stakewise.types";
 
-const moralisSupport = (chainId: ChainId): boolean =>
-  Boolean(MoralisIndexer.SUPPORTED_CHAIN_IDS.get(chainId));
-const alchemySupport = (chainId: ChainId): boolean =>
-  Boolean(AlchemyIndexer.SUPPORTED_CHAIN_IDS.get(chainId));
+const moralisSupport = (chainId: ChainId): boolean => Boolean(MORALIS_SUPPORTED_CHAIN_IDS.get(chainId));
+const alchemySupport = (chainId: ChainId): boolean => Boolean(ALCHEMY_SUPPORTED_CHAIN_IDS.get(chainId));
 const indexerSupport = (chainId: ChainId): boolean => moralisSupport(chainId) || alchemySupport(chainId);
 
 const stakewiseSupport = (chainId: ChainId): boolean =>

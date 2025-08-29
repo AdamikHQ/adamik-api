@@ -1,0 +1,38 @@
+{
+  "request": {
+    "url": "https://deep-index.moralis.io/api/v2.2/transaction/0x412888f8070bb8bfc4248a325ecefe2d74fcc9074a7af7c20e4ee49ab3010e06/verbose?chain=eth",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "hash": "0x412888f8070bb8bfc4248a325ecefe2d74fcc9074a7af7c20e4ee49ab3010e06",
+      "nonce": "136",
+      "transaction_index": "215",
+      "from_address_entity": null,
+      "from_address_entity_logo": null,
+      "from_address": "0x8e6afb135e285013ffba38962a593db5eb046c71",
+      "from_address_label": null,
+      "to_address_entity": null,
+      "to_address_entity_logo": null,
+      "to_address": "0x396343f5d26c4397146aa2ed3d93567818ef3ff2",
+      "to_address_label": null,
+      "value": "966800000000000",
+      "gas": "21000",
+      "gas_price": "309014388",
+      "input": "0x",
+      "receipt_cumulative_gas_used": "17048774",
+      "receipt_gas_used": "21000",
+      "receipt_contract_address": null,
+      "receipt_root": null,
+      "receipt_status": "1",
+      "block_timestamp": "2025-08-28T09:58:59.000Z",
+      "block_number": "23238874",
+      "block_hash": "0x815b95dbee73b455d7c78a7be7157d6aaceb4bf14bededd613d09d38e51a286f",
+      "logs": [],
+      "decoded_call": null,
+      "transaction_fee": "0.000006489302148"
+    },
+    "type": "json"
+  }
+}

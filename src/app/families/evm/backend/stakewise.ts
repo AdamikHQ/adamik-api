@@ -10,8 +10,6 @@ import { AllocatorData, AllocatorsResponse, HarvestParams } from "./stakewise.ty
 // FIXME Mixed usage of StakeWise's SDK + GraphQL API,
 // maybe only one or the other is enough?
 
-const SUPPORTED_CHAIN_IDS: ChainId[] = [ChainId.ETHEREUM, ChainId.HOODI];
-
 const getSDKConfig = (chainId: ChainId): StakeWise.Options => {
   switch (chainId) {
     case ChainId.ETHEREUM:
@@ -69,9 +67,13 @@ async function fetchStakingData(chainId: ChainId, allocatorAddress: string): Pro
               }
               exitRequests {
                 id
+                exitQueueIndex
+                positionTicket
                 totalAssets
                 timestamp
                 withdrawalTimestamp
+                isClaimable
+                isClaimed
               }
             }
           }
@@ -152,4 +154,4 @@ async function fetchValidators(
   };
 }
 
-export { fetchHarvestParams, fetchStakingData, fetchValidators, SUPPORTED_CHAIN_IDS };
+export { fetchHarvestParams, fetchStakingData, fetchValidators };

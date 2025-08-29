@@ -22,7 +22,6 @@ import {
   fetchERC20Balance,
 } from "./backend/node";
 import { fetchHarvestParams, fetchStakingData } from "./backend/stakewise";
-import { EtherscanERC20Event } from "./backend/types";
 import { EvmAddress, EvmChainParams, EvmTransactionParams, HexString } from "./types";
 
 const isHexString = (val: string): val is Hex =>
@@ -92,7 +91,7 @@ async function getTransactionGas(chainId: ChainId, transactionData: TransactionD
     }
 
     case TransactionMode.UNSTAKE: {
-      const args = await buildStakewiseUnstakeData(transactionData);
+      const args = await buildStakewiseUnstakeData(chainId, transactionData);
       return await estimateContractGas({
         chainId,
         contractAddress: transactionData.validatorAddress as EvmAddress,
@@ -105,7 +104,7 @@ async function getTransactionGas(chainId: ChainId, transactionData: TransactionD
     }
 
     case TransactionMode.WITHDRAW: {
-      const args = await buildStakewiseWithdrawData(transactionData);
+      const args = await buildStakewiseWithdrawData(chainId, transactionData);
       return await estimateContractGas({
         chainId,
         contractAddress: transactionData.validatorAddress as EvmAddress,
@@ -113,7 +112,7 @@ async function getTransactionGas(chainId: ChainId, transactionData: TransactionD
         abi: stakewiseVaultDefaultABI,
         functionName: "claimExitedAssets",
         args,
-        //value: 0n,
+        value: 0n,
       });
     }
 
@@ -169,6 +168,36 @@ async function getTransactionAmount(chainId: ChainId, transaction: TransactionDa
   }
 }
 
+async function getMaxSpendable(
+  chainId: ChainId,
+  transaction: TransactionData
+): Promise<TransactionSpendableAmounts> {
+  const ethBalance = await fetchBalance(chainId, transaction.senderAddress as EvmAddress);
+
+  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
+    try {
+      const erc20Balance = await fetchERC20Balance({
+        chainId,
+        contractAddress: transaction.tokenId as EvmAddress,
+        senderAddress: transaction.senderAddress as EvmAddress,
+      });
+      return {
+        native: ethBalance,
+        token: erc20Balance,
+      };
+    } catch (e) {
+      // An error from Viem here likely just means the address doesn't hold the token
+      if (!(e instanceof ViemError)) {
+        throw e;
+      }
+    }
+  }
+
+  return { native: ethBalance };
+}
+
+// STAKEWISE ////////////////////////////////////////////////////////////////////
+
 // Only when staking, we need to fetch "harvest params" from the vault
 // The function sets the retrieved harvest params in transaction.data.params
 async function setHarvestParams(chainId: ChainId, transactionData: StakeTransactionData): Promise<void> {
@@ -195,7 +224,9 @@ async function setSharesFromAmount(chainId: ChainId, transactionData: Transactio
   // Use the first allocator data (there should typically be one per vault)
   const allocatorData = stakingData.find((allocator) => allocator.vault.id === vaultAddress);
   if (!allocatorData) {
-    console.warn(`/!\\ [StakeWise] No staking position found for validator address ${vaultAddress}`);
+    console.warn(
+      `/!\\ [StakeWise] No staking position found for sender address ${transactionData.senderAddress} and validator address ${vaultAddress}`
+    );
     throw new UserInputError(`No locked staking position found for validator address ${vaultAddress}`);
   }
 
@@ -246,45 +277,28 @@ async function setStakingPositionTimestamp(
   };
 }
 
-async function getMaxSpendable(
+async function getAmountFromExitPosition(
   chainId: ChainId,
-  transaction: TransactionData
-): Promise<TransactionSpendableAmounts> {
-  const ethBalance = await fetchBalance(chainId, transaction.senderAddress as EvmAddress);
+  senderAddress: string,
+  vaultAddress: string,
+  positionTicket: string
+): Promise<bigint> {
+  const stakingData = await fetchStakingData(chainId, senderAddress);
 
-  if (transaction.mode === TransactionMode.TRANSFER_TOKEN) {
-    try {
-      const erc20Balance = await fetchERC20Balance({
-        chainId,
-        contractAddress: transaction.tokenId as EvmAddress,
-        senderAddress: transaction.senderAddress as EvmAddress,
-      });
-      return {
-        native: ethBalance,
-        token: erc20Balance,
-      };
-    } catch (e) {
-      // An error from Viem here likely just means the address doesn't hold the token
-      if (!(e instanceof ViemError)) {
-        throw e;
-      }
-    }
+  const allocatorData = stakingData.find((data) => data.vault.id === vaultAddress);
+  if (!allocatorData) {
+    console.warn(
+      `/!\\ [StakeWise] No staking position found for sender address ${senderAddress} and validator address ${vaultAddress}`
+    );
+    throw new AdamikApiServerError(`No locked staking position found for validator address ${vaultAddress}`);
   }
 
-  return { native: ethBalance };
-}
-
-// For each unique contract address in the list of events,
-// store one arbitray event that's linked to that contract address.
-// Since events contain token info, this allows to build the list of tokens linked to an address
-function getOneEventPerContractAddress(events: EtherscanERC20Event[]): Map<EvmAddress, EtherscanERC20Event> {
-  const eventPerContractAddress = new Map<EvmAddress, any>();
-  for (const event of events) {
-    if (!eventPerContractAddress.has(event.contractAddress)) {
-      eventPerContractAddress.set(event.contractAddress, event);
-    }
+  const exitRequest = allocatorData.exitRequests.find((request) => request.positionTicket === positionTicket);
+  if (!exitRequest) {
+    throw new AdamikApiServerError(`No exit request found for position ticket ${positionTicket}`);
   }
-  return eventPerContractAddress;
+
+  return BigInt(exitRequest.totalAssets);
 }
 
 async function encodeStakewiseStakeData(
@@ -320,6 +334,7 @@ async function encodeStakewiseStakeData(
 }
 
 async function buildStakewiseUnstakeData(
+  chainId: ChainId,
   transactionData: UnstakeTransactionData
 ): Promise<[bigint, EvmAddress]> {
   const { stakingShares } = transactionData.params as EvmTransactionParams;
@@ -335,6 +350,7 @@ async function buildStakewiseUnstakeData(
 }
 
 async function buildStakewiseWithdrawData(
+  chainId: ChainId,
   transactionData: WithdrawTransactionData
 ): Promise<[bigint, bigint, bigint]> {
   // Get position ticket from stakeId
@@ -344,25 +360,34 @@ async function buildStakewiseWithdrawData(
     throw new AdamikApiServerError("Error while building staking transaction");
   }
 
-  const positionTicket = transactionData.stakeId?.split("-")[1]!;
-  if (!positionTicket || positionTicket.startsWith("0x")) {
+  const positionTicket = transactionData.stakeId?.split("-")[1];
+  if (!positionTicket) {
     console.warn("/!\\ Invalid stakeId in transaction:", transactionData);
     throw new UserInputError("Invalid stakeId");
   }
 
-  return [
-    BigInt(positionTicket),
-    stakingTimestamp,
-    0n, // Only need a proper value if we want to support V1 positions
-  ];
+  const stakingData = await fetchStakingData(chainId, transactionData.senderAddress);
+
+  const exitRequest = stakingData
+    .find((data) => data.vault.id === transactionData.validatorAddress)
+    ?.exitRequests.find((request) => request.id === transactionData.stakeId);
+  if (!exitRequest) {
+    console.warn("/!\\ Invalid stakeId in transaction:", transactionData);
+    throw new AdamikApiServerError(`No staking position found for stakeId ${transactionData.stakeId}`);
+  }
+  if (!exitRequest.exitQueueIndex) {
+    throw new UserInputError(`Unlocking period is not over yet for stakeId ${transactionData.stakeId}`);
+  }
+
+  return [BigInt(positionTicket), stakingTimestamp, BigInt(exitRequest.exitQueueIndex)];
 }
 
 export {
   buildStakewiseUnstakeData,
   buildStakewiseWithdrawData,
   encodeStakewiseStakeData,
+  getAmountFromExitPosition,
   getMaxSpendable,
-  getOneEventPerContractAddress,
   getTransactionAmount,
   getTransactionFees,
   getTransactionGas,

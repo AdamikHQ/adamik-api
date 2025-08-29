@@ -104,7 +104,7 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
       }
 
       case TransactionMode.UNSTAKE: {
-        const args = await buildStakewiseUnstakeData(transaction.data);
+        const args = await buildStakewiseUnstakeData(chainId, transaction.data);
         const data = encodeFunctionData({
           abi: stakewiseVaultDefaultABI,
           functionName: "enterExitQueue",
@@ -115,7 +115,7 @@ async function encodeTransactionAsRLP(chainId: ChainId, transaction: Transaction
       }
 
       case TransactionMode.WITHDRAW: {
-        const args = await buildStakewiseWithdrawData(transaction.data);
+        const args = await buildStakewiseWithdrawData(chainId, transaction.data);
         const data = encodeFunctionData({
           abi: stakewiseVaultDefaultABI,
           functionName: "claimExitedAssets",
@@ -196,7 +196,7 @@ async function encodeTransactionAsWalletConnect(chainId: ChainId, transaction: T
     }
 
     case TransactionMode.UNSTAKE: {
-      const args = await buildStakewiseUnstakeData(transaction.data);
+      const args = await buildStakewiseUnstakeData(chainId, transaction.data);
       const data = encodeFunctionData({
         abi: stakewiseVaultDefaultABI,
         functionName: "enterExitQueue",
@@ -211,7 +211,7 @@ async function encodeTransactionAsWalletConnect(chainId: ChainId, transaction: T
     }
 
     case TransactionMode.WITHDRAW: {
-      const args = await buildStakewiseWithdrawData(transaction.data);
+      const args = await buildStakewiseWithdrawData(chainId, transaction.data);
       const data = encodeFunctionData({
         abi: stakewiseVaultDefaultABI,
         functionName: "claimExitedAssets",

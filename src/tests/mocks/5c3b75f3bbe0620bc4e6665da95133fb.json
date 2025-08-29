@@ -1,0 +1,55 @@
+{
+  "request": {
+    "url": "https://deep-index.moralis.io/api/v2.2/transaction/0xf3bc3f33ba0e0319f9b4bbacd0d19259a310a94c9e9d5711323f3558eb90c9b4/verbose?chain=eth",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "hash": "0xf3bc3f33ba0e0319f9b4bbacd0d19259a310a94c9e9d5711323f3558eb90c9b4",
+      "nonce": "11",
+      "transaction_index": "226",
+      "from_address_entity": null,
+      "from_address_entity_logo": null,
+      "from_address": "0x6450685ae9c904b7d258a897adc1fa0736dbf5ab",
+      "from_address_label": null,
+      "to_address_entity": null,
+      "to_address_entity_logo": null,
+      "to_address": "0xac0f906e433d58fa868f936e8a43230473652885",
+      "to_address_label": null,
+      "value": "0",
+      "gas": "61468",
+      "gas_price": "303057733",
+      "input": "0x8697d2c2000000000000000000000000000000000000000000001d842047c51e2696fc4d0000000000000000000000000000000000000000000000000000000068837f0f00000000000000000000000000000000000000000000000000000000000003f2",
+      "receipt_cumulative_gas_used": "20442810",
+      "receipt_gas_used": "52619",
+      "receipt_contract_address": null,
+      "receipt_root": null,
+      "receipt_status": "1",
+      "block_timestamp": "2025-08-28T09:40:11.000Z",
+      "block_number": "23238780",
+      "block_hash": "0x13bbe00aeb08d9181f3c3b8008ec9e5a281e1e8e79e5d8db923df5192cb5147c",
+      "logs": [
+        {
+          "address": "0xac0f906e433d58fa868f936e8a43230473652885",
+          "block_number": "23238780",
+          "block_hash": "0x13bbe00aeb08d9181f3c3b8008ec9e5a281e1e8e79e5d8db923df5192cb5147c",
+          "block_timestamp": "2025-08-28T09:40:11.000Z",
+          "data": "0x000000000000000000000000000000000000000000001d842047c51e2696fc4d000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000663b6",
+          "log_index": "602",
+          "transaction_hash": "0xf3bc3f33ba0e0319f9b4bbacd0d19259a310a94c9e9d5711323f3558eb90c9b4",
+          "transaction_index": "226",
+          "transaction_value": "0",
+          "topic0": "0xeb3b05c070c24f667611fdb3ff75fe007d42401c573aed8d8faca95fd00ccb56",
+          "topic1": "0x0000000000000000000000006450685ae9c904b7d258a897adc1fa0736dbf5ab",
+          "topic2": null,
+          "topic3": null,
+          "decoded_event": null
+        }
+      ],
+      "decoded_call": null,
+      "transaction_fee": "0.000015946594852727"
+    },
+    "type": "json"
+  }
+}

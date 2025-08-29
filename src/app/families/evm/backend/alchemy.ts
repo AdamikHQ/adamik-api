@@ -1,5 +1,4 @@
 import { ALCHEMY_API_KEY } from "~/app/config/apiKeys";
-import { CHAINS } from "~/app/config/chains";
 import {
   AlchemyBalanceRequest,
   AlchemyBlock,
@@ -8,9 +7,8 @@ import {
   AlchemyTransaction,
   AlchemyTransactionWithReceipt,
   AlchemyTransfer,
-  EvmIndexer,
-} from "~/app/families/evm/backend/types";
-import { EvmAddress } from "~/app/families/evm/types";
+} from "~/app/families/evm/backend/alchemy.types";
+import { EvmAddress, EvmIndexer } from "~/app/families/evm/types";
 import {
   ChainId,
   FinalizedTransaction,
@@ -25,30 +23,6 @@ import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
-
-const SUPPORTED_CHAIN_IDS: Map<ChainId, string> = new Map([
-  [ChainId.ETHEREUM, "eth-mainnet"],
-  [ChainId.SEPOLIA, "eth-sepolia"],
-  [ChainId.HOLESKY, "eth-holesky"],
-  [ChainId.POLYGON, "polygon-mainnet"],
-  [ChainId.POLYGON_AMOY, "polygon-amoy"],
-  [ChainId.ARBITRUM, "arb-mainnet"],
-  [ChainId.ARBITRUM_SEPOLIA, "arb-sepolia"],
-  [ChainId.OPTIMISM, "opt-mainnet"],
-  [ChainId.OPTIMISM_SEPOLIA, "opt-sepolia"],
-  [ChainId.BASE, "base-mainnet"],
-  [ChainId.BASE_SEPOLIA, "base-sepolia"],
-  [ChainId.BSC, "bnb-mainnet"],
-  [ChainId.BSC_TESTNET, "bnb-testnet"],
-  [ChainId.LINEA, "linea-mainnet  "],
-  [ChainId.LINEA_SEPOLIA, "linea-sepolia"],
-  [ChainId.AVALANCHE, "avax-mainnet"],
-  [ChainId.AVALANCHE_FUJI, "avax-mainnet"],
-  [ChainId.GNOSIS, "gnosis-mainnet"],
-  [ChainId.GNOSIS_CHIADO, "gnosis-chiado"],
-  [ChainId.MONAD_TESTNET, "monad-testnet"],
-  [ChainId.WORLD_CHAIN, "world-chain"],
-]);
 
 async function sendRequest(chainId: ChainId, method: string, params: any[]) {
   const baseURL = getProviderUrls(chainId, ProviderType.alchemy)[0];
@@ -257,21 +231,11 @@ async function alchemyToAdamikTransaction(
       mode: "unknown",
       state: TransactionState.CONFIRMED,
     },
-    raw: {
-      hash: alchemyTransaction.hash,
-      from: alchemyTransaction.from,
-      to: alchemyTransaction.to,
-      blockNumber: alchemyTransaction.blockNumber,
-      nonce: alchemyTransaction.nonce,
-      input: alchemyTransaction.input,
-      value: alchemyTransaction.value,
-      gas: alchemyTransaction.gas,
-      gasPrice: alchemyTransaction.gasPrice,
-      chainId: CHAINS[chainId].nativeId,
-    },
+    raw: alchemyTransaction,
   };
 }
 
+// TODO Support stakewise transactions
 async function alchemyToAdamikAccountTransaction(
   chainId: ChainId,
   alchemyTransaction: AlchemyTransfer
@@ -306,5 +270,4 @@ export const AlchemyIndexer: EvmIndexer = {
   fetchERC20Token,
   fetchERC20TokenAmounts,
   fetchTransaction,
-  SUPPORTED_CHAIN_IDS,
 };

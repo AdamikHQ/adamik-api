@@ -267,7 +267,7 @@ async function parseLegacyAminoTransaction(
       parsedTransaction.senders = [
         {
           address: message.delegator_address,
-          amount: 0n,
+          amount: 0n, // 0 because staker's balance doesn't change
         },
       ];
 

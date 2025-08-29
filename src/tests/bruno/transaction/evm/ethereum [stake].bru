@@ -1,7 +1,7 @@
 meta {
-  name: ethereum
+  name: ethereum [stake]
   type: http
-  seq: 1
+  seq: 3
 }
 
 get {
@@ -16,12 +16,12 @@ params:query {
 
 params:path {
   chainId: ethereum
-  transactionId: 0x7e8793f89f503d5baf69d10fef2c945d8064c05460bcb49e792d9015db7628db
+  transactionId: 0x5cfab22cb7b841eb0e7280df1ae15fab6317d9895cc930c86494cb7e46ca90f4
 }
 
 assert {
   res.status: eq 200
   res.body.transaction.raw: isDefined
   res.body.transaction.parsed: isDefined
-  res.body.transaction.parsed.timestamp: eq "1725263399000"
+  res.body.transaction.parsed.timestamp: eq "1753101767000"
 }

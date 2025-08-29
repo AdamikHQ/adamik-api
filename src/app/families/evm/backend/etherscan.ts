@@ -1,7 +1,7 @@
 import { ETHERSCAN_API_KEYS } from "~/app/config/apiKeys";
 import { ChainId, ProviderType } from "~/app/model/types_WIP";
 import { getProviderUrls } from "../../common";
-import { EtherscanERC20Event } from "./types";
+import { EtherscanERC20Event } from "./etherscan.types";
 
 // Etherscan-like explorer
 
@@ -69,5 +69,20 @@ async function getERC20TransferEvents(
 
   return filteredEvents;
 }
+
+// For each unique contract address in the list of events,
+// store one arbitray event that's linked to that contract address.
+// Since events contain token info, this allows to build the list of tokens linked to an address
+/*
+function getOneEventPerContractAddress(events: EtherscanERC20Event[]): Map<EvmAddress, EtherscanERC20Event> {
+  const eventPerContractAddress = new Map<EvmAddress, any>();
+  for (const event of events) {
+    if (!eventPerContractAddress.has(event.contractAddress)) {
+      eventPerContractAddress.set(event.contractAddress, event);
+    }
+  }
+  return eventPerContractAddress;
+}
+*/
 
 export { getERC20TransferEvents };
