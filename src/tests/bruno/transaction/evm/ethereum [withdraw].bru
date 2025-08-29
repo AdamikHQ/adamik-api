@@ -1,0 +1,27 @@
+meta {
+  name: ethereum [withdraw]
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{api_url}}/api/:chainId/transaction/:transactionId?include=parsed,raw
+  body: none
+  auth: none
+}
+
+params:query {
+  include: parsed,raw
+}
+
+params:path {
+  chainId: ethereum
+  transactionId: 0xf3bc3f33ba0e0319f9b4bbacd0d19259a310a94c9e9d5711323f3558eb90c9b4
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.raw: isDefined
+  res.body.transaction.parsed: isDefined
+  res.body.transaction.parsed.timestamp: eq "1756374011000"
+}

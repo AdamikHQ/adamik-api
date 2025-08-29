@@ -1,0 +1,73 @@
+{
+  "request": {
+    "url": "https://deep-index.moralis.io/api/v2.2/transaction/0x5cfab22cb7b841eb0e7280df1ae15fab6317d9895cc930c86494cb7e46ca90f4/verbose?chain=eth",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "hash": "0x5cfab22cb7b841eb0e7280df1ae15fab6317d9895cc930c86494cb7e46ca90f4",
+      "nonce": "0",
+      "transaction_index": "216",
+      "from_address_entity": null,
+      "from_address_entity_logo": null,
+      "from_address": "0x6450685ae9c904b7d258a897adc1fa0736dbf5ab",
+      "from_address_label": null,
+      "to_address_entity": null,
+      "to_address_entity_logo": null,
+      "to_address": "0xac0f906e433d58fa868f936e8a43230473652885",
+      "to_address_label": null,
+      "value": "2000000000000",
+      "gas": "69828",
+      "gas_price": "1896619336",
+      "input": "0xf9609f080000000000000000000000006450685ae9c904b7d258a897adc1fa0736dbf5ab000000000000000000000000ac0f906e433d58fa868f936e8a43230473652885",
+      "receipt_cumulative_gas_used": "21682555",
+      "receipt_gas_used": "68971",
+      "receipt_contract_address": null,
+      "receipt_root": null,
+      "receipt_status": "1",
+      "block_timestamp": "2025-07-21T12:42:47.000Z",
+      "block_number": "22967639",
+      "block_hash": "0x5dbecab613a59f6263d052703c824af5730e0155c16f302912b71d702b3a8cb9",
+      "logs": [
+        {
+          "address": "0xac0f906e433d58fa868f936e8a43230473652885",
+          "block_number": "22967639",
+          "block_hash": "0x5dbecab613a59f6263d052703c824af5730e0155c16f302912b71d702b3a8cb9",
+          "block_timestamp": "2025-07-21T12:42:47.000Z",
+          "data": "0x000000000000000000000000000000000000000000000000000001d1a94a2000000000000000000000000000000000000000000000000000000001ba2b2b418f000000000000000000000000ac0f906e433d58fa868f936e8a43230473652885",
+          "log_index": "434",
+          "transaction_hash": "0x5cfab22cb7b841eb0e7280df1ae15fab6317d9895cc930c86494cb7e46ca90f4",
+          "transaction_index": "216",
+          "transaction_value": "2000000000000",
+          "topic0": "0x861a4138e41fb21c121a7dbb1053df465c837fc77380cc7226189a662281be2c",
+          "topic1": "0x0000000000000000000000006450685ae9c904b7d258a897adc1fa0736dbf5ab",
+          "topic2": "0x0000000000000000000000006450685ae9c904b7d258a897adc1fa0736dbf5ab",
+          "topic3": null,
+          "decoded_event": null
+        }
+      ],
+      "decoded_call": {
+        "type": "function",
+        "label": "deposit",
+        "signature": "deposit(address,address)",
+        "params": [
+          {
+            "name": "",
+            "type": "address",
+            "value": "0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab",
+            "params": []
+          },
+          {
+            "name": "",
+            "type": "address",
+            "value": "0xAC0F906E433d58FA868F936E8A43230473652885",
+            "params": []
+          }
+        ]
+      },
+      "transaction_fee": "0.000130811732223256"
+    },
+    "type": "json"
+  }
+}

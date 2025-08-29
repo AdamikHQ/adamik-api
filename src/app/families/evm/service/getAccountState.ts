@@ -55,24 +55,25 @@ async function getAccountState(this: EvmService, accountId: EvmAddress): Promise
       }
 
       // Create unlocking & unlocked positions from exit requests
-      allocator.exitRequests.forEach((exitRequest) => {
-        const isUnlocked =
-          exitRequest.withdrawalTimestamp &&
-          BigInt(exitRequest.withdrawalTimestamp) * 1000n < new Date().getTime();
+      allocator.exitRequests
+        // FIXME It seems that even after a withdraw, funds are not available just yet?...
+        // So for a while, amounts that have just been withdrawn are not part of the account state??
+        // Could be solved with a WITHDRAWN status, but just filtering these amounts for now
+        .filter((exitRequest) => !exitRequest.isClaimed)
+        .forEach((exitRequest) => {
+          const unlockingPosition: StakingPosition = {
+            stakeId: exitRequest.id,
+            validatorAddresses: [allocator.vault.id],
+            amount: BigInt(exitRequest.totalAssets),
+            status: exitRequest.isClaimable ? StakingStatus.UNLOCKED : StakingStatus.UNLOCKING,
+          };
 
-        const unlockingPosition: StakingPosition = {
-          stakeId: exitRequest.id,
-          validatorAddresses: [allocator.vault.id],
-          amount: BigInt(exitRequest.totalAssets),
-          status: isUnlocked ? StakingStatus.UNLOCKED : StakingStatus.UNLOCKING,
-        };
+          if (exitRequest.withdrawalTimestamp) {
+            unlockingPosition.completionDate = Number(exitRequest.withdrawalTimestamp) * 1000;
+          }
 
-        if (exitRequest.withdrawalTimestamp) {
-          unlockingPosition.completionDate = Number(exitRequest.withdrawalTimestamp) * 1000;
-        }
-
-        stakingPositions.push(unlockingPosition);
-      });
+          stakingPositions.push(unlockingPosition);
+        });
     });
 
     result.balances.staking = {

@@ -62,13 +62,13 @@ Same as Viem, it uses its own IDs to identify chains, so we need a mapping with 
 
 1. Find your chain's ID
    - at Moralis:
-      - Check the reference doc of the endpoint we use: https://docs.moralis.io/web3-data-api/evm/reference/wallet-api/get-wallet-token-balances-price
-      - Valid IDs are listed in the `chain` query param's drop-down menu
+     - Check the reference doc of the endpoint we use: https://docs.moralis.io/web3-data-api/evm/reference/wallet-api/get-wallet-token-balances-price
+     - Valid IDs are listed in the `chain` query param's drop-down menu
    - at Alchemy
      - Log into the Alchemy dashboard and select the Adamik App
      - in the tab "Networks" look for the network you are adding
-     - Valid ids are the subdomain in the url https://<chain-name>.g.alchemy.com/v2/... 
+     - Valid ids are the subdomain in the url https://<chain-name>.g.alchemy.com/v2/...
 2. If you don't find your chain there, it means it isn't supported by Moralis or Alchemy - nothing else to do
 3. If you found your chain, then update the relevant `SUPPORTED_CHAIN_IDS` with Adamik's ChainId and the Indexer's ID
-   - for Moralis: [/src/app/families/evm/backend/moralis.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/families/evm/backend/moralis.ts)
-   - for Alchemy: [/src/app/families/evm/backend/alchemy.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/families/evm/backend/alchemy.ts)
+   - for Moralis: [/src/app/families/evm/backend/moralis.types.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/families/evm/backend/moralis.types.ts)
+   - for Alchemy: [/src/app/families/evm/backend/alchemy.types.ts](https://github.com/AdamikHQ/adamik/blob/main/src/app/families/evm/backend/alchemy.types.ts)

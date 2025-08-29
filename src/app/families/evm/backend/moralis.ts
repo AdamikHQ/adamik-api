@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js";
+import { AbiFunctionSignatureNotFoundError, decodeEventLog, decodeFunctionData } from "viem";
 import { MORALIS_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
@@ -19,45 +20,18 @@ import {
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
-import { EvmAddress } from "../types";
+import { stakewiseVaultDefaultABI } from "../abi/StakewiseVaultDefaultABI";
+import { getAmountFromExitPosition } from "../logic";
+import { EvmAddress, EvmIndexer, HexString } from "../types";
 import {
-  EvmIndexer,
+  MORALIS_SUPPORTED_CHAIN_IDS,
   MoralisAccountTransaction,
   MoralisAccountTransactionsResponse,
   MoralisERC20Token,
   MoralisERC20TokenBalance,
   MoralisTransaction,
-} from "./types";
-
-const SUPPORTED_CHAIN_IDS: Map<ChainId, string> = new Map([
-  [ChainId.ETHEREUM, "eth"],
-  [ChainId.SEPOLIA, "sepolia"],
-  [ChainId.HOLESKY, "holesky"],
-  [ChainId.POLYGON, "polygon"],
-  [ChainId.POLYGON_AMOY, "polygon amoy"],
-  [ChainId.ARBITRUM, "arbitrum"],
-  // no indexer for Sepolia with Moralis, to update later or switch to Etherscan
-  // [ChainId.ARBITRUM_SEPOLIA, "arbitrum sepolia"],
-  [ChainId.OPTIMISM, "optimism"],
-  // no indexer for Sepolia with Moralis, to update later or switch to Etherscan
-  // [ChainId.OPTIMISM_SEPOLIA, "optimism sepolia"],
-  [ChainId.BASE, "base"],
-  [ChainId.BASE_SEPOLIA, "base sepolia"],
-  [ChainId.BSC, "bsc"],
-  [ChainId.BSC_TESTNET, "bsc testnet"],
-  [ChainId.LINEA, "linea"],
-  [ChainId.LINEA_SEPOLIA, "linea sepolia"],
-  [ChainId.AVALANCHE, "avalanche"],
-  [ChainId.GNOSIS, "gnosis"],
-  [ChainId.GNOSIS_CHIADO, "gnosis testnet"],
-  [ChainId.MOONBEAM, "moonbeam"],
-  [ChainId.MOONRIVER, "moonriver"],
-  [ChainId.MOONBASE, "moonbase"],
-  [ChainId.FANTOM, "fantom"],
-  //Mantle may not be supported yet (marked as coming soon by Moralis)
-  //[ChainId.MANTLE, "mantle"],
-  [ChainId.CRONOS, "cronos"],
-]);
+} from "./moralis.types";
+import { ExitedAssetsClaimed, ExitQueueEnteredEvent } from "./stakewise.types";
 
 async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   const newOptions: RequestInit = {
@@ -80,7 +54,7 @@ async function fetchERC20TokenAmounts(
   let tokens: TokenAmount[] = [];
   let nextPage: string | null = null;
 
-  const moralisChainId = SUPPORTED_CHAIN_IDS.get(chainId);
+  const moralisChainId = MORALIS_SUPPORTED_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return { tokens, nextPage };
@@ -148,7 +122,7 @@ async function fetchERC20TokenAmounts(
 
 // Version that fully handles pagination, to return all results
 async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress): Promise<TokenAmount[]> {
-  const moralisChainId = SUPPORTED_CHAIN_IDS.get(chainId);
+  const moralisChainId = MORALIS_SUPPORTED_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return [];
@@ -209,7 +183,7 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
   if (existingToken !== null) {
     return existingToken;
   }
-  const moralisChainId = SUPPORTED_CHAIN_IDS.get(chainId);
+  const moralisChainId = MORALIS_SUPPORTED_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     throw new UnsupportedTokenIDError(tokenId, chainId);
@@ -258,7 +232,7 @@ async function fetchTransaction(
   chainId: ChainId,
   transactionId: string
 ): Promise<FinalizedTransaction | null> {
-  const moralisChainId = SUPPORTED_CHAIN_IDS.get(chainId);
+  const moralisChainId = MORALIS_SUPPORTED_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return null;
@@ -284,7 +258,7 @@ async function fetchTransaction(
     return null;
   }
 
-  return moralisToAdamikTransaction(chainId, result);
+  return await moralisToAdamikTransaction(chainId, result);
 }
 
 async function fetchAccountTransactions(
@@ -292,7 +266,7 @@ async function fetchAccountTransactions(
   address: EvmAddress,
   paginationToken?: string
 ): Promise<{ evmTransactions: FinalizedTransaction[]; nextPage: string | null }> {
-  const moralisChainId = SUPPORTED_CHAIN_IDS.get(chainId);
+  const moralisChainId = MORALIS_SUPPORTED_CHAIN_IDS.get(chainId);
   if (!moralisChainId) {
     console.warn(`/!\\ Chain ID ${chainId} is not supported by Moralis API`);
     return { evmTransactions: [], nextPage: null };
@@ -345,10 +319,10 @@ async function fetchAccountTransactions(
   };
 }
 
-function moralisToAdamikTransaction(
+async function moralisToAdamikTransaction(
   chainId: ChainId,
   moralisTransaction: MoralisTransaction
-): FinalizedTransaction {
+): Promise<FinalizedTransaction> {
   const chain = CHAINS[chainId];
 
   // Moralis bug ? For some reason, transaction_fee is NOT in smallest unit... so we need to convert it
@@ -373,29 +347,14 @@ function moralisToAdamikTransaction(
     parsedTransaction.blockHeight = BigInt(moralisTransaction.block_number);
   }
 
-  const decodedCall = moralisTransaction.decoded_call;
-  if (!moralisTransaction.decoded_call) {
-    parsedTransaction.mode = TransactionMode.TRANSFER;
-
-    parsedTransaction.senders = [
-      {
-        address: moralisTransaction.from_address,
-        amount: BigInt(moralisTransaction.value),
-      },
-    ];
-
-    parsedTransaction.recipients = [
-      {
-        address: moralisTransaction.to_address,
-        amount: BigInt(moralisTransaction.value),
-      },
-    ];
-  } else if (decodedCall.type === "function" && decodedCall.label === "transfer") {
+  // Token transfer?
+  const moralisDecodedCall = moralisTransaction.decoded_call;
+  if (moralisDecodedCall?.type === "function" && moralisDecodedCall?.label === "transfer") {
     parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
     parsedTransaction.tokenId = moralisTransaction.to_address;
 
-    const recipientAddress = decodedCall.params.find((param) => param.name === "_to")?.value || "";
-    const amount = decodedCall.params.find((param) => param.name === "_value")?.value;
+    const recipientAddress = moralisDecodedCall.params.find((param) => param.name === "_to")?.value || "";
+    const amount = moralisDecodedCall.params.find((param) => param.name === "_value")?.value;
     if (!amount) {
       console.warn(
         `/!\\ Invalid transaction data in response from explorer for chainId ${chainId}:`,
@@ -417,22 +376,143 @@ function moralisToAdamikTransaction(
         amount: BigInt(amount),
       },
     ];
+    return {
+      parsed: parsedTransaction,
+      raw: moralisTransaction,
+    };
   }
+
+  // Staking transaction? (with stakewise)
+  try {
+    const stakewiseDecodedCall = decodeFunctionData({
+      abi: stakewiseVaultDefaultABI,
+      data: moralisTransaction.input as HexString,
+    });
+
+    const mainLog = moralisTransaction.logs[0];
+    const stakewiseDecodedEvent = decodeEventLog({
+      abi: stakewiseVaultDefaultABI,
+      data: mainLog.data,
+      topics: [mainLog.topic0, mainLog.topic1, mainLog.topic2, mainLog.topic3],
+    });
+
+    switch (stakewiseDecodedCall.functionName) {
+      case "deposit":
+      case "updateStateAndDeposit": {
+        parsedTransaction.mode = TransactionMode.STAKE;
+
+        parsedTransaction.senders = [
+          {
+            address: moralisTransaction.from_address,
+            amount: BigInt(moralisTransaction.value),
+          },
+        ];
+
+        parsedTransaction.validators = {
+          target: {
+            address: moralisTransaction.to_address,
+            amount: BigInt(moralisTransaction.value),
+          },
+        };
+
+        break;
+      }
+      case "enterExitQueue": {
+        parsedTransaction.mode = TransactionMode.UNSTAKE;
+
+        const amount = await getAmountFromExitPosition(
+          chainId,
+          moralisTransaction.from_address,
+          moralisTransaction.to_address,
+          (stakewiseDecodedEvent.args as ExitQueueEnteredEvent).positionTicket.toString()
+        );
+
+        parsedTransaction.senders = [
+          {
+            address: moralisTransaction.from_address,
+            amount: 0n, // 0 because staker's balance doesn't change
+          },
+        ];
+
+        parsedTransaction.validators = {
+          target: {
+            address: moralisTransaction.to_address,
+            amount,
+          },
+        };
+
+        break;
+      }
+      case "claimExitedAssets": {
+        parsedTransaction.mode = TransactionMode.WITHDRAW;
+
+        const amount = (stakewiseDecodedEvent.args as ExitedAssetsClaimed).withdrawnAssets;
+        parsedTransaction.senders = [
+          {
+            address: moralisTransaction.from_address,
+            amount,
+          },
+        ];
+
+        parsedTransaction.validators = {
+          source: {
+            address: moralisTransaction.to_address,
+            amount,
+          },
+        };
+
+        break;
+      }
+      default: {
+        parsedTransaction.mode = "unknown";
+
+        parsedTransaction.senders = [
+          {
+            address: moralisTransaction.from_address,
+            amount: BigInt(moralisTransaction.value),
+          },
+        ];
+
+        parsedTransaction.recipients = [
+          {
+            address: moralisTransaction.to_address,
+            amount: BigInt(moralisTransaction.value),
+          },
+        ];
+      }
+    }
+
+    return {
+      parsed: parsedTransaction,
+      raw: moralisTransaction,
+    };
+  } catch (error) {
+    if (!(error instanceof AbiFunctionSignatureNotFoundError)) {
+      throw error;
+    }
+    // Not found on Stakewise ABI = not a staking tx
+  }
+
+  // Simple transfer
+  parsedTransaction.mode = TransactionMode.TRANSFER;
+
+  parsedTransaction.senders = [
+    {
+      address: moralisTransaction.from_address,
+      amount: BigInt(moralisTransaction.value),
+    },
+  ];
+
+  parsedTransaction.recipients = [
+    {
+      address: moralisTransaction.to_address,
+      amount: BigInt(moralisTransaction.value),
+    },
+  ];
 
   return {
     parsed: parsedTransaction,
-    raw: {
-      hash: moralisTransaction.hash,
-      from: moralisTransaction.from_address,
-      to: moralisTransaction.to_address,
-      blockNumber: moralisTransaction.block_number,
-      nonce: moralisTransaction.nonce,
-      input: moralisTransaction.input,
-      value: moralisTransaction.value,
-      gas: moralisTransaction.gas,
-      gasPrice: moralisTransaction.gas_price,
-      chainId: CHAINS[chainId].nativeId,
-    },
+    raw: moralisTransaction,
   };
 }
 
@@ -535,5 +615,4 @@ export const MoralisIndexer: EvmIndexer = {
   fetchERC20Token,
   fetchERC20TokenAmounts,
   fetchTransaction,
-  SUPPORTED_CHAIN_IDS,
 };

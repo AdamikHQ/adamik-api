@@ -1,6 +1,6 @@
 import { AlchemyIndexer } from "~/app/families/evm/backend/alchemy";
 import { MoralisIndexer } from "~/app/families/evm/backend/moralis";
-import { EvmIndexer } from "~/app/families/evm/backend/types";
+import { EvmIndexer } from "~/app/families/evm/types";
 import { BaseChainService, StakingService, TokenService } from "~/app/model/service";
 import { ProviderType } from "~/app/model/types_WIP";
 import { UnsupportedFeatureError } from "~/app/tools/handlers/errors";

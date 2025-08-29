@@ -62,6 +62,18 @@ async function validateTransaction(
 
       break;
     }
+    case TransactionMode.STAKE: {
+      // TODO
+      break;
+    }
+    case TransactionMode.UNSTAKE: {
+      // TODO
+      break;
+    }
+    case TransactionMode.WITHDRAW: {
+      // TODO
+      break;
+    }
   }
 }
 

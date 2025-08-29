@@ -1,5 +1,7 @@
-// Concat of  https://github.com/stakewise/v3-sdk/blob/c1780bdcb1eef6e6f97a848e73e4f5eee2574c08/src/contracts/vault/abis/DefaultVaultAbi.json
-// and https://github.com/stakewise/v3-sdk/blob/c1780bdcb1eef6e6f97a848e73e4f5eee2574c08/src/contracts/vault/abis/MainnetVaultDiffAbi.json
+// Concat of:
+// - https://github.com/stakewise/v3-sdk/blob/c1780bdcb1eef6e6f97a848e73e4f5eee2574c08/src/contracts/vault/abis/DefaultVaultAbi.json
+// - https://github.com/stakewise/v3-sdk/blob/c1780bdcb1eef6e6f97a848e73e4f5eee2574c08/src/contracts/vault/abis/MainnetVaultDiffAbi.json
+// - manually added events from https://github.com/stakewise/v3-core/blob/ad3ee575724fbe5aea90b36e0d027c65a32adec2/contracts/interfaces/IVaultEnterExit.sol
 
 export const stakewiseVaultDefaultABI = [
   {
@@ -539,5 +541,105 @@ export const stakewiseVaultDefaultABI = [
     outputs: [],
     stateMutability: "payable",
     type: "function",
+  },
+  // NOTE The following are added manually, as these aren't explicitely defined by stakewise...
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "receiver",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "prevPositionTicket",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newPositionTicket",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "withdrawnAssets",
+        type: "uint256",
+      },
+    ],
+    name: "ExitedAssetsClaimed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "receiver",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "positionTicket",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "shares",
+        type: "uint256",
+      },
+    ],
+    name: "ExitQueueEntered",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "caller",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "receiver",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "assets",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "shares",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "referrer",
+        type: "address",
+      },
+    ],
+    name: "Deposited",
+    type: "event",
   },
 ] as const;
