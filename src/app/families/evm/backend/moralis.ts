@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { AbiFunctionSignatureNotFoundError, decodeEventLog, decodeFunctionData } from "viem";
+import { AbiFunctionSignatureNotFoundError } from "viem";
 import { MORALIS_API_KEY } from "~/app/config/apiKeys";
 import { CHAINS } from "~/app/config/chains";
 import {
@@ -20,18 +20,15 @@ import {
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
-import { stakewiseVaultDefaultABI } from "../abi/StakewiseVaultDefaultABI";
-import { getAmountFromExitPosition } from "../logic";
-import { EvmAddress, EvmIndexer, HexString } from "../types";
+import { parseStakewiseTransaction } from "../logic";
+import { EvmAddress, EvmIndexer } from "../types";
 import {
   MORALIS_SUPPORTED_CHAIN_IDS,
-  MoralisAccountTransaction,
-  MoralisAccountTransactionsResponse,
   MoralisERC20Token,
   MoralisERC20TokenBalance,
   MoralisTransaction,
+  MoralisTransactionsResponse,
 } from "./moralis.types";
-import { ExitedAssetsClaimed, ExitQueueEnteredEvent } from "./stakewise.types";
 
 async function fetchWithHeaders(url: string, options: RequestInit = {}) {
   const newOptions: RequestInit = {
@@ -86,7 +83,7 @@ async function fetchERC20TokenAmounts(
   const response = await fetchWithHeaders(url).then((response) => response.json());
 
   if (response.message === "Cursor is invalid or expired") {
-    console.warn(`/!\\ Error response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
+    console.warn(`/!\\ Error response from ${chainId} explorer endpoint ${url.toString()}:`, response);
     throw new InvalidPaginationTokenError(`Pagination token is invalid or expired`);
   }
 
@@ -223,7 +220,7 @@ async function fetchERC20Token(chainId: ChainId, tokenId: EvmAddress): Promise<T
     await TokenStore.save(chainId, [token]);
     return token;
   } catch (e) {
-    console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
+    console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`, response);
     throw new ThirdPartyProviderError(`Invalid data in response from explorer for chain ID ${chainId}`);
   }
 }
@@ -295,26 +292,28 @@ async function fetchAccountTransactions(
     }
   }
 
-  const url = `${explorerURL}/v2.2/wallets/${address}/history?${searchParams}`;
+  const url = `${explorerURL}/v2.2/${address}/verbose?${searchParams}`;
 
-  const response: MoralisAccountTransactionsResponse = await fetchWithHeaders(url.toString()).then(
-    (response) => response.json()
+  const response: MoralisTransactionsResponse = await fetchWithHeaders(url.toString()).then((response) =>
+    response.json()
   );
 
   if (response?.message === "Cursor is invalid or expired") {
-    console.warn(`/!\\ Error response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
+    console.warn(`/!\\ Error response from ${chainId} explorer endpoint ${url.toString()}:`, response);
     throw new InvalidPaginationTokenError(`Pagination token is invalid or expired`);
   }
 
   if (!Array.isArray(response?.result)) {
-    console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint: ${url.toString()}:`, response);
+    console.warn(`/!\\ Invalid response from ${chainId} explorer endpoint ${url.toString()}:`, response);
     return { evmTransactions: [], nextPage: null };
   }
 
+  const evmTransactions = await Promise.all(
+    response.result.map((result: MoralisTransaction) => moralisToAdamikTransaction(chainId, result))
+  );
+
   return {
-    evmTransactions: response.result.map((result: MoralisAccountTransaction) =>
-      moralisToAdamikAccountTransaction(chainId, result)
-    ),
+    evmTransactions,
     nextPage: paginationToB64(response.cursor),
   };
 }
@@ -347,9 +346,34 @@ async function moralisToAdamikTransaction(
     parsedTransaction.blockHeight = BigInt(moralisTransaction.block_number);
   }
 
+  // Some exotic transactions have unexpected and unsupported data
+  // e.g : https://etherscan.io/tx/0x92c6783d272db725df2f737cdf0402f36bf419f954be7aebb2730ac7097bc800
+  if (!moralisTransaction.from_address || !moralisTransaction.to_address) {
+    return {
+      parsed: parsedTransaction,
+      raw: moralisTransaction,
+    };
+  } else {
+    parsedTransaction.senders = [
+      {
+        address: moralisTransaction.from_address,
+        amount: BigInt(moralisTransaction.value),
+      },
+    ];
+    parsedTransaction.recipients = [
+      {
+        address: moralisTransaction.to_address,
+        amount: BigInt(moralisTransaction.value),
+      },
+    ];
+  }
+
   // Token transfer?
   const moralisDecodedCall = moralisTransaction.decoded_call;
-  if (moralisDecodedCall?.type === "function" && moralisDecodedCall?.label === "transfer") {
+  if (
+    moralisDecodedCall?.type === "function" &&
+    ["transfer", "transferFrom"].includes(moralisDecodedCall?.label)
+  ) {
     parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
     parsedTransaction.tokenId = moralisTransaction.to_address;
 
@@ -384,108 +408,7 @@ async function moralisToAdamikTransaction(
 
   // Staking transaction? (with stakewise)
   try {
-    const stakewiseDecodedCall = decodeFunctionData({
-      abi: stakewiseVaultDefaultABI,
-      data: moralisTransaction.input as HexString,
-    });
-
-    const mainLog = moralisTransaction.logs[0];
-    const stakewiseDecodedEvent = decodeEventLog({
-      abi: stakewiseVaultDefaultABI,
-      data: mainLog.data,
-      topics: [mainLog.topic0, mainLog.topic1, mainLog.topic2, mainLog.topic3],
-    });
-
-    switch (stakewiseDecodedCall.functionName) {
-      case "deposit":
-      case "updateStateAndDeposit": {
-        parsedTransaction.mode = TransactionMode.STAKE;
-
-        parsedTransaction.senders = [
-          {
-            address: moralisTransaction.from_address,
-            amount: BigInt(moralisTransaction.value),
-          },
-        ];
-
-        parsedTransaction.validators = {
-          target: {
-            address: moralisTransaction.to_address,
-            amount: BigInt(moralisTransaction.value),
-          },
-        };
-
-        break;
-      }
-      case "enterExitQueue": {
-        parsedTransaction.mode = TransactionMode.UNSTAKE;
-
-        const amount = await getAmountFromExitPosition(
-          chainId,
-          moralisTransaction.from_address,
-          moralisTransaction.to_address,
-          (stakewiseDecodedEvent.args as ExitQueueEnteredEvent).positionTicket.toString()
-        );
-
-        parsedTransaction.senders = [
-          {
-            address: moralisTransaction.from_address,
-            amount: 0n, // 0 because staker's balance doesn't change
-          },
-        ];
-
-        parsedTransaction.validators = {
-          target: {
-            address: moralisTransaction.to_address,
-            amount,
-          },
-        };
-
-        break;
-      }
-      case "claimExitedAssets": {
-        parsedTransaction.mode = TransactionMode.WITHDRAW;
-
-        const amount = (stakewiseDecodedEvent.args as ExitedAssetsClaimed).withdrawnAssets;
-        parsedTransaction.senders = [
-          {
-            address: moralisTransaction.from_address,
-            amount,
-          },
-        ];
-
-        parsedTransaction.validators = {
-          source: {
-            address: moralisTransaction.to_address,
-            amount,
-          },
-        };
-
-        break;
-      }
-      default: {
-        parsedTransaction.mode = "unknown";
-
-        parsedTransaction.senders = [
-          {
-            address: moralisTransaction.from_address,
-            amount: BigInt(moralisTransaction.value),
-          },
-        ];
-
-        parsedTransaction.recipients = [
-          {
-            address: moralisTransaction.to_address,
-            amount: BigInt(moralisTransaction.value),
-          },
-        ];
-      }
-    }
-
-    return {
-      parsed: parsedTransaction,
-      raw: moralisTransaction,
-    };
+    return await parseStakewiseTransaction(chainId, moralisTransaction, parsedTransaction);
   } catch (error) {
     if (!(error instanceof AbiFunctionSignatureNotFoundError)) {
       throw error;
@@ -494,118 +417,13 @@ async function moralisToAdamikTransaction(
   }
 
   // Simple transfer
-  parsedTransaction.mode = TransactionMode.TRANSFER;
-
-  parsedTransaction.senders = [
-    {
-      address: moralisTransaction.from_address,
-      amount: BigInt(moralisTransaction.value),
-    },
-  ];
-
-  parsedTransaction.recipients = [
-    {
-      address: moralisTransaction.to_address,
-      amount: BigInt(moralisTransaction.value),
-    },
-  ];
+  if (moralisTransaction.input === "0x") {
+    parsedTransaction.mode = TransactionMode.TRANSFER;
+  }
 
   return {
     parsed: parsedTransaction,
     raw: moralisTransaction,
-  };
-}
-
-function moralisToAdamikAccountTransaction(
-  chainId: ChainId,
-  moralisTransaction: MoralisAccountTransaction
-): FinalizedTransaction {
-  const chain = CHAINS[chainId];
-
-  // Moralis bug ? For some reason, transaction_fee is NOT in smallest unit... so we need to convert it
-  const feesBN = new BigNumber(moralisTransaction.transaction_fee).multipliedBy(Math.pow(10, chain.decimals));
-  const feesAmount = feesBN.isNaN() ? 0n : BigInt(feesBN.toFixed());
-
-  const parsedTransaction: FinalizedTransaction["parsed"] = {
-    id: moralisTransaction.hash,
-    timestamp: new Date(moralisTransaction.block_timestamp).getTime(),
-    fees: {
-      amount: feesAmount,
-    },
-    gas: BigInt(moralisTransaction.receipt_gas_used),
-    nonce: BigInt(moralisTransaction.nonce),
-    // Placeholder values, actual values filled below
-    mode: "unknown",
-    state: TransactionState.UNKNOWN,
-  };
-
-  if (moralisTransaction.block_number) {
-    parsedTransaction.state = TransactionState.CONFIRMED;
-    parsedTransaction.blockHeight = BigInt(moralisTransaction.block_number);
-  }
-
-  if (moralisTransaction.native_transfers?.length) {
-    if (["send", "receive"].includes(moralisTransaction.category)) {
-      parsedTransaction.mode = TransactionMode.TRANSFER;
-    }
-
-    const moralisNativeTransfer = moralisTransaction.native_transfers[0];
-
-    parsedTransaction.senders = [
-      {
-        address: moralisNativeTransfer.from_address,
-        amount: BigInt(moralisNativeTransfer.value),
-      },
-    ];
-
-    parsedTransaction.recipients = [
-      {
-        address: moralisNativeTransfer.to_address,
-        amount: BigInt(moralisNativeTransfer.value),
-      },
-    ];
-
-    // Check for self-transfer (same sender and recipient address)
-    if (
-      parsedTransaction.mode === "unknown" &&
-      moralisNativeTransfer.from_address === moralisNativeTransfer.to_address
-    ) {
-      parsedTransaction.mode = TransactionMode.TRANSFER;
-    }
-  } else if (moralisTransaction.erc20_transfers?.length) {
-    const moralisErc20Transfer = moralisTransaction.erc20_transfers[0];
-    parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
-    parsedTransaction.tokenId = moralisErc20Transfer.address;
-
-    parsedTransaction.senders = [
-      {
-        address: moralisErc20Transfer.from_address,
-        amount: BigInt(moralisErc20Transfer.value),
-      },
-    ];
-
-    parsedTransaction.recipients = [
-      {
-        address: moralisErc20Transfer.to_address,
-        amount: BigInt(moralisErc20Transfer.value),
-      },
-    ];
-  }
-
-  return {
-    parsed: parsedTransaction,
-    raw: {
-      hash: moralisTransaction.hash,
-      from: moralisTransaction.from_address,
-      to: moralisTransaction.to_address,
-      blockNumber: moralisTransaction.block_number,
-      nonce: moralisTransaction.nonce,
-      input: "0x",
-      value: moralisTransaction.value,
-      gas: moralisTransaction.gas,
-      gasPrice: moralisTransaction.gas_price,
-      chainId: CHAINS[chainId].nativeId,
-    },
   };
 }
 

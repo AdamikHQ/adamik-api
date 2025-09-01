@@ -114,132 +114,13 @@ type MoralisERC20TokenBalance = {
   //portfolio_percentage: number;
 };
 
-type MoralisAccountTransactionsResponse = {
+type MoralisTransactionsResponse = {
   page: string;
   page_size: string;
   cursor: string;
-  result: MoralisAccountTransaction[];
+  result: MoralisTransaction[];
   message?: string;
 };
 
-type MoralisAccountTransaction = {
-  hash: string;
-  nonce: string;
-  transaction_index: string;
-  from_address_entity: string;
-  from_address_entity_logo: string;
-  from_address: string;
-  from_address_label: string;
-  to_address_entity: string;
-  to_address_entity_logo: string;
-  to_address: string;
-  to_address_label: string;
-  value: string;
-  gas: string;
-  gas_price: string;
-  transaction_fee: string;
-  receipt_cumulative_gas_used: string;
-  receipt_gas_used: string;
-  receipt_contract_address: string;
-  receipt_root: string;
-  receipt_status: string;
-  block_timestamp: Date;
-  block_number: string;
-  block_hash: string;
-  internal_transactions: MoralisInternalTransaction[];
-  nft_transfers: MoralisNftTransfer[];
-  erc20_transfers: MoralisErc20Transfer[];
-  native_transfers: MoralisNativeTransfer[];
-  category: string;
-};
-
-type MoralisNativeTransfer = {
-  from_address_entity: string;
-  from_address_entity_logo: string;
-  from_address: string;
-  from_address_label: string;
-  to_address_entity: string;
-  to_address_entity_logo: string;
-  to_address: string;
-  to_address_label: string;
-  value: string;
-  value_formatted: string;
-  direction: string;
-  internal_transaction: string;
-  token_symbol: string;
-  token_logo: string;
-};
-
-type MoralisErc20Transfer = {
-  token_name: string;
-  token_symbol: string;
-  token_logo: string;
-  token_decimals: string;
-  transaction_hash: string;
-  address: string;
-  block_timestamp: Date;
-  block_number: string;
-  block_hash: string;
-  to_address_entity: string;
-  to_address_entity_logo: string;
-  to_address: string;
-  to_address_label: string;
-  from_address_entity: string;
-  from_address_entity_logo: string;
-  from_address: string;
-  from_address_label: string;
-  value: string;
-  transaction_index: number;
-  log_index: number;
-  possible_spam: string;
-  verified_contract: string;
-};
-
-type MoralisNftTransfer = {
-  token_address: string;
-  token_id: string;
-  from_address_entity: string;
-  from_address_entity_logo: string;
-  from_address: string;
-  from_address_label: string;
-  to_address_entity: string;
-  to_address_entity_logo: string;
-  to_address: string;
-  to_address_label: string;
-  value: string;
-  amount: string;
-  contract_type: string;
-  block_number: string;
-  block_timestamp: Date;
-  block_hash: string;
-  transaction_hash: string;
-  transaction_type: string;
-  transaction_index: number;
-  log_index: number;
-  operator: string;
-  possible_spam: string;
-  verified_collection: string;
-};
-
-type MoralisInternalTransaction = {
-  transaction_hash: string;
-  block_number: string;
-  block_hash: string;
-  type: string;
-  from: string;
-  to: string;
-  value: string;
-  gas: string;
-  gas_used: string;
-  input: string;
-  output: string;
-};
-
 export { MORALIS_SUPPORTED_CHAIN_IDS };
-export type {
-  MoralisAccountTransaction,
-  MoralisAccountTransactionsResponse,
-  MoralisERC20Token,
-  MoralisERC20TokenBalance,
-  MoralisTransaction,
-};
+export type { MoralisERC20Token, MoralisERC20TokenBalance, MoralisTransaction, MoralisTransactionsResponse };

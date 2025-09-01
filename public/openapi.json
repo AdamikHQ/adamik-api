@@ -2749,8 +2749,8 @@
                                   "tokenId",
                                   "senderAddress"
                                 ],
-                                "title": "Allow Token",
-                                "description": "Allow an address to hold a token"
+                                "title": "Enable Token",
+                                "description": "Enable an address to hold a token"
                               },
                               {
                                 "type": "object",
@@ -3378,8 +3378,8 @@
                                     "tokenId",
                                     "senderAddress"
                                   ],
-                                  "title": "Transfer Token",
-                                  "description": "Allow an address to hold a token"
+                                  "title": "Enable Token",
+                                  "description": "Enable an address to hold a token"
                                 },
                                 {
                                   "type": "object",
@@ -3989,8 +3989,8 @@
                                   "tokenId",
                                   "senderAddress"
                                 ],
-                                "title": "Allow Token",
-                                "description": "Allow an address to hold a token"
+                                "title": "Enable Token",
+                                "description": "Enable an address to hold a token"
                               },
                               {
                                 "type": "object",
@@ -4866,8 +4866,8 @@
                                   "tokenId",
                                   "senderAddress"
                                 ],
-                                "title": "Allow Token",
-                                "description": "Allow an address to hold a token"
+                                "title": "Enable Token",
+                                "description": "Enable an address to hold a token"
                               },
                               {
                                 "type": "object",

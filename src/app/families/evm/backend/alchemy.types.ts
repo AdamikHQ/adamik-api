@@ -123,6 +123,9 @@ type AlchemyTransfer = {
     address: null;
     decimal: HexString;
   };
+  metadata: {
+    blockTimestamp: string;
+  };
 };
 
 type AlchemyBlock = {
