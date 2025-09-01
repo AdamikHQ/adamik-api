@@ -1,7 +1,8 @@
-import { encodeFunctionData, Hex, BaseError as ViemError } from "viem";
+import { decodeEventLog, decodeFunctionData, encodeFunctionData, Hex, BaseError as ViemError } from "viem";
 import { CHAINS } from "~/app/config/chains";
 import {
   ChainId,
+  FinalizedTransaction,
   StakeTransactionData,
   TransactionData,
   TransactionMode,
@@ -11,6 +12,8 @@ import {
 } from "~/app/model/types_WIP";
 import { AdamikApiServerError, UserInputError } from "~/app/tools/handlers/errors";
 import { stakewiseVaultDefaultABI } from "./abi/StakewiseVaultDefaultABI";
+import { AlchemyTransactionWithReceipt } from "./backend/alchemy.types";
+import { MoralisTransaction } from "./backend/moralis.types";
 import {
   estimateContractGas,
   estimateERC20FeesForL2,
@@ -22,6 +25,7 @@ import {
   fetchERC20Balance,
 } from "./backend/node";
 import { fetchHarvestParams, fetchStakingData } from "./backend/stakewise";
+import { ExitedAssetsClaimed, ExitQueueEnteredEvent } from "./backend/stakewise.types";
 import { EvmAddress, EvmChainParams, EvmTransactionParams, HexString } from "./types";
 
 const isHexString = (val: string): val is Hex =>
@@ -382,6 +386,126 @@ async function buildStakewiseWithdrawData(
   return [BigInt(positionTicket), stakingTimestamp, BigInt(exitRequest.exitQueueIndex)];
 }
 
+// NOTE This function will throw if the provided explorer transaction,
+// isn't a stakewise one, so callers should try/catch this function
+async function parseStakewiseTransaction(
+  chainId: ChainId,
+  explorerTransaction: MoralisTransaction | AlchemyTransactionWithReceipt,
+  parsedTransaction: NonNullable<FinalizedTransaction["parsed"]>
+) {
+  const stakewiseDecodedCall = decodeFunctionData({
+    abi: stakewiseVaultDefaultABI,
+    data: explorerTransaction.input as HexString,
+  });
+
+  const mainLog =
+    "logs" in explorerTransaction ? explorerTransaction.logs[0] : explorerTransaction.receipt.logs[0];
+  const topics =
+    "topics" in mainLog ? mainLog.topics : [mainLog.topic0, mainLog.topic1, mainLog.topic2, mainLog.topic3];
+
+  const stakewiseDecodedEvent = decodeEventLog({
+    abi: stakewiseVaultDefaultABI,
+    data: mainLog.data,
+    // @ts-ignore ???
+    topics,
+  });
+
+  const fromAddress =
+    "from" in explorerTransaction ? explorerTransaction.from : explorerTransaction.from_address;
+  const toAddress = "to" in explorerTransaction ? explorerTransaction.to : explorerTransaction.to_address;
+
+  switch (stakewiseDecodedCall.functionName) {
+    case "deposit":
+    case "updateStateAndDeposit": {
+      parsedTransaction.mode = TransactionMode.STAKE;
+
+      parsedTransaction.senders = [
+        {
+          address: fromAddress,
+          amount: BigInt(explorerTransaction.value),
+        },
+      ];
+
+      parsedTransaction.validators = {
+        target: {
+          address: toAddress,
+          amount: BigInt(explorerTransaction.value),
+        },
+      };
+
+      break;
+    }
+    case "enterExitQueue": {
+      parsedTransaction.mode = TransactionMode.UNSTAKE;
+
+      const amount = await getAmountFromExitPosition(
+        chainId,
+        fromAddress,
+        toAddress,
+        (stakewiseDecodedEvent.args as ExitQueueEnteredEvent).positionTicket.toString()
+      );
+
+      parsedTransaction.senders = [
+        {
+          address: fromAddress,
+          amount: 0n, // 0 because staker's balance doesn't change
+        },
+      ];
+
+      parsedTransaction.validators = {
+        target: {
+          address: toAddress,
+          amount,
+        },
+      };
+
+      break;
+    }
+    case "claimExitedAssets": {
+      parsedTransaction.mode = TransactionMode.WITHDRAW;
+
+      const amount = (stakewiseDecodedEvent.args as ExitedAssetsClaimed).withdrawnAssets;
+      parsedTransaction.senders = [
+        {
+          address: fromAddress,
+          amount,
+        },
+      ];
+
+      parsedTransaction.validators = {
+        source: {
+          address: toAddress,
+          amount,
+        },
+      };
+
+      break;
+    }
+    default: {
+      parsedTransaction.mode = "unknown";
+
+      parsedTransaction.senders = [
+        {
+          address: fromAddress,
+          amount: BigInt(explorerTransaction.value),
+        },
+      ];
+
+      parsedTransaction.recipients = [
+        {
+          address: toAddress,
+          amount: BigInt(explorerTransaction.value),
+        },
+      ];
+    }
+  }
+
+  return {
+    parsed: parsedTransaction,
+    raw: explorerTransaction,
+  };
+}
+
 export {
   buildStakewiseUnstakeData,
   buildStakewiseWithdrawData,
@@ -392,6 +516,7 @@ export {
   getTransactionFees,
   getTransactionGas,
   isHexString,
+  parseStakewiseTransaction,
   setHarvestParams,
   setSharesFromAmount,
   setStakingPositionTimestamp,

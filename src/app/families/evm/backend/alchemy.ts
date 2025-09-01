@@ -1,10 +1,10 @@
+import { AbiFunctionSignatureNotFoundError, decodeFunctionData, erc20Abi } from "viem";
 import { ALCHEMY_API_KEY } from "~/app/config/apiKeys";
 import {
   AlchemyBalanceRequest,
   AlchemyBlock,
   AlchemyERC20TokenBalance,
   AlchemyPaginatedRequest,
-  AlchemyTransaction,
   AlchemyTransactionWithReceipt,
   AlchemyTransfer,
 } from "~/app/families/evm/backend/alchemy.types";
@@ -23,6 +23,12 @@ import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
+import { parseStakewiseTransaction } from "../logic";
+
+// FIXME /!\ Alchemy = VERY bad performance for tx history
+// Because the Alchemy history API is s***, there's no choice but to fetch
+// each individual transaction one by one for additional info...
+// https://www.alchemy.com/docs/data/transfers-api/transfers-endpoints/alchemy-get-asset-transfers
 
 async function sendRequest(chainId: ChainId, method: string, params: any[]) {
   const baseURL = getProviderUrls(chainId, ProviderType.alchemy)[0];
@@ -31,7 +37,6 @@ async function sendRequest(chainId: ChainId, method: string, params: any[]) {
     ? `${baseURL}${ALCHEMY_API_KEY}`
     : `${baseURL}/${ALCHEMY_API_KEY}`;
 
-  // TODO: Add support for multiple Alchemy URLs
   const res = await fetch(explorerURL, {
     method: "POST",
     headers: {
@@ -158,6 +163,7 @@ async function fetchTransaction(
   return await alchemyToAdamikTransaction(chainId, transaction);
 }
 
+// FIXME Impossible to support pagination because from / to transactions are handled separately...
 async function fetchAccountTransactions(
   chainId: ChainId,
   address: EvmAddress,
@@ -166,40 +172,45 @@ async function fetchAccountTransactions(
   const txGenericParams = {
     fromBlock: "0x0",
     toBlock: "latest",
-    withMetadata: false,
+    order: "desc",
+    withMetadata: true,
     excludeZeroValue: true,
     maxCount: "0x3e8",
     category: ["external", "erc20"],
   };
 
-  const [responseFrom, responseTo]: [AlchemyTransfer[], AlchemyTransfer[]] = await Promise.all([
-    sendRequest(chainId, "alchemy_getAssetTransfers", [
-      {
-        ...txGenericParams,
-        from: address,
-      },
-    ]),
-    sendRequest(chainId, "alchemy_getAssetTransfers", [
-      {
-        ...txGenericParams,
-        to: address,
-      },
-    ]),
+  const { transfers: transfersFrom } = await sendRequest(chainId, "alchemy_getAssetTransfers", [
+    {
+      ...txGenericParams,
+      fromAddress: address,
+    },
   ]);
-  if (!Array.isArray(responseFrom) || !Array.isArray(responseTo)) {
-    console.warn(`/!\\ Invalid response from ${chainId} (explorer: Alchemy)`, responseFrom, responseTo);
+  const { transfers: transfersTo } = await sendRequest(chainId, "alchemy_getAssetTransfers", [
+    {
+      ...txGenericParams,
+      toAddress: address,
+    },
+  ]);
+
+  if (!Array.isArray(transfersFrom) || !Array.isArray(transfersTo)) {
+    console.warn(
+      `/!\\ Invalid response from ${chainId} explorer request alchemy_getAssetTransfers:`,
+      transfersFrom,
+      transfersTo
+    );
     return {
       evmTransactions: [],
       nextPage: null,
     };
   }
 
-  const response = [...responseFrom, ...responseTo];
-  response.sort(
-    (a: AlchemyTransfer, b: AlchemyTransfer) => parseInt(a.blockNum, 16) - parseInt(b.blockNum, 16)
+  const transactions = [...transfersFrom, ...transfersTo];
+  transactions.sort(
+    (a: AlchemyTransfer, b: AlchemyTransfer) => parseInt(b.blockNum, 16) - parseInt(a.blockNum, 16)
   );
+
   const formattedTransactions = await Promise.all(
-    response.map((tx: AlchemyTransfer) => alchemyToAdamikAccountTransaction(chainId, tx))
+    transactions.map((tx: AlchemyTransfer) => alchemyToAdamikAccountTransaction(chainId, tx))
   );
 
   return {
@@ -210,58 +221,103 @@ async function fetchAccountTransactions(
 
 async function alchemyToAdamikTransaction(
   chainId: ChainId,
-  alchemyTransaction: AlchemyTransaction
+  alchemyTransaction: AlchemyTransactionWithReceipt
 ): Promise<FinalizedTransaction> {
   const block: AlchemyBlock = await sendRequest(chainId, "eth_getBlockByNumber", [
     alchemyTransaction.blockNumber,
     false,
   ]);
-  const feesAmount = BigInt(alchemyTransaction.gas) * BigInt(alchemyTransaction.gasPrice);
+  const feesAmount =
+    BigInt(alchemyTransaction.receipt.gasUsed) * BigInt(alchemyTransaction.receipt.effectiveGasPrice);
+
+  const parsedTransaction: FinalizedTransaction["parsed"] = {
+    id: alchemyTransaction.hash,
+    timestamp: parseInt(block.timestamp, 16) * 1000,
+    fees: {
+      amount: feesAmount,
+    },
+    gas: BigInt(alchemyTransaction.receipt.gasUsed),
+    nonce: BigInt(alchemyTransaction.nonce),
+    mode: "unknown",
+    state: TransactionState.UNKNOWN,
+    senders: [
+      {
+        address: alchemyTransaction.from,
+        amount: BigInt(alchemyTransaction.value),
+      },
+    ],
+    recipients: [
+      {
+        address: alchemyTransaction.to,
+        amount: BigInt(alchemyTransaction.value),
+      },
+    ],
+  };
+
+  if (alchemyTransaction.blockNumber) {
+    parsedTransaction.state = TransactionState.CONFIRMED;
+    parsedTransaction.blockHeight = BigInt(alchemyTransaction.blockNumber);
+  }
+
+  if (alchemyTransaction.input === "0x") {
+    // Simple transfer
+    parsedTransaction.mode = TransactionMode.TRANSFER;
+  } else {
+    // Staking transaction? (with stakewise)
+    try {
+      return await parseStakewiseTransaction(chainId, alchemyTransaction, parsedTransaction);
+    } catch (error) {
+      if (!(error instanceof AbiFunctionSignatureNotFoundError)) {
+        throw error;
+      }
+      // Not found on Stakewise ABI = not a staking tx
+    }
+
+    // Token transfer?
+    try {
+      const erc20DecodedCall = decodeFunctionData({
+        abi: erc20Abi,
+        data: alchemyTransaction.input,
+      });
+
+      if (["transfer", "transferFrom"].includes(erc20DecodedCall.functionName)) {
+        parsedTransaction.mode = TransactionMode.TRANSFER_TOKEN;
+
+        parsedTransaction.tokenId = alchemyTransaction.to;
+
+        parsedTransaction.senders = [
+          {
+            address: alchemyTransaction.from,
+            amount: BigInt(erc20DecodedCall.args[1]!),
+          },
+        ];
+
+        parsedTransaction.recipients = [
+          {
+            address: erc20DecodedCall.args[0]!,
+            amount: BigInt(erc20DecodedCall.args[1]!),
+          },
+        ];
+      }
+    } catch (error) {
+      if (!(error instanceof AbiFunctionSignatureNotFoundError)) {
+        throw error;
+      }
+      // Not found on ERC20 ABI = not a token transfer tx
+    }
+  }
 
   return {
-    parsed: {
-      id: alchemyTransaction.hash,
-      timestamp: parseInt(block.timestamp, 16) * 1000,
-      fees: {
-        amount: feesAmount,
-      },
-      gas: BigInt(alchemyTransaction.gas),
-      nonce: BigInt(alchemyTransaction.nonce),
-      // FIXME: Supported modes
-      mode: "unknown",
-      state: TransactionState.CONFIRMED,
-    },
+    parsed: parsedTransaction,
     raw: alchemyTransaction,
   };
 }
 
-// TODO Support stakewise transactions
 async function alchemyToAdamikAccountTransaction(
   chainId: ChainId,
   alchemyTransaction: AlchemyTransfer
 ): Promise<FinalizedTransaction | null> {
-  const transaction = await fetchTransaction(chainId, alchemyTransaction.hash);
-  if (!transaction || !transaction.parsed) return null;
-
-  transaction.parsed.senders = [
-    {
-      address: alchemyTransaction.from,
-      amount: BigInt(alchemyTransaction.value),
-    },
-  ];
-  transaction.parsed.recipients = [
-    {
-      address: alchemyTransaction.to,
-      amount: BigInt(alchemyTransaction.value),
-    },
-  ];
-
-  // Check for self-transfer (same sender and recipient address)
-  if (transaction.parsed.mode === "unknown" && alchemyTransaction.from === alchemyTransaction.to) {
-    transaction.parsed.mode = TransactionMode.TRANSFER;
-  }
-
-  return transaction;
+  return fetchTransaction(chainId, alchemyTransaction.hash);
 }
 
 export const AlchemyIndexer: EvmIndexer = {
