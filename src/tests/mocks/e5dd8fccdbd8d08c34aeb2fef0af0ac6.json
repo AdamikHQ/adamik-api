@@ -1,0 +1,23 @@
+{
+  "request": {
+    "url": "https://tonapi.io/v2/accounts/0:4cba7341e14953ca88065231d32d1def6142ae25b1d4c61d3e6f99d01e677a44",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "address": "0:4cba7341e14953ca88065231d32d1def6142ae25b1d4c61d3e6f99d01e677a44",
+      "balance": 1749749545,
+      "last_activity": 1755621389,
+      "status": "active",
+      "interfaces": [
+        "multisig_v2"
+      ],
+      "get_methods": [
+        "get_multisig_data"
+      ],
+      "is_wallet": true
+    },
+    "type": "json"
+  }
+}

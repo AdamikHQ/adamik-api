@@ -1,0 +1,65 @@
+{
+  "request": {
+    "url": "https://toncenter.com/api/v2/jsonRPC",
+    "method": "POST",
+    "body": {
+      "id": "1",
+      "jsonrpc": "2.0",
+      "method": "runGetMethod",
+      "params": {
+        "address": "EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs",
+        "method": "get_wallet_address",
+        "stack": [
+          [
+            "tvm.Slice",
+            "te6cckEBAQEAJAAAQ4AJl05oPCkqeVEAykY6ZaO97ChVxLY6mMOnzfM6A8zvSJDJr3dO"
+          ]
+        ]
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "result": {
+        "@type": "smc.runResult",
+        "gas_used": 3143,
+        "stack": [
+          [
+            "cell",
+            {
+              "bytes": "te6cckEBAQEAJAAAQ4ANMQglGg+8KB5ifCRwquTD6cvwkmK759W49q0sJq177DDtpudw",
+              "object": {
+                "data": {
+                  "b64": "gA0xCCUaD7woHmJ8JHCq5MPpy/CSYrvn1bj2rSwmrXvsIA==",
+                  "len": 267
+                },
+                "refs": [],
+                "special": false
+              }
+            }
+          ]
+        ],
+        "exit_code": 0,
+        "@extra": "1756727531.5164096:10:0.5720410383095633",
+        "block_id": {
+          "@type": "ton.blockIdExt",
+          "workchain": -1,
+          "shard": "-9223372036854775808",
+          "seqno": 51508717,
+          "root_hash": "DhWsh/sADNJYcrBvncUHoaGHknMsreSs0VaAW663oiw=",
+          "file_hash": "KK8H1HaJwmcSxFr/uJShUeSkjI4oDslOQIWiRGYLG9E="
+        },
+        "last_transaction_id": {
+          "@type": "internal.transactionId",
+          "lt": "61072117000003",
+          "hash": "HJGnmRdpUlV/XCDFfPephnrJwK3TNd+hj84YAVyVxP8="
+        }
+      },
+      "id": "1",
+      "jsonrpc": "2.0"
+    },
+    "type": "json"
+  }
+}
