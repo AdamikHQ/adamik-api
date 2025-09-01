@@ -1,0 +1,252 @@
+{
+  "request": {
+    "url": "https://tonapi.io/v2/accounts/0:4cba7341e14953ca88065231d32d1def6142ae25b1d4c61d3e6f99d01e677a44/jettons",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "balances": [
+        {
+          "balance": "1022000000000",
+          "wallet_address": {
+            "address": "0:2a61a86f60f3daf6b4ac4efe5668ca27c6f051c208c677845c596c3c66eb8f88",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:26488cd26c956e87336c9dc2741da771e672aea5e590076d0833a287b17da32f",
+            "name": "BaToN",
+            "symbol": "BTN",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/HOPgubfZTbAbkSrOKzQ5ffg6d6agUV5qjcPmQrCcg2c/rs:fill:200:200:1/g:no/aHR0cHM6Ly9jZG4uYmx1bS5jb2Rlcy83MGM5ZmI2Ny0yNGJmLTQ0ZWItYWRlMy02YjZlMjE2M2I4ZGQvMThkMmY5ZmMtZGU5OC00NjlkLWE1YzUtMGFiYWZlYWI0ZjVk.webp",
+            "verification": "none",
+            "score": 24
+          }
+        },
+        {
+          "balance": "999000000000",
+          "wallet_address": {
+            "address": "0:1761b3cb45882f480e6acb28e04c8f8dbf5a73d7d2663a219a21c1cf5657daab",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:1eb1dab09817125217cc11b36ce49df2c490861190fef3696ef3c4364cbf6452",
+            "name": "ShhhToshi",
+            "symbol": "SHHHT",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/KakwZtzwMSat9xjclr9IaRvF2wxHTgw0Ap_o2JFSjhg/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pbWFnaXplci5pbWFnZXNoYWNrLmNvbS9pbWc5MjIvNzgzMC82TThpcDYucG5n.webp",
+            "verification": "whitelist",
+            "score": 45
+          }
+        },
+        {
+          "balance": "2280000000",
+          "wallet_address": {
+            "address": "0:5d5ceb5e33a66aedc55b67b259235d99bc13544f7462589463734dbf3a898806",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:56391a57b1002d127565e530261179a43c3f154f08cbf105a35858ea107aacdd",
+            "name": "Darts Coin",
+            "symbol": "DRTS",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/a4Z3El6Cy_VS_Pj2RE5AD7MYVJwaGR8JtD1P3XHqDII/rs:fill:200:200:1/g:no/aHR0cHM6Ly9kYXJ0c2NvaW4uY29tL2xvZ28vRFJUU2NvbS5wbmc.webp",
+            "verification": "whitelist",
+            "score": 39
+          }
+        },
+        {
+          "balance": "14500014999995",
+          "wallet_address": {
+            "address": "0:69884128d07de140f313e1238557261f4e5f849315df3eadc7b56961356bdf61",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:b113a994b5024a16719f69139328eb759596c38a25f59028b146fecdc3621dfe",
+            "name": "Tether USD",
+            "symbol": "USD₮",
+            "decimals": 6,
+            "image": "https://cache.tonapi.io/imgproxy/T3PB4s7oprNVaJkwqbGg54nexKE0zzKhcrPv8jcWYzU/rs:fill:200:200:1/g:no/aHR0cHM6Ly90ZXRoZXIudG8vaW1hZ2VzL2xvZ29DaXJjbGUucG5n.webp",
+            "verification": "whitelist",
+            "score": 100
+          }
+        },
+        {
+          "balance": "913400000",
+          "wallet_address": {
+            "address": "0:36bb905e6efb26015046b90e4063d27f5ba6d0d334d296582c330d704a66b759",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:cf04481dc80292b832ffd9a6d55bee6a412d17e41126a9eff84f007497e2c908",
+            "name": "TAP KING",
+            "symbol": "TKG",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/wKs70cfyFOfAEUTKm_jQqLR2VChSQrLexaf-4--EB5A/rs:fill:200:200:1/g:no/aHR0cHM6Ly9zYWxtb24tY2FzdWFsLWdvbGRmaXNoLTUyNy5teXBpbmF0YS5jbG91ZC9pcGZzL1FtYllHQlpoa2d4WXBvd2dwQmgzNVpONnhROTJTTmo3dzVpOEx5bXViM2dtZ0M.webp",
+            "verification": "whitelist",
+            "score": 0
+          }
+        },
+        {
+          "balance": "100",
+          "wallet_address": {
+            "address": "0:bb285074987ed95282bb012b7753cb9188a10bf8a28f139e3013ae2916c4c406",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:13daaa996d8339d69c1931e91495f72c04a420a11b78f79209cf2fc17c3fecce",
+            "name": "YARUNIN",
+            "symbol": "YRN",
+            "decimals": 2,
+            "image": "https://cache.tonapi.io/imgproxy/S99WTuaO1eodi43Y2X5ccydX1E7T6PhZUjtfrWrdsa0/rs:fill:200:200:1/g:no/aHR0cHM6Ly9hc3NldHMuenlyb3NpdGUuY29tL21qRTk1MG9Xb0t1WDg3WmUvbG9nby15YXJ1bmluLW01S2JyUE9CVk1GMDhPOGoucG5n.webp",
+            "verification": "whitelist",
+            "score": 41
+          }
+        },
+        {
+          "balance": "120000000",
+          "wallet_address": {
+            "address": "0:ed5125b3f995765424d4a186b79a93b93e922febb4c99aa3bdca3257915c6bc7",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:48cef1de34697508200b8026bf882f8e88aff894586cfd304ab513633fa7e2d3",
+            "name": "AI Coin",
+            "symbol": "AIC",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/nQFcCs-moAhqSQM7T-qnobknXrQ1OcGAnVjMLk5J9RM/rs:fill:200:200:1/g:no/aHR0cHM6Ly9haWNvaW50b24uZ2l0aHViLmlvL0FJLUNvaW4uaW4vbG9nby5wbmc.webp",
+            "verification": "whitelist",
+            "score": 60
+          }
+        },
+        {
+          "balance": "5002000000000",
+          "wallet_address": {
+            "address": "0:b51c2d409674269e4702153f810e2097e34c954e75994844eac09fdf3f9d42f1",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:54a87b5b3e48fec16d8805915d871b3f0b5d4ba44e316fc2dce5463ae0dd9b27",
+            "name": "Qumva Network",
+            "symbol": "QMV",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/f5jRgeFD2ky6MsReYgyMtFwedngrlrorkULNKKBXU_Q/rs:fill:200:200:1/g:no/aHR0cHM6Ly9waG90b3MucGlua3NhbGUuZmluYW5jZS9maWxlL3BpbmtzYWxlLWxvZ28tdXBsb2FkLzE3MjQ5MzE2MDA0MDEtNTNiMTA2Y2UwYWYwMDBiNTM0ZTdlMzRmZWU2Yjg0NDkucG5n.webp",
+            "verification": "none",
+            "score": 0
+          }
+        },
+        {
+          "balance": "3000000000",
+          "wallet_address": {
+            "address": "0:40be2309112709317487fcfe31432e3952afcc54835730ea272f0e8106554fcf",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:7771c5b8e8b168b8cc746f117a1db57ccc73f37310ced91343ec722549ac6619",
+            "name": "ARCADIA COIN",
+            "symbol": "ARCC",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/lOhAg2jGu3pmnj5K-GTN0oJmgQ9Wr-IvEv_e9zWje58/rs:fill:200:200:1/g:no/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FyY2FkaWFXZWIzcGxhdGZvcm0vQXJjYWRpYVdlYjMvcmVmcy9oZWFkcy9tYWluL0FSQ0MlMjBMb2dvLnBuZw.webp",
+            "verification": "none",
+            "score": 25
+          }
+        },
+        {
+          "balance": "2000000000",
+          "wallet_address": {
+            "address": "0:9820b086a75d8ee80e78df3504d324df9ab77b07eacd9d047215a5e0776a4da3",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:76daefc43c5e43caab594618c9d9889996237ec39642aba17f3d8e886ba6ef8b",
+            "name": "Pavel Durov",
+            "symbol": "DUROV",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/wsaOEcsTp6tUTy4BIOlgzLG2pG1c6l6GDDN4MmerT0c/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLnBvc3RpbWcuY2MvU3NoeDRmcTQvMjAyNC0wNS0yOS0xMC0xMy01OS5qcGc.webp",
+            "verification": "whitelist",
+            "score": 31
+          }
+        },
+        {
+          "balance": "10000000000000000000",
+          "wallet_address": {
+            "address": "0:9814e46da937c474d7e3edac1c93df0c838da5e2aa95b99246b01e53e105a501",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:bbae71c7b4c5412b28621a701bb58225cc6c52d1d7e2dd96c7131157d0b622f5",
+            "name": "@BTC25 MEMECOIN TonMiner",
+            "symbol": "@BTC25",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/HKMvWvqd04phh_0hJIeSR-2peOg2XyqZJhGgiZWd_y4/rs:fill:200:200:1/g:no/aHR0cHM6Ly9pLnBvc3RpbWcuY2MvTUtoNHZ5cE4vcGhvdG8tMjAyNC0wMy0wNC0xMi0zMi0wNC0xLnBuZw.webp",
+            "verification": "whitelist",
+            "score": 65
+          }
+        },
+        {
+          "balance": "4500000000",
+          "wallet_address": {
+            "address": "0:294e82e7567b6b2f3c955d959d6992f77392e763559deac0493c86d90c0d6b3a",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:41ed158ed2ace8e898629172e398a25cf35212e094747327396cf00bfe1d061a",
+            "name": "Portal Network Token",
+            "symbol": "POE",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/dlZAMZ-KaJp2Pn6JxB2hZNjwflKxYrnc9ZmvoRVZpl8/rs:fill:200:200:1/g:no/aHR0cHM6Ly9hdmF0YXJzLmR6ZW5pbmZyYS5ydS9nZXQtemVuLWxvZ29zLzE1OTc3NjkvcHViXzVlZWI1N2E2NTJjOWQ5MzQ3NDQ3NDE0MV81ZWViNTg4ZWUwZDU3YjBlNDNmZjQyM2Qvb3JpZw.webp",
+            "verification": "whitelist",
+            "score": 28
+          }
+        },
+        {
+          "balance": "213000000000",
+          "wallet_address": {
+            "address": "0:a92715692052303520ff313be8c7a280aafee19b652da4c6085a7be859ed3e18",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:5893d469f238059b113a5c820e88f252c4e6c0c2de837538517533fbb7725085",
+            "name": "Rebalancer",
+            "symbol": "REBA",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/mw09U0SV_W6KuaJLddycKU61-d1GANAiyfbqHGnSbuw/rs:fill:200:200:1/g:no/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL1JlYmFsYW5jZXIvcGljdHVyZS9tYWluL3JlYmFsYW5jZXIlMjAoMikucG5n.webp",
+            "verification": "whitelist",
+            "score": 43
+          }
+        },
+        {
+          "balance": "14611057520000000",
+          "wallet_address": {
+            "address": "0:193bed2bb370ae773fb7ab28d49a4f5e837c5e82ca0e521d40b5812d797eb1b6",
+            "is_scam": false,
+            "is_wallet": false
+          },
+          "jetton": {
+            "address": "0:ab637a4346e1d486850daee57c5f47952faeee1d52b4bf7840036f25758976a8",
+            "name": "FIGHT",
+            "symbol": "FIGHT",
+            "decimals": 9,
+            "image": "https://cache.tonapi.io/imgproxy/ruGaK8tDJe7oS5ULYhFPGtgWAZuPYNW3QOUnX_biQsk/rs:fill:200:200:1/g:no/aHR0cHM6Ly9kZC5kZXhzY3JlZW5lci5jb20vZHMtZGF0YS90b2tlbnMvc29sYW5hL0tNbkRCWGNQWG96Nm9NSlc1WEc0dFhkd1NXcG1XRVAyUlFNMVV1anB1bXAucG5nP2tleT02YzQ2OTQ.webp",
+            "verification": "none",
+            "score": 0
+          }
+        }
+      ]
+    },
+    "type": "json"
+  }
+}
