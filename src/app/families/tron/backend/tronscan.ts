@@ -40,9 +40,8 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
     throw new TransactionIdNotFoundError(transactionId, ChainId.TRON);
   }
 
-  const amount = tronTransaction.tokenTransferInfo
-    ? tronTransaction.tokenTransferInfo?.amount_str
-    : tronTransaction.contractData?.amount;
+  const tokenInfo = tronTransaction.tokenTransferInfo ?? tronTransaction.trc20TransferInfo?.[0];
+  const amount = tokenInfo ? tokenInfo.amount_str : tronTransaction.contractData?.amount;
   if (!amount) {
     console.warn(`/!\\ Invalid transaction data in response from explorer:`, tronTransaction);
     throw new Error(`Invalid data in response from explorer`);
@@ -50,7 +49,7 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
 
   const parsedTransaction: FinalizedTransaction["parsed"] = {
     id: tronTransaction.hash,
-    mode: tronTransaction.contractData.tokenInfo ? TransactionMode.TRANSFER_TOKEN : TransactionMode.TRANSFER,
+    mode: tronTransaction.contractData.data ? TransactionMode.TRANSFER_TOKEN : TransactionMode.TRANSFER,
     tokenId:
       tronTransaction.contractData?.contract_address ||
       tronTransaction.contractData?.tokenInfo?.tokenId ||
@@ -73,11 +72,17 @@ async function fetchTransaction(transactionId: string): Promise<FinalizedTransac
           },
     ],
     fees: { amount: BigInt(tronTransaction.cost.energy_fee + tronTransaction.cost.net_fee) },
-    state:
-      tronTransaction.contractRet === "SUCCESS" ? TransactionState.CONFIRMED : TransactionState.UNCONFIRMED,
+    state: TransactionState.UNKNOWN,
     timestamp: tronTransaction.timestamp,
     blockHeight: BigInt(tronTransaction.block),
   };
+
+  parsedTransaction.state =
+    tronTransaction.contractRet === "OUT_OF_ENERGY"
+      ? TransactionState.FAILED
+      : tronTransaction.contractRet === "SUCCESS"
+      ? TransactionState.CONFIRMED
+      : TransactionState.UNCONFIRMED;
 
   return {
     parsed: parsedTransaction,

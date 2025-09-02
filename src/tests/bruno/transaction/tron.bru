@@ -16,12 +16,12 @@ params:query {
 
 params:path {
   chainId: tron
-  transactionId: a8db786f6d231659569d4807945e02353387105a18c4497f55d474507e2020af
+  transactionId: 14228c24ebb987ca78929185b9a939e599dd2ce317154481dca2302e8032b6e0
 }
 
 assert {
   res.status: eq 200
   res.body.transaction.raw: isDefined
   res.body.transaction.parsed: isDefined
-  res.body.transaction.parsed.timestamp: eq "1732026072000"
+  res.body.transaction.parsed.timestamp: eq "1756129917000"
 }
