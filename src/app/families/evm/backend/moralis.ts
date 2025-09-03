@@ -360,12 +360,6 @@ async function moralisToAdamikTransaction(
         amount: BigInt(moralisTransaction.value),
       },
     ];
-    parsedTransaction.recipients = [
-      {
-        address: moralisTransaction.to_address,
-        amount: BigInt(moralisTransaction.value),
-      },
-    ];
   }
 
   // Token transfer?
@@ -419,6 +413,13 @@ async function moralisToAdamikTransaction(
   // Simple transfer
   if (moralisTransaction.input === "0x") {
     parsedTransaction.mode = TransactionMode.TRANSFER;
+
+    parsedTransaction.recipients = [
+      {
+        address: moralisTransaction.to_address,
+        amount: BigInt(moralisTransaction.value),
+      },
+    ];
   }
 
   return {

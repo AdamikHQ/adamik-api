@@ -453,7 +453,7 @@ async function parseStakewiseTransaction(
       ];
 
       parsedTransaction.validators = {
-        target: {
+        source: {
           address: toAddress,
           amount,
         },

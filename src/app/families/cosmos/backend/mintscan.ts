@@ -272,7 +272,7 @@ async function parseLegacyAminoTransaction(
       ];
 
       parsedTransaction.validators = {
-        target: {
+        source: {
           address: message.validator_address,
           amount: BigInt(message.amount.amount),
         },
