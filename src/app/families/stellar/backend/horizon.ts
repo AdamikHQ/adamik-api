@@ -214,6 +214,25 @@ async function stellarToAdamikTransaction(
   // Parse operations to determine senders/recipients + token ID
   for (const operation of operations.records) {
     switch (operation.type) {
+      case Horizon.HorizonApi.OperationResponseType.createAccount:
+        {
+          const amount = BigInt(
+            amountToSmallestUnit(operation.starting_balance, CHAINS[chainId].decimals) ?? 0
+          );
+
+          parsedTransaction.senders?.push({
+            address: operation.funder,
+            amount,
+            ticker: chain.ticker,
+          });
+          parsedTransaction.recipients?.push({
+            address: operation.account,
+            amount,
+            ticker: chain.ticker,
+          });
+        }
+        break;
+
       case Horizon.HorizonApi.OperationResponseType.payment:
         {
           const amount = BigInt(amountToSmallestUnit(operation.amount, CHAINS[chainId].decimals) ?? 0);
