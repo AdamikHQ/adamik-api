@@ -1,6 +1,6 @@
 {
   "request": {
-    "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7",
+    "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_8",
     "method": "POST",
     "body": {
       "id": 6,
@@ -22,13 +22,17 @@
             ],
             "version": "0x100000000000000000000000000000003",
             "signature": [],
-            "nonce": "0x12",
+            "nonce": "0x19",
             "resource_bounds": {
               "l2_gas": {
                 "max_amount": "0x0",
                 "max_price_per_unit": "0x0"
               },
               "l1_gas": {
+                "max_amount": "0x0",
+                "max_price_per_unit": "0x0"
+              },
+              "l1_data_gas": {
                 "max_amount": "0x0",
                 "max_price_per_unit": "0x0"
               }
@@ -54,14 +58,17 @@
       "jsonrpc": "2.0",
       "result": [
         {
-          "data_gas_consumed": "0xc0",
-          "data_gas_price": "0xb214d9555d4",
-          "gas_consumed": "0x15",
-          "gas_price": "0xe991eaf5b28",
-          "overall_fee": "0x98b89b462d948",
+          "l1_data_gas_consumed": "0xc0",
+          "l1_data_gas_price": "0x7dee",
+          "l1_gas_consumed": "0x0",
+          "l1_gas_price": "0x264224868191",
+          "l2_gas_consumed": "0xefd80",
+          "l2_gas_price": "0xb2d05e00",
+          "overall_fee": "0xa787679737280",
           "unit": "FRI"
         }
       ]
-    }
+    },
+    "type": "json"
   }
 }

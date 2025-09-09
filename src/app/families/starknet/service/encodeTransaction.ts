@@ -32,7 +32,6 @@ async function encodeTransactionToSign(
   ];
 
   transaction.data.params = {
-    mode: transaction.data.mode,
     payload: starknetTransaction.payload,
     details: starknetTransaction.details,
   } as StarknetTransactionParams;

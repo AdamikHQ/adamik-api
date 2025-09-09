@@ -1,4 +1,12 @@
-import { Contract, ec, RpcError, shortString, Provider as StarknetProvider } from "starknet";
+import {
+  Contract,
+  DeployAccountContractTransaction,
+  ec,
+  Invocation,
+  RpcError,
+  shortString,
+  Provider as StarknetProvider,
+} from "starknet";
 import { ChainId, ProviderType, TransactionMode } from "~/app/model/types_WIP";
 import { InvalidTransactionError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { getProviderUrls } from "../../common";
@@ -44,7 +52,8 @@ const broadcast = async (chainId: ChainId, signedTransaction: string): Promise<s
   }
 
   try {
-    const { mode, payload, details }: StarknetTransactionParams = JSON.parse(signedTransaction);
+    const { mode, payload, details }: StarknetTransactionParams & { mode: TransactionMode } =
+      JSON.parse(signedTransaction);
 
     if (!payload.signature) {
       throw new InvalidTransactionError({
@@ -53,19 +62,22 @@ const broadcast = async (chainId: ChainId, signedTransaction: string): Promise<s
       });
     }
 
-    const signature = isCompactSignature(payload.signature)
-      ? ec.starkCurve.Signature.fromCompact(payload.signature)
-      : ec.starkCurve.Signature.fromDER(payload.signature);
-
     // TODO: Add support for multiple node URLs
     const provider = new StarknetProvider({
       nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
     });
 
-    const providerFunction =
-      mode === TransactionMode.DEPLOY_ACCOUNT ? provider.deployAccountContract : provider.invokeFunction;
+    const signature = isCompactSignature(payload.signature)
+      ? ec.starkCurve.Signature.fromCompact(payload.signature)
+      : ec.starkCurve.Signature.fromDER(payload.signature);
 
-    const result = await providerFunction({ ...payload, signature }, details);
+    const result =
+      mode === TransactionMode.DEPLOY_ACCOUNT
+        ? await provider.deployAccountContract(
+            { ...(payload as DeployAccountContractTransaction), signature },
+            details
+          )
+        : await provider.invokeFunction({ ...(payload as Invocation), signature }, details);
 
     return result.transaction_hash;
   } catch (error) {
@@ -151,7 +163,7 @@ const buildTransferPayload = async (
   recipient: string,
   amount: bigint,
   contractId: string
-) => {
+): Promise<StarknetTransactionParams> => {
   // TODO: Add support for multiple node URLs\
   const nodeUrl = getProviderUrls(chainId, ProviderType.node);
 
@@ -168,12 +180,15 @@ const buildTransferPayload = async (
 
   const transferCall = await populateTransferCall(contractId, recipient, amount, provider);
 
-  const payload = await account.getExecutePayloadToSign(transferCall, { nonce, version: "0x3" });
-
-  return payload;
+  return await account.getExecutePayloadToSign(transferCall, { nonce, version: "0x3" });
 };
 
-const buildStakePayload = async (chainId: ChainId, poolAddress: string, sender: string, amount: BigInt) => {
+const buildStakePayload = async (
+  chainId: ChainId,
+  poolAddress: string,
+  sender: string,
+  amount: BigInt
+): Promise<StarknetTransactionParams> => {
   // TODO: Add support for multiple node URLs
   const nodeUrl = getProviderUrls(chainId, ProviderType.node);
 
@@ -206,12 +221,10 @@ const buildStakePayload = async (chainId: ChainId, poolAddress: string, sender: 
       amount,
     });
 
-    const payload = await account.getExecutePayloadToSign([approvePoolCall, delegateCall], {
+    return await account.getExecutePayloadToSign([approvePoolCall, delegateCall], {
       nonce,
       version: "0x3",
     });
-
-    return payload;
   } else {
     const approvePoolCall = starknetTokenContract.populate("approve", {
       spender: poolAddress,
@@ -222,12 +235,10 @@ const buildStakePayload = async (chainId: ChainId, poolAddress: string, sender: 
       amount,
     });
 
-    const payload = await account.getExecutePayloadToSign([approvePoolCall, delegateCall], {
+    return await account.getExecutePayloadToSign([approvePoolCall, delegateCall], {
       nonce,
       version: "0x3",
     });
-
-    return payload;
   }
 };
 

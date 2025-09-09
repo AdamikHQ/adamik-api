@@ -1,6 +1,6 @@
 {
   "request": {
-    "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7",
+    "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_8",
     "method": "POST",
     "body": {
       "id": 3,
@@ -28,6 +28,10 @@
               "l1_gas": {
                 "max_amount": "0x0",
                 "max_price_per_unit": "0x0"
+              },
+              "l1_data_gas": {
+                "max_amount": "0x0",
+                "max_price_per_unit": "0x0"
               }
             },
             "tip": "0x0",
@@ -50,14 +54,17 @@
       "jsonrpc": "2.0",
       "result": [
         {
-          "data_gas_consumed": "0xe0",
-          "data_gas_price": "0xb214d9555d4",
-          "gas_consumed": "0x11",
-          "gas_price": "0xe991eaf5b28",
-          "overall_fee": "0xab54eec502728",
+          "l1_data_gas_consumed": "0x100",
+          "l1_data_gas_price": "0x7dee",
+          "l1_gas_consumed": "0x0",
+          "l1_gas_price": "0x264224868191",
+          "l2_gas_consumed": "0xc6000",
+          "l2_gas_price": "0xb2d05e00",
+          "overall_fee": "0x8a4d28bbdee00",
           "unit": "FRI"
         }
       ]
-    }
+    },
+    "type": "json"
   }
 }

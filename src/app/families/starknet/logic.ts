@@ -14,51 +14,51 @@ import { buildTransferPayload, fetchTokenInfo } from "./backend/node";
 import { TokenBalance } from "./backend/types";
 import { STARK_TOKEN_CONTRACT_ID } from "./constants";
 import { ArgentX } from "./contracts/argentx";
-import { StarknetDeployAccountPayload, StarknetInvokePayload } from "./types";
+import { StarknetTransactionParams } from "./types";
 
 const buildTransaction = async (
   chainId: ChainId,
   transaction: Transaction
-): Promise<StarknetDeployAccountPayload | StarknetInvokePayload | undefined> => {
+): Promise<StarknetTransactionParams> => {
   const { amount, recipientAddress, senderAddress, mode } = transaction.data;
 
   switch (mode) {
+    case TransactionMode.DEPLOY_ACCOUNT: {
+      const { senderPubKey, contractType } = transaction.data;
+
+      switch (contractType) {
+        case DeployContractType.ARGENTX:
+          return await ArgentX.getDeployContractPayload(chainId, senderPubKey);
+        default:
+          throw new Error("Invalid contract type");
+      }
+    }
+
     case TransactionMode.TRANSFER: {
       if (!amount || !recipientAddress || !senderAddress) {
         throw new Error("Missing transaction data");
       }
-      const payload = await buildTransferPayload(
+
+      return await buildTransferPayload(
         chainId,
         senderAddress,
         recipientAddress,
         amount,
         STARK_TOKEN_CONTRACT_ID
       );
-
-      return payload;
     }
+
     case TransactionMode.TRANSFER_TOKEN: {
       if (!amount || !recipientAddress || !senderAddress) {
         throw new Error("Missing transaction data");
       }
-      const { tokenId } = transaction.data;
-      const payload = await buildTransferPayload(chainId, senderAddress, recipientAddress, amount, tokenId);
 
-      return payload;
+      const { tokenId } = transaction.data;
+      return await buildTransferPayload(chainId, senderAddress, recipientAddress, amount, tokenId);
     }
 
-    case TransactionMode.DEPLOY_ACCOUNT: {
-      const { senderPubKey, contractType } = transaction.data;
-
-      switch (contractType) {
-        case DeployContractType.ARGENTX: {
-          const payload = await ArgentX.getDeployContractPayload(chainId, senderPubKey);
-          return payload;
-        }
-        default: {
-          throw new Error("Invalid contract type");
-        }
-      }
+    default: {
+      throw new UserInputError(`Unsupported transaction mode ${mode} for chain ${chainId}`);
     }
   }
 };

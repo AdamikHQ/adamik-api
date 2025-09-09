@@ -2077,7 +2077,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://starknet-mainnet.public.blastapi.io/rpc/v0_7"], //FIXME: Find a better node
+        urls: ["https://starknet-mainnet.public.blastapi.io/rpc/v0_8"], //FIXME: Find a better node
       },
       {
         type: ProviderType.starkscan,
