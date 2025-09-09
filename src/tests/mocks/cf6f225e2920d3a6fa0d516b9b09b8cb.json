@@ -1,6 +1,6 @@
 {
   "request": {
-    "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_7",
+    "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_8",
     "method": "POST",
     "body": {
       "id": 4,
@@ -24,6 +24,7 @@
       "result": [
         "0x6"
       ]
-    }
+    },
+    "type": "json"
   }
 }

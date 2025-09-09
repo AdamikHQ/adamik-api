@@ -404,7 +404,7 @@
 
 ## starknet
 
-| node | https://starknet-mainnet.public.blastapi.io/rpc/v0_7 |<br />
+| node | https://starknet-mainnet.public.blastapi.io/rpc/v0_8 |<br />
 | starkscan | https://api.starkscan.co |
 
 ## starknet-sepolia
