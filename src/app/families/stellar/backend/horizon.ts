@@ -322,6 +322,9 @@ function determineTransactionMode(
   const firstOperation = operations.records[0];
 
   switch (firstOperation.type) {
+    case Horizon.HorizonApi.OperationResponseType.createAccount:
+      return TransactionMode.TRANSFER;
+
     case Horizon.HorizonApi.OperationResponseType.payment:
       // Check if it's a native XLM payment or asset payment
       if (firstOperation.asset_type === "native") {
