@@ -13,7 +13,7 @@ import { ChainId, ProviderType } from "~/app/model/types_WIP";
 import { ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { getProviderUrls } from "../../common";
 import { createStarknetAccount, marginFees } from "../logic";
-import { StarknetDeployAccountPayload } from "../types";
+import { StarknetTransactionParams } from "../types";
 
 const ARGENT_X_CLASS_HASH = "0x036078334509b514626504edc9fb252328d1a240e4e948bef8d0c08dff45927f";
 
@@ -44,7 +44,7 @@ class ArgentX {
   static getDeployContractPayload = async (
     chainId: ChainId,
     pubkey: string
-  ): Promise<StarknetDeployAccountPayload> => {
+  ): Promise<StarknetTransactionParams> => {
     // TODO: Add support for multiple node URLs
     const nodeUrl = getProviderUrls(chainId, ProviderType.node);
 
@@ -57,7 +57,7 @@ class ArgentX {
     const sanitizedPubkey = encode.sanitizeHex(pubkey);
     const AXConstructorCallData = this.getConstructorCallData(sanitizedPubkey);
 
-    const payload = await account.getDeployAccountPayloadToSign(
+    return await account.getDeployAccountPayloadToSign(
       {
         classHash: ARGENT_X_CLASS_HASH,
         addressSalt: sanitizedPubkey,
@@ -66,8 +66,6 @@ class ArgentX {
       },
       { version: "0x3" } // version 3
     );
-
-    return payload;
   };
 
   static estimateDeployFees = async (chainId: ChainId, pubkey: string): Promise<bigint> => {
