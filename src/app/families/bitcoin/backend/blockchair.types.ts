@@ -122,7 +122,7 @@ const BlockchairTransactionData = z.object({
     date: z.string(),
     time: z.string(),
     size: z.number(),
-    weight: z.number(),
+    weight: z.number().optional(),
     version: z.number(),
     lock_time: z.number(),
     is_coinbase: z.boolean(),
@@ -205,7 +205,7 @@ const BlockchairRawTransactionData = z.object({
     version: z.number(),
     size: z.number(),
     vsize: z.number(),
-    weight: z.number(),
+    weight: z.number().optional(),
     locktime: z.number(),
     vin: z
       .object({
