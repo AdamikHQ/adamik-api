@@ -55,7 +55,7 @@ const mempoolSpaceTransactionSchema = z.object({
   version: z.number(),
   locktime: z.number(),
   size: z.number(),
-  weight: z.number(),
+  weight: z.number().optional(),
   fee: z.number(),
   status: z.object({
     confirmed: z.boolean(),
