@@ -2828,7 +2828,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Claim Rewards",
-                                "description": "Retrieve rewards from staking"
+                                "description": "Retrieve pending rewards from staking"
                               },
                               {
                                 "type": "object",
@@ -2864,7 +2864,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                "description": "Move funds back from staking to your available balance"
                               },
                               {
                                 "type": "object",
@@ -3500,7 +3500,7 @@
                                     "compound"
                                   ],
                                   "title": "Claim Rewards",
-                                  "description": "Retrieve rewards from staking"
+                                  "description": "Retrieve pending rewards from staking"
                                 },
                                 {
                                   "type": "object",
@@ -3537,7 +3537,7 @@
                                     "validatorAddress"
                                   ],
                                   "title": "Withdraw Unlocked Funds",
-                                  "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                  "description": "Move funds back from staking to your available balance"
                                 },
                                 {
                                   "type": "object",
@@ -4110,7 +4110,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Claim Rewards",
-                                "description": "Retrieve rewards from staking"
+                                "description": "Retrieve pending rewards from staking"
                               },
                               {
                                 "type": "object",
@@ -4146,7 +4146,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                "description": "Move funds back from staking to your available balance"
                               },
                               {
                                 "type": "object",
@@ -4945,7 +4945,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Claim Rewards",
-                                "description": "Retrieve rewards from staking"
+                                "description": "Retrieve pending rewards from staking"
                               },
                               {
                                 "type": "object",
@@ -4981,7 +4981,7 @@
                                   "validatorAddress"
                                 ],
                                 "title": "Withdraw Unlocked Funds",
-                                "description": "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik"
+                                "description": "Move funds back from staking to your available balance"
                               },
                               {
                                 "type": "object",
