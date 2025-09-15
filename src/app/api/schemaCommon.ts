@@ -434,7 +434,7 @@ const inputClaimRewardsSchema = z
   })
   .openapi({
     title: "Claim Rewards",
-    description: "Retrieve rewards from staking",
+    description: "Retrieve pending rewards from staking",
   });
 
 const outputClaimRewardsSchema = z
@@ -448,7 +448,7 @@ const outputClaimRewardsSchema = z
   })
   .openapi({
     title: "Claim Rewards",
-    description: "Retrieve rewards from staking",
+    description: "Retrieve pending rewards from staking",
   });
 
 const inputWithdrawSchema = z
@@ -462,8 +462,7 @@ const inputWithdrawSchema = z
   })
   .openapi({
     title: "Withdraw Unlocked Funds",
-    description:
-      "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik",
+    description: "Move funds back from staking to your available balance",
   });
 
 const outputWithdrawSchema = z
@@ -477,8 +476,7 @@ const outputWithdrawSchema = z
   })
   .openapi({
     title: "Withdraw Unlocked Funds",
-    description:
-      "Only supported for Babylon staking at the moment. See documentation: https://docs.adamik.io/guides/tutorials/babylon-with-adamik",
+    description: "Move funds back from staking to your available balance",
   });
 
 const inputConvertAssetSchema = z
