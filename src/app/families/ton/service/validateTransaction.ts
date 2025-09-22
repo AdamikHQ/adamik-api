@@ -37,7 +37,7 @@ async function validateTransaction(
     !transactionData.senderPubKey
   ) {
     status.errors.push({
-      message: `Field 'senderPubKey' is required in order to initialize the wallet`,
+      message: `Public key of the sender address is required in order to initialize the wallet`,
     });
   }
 

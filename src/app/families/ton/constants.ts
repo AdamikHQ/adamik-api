@@ -1,0 +1,8 @@
+// Network constants
+// https://tonviewer.com/config#25
+const TON_LUMP_PRICE = 400000;
+const TON_BIT_PRICE = 26214400;
+const TON_CELL_PRICE = 2621440000;
+const TON_IHR_PRICE_FACTOR = 98304;
+
+export { TON_BIT_PRICE, TON_CELL_PRICE, TON_IHR_PRICE_FACTOR, TON_LUMP_PRICE };

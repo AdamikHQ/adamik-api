@@ -1,6 +1,6 @@
 import { Status, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { getSeqno } from "../backend/tonapi";
-import { computeFees, computeMaxSpendable } from "../logic";
+import { computeEstimatedFees, computeMaxSpendable } from "../logic";
 import { TonTransactionParams } from "../types";
 
 async function completeTransaction(_: { transaction: Transaction; status: Status }): Promise<void> {
@@ -15,18 +15,14 @@ async function completeTransaction(_: { transaction: Transaction; status: Status
   if (transaction.data.mode === TransactionMode.TRANSFER) {
     const seqNo = await getSeqno(transaction.data.senderAddress);
 
-    if (seqNo === null) {
-      transaction.data.nonce = 0n;
-    } else {
-      transaction.data.nonce = seqNo;
-    }
+    transaction.data.nonce = seqNo ?? 0n;
   }
 
   if (transaction.data.useMaxAmount) {
     transaction.data.amount = maxSpendable;
   }
 
-  transaction.data.fees = await computeFees(transaction.data, timeout);
+  transaction.data.fees = await computeEstimatedFees(transaction.data, timeout);
 
   if (transaction.data.useMaxAmount) {
     transaction.data.amount = maxSpendable - transaction.data.fees;

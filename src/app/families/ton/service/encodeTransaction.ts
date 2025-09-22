@@ -1,13 +1,7 @@
 import { Address } from "@ton/core";
-import {
-  EncodedTransactionFormat,
-  HashFunction,
-  Status,
-  Transaction,
-  TransactionMode,
-} from "~/app/model/types_WIP";
+import { EncodedTransactionFormat, HashFunction, Status, Transaction } from "~/app/model/types_WIP";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
-import { buildTransaction, createExternalMessage, packSignatureToFront } from "../logic";
+import { buildTransaction, createExternalMessageBOC } from "../logic";
 import { TonService } from "../service";
 import { tonTransactionParamsSchema } from "../types";
 import { initWalletV4 } from "../wallets/walletv4";
@@ -23,17 +17,17 @@ async function encodeTransactionToSign(
 
   const { timeout } = tonTransactionParamsSchema.parse(transaction.data.params);
 
-  const builtTransaction = await buildTransaction(transaction.data, timeout);
+  const builtTransaction = (await buildTransaction(transaction.data, timeout)).endCell();
 
   transaction.encoded = [
     {
       raw: {
         format: EncodedTransactionFormat.BOC, // https://docs.ton.org/v3/documentation/data-formats/tlb/cell-boc#bag-of-cells
-        value: builtTransaction.endCell().toBoc().toString("hex"),
+        value: builtTransaction.toBoc().toString("hex"),
       },
       hash: {
         format: HashFunction.SHA256, // https://docs.ton.org/v3/documentation/data-formats/tlb/cell-boc#standard-cell-representation-hash-calculation
-        value: builtTransaction.endCell().hash().toString("hex"),
+        value: builtTransaction.hash().toString("hex"),
       },
     },
   ];
@@ -53,16 +47,15 @@ async function encodeTransactionToBroadcast(
     throw new UserInputError("Missing transaction signature");
   }
 
+  if (!signedTransaction.encoded?.length || !signedTransaction.encoded[0].raw?.value) {
+    throw new UserInputError("Missing encoded transaction");
+  }
+
   if (!signedTransaction.data.params) {
-    throw new InvalidTransactionError({
-      errors: [{ message: "Transaction params are required" }],
-      warnings: [],
-    });
+    throw new UserInputError("Missing transaction.data.params");
   }
 
   const { timeout } = tonTransactionParamsSchema.parse(signedTransaction.data.params);
-
-  const signingMessage = await buildTransaction(signedTransaction.data, timeout);
 
   if (timeout < Math.floor(Date.now() / 1e3)) {
     throw new InvalidTransactionError({
@@ -71,21 +64,15 @@ async function encodeTransactionToBroadcast(
     });
   }
 
-  // Public key is mandatory when the account hasn't made a first transaction yet
-  if (
-    signedTransaction.data.mode === TransactionMode.TRANSFER &&
-    signedTransaction.data.nonce === 0n &&
-    !signedTransaction.data.senderPubKey
-  ) {
-    throw new UserInputError("Missing wallet public key: `senderPubKey` is required");
-  }
+  // NOTE Impossible to use the existing encoded from the tx because
+  // it's already in BOC format, and we need the Builder object...
+  const messageToSign = await buildTransaction(signedTransaction.data, timeout);
 
-  const packSignature = packSignatureToFront(Buffer.from(signedTransaction.signature, "hex"), signingMessage);
-
-  return createExternalMessage(
+  return createExternalMessageBOC(
     Address.parse(signedTransaction.data.senderAddress),
-    packSignature,
-    signedTransaction.data.nonce === 0n ? initWalletV4(signedTransaction.data.senderPubKey!) : undefined
+    messageToSign,
+    Buffer.from(signedTransaction.signature, "hex"),
+    signedTransaction.data.nonce === 0n ? initWalletV4(signedTransaction.data.senderPubKey || "") : undefined
   );
 }
 
