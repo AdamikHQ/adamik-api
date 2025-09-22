@@ -1,8 +1,9 @@
 import { Address, beginCell, Builder, Cell, external, internal, storeMessage, toNano } from "@ton/core";
 import { TransactionData, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
-import { estimateFees, getWalletJetonAddress } from "./backend/node";
+import { fetchFees, getWalletJetonAddress } from "./backend/node";
 import { fetchAccount } from "./backend/tonapi";
+import { TON_BIT_PRICE, TON_CELL_PRICE, TON_IHR_PRICE_FACTOR, TON_LUMP_PRICE } from "./constants";
 import { createWalletTransferV4, initWalletV4 } from "./wallets/walletv4";
 
 // Found this source but not sure it's 100% efficient
@@ -16,48 +17,59 @@ async function isAddressValid(address: string): Promise<boolean> {
   }
 }
 
-async function computeFees(transaction: TransactionData, timeout: number) {
-  const builtTransaction = (await buildTransaction(transaction, timeout)).endCell();
+// https://docs.ton.org/develop/smart-contracts/fees#basic-fees-formula
+async function computeEstimatedFees(transactionData: TransactionData, timeout: number) {
+  const builtTransaction = (await buildTransaction(transactionData, timeout)).endCell();
 
   let initData;
 
-  if (transaction.nonce === 0n && transaction.senderPubKey) {
+  if (transactionData.nonce === 0n && transactionData.senderPubKey) {
     // TODO: do loop here to get wallet version
-    initData = initWalletV4(transaction.senderPubKey);
+    initData = initWalletV4(transactionData.senderPubKey);
   }
 
-  const allFees = await estimateFees(transaction.senderAddress, builtTransaction, initData);
+  const allFees = await fetchFees(transactionData.senderAddress, builtTransaction, initData);
 
-  // https://docs.ton.org/develop/smart-contracts/fees#basic-fees-formula
-  const fees =
+  const transactionFees =
     allFees.source_fees.fwd_fee +
     allFees.source_fees.gas_fee +
     allFees.source_fees.in_fwd_fee +
     allFees.source_fees.storage_fee;
 
-  return BigInt(fees);
+  const fwdFees = allFees.source_fees.fwd_fee + allFees.source_fees.in_fwd_fee;
+
+  const bit16 = 2 ** 16;
+
+  const ihrFee = Math.ceil((fwdFees * TON_IHR_PRICE_FACTOR) / bit16);
+  const importFee = TON_LUMP_PRICE + Math.ceil((TON_BIT_PRICE * 528 + TON_CELL_PRICE * 1) / bit16);
+  const totalFees = transactionFees + ihrFee + importFee;
+
+  // FIXME Actual fees always seem a bit higher than what we compute...
+  // so we apply a safety coeff for now
+  return BigInt(Math.ceil(totalFees * 1.2));
 }
 
-async function computeMaxSpendable(transaction: TransactionData) {
-  const account = await fetchAccount(transaction.senderAddress);
+async function computeMaxSpendable(transactionData: TransactionData) {
+  const account = await fetchAccount(transactionData.senderAddress);
 
   return account?.balance || 0n;
 }
 
-async function buildTransaction(transaction: TransactionData, timeout: number) {
+async function buildTransaction(transactionData: TransactionData, timeout: number): Promise<Builder> {
   // safe to cast as validation has already been done inside `completeTransaction`
-  const amount = transaction.amount as bigint;
+  const amount = transactionData.amount as bigint;
 
   let messageBody;
   let toJettonAddress;
-  if (transaction.nonce === 0n && !transaction.senderPubKey) {
-    // FIXME Should be done in validateTransaction instead
-    throw new UserInputError("Missing wallet public key");
+  if (transactionData.nonce === 0n && !transactionData.senderPubKey) {
+    throw new UserInputError(
+      "Public key of the sender address is required in order to initialize the wallet"
+    );
   } else {
-    if (transaction.mode === TransactionMode.TRANSFER_TOKEN && transaction.tokenId !== undefined) {
-      const destinationAddress = Address.parse(transaction.recipientAddress);
+    if (transactionData.mode === TransactionMode.TRANSFER_TOKEN && transactionData.tokenId !== undefined) {
+      const destinationAddress = Address.parse(transactionData.recipientAddress);
 
-      toJettonAddress = await getWalletJetonAddress(transaction.senderAddress, transaction.tokenId);
+      toJettonAddress = await getWalletJetonAddress(transactionData.senderAddress, transactionData.tokenId);
 
       messageBody = beginCell()
         .storeUint(0x0f8a7ea5, 32) // opcode for jetton transfer
@@ -68,10 +80,10 @@ async function buildTransaction(transaction: TransactionData, timeout: number) {
         .storeBit(0) // no custom payload
         .storeCoins(toNano("0.02")); // forward amount - if >0, will send notification message
 
-      if (transaction.memo) {
+      if (transactionData.memo) {
         const forwardPayload = beginCell()
           .storeUint(0, 32) // 0 opcode means we have a comment
-          .storeStringTail(transaction.memo)
+          .storeStringTail(transactionData.memo)
           .endCell();
         messageBody = messageBody
           .storeBit(1) // we store forwardPayload as a reference
@@ -85,45 +97,43 @@ async function buildTransaction(transaction: TransactionData, timeout: number) {
 
     const message = internal({
       value: toJettonAddress ? toNano("0.1") : amount,
-      to: toJettonAddress ?? transaction.recipientAddress,
-      body: messageBody || transaction.memo,
+      to: toJettonAddress ?? transactionData.recipientAddress,
+      body: messageBody || transactionData.memo,
       init:
-        transaction.nonce === 0n && transaction.senderPubKey
-          ? initWalletV4(transaction.senderPubKey)
+        transactionData.nonce === 0n && transactionData.senderPubKey
+          ? initWalletV4(transactionData.senderPubKey)
           : undefined,
     });
 
     return createWalletTransferV4({
-      seqno: Number(transaction.nonce || 0),
+      seqno: Number(transactionData.nonce || 0),
       messages: [message],
       timeout,
     });
   }
 }
 
-function packSignatureToFront(signature: Buffer, signingMessage: Builder): Cell {
-  const body = beginCell().storeBuffer(signature).storeBuilder(signingMessage).endCell();
+function createExternalMessageBOC(
+  address: Address,
+  messageToSign: Builder,
+  signature: Buffer,
+  init?: { code: Cell; data: Cell }
+) {
+  const body = beginCell().storeBuffer(signature).storeBuilder(messageToSign).endCell();
 
-  return body;
-}
-
-function createExternalMessage(address: Address, body: Cell, init?: { code: Cell; data: Cell }) {
   const externalMessage = external({
     to: address,
     body,
     init: init ?? null,
   });
 
-  let boc = beginCell().store(storeMessage(externalMessage)).endCell().toBoc().toString("base64");
-
-  return boc;
+  return beginCell().store(storeMessage(externalMessage)).endCell().toBoc().toString("base64");
 }
 
 export {
   buildTransaction,
-  computeFees,
+  computeEstimatedFees,
   computeMaxSpendable,
-  createExternalMessage,
+  createExternalMessageBOC,
   isAddressValid,
-  packSignatureToFront,
 };

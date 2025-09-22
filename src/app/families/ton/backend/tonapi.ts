@@ -1,4 +1,11 @@
-import { Account, JettonInfo, JettonsBalances, Seqno, TonApiClient, Transaction } from "@ton-api/client";
+import {
+  Account,
+  JettonInfo,
+  JettonsBalances,
+  Seqno,
+  TonApiClient,
+  Transaction as TonTransaction,
+} from "@ton-api/client";
 import { Address } from "@ton/ton";
 import { TON_API_KEY } from "~/app/config/apiKeys";
 import { ChainId, ProviderType } from "~/app/model/types_WIP";
@@ -60,11 +67,18 @@ async function getJettonInfo(jettonAddress: string): Promise<JettonInfo> {
   }
 }
 
-async function fetchTransaction(hash: string): Promise<Transaction> {
+async function fetchTransaction(hash: string): Promise<TonTransaction | null> {
   try {
     return await api.blockchain.getBlockchainTransaction(hash);
-  } catch (e) {
+  } catch (e: any) {
     console.warn(`/!\\ Failed to fetch TON transaction '${hash}':`, e);
+
+    // FIXME TON API doesn't support failed transactions, and returns a "too many entities" error instead
+    // https://github.com/tonkeeper/tonapi/issues/117
+    if (e.message?.includes("Not found") || e.message?.includes("too many entities")) {
+      return null;
+    }
+
     throw new ThirdPartyProviderError(
       `Error while fetching data from explorer for ton transaction '${hash}'`
     );

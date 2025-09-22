@@ -11,7 +11,7 @@ const nodeClient = new TonClient({
   apiKey: TON_CENTER_API_KEY,
 });
 
-function estimateFees(contractAddress: string, body: Cell, init?: { code: Cell; data: Cell }) {
+function fetchFees(contractAddress: string, body: Cell, init?: { code: Cell; data: Cell }) {
   const tonAddress = Address.parse(contractAddress);
 
   return nodeClient.estimateExternalMessageFee(tonAddress, {
@@ -33,7 +33,7 @@ async function getWalletJetonAddress(userWalletAddress: string, jettonAddress: s
 
 // NOTE This API is not used by TON client-side SDK
 async function broadcast(transaction: string) {
-  const data = await fetch(`${nodeUrl}v2/sendBocReturnHash`, {
+  const response = await fetch(`${nodeUrl}v2/sendBocReturnHash`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -42,13 +42,14 @@ async function broadcast(transaction: string) {
     body: JSON.stringify({
       boc: transaction,
     }),
-  }).then((response) => response.json());
+  }).then((res) => res.json());
 
-  if (data.ok === false) {
-    console.warn(`ton broadcast - encountered issue: ${data.error}`);
-    throw new Error(data.error);
+  if (response.ok === false) {
+    console.warn(`ton broadcast - encountered issue: ${response.error}`);
+    throw new Error(response.error);
   }
-  return data.result.hash;
+
+  return response.result.hash;
 }
 
-export { broadcast, estimateFees, getWalletJetonAddress };
+export { broadcast, fetchFees, getWalletJetonAddress };

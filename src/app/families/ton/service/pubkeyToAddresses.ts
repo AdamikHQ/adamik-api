@@ -10,7 +10,9 @@ async function pubkeyToAddresses(this: TonService, pubkey: string): Promise<Type
         workchain: 0,
         publicKey: Buffer.from(pubkey, "hex"),
       }).address.toString({
-        bounceable: false,
+        // FIXME Should we create bounceable addresses or not?
+        // See https://ton-address-converter.com
+        //bounceable: false,
       }),
     },
     // TODO: Disabled because encode transaction is not working with these wallets
@@ -20,7 +22,7 @@ async function pubkeyToAddresses(this: TonService, pubkey: string): Promise<Type
     //     workchain: 0,
     //     publicKey: Buffer.from(pubkey, "hex"),
     //   }).address.toString({
-    //     bounceable: false,
+    //     //bounceable: false,
     //   }),
     // },
     // {
@@ -29,7 +31,7 @@ async function pubkeyToAddresses(this: TonService, pubkey: string): Promise<Type
     //     workchain: 0,
     //     publicKey: Buffer.from(pubkey, "hex"),
     //   }).address.toString({
-    //     bounceable: false,
+    //     //bounceable: false,
     //   }),
     // },
     // {
@@ -38,7 +40,7 @@ async function pubkeyToAddresses(this: TonService, pubkey: string): Promise<Type
     //     workchain: 0,
     //     publicKey: Buffer.from(pubkey, "hex"),
     //   }).address.toString({
-    //     bounceable: false,
+    //     //bounceable: false,
     //   }),
     // },
   ];
