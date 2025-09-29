@@ -33,6 +33,10 @@ async function validateTransaction(
 ): Promise<void> {
   const { transaction, status } = _;
 
+  // TODO Add validation rule:
+  // if recipient address is empty, need to send at least 1 TRX ?...
+  // or sender balance can't be less than 1 TRX ?...
+
   const transactionData = transaction.data;
   const accountData = await fetchAccountData(this.chainId, transactionData.senderAddress);
   const availableBalance = accountData.balances?.native?.available;

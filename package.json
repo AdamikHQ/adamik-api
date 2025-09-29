@@ -29,6 +29,7 @@
     "@cosmjs/proto-signing": "^0.32.4",
     "@cosmjs/stargate": "^0.32.4",
     "@injectivelabs/sdk-ts": "^1.14.53",
+    "@isaacs/ttlcache": "^1.4.1",
     "@noble/hashes": "^1.7.1",
     "@solana/spl-memo": "^0.2.5",
     "@solana/spl-token": "^0.4.13",
