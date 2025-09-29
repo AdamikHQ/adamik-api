@@ -1,9 +1,15 @@
+import TTLCache from "@isaacs/ttlcache";
 import { SOLANA_VALIDATORS_APP_API_KEY } from "~/app/config/apiKeys";
 import { ChainId, ChainValidators, Paginated, ProviderType } from "~/app/model/types_WIP";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { getProviderUrls } from "../../common";
 import { ValidatorList } from "./validatorApp.types";
+
+const VALIDATORS_CACHE = new TTLCache<string, Paginated<ChainValidators>>({
+  max: 10, // Up to 10 pagination pages
+  ttl: 1000 * 60 * 60, // Cache expiration = 1h
+});
 
 // https://www.validators.app/api-documentation?locale=en&network=mainnet#validators-list
 async function fetchValidators(
@@ -49,4 +55,21 @@ async function fetchValidators(
   }
 }
 
-export { fetchValidators };
+async function getValidatorsCached(
+  chainId: ChainId,
+  paginationToken?: string
+): Promise<Paginated<ChainValidators>> {
+  const cacheKey = `validators-${chainId}-${paginationToken}`;
+
+  const cachedValidators = VALIDATORS_CACHE.get(cacheKey);
+
+  if (cachedValidators) {
+    return cachedValidators;
+  } else {
+    const newValidators = await fetchValidators(chainId, paginationToken);
+    VALIDATORS_CACHE.set(cacheKey, newValidators);
+    return newValidators;
+  }
+}
+
+export { getValidatorsCached };

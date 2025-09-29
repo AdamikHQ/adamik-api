@@ -73,6 +73,9 @@ async function broadcastTransaction(chainId: ChainId, rawData: string): Promise<
   }
 }
 
+// FIXME Transactions expire pretty fast after getting the blockhash! (~150 blocks)
+// Maybe an alternative approach using "nonce accounts"?...
+// https://solana.com/developers/cookbook/transactions/offline-transactions#durable-nonce
 async function fetchLatestBlockhash(chainId: ChainId): Promise<string> {
   const { connection, nodeUrl } = getConnection(chainId);
 
