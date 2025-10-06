@@ -103,7 +103,7 @@ enum ChainId {
   WORLD_CHAIN_SEPOLIA = "world-chain-sepolia",
   HYPERLIQUID = "hyperliquid",
   SOLANA = "solana",
-  //STELLAR = "stellar",
+  STELLAR = "stellar",
   STELLAR_TESTNET = "stellar-testnet",
 }
 

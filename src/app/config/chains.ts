@@ -2387,7 +2387,6 @@ const CHAINS: { [key in ChainId]: Chain } = {
     signerSpec: getSignerSpecForChain(ChainId.APTOS_TESTNET, ChainFamily.APTOS),
     isTestnetFor: ChainId.APTOS,
   },
-  /*
   stellar: {
     family: ChainFamily.STELLAR,
     id: ChainId.STELLAR,
@@ -2398,13 +2397,15 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.horizon,
-        urls: ["https://horizon.stellar.org"],
+        urls: [
+          "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/",
+          "https://horizon.stellar.org",
+        ],
       },
     ],
     supportedFeatures: STELLAR_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.STELLAR, ChainFamily.STELLAR),
   },
-  */
   "stellar-testnet": {
     family: ChainFamily.STELLAR,
     id: ChainId.STELLAR_TESTNET,
@@ -2415,12 +2416,14 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.horizon,
-        urls: ["https://horizon-testnet.stellar.org"],
+        urls: [
+          "https://green-polished-ensemble.stellar-testnet.quiknode.pro/REDACTED/",
+          "https://horizon-testnet.stellar.org",
+        ],
       },
     ],
     supportedFeatures: STELLAR_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.STELLAR_TESTNET, ChainFamily.STELLAR),
-    //isTestnetFor: ChainId.STELLAR,
     isTestnetFor: "stellar",
   },
 } as const;
