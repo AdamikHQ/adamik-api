@@ -404,7 +404,7 @@
 
 ## starknet
 
-| node | https://starknet-mainnet.public.blastapi.io/rpc/v0_8 |<br />
+| node | https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_9/REDACTED |<br />
 | starkscan | https://api.starkscan.co |
 
 ## starknet-sepolia
