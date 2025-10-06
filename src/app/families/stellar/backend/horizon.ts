@@ -14,14 +14,8 @@ import {
   UserInputError,
 } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
+import { getProviderUrls } from "../../common";
 import { BASE_FEE_STROOPS, getStellarNetwork } from "../logic";
-
-function getHorizonServer(chainId: ChainId): Horizon.Server {
-  const chain = CHAINS[chainId];
-  const horizonUrl =
-    chain.providers.find((provider) => provider.type === ProviderType.horizon)?.urls[0] || "";
-  return new Horizon.Server(horizonUrl);
-}
 
 // For debug
 // Horizon.AxiosClient.interceptors.response.use(
@@ -36,32 +30,42 @@ function getHorizonServer(chainId: ChainId): Horizon.Server {
 // );
 
 async function fetchRecommendedFee(chainId: ChainId): Promise<number> {
-  try {
-    const horizonServer = getHorizonServer(chainId);
-    const feeStats = await horizonServer.feeStats();
-    return Number(feeStats.fee_charged.mode);
-  } catch (error: any) {
-    console.warn(`/!\\ Failed to fetch fee stats for stellar transaction:`, error);
-    // Fall back to the network's default base fee (100 stroops)
-    return BASE_FEE_STROOPS;
+  const urls = getProviderUrls(chainId, ProviderType.horizon);
+
+  for (const url of urls) {
+    try {
+      const horizonServer = new Horizon.Server(url);
+      const feeStats = await horizonServer.feeStats();
+      return Number(feeStats.fee_charged.mode);
+    } catch (error: any) {
+      console.warn(`/!\\ Error received from ${chainId} Horizon endpoint ${url}:`, error);
+    }
   }
+
+  console.warn(`/!\\ Failed to fetch fee stats for stellar transaction, using default base fee`);
+  // Fall back to the network's default base fee (100 stroops)
+  return BASE_FEE_STROOPS;
 }
 
 async function fetchAccount(
   chainId: ChainId,
   address: string
 ): Promise<Horizon.ServerApi.AccountRecord | null> {
-  try {
-    const horizonServer = getHorizonServer(chainId);
-    return await horizonServer.accounts().accountId(address).call();
-  } catch (error: any) {
-    if (error.response?.status === 404) {
-      return null;
-    }
+  const urls = getProviderUrls(chainId, ProviderType.horizon);
 
-    console.warn(`/!\\ Failed to fetch Stellar account ${address}:`, error);
-    throw new AdamikApiServerError(`Failed to fetch Stellar account ${address}`);
+  for (const url of urls) {
+    try {
+      const horizonServer = new Horizon.Server(url);
+      return await horizonServer.accounts().accountId(address).call();
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        return null;
+      }
+      console.warn(`/!\\ Error received from ${chainId} Horizon endpoint ${url}:`, error);
+    }
   }
+
+  throw new AdamikApiServerError(`Failed to fetch Stellar account ${address}`);
 }
 
 /**
@@ -73,29 +77,34 @@ async function fetchTransaction(
   chainId: ChainId,
   transactionHash: string
 ): Promise<FinalizedTransaction | null> {
-  try {
-    const horizonServer = getHorizonServer(chainId);
-    const stellarTransaction = await horizonServer.transactions().transaction(transactionHash).call();
+  const urls = getProviderUrls(chainId, ProviderType.horizon);
 
-    // Remove useless metadata
-    delete (stellarTransaction as any)._links;
+  for (const url of urls) {
+    try {
+      const horizonServer = new Horizon.Server(url);
+      const stellarTransaction = await horizonServer.transactions().transaction(transactionHash).call();
 
-    const parsed = await stellarToAdamikTransaction(chainId, stellarTransaction);
+      // Remove useless metadata
+      delete (stellarTransaction as any)._links;
 
-    return {
-      parsed,
-      raw: stellarTransaction,
-    };
-  } catch (error: any) {
-    // Transaction not found
-    if (error?.response?.status === 404) {
-      return null;
+      const parsed = await stellarToAdamikTransaction(chainId, stellarTransaction);
+
+      return {
+        parsed,
+        raw: stellarTransaction,
+      };
+    } catch (error: any) {
+      // Transaction not found
+      if (error?.response?.status === 404) {
+        return null;
+      }
+      console.warn(`/!\\ Error received from ${chainId} Horizon endpoint ${url}:`, error);
     }
-
-    // Log other errors and return null instead of throwing
-    console.warn(`Failed to fetch Stellar transaction ${transactionHash}: ${error.message}`);
-    return null;
   }
+
+  // All URLs failed
+  console.warn(`Failed to fetch Stellar transaction ${transactionHash} from all providers`);
+  return null;
 }
 
 /**
@@ -110,68 +119,74 @@ async function fetchAccountTransactions(
   address: string,
   paginationToken?: string
 ): Promise<{ stellarTransactions: FinalizedTransaction[]; nextPage: string | null }> {
-  try {
-    const horizonServer = getHorizonServer(chainId);
-    let transactionsQuery = horizonServer.transactions().forAccount(address).limit(20).order("desc");
+  const urls = getProviderUrls(chainId, ProviderType.horizon);
 
-    if (paginationToken) {
-      const paginationData = paginationFromB64(paginationToken);
-      if (!paginationData || typeof paginationData !== "string") {
-        throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+  for (const url of urls) {
+    try {
+      const horizonServer = new Horizon.Server(url);
+      let transactionsQuery = horizonServer.transactions().forAccount(address).limit(20).order("desc");
+
+      if (paginationToken) {
+        const paginationData = paginationFromB64(paginationToken);
+        if (!paginationData || typeof paginationData !== "string") {
+          throw new InvalidPaginationTokenError("Provided pagination token is invalid");
+        }
+        transactionsQuery = transactionsQuery.cursor(paginationData);
       }
-      transactionsQuery = transactionsQuery.cursor(paginationData);
-    }
 
-    const response = await transactionsQuery.call();
+      const response = await transactionsQuery.call();
 
-    const stellarTransactions: FinalizedTransaction[] = [];
+      const stellarTransactions: FinalizedTransaction[] = [];
 
-    for (const horizonTransaction of response.records) {
-      delete (horizonTransaction as any)._links;
+      for (const horizonTransaction of response.records) {
+        delete (horizonTransaction as any)._links;
 
-      try {
-        const parsedTransaction = await stellarToAdamikTransaction(chainId, horizonTransaction);
+        try {
+          const parsedTransaction = await stellarToAdamikTransaction(chainId, horizonTransaction);
 
-        stellarTransactions.push({
-          parsed: parsedTransaction,
-          raw: horizonTransaction,
-        });
-      } catch (error) {
-        console.warn(`/!\\ Failed to convert Stellar transaction ${horizonTransaction.hash}:`, error);
-        // Continue with other transactions instead of failing completely
-        // FIXME We should return a status with a warning for this
-        continue;
+          stellarTransactions.push({
+            parsed: parsedTransaction,
+            raw: horizonTransaction,
+          });
+        } catch (error) {
+          console.warn(`/!\\ Failed to convert Stellar transaction ${horizonTransaction.hash}:`, error);
+          // Continue with other transactions instead of failing completely
+          // FIXME We should return a status with a warning for this
+          continue;
+        }
       }
-    }
 
-    // Determine next page token
-    let nextPage: string | null = null;
-    if (response.records.length === 20) {
-      // If we got a full page, there might be more
-      const lastTransaction = response.records[response.records.length - 1];
-      nextPage = paginationToB64(lastTransaction.paging_token);
-    }
+      // Determine next page token
+      let nextPage: string | null = null;
+      if (response.records.length === 20) {
+        // If we got a full page, there might be more
+        const lastTransaction = response.records[response.records.length - 1];
+        nextPage = paginationToB64(lastTransaction.paging_token);
+      }
 
-    return {
-      stellarTransactions,
-      nextPage,
-    };
-  } catch (error: any) {
-    // Handle specific Stellar errors
-    if (error.response?.status === 404) {
-      console.warn(`/!\\ Stellar account not found: ${address}`);
-      return { stellarTransactions: [], nextPage: null };
-    }
+      return {
+        stellarTransactions,
+        nextPage,
+      };
+    } catch (error: any) {
+      // Handle specific Stellar errors
+      if (error.response?.status === 404) {
+        console.warn(`/!\\ Stellar account not found: ${address}`);
+        return { stellarTransactions: [], nextPage: null };
+      }
 
-    if (error.response?.status === 400) {
-      console.warn(`/!\\ Bad request for Stellar account: ${address}`);
-      return { stellarTransactions: [], nextPage: null };
-    }
+      if (error.response?.status === 400) {
+        console.warn(`/!\\ Bad request for Stellar account: ${address}`);
+        return { stellarTransactions: [], nextPage: null };
+      }
 
-    // Log other errors and return empty result
-    console.warn(`/!\\ Failed to fetch Stellar account transactions for ${address}:`, error.message);
-    return { stellarTransactions: [], nextPage: null };
+      console.warn(`/!\\ Error received from ${chainId} Horizon endpoint ${url}:`, error);
+    }
   }
+
+  // All URLs failed
+  console.warn(`/!\\ Failed to fetch Stellar account transactions for ${address} from all providers`);
+  return { stellarTransactions: [], nextPage: null };
 }
 
 /**
@@ -378,25 +393,31 @@ function determineTransactionMode(
  * @returns Promise<string> - The transaction hash
  */
 async function broadcastTransaction(signedTransactionXDR: string, chainId: ChainId): Promise<string> {
-  try {
-    const networkPassphrase = getStellarNetwork(chainId);
-    const horizonServer = getHorizonServer(chainId);
+  const networkPassphrase = getStellarNetwork(chainId);
+  const urls = getProviderUrls(chainId, ProviderType.horizon);
 
-    // Parse the XDR string back to Transaction object
-    const transaction = new StellarTransaction(signedTransactionXDR, networkPassphrase);
+  for (const url of urls) {
+    try {
+      const horizonServer = new Horizon.Server(url);
 
-    // Submit the transaction to the Stellar network
-    // FIXME In case of error, for some reason we're only getting generic Axios errors without stellar-specific details
-    const result = await horizonServer.submitTransaction(transaction);
+      // Parse the XDR string back to Transaction object
+      const transaction = new StellarTransaction(signedTransactionXDR, networkPassphrase);
 
-    return result.hash;
-  } catch (error: any) {
-    if (error instanceof AccountRequiresMemoError) {
-      throw new UserInputError(`Recipient account requires a memo in the transaction`);
+      // Submit the transaction to the Stellar network
+      // FIXME In case of error, for some reason we're only getting generic Axios errors without stellar-specific details
+      const result = await horizonServer.submitTransaction(transaction);
+
+      return result.hash;
+    } catch (error: any) {
+      if (error instanceof AccountRequiresMemoError) {
+        throw new UserInputError(`Recipient account requires a memo in the transaction`);
+      }
+
+      console.warn(`/!\\ Error received from ${chainId} Horizon endpoint ${url}:`, error);
     }
-
-    throw error;
   }
+
+  throw new AdamikApiServerError(`Failed to broadcast Stellar transaction to all providers`);
 }
 
 export {
