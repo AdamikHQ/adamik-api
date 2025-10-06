@@ -337,6 +337,9 @@
                         "solana": {
                           "$ref": "#/components/schemas/Chain"
                         },
+                        "stellar": {
+                          "$ref": "#/components/schemas/Chain"
+                        },
                         "stellar-testnet": {
                           "$ref": "#/components/schemas/Chain"
                         }
@@ -838,6 +841,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
+                "stellar",
                 "stellar-testnet"
               ]
             },
@@ -1357,6 +1361,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
+                "stellar",
                 "stellar-testnet"
               ]
             },
@@ -1504,6 +1509,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
+                        "stellar",
                         "stellar-testnet"
                       ]
                     },
@@ -1858,6 +1864,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
+                "stellar",
                 "stellar-testnet"
               ]
             },
@@ -1970,6 +1977,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
+                        "stellar",
                         "stellar-testnet"
                       ]
                     },
@@ -2130,6 +2138,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
+                "stellar",
                 "stellar-testnet"
               ]
             },
@@ -2225,6 +2234,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
+                        "stellar",
                         "stellar-testnet"
                       ]
                     },
@@ -2553,6 +2563,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
+                "stellar",
                 "stellar-testnet"
               ]
             },
@@ -3059,6 +3070,7 @@
                                           "world-chain-sepolia",
                                           "hyperliquid",
                                           "solana",
+                                          "stellar",
                                           "stellar-testnet"
                                         ]
                                       },
@@ -3212,6 +3224,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
+                        "stellar",
                         "stellar-testnet"
                       ]
                     },
@@ -3835,6 +3848,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
+                "stellar",
                 "stellar-testnet"
               ]
             },
@@ -4341,6 +4355,7 @@
                                           "world-chain-sepolia",
                                           "hyperliquid",
                                           "solana",
+                                          "stellar",
                                           "stellar-testnet"
                                         ]
                                       },
@@ -4494,6 +4509,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
+                        "stellar",
                         "stellar-testnet"
                       ]
                     },
@@ -4652,6 +4668,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
+                "stellar",
                 "stellar-testnet"
               ]
             },
@@ -5176,6 +5193,7 @@
                                           "world-chain-sepolia",
                                           "hyperliquid",
                                           "solana",
+                                          "stellar",
                                           "stellar-testnet"
                                         ]
                                       },
@@ -5395,6 +5413,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
+                        "stellar",
                         "stellar-testnet"
                       ]
                     },
@@ -5518,6 +5537,7 @@
                 "solana",
                 "aptos",
                 "aptos-testnet",
+                "stellar",
                 "stellar-testnet"
               ]
             },
@@ -5644,6 +5664,7 @@
                         "solana",
                         "aptos",
                         "aptos-testnet",
+                        "stellar",
                         "stellar-testnet"
                       ]
                     },
@@ -5827,6 +5848,7 @@
           "world-chain-sepolia",
           "hyperliquid",
           "solana",
+          "stellar",
           "stellar-testnet"
         ],
         "description": "Unique adamik identifier of the chain"

@@ -475,6 +475,10 @@
 | node | https://api.testnet.aptoslabs.com/v1 |<br />
 | aptosindexer | https://api.testnet.aptoslabs.com/v1/graphql |
 
+## stellar
+
+| horizon | https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/, https://horizon.stellar.org |
+
 ## stellar-testnet
 
-| horizon | https://horizon-testnet.stellar.org |
+| horizon | https://green-polished-ensemble.stellar-testnet.quiknode.pro/REDACTED/, https://horizon-testnet.stellar.org |
