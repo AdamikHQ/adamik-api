@@ -638,7 +638,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         urls: [
           "https://site1.moralis-nodes.com/polygon/70eb3a5858dc4f0d8ca0e1a1cf8d375f",
-          "https://polygon-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+          "https://polygon-mainnet.g.alchemy.com/v2",
           "https://intensive-tiniest-dinghy.matic.quiknode.pro/f33e1ab0c88b0cd4010871e5cf3ed235a701ad85/",
         ],
       },
@@ -666,7 +666,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         urls: [
           "https://site1.moralis-nodes.com/amoy/7a1ffbef35b1400b80a3d8735f637bb3",
-          "https://polygon-amoy.g.alchemy.com/v2/9GInoekMFI-gPag8597vw",
+          "https://polygon-amoy.g.alchemy.com/v2",
         ],
       },
       {
@@ -2077,7 +2077,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_9/9GInoekMFI-gPag8597vw"],
+        urls: ["https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8"],
       },
       {
         type: ProviderType.starkscan,
@@ -2097,7 +2097,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://starknet-sepolia.public.blastapi.io/rpc/v0_7"],
+        urls: ["https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_8"],
       },
       {
         type: ProviderType.starkscan,
@@ -2228,7 +2228,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://berachain-bepolia.g.alchemy.com/v2/9GInoekMFI-gPag8597vw"],
+        urls: ["https://berachain-bepolia.g.alchemy.com/v2"],
       },
       {
         type: ProviderType.alchemy,
@@ -2269,7 +2269,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://worldchain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw"],
+        urls: ["https://worldchain-mainnet.g.alchemy.com/v2"],
       },
       {
         type: ProviderType.alchemy,
@@ -2289,7 +2289,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://worldchain-sepolia.g.alchemy.com/v2/9GInoekMFI-gPag8597vw"],
+        urls: ["https://worldchain-sepolia.g.alchemy.com/v2"],
       },
       {
         type: ProviderType.alchemy,
