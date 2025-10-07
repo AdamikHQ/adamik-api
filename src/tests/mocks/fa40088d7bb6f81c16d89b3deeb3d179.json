@@ -1,0 +1,116 @@
+{
+  "request": {
+    "url": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "_links": {
+        "self": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
+        },
+        "transactions": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN/transactions{?cursor,limit,order}",
+          "templated": true
+        },
+        "operations": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN/operations{?cursor,limit,order}",
+          "templated": true
+        },
+        "payments": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN/payments{?cursor,limit,order}",
+          "templated": true
+        },
+        "effects": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN/effects{?cursor,limit,order}",
+          "templated": true
+        },
+        "offers": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN/offers{?cursor,limit,order}",
+          "templated": true
+        },
+        "trades": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN/trades{?cursor,limit,order}",
+          "templated": true
+        },
+        "data": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN/data/{key}",
+          "templated": true
+        }
+      },
+      "id": "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN",
+      "account_id": "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN",
+      "sequence": "144373126631784459",
+      "sequence_ledger": 57697123,
+      "sequence_time": "1750781116",
+      "subentry_count": 6,
+      "home_domain": "centre.io",
+      "last_modified_ledger": 59275221,
+      "last_modified_time": "2025-10-07T16:35:29Z",
+      "thresholds": {
+        "low_threshold": 2,
+        "med_threshold": 2,
+        "high_threshold": 2
+      },
+      "flags": {
+        "auth_required": false,
+        "auth_revocable": true,
+        "auth_immutable": false,
+        "auth_clawback_enabled": false
+      },
+      "balances": [
+        {
+          "balance": "4065497540.9249070",
+          "limit": "922337203685.4775807",
+          "buying_liabilities": "918271706144.5526737",
+          "selling_liabilities": "0.0000000",
+          "last_modified_ledger": 59273217,
+          "is_authorized": true,
+          "is_authorized_to_maintain_liabilities": true,
+          "asset_type": "credit_alphanum12",
+          "asset_code": "USDCAllow",
+          "asset_issuer": "GDIEKKIQWMIZ4LD3RP3ABPN7X5KEAEWYMR634BRHB7EULIMEVREWLF3G"
+        },
+        {
+          "balance": "21134.7818508",
+          "buying_liabilities": "0.0000000",
+          "selling_liabilities": "0.0000000",
+          "asset_type": "native"
+        }
+      ],
+      "signers": [
+        {
+          "weight": 1,
+          "key": "GAUKFO2NIYEFO773KJZKLPSPYNQ6M7INPEAIQIJCIH7EEVP2KSVQWGH4",
+          "type": "ed25519_public_key"
+        },
+        {
+          "weight": 1,
+          "key": "GAXFRO4MH6FSBJMNECVZJ6R3ZXANI7CFCMVN47IDNRQDHII3J5HTOZGB",
+          "type": "ed25519_public_key"
+        },
+        {
+          "weight": 1,
+          "key": "GB73YPMX5R5673G35HHAXYUNRS4R4QZEUHCRT3OUAMSH2NUM6KT4N3KO",
+          "type": "ed25519_public_key"
+        },
+        {
+          "weight": 1,
+          "key": "GC6ANHZDMCPKU55BUQIJKI3VOYEMETF7Z46HXQRCNONQXPEXQHCVIAFP",
+          "type": "ed25519_public_key"
+        },
+        {
+          "weight": 0,
+          "key": "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN",
+          "type": "ed25519_public_key"
+        }
+      ],
+      "data": {},
+      "num_sponsoring": 0,
+      "num_sponsored": 0,
+      "paging_token": "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
+    },
+    "type": "json"
+  }
+}

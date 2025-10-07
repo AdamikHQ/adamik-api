@@ -22,12 +22,9 @@ const BASE_RESERVE_MIN_COUNT = 2;
 const MIN_BALANCE_STROOPS = BASE_RESERVE_MIN_COUNT * BASE_RESERVE_STROOPS; // 1 XLM minimum in stroops
 
 function getStellarNetwork(chainId: ChainId): Networks {
-  /*
   if (chainId === ChainId.STELLAR) {
     return Networks.PUBLIC;
-  } else
-  */
-  if (chainId === ChainId.STELLAR_TESTNET) {
+  } else if (chainId === ChainId.STELLAR_TESTNET) {
     return Networks.TESTNET;
   }
 

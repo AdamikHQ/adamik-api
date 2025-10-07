@@ -49,7 +49,7 @@
 
 | node | https://site1.moralis-nodes.com/eth/REDACTED |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://eth-mainnet.g.alchemy.com/v2 |<br />
+| alchemy | https://eth-mainnet.g.alchemy.com/v2/REDACTED |<br />
 | stakewiseGQL | https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod |
 
 ## sepolia
@@ -129,13 +129,13 @@
 
 | node | https://site1.moralis-nodes.com/polygon/REDACTED, https://polygon-mainnet.g.alchemy.com/v2/REDACTED, https://intensive-tiniest-dinghy.matic.quiknode.pro/REDACTED/ |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://polygon-mainnet.g.alchemy.com/v2 |
+| alchemy | https://polygon-mainnet.g.alchemy.com/v2/REDACTED |
 
 ## polygon-amoy
 
 | node | https://site1.moralis-nodes.com/amoy/REDACTED, https://polygon-amoy.g.alchemy.com/v2/REDACTED |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://polygon-amoy.g.alchemy.com/v2 |
+| alchemy | https://polygon-amoy.g.alchemy.com/v2/REDACTED |
 
 ## bsc
 
@@ -404,12 +404,12 @@
 
 ## starknet
 
-| node | https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_9/REDACTED |<br />
+| node | https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8/REDACTED |<br />
 | starkscan | https://api.starkscan.co |
 
 ## starknet-sepolia
 
-| node | https://starknet-sepolia.public.blastapi.io/rpc/v0_7 |<br />
+| node | https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_8/REDACTED |<br />
 | starkscan | https://api-sepolia.starkscan.co |
 
 ## babylon
@@ -427,17 +427,17 @@
 ## monad-testnet
 
 | node | https://testnet-rpc.monad.xyz/ |<br />
-| alchemy | https://monad-testnet.g.alchemy.com/v2 |
+| alchemy | https://monad-testnet.g.alchemy.com/v2/REDACTED |
 
 ## berachain
 
 | node | https://rpc.berachain.com/ |<br />
-| alchemy | https://berachain-mainnet.g.alchemy.com/v2 |
+| alchemy | https://berachain-mainnet.g.alchemy.com/v2/REDACTED |
 
 ## berachain-bepolia
 
 | node | https://berachain-bepolia.g.alchemy.com/v2/REDACTED |<br />
-| alchemy | https://berachain-bepolia.g.alchemy.com/v2 |
+| alchemy | https://berachain-bepolia.g.alchemy.com/v2/REDACTED |
 
 ## cronos
 
@@ -447,12 +447,12 @@
 ## world-chain
 
 | node | https://worldchain-mainnet.g.alchemy.com/v2/REDACTED |<br />
-| alchemy | https://worldchain-mainnet.g.alchemy.com/v2 |
+| alchemy | https://worldchain-mainnet.g.alchemy.com/v2/REDACTED |
 
 ## world-chain-sepolia
 
 | node | https://worldchain-sepolia.g.alchemy.com/v2/REDACTED |<br />
-| alchemy | https://worldchain-sepolia.g.alchemy.com/v2 |
+| alchemy | https://worldchain-sepolia.g.alchemy.com/v2/REDACTED |
 
 ## hyperliquid
 

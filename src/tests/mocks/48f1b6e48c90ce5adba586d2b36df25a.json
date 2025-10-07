@@ -1,0 +1,82 @@
+{
+  "request": {
+    "url": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2/transactions?limit=20&order=desc",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "_links": {
+        "self": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2/transactions?cursor=&limit=20&order=desc"
+        },
+        "next": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2/transactions?cursor=251767233385357312&limit=20&order=desc"
+        },
+        "prev": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2/transactions?cursor=253562211887505408&limit=20&order=asc"
+        }
+      },
+      "_embedded": {
+        "records": [
+          {
+            "_links": {
+              "self": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/transactions/1729efaec58461ae36e49e13f6c78bd4aee054b9d5575427b55d94f2bac19b08"
+              },
+              "account": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2"
+              },
+              "ledger": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/ledgers/58622881"
+              },
+              "operations": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/transactions/1729efaec58461ae36e49e13f6c78bd4aee054b9d5575427b55d94f2bac19b08/operations{?cursor,limit,order}",
+                "templated": true
+              },
+              "effects": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/transactions/1729efaec58461ae36e49e13f6c78bd4aee054b9d5575427b55d94f2bac19b08/effects{?cursor,limit,order}",
+                "templated": true
+              },
+              "precedes": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/transactions?order=asc&cursor=251783356692303872"
+              },
+              "succeeds": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/transactions?order=desc&cursor=251783356692303872"
+              },
+              "transaction": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/transactions/1729efaec58461ae36e49e13f6c78bd4aee054b9d5575427b55d94f2bac19b08"
+              }
+            },
+            "id": "1729efaec58461ae36e49e13f6c78bd4aee054b9d5575427b55d94f2bac19b08",
+            "paging_token": "251783356692303872",
+            "successful": true,
+            "hash": "1729efaec58461ae36e49e13f6c78bd4aee054b9d5575427b55d94f2bac19b08",
+            "ledger": 58622881,
+            "created_at": "2025-08-25T08:08:23Z",
+            "source_account": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+            "source_account_sequence": "251342486889299971",
+            "fee_account": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+            "fee_charged": "100",
+            "max_fee": "100",
+            "operation_count": 1,
+            "envelope_xdr": "AAAAAgAAAABancnZADupErkgZaaibEIS1n0HQGK3LCtQb/bGIhNChgAAAGQDfPKpAAAAAwAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAABancnZADupErkgZaaibEIS1n0HQGK3LCtQb/bGIhNChgAAAAFVU0RDAAAAADuZETgO/piLoKiQDrHP5E82b32+lGvtB3JA9/Yk3xXFAAAAAAAATiAAAAAAAAAAASITQoYAAABAwUXhH/AO26YreHbHnmuQae1M/3CdjfW2tHst53w38OLMhFUZ+Kn7T9E09m9GOE5BoabC0ay0N+XIfRO00GWJAg==",
+            "result_xdr": "AAAAAAAAAGQAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAA=",
+            "result_meta_xdr": "AAAAAwAAAAAAAAACAAAAAwN+g6EAAAAAAAAAAFqdydkAO6kSuSBlpqJsQhLWfQdAYrcsK1Bv9sYiE0KGAAAAAAM83j8DfPKpAAAAAgAAAAEAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAMAAAAAA34X/wAAAABoqYynAAAAAAAAAAEDfoOhAAAAAAAAAABancnZADupErkgZaaibEIS1n0HQGK3LCtQb/bGIhNChgAAAAADPN4/A3zyqQAAAAMAAAABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAADAAAAAAN+g6EAAAAAaKwZ9wAAAAAAAAABAAAAAgAAAAMDfh7QAAAAAQAAAABancnZADupErkgZaaibEIS1n0HQGK3LCtQb/bGIhNChgAAAAFVU0RDAAAAADuZETgO/piLoKiQDrHP5E82b32+lGvtB3JA9/Yk3xXFAAAAAAExLQB//////////wAAAAEAAAAAAAAAAAAAAAEDfoOhAAAAAQAAAABancnZADupErkgZaaibEIS1n0HQGK3LCtQb/bGIhNChgAAAAFVU0RDAAAAADuZETgO/piLoKiQDrHP5E82b32+lGvtB3JA9/Yk3xXFAAAAAAExLQB//////////wAAAAEAAAAAAAAAAAAAAAAAAAAA",
+            "fee_meta_xdr": "AAAAAgAAAAMDfnT3AAAAAAAAAABancnZADupErkgZaaibEIS1n0HQGK3LCtQb/bGIhNChgAAAAADPN6jA3zyqQAAAAIAAAABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAADAAAAAAN+F/8AAAAAaKmMpwAAAAAAAAABA36DoQAAAAAAAAAAWp3J2QA7qRK5IGWmomxCEtZ9B0BitywrUG/2xiITQoYAAAAAAzzePwN88qkAAAACAAAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAwAAAAADfhf/AAAAAGipjKcAAAAA",
+            "memo_type": "none",
+            "signatures": [
+              "wUXhH/AO26YreHbHnmuQae1M/3CdjfW2tHst53w38OLMhFUZ+Kn7T9E09m9GOE5BoabC0ay0N+XIfRO00GWJAg=="
+            ],
+            "preconditions": {
+              "timebounds": {
+                "min_time": "0"
+              }
+            }
+          },
+        ]
+      }
+    },
+    "type": "json"
+  }
+}
