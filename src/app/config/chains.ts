@@ -2424,7 +2424,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     ],
     supportedFeatures: STELLAR_FEATURES,
     signerSpec: getSignerSpecForChain(ChainId.STELLAR_TESTNET, ChainFamily.STELLAR),
-    isTestnetFor: "stellar",
+    isTestnetFor: ChainId.STELLAR,
   },
 } as const;
 
