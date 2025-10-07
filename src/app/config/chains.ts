@@ -638,7 +638,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         urls: [
           "https://site1.moralis-nodes.com/polygon/REDACTED",
-          "https://polygon-mainnet.g.alchemy.com/v2/REDACTED",
+          "https://polygon-mainnet.g.alchemy.com/v2",
           "https://intensive-tiniest-dinghy.matic.quiknode.pro/REDACTED/",
         ],
       },
@@ -666,7 +666,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         urls: [
           "https://site1.moralis-nodes.com/amoy/REDACTED",
-          "https://polygon-amoy.g.alchemy.com/v2/REDACTED",
+          "https://polygon-amoy.g.alchemy.com/v2",
         ],
       },
       {
@@ -2077,7 +2077,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_9/REDACTED"],
+        urls: ["https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8"],
       },
       {
         type: ProviderType.starkscan,
@@ -2097,7 +2097,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://starknet-sepolia.public.blastapi.io/rpc/v0_7"],
+        urls: ["https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_8"],
       },
       {
         type: ProviderType.starkscan,
@@ -2228,7 +2228,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://berachain-bepolia.g.alchemy.com/v2/REDACTED"],
+        urls: ["https://berachain-bepolia.g.alchemy.com/v2"],
       },
       {
         type: ProviderType.alchemy,
@@ -2269,7 +2269,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://worldchain-mainnet.g.alchemy.com/v2/REDACTED"],
+        urls: ["https://worldchain-mainnet.g.alchemy.com/v2"],
       },
       {
         type: ProviderType.alchemy,
@@ -2289,7 +2289,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://worldchain-sepolia.g.alchemy.com/v2/REDACTED"],
+        urls: ["https://worldchain-sepolia.g.alchemy.com/v2"],
       },
       {
         type: ProviderType.alchemy,

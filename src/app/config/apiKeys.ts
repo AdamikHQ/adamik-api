@@ -40,7 +40,8 @@ const TRONSCAN_API_KEY = "REDACTED";
 
 const STARKSCAN_API_KEY = "REDACTED";
 
-const ALCHEMY_API_KEY = "REDACTED";
+const ALCHEMY_API_KEY = "REDACTED"; // From Fabrice's account
+//const ALCHEMY_API_KEY = "REDACTED"; // From Hakim's account
 
 const HELIUS_API_KEY = "REDACTED";
 
