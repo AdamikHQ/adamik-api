@@ -16,8 +16,7 @@ console.log(`Generating ${filePath}...`);
 // Get the API URL from environment variable
 const apiUrl = process.env.API_URL || "https://api-staging.adamik.io";
 
-const spec = generateOpenAPISpec();
-spec.servers = [{ url: apiUrl }];
+const spec = generateOpenAPISpec(apiUrl);
 
 console.log(`Generating ${filePath} with API URL: ${apiUrl}...`);
 

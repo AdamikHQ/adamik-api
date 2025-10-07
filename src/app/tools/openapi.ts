@@ -16,13 +16,7 @@ import { chainOpenAPIPath } from "~/app/api/chains/[chainId]/schema";
 import { chainsOpenAPIPath } from "~/app/api/chains/schema";
 import { apiOpenAPIPath } from "~/app/api/schema";
 
-// Vercel env vars don't contain the "https://" part
-const VERCEL_URL: string | undefined =
-  process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-    ? process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
-    : process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL;
-
-function generateOpenAPISpec(): oas31.OpenAPIObject {
+function generateOpenAPISpec(origin: string): oas31.OpenAPIObject {
   const document = createDocument({
     openapi: "3.1.0",
     info: {
@@ -41,7 +35,7 @@ function generateOpenAPISpec(): oas31.OpenAPIObject {
     },
     servers: [
       {
-        url: VERCEL_URL ? `https://${VERCEL_URL}` : "https://api.adamik.io",
+        url: origin,
       },
     ],
     security: [

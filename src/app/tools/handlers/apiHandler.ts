@@ -26,11 +26,10 @@ type MethodCall<
   QueryParams extends ZodType<unknown>
 > = {
   (_: {
+    request: NextRequest;
     body: z.infer<RequestBody>;
     pathParams: z.infer<PathParams>;
     queryParams: z.infer<QueryParams>;
-    // No need to access the request at the moment, can be put back if some route needs it:
-    // request: NextRequest;
   }): Promise<ResponseBody>;
 };
 
@@ -80,7 +79,7 @@ export function apiHandler<
         });
 
         // Manually call the wrapped http method (GET, POST, etc...)
-        const responseBody = await methodCall({ body: requestBody, pathParams, queryParams });
+        const responseBody = await methodCall({ request, body: requestBody, pathParams, queryParams });
 
         if (responseSchema) {
           // use zod.parse on output response body to:
