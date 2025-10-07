@@ -103,8 +103,8 @@ async function encodeTransactionToBroadcast(
 
   const params = signedTransaction.data.params as SolanaTransactionParams;
 
-  if (signedTransaction.data.mode === TransactionMode.STAKE && params) {
-    if (!params.publicKey || !params.signature) {
+  if (signedTransaction.data.mode === TransactionMode.STAKE) {
+    if (!params?.publicKey || !params?.signature) {
       throw new UserInputError("Missing transaction params");
     }
 

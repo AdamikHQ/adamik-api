@@ -1,6 +1,7 @@
 import { getService } from "~/app/config/services";
 import { apiHandler, statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError } from "~/app/tools/handlers/errors";
+import { env } from "~/env";
 import { pathParamsSchema, requestSchema, responseSchema } from "./schema";
 
 export const POST = apiHandler(
@@ -14,6 +15,11 @@ export const POST = apiHandler(
     const { payload: broadcastPayload } = body;
 
     const service = getService(chainId);
+
+    // No broadcast while in test environment
+    if (env.TEST_ENV === "true") {
+      return { chainId, hash: "MOCKED" };
+    }
 
     const transactionHash = await (async () => {
       try {
