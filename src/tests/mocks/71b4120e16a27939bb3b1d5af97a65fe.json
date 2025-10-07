@@ -1,6 +1,6 @@
 {
   "request": {
-    "url": "https://starknet-mainnet.public.blastapi.io/rpc/v0_8",
+    "url": "https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8/9GInoekMFI-gPag8597vw",
     "method": "POST",
     "body": {
       "id": 5,

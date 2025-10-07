@@ -1,4 +1,5 @@
 import { Chain, ChainFamily, ChainId, ProviderType, TransactionMode } from "../model/types_WIP";
+import { ALCHEMY_API_KEY } from "./apiKeys";
 import {
   ALGORAND_FEATURES,
   APTOS_FEATURES,
@@ -293,7 +294,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://eth-mainnet.g.alchemy.com/v2"],
+        urls: [`https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`],
       },
       {
         type: ProviderType.stakewiseGQL,
@@ -638,7 +639,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         urls: [
           "https://site1.moralis-nodes.com/polygon/70eb3a5858dc4f0d8ca0e1a1cf8d375f",
-          "https://polygon-mainnet.g.alchemy.com/v2",
+          `https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
           "https://intensive-tiniest-dinghy.matic.quiknode.pro/f33e1ab0c88b0cd4010871e5cf3ed235a701ad85/",
         ],
       },
@@ -648,7 +649,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://polygon-mainnet.g.alchemy.com/v2"],
+        urls: [`https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.POLYGON),
@@ -666,7 +667,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         urls: [
           "https://site1.moralis-nodes.com/amoy/7a1ffbef35b1400b80a3d8735f637bb3",
-          "https://polygon-amoy.g.alchemy.com/v2",
+          `https://polygon-amoy.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
         ],
       },
       {
@@ -675,7 +676,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://polygon-amoy.g.alchemy.com/v2"],
+        urls: [`https://polygon-amoy.g.alchemy.com/v2/${ALCHEMY_API_KEY}`],
       },
     ],
     isTestnetFor: ChainId.POLYGON,
@@ -2077,7 +2078,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8"],
+        urls: [`https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8/${ALCHEMY_API_KEY}`],
       },
       {
         type: ProviderType.starkscan,
@@ -2097,7 +2098,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_8"],
+        urls: [`https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_8/${ALCHEMY_API_KEY}`],
       },
       {
         type: ProviderType.starkscan,
@@ -2191,7 +2192,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://monad-testnet.g.alchemy.com/v2"],
+        urls: [`https://monad-testnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.MONAD_TESTNET),
@@ -2212,7 +2213,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://berachain-mainnet.g.alchemy.com/v2"],
+        urls: [`https://berachain-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN),
@@ -2228,11 +2229,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://berachain-bepolia.g.alchemy.com/v2"],
+        urls: [`https://berachain-bepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`],
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://berachain-bepolia.g.alchemy.com/v2"],
+        urls: [`https://berachain-bepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.BERACHAIN_BEPOLIA),
@@ -2269,11 +2270,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://worldchain-mainnet.g.alchemy.com/v2"],
+        urls: [`https://worldchain-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`],
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://worldchain-mainnet.g.alchemy.com/v2"],
+        urls: [`https://worldchain-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN),
@@ -2289,11 +2290,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://worldchain-sepolia.g.alchemy.com/v2"],
+        urls: [`https://worldchain-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`],
       },
       {
         type: ProviderType.alchemy,
-        urls: ["https://worldchain-sepolia.g.alchemy.com/v2"],
+        urls: [`https://worldchain-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`],
       },
     ],
     supportedFeatures: EVM_FEATURES(ChainId.WORLD_CHAIN_SEPOLIA),
