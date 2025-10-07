@@ -17,16 +17,14 @@ export async function middleware(request: NextRequest) {
   // https://github.com/vercel/next.js/discussions/71727
   // We hope that NextJS team will fix this issue soon
 
-  const url = request.url;
-  const authorizeBaseUrl = url.slice(0, url.indexOf("/api/"));
-
-  const authorizeUrl = `${authorizeBaseUrl}/authorize?apiKey=${apiKey}`;
+  const authorizeUrl = `${request.nextUrl.origin}/authorize?apiKey=${apiKey}`;
 
   const authorizeResponse = await fetch(authorizeUrl, {
     headers: {
       "Content-Type": "application/json",
     },
   });
+
   const client: { clientId: string | undefined } = await authorizeResponse.json();
 
   // NOTE No additional checks for now
