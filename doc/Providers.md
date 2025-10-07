@@ -49,7 +49,7 @@
 
 | node | https://site1.moralis-nodes.com/eth/edd8151f3c634ee2a808f34c47c7ad70 |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://eth-mainnet.g.alchemy.com/v2 |<br />
+| alchemy | https://eth-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |<br />
 | stakewiseGQL | https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod |
 
 ## sepolia
@@ -129,13 +129,13 @@
 
 | node | https://site1.moralis-nodes.com/polygon/70eb3a5858dc4f0d8ca0e1a1cf8d375f, https://polygon-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw, https://intensive-tiniest-dinghy.matic.quiknode.pro/f33e1ab0c88b0cd4010871e5cf3ed235a701ad85/ |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://polygon-mainnet.g.alchemy.com/v2 |
+| alchemy | https://polygon-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |
 
 ## polygon-amoy
 
 | node | https://site1.moralis-nodes.com/amoy/7a1ffbef35b1400b80a3d8735f637bb3, https://polygon-amoy.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://polygon-amoy.g.alchemy.com/v2 |
+| alchemy | https://polygon-amoy.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |
 
 ## bsc
 
@@ -404,12 +404,12 @@
 
 ## starknet
 
-| node | https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_9/9GInoekMFI-gPag8597vw |<br />
+| node | https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8/9GInoekMFI-gPag8597vw |<br />
 | starkscan | https://api.starkscan.co |
 
 ## starknet-sepolia
 
-| node | https://starknet-sepolia.public.blastapi.io/rpc/v0_7 |<br />
+| node | https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_8/9GInoekMFI-gPag8597vw |<br />
 | starkscan | https://api-sepolia.starkscan.co |
 
 ## babylon
@@ -427,17 +427,17 @@
 ## monad-testnet
 
 | node | https://testnet-rpc.monad.xyz/ |<br />
-| alchemy | https://monad-testnet.g.alchemy.com/v2 |
+| alchemy | https://monad-testnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |
 
 ## berachain
 
 | node | https://rpc.berachain.com/ |<br />
-| alchemy | https://berachain-mainnet.g.alchemy.com/v2 |
+| alchemy | https://berachain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |
 
 ## berachain-bepolia
 
 | node | https://berachain-bepolia.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |<br />
-| alchemy | https://berachain-bepolia.g.alchemy.com/v2 |
+| alchemy | https://berachain-bepolia.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |
 
 ## cronos
 
@@ -447,12 +447,12 @@
 ## world-chain
 
 | node | https://worldchain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |<br />
-| alchemy | https://worldchain-mainnet.g.alchemy.com/v2 |
+| alchemy | https://worldchain-mainnet.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |
 
 ## world-chain-sepolia
 
 | node | https://worldchain-sepolia.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |<br />
-| alchemy | https://worldchain-sepolia.g.alchemy.com/v2 |
+| alchemy | https://worldchain-sepolia.g.alchemy.com/v2/9GInoekMFI-gPag8597vw |
 
 ## hyperliquid
 

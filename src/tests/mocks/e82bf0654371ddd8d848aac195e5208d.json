@@ -1,0 +1,337 @@
+{
+  "request": {
+    "url": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb/operations",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "_links": {
+        "self": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb/operations?cursor=&limit=10&order=asc"
+        },
+        "next": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb/operations?cursor=252742440069537802&limit=10&order=asc"
+        },
+        "prev": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb/operations?cursor=252742440069537793&limit=10&order=desc"
+        }
+      },
+      "_embedded": {
+        "records": [
+          {
+            "_links": {
+              "self": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537793"
+              },
+              "transaction": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb"
+              },
+              "effects": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537793/effects"
+              },
+              "succeeds": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=desc&cursor=252742440069537793"
+              },
+              "precedes": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=asc&cursor=252742440069537793"
+              }
+            },
+            "id": "252742440069537793",
+            "paging_token": "252742440069537793",
+            "transaction_successful": true,
+            "source_account": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "type": "payment",
+            "type_i": 1,
+            "created_at": "2025-09-09T06:00:24Z",
+            "transaction_hash": "56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb",
+            "asset_type": "native",
+            "from": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "to": "GA2ZBMIGMVQ5ZP3TK5BVVPDZNH5V3ROWIRJ2GG376GIJVU7NECT46S3D",
+            "amount": "0.0000001"
+          },
+          {
+            "_links": {
+              "self": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537794"
+              },
+              "transaction": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb"
+              },
+              "effects": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537794/effects"
+              },
+              "succeeds": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=desc&cursor=252742440069537794"
+              },
+              "precedes": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=asc&cursor=252742440069537794"
+              }
+            },
+            "id": "252742440069537794",
+            "paging_token": "252742440069537794",
+            "transaction_successful": true,
+            "source_account": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "type": "payment",
+            "type_i": 1,
+            "created_at": "2025-09-09T06:00:24Z",
+            "transaction_hash": "56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb",
+            "asset_type": "native",
+            "from": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "to": "GAN3XFOBI2TOF7BZTKSWTUVZV7EY7EDLQZWHLHFPVH4YWJPRJXANQ4FA",
+            "amount": "0.0000001"
+          },
+          {
+            "_links": {
+              "self": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537795"
+              },
+              "transaction": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb"
+              },
+              "effects": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537795/effects"
+              },
+              "succeeds": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=desc&cursor=252742440069537795"
+              },
+              "precedes": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=asc&cursor=252742440069537795"
+              }
+            },
+            "id": "252742440069537795",
+            "paging_token": "252742440069537795",
+            "transaction_successful": true,
+            "source_account": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "type": "payment",
+            "type_i": 1,
+            "created_at": "2025-09-09T06:00:24Z",
+            "transaction_hash": "56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb",
+            "asset_type": "native",
+            "from": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "to": "GASLYNWAEXVP4V2A2OLMJBMM3CAJX6OPMOHT5UNN64YA22LERIZI5Z3S",
+            "amount": "0.0000001"
+          },
+          {
+            "_links": {
+              "self": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537796"
+              },
+              "transaction": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb"
+              },
+              "effects": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537796/effects"
+              },
+              "succeeds": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=desc&cursor=252742440069537796"
+              },
+              "precedes": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=asc&cursor=252742440069537796"
+              }
+            },
+            "id": "252742440069537796",
+            "paging_token": "252742440069537796",
+            "transaction_successful": true,
+            "source_account": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "type": "payment",
+            "type_i": 1,
+            "created_at": "2025-09-09T06:00:24Z",
+            "transaction_hash": "56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb",
+            "asset_type": "native",
+            "from": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "to": "GDPT5GGMDED2HJ2YSWCEAN7NRU55J5F6INXJNH2IFTRTUQIFNTJ6ZSXM",
+            "amount": "0.0000001"
+          },
+          {
+            "_links": {
+              "self": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537797"
+              },
+              "transaction": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb"
+              },
+              "effects": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537797/effects"
+              },
+              "succeeds": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=desc&cursor=252742440069537797"
+              },
+              "precedes": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=asc&cursor=252742440069537797"
+              }
+            },
+            "id": "252742440069537797",
+            "paging_token": "252742440069537797",
+            "transaction_successful": true,
+            "source_account": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "type": "payment",
+            "type_i": 1,
+            "created_at": "2025-09-09T06:00:24Z",
+            "transaction_hash": "56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb",
+            "asset_type": "native",
+            "from": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "to": "GCJVJH4W7CRFKRZNOVHBHJUE3VETN2HEAOX2PJA4GSV5MZKVW44IX5YK",
+            "amount": "0.0000001"
+          },
+          {
+            "_links": {
+              "self": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537798"
+              },
+              "transaction": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb"
+              },
+              "effects": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537798/effects"
+              },
+              "succeeds": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=desc&cursor=252742440069537798"
+              },
+              "precedes": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=asc&cursor=252742440069537798"
+              }
+            },
+            "id": "252742440069537798",
+            "paging_token": "252742440069537798",
+            "transaction_successful": true,
+            "source_account": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "type": "payment",
+            "type_i": 1,
+            "created_at": "2025-09-09T06:00:24Z",
+            "transaction_hash": "56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb",
+            "asset_type": "native",
+            "from": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "to": "GCPK6QN4XDPR6Z5J74KU3JIJOA7USBMOW3LSVUO672UNSFPQKGMK7K4X",
+            "amount": "0.0000001"
+          },
+          {
+            "_links": {
+              "self": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537799"
+              },
+              "transaction": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb"
+              },
+              "effects": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537799/effects"
+              },
+              "succeeds": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=desc&cursor=252742440069537799"
+              },
+              "precedes": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=asc&cursor=252742440069537799"
+              }
+            },
+            "id": "252742440069537799",
+            "paging_token": "252742440069537799",
+            "transaction_successful": true,
+            "source_account": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "type": "payment",
+            "type_i": 1,
+            "created_at": "2025-09-09T06:00:24Z",
+            "transaction_hash": "56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb",
+            "asset_type": "native",
+            "from": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "to": "GCQYWHRMGI2ZLT7RABHV2W6TJK7TAHBDAQIEI4GFETKLOA4F25EV3EMX",
+            "amount": "0.0000001"
+          },
+          {
+            "_links": {
+              "self": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537800"
+              },
+              "transaction": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb"
+              },
+              "effects": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537800/effects"
+              },
+              "succeeds": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=desc&cursor=252742440069537800"
+              },
+              "precedes": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=asc&cursor=252742440069537800"
+              }
+            },
+            "id": "252742440069537800",
+            "paging_token": "252742440069537800",
+            "transaction_successful": true,
+            "source_account": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "type": "payment",
+            "type_i": 1,
+            "created_at": "2025-09-09T06:00:24Z",
+            "transaction_hash": "56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb",
+            "asset_type": "native",
+            "from": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "to": "GAKSX23IYAVAGOIBKIFD67SZZGY5F7NSIUTIWKNQ57UZEFDAUENQ5RPM",
+            "amount": "0.0000001"
+          },
+          {
+            "_links": {
+              "self": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537801"
+              },
+              "transaction": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb"
+              },
+              "effects": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537801/effects"
+              },
+              "succeeds": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=desc&cursor=252742440069537801"
+              },
+              "precedes": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=asc&cursor=252742440069537801"
+              }
+            },
+            "id": "252742440069537801",
+            "paging_token": "252742440069537801",
+            "transaction_successful": true,
+            "source_account": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "type": "payment",
+            "type_i": 1,
+            "created_at": "2025-09-09T06:00:24Z",
+            "transaction_hash": "56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb",
+            "asset_type": "native",
+            "from": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "to": "GALSL6TZ6SIBWI3QLFSAGZLAP5MSFTKGIN46O6IYEQCMSVRRICISELHP",
+            "amount": "0.0000001"
+          },
+          {
+            "_links": {
+              "self": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537802"
+              },
+              "transaction": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/transactions/56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb"
+              },
+              "effects": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/operations/252742440069537802/effects"
+              },
+              "succeeds": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=desc&cursor=252742440069537802"
+              },
+              "precedes": {
+                "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/d00b22fc23de90c46ac392f141173ff3d0ea0bab/effects?order=asc&cursor=252742440069537802"
+              }
+            },
+            "id": "252742440069537802",
+            "paging_token": "252742440069537802",
+            "transaction_successful": true,
+            "source_account": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "type": "payment",
+            "type_i": 1,
+            "created_at": "2025-09-09T06:00:24Z",
+            "transaction_hash": "56c04cbc9b7754936bfac47301c980f011957468bf20c6763c025f91111199bb",
+            "asset_type": "native",
+            "from": "GA7GBJQIR7TOTDUO6GYUTDRZFFUIBTJO43LQOP2XSMQA5FCAMAJDGCMT",
+            "to": "GBU6T4GLFYUIU7E5DJ6AON7LZXC753NVOPUI5VAIEZ7XV6YPQ5HAOLJS",
+            "amount": "0.0000001"
+          }
+        ]
+      }
+    },
+    "type": "json"
+  }
+}
