@@ -39,6 +39,7 @@ async function fetchRecommendedFee(chainId: ChainId): Promise<number> {
       return Number(feeStats.fee_charged.mode);
     } catch (error: any) {
       console.warn(`/!\\ Error received from ${chainId} Horizon endpoint ${url}:`, error);
+      continue;
     }
   }
 
@@ -58,21 +59,20 @@ async function fetchAccount(
       const horizonServer = new Horizon.Server(url);
       return await horizonServer.accounts().accountId(address).call();
     } catch (error: any) {
+      // Account doesn't exist
       if (error.response?.status === 404) {
         return null;
       }
+
       console.warn(`/!\\ Error received from ${chainId} Horizon endpoint ${url}:`, error);
+      continue;
     }
   }
 
+  console.warn(`/!\\ Failed to fetch Stellar account ${address} from all providers`);
   throw new AdamikApiServerError(`Failed to fetch Stellar account ${address}`);
 }
 
-/**
- * Fetches transaction details from Horizon server using transaction hash
- * @param transactionHash - The hex-encoded transaction hash
- * @returns Promise<Horizon.TransactionResponse> - The transaction details from Horizon
- */
 async function fetchTransaction(
   chainId: ChainId,
   transactionHash: string
@@ -98,22 +98,16 @@ async function fetchTransaction(
       if (error?.response?.status === 404) {
         return null;
       }
+
       console.warn(`/!\\ Error received from ${chainId} Horizon endpoint ${url}:`, error);
+      continue;
     }
   }
 
-  // All URLs failed
-  console.warn(`Failed to fetch Stellar transaction ${transactionHash} from all providers`);
-  return null;
+  console.warn(`/!\\ Failed to fetch Stellar transaction ${transactionHash} from all providers`);
+  throw new AdamikApiServerError(`Failed to fetch Stellar transaction ${transactionHash}`);
 }
 
-/**
- * Fetches account transactions from Horizon server with pagination support
- * @param chainId - The chain ID (should be STELLAR)
- * @param address - The Stellar account address
- * @param paginationToken - Optional pagination token for paginated results
- * @returns Promise<{ stellarTransactions: FinalizedTransaction[]; nextPage: string | null }> - The transactions and next page token
- */
 async function fetchAccountTransactions(
   chainId: ChainId,
   address: string,
@@ -169,31 +163,21 @@ async function fetchAccountTransactions(
         nextPage,
       };
     } catch (error: any) {
-      // Handle specific Stellar errors
+      // Account doesn't exist
       if (error.response?.status === 404) {
         console.warn(`/!\\ Stellar account not found: ${address}`);
         return { stellarTransactions: [], nextPage: null };
       }
 
-      if (error.response?.status === 400) {
-        console.warn(`/!\\ Bad request for Stellar account: ${address}`);
-        return { stellarTransactions: [], nextPage: null };
-      }
-
       console.warn(`/!\\ Error received from ${chainId} Horizon endpoint ${url}:`, error);
+      continue;
     }
   }
 
-  // All URLs failed
   console.warn(`/!\\ Failed to fetch Stellar account transactions for ${address} from all providers`);
-  return { stellarTransactions: [], nextPage: null };
+  throw new AdamikApiServerError(`Failed to fetch Stellar account transactions for account ${address}`);
 }
 
-/**
- * Converts a Horizon transaction response to the Adamik FinalizedTransaction format
- * @param horizonTransaction - The transaction response from Horizon
- * @returns FinalizedTransaction["parsed"] - The parsed transaction data
- */
 async function stellarToAdamikTransaction(
   chainId: ChainId,
   horizonTransaction: Horizon.ServerApi.TransactionRecord
@@ -387,11 +371,6 @@ function determineTransactionMode(
   }
 }
 
-/**
- * Broadcasts a signed Stellar transaction to the network
- * @param signedTransactionXDR - The XDR-encoded signed transaction
- * @returns Promise<string> - The transaction hash
- */
 async function broadcastTransaction(signedTransactionXDR: string, chainId: ChainId): Promise<string> {
   const networkPassphrase = getStellarNetwork(chainId);
   const urls = getProviderUrls(chainId, ProviderType.horizon);
@@ -414,6 +393,7 @@ async function broadcastTransaction(signedTransactionXDR: string, chainId: Chain
       }
 
       console.warn(`/!\\ Error received from ${chainId} Horizon endpoint ${url}:`, error);
+      continue;
     }
   }
 
