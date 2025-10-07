@@ -1,5 +1,4 @@
 import { AbiFunctionSignatureNotFoundError, decodeFunctionData, erc20Abi } from "viem";
-import { ALCHEMY_API_KEY } from "~/app/config/apiKeys";
 import {
   AlchemyBalanceRequest,
   AlchemyBlock,
@@ -31,13 +30,9 @@ import { parseStakewiseTransaction } from "../logic";
 // https://www.alchemy.com/docs/data/transfers-api/transfers-endpoints/alchemy-get-asset-transfers
 
 async function sendRequest(chainId: ChainId, method: string, params: any[]) {
-  const baseURL = getProviderUrls(chainId, ProviderType.alchemy)[0];
+  const alchemyURL = getProviderUrls(chainId, ProviderType.alchemy)[0];
 
-  const explorerURL = baseURL.endsWith("/")
-    ? `${baseURL}${ALCHEMY_API_KEY}`
-    : `${baseURL}/${ALCHEMY_API_KEY}`;
-
-  const res = await fetch(explorerURL, {
+  const res = await fetch(alchemyURL, {
     method: "POST",
     headers: {
       Accept: "application/json",

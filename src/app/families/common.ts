@@ -9,19 +9,21 @@ import {
   TransactionData,
   TransactionMode,
 } from "../model/types_WIP";
-import { ThirdPartyProviderError, UnsupportedFeatureError } from "../tools/handlers/errors";
+import {
+  AdamikApiServerError,
+  ThirdPartyProviderError,
+  UnsupportedFeatureError,
+} from "../tools/handlers/errors";
 
 export const getProviderUrls = (chainId: ChainId, providerType: ProviderType): string[] => {
   const provider = CHAINS[chainId].providers.find((p: Provider) => p.type === providerType);
-  if (!provider) {
-    throw new ThirdPartyProviderError(`No type ${providerType} found for ${chainId}`);
+
+  if (!provider || provider.urls.length === 0) {
+    console.warn(`/!\\ No provider of type '${providerType}' defined for chainId ${chainId}`);
+    throw new AdamikApiServerError(`No provider available for chainId ${chainId}`);
   }
 
-  if (Array.isArray(provider.urls)) {
-    return provider.urls;
-  } else {
-    throw new ThirdPartyProviderError(`Invalid type ${providerType} provider URL for ${chainId}`);
-  }
+  return provider.urls;
 };
 
 // Handles multiple providers

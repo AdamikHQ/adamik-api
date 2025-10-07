@@ -8,23 +8,18 @@ import {
   Provider as StarknetProvider,
 } from "starknet";
 import { ChainId, ProviderType, TransactionMode } from "~/app/model/types_WIP";
-import { InvalidTransactionError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
+import { InvalidTransactionError } from "~/app/tools/handlers/errors";
 import { getProviderUrls } from "../../common";
 import { STARK_TOKEN_CONTRACT_ID } from "../constants";
 import { createStarknetAccount, isCompactSignature, marginFees } from "../logic";
 import { StarknetTransactionParams } from "../types";
 
+// TODO Support multiple node providers
+
 const fetchTokenInfo = async (chainId: ChainId, tokenId: string) => {
-  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
 
-  if (!nodeUrl) {
-    throw new ThirdPartyProviderError("No node URL found for Starknet");
-  }
-
-  // TODO: Add support for multiple node URLs
-  const provider = new StarknetProvider({
-    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
-  });
+  const provider = new StarknetProvider({ nodeUrl });
 
   const token = await provider.getClassAt(tokenId);
 
@@ -45,11 +40,7 @@ const fetchTokenInfo = async (chainId: ChainId, tokenId: string) => {
 };
 
 const broadcast = async (chainId: ChainId, signedTransaction: string): Promise<string> => {
-  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
-
-  if (!nodeUrl) {
-    throw new ThirdPartyProviderError("No node URL found for Starknet");
-  }
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
 
   try {
     const { mode, payload, details }: StarknetTransactionParams & { mode: TransactionMode } =
@@ -62,10 +53,7 @@ const broadcast = async (chainId: ChainId, signedTransaction: string): Promise<s
       });
     }
 
-    // TODO: Add support for multiple node URLs
-    const provider = new StarknetProvider({
-      nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
-    });
+    const provider = new StarknetProvider({ nodeUrl });
 
     const signature = isCompactSignature(payload.signature)
       ? ec.starkCurve.Signature.fromCompact(payload.signature)
@@ -93,16 +81,9 @@ const broadcast = async (chainId: ChainId, signedTransaction: string): Promise<s
 };
 
 const getNonce = async (chainId: ChainId, address: string) => {
-  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
 
-  if (!nodeUrl) {
-    throw new ThirdPartyProviderError("No node URL found for Starknet");
-  }
-
-  // TODO: Add support for multiple node URLs
-  const provider = new StarknetProvider({
-    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
-  });
+  const provider = new StarknetProvider({ nodeUrl });
 
   try {
     const nonce = await provider.getNonceForAddress(address);
@@ -137,16 +118,10 @@ const estimateTransferFees = async (
   amount: bigint,
   contractId: string
 ) => {
-  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
 
-  if (!nodeUrl) {
-    throw new ThirdPartyProviderError("No node URL found for Starknet");
-  }
+  const provider = new StarknetProvider({ nodeUrl });
 
-  // TODO: Add support for multiple node URLs
-  const provider = new StarknetProvider({
-    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
-  });
   const account = await createStarknetAccount(provider, sender);
 
   const transferCall = await populateTransferCall(contractId, recipient, amount, provider);
@@ -164,16 +139,10 @@ const buildTransferPayload = async (
   amount: bigint,
   contractId: string
 ): Promise<StarknetTransactionParams> => {
-  // TODO: Add support for multiple node URLs\
-  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
 
-  if (!nodeUrl) {
-    throw new ThirdPartyProviderError("No node URL found for Starknet");
-  }
+  const provider = new StarknetProvider({ nodeUrl });
 
-  const provider = new StarknetProvider({
-    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
-  });
   const nonce = await provider.getNonceForAddress(sender);
 
   const account = await createStarknetAccount(provider, sender);
@@ -189,16 +158,9 @@ const buildStakePayload = async (
   sender: string,
   amount: BigInt
 ): Promise<StarknetTransactionParams> => {
-  // TODO: Add support for multiple node URLs
-  const nodeUrl = getProviderUrls(chainId, ProviderType.node);
+  const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0];
 
-  if (!nodeUrl) {
-    throw new ThirdPartyProviderError("No node URL found for Starknet");
-  }
-
-  const provider = new StarknetProvider({
-    nodeUrl: typeof nodeUrl === "string" ? nodeUrl : nodeUrl[0],
-  });
+  const provider = new StarknetProvider({ nodeUrl });
 
   const nonce = await provider.getNonceForAddress(sender);
   const account = await createStarknetAccount(provider, sender);

@@ -1,0 +1,27 @@
+{
+  "request": {
+    "url": "https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8/REDACTED",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "starknet_getNonce",
+      "params": {
+        "contract_address": "0x1924db07ff85482f6f7948c5d09f8cb008231c1bbeaa4206a28a195ce2e528b",
+        "block_id": "pending"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "error": {
+        "code": 20,
+        "message": "Contract not found"
+      },
+      "id": 1,
+      "jsonrpc": "2.0"
+    },
+    "type": "json"
+  }
+}

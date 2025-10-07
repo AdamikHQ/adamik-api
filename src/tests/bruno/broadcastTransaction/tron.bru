@@ -41,6 +41,6 @@ body:json {
 }
 
 assert {
-  res.status: eq 400
-  res.body.status.errors[0].message: eq "Transaction broadcast failed"
+  res.status: eq 200
+  res.body.hash: eq "MOCKED"
 }
