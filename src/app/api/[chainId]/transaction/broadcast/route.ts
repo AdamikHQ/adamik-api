@@ -3,6 +3,7 @@ import { getService } from "~/app/config/services";
 import { Transaction } from "~/app/model/types_WIP";
 import { apiHandler, statusFromMessage } from "~/app/tools/handlers/apiHandler";
 import { InvalidTransactionError, UserInputError } from "~/app/tools/handlers/errors";
+import { env } from "~/env";
 import { pathParamsSchema, requestSchema, responseSchema } from "./schema";
 
 // FIXME Temporary hack to postpone refactoring the internal model for now.
@@ -45,6 +46,11 @@ export const POST = apiHandler(
         );
       }
     })();
+
+    // No broadcast while in test environment
+    if (env.TEST_ENV === "true") {
+      return { chainId, transaction, hash: "MOCKED" };
+    }
 
     const transactionHash = await (async () => {
       try {

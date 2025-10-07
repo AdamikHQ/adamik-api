@@ -11,7 +11,6 @@ import {
   PublicKey,
   Transaction as SolanaTransaction,
   StakeProgram,
-  VersionedTransaction,
 } from "@solana/web3.js";
 import { HELIUS_API_KEY } from "~/app/config/apiKeys";
 import {
@@ -85,20 +84,6 @@ async function fetchLatestBlockhash(chainId: ChainId): Promise<string> {
   } catch (error) {
     console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
     throw new ThirdPartyProviderError(`Error while fetching latest blockhash for ${ChainId.SOLANA}`);
-  }
-}
-
-async function simulateTransaction(
-  chainId: ChainId,
-  transaction: VersionedTransaction
-): Promise<number | undefined> {
-  const { connection, nodeUrl } = getConnection(chainId);
-  try {
-    const simulationResponse = await connection.simulateTransaction(transaction);
-    return simulationResponse.value.unitsConsumed;
-  } catch (error) {
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while simulating transaction for ${ChainId.SOLANA}`);
   }
 }
 
@@ -401,5 +386,4 @@ export {
   fetchLatestBlockhash,
   fetchNativeBalance,
   fetchStakePositions,
-  simulateTransaction,
 };
