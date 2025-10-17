@@ -6,21 +6,21 @@ import {
   paginatedResponseSchema,
   paginationQueryParamsSchema,
 } from "~/app/api/schemaCommon";
-import { CHAINS } from "~/app/config/chains";
+import { Chain } from "~/app/model/types_WIP";
 
-const supportedChainIds = Object.values(CHAINS)
-  .filter((chain) => chain.supportedFeatures.read.validators)
-  .map((chain) => chain.id);
+const chainIdFilters = (chain: Chain) => chain.supportedFeatures.read.validators;
+
+const chainIdSchema = getSupportedChainIdsSchema(chainIdFilters);
 
 const pathParamsSchema = z.object({
-  chainId: getSupportedChainIdsSchema(supportedChainIds),
+  chainId: chainIdSchema,
 });
 
 const queryParamsSchema = paginationQueryParamsSchema;
 
 const responseSchema = z
   .object({
-    chainId: getSupportedChainIdsSchema(supportedChainIds),
+    chainId: chainIdSchema,
     validators: z
       .object({
         address: z.string(),

@@ -29,18 +29,17 @@ import {
   outputWithdrawSchema,
   statusSchema,
 } from "~/app/api/schemaCommon";
-import { CHAINS } from "~/app/config/chains";
+import { Chain } from "~/app/model/types_WIP";
 
-const supportedChainIds = Object.values(CHAINS)
-  .filter((chain) =>
-    // This checks whether any of the supported transaction types in
-    // chain.supportedFeatures.write.transaction.type.* are flagged as true
-    Object.entries(chain.supportedFeatures.write.transaction.type).some((value) => value[1] === true)
-  )
-  .map((chain) => chain.id);
+const chainIdFilters = (chain: Chain) =>
+  // This checks whether any of the supported transaction types in
+  // chain.supportedFeatures.write.transaction.type.* are flagged as true
+  Object.entries(chain.supportedFeatures.write.transaction.type).some((value) => value[1] === true);
+
+const chainIdSchema = getSupportedChainIdsSchema(chainIdFilters);
 
 const pathParamsSchema = z.object({
-  chainId: getSupportedChainIdsSchema(supportedChainIds),
+  chainId: chainIdSchema,
 });
 
 const requestSchema = z.object({
@@ -67,7 +66,7 @@ const requestSchema = z.object({
 });
 
 const responseSchema = z.object({
-  chainId: getSupportedChainIdsSchema(supportedChainIds),
+  chainId: chainIdSchema,
   transaction: z.object({
     data: z
       .object({

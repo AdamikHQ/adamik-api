@@ -216,6 +216,7 @@ type Chain = {
   decimals: number;
   providers: Provider[];
   isTestnetFor?: string; // Should be a 'ChainId', but it would prevent to support testnets for which we don't support the mainnet
+  comingSoon?: true;
   params?: ChainParams;
   supportedFeatures: ChainSupportedFeatures;
   signerSpec: SignerSpec;

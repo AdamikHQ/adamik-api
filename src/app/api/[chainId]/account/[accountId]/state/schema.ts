@@ -8,20 +8,17 @@ import {
   stakeIdSchema,
   tokenSchema,
 } from "~/app/api/schemaCommon";
-import { CHAINS } from "~/app/config/chains";
-import { StakingStatus } from "~/app/model/types_WIP";
+import { Chain, StakingStatus } from "~/app/model/types_WIP";
 
-const supportedChainIds = Object.values(CHAINS)
-  .filter(
-    (chain) =>
-      chain.supportedFeatures.read.account.balances.native ||
-      chain.supportedFeatures.read.account.balances.tokens ||
-      chain.supportedFeatures.read.account.balances.staking
-  )
-  .map((chain) => chain.id);
+const chainIdFilters = (chain: Chain) =>
+  chain.supportedFeatures.read.account.balances.native ||
+  chain.supportedFeatures.read.account.balances.tokens ||
+  chain.supportedFeatures.read.account.balances.staking;
+
+const chainIdSchema = getSupportedChainIdsSchema(chainIdFilters);
 
 const pathParamsSchema = z.object({
-  chainId: getSupportedChainIdsSchema(supportedChainIds),
+  chainId: chainIdSchema,
   accountId: accountIdSchema,
 });
 
@@ -50,7 +47,7 @@ const queryParamsSchema = z.object({
 });
 
 const responseSchema = z.object({
-  chainId: getSupportedChainIdsSchema(supportedChainIds),
+  chainId: chainIdSchema,
   accountId: z.string(),
   balances: z.object({
     native: z

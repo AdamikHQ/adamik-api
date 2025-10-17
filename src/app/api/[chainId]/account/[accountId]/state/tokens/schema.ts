@@ -9,14 +9,14 @@ import {
   paginationQueryParamsSchema,
   tokenSchema,
 } from "~/app/api/schemaCommon";
-import { CHAINS } from "~/app/config/chains";
+import { Chain } from "~/app/model/types_WIP";
 
-const supportedChainIds = Object.values(CHAINS)
-  .filter((chain) => chain.supportedFeatures.read.account.balances.tokens)
-  .map((chain) => chain.id);
+const chainIdFilters = (chain: Chain) => chain.supportedFeatures.read.account.balances.tokens;
+
+const chainIdSchema = getSupportedChainIdsSchema(chainIdFilters);
 
 const pathParamsSchema = z.object({
-  chainId: getSupportedChainIdsSchema(supportedChainIds),
+  chainId: chainIdSchema,
   accountId: accountIdSchema,
 });
 
@@ -24,7 +24,7 @@ const queryParamsSchema = paginationQueryParamsSchema;
 
 const responseSchema = z
   .object({
-    chainId: getSupportedChainIdsSchema(supportedChainIds),
+    chainId: chainIdSchema,
     accountId: z.string(),
     balances: z.object({
       tokens: z

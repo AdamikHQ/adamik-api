@@ -2,14 +2,14 @@ import { z } from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 import "zod-openapi/extend";
 import { getSupportedChainIdsSchema, tokenSchema } from "~/app/api/schemaCommon";
-import { CHAINS } from "~/app/config/chains";
+import { Chain } from "~/app/model/types_WIP";
 
-const supportedChainIds = Object.values(CHAINS)
-  .filter((chain) => chain.supportedFeatures.read.token)
-  .map((chain) => chain.id);
+const chainIdFilters = (chain: Chain) => chain.supportedFeatures.read.token;
+
+const chainIdSchema = getSupportedChainIdsSchema(chainIdFilters);
 
 const pathParamsSchema = z.object({
-  chainId: getSupportedChainIdsSchema(supportedChainIds),
+  chainId: chainIdSchema,
   tokenId: z.string().openapi({
     description: "Token ID. Format depends on the chain, e.g. contract address for EVM chains.",
     examples: ["0xdAC17F958D2ee523a2206206994597C13D831ec7"],

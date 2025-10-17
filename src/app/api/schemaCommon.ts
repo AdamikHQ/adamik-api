@@ -1,6 +1,7 @@
 import z from "zod";
 import "zod-openapi/extend";
 import {
+  Chain,
   ChainFamily,
   ChainId,
   Curve,
@@ -12,6 +13,7 @@ import {
   TransactionMode,
   TransactionState,
 } from "~/app/model/types_WIP";
+import { CHAINS } from "../config/chains";
 
 const stringToBigIntSchema = z
   .string()
@@ -48,8 +50,13 @@ const chainIdSchema = z.nativeEnum(ChainId, chainIdSchemaParams).openapi({
   ref: "ChainId",
 });
 
-const getSupportedChainIdsSchema = (supportedChainIds: ChainId[]) =>
-  z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
+const getSupportedChainIdsSchema = (chainFilters: (chain: Chain) => boolean) => {
+  const supportedChainIds = Object.values(CHAINS)
+    .filter((chain) => !chain.comingSoon && chainFilters(chain))
+    .map((chain) => chain.id);
+
+  return z.enum(supportedChainIds as [ChainId, ...ChainId[]], chainIdSchemaParams);
+};
 
 const accountIdSchema = z.string().openapi({
   description: "Account identifier (address, xpub, etc) for the specified chain ID",

@@ -8,19 +8,17 @@ import {
   paginatedResponseSchema,
   paginationQueryParamsSchema,
 } from "~/app/api/schemaCommon";
-import { CHAINS } from "~/app/config/chains";
+import { Chain } from "~/app/model/types_WIP";
 
-const supportedChainIds = Object.values(CHAINS)
-  .filter(
-    (chain) =>
-      chain.supportedFeatures.read.account.transactions.native ||
-      chain.supportedFeatures.read.account.transactions.tokens ||
-      chain.supportedFeatures.read.account.transactions.staking
-  )
-  .map((chain) => chain.id);
+const chainIdFilters = (chain: Chain) =>
+  chain.supportedFeatures.read.account.transactions.native ||
+  chain.supportedFeatures.read.account.transactions.tokens ||
+  chain.supportedFeatures.read.account.transactions.staking;
+
+const chainIdSchema = getSupportedChainIdsSchema(chainIdFilters);
 
 const pathParamsSchema = z.object({
-  chainId: getSupportedChainIdsSchema(supportedChainIds),
+  chainId: chainIdSchema,
   accountId: accountIdSchema,
 });
 
@@ -72,7 +70,7 @@ const queryParamsSchema = paginationQueryParamsSchema.merge(
 
 const responseSchema = z
   .object({
-    chainId: getSupportedChainIdsSchema(supportedChainIds),
+    chainId: chainIdSchema,
     accountId: z.string(),
     transactions: finalizedTransactionSchema.array(),
     //status: statusSchema, TODO Should all endpoints have a status?
