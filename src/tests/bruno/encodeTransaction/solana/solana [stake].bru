@@ -1,0 +1,33 @@
+meta {
+  name: solana [stake]
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{api_url}}/api/:chainId/transaction/encode
+  body: json
+  auth: none
+}
+
+params:path {
+  chainId: solana
+}
+
+body:json {
+  {
+    "transaction": {
+      "data": {
+        "mode": "stake",
+        "senderAddress": "AwyvcxZV5w7JG9o693Lc4hWKsvRTQLkjuT4TqBG1wG6d",
+        "targetValidatorAddress": "CcaHc2L43ZWjwCHART3oZoJvHLAe9hzT2DJNUpBzoTN1",
+        "amount": "12345678"
+      }
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.transaction.encoded[0].raw.value: isString
+}

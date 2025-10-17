@@ -1,7 +1,7 @@
 meta {
-  name: solana
+  name: solana [transferToken]
   type: http
-  seq: 1
+  seq: 2
 }
 
 post {
@@ -18,10 +18,11 @@ body:json {
   {
     "transaction": {
       "data":   {
-        "mode": "transfer",
+        "mode": "transferToken",
+        "tokenId": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
         "senderAddress": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
         "recipientAddress": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
-        "useMaxAmount": true
+        "amount": "12345"
       }
     }
   }
