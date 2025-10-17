@@ -463,6 +463,7 @@
 
 | node | https://mainnet.helius-rpc.com |<br />
 | helius | https://api-mainnet.helius-rpc.com |<br />
+| solscan | https://pro-api.solscan.io/v2.0 |<br />
 | validatorApp | https://www.validators.app/api/v1/validators/mainnet.json |
 
 ## aptos
