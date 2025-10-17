@@ -1,0 +1,36 @@
+{
+  "request": {
+    "url": "https://pro-api.solscan.io/v2.0/account/stake?address=BJw2hkXXWj5XKKGTYd5EFSvwP6ZWKD8J6Kooa2VbiGd4",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": [
+        {
+          "amount": 0,
+          "role": [
+            "staker",
+            "withdrawer"
+          ],
+          "status": "inactive",
+          "type": "inactive",
+          "voter": "4PsiLMyoUQ7QRn1FFiFCvej4hsUTFzfvJnyN4bj1tmSN",
+          "deactivationEpoch": 858,
+          "deactivatingStake": 0,
+          "activatingStake": 0,
+          "active_stake_amount": 0,
+          "delegated_stake_amount": 7719652,
+          "sol_balance": 2282918,
+          "total_reward": "2532",
+          "stake_account": "AUK1xxou9Me4s8FCgJ8CSH3JWQidsXq72gaBbiHx2ezk",
+          "activation_epoch": 857,
+          "stake_type": "Stake"
+        }
+      ],
+      "metadata": {}
+    },
+    "type": "json"
+  }
+}

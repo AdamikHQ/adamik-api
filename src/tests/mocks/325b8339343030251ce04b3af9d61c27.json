@@ -1,0 +1,44 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=99c19f14-77fa-4802-862f-0de4bb8f4fce",
+    "method": "POST",
+    "body": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "method": "getAssetsByOwner",
+      "params": {
+        "ownerAddress": "BJw2hkXXWj5XKKGTYd5EFSvwP6ZWKD8J6Kooa2VbiGd4",
+        "page": 1,
+        "limit": 1000,
+        "sortBy": {
+          "sortBy": "created",
+          "sortDirection": "asc"
+        },
+        "options": {
+          "showUnverifiedCollections": false,
+          "showCollectionMetadata": true,
+          "showGrandTotal": true,
+          "showFungible": true,
+          "showNativeBalance": false,
+          "showInscription": true,
+          "showZeroBalance": true
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": {
+        "last_indexed_slot": 373992016,
+        "total": 0,
+        "limit": 1000,
+        "page": 1,
+        "items": []
+      },
+      "id": 2
+    },
+    "type": "json"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "request": {
+    "url": "https://pro-api.solscan.io/v2.0/account/stake?address=FFG51Jf1T1LvT1Tq3AFkETgbfbaQCqNiqU3gTp25DvC7",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": [],
+      "metadata": {}
+    },
+    "type": "json"
+  }
+}

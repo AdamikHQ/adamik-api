@@ -1,7 +1,7 @@
 meta {
-  name: solana
+  name: solana [tokens]
   type: http
-  seq: 5
+  seq: 1
 }
 
 get {
@@ -17,7 +17,7 @@ params:path {
 
 assert {
   res.body.balances: isDefined tokens
-  res.body.balances.tokens: isArray
+  res.body.balances.tokens[0]: isDefined 
   res.body.balances.native.total: matches ^\d+$
   res.body.balances.native.available: matches ^\d+$
   res.status: eq 200
