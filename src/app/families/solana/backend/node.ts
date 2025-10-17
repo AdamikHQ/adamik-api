@@ -5,31 +5,16 @@ import {
   TokenAccountNotFoundError,
   TokenInvalidAccountOwnerError,
 } from "@solana/spl-token";
-import {
-  Connection,
-  MessageV0,
-  PublicKey,
-  Transaction as SolanaTransaction,
-  StakeProgram,
-} from "@solana/web3.js";
+import { Connection, MessageV0, PublicKey, Transaction as SolanaTransaction } from "@solana/web3.js";
 import { HELIUS_API_KEY } from "~/app/config/apiKeys";
-import {
-  ChainId,
-  ProviderType,
-  StakingPosition,
-  StakingReward,
-  StakingStatus,
-  Token,
-  TokenAmount,
-  TokenType,
-} from "~/app/model/types_WIP";
+import { ChainId, ProviderType, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { nonNullable } from "~/app/tools/guard";
 import { InvalidPaginationTokenError, ThirdPartyProviderError } from "~/app/tools/handlers/errors";
 import { paginationFromB64, paginationToB64 } from "~/app/tools/pagination";
 import { TokenStore } from "~/app/tools/tokenStore";
 import { getProviderUrls } from "../../common";
 import { HeliusAssetResponse, HeliusTokensResponse } from "./helius.types";
-import { GetAssetsByOwnerParams, ParsedStakeAccountInfo } from "./node.types";
+import { GetAssetsByOwnerParams } from "./node.types";
 
 const getConnection = (chainId: ChainId) => {
   const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0] + `?api-key=${HELIUS_API_KEY}`;
@@ -49,8 +34,8 @@ async function fetchNativeBalance(chainId: ChainId, accountAddress: string) {
     const balance = await connection.getBalance(wallet);
     return { balance: BigInt(balance), assetAmounts: [] };
   } catch (error) {
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while fetching account for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while fetching account for ${chainId}`);
   }
 }
 
@@ -67,8 +52,8 @@ async function broadcastTransaction(chainId: ChainId, rawData: string): Promise<
     const txHash = await connection.sendRawTransaction(Buffer.from(rawData, "hex"));
     return txHash;
   } catch (error) {
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while broadcasting transaction for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while broadcasting transaction for ${chainId}`);
   }
 }
 
@@ -82,8 +67,8 @@ async function fetchLatestBlockhash(chainId: ChainId): Promise<string> {
     const latestBlockhash = await connection.getLatestBlockhash();
     return latestBlockhash.blockhash;
   } catch (error) {
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while fetching latest blockhash for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while fetching latest blockhash for ${chainId}`);
   }
 }
 
@@ -94,8 +79,8 @@ async function fetchFeeForMessage(chainId: ChainId, transactionMessage: MessageV
     const fees = await connection.getFeeForMessage(transactionMessage);
     return fees.value;
   } catch (error) {
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while getting fee for message for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while getting fee for message for ${chainId}`);
   }
 }
 
@@ -108,8 +93,8 @@ async function fetchAccountSPL(chainId: ChainId, accountAddress: string): Promis
     if (error instanceof TokenAccountNotFoundError || error instanceof TokenInvalidAccountOwnerError) {
       return null;
     }
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while getting account SPL for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while getting account SPL for ${chainId}`);
   }
 }
 
@@ -123,8 +108,8 @@ async function fetchEstimatedFeeFromNode(
     const estimatedFee = await transaction.getEstimatedFee(connection);
     return estimatedFee;
   } catch (error) {
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while getting estimated fee from node for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while getting estimated fee from node for ${chainId}`);
   }
 }
 
@@ -143,8 +128,8 @@ async function fetchAccountTokenBalance(
     const account = await getAccount(connection, tokenAccountAddress);
     return account.amount;
   } catch (error) {
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while getting account token balance for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while getting account token balance for ${chainId}`);
   }
 }
 
@@ -198,8 +183,8 @@ async function fetchAccountTokensBalance(
 
     return { tokenAmounts, nextPaginationToken: null };
   } catch (error) {
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while fetching account tokens balance for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while fetching account tokens balance for ${chainId}`);
   }
 }
 
@@ -248,8 +233,8 @@ async function fetchAssetsByOwner(
 
     return data;
   } catch (error) {
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while getting assets by owner for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while getting assets by owner for ${chainId}`);
   }
 }
 
@@ -293,11 +278,13 @@ async function fetchAssetInfo(chainId: ChainId, assetId: string): Promise<Token 
 
     return token;
   } catch (error) {
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while fetching asset info for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while fetching asset info for ${chainId}`);
   }
 }
 
+// Not used anymore, replaced by solscan API
+/*
 async function fetchStakePositions(
   chainId: ChainId,
   accountId: string
@@ -353,26 +340,30 @@ async function fetchStakePositions(
           stakeId: pubkey.toBase58(),
         });
 
-        const currentStakeAmount = stakeInfo.value?.lamports;
-        const initialStakeAmount = stakeDelegationData.stake;
+        // FIXME This approach doesn't work, the rewards amount is wrong
+        // The 'rewardsPositions' node method allows to get rewards only for a single epoch, which doesn't scale
+        // Only proper solution: solscan API, which provides the total rewards amount
+        // const currentStakeAmount = stakeInfo.value?.lamports;
+        // const initialStakeAmount = stakeDelegationData.stake;
 
-        if (currentStakeAmount && initialStakeAmount) {
-          const rewards = BigInt(currentStakeAmount) - BigInt(initialStakeAmount);
-          rewardsPositions.push({
-            validatorAddress: stakeDelegationData.voter,
-            amount: BigInt(rewards),
-            // stakeId: pubkey.toBase58(), // Note: we should probably add stakeId because it's this position that generated stake.
-          });
-        }
+        // if (currentStakeAmount && initialStakeAmount) {
+        //   const rewards = BigInt(currentStakeAmount) - BigInt(initialStakeAmount);
+        //   rewardsPositions.push({
+        //     validatorAddress: stakeDelegationData.voter,
+        //     amount: BigInt(rewards),
+        //     // stakeId: pubkey.toBase58(), // Note: we should probably add stakeId because it's this position that generated stake.
+        //   });
+        // }
       }
     }
 
     return { stakePositions, rewardsPositions };
   } catch (error) {
-    console.warn(`/!\\ Error received from ${ChainId.SOLANA} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while fetching stake positions for ${ChainId.SOLANA}`);
+    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
+    throw new ThirdPartyProviderError(`Error while fetching stake positions for ${chainId}`);
   }
 }
+*/
 
 export {
   broadcastTransaction,
@@ -385,5 +376,4 @@ export {
   fetchFeeForMessage,
   fetchLatestBlockhash,
   fetchNativeBalance,
-  fetchStakePositions,
 };

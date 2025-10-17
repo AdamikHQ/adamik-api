@@ -1,5 +1,6 @@
 import { AccountState, StakingStatus, TokenAmount } from "~/app/model/types_WIP";
-import { fetchAccountTokensBalance, fetchNativeBalance, fetchStakePositions } from "../backend/node";
+import { fetchAccountTokensBalance, fetchNativeBalance } from "../backend/node";
+import { fetchStakingPositions } from "../backend/solscan";
 import { SolanaService } from "../service";
 
 async function getAccountState(this: SolanaService, accountId: string): Promise<AccountState> {
@@ -20,9 +21,9 @@ async function getAccountState(this: SolanaService, accountId: string): Promise<
     nextPaginationToken = nextToken ?? undefined;
   } while (nextPaginationToken !== undefined);
 
-  const { stakePositions, rewardsPositions } = await fetchStakePositions(this.chainId, accountId);
+  const { stakingPositions, stakingRewards } = await fetchStakingPositions(this.chainId, accountId);
 
-  const { stakeTotal, stakeLocked, stakeUnlocking, stakeUnlocked } = stakePositions.reduce(
+  const { stakeTotal, stakeLocked, stakeUnlocking, stakeUnlocked } = stakingPositions.reduce(
     (acc, stakeAccount) => {
       if (stakeAccount.status === StakingStatus.LOCKED) {
         acc.stakeLocked += stakeAccount.amount;
@@ -51,9 +52,9 @@ async function getAccountState(this: SolanaService, accountId: string): Promise<
         locked: BigInt(stakeLocked),
         unlocking: BigInt(stakeUnlocking),
         unlocked: BigInt(stakeUnlocked),
-        positions: stakePositions,
+        positions: stakingPositions,
         rewards: {
-          native: rewardsPositions,
+          native: stakingRewards,
           tokens: [],
         },
       },

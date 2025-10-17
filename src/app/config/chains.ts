@@ -2340,6 +2340,10 @@ const CHAINS: { [key in ChainId]: Chain } = {
         urls: ["https://api-mainnet.helius-rpc.com"],
       },
       {
+        type: ProviderType.solscan,
+        urls: ["https://pro-api.solscan.io/v2.0"],
+      },
+      {
         type: ProviderType.validatorApp,
         urls: ["https://www.validators.app/api/v1/validators/mainnet.json"],
       },

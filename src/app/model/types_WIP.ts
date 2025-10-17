@@ -169,6 +169,7 @@ export enum ProviderType {
   moralis = "moralis",
   oklink = "oklink",
   routescan = "routescan",
+  solscan = "solscan",
   starkscan = "starkscan",
   stakewiseGQL = "stakewiseGQL",
   tonapi = "tonapi",
