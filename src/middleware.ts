@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { env } from "./env";
 
 export async function middleware(request: NextRequest) {
   const isPreflight = request.method === "OPTIONS";
@@ -7,7 +8,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Skip authorization in test environment
-  if (process.env.TEST_ENV === "true") {
+  if (env.TEST_ENV === "true") {
     return NextResponse.next();
   }
 

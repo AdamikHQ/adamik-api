@@ -6,6 +6,7 @@ import { AdamikHttpError, InvalidTransactionError } from "./errors";
 import applyMoesifMiddleware from "./moesifHandler";
 // This patch is required for seamless conversion of bigint values to string in API responses
 import "~/app/tools/bigint";
+import { env } from "~/env";
 
 // HOW TO USE
 //
@@ -59,7 +60,7 @@ export function apiHandler<
   }: Schemas<RequestBody, ResponseBody, PathParams, QueryParams>,
   methodCall: MethodCall<RequestBody, z.input<ResponseBody>, PathParams, QueryParams>
 ) {
-  if (process.env.TEST_ENV === "true") {
+  if (env.TEST_ENV === "true") {
     mswServer.listen();
   }
 
