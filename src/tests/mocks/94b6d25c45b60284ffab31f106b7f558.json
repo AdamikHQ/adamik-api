@@ -6,9 +6,9 @@
       "method": "getFeeForMessage",
       "jsonrpc": "2.0",
       "params": [
-        "AQABAgsiq/Klck9mzxWKOvVH+b6hyDixbdKstwcMulEupbhxAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACBbdg13Xg3OQFOSsgUEtJBfTRZjrR7p97xN1TsbEBPIAEBAgAADAIAAAD49V4DAAAAAA=="
+        "AQABAgsiq/Klck9mzxWKOvVH+b6hyDixbdKstwcMulEupbhxAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZ5TlnaATnd0mrYCAoK0tcDl8Gi2XAcfee7jblJsG6OgEBAgAADAIAAAD49V4DAAAAAA=="
       ],
-      "id": "0530d769-281f-4110-a638-4af957ce87d6"
+      "id": "d167e4d6-a2f9-4445-8cea-671cc1c2b033"
     }
   },
   "response": {
@@ -17,12 +17,12 @@
       "jsonrpc": "2.0",
       "result": {
         "context": {
-          "apiVersion": "2.2.0",
-          "slot": 340199328
+          "apiVersion": "2.3.7",
+          "slot": 374622625
         },
         "value": 5000
       },
-      "id": "0530d769-281f-4110-a638-4af957ce87d6"
+      "id": "d167e4d6-a2f9-4445-8cea-671cc1c2b033"
     },
     "type": "json"
   }

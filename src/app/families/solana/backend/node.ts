@@ -5,7 +5,7 @@ import {
   TokenAccountNotFoundError,
   TokenInvalidAccountOwnerError,
 } from "@solana/spl-token";
-import { Connection, MessageV0, PublicKey, Transaction as SolanaTransaction } from "@solana/web3.js";
+import { Connection, PublicKey, Transaction as SolanaTransaction } from "@solana/web3.js";
 import { HELIUS_API_KEY } from "~/app/config/apiKeys";
 import { ChainId, ProviderType, Token, TokenAmount, TokenType } from "~/app/model/types_WIP";
 import { nonNullable } from "~/app/tools/guard";
@@ -71,18 +71,6 @@ async function fetchLatestBlockhash(chainId: ChainId): Promise<string> {
   } catch (error) {
     console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
     throw new ThirdPartyProviderError(`Error while fetching latest blockhash for ${chainId}`);
-  }
-}
-
-async function fetchFeeForMessage(chainId: ChainId, transactionMessage: MessageV0): Promise<number | null> {
-  const { connection, nodeUrl } = getConnection(chainId);
-
-  try {
-    const fees = await connection.getFeeForMessage(transactionMessage);
-    return fees.value;
-  } catch (error) {
-    console.warn(`/!\\ Error received from ${chainId} node endpoint ${nodeUrl}:`, error);
-    throw new ThirdPartyProviderError(`Error while getting fee for message for ${chainId}`);
   }
 }
 
@@ -375,7 +363,6 @@ export {
   fetchAccountTokensBalance,
   fetchAssetInfo,
   fetchEstimatedFeeFromNode,
-  fetchFeeForMessage,
   fetchLatestBlockhash,
   fetchNativeBalance,
 };

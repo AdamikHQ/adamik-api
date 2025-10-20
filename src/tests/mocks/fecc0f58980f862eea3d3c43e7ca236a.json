@@ -6,9 +6,9 @@
       "method": "getFeeForMessage",
       "jsonrpc": "2.0",
       "params": [
-        "AQABAwsiq/Klck9mzxWKOvVH+b6hyDixbdKstwcMulEupbhxorZQEPphkSy40PWGEIVww1RRLpTO5TFQprT18HyHw5gG3fbh12Whk9nL4UbO63msHLSF7V9bN5E6jPWFfv8AqQMZT5O1tjwozE+6us+LJ+6JsQOr+FSC/AhzelDo6mmhAQIDAQEACQM5MAAAAAAAAA=="
+        "AQABAwsiq/Klck9mzxWKOvVH+b6hyDixbdKstwcMulEupbhxorZQEPphkSy40PWGEIVww1RRLpTO5TFQprT18HyHw5gG3fbh12Whk9nL4UbO63msHLSF7V9bN5E6jPWFfv8AqRnlOWdoBOd3SatgICgrS1wOXwaLZcBx957uNuUmwbo6AQIDAQEACQM5MAAAAAAAAA=="
       ],
-      "id": "b4234ef0-2a23-45f2-8bfd-e0dff4615c87"
+      "id": "8f18a40d-2898-4bf9-96b3-d902df39a78e"
     }
   },
   "response": {
@@ -18,11 +18,11 @@
       "result": {
         "context": {
           "apiVersion": "2.3.7",
-          "slot": 374616926
+          "slot": 374622632
         },
         "value": 5000
       },
-      "id": "b4234ef0-2a23-45f2-8bfd-e0dff4615c87"
+      "id": "8f18a40d-2898-4bf9-96b3-d902df39a78e"
     },
     "type": "json"
   }

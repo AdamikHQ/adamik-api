@@ -15,9 +15,23 @@ import {
 } from "@solana/web3.js";
 import { ChainId, Transaction, TransactionMode } from "~/app/model/types_WIP";
 import { UserInputError } from "~/app/tools/handlers/errors";
+import { env } from "~/env";
 import { fetchAccountSPL, fetchLatestBlockhash } from "./backend/node";
 
 const SOLANA_MIN_STAKE_AMOUNT = 10_000_000n;
+
+// Mock keypair, used only in tests
+const SOLANA_MOCK_KEYPAIR = {
+  publicKey: new Uint8Array([
+    232, 175, 126, 156, 17, 38, 161, 47, 42, 230, 40, 226, 216, 176, 100, 195, 87, 114, 226, 225, 134, 51,
+    225, 24, 204, 18, 109, 221, 185, 224, 224, 120,
+  ]),
+  secretKey: new Uint8Array([
+    104, 245, 107, 71, 199, 119, 81, 166, 159, 188, 124, 192, 15, 62, 133, 180, 196, 56, 88, 112, 159, 201,
+    244, 189, 120, 165, 20, 25, 155, 237, 179, 37, 232, 175, 126, 156, 17, 38, 161, 47, 42, 230, 40, 226, 216,
+    176, 100, 195, 87, 114, 226, 225, 134, 51, 225, 24, 204, 18, 109, 221, 185, 224, 224, 120,
+  ]),
+};
 
 function isAddressValid(address: string) {
   try {
@@ -125,7 +139,8 @@ async function buildStakeTransaction(chainId: ChainId, transaction: Transaction)
 
   const senderPk = new PublicKey(transaction.data.senderAddress);
 
-  const stakeAccountKeyPair = Keypair.generate();
+  // FIXME Hack to use mock keypair in tests, to prevent data from changing between tests
+  const stakeAccountKeyPair = env.TEST_ENV ? new Keypair(SOLANA_MOCK_KEYPAIR) : Keypair.generate();
 
   const tx = new SolanaTransaction();
   const lamportsForStake = Number(transaction.data.amount);
