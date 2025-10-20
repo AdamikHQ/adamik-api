@@ -6,7 +6,7 @@
       "method": "getLatestBlockhash",
       "jsonrpc": "2.0",
       "params": [],
-      "id": "618301fb-5404-4ee4-845c-4831e63bba83"
+      "id": "ac1b1678-e101-4459-8a5a-85409ace0878"
     }
   },
   "response": {
@@ -15,15 +15,15 @@
       "jsonrpc": "2.0",
       "result": {
         "context": {
-          "apiVersion": "2.1.16",
-          "slot": 340199328
+          "apiVersion": "2.3.7",
+          "slot": 374616926
         },
         "value": {
-          "blockhash": "9iEjviqyQ71VPUj3dLBr1XR44SGUShyczHwscgWQCG7Z",
-          "lastValidBlockHeight": 318419110
+          "blockhash": "D6cGmUvBzhVSr4FJAkJ2H9GxA7TL9eMXfeUcyWnvz4x",
+          "lastValidBlockHeight": 352782269
         }
       },
-      "id": "618301fb-5404-4ee4-845c-4831e63bba83"
+      "id": "ac1b1678-e101-4459-8a5a-85409ace0878"
     },
     "type": "json"
   }

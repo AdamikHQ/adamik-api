@@ -1,0 +1,42 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=99c19f14-77fa-4802-862f-0de4bb8f4fce",
+    "method": "POST",
+    "body": {
+      "method": "getAccountInfo",
+      "jsonrpc": "2.0",
+      "params": [
+        "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+        {
+          "encoding": "base64"
+        }
+      ],
+      "id": "47867e5e-038f-483f-a031-73a46b34df25"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": "47867e5e-038f-483f-a031-73a46b34df25",
+      "result": {
+        "context": {
+          "slot": 374616927,
+          "apiVersion": "2.2.7"
+        },
+        "value": {
+          "lamports": 153178785,
+          "data": [
+            "",
+            "base64"
+          ],
+          "owner": "11111111111111111111111111111111",
+          "executable": false,
+          "rentEpoch": 18446744073709552000,
+          "space": 0
+        }
+      }
+    },
+    "type": "json"
+  }
+}

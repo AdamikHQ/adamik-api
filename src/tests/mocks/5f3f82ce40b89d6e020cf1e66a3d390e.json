@@ -1,0 +1,42 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=99c19f14-77fa-4802-862f-0de4bb8f4fce",
+    "method": "POST",
+    "body": {
+      "method": "getAccountInfo",
+      "jsonrpc": "2.0",
+      "params": [
+        "BxAHYyGFiGbDue4G49BCWzYyaUPBMHfKmXfBzJbkCKao",
+        {
+          "encoding": "base64"
+        }
+      ],
+      "id": "035761bf-12a8-4197-bba8-bac95f094c21"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": "035761bf-12a8-4197-bba8-bac95f094c21",
+      "result": {
+        "context": {
+          "slot": 374616927,
+          "apiVersion": "2.2.7"
+        },
+        "value": {
+          "lamports": 2039280,
+          "data": [
+            "xfn7MvSREasgwz8lmPyDbBE+KRiBrCHuKRaTlAESROQLIqvypXJPZs8Vijr1R/m+ocg4sW3SrLcHDLpRLqW4ceXdFwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "base64"
+          ],
+          "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "executable": false,
+          "rentEpoch": 18446744073709552000,
+          "space": 165
+        }
+      }
+    },
+    "type": "json"
+  }
+}

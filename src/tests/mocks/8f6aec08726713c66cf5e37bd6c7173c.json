@@ -1,0 +1,29 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=99c19f14-77fa-4802-862f-0de4bb8f4fce",
+    "method": "POST",
+    "body": {
+      "method": "getFeeForMessage",
+      "jsonrpc": "2.0",
+      "params": [
+        "AQABAwsiq/Klck9mzxWKOvVH+b6hyDixbdKstwcMulEupbhxorZQEPphkSy40PWGEIVww1RRLpTO5TFQprT18HyHw5gG3fbh12Whk9nL4UbO63msHLSF7V9bN5E6jPWFfv8AqQMZT5O1tjwozE+6us+LJ+6JsQOr+FSC/AhzelDo6mmhAQIDAQEACQM5MAAAAAAAAA=="
+      ],
+      "id": "b4234ef0-2a23-45f2-8bfd-e0dff4615c87"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": {
+        "context": {
+          "apiVersion": "2.3.7",
+          "slot": 374616926
+        },
+        "value": 5000
+      },
+      "id": "b4234ef0-2a23-45f2-8bfd-e0dff4615c87"
+    },
+    "type": "json"
+  }
+}

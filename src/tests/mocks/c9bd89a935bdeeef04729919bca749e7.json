@@ -1,0 +1,29 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=99c19f14-77fa-4802-862f-0de4bb8f4fce",
+    "method": "POST",
+    "body": {
+      "method": "getFeeForMessage",
+      "jsonrpc": "2.0",
+      "params": [
+        "AgAHCZPO6SaLNxBh0+V8vIYbWduBlLf+rXDuXEXXkGopAHWyrDU3ssHH+9d9S4nyXCRwthA6BQG9QTFN6Ret9p8vg50AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKyNhXuOGzzi/Fj9W3ZSmVPsPN36OznqdkaJSXFYv1aqBqHYF5E3VCqYNDe9/ip6slV/U1yKeHIraKSdwAAAAAAGodgXpQIFC2gHkebObbiOHltxUPYfxnkKTrTRAAAAAAan1RcYx3TJKFZjmGkdXraLXrijm0ttXHNVWyEAAAAABqfVFxksXFEhjMlMPUrxf1ja7gibof1E49vZigAAAAAGp9UXGTWE0P7tm7NDHRMga+VEKBtXuFZsxTdf9AAAAAMZT5O1tjwozE+6us+LJ+6JsQOr+FSC/AhzelDo6mmhAwICAAE0AAAAAE5hvAAAAAAAyAAAAAAAAAAGodgXkTdUKpg0N73+KnqyVX9TXIp4citopJ3AAAAAAAQCAQd0AAAAAJPO6SaLNxBh0+V8vIYbWduBlLf+rXDuXEXXkGopAHWyk87pJos3EGHT5Xy8hhtZ24GUt/6tcO5cRdeQaikAdbIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBgEDBggFAAQCAAAA"
+      ],
+      "id": "350e08ae-a876-4053-abb5-50f8ecf57805"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": {
+        "context": {
+          "apiVersion": "2.3.7",
+          "slot": 374616927
+        },
+        "value": 10000
+      },
+      "id": "350e08ae-a876-4053-abb5-50f8ecf57805"
+    },
+    "type": "json"
+  }
+}

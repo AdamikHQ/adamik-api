@@ -1,0 +1,29 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=99c19f14-77fa-4802-862f-0de4bb8f4fce",
+    "method": "POST",
+    "body": {
+      "method": "getBalance",
+      "jsonrpc": "2.0",
+      "params": [
+        "AwyvcxZV5w7JG9o693Lc4hWKsvRTQLkjuT4TqBG1wG6d"
+      ],
+      "id": "5528aaf6-9330-406f-99ea-1234f8cb3e99"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": "5528aaf6-9330-406f-99ea-1234f8cb3e99",
+      "result": {
+        "context": {
+          "slot": 374616928,
+          "apiVersion": "2.2.7"
+        },
+        "value": 186201958
+      }
+    },
+    "type": "json"
+  }
+}
