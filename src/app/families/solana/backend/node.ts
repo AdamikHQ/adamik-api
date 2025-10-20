@@ -18,7 +18,9 @@ import { GetAssetsByOwnerParams } from "./node.types";
 
 const getConnection = (chainId: ChainId) => {
   const nodeUrl = getProviderUrls(chainId, ProviderType.node)[0] + `?api-key=${HELIUS_API_KEY}`;
-  const connection = new Connection(nodeUrl);
+
+  // Need to tell solana SDK to explicitely use native nodejs 'fetch'
+  const connection = new Connection(nodeUrl, { fetch });
 
   return {
     connection,

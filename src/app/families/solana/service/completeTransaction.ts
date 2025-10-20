@@ -69,7 +69,7 @@ async function calculateFees(chainId: ChainId, transaction: Transaction) {
   }
 
   const estimatedFee = await fetchEstimatedFeeFromNode(chainId, tx);
-  if (!estimatedFee) {
+  if (estimatedFee === null) {
     throw new InvalidTransactionError({
       errors: [{ message: `Failed to calculate fees for transaction mode ${transaction.data.mode}` }],
       warnings: [],
