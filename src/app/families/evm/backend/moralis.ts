@@ -372,11 +372,14 @@ async function moralisToAdamikTransaction(
     parsedTransaction.tokenId = moralisTransaction.to_address;
 
     const recipientAddress = moralisDecodedCall.params.find((param) => param.name === "_to")?.value || "";
-    const amount = moralisDecodedCall.params.find((param) => param.name === "_value")?.value;
-    if (!amount) {
+    const amount = moralisDecodedCall.params.find(
+      (param) => param.name === "_value" || param.name === "_amount"
+    )?.value;
+
+    if (amount === undefined) {
       console.warn(
         `/!\\ Invalid transaction data in response from explorer for chainId ${chainId}:`,
-        moralisTransaction
+        JSON.stringify(moralisTransaction)
       );
       throw new ThirdPartyProviderError(`Invalid data in response from explorer for chain ID ${chainId}`);
     }
