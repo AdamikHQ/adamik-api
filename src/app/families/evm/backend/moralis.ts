@@ -137,7 +137,7 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
     const queryParams = new URLSearchParams({
       chain: moralisChainId,
       exclude_spam: "false",
-      limit: "200", // Larger pages if all pagination is handled in one request
+      limit: "100", // Larger pages if all pagination is handled in one request
     });
 
     if (response && response.cursor) {
@@ -145,6 +145,8 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
     }
 
     const url = `${explorerURL}/v2.2/wallets/${address}/tokens?${queryParams}`;
+    // FIXME DEBUG TBR
+    console.log("XXX - moralis - url:", url);
 
     response = await fetchWithHeaders(url).then((response) => response.json());
 
@@ -171,6 +173,9 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
         })
       );
   } while (response?.cursor);
+
+  // FIXME DEBUG TBR
+  console.log("XXX - moralis - tokenAmounts:", tokenAmounts);
 
   return tokenAmounts;
 }
