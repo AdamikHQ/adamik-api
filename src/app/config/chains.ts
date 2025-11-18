@@ -50,6 +50,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         urls: [
           "https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/REDACTED",
+          "https://apis.mintscan.io/cosmos/lcd",
           "https://cosmos-api.polkachu.com",
           "https://lcd-cosmos.imperator.co", // FIXME Frequent HTTP 502 errors
         ],
@@ -109,7 +110,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://osmosis-api.polkachu.com/", "https://lcd-osmosis.imperator.co"],
+        urls: [
+          "https://apis.mintscan.io/osmosis/lcd",
+          "https://osmosis-api.polkachu.com/",
+          "https://lcd-osmosis.imperator.co",
+        ],
       },
       {
         type: ProviderType.mintscan,
@@ -168,6 +173,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         urls: [
           "https://solemn-little-dew.celestia-mainnet.quiknode.pro/REDACTED",
+          "https://apis.mintscan.io/celestia/lcd",
           "https://celestia-api.polkachu.com",
           "https://lcd-celestia.imperator.co",
         ],
@@ -258,7 +264,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://axelar-api.polkachu.com", "https://lcd-axelar.imperator.co"],
+        urls: [
+          "https://apis.mintscan.io/axelar/lcd",
+          "https://axelar-api.polkachu.com",
+          "https://lcd-axelar.imperator.co",
+        ],
       },
       {
         type: ProviderType.mintscan,
@@ -1111,6 +1121,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         //urls: ["https://lcd-injective.imperator.co"], // FIXME Frequent HTTP 502 errors
         urls: [
           "https://maximum-restless-sun.injective-mainnet.quiknode.pro/REDACTED",
+          "https://apis.mintscan.io/injective/lcd",
           "https://injective-api.polkachu.com",
           "https://lcd-injective.imperator.co",
         ],
@@ -1142,7 +1153,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://akash-api.polkachu.com", "https://lcd-akash.imperator.co"],
+        urls: [
+          "https://apis.mintscan.io/akash/lcd",
+          "https://akash-api.polkachu.com",
+          "https://lcd-akash.imperator.co",
+        ],
       },
       {
         type: ProviderType.mintscan,
@@ -1294,7 +1309,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://stargaze-api.polkachu.com", "https://lcd-stargaze.imperator.co"],
+        urls: [
+          "https://apis.mintscan.io/stargaze/lcd",
+          "https://stargaze-api.polkachu.com",
+          "https://lcd-stargaze.imperator.co",
+        ],
         //urls: ["https://lcd-stargaze.imperator.co"], // Randomly long response times, up to 60s and more...
       },
       {
@@ -1345,8 +1364,11 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        //url: "https://lcd-evmos.imperator.co", // Occasional HTTP 504 Gateway Timeout errors...
-        urls: ["https://evmos-api.polkachu.com", "https://lcd-evmos.imperator.co"],
+        urls: [
+          //"https://apis.mintscan.io/evmos/lcd", // Not supported by mintscan
+          "https://evmos-api.polkachu.com",
+          "https://lcd-evmos.imperator.co", // Occasional HTTP 504 Gateway Timeout errors...
+        ],
       },
       {
         type: ProviderType.mintscan,

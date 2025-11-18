@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| node | https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/REDACTED, https://cosmos-api.polkachu.com, https://lcd-cosmos.imperator.co |<br />
+| node | https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/REDACTED, https://apis.mintscan.io/cosmos/lcd, https://cosmos-api.polkachu.com, https://lcd-cosmos.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
@@ -17,7 +17,7 @@
 
 ## osmosis
 
-| node | https://osmosis-api.polkachu.com/, https://lcd-osmosis.imperator.co |<br />
+| node | https://apis.mintscan.io/osmosis/lcd, https://osmosis-api.polkachu.com/, https://lcd-osmosis.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## osmosis-testnet
@@ -27,7 +27,7 @@
 
 ## celestia
 
-| node | https://solemn-little-dew.celestia-mainnet.quiknode.pro/REDACTED, https://celestia-api.polkachu.com, https://lcd-celestia.imperator.co |<br />
+| node | https://solemn-little-dew.celestia-mainnet.quiknode.pro/REDACTED, https://apis.mintscan.io/celestia/lcd, https://celestia-api.polkachu.com, https://lcd-celestia.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## celestia-testnet
@@ -42,7 +42,7 @@
 
 ## axelar
 
-| node | https://axelar-api.polkachu.com, https://lcd-axelar.imperator.co |<br />
+| node | https://apis.mintscan.io/axelar/lcd, https://axelar-api.polkachu.com, https://lcd-axelar.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## ethereum
@@ -239,12 +239,12 @@
 
 ## injective
 
-| node | https://maximum-restless-sun.injective-mainnet.quiknode.pro/REDACTED, https://injective-api.polkachu.com, https://lcd-injective.imperator.co |<br />
+| node | https://maximum-restless-sun.injective-mainnet.quiknode.pro/REDACTED, https://apis.mintscan.io/injective/lcd, https://injective-api.polkachu.com, https://lcd-injective.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
 
-| node | https://akash-api.polkachu.com, https://lcd-akash.imperator.co |<br />
+| node | https://apis.mintscan.io/akash/lcd, https://akash-api.polkachu.com, https://lcd-akash.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## band
@@ -269,7 +269,7 @@
 
 ## stargaze
 
-| node | https://stargaze-api.polkachu.com, https://lcd-stargaze.imperator.co |<br />
+| node | https://apis.mintscan.io/stargaze/lcd, https://stargaze-api.polkachu.com, https://lcd-stargaze.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## tron
