@@ -127,7 +127,8 @@ const CHAINS: { [key in ChainId]: Chain } = {
       denom: "uosmo",
       defaultPubKeyType: "/cosmos.crypto.secp256k1.PubKey",
       defaultGas: 100000,
-      minGasPrice: 0.025,
+      minGasPrice: 0.1, // Value for polkachu node
+      //minGasPrice: 0.0025, // Value for other nodes
     },
     supportedFeatures: COSMOS_FEATURES(ChainId.OSMOSIS),
     signerSpec: getSignerSpecForChain(ChainId.OSMOSIS, ChainFamily.COSMOS),
