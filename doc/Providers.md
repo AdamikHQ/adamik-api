@@ -17,7 +17,7 @@
 
 ## osmosis
 
-| node | https://apis.mintscan.io/osmosis/lcd, https://osmosis-api.polkachu.com/, https://lcd-osmosis.imperator.co |<br />
+| node | https://apis.mintscan.io/osmosis/lcd, https://osmosis-api.polkachu.com, https://lcd-osmosis.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## osmosis-testnet
@@ -304,7 +304,7 @@
 
 ## sei
 
-| node | https://sei-api.polkachu.com/ |<br />
+| node | https://sei-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## medibloc
@@ -324,7 +324,7 @@
 
 ## seda
 
-| node | https://seda-api.polkachu.com/ |<br />
+| node | https://seda-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## sommelier
@@ -364,7 +364,7 @@
 
 ## fetch-ai
 
-| node | https://fetch-api.polkachu.com/ |<br />
+| node | https://fetch-api.polkachu.com |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## humans-ai

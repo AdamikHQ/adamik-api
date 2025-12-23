@@ -112,7 +112,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         type: ProviderType.node,
         urls: [
           "https://apis.mintscan.io/osmosis/lcd",
-          "https://osmosis-api.polkachu.com/",
+          "https://osmosis-api.polkachu.com",
           "https://lcd-osmosis.imperator.co",
         ],
       },
@@ -1515,7 +1515,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://sei-api.polkachu.com/"],
+        urls: ["https://sei-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
@@ -1632,7 +1632,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://seda-api.polkachu.com/"],
+        urls: ["https://seda-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
@@ -1867,7 +1867,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://fetch-api.polkachu.com/"],
+        urls: ["https://fetch-api.polkachu.com"],
       },
       {
         type: ProviderType.mintscan,
