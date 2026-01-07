@@ -145,8 +145,6 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
     }
 
     const url = `${explorerURL}/v2.2/wallets/${address}/tokens?${queryParams}`;
-    // FIXME DEBUG TBR
-    console.log("XXX - moralis - url:", url);
 
     response = await fetchWithHeaders(url).then((response) => response.json());
 
@@ -173,9 +171,6 @@ async function fetchAllERC20TokenAmounts(chainId: ChainId, address: EvmAddress):
         })
       );
   } while (response?.cursor);
-
-  // FIXME DEBUG TBR
-  console.log("XXX - moralis - tokenAmounts:", tokenAmounts);
 
   return tokenAmounts;
 }
