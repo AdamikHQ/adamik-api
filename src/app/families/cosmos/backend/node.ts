@@ -38,7 +38,7 @@ async function fetchWithHeaders(url: string, customOptions: RequestInit = {}) {
     ...customOptions,
     headers: {
       ...customOptions.headers,
-      ...(url.includes("apis.mintscan.io") && { Authorization: MINTSCAN_API_KEY }),
+      ...(url.includes("apis.mintscan.io") && { Authorization: MINTSCAN_API_KEY, "Content-Type": "application/json" }),
       // Custom header requested by imperator.co to identify and whitelist our traffic
       ...(url.includes("imperator.co") && { adamik: "6aPJgGeL2jHcNG7PaW4y" }),
     },
@@ -570,5 +570,6 @@ export {
   fetchRewards,
   fetchUnbondingDelegations,
   fetchValidators,
-  simulateTransaction,
+  simulateTransaction
 };
+
