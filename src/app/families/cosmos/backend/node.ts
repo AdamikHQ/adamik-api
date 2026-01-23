@@ -378,25 +378,25 @@ async function fetchAccount(chainId: ChainId, address: string): Promise<CosmosAc
     }
     // prettier-ignore
     if (response.status === 404) {
-    let data = undefined;
+      let data = undefined;
 
-    try {
-      data = await response.json();
-    } catch (e) {
-      console.warn(`/!\\ Error while parsing data returned from ${chainId} node endpoint ${url}:`, e);
+      try {
+        data = await response.json();
+      } catch (e) {
+        console.warn(`/!\\ Error while parsing data returned from ${chainId} node endpoint ${url}:`, e);
+        continue;
+      }
+
+      // Node answers 404 with "code 5" when address is valid but account has just never been used onchain yet
+      // We translate this to a "not enough funds" error for the user
+      if (data?.code === 5) {
+        console.warn(`/!\\ Account ${address} not found on chain ${chainId}:`, data);
+        throw new UserInputError(`Balance is too low`);
+      }
+    } else if (!response.ok) {
+      console.warn(`/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`, await response.text());
       continue;
     }
-
-    // Node answers 404 with "code 5" when address is valid but account has just never been used onchain yet
-    // We translate this to a "not enough funds" error for the user
-    if (data?.code === 5) {
-      console.warn(`/!\\ Account ${address} not found on chain ${chainId}:`, data);
-      throw new UserInputError(`Balance is too low`);
-    }
-  } else if (!response.ok) {
-    console.warn(`/!\\ Error received from ${chainId} node endpoint ${url.toString()}:`, await response.text());
-    throw new ThirdPartyProviderError(`Error while fetching ${chainId} account info from the node`);
-  }
 
     const data = await response.json();
 
