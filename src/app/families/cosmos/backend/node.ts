@@ -256,9 +256,8 @@ async function fetchRewards(
       for (const { denom, amount: amountWithDecimals } of rewardData) {
         const amount = BigInt(amountWithDecimals.split(".")[0]);
         if (amount === 0n) {
-          // For now we always filter-out dust amounts to lighten the reponse,
+          // TODO: For now we always filter-out dust amounts to lighten the response,
           // but should rather be controlled with a request param
-          // TODO https://adamik.atlassian.net/browse/ADV-150
           continue;
         }
 

@@ -1,46 +1,94 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Adamik API
+
+A unified REST API for interacting with multiple blockchains. Adamik API provides a single interface to read balances, build transactions, encode/sign payloads, and broadcast across 65+ chains and 10 blockchain families.
+
+## Supported Chains
+
+| Family       | Chains                                                                                                                                                             |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **EVM**      | Ethereum, Base, Optimism, Arbitrum, Polygon, zkSync, BSC, Linea, Avalanche, Gnosis, Moonbeam, Moonriver, Fantom, Mantle, Rootstock, Chiliz, Hyperliquid + testnets |
+| **Cosmos**   | Cosmos Hub, Osmosis, Celestia, dYdX, Injective, Akash, Band, Stargaze, Kujira, Sei, Saga, Coreum + testnets                                                        |
+| **Bitcoin**  | Bitcoin, Litecoin, Dogecoin + testnets                                                                                                                             |
+| **Solana**   | Solana, Solana Devnet                                                                                                                                              |
+| **TON**      | TON                                                                                                                                                                |
+| **Tron**     | Tron, Tron Shasta                                                                                                                                                  |
+| **Starknet** | Starknet, Starknet Sepolia                                                                                                                                         |
+| **Stellar**  | Stellar, Stellar Testnet                                                                                                                                           |
+| **Algorand** | Algorand                                                                                                                                                           |
+| **Aptos**    | Aptos                                                                                                                                                              |
+
+For a full list of chains and their providers, see [`doc/Providers.md`](doc/Providers.md).
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) >= 18
+- [pnpm](https://pnpm.io/) >= 10
+- [Redis](https://redis.io/) (used for API key management and caching)
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+```
+
+### Configuration
+
+Copy the example environment file and fill in the values you need:
+
+```bash
+cp .env.example .env.local
+```
+
+All provider API keys are optional — only configure the chains you plan to use. See [`.env.example`](.env.example) for documentation on each variable.
+
+### Running
+
+```bash
+# Development server (with hot reload)
 pnpm dev
-# or
-bun dev
+
+# Production build
+pnpm build
+pnpm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The API will be available at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-## Update chains documentation
-
-To update the chains documentation, run the following command:
+## Testing
 
 ```bash
-pnpm run doc:chains
+# Run unit tests
+pnpm test:jest
+
+# Run Bruno integration tests (against local server, started with env var TEST_ENV=true)
+pnpm test:bruno:local
 ```
 
-This will generate a new file `doc/chains_supported.mdx` in the root directory, which you should then copy to (adamik-documentation)[https://github.com/AdamikHQ/adamik-documentation/blob/main/get_started/chains_supported.mdx]
+Tests use [Mock Service Worker (MSW)](https://mswjs.io/) to record and replay provider HTTP responses, so they can run without real API keys.
+
+## Documentation
+
+```bash
+# Generate OpenAPI spec
+pnpm doc:openapi
+
+# Regenerate providers documentation
+pnpm doc:providers
+
+# Regenerate chains documentation
+pnpm doc:chains
+```
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Security
+
+If you discover a security vulnerability, please follow our [security policy](SECURITY.md). Do **not** open a public issue.
+
+## License
+
+This project is licensed under the [Apache License 2.0](LICENSE). See the [NOTICE](NOTICE) file for additional attribution information.
