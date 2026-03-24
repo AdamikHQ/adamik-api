@@ -1,0 +1,22 @@
+{
+  "request": {
+    "url": "https://solemn-little-dew.celestia-mainnet.quiknode.pro/test/cosmos/bank/v1beta1/balances/celestia1tkepfylhl7fmkrzsvphky2z0r7upvr9ttd5cs3",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "balances": [
+        {
+          "denom": "utia",
+          "amount": "145898"
+        }
+      ],
+      "pagination": {
+        "next_key": null,
+        "total": "1"
+      }
+    },
+    "type": "json"
+  }
+}

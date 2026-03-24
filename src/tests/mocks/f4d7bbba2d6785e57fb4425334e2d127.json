@@ -1,0 +1,13 @@
+{
+  "request": {
+    "url": "https://deep-index.moralis.io/api/v2.2/wallets/0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab/tokens?chain=eth&exclude_spam=false&limit=100",
+    "method": "GET"
+  },
+  "response": {
+    "status": 401,
+    "body": {
+      "message": "Validation service blocked: You have unpaid invoices which you need to pay. Please login to your account and go to billing section to pay your invoice. https://admin.moralis.io/account/billing"
+    },
+    "type": "json"
+  }
+}

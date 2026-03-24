@@ -1,0 +1,20 @@
+{
+  "request": {
+    "url": "https://apis.mintscan.io/celestia/lcd/cosmos/tx/v1beta1/simulate",
+    "method": "POST",
+    "body": {
+      "tx_bytes": "CpUBCpIBChwvY29zbW9zLmJhbmsudjFiZXRhMS5Nc2dTZW5kEnIKL2NlbGVzdGlhMXRrZXBmeWxobDdmbWtyenN2cGhreTJ6MHI3dXB2cjl0dGQ1Y3MzEi9jZWxlc3RpYTF0a2VwZnlsaGw3Zm1rcnpzdnBoa3kyejByN3VwdnI5dHRkNWNzMxoOCgR1dGlhEgYxNDMzOTgSXwpQCkYKHy9jb3Ntb3MuY3J5cHRvLnNlY3AyNTZrMS5QdWJLZXkSIwohA4M9WuvnLKaOOBbEpGbTlSgJKfB8z1513E4tccLJLaRYEgQKAggBGAgSCwoJCgR1dGlhEgExGkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "response": {
+    "status": 400,
+    "body": {
+      "statusCode": 400,
+      "message": "BAD_REQUEST",
+      "error": "account sequence mismatch, expected 9, got 8: incorrect account sequence [celestiaorg/cosmos-sdk@v0.51.8/x/auth/ante/sigverify.go:290] with gas used: '30915'",
+      "path": "/celestia/lcd/cosmos/tx/v1beta1/simulate",
+      "timestamp": "2026-03-24T15:33:24.412Z"
+    },
+    "type": "json"
+  }
+}

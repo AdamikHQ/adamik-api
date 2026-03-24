@@ -11,7 +11,7 @@
           "xpub": {
             "address_count": 4,
             "balance": 211250,
-            "balance_usd": 249.0912125,
+            "balance_usd": 148.2700375,
             "received": 6109709,
             "spent": 5898459,
             "output_count": 30,
@@ -62,7 +62,7 @@
               "type": "witness_v0_scripthash",
               "script_hex": "0014740f611dd6e0f2afaf9111ed200d546b8a466f17",
               "balance": 89858,
-              "balance_usd": 105.95426354,
+              "balance_usd": 63.06863446,
               "received": 190858,
               "received_usd": 193.1183,
               "spent": 101000,
@@ -79,7 +79,7 @@
               "type": "witness_v0_scripthash",
               "script_hex": "001433af38e2478057eb75d06c12a63a3a00243b6e4a",
               "balance": 121392,
-              "balance_usd": 143.13694896,
+              "balance_usd": 85.20140304,
               "received": 121392,
               "received_usd": 118.969,
               "spent": 0,
@@ -224,13 +224,13 @@
           "1/38: bc1qmshu76krehemtwltnn35kdgdw0pr9y7r67qcwn",
           "1/39: bc1qhdl36wn84e0x9hrq5q23srq5vffflsxsvh6vkx"
         ],
-        "state": 905085,
-        "market_price_usd": 117913,
+        "state": 942014,
+        "market_price_usd": 70187,
         "cache": {
           "live": true,
           "duration": 600,
-          "since": "2025-07-11 14:16:57",
-          "until": "2025-07-11 14:26:57",
+          "since": "2026-03-24 15:33:11",
+          "until": "2026-03-24 15:43:11",
           "time": null
         },
         "api": {
@@ -241,9 +241,9 @@
           "notice": "Try out our new API v.3: https://3xpl.com/data"
         },
         "servers": "API4,BTC5",
-        "time": 1.2712209224700928,
-        "render_time": 0.05581212043762207,
-        "full_time": 1.3270330429077148,
+        "time": 3.6232781410217285,
+        "render_time": 0.06111598014831543,
+        "full_time": 3.684394121170044,
         "request_cost": 8.9
       }
     },

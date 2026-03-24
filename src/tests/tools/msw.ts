@@ -8,6 +8,26 @@ import { evaluate, parse } from "@jq-tools/jq";
 
 const MOCKS_FOLDER_ROOT = "/src/tests/mocks";
 
+/**
+ * Strips provider-specific secret tokens from URLs so that mock filenames
+ * are stable regardless of the actual API key values used at runtime.
+ */
+export function normalizeUrl(url: string): string {
+  return (
+    url
+      // Alchemy: key is the last path segment (e.g. /v2/{key} or /rpc/v0_8/{key})
+      .replace(/(\.g\.alchemy\.com\/.*\/)[^/?]+/, "$1test")
+      // Helius: api-key query parameter
+      .replace(/(api-key=)[^&]+/, "$1test")
+      // Moralis nodes: /{network}/{token}
+      .replace(/(site1\.moralis-nodes\.com\/[\w-]+\/)[a-f0-9]+/, "$1test")
+      // QuickNode: first path segment is the token
+      .replace(/(\.quiknode\.pro\/)[a-f0-9]+/, "$1test")
+      // Lava gateway: /rest/{token}
+      .replace(/(\.lavanet\.xyz\/gateway\/[\w]+\/rest\/)[a-f0-9]+/, "$1test")
+  );
+}
+
 // Some fields will have a different value at each call,
 // making the related request's filename change everytime
 // NOTE multiple fields can be put in the same string, separated with ','
@@ -49,11 +69,12 @@ async function applyFilters(requestUrl: string, requestBody: string): Promise<st
 
 const computeMockFilepath = async (request: Request) => {
   const requestBody = await request.text();
+  const normalized = normalizeUrl(request.url);
 
-  const filteredBody = await applyFilters(request.url, requestBody);
+  const filteredBody = await applyFilters(normalized, requestBody);
 
   const hash = crypto.createHash("md5");
-  hash.update(request.url + filteredBody);
+  hash.update(normalized + filteredBody);
   const fileName = hash.digest("hex") + ".json";
 
   return path.join(path.join(process.cwd() + MOCKS_FOLDER_ROOT), fileName);
@@ -133,7 +154,7 @@ const handlers = [
           JSON.stringify(
             {
               request: {
-                url: request.url,
+                url: normalizeUrl(request.url),
                 method: request.method,
                 body: requestBody,
               },

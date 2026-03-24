@@ -1,0 +1,20 @@
+{
+  "request": {
+    "url": "https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8/test",
+    "method": "POST",
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "starknet_chainId"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": "0x534e5f4d41494e"
+    },
+    "type": "json"
+  }
+}

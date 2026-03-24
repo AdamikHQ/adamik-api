@@ -9,18 +9,18 @@
       "data": {
         "xpub6BtWBf3Pu6hYwJBKvEwG7JtrTxxDrSGy39HaTgZz6GTSaFWFdoCtuEXSQtoKGaYdz1emg8xTXKYwjhu3xXRPzFnYS1z4yjKj7hLDQyNeDZr": {
           "xpub": {
-            "address_count": 45,
-            "balance": 0,
-            "balance_usd": 0,
-            "received": 846055,
+            "address_count": 47,
+            "balance": 2000,
+            "balance_usd": 1.4037400000000002,
+            "received": 848055,
             "spent": 846055,
-            "output_count": 60,
-            "unspent_output_count": 0,
+            "output_count": 62,
+            "unspent_output_count": 2,
             "first_seen_receiving": "2021-07-13 13:11:01",
-            "last_seen_receiving": "2023-10-16 16:44:13",
+            "last_seen_receiving": "2026-02-12 10:05:55",
             "first_seen_spending": "2021-07-13 20:32:53",
             "last_seen_spending": "2025-02-04 14:42:12",
-            "transaction_count": 69
+            "transaction_count": 71
           },
           "addresses": {
             "1L3fqoWstvLqEA6TgXkuLoXX8xG1xhirG3": {
@@ -379,6 +379,40 @@
               "last_seen_receiving": "2023-10-16 16:44:13",
               "first_seen_spending": "2025-02-04 14:42:12",
               "last_seen_spending": "2025-02-04 14:42:12"
+            },
+            "1Hhynj9J1utaz93jrXaBXxXGNSW7CQb9Rm": {
+              "path": "0/21",
+              "type": "pubkeyhash",
+              "script_hex": "76a914b7420e39ff47aef0f620e27143ccd817e39a67e588ac",
+              "balance": 1000,
+              "balance_usd": 0.7018700000000001,
+              "received": 1000,
+              "received_usd": 0.671,
+              "spent": 0,
+              "spent_usd": 0,
+              "output_count": 1,
+              "unspent_output_count": 1,
+              "first_seen_receiving": "2026-02-12 08:53:08",
+              "last_seen_receiving": "2026-02-12 08:53:08",
+              "first_seen_spending": null,
+              "last_seen_spending": "2000-01-01 00:00:00"
+            },
+            "1H8aDvooB7XndV7gn1Yk9ZkMUQmkRZhmSy": {
+              "path": "0/22",
+              "type": "pubkeyhash",
+              "script_hex": "76a914b0f0a847d5d50b811f063fb72605ad65945b266188ac",
+              "balance": 1000,
+              "balance_usd": 0.7018700000000001,
+              "received": 1000,
+              "received_usd": 0.671,
+              "spent": 0,
+              "spent_usd": 0,
+              "output_count": 1,
+              "unspent_output_count": 1,
+              "first_seen_receiving": "2026-02-12 10:05:55",
+              "last_seen_receiving": "2026-02-12 10:05:55",
+              "first_seen_spending": null,
+              "last_seen_spending": "2000-01-01 00:00:00"
             },
             "16eFEUFMDWAXQMnPkMGZWFobbuAtxTeCsL": {
               "path": "1/0",
@@ -790,6 +824,8 @@
             }
           },
           "transactions": [
+            "39ef7bce77ce5d728ba1e26b4cf1a16e783560d66215084d2c58c12306f1a072",
+            "bf7840332e26dd6cdd767d7967372d42c2b4dd13267baae67ba2671d99e79b7f",
             "ef450fc2395068adefc409d4a1b44e34d2f81aa6f8539fed0baa5fd85ab6c20a",
             "10c81e59aeab066c0653def8d75e146b631bb70fee036222acf594af776adfad",
             "abccda23b6b6f2b9f9e52d99f8430b6335e2090de610ba45f08cbce7240b30ad",
@@ -860,7 +896,22 @@
             "45d90a1e0b7bc43dfc4fb26ab7c20cb15cc9f33d2ffc9bb317f4ad946cf660ee",
             "7c5acc92394b5011f6304ffa194598a5babdb252ec134d46909548e8ffc5eea4"
           ],
-          "utxo": []
+          "utxo": [
+            {
+              "block_id": 936206,
+              "transaction_hash": "39ef7bce77ce5d728ba1e26b4cf1a16e783560d66215084d2c58c12306f1a072",
+              "index": 0,
+              "value": 1000,
+              "address": "1H8aDvooB7XndV7gn1Yk9ZkMUQmkRZhmSy"
+            },
+            {
+              "block_id": 936197,
+              "transaction_hash": "bf7840332e26dd6cdd767d7967372d42c2b4dd13267baae67ba2671d99e79b7f",
+              "index": 0,
+              "value": 1000,
+              "address": "1Hhynj9J1utaz93jrXaBXxXGNSW7CQb9Rm"
+            }
+          ]
         }
       },
       "context": {
@@ -991,13 +1042,13 @@
           "1/58: 1Nh9hnzfCb6DtRifPMkXMkYhtSJpRq26jU",
           "1/59: 1F8iVdMVjxDjmVfEby4geNWpjesF5q3XFH"
         ],
-        "state": 905085,
-        "market_price_usd": 117903,
+        "state": 942014,
+        "market_price_usd": 70187,
         "cache": {
           "live": true,
           "duration": 600,
-          "since": "2025-07-11 14:19:32",
-          "until": "2025-07-11 14:29:32",
+          "since": "2026-03-24 15:33:23",
+          "until": "2026-03-24 15:43:23",
           "time": null
         },
         "api": {
@@ -1008,9 +1059,9 @@
           "notice": "Try out our new API v.3: https://3xpl.com/data"
         },
         "servers": "API4,BTC5",
-        "time": 2.582771062850952,
-        "render_time": 0.011502981185913086,
-        "full_time": 2.5942740440368652,
+        "time": 5.298444986343384,
+        "render_time": 0.011883020401000977,
+        "full_time": 5.310328006744385,
         "request_cost": 12.9
       }
     },

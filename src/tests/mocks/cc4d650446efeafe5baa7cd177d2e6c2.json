@@ -1,0 +1,24 @@
+{
+  "request": {
+    "url": "https://site1.moralis-nodes.com/eth/test",
+    "method": "POST",
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 19,
+      "method": "eth_getTransactionCount",
+      "params": [
+        "0x6450685AE9C904b7D258A897adc1fa0736dBf5Ab",
+        "latest"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 19,
+      "result": "0xb"
+    },
+    "type": "json"
+  }
+}

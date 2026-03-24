@@ -1,0 +1,26 @@
+{
+  "request": {
+    "url": "https://site1.moralis-nodes.com/eth/test",
+    "method": "POST",
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "eth_estimateGas",
+      "params": [
+        {
+          "from": "0x12f7464C9Ff094098d3F1d987a7C0Ce958E1cC17",
+          "to": "0x8bc6922Eb94e4858efaF9F433c35Bc241F69e8a6",
+          "value": "0x0"
+        }
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": "0x5208"
+    }
+  }
+}

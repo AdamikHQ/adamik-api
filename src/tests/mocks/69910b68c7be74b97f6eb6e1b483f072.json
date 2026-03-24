@@ -1,0 +1,93 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=test",
+    "method": "POST",
+    "body": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "method": "getAsset",
+      "params": {
+        "id": "WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": {
+        "interface": "FungibleToken",
+        "id": "WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk",
+        "content": {
+          "$schema": "https://schema.metaplex.com/nft1.0.json",
+          "json_uri": "https://qgp7lco5ylyitscysc2c7clhpxipw6sexpc2eij7g5rq3pnkcx2q.arweave.net/gZ_1id3C8InIWJC0L4lnfdD7ekS7xaIhPzdjDb2qFfU",
+          "files": [
+            {
+              "uri": "https://shdw-drive.genesysgo.net/GwJapVHVvfM4Mw4sWszkzywncUWuxxPd6s9VuFfXRgie/wen_logo.png",
+              "cdn_uri": "https://cdn.helius-rpc.com/cdn-cgi/image//https://shdw-drive.genesysgo.net/GwJapVHVvfM4Mw4sWszkzywncUWuxxPd6s9VuFfXRgie/wen_logo.png",
+              "mime": "image/png"
+            }
+          ],
+          "metadata": {
+            "name": "Wen",
+            "symbol": "WEN",
+            "token_standard": "Fungible"
+          },
+          "links": {
+            "image": "https://shdw-drive.genesysgo.net/GwJapVHVvfM4Mw4sWszkzywncUWuxxPd6s9VuFfXRgie/wen_logo.png"
+          }
+        },
+        "authorities": [
+          {
+            "address": "Hd7tQ6JUPaKPid8tiqyhLfWEaivRnf7YJDyMi4abmsvx",
+            "scopes": [
+              "full"
+            ]
+          }
+        ],
+        "compression": {
+          "eligible": false,
+          "compressed": false,
+          "data_hash": "",
+          "creator_hash": "",
+          "asset_hash": "",
+          "tree": "",
+          "seq": 0,
+          "leaf_id": 0
+        },
+        "grouping": [],
+        "royalty": {
+          "royalty_model": "creators",
+          "target": null,
+          "percent": 0,
+          "basis_points": 0,
+          "primary_sale_happened": false,
+          "locked": false
+        },
+        "creators": [],
+        "ownership": {
+          "frozen": false,
+          "delegated": false,
+          "delegate": null,
+          "ownership_model": "token",
+          "owner": ""
+        },
+        "supply": null,
+        "mutable": false,
+        "burnt": false,
+        "token_info": {
+          "symbol": "WEN",
+          "supply": 72763026456723120,
+          "decimals": 5,
+          "token_program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "price_info": {
+            "price_per_token": 0.0000594711,
+            "currency": "USDC"
+          }
+        }
+      },
+      "id": 2
+    },
+    "type": "json"
+  }
+}

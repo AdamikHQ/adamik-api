@@ -1,0 +1,43 @@
+{
+  "request": {
+    "url": "https://mainnet.helius-rpc.com/?api-key=test",
+    "method": "POST",
+    "body": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "method": "getAssetsByOwner",
+      "params": {
+        "ownerAddress": "kU9cUgRW9BY8mk5pCMowmkYQuTkPm1GMr3yAcBm4NSU",
+        "page": 1,
+        "limit": 1000,
+        "sortBy": {
+          "sortBy": "created",
+          "sortDirection": "asc"
+        },
+        "options": {
+          "showUnverifiedCollections": false,
+          "showCollectionMetadata": true,
+          "showGrandTotal": true,
+          "showFungible": true,
+          "showNativeBalance": false,
+          "showInscription": true,
+          "showZeroBalance": true
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "jsonrpc": "2.0",
+      "result": {
+        "total": 0,
+        "limit": 1000,
+        "page": 1,
+        "items": []
+      },
+      "id": 2
+    },
+    "type": "json"
+  }
+}

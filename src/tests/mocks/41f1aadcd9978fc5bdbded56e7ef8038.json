@@ -1,0 +1,40 @@
+{
+  "request": {
+    "url": "https://maximum-restless-sun.injective-mainnet.quiknode.pro/test/cosmos/staking/v1beta1/delegations/inj1vmzrwxhgllkjaswzawaue7m7f9qcrc0rfth2v2",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "delegation_responses": [
+        {
+          "delegation": {
+            "delegator_address": "inj1vmzrwxhgllkjaswzawaue7m7f9qcrc0rfth2v2",
+            "validator_address": "injvaloper1ntn4j2lsu3k60g8xj9pqshqvdj2q5tygyvczpy",
+            "shares": "10000000000000000.000000000000000000"
+          },
+          "balance": {
+            "denom": "inj",
+            "amount": "10000000000000000"
+          }
+        },
+        {
+          "delegation": {
+            "delegator_address": "inj1vmzrwxhgllkjaswzawaue7m7f9qcrc0rfth2v2",
+            "validator_address": "injvaloper1h37jxecva2xgm78ejw3683vrw932j6nuzgdxgj",
+            "shares": "100300599581364308.705434676206188348"
+          },
+          "balance": {
+            "denom": "inj",
+            "amount": "100000000000000000"
+          }
+        }
+      ],
+      "pagination": {
+        "next_key": null,
+        "total": "2"
+      }
+    },
+    "type": "json"
+  }
+}

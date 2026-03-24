@@ -1,0 +1,95 @@
+{
+  "request": {
+    "url": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/test/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "_links": {
+        "self": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/test/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2"
+        },
+        "transactions": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/test/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2/transactions{?cursor,limit,order}",
+          "templated": true
+        },
+        "operations": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/test/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2/operations{?cursor,limit,order}",
+          "templated": true
+        },
+        "payments": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/test/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2/payments{?cursor,limit,order}",
+          "templated": true
+        },
+        "effects": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/test/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2/effects{?cursor,limit,order}",
+          "templated": true
+        },
+        "offers": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/test/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2/offers{?cursor,limit,order}",
+          "templated": true
+        },
+        "trades": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/test/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2/trades{?cursor,limit,order}",
+          "templated": true
+        },
+        "data": {
+          "href": "https://icy-holy-shard.stellar-mainnet.quiknode.pro/test/accounts/GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2/data/{key}",
+          "templated": true
+        }
+      },
+      "id": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+      "account_id": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+      "sequence": "251342486889299971",
+      "sequence_ledger": 58622881,
+      "sequence_time": "1756109303",
+      "subentry_count": 1,
+      "last_modified_ledger": 59037053,
+      "last_modified_time": "2025-09-21T23:31:25Z",
+      "thresholds": {
+        "low_threshold": 0,
+        "med_threshold": 0,
+        "high_threshold": 0
+      },
+      "flags": {
+        "auth_required": false,
+        "auth_revocable": false,
+        "auth_immutable": false,
+        "auth_clawback_enabled": false
+      },
+      "balances": [
+        {
+          "balance": "2.0000000",
+          "limit": "922337203685.4775807",
+          "buying_liabilities": "0.0000000",
+          "selling_liabilities": "0.0000000",
+          "last_modified_ledger": 58622881,
+          "is_authorized": true,
+          "is_authorized_to_maintain_liabilities": true,
+          "asset_type": "credit_alphanum4",
+          "asset_code": "USDC",
+          "asset_issuer": "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN"
+        },
+        {
+          "balance": "5.4320721",
+          "buying_liabilities": "0.0000000",
+          "selling_liabilities": "0.0000000",
+          "asset_type": "native"
+        }
+      ],
+      "signers": [
+        {
+          "weight": 1,
+          "key": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2",
+          "type": "ed25519_public_key"
+        }
+      ],
+      "data": {},
+      "num_sponsoring": 0,
+      "num_sponsored": 0,
+      "paging_token": "GBNJ3SOZAA52SEVZEBS2NITMIIJNM7IHIBRLOLBLKBX7NRRCCNBINOA2"
+    },
+    "type": "json"
+  }
+}

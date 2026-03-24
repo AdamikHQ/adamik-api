@@ -117,13 +117,13 @@
           "1/18: 1LodyyUWrj7KadpTuVe1jtJxzyZW5U2rdg",
           "1/19: 1JGTTPHKScBkqV14sNYP5g5Eac6mypMnvh"
         ],
-        "state": 905085,
-        "market_price_usd": 117913,
+        "state": 942014,
+        "market_price_usd": 70187,
         "cache": {
           "live": true,
           "duration": 600,
-          "since": "2025-07-11 14:18:50",
-          "until": "2025-07-11 14:28:50",
+          "since": "2026-03-24 15:33:17",
+          "until": "2026-03-24 15:43:17",
           "time": null
         },
         "api": {
@@ -134,9 +134,9 @@
           "notice": "Try out our new API v.3: https://3xpl.com/data"
         },
         "servers": "API4,BTC5",
-        "time": 0.6580069065093994,
-        "render_time": 0.05843520164489746,
-        "full_time": 0.7164421081542969,
+        "time": 3.649367094039917,
+        "render_time": 0.0551297664642334,
+        "full_time": 3.7044968605041504,
         "request_cost": 6.9
       }
     },

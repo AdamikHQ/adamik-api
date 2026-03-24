@@ -1,0 +1,22 @@
+{
+  "request": {
+    "url": "https://maximum-restless-sun.injective-mainnet.quiknode.pro/test/cosmos/bank/v1beta1/balances/inj1vmzrwxhgllkjaswzawaue7m7f9qcrc0rfth2v2",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "balances": [
+        {
+          "denom": "inj",
+          "amount": "239268326900000000"
+        }
+      ],
+      "pagination": {
+        "next_key": null,
+        "total": "1"
+      }
+    },
+    "type": "json"
+  }
+}

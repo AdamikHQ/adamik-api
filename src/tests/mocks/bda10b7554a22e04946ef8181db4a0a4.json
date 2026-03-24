@@ -9,45 +9,64 @@
       "data": {
         "set": {
           "address_count": 1,
-          "balance": 50000,
-          "balance_usd": 58.9565,
-          "received": 50000,
-          "spent": 0,
-          "output_count": 1,
-          "unspent_output_count": 1,
+          "balance": 43704,
+          "balance_usd": 30.674526479999997,
+          "received": 250088,
+          "spent": 206384,
+          "output_count": 11,
+          "unspent_output_count": 3,
           "first_seen_receiving": "2025-07-11 12:53:25",
-          "last_seen_receiving": "2025-07-11 12:53:25",
-          "first_seen_spending": null,
-          "last_seen_spending": "2000-01-01 00:00:00",
-          "transaction_count": 1
+          "last_seen_receiving": "2025-09-10 13:59:04",
+          "first_seen_spending": "2025-07-12 19:06:52",
+          "last_seen_spending": "2025-09-10 13:59:04",
+          "transaction_count": 6
         },
         "addresses": {
           "bc1q87kp4qcr5w5uy4vn7dqa8dcv7r0a6kwpw0r2dv": {
             "type": "witness_v0_scripthash",
             "script_hex": "00143fac1a8303a3a9c25593f341d3b70cf0dfdd59c1",
-            "balance": 50000,
-            "balance_usd": 58.9565,
-            "received": 50000,
-            "received_usd": 57.9715,
-            "spent": 0,
-            "spent_usd": 0,
-            "output_count": 1,
-            "unspent_output_count": 1,
+            "balance": 43704,
+            "balance_usd": 30.674526479999997,
+            "received": 250088,
+            "received_usd": 290.9962,
+            "spent": 206384,
+            "spent_usd": 240.2984,
+            "output_count": 11,
+            "unspent_output_count": 3,
             "first_seen_receiving": "2025-07-11 12:53:25",
-            "last_seen_receiving": "2025-07-11 12:53:25",
-            "first_seen_spending": null,
-            "last_seen_spending": "2000-01-01 00:00:00"
+            "last_seen_receiving": "2025-09-10 13:59:04",
+            "first_seen_spending": "2025-07-12 19:06:52",
+            "last_seen_spending": "2025-09-10 13:59:04"
           }
         },
         "transactions": [
+          "20c2ee781ecc159f3cfa123ddf6d49bac54b82c32ce1fdd828e40382f023b578",
+          "2d256e4225d52ed860e78af4449a39f1a1f13e3b741ff4327820d06e16b6431b",
+          "59ec568d3e2d6024c0b08fc4fe2ed754e6bb09b6d2b293f0234b01f48d5b9bd3",
+          "8a8142de53dd132452422613efd5f8b678eb6fd555f021172e4b00c80b231ef8",
+          "7263549a06e8aa9ea7b2f987a45d11a4692987f48056481d2a70951b5bd79e73",
           "28622fa8a030114b515aa9a056892b1a9ad67f82e4b9cf4aef00158f995ea5b8"
         ],
         "utxo": [
           {
-            "block_id": 905078,
-            "transaction_hash": "28622fa8a030114b515aa9a056892b1a9ad67f82e4b9cf4aef00158f995ea5b8",
+            "block_id": 914076,
+            "transaction_hash": "20c2ee781ecc159f3cfa123ddf6d49bac54b82c32ce1fdd828e40382f023b578",
             "index": 0,
-            "value": 50000,
+            "value": 29999,
+            "address": "bc1q87kp4qcr5w5uy4vn7dqa8dcv7r0a6kwpw0r2dv"
+          },
+          {
+            "block_id": 914076,
+            "transaction_hash": "20c2ee781ecc159f3cfa123ddf6d49bac54b82c32ce1fdd828e40382f023b578",
+            "index": 1,
+            "value": 6105,
+            "address": "bc1q87kp4qcr5w5uy4vn7dqa8dcv7r0a6kwpw0r2dv"
+          },
+          {
+            "block_id": 905260,
+            "transaction_hash": "8a8142de53dd132452422613efd5f8b678eb6fd555f021172e4b00c80b231ef8",
+            "index": 1,
+            "value": 7600,
             "address": "bc1q87kp4qcr5w5uy4vn7dqa8dcv7r0a6kwpw0r2dv"
           }
         ]
@@ -59,13 +78,13 @@
         "offset": "0,0",
         "results": 1,
         "optimized": false,
-        "state": 905085,
-        "market_price_usd": 117913,
+        "state": 942014,
+        "market_price_usd": 70187,
         "cache": {
           "live": true,
           "duration": 120,
-          "since": "2025-07-11 14:15:29",
-          "until": "2025-07-11 14:17:29",
+          "since": "2026-03-24 15:33:07",
+          "until": "2026-03-24 15:35:07",
           "time": null
         },
         "api": {
@@ -76,9 +95,9 @@
           "notice": "Try out our new API v.3: https://3xpl.com/data"
         },
         "servers": "API4,BTC5",
-        "time": 1.6712901592254639,
-        "render_time": 0.01533198356628418,
-        "full_time": 1.686622142791748,
+        "time": 1.1826379299163818,
+        "render_time": 0.009461164474487305,
+        "full_time": 1.1920990943908691,
         "request_cost": 1
       }
     },
