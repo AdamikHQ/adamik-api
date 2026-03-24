@@ -7,7 +7,7 @@
 
 ## cosmoshub
 
-| node | https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/REDACTED, https://apis.mintscan.io/cosmos/lcd, https://cosmos-api.polkachu.com, https://lcd-cosmos.imperator.co |<br />
+| node | https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/, https://apis.mintscan.io/cosmos/lcd, https://cosmos-api.polkachu.com, https://lcd-cosmos.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## cosmoshub-testnet
@@ -22,17 +22,17 @@
 
 ## osmosis-testnet
 
-| node | https://g.w.lavanet.xyz/gateway/osmosist/rest/REDACTED |<br />
+| node | https://g.w.lavanet.xyz/gateway/osmosist/rest/ |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## celestia
 
-| node | https://solemn-little-dew.celestia-mainnet.quiknode.pro/REDACTED, https://apis.mintscan.io/celestia/lcd, https://celestia-api.polkachu.com, https://lcd-celestia.imperator.co |<br />
+| node | https://solemn-little-dew.celestia-mainnet.quiknode.pro/, https://apis.mintscan.io/celestia/lcd, https://celestia-api.polkachu.com, https://lcd-celestia.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## celestia-testnet
 
-| node | https://g.w.lavanet.xyz/gateway/celestiatm/rest/REDACTED |<br />
+| node | https://g.w.lavanet.xyz/gateway/celestiatm/rest/ |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## dydx
@@ -47,14 +47,14 @@
 
 ## ethereum
 
-| node | https://site1.moralis-nodes.com/eth/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/eth/ |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://eth-mainnet.g.alchemy.com/v2/REDACTED |<br />
+| alchemy | https://eth-mainnet.g.alchemy.com/v2/ |<br />
 | stakewiseGQL | https://graphs.stakewise.io/mainnet/subgraphs/name/stakewise/prod |
 
 ## sepolia
 
-| node | https://site1.moralis-nodes.com/sepolia/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/sepolia/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## hoodi
@@ -64,17 +64,17 @@
 
 ## holesky
 
-| node | https://site1.moralis-nodes.com/holesky/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/holesky/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## zksync
 
-| node | https://site1.moralis-nodes.com/zksync/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/zksync/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## zksync-sepolia
 
-| node | https://site1.moralis-nodes.com/zksync-sepolia/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/zksync-sepolia/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## injective-evm-testnet
@@ -84,32 +84,32 @@
 
 ## base
 
-| node | https://site1.moralis-nodes.com/base/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/base/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## base-sepolia
 
-| node | https://site1.moralis-nodes.com/base-sepolia/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/base-sepolia/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## optimism
 
-| node | https://site1.moralis-nodes.com/optimism/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/optimism/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## optimism-sepolia
 
-| node | https://site1.moralis-nodes.com/optimism-sepolia/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/optimism-sepolia/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## arbitrum
 
-| node | https://site1.moralis-nodes.com/arbitrum/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/arbitrum/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## arbitrum-sepolia
 
-| node | https://site1.moralis-nodes.com/arbitrum-sepolia/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/arbitrum-sepolia/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## bitcoin
@@ -127,39 +127,39 @@
 
 ## polygon
 
-| node | https://site1.moralis-nodes.com/polygon/REDACTED, https://polygon-mainnet.g.alchemy.com/v2/REDACTED, https://intensive-tiniest-dinghy.matic.quiknode.pro/REDACTED/ |<br />
+| node | https://site1.moralis-nodes.com/polygon/, https://polygon-mainnet.g.alchemy.com/v2/, https://intensive-tiniest-dinghy.matic.quiknode.pro// |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://polygon-mainnet.g.alchemy.com/v2/REDACTED |
+| alchemy | https://polygon-mainnet.g.alchemy.com/v2/ |
 
 ## polygon-amoy
 
-| node | https://site1.moralis-nodes.com/amoy/REDACTED, https://polygon-amoy.g.alchemy.com/v2/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/amoy/, https://polygon-amoy.g.alchemy.com/v2/ |<br />
 | moralis | https://deep-index.moralis.io/api |<br />
-| alchemy | https://polygon-amoy.g.alchemy.com/v2/REDACTED |
+| alchemy | https://polygon-amoy.g.alchemy.com/v2/ |
 
 ## bsc
 
-| node | https://site1.moralis-nodes.com/bsc/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/bsc/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## bsc-testnet
 
-| node | https://site1.moralis-nodes.com/bsc-testnet/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/bsc-testnet/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## linea
 
-| node | https://site1.moralis-nodes.com/linea/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/linea/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## linea-sepolia
 
-| node | https://site1.moralis-nodes.com/linea-sepolia/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/linea-sepolia/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## avalanche
 
-| node | https://site1.moralis-nodes.com/avalanche/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/avalanche/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## avalanche-fuji
@@ -169,27 +169,27 @@
 
 ## gnosis
 
-| node | https://site1.moralis-nodes.com/gnosis/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/gnosis/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## gnosis-chiado
 
-| node | https://site1.moralis-nodes.com/gnosis-testnet/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/gnosis-testnet/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## moonbeam
 
-| node | https://site1.moralis-nodes.com/moonbeam/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/moonbeam/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## moonriver
 
-| node | https://site1.moralis-nodes.com/moonriver/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/moonriver/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## moonbase
 
-| node | https://site1.moralis-nodes.com/moonbase/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/moonbase/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## fantom
@@ -199,7 +199,7 @@
 
 ## mantle
 
-| node | https://site1.moralis-nodes.com/mantle/REDACTED |<br />
+| node | https://site1.moralis-nodes.com/mantle/ |<br />
 | moralis | https://deep-index.moralis.io/api |
 
 ## rootstock
@@ -239,7 +239,7 @@
 
 ## injective
 
-| node | https://maximum-restless-sun.injective-mainnet.quiknode.pro/REDACTED, https://apis.mintscan.io/injective/lcd, https://injective-api.polkachu.com, https://lcd-injective.imperator.co |<br />
+| node | https://maximum-restless-sun.injective-mainnet.quiknode.pro/, https://apis.mintscan.io/injective/lcd, https://injective-api.polkachu.com, https://lcd-injective.imperator.co |<br />
 | mintscan | https://apis.mintscan.io/v1 |
 
 ## akash
@@ -404,12 +404,12 @@
 
 ## starknet
 
-| node | https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8/REDACTED |<br />
+| node | https://starknet-mainnet.g.alchemy.com/starknet/version/rpc/v0_8/ |<br />
 | starkscan | https://api.starkscan.co |
 
 ## starknet-sepolia
 
-| node | https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_8/REDACTED |<br />
+| node | https://starknet-sepolia.g.alchemy.com/starknet/version/rpc/v0_8/ |<br />
 | starkscan | https://api-sepolia.starkscan.co |
 
 ## babylon
@@ -427,17 +427,17 @@
 ## monad-testnet
 
 | node | https://testnet-rpc.monad.xyz/ |<br />
-| alchemy | https://monad-testnet.g.alchemy.com/v2/REDACTED |
+| alchemy | https://monad-testnet.g.alchemy.com/v2/ |
 
 ## berachain
 
 | node | https://rpc.berachain.com/ |<br />
-| alchemy | https://berachain-mainnet.g.alchemy.com/v2/REDACTED |
+| alchemy | https://berachain-mainnet.g.alchemy.com/v2/ |
 
 ## berachain-bepolia
 
-| node | https://berachain-bepolia.g.alchemy.com/v2/REDACTED |<br />
-| alchemy | https://berachain-bepolia.g.alchemy.com/v2/REDACTED |
+| node | https://berachain-bepolia.g.alchemy.com/v2/ |<br />
+| alchemy | https://berachain-bepolia.g.alchemy.com/v2/ |
 
 ## cronos
 
@@ -446,17 +446,17 @@
 
 ## world-chain
 
-| node | https://worldchain-mainnet.g.alchemy.com/v2/REDACTED |<br />
-| alchemy | https://worldchain-mainnet.g.alchemy.com/v2/REDACTED |
+| node | https://worldchain-mainnet.g.alchemy.com/v2/ |<br />
+| alchemy | https://worldchain-mainnet.g.alchemy.com/v2/ |
 
 ## world-chain-sepolia
 
-| node | https://worldchain-sepolia.g.alchemy.com/v2/REDACTED |<br />
-| alchemy | https://worldchain-sepolia.g.alchemy.com/v2/REDACTED |
+| node | https://worldchain-sepolia.g.alchemy.com/v2/ |<br />
+| alchemy | https://worldchain-sepolia.g.alchemy.com/v2/ |
 
 ## hyperliquid
 
-| node | https://damp-thrumming-mound.hype-mainnet.quiknode.pro/REDACTED/evm, https://rpc.hyperliquid.xyz/evm |<br />
+| node | https://damp-thrumming-mound.hype-mainnet.quiknode.pro//evm, https://rpc.hyperliquid.xyz/evm |<br />
 | etherscan | https://hyperevmscan.io/api |
 
 ## solana
@@ -477,8 +477,8 @@
 
 ## stellar
 
-| horizon | https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/, https://horizon.stellar.org |
+| horizon | https://icy-holy-shard.stellar-mainnet.quiknode.pro//, https://horizon.stellar.org |
 
 ## stellar-testnet
 
-| horizon | https://green-polished-ensemble.stellar-testnet.quiknode.pro/REDACTED/, https://horizon-testnet.stellar.org |
+| horizon | https://green-polished-ensemble.stellar-testnet.quiknode.pro//, https://horizon-testnet.stellar.org |
