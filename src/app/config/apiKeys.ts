@@ -1,51 +1,36 @@
+import { env } from "~/env";
 import { ChainId } from "../model/types_WIP";
 
-// FIXME Manage this through Vercel storage or env vars?...
-
 const ETHERSCAN_API_KEYS: Map<ChainId, string> = new Map([
-  [ChainId.ETHEREUM, "REDACTED"],
-  [ChainId.SEPOLIA, "REDACTED"],
-  [ChainId.HOLESKY, "REDACTED"],
+  [ChainId.ETHEREUM, env.ETHERSCAN_API_KEY_ETHEREUM ?? ""],
+  [ChainId.SEPOLIA, env.ETHERSCAN_API_KEY_ETHEREUM ?? ""],
+  [ChainId.HOLESKY, env.ETHERSCAN_API_KEY_ETHEREUM ?? ""],
 
-  [ChainId.BASE, "REDACTED"],
-  [ChainId.BASE_SEPOLIA, "REDACTED"],
+  [ChainId.BASE, env.ETHERSCAN_API_KEY_BASE ?? ""],
+  [ChainId.BASE_SEPOLIA, env.ETHERSCAN_API_KEY_BASE ?? ""],
 
-  [ChainId.OPTIMISM, "REDACTED"],
-  [ChainId.OPTIMISM_SEPOLIA, "REDACTED"],
+  [ChainId.OPTIMISM, env.ETHERSCAN_API_KEY_OPTIMISM ?? ""],
+  [ChainId.OPTIMISM_SEPOLIA, env.ETHERSCAN_API_KEY_OPTIMISM ?? ""],
 
-  [ChainId.ARBITRUM, "REDACTED"],
-  [ChainId.ARBITRUM_SEPOLIA, "REDACTED"],
+  [ChainId.ARBITRUM, env.ETHERSCAN_API_KEY_ARBITRUM ?? ""],
+  [ChainId.ARBITRUM_SEPOLIA, env.ETHERSCAN_API_KEY_ARBITRUM ?? ""],
 
-  [ChainId.ZKSYNC, "REDACTED"],
-  [ChainId.ZKSYNC_SEPOLIA, "REDACTED"],
+  [ChainId.ZKSYNC, env.ETHERSCAN_API_KEY_ZKSYNC ?? ""],
+  [ChainId.ZKSYNC_SEPOLIA, env.ETHERSCAN_API_KEY_ZKSYNC ?? ""],
 ]);
 
-const MORALIS_API_KEY =
-  "REDACTED";
-
-const MINTSCAN_API_KEY =
-  "Bearer REDACTED";
-
-const BLOCKCHAIR_API_KEY = "REDACTED";
-
-const TON_API_KEY = "REDACTED";
-
-const OKLINK_API_KEY = "REDACTED";
-
-const TON_CENTER_API_KEY = "REDACTED";
-
-const TRONGRID_API_KEY = "REDACTED";
-
-const TRONSCAN_API_KEY = "REDACTED";
-
-const STARKSCAN_API_KEY = "REDACTED";
-
-const ALCHEMY_API_KEY = "REDACTED"; // From Fabrice's account
-//const ALCHEMY_API_KEY = "REDACTED"; // From Hakim's account
-
-const HELIUS_API_KEY = "REDACTED";
-
-const SOLANA_VALIDATORS_APP_API_KEY = "	REDACTED";
+const MORALIS_API_KEY = env.MORALIS_API_KEY ?? "";
+const MINTSCAN_API_KEY = env.MINTSCAN_API_KEY ?? "";
+const BLOCKCHAIR_API_KEY = env.BLOCKCHAIR_API_KEY ?? "";
+const TON_API_KEY = env.TON_API_KEY ?? "";
+const OKLINK_API_KEY = env.OKLINK_API_KEY ?? "";
+const TON_CENTER_API_KEY = env.TON_CENTER_API_KEY ?? "";
+const TRONGRID_API_KEY = env.TRONGRID_API_KEY ?? "";
+const TRONSCAN_API_KEY = env.TRONSCAN_API_KEY ?? "";
+const STARKSCAN_API_KEY = env.STARKSCAN_API_KEY ?? "";
+const ALCHEMY_API_KEY = env.ALCHEMY_API_KEY ?? "";
+const HELIUS_API_KEY = env.HELIUS_API_KEY ?? "";
+const SOLANA_VALIDATORS_APP_API_KEY = env.SOLANA_VALIDATORS_APP_API_KEY ?? "";
 
 export {
   ALCHEMY_API_KEY,

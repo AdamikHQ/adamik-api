@@ -1,3 +1,4 @@
+import { env } from "~/env";
 import { Chain, ChainFamily, ChainId, ProviderType, TransactionMode } from "../model/types_WIP";
 import { ALCHEMY_API_KEY } from "./apiKeys";
 import {
@@ -49,7 +50,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.node,
         urls: [
-          "https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/REDACTED",
+          `https://solemn-muddy-pool.cosmos-mainnet.quiknode.pro/${env.QUICKNODE_TOKEN_COSMOS ?? ""}`,
           "https://apis.mintscan.io/cosmos/lcd",
           "https://cosmos-api.polkachu.com",
           "https://lcd-cosmos.imperator.co", // FIXME Frequent HTTP 502 errors
@@ -143,7 +144,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://g.w.lavanet.xyz/gateway/osmosist/rest/REDACTED"],
+        urls: [`https://g.w.lavanet.xyz/gateway/osmosist/rest/${env.LAVA_GATEWAY_TOKEN ?? ""}`],
       },
       {
         type: ProviderType.mintscan,
@@ -173,7 +174,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.node,
         urls: [
-          "https://solemn-little-dew.celestia-mainnet.quiknode.pro/REDACTED",
+          `https://solemn-little-dew.celestia-mainnet.quiknode.pro/${env.QUICKNODE_TOKEN_CELESTIA ?? ""}`,
           "https://apis.mintscan.io/celestia/lcd",
           "https://celestia-api.polkachu.com",
           "https://lcd-celestia.imperator.co",
@@ -205,7 +206,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://g.w.lavanet.xyz/gateway/celestiatm/rest/REDACTED"],
+        urls: [`https://g.w.lavanet.xyz/gateway/celestiatm/rest/${env.LAVA_GATEWAY_TOKEN ?? ""}`],
       },
       {
         type: ProviderType.mintscan,
@@ -297,7 +298,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/eth/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/eth/${env.MORALIS_NODE_TOKEN_ETH ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -326,7 +327,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/sepolia/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/sepolia/${env.MORALIS_NODE_TOKEN_SEPOLIA ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -368,7 +369,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/holesky/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/holesky/${env.MORALIS_NODE_TOKEN_HOLESKY ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -388,7 +389,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/zksync/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/zksync/${env.MORALIS_NODE_TOKEN_ZKSYNC ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -408,7 +409,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/zksync-sepolia/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/zksync-sepolia/${env.MORALIS_NODE_TOKEN_ZKSYNC_SEPOLIA ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -450,7 +451,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/base/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/base/${env.MORALIS_NODE_TOKEN_BASE ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -473,7 +474,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/base-sepolia/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/base-sepolia/${env.MORALIS_NODE_TOKEN_BASE_SEPOLIA ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -497,7 +498,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/optimism/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/optimism/${env.MORALIS_NODE_TOKEN_OPTIMISM ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -520,7 +521,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/optimism-sepolia/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/optimism-sepolia/${env.MORALIS_NODE_TOKEN_OPTIMISM_SEPOLIA ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -544,7 +545,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/arbitrum/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/arbitrum/${env.MORALIS_NODE_TOKEN_ARBITRUM ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -564,7 +565,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/arbitrum-sepolia/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/arbitrum-sepolia/${env.MORALIS_NODE_TOKEN_ARBITRUM_SEPOLIA ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -649,9 +650,9 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.node,
         urls: [
-          "https://site1.moralis-nodes.com/polygon/REDACTED",
+          `https://site1.moralis-nodes.com/polygon/${env.MORALIS_NODE_TOKEN_POLYGON ?? ""}`,
           `https://polygon-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-          "https://intensive-tiniest-dinghy.matic.quiknode.pro/REDACTED/",
+          `https://intensive-tiniest-dinghy.matic.quiknode.pro/${env.QUICKNODE_TOKEN_POLYGON ?? ""}/`,
         ],
       },
       {
@@ -677,7 +678,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.node,
         urls: [
-          "https://site1.moralis-nodes.com/amoy/REDACTED",
+          `https://site1.moralis-nodes.com/amoy/${env.MORALIS_NODE_TOKEN_AMOY ?? ""}`,
           `https://polygon-amoy.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
         ],
       },
@@ -704,7 +705,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/bsc/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/bsc/${env.MORALIS_NODE_TOKEN_BSC ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -724,7 +725,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/bsc-testnet/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/bsc-testnet/${env.MORALIS_NODE_TOKEN_BSC_TESTNET ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -745,7 +746,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/linea/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/linea/${env.MORALIS_NODE_TOKEN_LINEA ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -765,7 +766,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/linea-sepolia/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/linea-sepolia/${env.MORALIS_NODE_TOKEN_LINEA_SEPOLIA ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -786,7 +787,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/avalanche/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/avalanche/${env.MORALIS_NODE_TOKEN_AVALANCHE ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -827,7 +828,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/gnosis/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/gnosis/${env.MORALIS_NODE_TOKEN_GNOSIS ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -847,7 +848,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/gnosis-testnet/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/gnosis-testnet/${env.MORALIS_NODE_TOKEN_GNOSIS_TESTNET ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -868,7 +869,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/moonbeam/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/moonbeam/${env.MORALIS_NODE_TOKEN_MOONBEAM ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -888,7 +889,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/moonriver/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/moonriver/${env.MORALIS_NODE_TOKEN_MOONRIVER ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -908,7 +909,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/moonbase/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/moonbase/${env.MORALIS_NODE_TOKEN_MOONBASE ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -949,7 +950,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
     providers: [
       {
         type: ProviderType.node,
-        urls: ["https://site1.moralis-nodes.com/mantle/REDACTED"],
+        urls: [`https://site1.moralis-nodes.com/mantle/${env.MORALIS_NODE_TOKEN_MANTLE ?? ""}`],
       },
       {
         type: ProviderType.moralis,
@@ -1121,7 +1122,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
         //urls: ["https://apis.mintscan.io/injective/lcd"], // Error when computing tx fees
         //urls: ["https://lcd-injective.imperator.co"], // FIXME Frequent HTTP 502 errors
         urls: [
-          "https://maximum-restless-sun.injective-mainnet.quiknode.pro/REDACTED",
+          `https://maximum-restless-sun.injective-mainnet.quiknode.pro/${env.QUICKNODE_TOKEN_INJECTIVE ?? ""}`,
           "https://apis.mintscan.io/injective/lcd",
           "https://injective-api.polkachu.com",
           "https://lcd-injective.imperator.co",
@@ -2334,7 +2335,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.node,
         urls: [
-          "https://damp-thrumming-mound.hype-mainnet.quiknode.pro/REDACTED/evm",
+          `https://damp-thrumming-mound.hype-mainnet.quiknode.pro/${env.QUICKNODE_TOKEN_HYPERLIQUID ?? ""}/evm`,
           "https://rpc.hyperliquid.xyz/evm",
         ],
       },
@@ -2422,7 +2423,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.horizon,
         urls: [
-          "https://icy-holy-shard.stellar-mainnet.quiknode.pro/REDACTED/",
+          `https://icy-holy-shard.stellar-mainnet.quiknode.pro/${env.QUICKNODE_TOKEN_STELLAR ?? ""}/`,
           "https://horizon.stellar.org",
         ],
       },
@@ -2441,7 +2442,7 @@ const CHAINS: { [key in ChainId]: Chain } = {
       {
         type: ProviderType.horizon,
         urls: [
-          "https://green-polished-ensemble.stellar-testnet.quiknode.pro/REDACTED/",
+          `https://green-polished-ensemble.stellar-testnet.quiknode.pro/${env.QUICKNODE_TOKEN_STELLAR_TESTNET ?? ""}/`,
           "https://horizon-testnet.stellar.org",
         ],
       },
